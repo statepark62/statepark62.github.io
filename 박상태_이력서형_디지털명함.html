@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>박상태 — 이력서형 디지털 명함 | Sangtae PARK, CV Card</title>
+<meta name="description" content="국립공주대학교 물리교육과 박상태 교수 — 이력서 형식 디지털 명함">
+
+<!-- ============================================================
+     ★ 수정 가이드 ★
+     ① 색상/글꼴      → :root 의 CSS 변수
+     ② 프로필 사진    → id="profile-photo" 의 src 를 본인 사진 파일로 교체
+     ③ 학력·경력      → "예시" 표시가 붙은 항목을 실제 이력으로 교체
+     ④ 각 섹션 이미지 → <figure> 안의 <img src="..."> 교체
+        (현재는 Wikimedia Commons 무료 이미지 사용 · 출처 표기 포함)
+     ⑤ QR코드 주소    → 맨 아래 <script>의 QR_URL
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+/* ① ───────── 디자인 토큰 ───────── */
+:root{
+  --paper:  #FBFAF6;
+  --ivory:  #F2EFE6;
+  --ink:    #21262B;
+  --dim:    #5D6670;
+  --pine:   #175349;   /* 주 강조색 : 송록(松綠) */
+  --pine-2: #0F3A33;
+  --brass:  #B58A3C;   /* 보조 강조색 : 황동 */
+  --hair:   #DDD8CA;
+  --serif: 'Noto Serif KR', serif;
+  --sans:  'Noto Sans KR', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:linear-gradient(#E8E4D8,#DFDACB);
+  font-family:var(--sans);color:var(--ink);
+  padding:40px 14px 60px;line-height:1.6;
+}
+img{display:block;max-width:100%}
+
+.sheet{
+  max-width:940px;margin:0 auto;background:var(--paper);
+  box-shadow:0 26px 70px rgba(40,45,40,.3);
+  border-radius:6px;overflow:hidden;
+}
+
+/* ───── 상단 배너 ───── */
+.hero{position:relative;height:250px;overflow:hidden;background:var(--pine-2)}
+.hero img{width:100%;height:100%;object-fit:cover;opacity:.85;filter:saturate(.9)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(15,40,35,.75) 0%, rgba(15,40,35,.05) 60%)}
+.hero .cap{
+  position:absolute;right:14px;bottom:10px;z-index:2;
+  font-size:10px;color:rgba(255,255,255,.75);letter-spacing:.04em;
+}
+.hero .title{
+  position:absolute;left:44px;bottom:26px;z-index:2;color:#fff;
+}
+.hero .title .eyebrow{font-size:11px;letter-spacing:.34em;color:#D9C89A;margin-bottom:8px}
+.hero .title h1{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.6vw,44px);letter-spacing:.14em;text-shadow:0 2px 14px rgba(0,0,0,.4)}
+.hero .title p{font-size:14px;letter-spacing:.06em;color:#E9E5D6;margin-top:4px}
+
+/* ───── 본문 2단 ───── */
+.body{display:grid;grid-template-columns:300px 1fr}
+
+/* 좌측 사이드바 */
+.side{
+  background:var(--ivory);border-right:1px solid var(--hair);
+  padding:0 26px 34px;
+}
+.photo-wrap{
+  width:168px;height:210px;margin:-64px auto 0;position:relative;z-index:3;
+  border-radius:10px;overflow:hidden;background:#fff;
+  box-shadow:0 10px 26px rgba(30,40,35,.3), 0 0 0 5px var(--paper);
+}
+.photo-wrap img,.photo-wrap svg{width:100%;height:100%;object-fit:cover}
+.side h2{
+  font-family:var(--serif);font-size:13px;letter-spacing:.26em;color:var(--pine);
+  border-bottom:2px solid var(--pine);padding-bottom:7px;margin:34px 0 14px;
+}
+.side .kv{display:grid;gap:10px;font-size:13.5px}
+.side .kv .row{display:grid;grid-template-columns:58px 1fr;gap:8px}
+.side .kv .k{color:var(--dim);font-size:11.5px;letter-spacing:.06em;padding-top:2px}
+.side a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--brass)}
+.side a:hover{color:var(--pine)}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{
+  font-size:12px;padding:5px 11px;border-radius:99px;
+  background:#fff;border:1px solid var(--hair);color:var(--ink);
+}
+.chip.em{background:var(--pine);border-color:var(--pine);color:#F3F1E7}
+
+.qr-side{margin-top:14px;text-align:center}
+.qr-side .qr{display:inline-block;background:#fff;padding:10px;border:1px solid var(--hair);border-radius:12px}
+.qr-side .qr img,.qr-side .qr canvas{width:110px!important;height:110px!important}
+.qr-side p{font-size:11px;color:var(--dim);letter-spacing:.14em;margin-top:8px}
+
+/* 우측 본문 */
+.main{padding:40px 44px 44px}
+.sec{margin-bottom:38px}
+.sec-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--hair);padding-bottom:9px;margin-bottom:18px}
+.sec-head .no{font-family:var(--serif);font-weight:700;font-size:14px;color:var(--brass);letter-spacing:.08em}
+.sec-head h2{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:.14em}
+.sec-head small{margin-left:auto;font-size:11px;letter-spacing:.2em;color:var(--dim)}
+
+.lead{font-size:15px;line-height:1.85}
+.lead b{color:var(--pine)}
+
+/* 타임라인 (학력·경력) */
+.tl{list-style:none;border-left:2px solid var(--hair);margin-left:6px;padding-left:22px;display:grid;gap:16px}
+.tl li{position:relative;font-size:14px}
+.tl li::before{
+  content:"";position:absolute;left:-28.5px;top:6px;width:11px;height:11px;border-radius:50%;
+  background:var(--paper);border:3px solid var(--pine);
+}
+.tl .when{font-size:12px;color:var(--brass);letter-spacing:.08em;font-weight:700}
+.tl .what{font-weight:700;margin-top:1px}
+.tl .memo{color:var(--dim);font-size:13px}
+.example-note{
+  margin-top:12px;font-size:12px;color:#8A6D1F;background:#FBF3DC;
+  border:1px dashed #D9BE7A;border-radius:8px;padding:8px 12px;
+}
+
+/* 이미지 카드 */
+figure.shot{
+  border:1px solid var(--hair);border-radius:12px;overflow:hidden;background:#fff;
+  box-shadow:0 6px 18px rgba(40,45,40,.08);
+}
+figure.shot img{width:100%;height:190px;object-fit:cover}
+figure.shot figcaption{padding:9px 13px;font-size:11px;color:var(--dim);line-height:1.5}
+figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-spacing:.02em}
+
+.duo{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:start}
+.trio{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+
+.blist{list-style:none;display:grid;gap:8px;font-size:14px}
+.blist li{padding-left:15px;position:relative}
+.blist li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;background:var(--brass);transform:rotate(45deg)}
+
+/* 하단 푸터 */
+.foot{
+  background:var(--pine-2);color:#DCE5DF;
+  display:flex;flex-wrap:wrap;gap:8px 28px;justify-content:center;
+  padding:18px 24px;font-size:12.5px;letter-spacing:.03em;
+}
+.foot a{color:#F0E9CF;text-decoration:none}
+
+/* ───── 반응형 · 인쇄 ───── */
+@media (max-width:760px){
+  .body{grid-template-columns:1fr}
+  .side{border-right:none;border-bottom:1px solid var(--hair)}
+  .main{padding:30px 22px}
+  .duo,.trio{grid-template-columns:1fr}
+  .hero .title{left:22px}
+}
+@media print{
+  body{background:#fff;padding:0}
+  .sheet{box-shadow:none;border-radius:0;max-width:none}
+  .hero{height:170px}
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- 상단 배너 : 공주 금강 풍경 -->
+  <div class="hero">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Geum%20River%20in%20Gongju%2001.jpg?width=1400"
+         alt="공주 금강 풍경" loading="lazy"
+         onerror="this.style.display='none'">
+    <div class="title">
+      <div class="eyebrow">CURRICULUM VITAE · DIGITAL CARD</div>
+      <h1>박 상 태 <span style="font-size:.45em;font-weight:400;letter-spacing:.06em">Sangtae PARK</span></h1>
+      <p>국립공주대학교 사범대학 물리교육과 교수</p>
+    </div>
+    <span class="cap">공주 금강 — Wikimedia Commons</span>
+  </div>
+
+  <div class="body">
+
+    <!-- ═══════ 좌측 사이드바 ═══════ -->
+    <aside class="side">
+
+      <!-- ② 프로필 사진 : 아래 SVG를 지우고 <img id="profile-photo" src="본인사진.jpg"> 로 교체 -->
+      <div class="photo-wrap" title="프로필 사진 자리 — 본인 사진으로 교체하세요">
+        <svg viewBox="0 0 168 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="프로필 사진 자리">
+          <rect width="168" height="210" fill="#E3E8E2"/>
+          <circle cx="84" cy="82" r="34" fill="#B9C4BB"/>
+          <path d="M28 210 Q30 148 84 148 Q138 148 140 210 Z" fill="#B9C4BB"/>
+          <text x="84" y="196" text-anchor="middle" font-family="Noto Sans KR" font-size="11" fill="#5D6670">PHOTO</text>
+        </svg>
+      </div>
+
+      <h2>PROFILE</h2>
+      <div class="kv">
+        <div class="row"><span class="k">성명</span><span>박상태 (朴商台) · Sangtae PARK</span></div>
+        <div class="row"><span class="k">소속</span><span>국립공주대학교 사범대학 물리교육과</span></div>
+        <div class="row"><span class="k">직위</span><span>교수 (Professor)</span></div>
+      </div>
+
+      <h2>CONTACT</h2>
+      <div class="kv">
+        <div class="row"><span class="k">E-MAIL</span><a href="mailto:stpark@kongju.ac.kr">stpark@kongju.ac.kr</a></div>
+        <div class="row"><span class="k">MOBILE</span><a href="tel:+821028088275">010-2808-8275</a></div>
+        <div class="row"><span class="k">ADDRESS</span><span>충청남도 공주시 공주대학로 56<br>사범대학 물리교육과</span></div>
+        <div class="row"><span class="k">WEB</span><a href="https://site.google.com/view/statepark62" target="_blank" rel="noopener">site.google.com/view/statepark62</a></div>
+      </div>
+
+      <h2>EXPERTISE</h2>
+      <div class="chips">
+        <span class="chip em">물리교육</span>
+        <span class="chip em">핵·입자물리</span>
+        <span class="chip">데이터과학</span>
+        <span class="chip">AI융합교육</span>
+        <span class="chip">교사교육</span>
+        <span class="chip">일본어·문화 에세이</span>
+      </div>
+
+      <h2>QR</h2>
+      <div class="qr-side">
+        <div class="qr" id="qr"></div>
+        <p>SCAN FOR HOMEPAGE</p>
+      </div>
+    </aside>
+
+    <!-- ═══════ 우측 본문 ═══════ -->
+    <main class="main">
+
+      <section class="sec">
+        <div class="sec-head"><span class="no">01</span><h2>소개</h2><small>ABOUT</small></div>
+        <p class="lead">
+          <b>물리로 세상을 이해하고, 교육으로 미래를 준비합니다.</b>
+          물리교육과 핵·입자물리를 바탕으로, 데이터과학과 AI를 접목한 새로운 과학교육
+          모델을 연구하고 가르칩니다. 예비 물리교사 양성과 현직 교사 연수를 아우르며,
+          물리학과 인문·문화를 잇는 글쓰기 활동도 이어가고 있습니다.
+        </p>
+      </section>
+
+      <section class="sec">
+        <div class="sec-head"><span class="no">02</span><h2>학력 · 경력</h2><small>EDUCATION &amp; CAREER</small></div>
+        <ul class="tl">
+          <li><span class="when">20XX — 현재</span><div class="what">국립공주대학교 사범대학 물리교육과 교수</div><div class="memo">학부·대학원 강의, 현직 교사 연수, 과학교육 연구</div></li>
+          <li><span class="when">19XX — 19XX</span><div class="what">○○대학교 대학원 박사 (물리학/과학교육) <em>· 예시</em></div><div class="memo">학위 논문 주제를 입력하세요</div></li>
+          <li><span class="when">19XX — 19XX</span><div class="what">○○대학교 물리교육과 학사 <em>· 예시</em></div></li>
+        </ul>
+        <p class="example-note">※ "예시" 표시가 있는 항목은 자리표시용입니다. 실제 학력·경력으로 교체해 주세요. (항목 복사·추가 가능)</p>
+      </section>
+
+      <section class="sec">
+        <div class="sec-head"><span class="no">03</span><h2>연구</h2><small>RESEARCH</small></div>
+        <div class="duo">
+          <ul class="blist">
+            <li>물리교육 (Physics Education) — 개념·오개념 연구, 지식공간이론(KST)과 Rasch 모형 기반 평가 분석</li>
+            <li>핵·입자물리 (Nuclear &amp; Particle Physics) 및 그 교육적 재구성</li>
+            <li>교육 데이터과학 (Data Science in Education)</li>
+            <li>AI 기반 교육 모델 (AI-based Education Models)</li>
+          </ul>
+          <figure class="shot">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/HD.6D.635%20(12000265314).jpg?width=800"
+                 alt="수소 거품상자 속 하전입자의 궤적" loading="lazy"
+                 onerror="this.closest('figure').style.display='none'">
+            <figcaption><b>거품상자 속 입자의 궤적</b>자기장 속에서 휘어지는 하전입자 — 입자물리 교육의 고전적 소재. 사진: Wikimedia Commons</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="sec-head"><span class="no">04</span><h2>강의</h2><small>TEACHING</small></div>
+        <div class="duo">
+          <ul class="blist">
+            <li>학부·대학원 물리학 및 물리교육 강좌 (핵물리학 기초, 현대물리 등)</li>
+            <li>물리 × 데이터과학 × AI 융합교육 강좌 개발</li>
+            <li>현직 교사 1급 정교사 자격연수 및 교원 역량 개발</li>
+          </ul>
+          <figure class="shot">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Standard%20Model%20of%20Elementary%20Particles.svg?width=800"
+                 alt="입자물리 표준모형 도표" loading="lazy"
+                 onerror="this.closest('figure').style.display='none'">
+            <figcaption><b>표준모형(Standard Model)</b>현대물리 강의의 뼈대가 되는 기본입자 체계. 도표: Wikimedia Commons</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="sec-head"><span class="no">05</span><h2>저술 · 문화</h2><small>WRITING &amp; CULTURE</small></div>
+        <ul class="blist" style="margin-bottom:18px">
+          <li><b>일본 속의 백제 기행</b> (Memory of Baekje in Japan) — 한·일 고대 문화 교류의 현장을 찾아서</li>
+          <li><b>나의 이야기, 나의 수집</b> (My Story, My Collection)</li>
+          <li>일본어 해석·해설 (天声人語 강독 등) 및 문화·역사 에세이</li>
+        </ul>
+        <div class="trio">
+          <figure class="shot">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Baekje%20Historic%20Areas%20Gongsanseong%20Fortress.jpg?width=800"
+                 alt="공주 공산성 (백제역사유적지구)" loading="lazy"
+                 onerror="this.closest('figure').style.display='none'">
+            <figcaption><b>공주 공산성 — 백제의 왕성</b>유네스코 세계유산 백제역사유적지구. 대학이 자리한 공주의 상징. 사진: Wikimedia Commons</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Horyu-ji11s3200.jpg?width=800"
+                 alt="일본 나라 호류지 금당과 오층탑" loading="lazy"
+                 onerror="this.closest('figure').style.display='none'">
+            <figcaption><b>나라(奈良) 호류지(法隆寺)</b>백제 장인의 숨결이 닿은 세계 최고(最古)의 목조 건축 — '일본 속의 백제'의 무대. 사진: Wikimedia Commons</figcaption>
+          </figure>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="foot">
+    <span>© 2026 Sangtae PARK</span>
+    <a href="mailto:stpark@kongju.ac.kr">stpark@kongju.ac.kr</a>
+    <a href="tel:+821028088275">+82-10-2808-8275</a>
+    <a href="https://site.google.com/view/statepark62" target="_blank" rel="noopener">site.google.com/view/statepark62</a>
+  </footer>
+</div>
+
+<script>
+/* ⑤ ───── QR코드가 가리킬 주소 ───── */
+const QR_URL = "https://site.google.com/view/statepark62";
+new QRCode(document.getElementById("qr"), {
+  text: QR_URL, width: 110, height: 110,
+  colorDark: "#0F3A33", colorLight: "#ffffff",
+  correctLevel: QRCode.CorrectLevel.M
+});
+</script>
+</body>
+</html>
