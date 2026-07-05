@@ -15,6 +15,7 @@
      ④ 각 섹션 이미지 → <figure> 안의 <img src="..."> 교체
         (현재는 Wikimedia Commons 무료 이미지 사용 · 출처 표기 포함)
      ⑤ QR코드 주소    → 맨 아래 <script>의 QR_URL
+     ⑥ 방명록         → id="gbForm"의 action에 구글 Apps Script 웹 앱 URL(/exec) 입력 필요
      ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,6 +151,28 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
   padding:18px 24px;font-size:12.5px;letter-spacing:.03em;
 }
 .foot a{color:#F0E9CF;text-decoration:none}
+
+/* 방명록 폼 */
+.gb-form{display:grid;gap:12px;max-width:560px}
+.gb-form input,.gb-form textarea{
+  font-family:var(--sans);font-size:14px;color:var(--ink);
+  background:#fff;border:1px solid var(--hair);border-radius:10px;
+  padding:11px 14px;width:100%;
+}
+.gb-form textarea{min-height:110px;resize:vertical}
+.gb-form input:focus,.gb-form textarea:focus{outline:2px solid var(--pine);border-color:var(--pine)}
+.gb-form button{
+  justify-self:start;cursor:pointer;
+  font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.08em;
+  color:#F3F1E7;background:var(--pine);border:none;border-radius:99px;
+  padding:11px 30px;transition:.2s;
+}
+.gb-form button:hover{background:var(--pine-2)}
+.gb-form button:disabled{opacity:.6;cursor:wait}
+.gb-note{font-size:12px;color:var(--dim)}
+.gb-status{font-size:13.5px;font-weight:700;display:none}
+.gb-status.ok{display:block;color:var(--pine)}
+.gb-status.fail{display:block;color:#A93226}
 
 /* ───── 반응형 · 인쇄 ───── */
 @media (max-width:760px){
@@ -314,6 +337,19 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
         </div>
       </section>
 
+      <section class="sec">
+        <div class="sec-head"><span class="no">06</span><h2>방명록</h2><small>LEAVE A MESSAGE</small></div>
+        <!-- ⑥ 방명록: 구글 Apps Script 웹 앱과 연결됨. 스크립트를 새로 배포해 주소가 바뀌면 action 값을 교체 -->
+        <form class="gb-form" id="gbForm" action="https://script.google.com/macros/s/AKfycbz3uVm1C52c6xI3cHYL0Ic7GE4wY9PqjTZqcgszDQKQlg6NsMBTNQm8-Ad6RQOGhMeiiA/exec" method="POST">
+          <input type="text" name="name" placeholder="성함 (선택)" autocomplete="name">
+          <input type="email" name="email" placeholder="이메일 (답장 받으실 분만, 선택)" autocomplete="email">
+          <textarea name="message" placeholder="간단한 메시지를 남겨 주세요" required></textarea>
+          <button type="submit" id="gbBtn">메시지 보내기</button>
+          <p class="gb-status" id="gbStatus"></p>
+          <p class="gb-note">남겨주신 메시지는 박상태 교수의 이메일로 전달됩니다.</p>
+        </form>
+      </section>
+
     </main>
   </div>
 
@@ -332,6 +368,30 @@ new QRCode(document.getElementById("qr"), {
   text: QR_URL, width: 110, height: 110,
   colorDark: "#0F3A33", colorLight: "#ffffff",
   correctLevel: QRCode.CorrectLevel.M
+});
+
+/* ⑥ ───── 방명록 전송 처리 ───── */
+const gbForm = document.getElementById("gbForm");
+const gbBtn = document.getElementById("gbBtn");
+const gbStatus = document.getElementById("gbStatus");
+gbForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  gbBtn.disabled = true;
+  gbStatus.className = "gb-status";
+  try {
+    await fetch(gbForm.action, {
+      method: "POST",
+      body: new FormData(gbForm),
+      mode: "no-cors"
+    });
+    gbForm.reset();
+    gbStatus.textContent = "메시지가 전달되었습니다. 감사합니다!";
+    gbStatus.classList.add("ok");
+  } catch {
+    gbStatus.textContent = "전송에 실패했습니다. 잠시 후 다시 시도하시거나 이메일로 보내 주세요.";
+    gbStatus.classList.add("fail");
+  }
+  gbBtn.disabled = false;
 });
 </script>
 </body>
