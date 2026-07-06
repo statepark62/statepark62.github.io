@@ -3,14 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>일본어 첫걸음 · 인포그래픽 42선</title>
+<title>일본어 첫걸음 · 인포그래픽 시리즈</title>
 
 <!-- ============================================================
-  일본어 인포그래픽 시리즈 index (이미지 42개 · 카테고리별 구성)
-  · 이 파일과 rename-files.ps1로 이름을 바꾼 이미지 42개를
-    같은 폴더(예: japanese/)에 두면 바로 동작합니다
-  · 새 자료 추가: 해당 섹션의 .card 하나를 복사해
-    href / img src / 제목만 수정
+  일본어 인포그래픽 자동 목록 index (절충형)
+  · 페이지가 열릴 때 GitHub API로 이 폴더의 이미지 목록을 읽어
+    파일명 접두어(basics/grammar/vocab/dialogue/culture)로
+    자동 분류해 카드를 만듭니다 → 이미지만 업로드해도 즉시 반영
+  · 한글 제목: 같은 폴더의 titles.json에서 읽습니다.
+    등록 안 된 파일은 파일명에서 만든 영문 제목으로 임시 표시되고,
+    titles.json에 한 줄 추가하면 한글 제목으로 바뀝니다
+  · 새 카테고리 추가: 아래 CATEGORIES에 한 줄 추가
+  · 저장소가 바뀌면 OWNER/REPO/FOLDER만 수정
 ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +29,12 @@
   --line:    #DDD5C4;
 
   /* 카테고리별 액센트: 일본 전통색(伝統色) */
-  --ai:       #2A5674;  /* 藍   기초·구조 */
-  --suou:     #9E3D3F;  /* 蘇芳 문법     */
-  --wakatake: #5E8C61;  /* 若竹 어휘·표현 */
-  --yamabuki: #C08A2D;  /* 山吹 회화     */
-  --fuji:     #7A6DA0;  /* 藤   문화     */
+  --ai:       #2A5674;
+  --suou:     #9E3D3F;
+  --wakatake: #5E8C61;
+  --yamabuki: #C08A2D;
+  --fuji:     #7A6DA0;
+  --nezumi:   #7D7468;  /* 鼠 — 미분류 자료용 */
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -44,7 +49,6 @@ body{
 }
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px 96px}
 
-/* ── 머리글 ─────────────────────────────────────────── */
 header{
   padding:72px 0 40px;
   border-bottom:3px double var(--line);
@@ -70,7 +74,6 @@ h1 .kr{
   border-left:2px solid var(--line);padding-left:16px;
 }
 
-/* ── 목차(카테고리 바로가기) ─────────────────────────── */
 nav{
   display:flex;gap:10px;flex-wrap:wrap;
   padding:18px 0;border-bottom:1px solid var(--line);
@@ -84,7 +87,6 @@ nav a{
 nav a b{font-weight:600}
 nav a:hover{border-color:var(--ink-soft)}
 
-/* ── 섹션 ───────────────────────────────────────────── */
 section{margin-top:56px}
 .sec-head{
   display:flex;align-items:baseline;gap:14px;
@@ -102,13 +104,7 @@ section{margin-top:56px}
   margin-left:auto;font-family:'JetBrains Mono',monospace;
   font-size:12px;color:var(--ink-soft);
 }
-section[data-accent="ai"]      {--accent:var(--ai)}
-section[data-accent="suou"]    {--accent:var(--suou)}
-section[data-accent="wakatake"]{--accent:var(--wakatake)}
-section[data-accent="yamabuki"]{--accent:var(--yamabuki)}
-section[data-accent="fuji"]    {--accent:var(--fuji)}
 
-/* ── 카드 ───────────────────────────────────────────── */
 .grid{
   display:grid;gap:22px;
   grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
@@ -125,20 +121,24 @@ section[data-accent="fuji"]    {--accent:var(--fuji)}
   box-shadow:0 10px 24px rgba(46,42,36,.12);
 }
 .card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-
 .thumb{
   height:150px;overflow:hidden;background:var(--paper-2);
   border-bottom:1px solid var(--line);
 }
-.thumb img{
-  width:100%;height:100%;object-fit:cover;object-position:top;display:block;
-}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
 .body{padding:14px 16px 16px}
 .title{font-weight:700;font-size:15.5px;line-height:1.45}
 .sub{
   font-family:'JetBrains Mono',monospace;
   font-size:11px;color:var(--ink-soft);margin-top:6px;
 }
+
+/* 로딩·오류 안내 */
+#status{
+  margin-top:56px;padding:28px;border:1px dashed var(--line);
+  background:#fff;font-size:14.5px;color:var(--ink-soft);text-align:center;
+}
+#status.error{color:var(--suou);border-color:var(--suou)}
 
 footer{
   margin-top:72px;padding-top:24px;border-top:3px double var(--line);
@@ -162,10 +162,10 @@ footer a{color:inherit}
 
   <header>
     <div>
-      <p class="site-eyebrow">Japanese for Beginners · 42 Infographics</p>
+      <p class="site-eyebrow">Japanese for Beginners · Infographic Series</p>
       <h1>
         はじめての日本語
-        <span class="kr">일본어 첫걸음 — 한 장으로 정리하는 인포그래픽 42선</span>
+        <span class="kr">일본어 첫걸음 — 한 장으로 정리하는 인포그래픽</span>
       </h1>
     </div>
     <p class="site-note">
@@ -174,226 +174,10 @@ footer a{color:inherit}
     </p>
   </header>
 
-  <nav aria-label="카테고리 바로가기">
-    <a href="#basics"><b>기초·구조</b> 7</a>
-    <a href="#grammar"><b>문법</b> 17</a>
-    <a href="#vocab"><b>어휘·표현</b> 12</a>
-    <a href="#dialogue"><b>회화</b> 5</a>
-    <a href="#culture"><b>문화</b> 1</a>
-  </nav>
+  <nav id="nav" aria-label="카테고리 바로가기"></nav>
 
-  <!-- ════════ 1. 기초·구조 ════════ -->
-  <section id="basics" data-accent="ai">
-    <div class="sec-head">
-      <span class="no">基礎</span><h2>기초·구조</h2><span class="count">7편</span>
-    </div>
-    <div class="grid">
-      <a class="card" href="basics-japanese-structure.png">
-        <div class="thumb"><img src="basics-japanese-structure.png" alt="일본어의 구성 및 구조" loading="lazy"></div>
-        <div class="body"><p class="title">일본어의 구성 및 구조</p><p class="sub">basics</p></div>
-      </a>
-      <a class="card" href="basics-korean-japanese-structure.png">
-        <div class="thumb"><img src="basics-korean-japanese-structure.png" alt="한국어 일본어 구조" loading="lazy"></div>
-        <div class="body"><p class="title">한국어·일본어 구조 비교</p><p class="sub">basics</p></div>
-      </a>
-      <a class="card" href="basics-korean-japanese-differences.png">
-        <div class="thumb"><img src="basics-korean-japanese-differences.png" alt="한국어 일본어 차이" loading="lazy"></div>
-        <div class="body"><p class="title">한국어·일본어 차이</p><p class="sub">basics</p></div>
-      </a>
-      <a class="card" href="basics-hiragana-words-01.png">
-        <div class="thumb"><img src="basics-hiragana-words-01.png" alt="히라가나 활용 단어 01" loading="lazy"></div>
-        <div class="body"><p class="title">히라가나 활용 단어 ①</p><p class="sub">basics</p></div>
-      </a>
-      <a class="card" href="basics-hiragana-words-02.png">
-        <div class="thumb"><img src="basics-hiragana-words-02.png" alt="히라가나 활용 단어 02" loading="lazy"></div>
-        <div class="body"><p class="title">히라가나 활용 단어 ②</p><p class="sub">basics</p></div>
-      </a>
-      <a class="card" href="basics-katakana-words-01.png">
-        <div class="thumb"><img src="basics-katakana-words-01.png" alt="가타카나 활용 단어 01" loading="lazy"></div>
-        <div class="body"><p class="title">가타카나 활용 단어 ①</p><p class="sub">basics</p></div>
-      </a>
-      <a class="card" href="basics-katakana-words-02.png">
-        <div class="thumb"><img src="basics-katakana-words-02.png" alt="가타카나 활용 단어 02" loading="lazy"></div>
-        <div class="body"><p class="title">가타카나 활용 단어 ②</p><p class="sub">basics</p></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ════════ 2. 문법 ════════ -->
-  <section id="grammar" data-accent="suou">
-    <div class="sec-head">
-      <span class="no">文法</span><h2>문법</h2><span class="count">17편</span>
-    </div>
-    <div class="grid">
-      <a class="card" href="grammar-verb-conjugation.png">
-        <div class="thumb"><img src="grammar-verb-conjugation.png" alt="일본어 동사활용" loading="lazy"></div>
-        <div class="body"><p class="title">동사 활용 총정리</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-te-form-basics.png">
-        <div class="thumb"><img src="grammar-te-form-basics.png" alt="て형 만들기 원리편" loading="lazy"></div>
-        <div class="body"><p class="title">て형 만들기 — 원리편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-te-form-usage.png">
-        <div class="thumb"><img src="grammar-te-form-usage.png" alt="て형 만들기 활용편" loading="lazy"></div>
-        <div class="body"><p class="title">て형 만들기 — 활용편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-masu-form-basics.png">
-        <div class="thumb"><img src="grammar-masu-form-basics.png" alt="ます형 만들기 원리편" loading="lazy"></div>
-        <div class="body"><p class="title">ます형 만들기 — 원리편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-masu-form-usage.png">
-        <div class="thumb"><img src="grammar-masu-form-usage.png" alt="ます형 만들기 활용편" loading="lazy"></div>
-        <div class="body"><p class="title">ます형 만들기 — 활용편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-potential-basics.png">
-        <div class="thumb"><img src="grammar-potential-basics.png" alt="가능형 만들기 원리편" loading="lazy"></div>
-        <div class="body"><p class="title">가능형 만들기 — 원리편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-potential-usage.png">
-        <div class="thumb"><img src="grammar-potential-usage.png" alt="가능형 만들기 활용편" loading="lazy"></div>
-        <div class="body"><p class="title">가능형 만들기 — 활용편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-causative-basics.png">
-        <div class="thumb"><img src="grammar-causative-basics.png" alt="사역형 만들기 원리편" loading="lazy"></div>
-        <div class="body"><p class="title">사역형 만들기 — 원리편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-causative-usage.png">
-        <div class="thumb"><img src="grammar-causative-usage.png" alt="사역형 만들기 활용편" loading="lazy"></div>
-        <div class="body"><p class="title">사역형 만들기 — 활용편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-passive-basics.png">
-        <div class="thumb"><img src="grammar-passive-basics.png" alt="수동형 만들기 원리편" loading="lazy"></div>
-        <div class="body"><p class="title">수동형 만들기 — 원리편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-passive-usage.png">
-        <div class="thumb"><img src="grammar-passive-usage.png" alt="수동형 만들기 활용편" loading="lazy"></div>
-        <div class="body"><p class="title">수동형 만들기 — 활용편</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-kr-jp-causative-passive.png">
-        <div class="thumb"><img src="grammar-kr-jp-causative-passive.png" alt="한국어 일본어 차이 사역형 수동형" loading="lazy"></div>
-        <div class="body"><p class="title">한·일 차이 — 사역형과 수동형</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-particles.png">
-        <div class="thumb"><img src="grammar-particles.png" alt="일본어 조사" loading="lazy"></div>
-        <div class="body"><p class="title">조사 총정리</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-conditionals.png">
-        <div class="thumb"><img src="grammar-conditionals.png" alt="일본어 조건 가정 표현" loading="lazy"></div>
-        <div class="body"><p class="title">조건·가정 표현</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-only-expressions.png">
-        <div class="thumb"><img src="grammar-only-expressions.png" alt="일본어 만 뿐 오직" loading="lazy"></div>
-        <div class="body"><p class="title">「~만·~뿐·오직」 한정 표현</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-i-adjectives.png">
-        <div class="thumb"><img src="grammar-i-adjectives.png" alt="대표적인 い형용사" loading="lazy"></div>
-        <div class="body"><p class="title">대표적인 い형용사</p><p class="sub">grammar</p></div>
-      </a>
-      <a class="card" href="grammar-na-adjectives.png">
-        <div class="thumb"><img src="grammar-na-adjectives.png" alt="대표적인 な형용사" loading="lazy"></div>
-        <div class="body"><p class="title">대표적인 な형용사</p><p class="sub">grammar</p></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ════════ 3. 어휘·표현 ════════ -->
-  <section id="vocab" data-accent="wakatake">
-    <div class="sec-head">
-      <span class="no">語彙</span><h2>어휘·표현</h2><span class="count">12편</span>
-    </div>
-    <div class="grid">
-      <a class="card" href="vocab-numbers.png">
-        <div class="thumb"><img src="vocab-numbers.png" alt="일본어 숫자 읽기" loading="lazy"></div>
-        <div class="body"><p class="title">숫자 읽기</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-dates-weekdays.png">
-        <div class="thumb"><img src="vocab-dates-weekdays.png" alt="일본어 날짜 요일 읽기" loading="lazy"></div>
-        <div class="body"><p class="title">날짜·요일 읽기</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-telling-time.png">
-        <div class="thumb"><img src="vocab-telling-time.png" alt="일본어 시간 말하기" loading="lazy"></div>
-        <div class="body"><p class="title">시간 말하기</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-time-expressions.png">
-        <div class="thumb"><img src="vocab-time-expressions.png" alt="일본어 시간대 표현" loading="lazy"></div>
-        <div class="body"><p class="title">시간대 표현</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-weather.png">
-        <div class="thumb"><img src="vocab-weather.png" alt="일본어 날씨 용어" loading="lazy"></div>
-        <div class="body"><p class="title">날씨 용어</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-cooking.png">
-        <div class="thumb"><img src="vocab-cooking.png" alt="일본어 조리 용어" loading="lazy"></div>
-        <div class="body"><p class="title">조리 용어</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-directions.png">
-        <div class="thumb"><img src="vocab-directions.png" alt="일본어 방향 말하기" loading="lazy"></div>
-        <div class="body"><p class="title">방향 말하기</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-directions-demonstratives.jpg">
-        <div class="thumb"><img src="vocab-directions-demonstratives.jpg" alt="일본어 방향 지시대명사" loading="lazy"></div>
-        <div class="body"><p class="title">방향·지시대명사 (こそあど)</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-onomatopoeia-01.png">
-        <div class="thumb"><img src="vocab-onomatopoeia-01.png" alt="일본어 주요 오노마토페 01" loading="lazy"></div>
-        <div class="body"><p class="title">주요 오노마토페 ①</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-onomatopoeia-02.png">
-        <div class="thumb"><img src="vocab-onomatopoeia-02.png" alt="일본어 주요 오노마토페 02" loading="lazy"></div>
-        <div class="body"><p class="title">주요 오노마토페 ②</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-nonbiri-yuttari.png">
-        <div class="thumb"><img src="vocab-nonbiri-yuttari.png" alt="のんびりゆったり" loading="lazy"></div>
-        <div class="body"><p class="title">のんびり vs ゆったり</p><p class="sub">vocab</p></div>
-      </a>
-      <a class="card" href="vocab-mendou-vs-sewa.png">
-        <div class="thumb"><img src="vocab-mendou-vs-sewa.png" alt="面倒を見る vs 世話をする" loading="lazy"></div>
-        <div class="body"><p class="title">面倒を見る vs 世話をする</p><p class="sub">vocab</p></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ════════ 4. 회화 ════════ -->
-  <section id="dialogue" data-accent="yamabuki">
-    <div class="sec-head">
-      <span class="no">会話</span><h2>회화</h2><span class="count">5편</span>
-    </div>
-    <div class="grid">
-      <a class="card" href="dialogue-immigration.png">
-        <div class="thumb"><img src="dialogue-immigration.png" alt="일본 입국과정 대화 예시" loading="lazy"></div>
-        <div class="body"><p class="title">입국 과정 대화</p><p class="sub">dialogue</p></div>
-      </a>
-      <a class="card" href="dialogue-transport-01.png">
-        <div class="thumb"><img src="dialogue-transport-01.png" alt="일본 교통수단 이용시 대화 01" loading="lazy"></div>
-        <div class="body"><p class="title">교통수단 이용 대화 ①</p><p class="sub">dialogue</p></div>
-      </a>
-      <a class="card" href="dialogue-transport-02.png">
-        <div class="thumb"><img src="dialogue-transport-02.png" alt="일본 교통수단 이용시 대화 02" loading="lazy"></div>
-        <div class="body"><p class="title">교통수단 이용 대화 ②</p><p class="sub">dialogue</p></div>
-      </a>
-      <a class="card" href="dialogue-restaurant-01.png">
-        <div class="thumb"><img src="dialogue-restaurant-01.png" alt="일본 식당에서의 대화 01" loading="lazy"></div>
-        <div class="body"><p class="title">식당에서의 대화 ①</p><p class="sub">dialogue</p></div>
-      </a>
-      <a class="card" href="dialogue-restaurant-02.png">
-        <div class="thumb"><img src="dialogue-restaurant-02.png" alt="일본 식당에서의 대화 02" loading="lazy"></div>
-        <div class="body"><p class="title">식당에서의 대화 ②</p><p class="sub">dialogue</p></div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ════════ 5. 문화 ════════ -->
-  <section id="culture" data-accent="fuji">
-    <div class="sec-head">
-      <span class="no">文化</span><h2>문화</h2><span class="count">1편</span>
-    </div>
-    <div class="grid">
-      <a class="card" href="culture-sumo.png">
-        <div class="thumb"><img src="culture-sumo.png" alt="일본 스모" loading="lazy"></div>
-        <div class="body"><p class="title">일본 스모</p><p class="sub">culture</p></div>
-      </a>
-    </div>
-  </section>
+  <div id="status">자료 목록을 불러오는 중입니다…</div>
+  <div id="sections"></div>
 
   <footer>
     <span>© 2026 StatePark · 일본어 첫걸음 시리즈</span>
@@ -404,5 +188,133 @@ footer a{color:inherit}
   </footer>
 
 </div>
+
+<script>
+/* ═════════ 설정 ═════════ */
+const OWNER  = 'statepark62';
+const REPO   = 'statepark62.github.io';
+const FOLDER = 'japanese';
+
+/* 카테고리 정의: [접두어, 한자 표제, 한글 이름, 액센트 색] — 표시 순서대로 */
+const CATEGORIES = [
+  ['basics',   '基礎', '기초·구조', 'var(--ai)'],
+  ['grammar',  '文法', '문법',      'var(--suou)'],
+  ['vocab',    '語彙', '어휘·표현', 'var(--wakatake)'],
+  ['dialogue', '会話', '회화',      'var(--yamabuki)'],
+  ['culture',  '文化', '문화',      'var(--fuji)'],
+];
+/* 접두어가 위에 없는 파일이 오면 자동으로 '기타'로 모임 */
+const ETC = ['etc', 'その他', '기타', 'var(--nezumi)'];
+
+const IMG_EXT = /\.(png|jpe?g|webp|gif|svg)$/i;
+
+/* ═════════ 실행 ═════════ */
+(async function () {
+  const status = document.getElementById('status');
+  try {
+    /* 1) 폴더의 파일 목록 (GitHub API) + 한글 제목표 동시 요청 */
+    const [listRes, titleRes] = await Promise.all([
+      fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}`),
+      fetch('titles.json', { cache: 'no-store' })
+    ]);
+    if (!listRes.ok) throw new Error('GitHub API ' + listRes.status);
+
+    const files  = await listRes.json();
+    const titles = titleRes.ok ? await titleRes.json() : {};
+
+    /* 2) 이미지 파일만 추리기 */
+    const images = files
+      .filter(f => f.type === 'file' && IMG_EXT.test(f.name))
+      .map(f => f.name)
+      .sort((a, b) => a.localeCompare(b));
+
+    if (images.length === 0) {
+      status.textContent = '아직 등록된 자료가 없습니다.';
+      return;
+    }
+
+    /* 3) 접두어로 분류 */
+    const buckets = new Map(CATEGORIES.map(c => [c[0], []]));
+    buckets.set(ETC[0], []);
+    for (const name of images) {
+      const prefix = name.split('-')[0].toLowerCase();
+      (buckets.get(prefix) ?? buckets.get(ETC[0])).push(name);
+    }
+
+    /* 4) 섹션·카드·목차 렌더링 */
+    const nav = document.getElementById('nav');
+    const root = document.getElementById('sections');
+    const defs = buckets.get(ETC[0]).length ? [...CATEGORIES, ETC] : CATEGORIES;
+
+    for (const [key, kanji, korean, color] of defs) {
+      const items = buckets.get(key);
+      if (!items || items.length === 0) continue;
+
+      /* 목차 버튼 */
+      const a = document.createElement('a');
+      a.href = '#' + key;
+      a.innerHTML = `<b>${korean}</b> ${items.length}`;
+      nav.appendChild(a);
+
+      /* 섹션 */
+      const sec = document.createElement('section');
+      sec.id = key;
+      sec.style.setProperty('--accent', color);
+      sec.innerHTML = `
+        <div class="sec-head">
+          <span class="no">${kanji}</span><h2>${korean}</h2>
+          <span class="count">${items.length}편</span>
+        </div>`;
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+
+      for (const name of items) {
+        const title = titles[name] ?? fallbackTitle(name);
+        const card = document.createElement('a');
+        card.className = 'card';
+        card.href = encodeURIComponent(name);
+        const img = document.createElement('img');
+        img.src = encodeURIComponent(name);
+        img.alt = title;
+        img.loading = 'lazy';
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        thumb.appendChild(img);
+        const body = document.createElement('div');
+        body.className = 'body';
+        const t = document.createElement('p');
+        t.className = 'title';
+        t.textContent = title;
+        const s = document.createElement('p');
+        s.className = 'sub';
+        s.textContent = key;
+        body.append(t, s);
+        card.append(thumb, body);
+        grid.appendChild(card);
+      }
+      sec.appendChild(grid);
+      root.appendChild(sec);
+    }
+
+    status.remove();
+  } catch (err) {
+    console.error(err);
+    status.className = 'error';
+    status.textContent =
+      '자료 목록을 불러오지 못했습니다. 잠시 후 새로고침해 주세요. ' +
+      '(문제가 계속되면 GitHub API 접속 제한이 원인일 수 있습니다)';
+  }
+})();
+
+/* titles.json에 없는 파일용 임시 제목: 접두어 떼고 단어 첫 글자 대문자 */
+function fallbackTitle(name) {
+  return name
+    .replace(IMG_EXT, '')
+    .split('-')
+    .slice(1)
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ') || name;
+}
+</script>
 </body>
 </html>
