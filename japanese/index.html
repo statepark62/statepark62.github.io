@@ -1,1 +1,308 @@
 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 첫걸음 · 인포그래픽 시리즈</title>
+
+<!-- ============================================================
+  일본어 인포그래픽 시리즈 index 페이지 템플릿
+  · 새 자료 추가: 아래 <main> 안의 .card 블록 하나를 복사해서
+    ①href ②data-accent(전통색) ③번호 ④제목 ⑤설명 ⑥태그/날짜만 수정
+  · 준비 중인 자료: .card에 class="card is-soon" 지정 (링크 비활성)
+  · 썸네일: 기본은 CSS 문자 스탬프. 이미지로 바꾸려면
+    .thumb 안에 <img src="..."> 를 넣으면 자동으로 채워짐
+============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Serif+JP:wght@500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  /* ── 기본 색 (종이 + 먹) ───────────────────────────── */
+  --paper:   #FBF8F1;   /* 미색 종이 */
+  --paper-2: #F3EEE2;   /* 살짝 어두운 종이 (썸네일 바탕) */
+  --ink:     #2E2A24;   /* 먹색 본문 */
+  --ink-soft:#6E6659;   /* 옅은 먹 (보조 텍스트) */
+  --line:    #DDD5C4;   /* 괘선 */
+
+  /* ── 단원별 액센트: 일본 전통색(伝統色) ─────────────── */
+  --ai:       #2A5674;  /* 藍   남색   */
+  --suou:     #9E3D3F;  /* 蘇芳 다홍   */
+  --wakatake: #5E8C61;  /* 若竹 청죽색 */
+  --yamabuki: #C08A2D;  /* 山吹 황금색 */
+  --fuji:     #7A6DA0;  /* 藤   등나무 */
+  --sakura:   #C4707F;  /* 桜   벚꽃   */
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Noto Serif KR',serif;
+  line-height:1.7;
+  /* 종이 결 느낌의 아주 옅은 가로 괘선 */
+  background-image:repeating-linear-gradient(
+    to bottom, transparent 0 31px, rgba(93,80,60,.045) 31px 32px);
+}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 96px}
+
+/* ── 머리글 ──────────────────────────────────────────── */
+header{
+  padding:72px 0 40px;
+  border-bottom:3px double var(--line);
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;
+}
+.site-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;letter-spacing:.22em;color:var(--ink-soft);
+  text-transform:uppercase;margin-bottom:14px;
+}
+h1{
+  font-family:'Noto Serif JP','Noto Serif KR',serif;
+  font-weight:900;font-size:clamp(30px,4.5vw,44px);
+  line-height:1.25;letter-spacing:.01em;
+}
+h1 .jp{display:block}
+h1 .kr{
+  display:block;font-family:'Noto Serif KR',serif;
+  font-weight:600;font-size:.48em;color:var(--ink-soft);
+  margin-top:8px;letter-spacing:.06em;
+}
+.site-note{
+  max-width:300px;font-size:14px;color:var(--ink-soft);
+  border-left:2px solid var(--line);padding-left:16px;
+}
+
+/* ── 범례(태그 안내) ─────────────────────────────────── */
+.legend{
+  display:flex;gap:18px;flex-wrap:wrap;
+  padding:18px 0;border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);
+}
+.legend b{font-weight:600;color:var(--ink)}
+
+/* ── 카드 그리드 ─────────────────────────────────────── */
+main{
+  margin-top:36px;
+  display:grid;gap:28px;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+}
+
+.card{
+  display:flex;flex-direction:column;
+  background:#fff;
+  border:1px solid var(--line);
+  border-top:4px solid var(--accent,var(--ink));
+  text-decoration:none;color:inherit;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 24px rgba(46,42,36,.12);
+}
+.card:focus-visible{outline:3px solid var(--accent,var(--ink));outline-offset:2px}
+
+/* 액센트 색 지정 */
+.card[data-accent="ai"]      {--accent:var(--ai)}
+.card[data-accent="suou"]    {--accent:var(--suou)}
+.card[data-accent="wakatake"]{--accent:var(--wakatake)}
+.card[data-accent="yamabuki"]{--accent:var(--yamabuki)}
+.card[data-accent="fuji"]    {--accent:var(--fuji)}
+.card[data-accent="sakura"]  {--accent:var(--sakura)}
+
+/* ── 썸네일: 문자 스탬프 ─────────────────────────────── */
+.thumb{
+  position:relative;height:170px;overflow:hidden;
+  background:var(--paper-2);
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid var(--line);
+}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.stamp{
+  font-family:'Noto Serif JP',serif;font-weight:900;
+  font-size:96px;line-height:1;color:var(--accent);
+  opacity:.88;user-select:none;
+}
+/* 낙관(落款) 스타일 단원 번호 */
+.seal{
+  position:absolute;top:14px;right:14px;
+  width:44px;height:44px;border:2px solid var(--accent);
+  color:var(--accent);border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,.75);
+}
+
+/* ── 카드 본문 ───────────────────────────────────────── */
+.body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.title-jp{
+  font-family:'Noto Serif JP',serif;font-weight:700;
+  font-size:20px;line-height:1.4;
+}
+.title-kr{font-size:14px;color:var(--ink-soft);margin-top:-4px}
+.desc{font-size:14px;color:var(--ink);flex:1}
+
+.meta{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;border-top:1px dashed var(--line);padding-top:12px;
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-soft);
+}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{
+  border:1px solid var(--line);padding:2px 8px;border-radius:999px;
+  background:var(--paper);
+}
+.tag.hl{border-color:var(--accent);color:var(--accent)}
+
+/* ── 준비 중 카드 ────────────────────────────────────── */
+.card.is-soon{pointer-events:none;opacity:.55;border-top-style:dashed}
+.card.is-soon .stamp{opacity:.35}
+
+/* ── 바닥글 ──────────────────────────────────────────── */
+footer{
+  margin-top:72px;padding-top:24px;border-top:3px double var(--line);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:13px;color:var(--ink-soft);
+}
+footer a{color:inherit}
+
+@media (prefers-reduced-motion:reduce){
+  .card{transition:none}
+  .card:hover{transform:none}
+}
+@media (max-width:560px){
+  header{padding-top:48px}
+  .site-note{border-left:none;padding-left:0;max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <p class="site-eyebrow">Japanese for Beginners · Infographic Series</p>
+      <h1>
+        <span class="jp">はじめての日本語</span>
+        <span class="kr">일본어 첫걸음 — 인포그래픽으로 배우는 기초</span>
+      </h1>
+    </div>
+    <p class="site-note">
+      한 장의 인포그래픽으로 핵심을 정리하는 일본어 입문 시리즈입니다.
+      카드를 누르면 각 자료로 이동합니다.
+    </p>
+  </header>
+
+  <div class="legend">
+    <span><b>文字</b> 문자·발음</span>
+    <span><b>文法</b> 문법</span>
+    <span><b>語彙</b> 어휘</span>
+    <span><b>文化</b> 문화·표현</span>
+  </div>
+
+  <main>
+
+    <!-- ── 카드 1 ─────────────────────────────────────── -->
+    <a class="card" href="unit01-hiragana.html" data-accent="ai">
+      <div class="thumb">
+        <span class="stamp" aria-hidden="true">あ</span>
+        <span class="seal">01</span>
+      </div>
+      <div class="body">
+        <h2 class="title-jp">ひらがな 五十音</h2>
+        <p class="title-kr">히라가나 오십음도 한눈에 보기</p>
+        <p class="desc">기본 46자와 탁음·반탁음·요음을 한 장으로 정리. 획순 애니메이션 포함.</p>
+        <div class="meta">
+          <span class="tags"><span class="tag hl">文字</span><span class="tag">입문</span></span>
+          <span>2026.07</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- ── 카드 2 ─────────────────────────────────────── -->
+    <a class="card" href="unit02-katakana.html" data-accent="suou">
+      <div class="thumb">
+        <span class="stamp" aria-hidden="true">ア</span>
+        <span class="seal">02</span>
+      </div>
+      <div class="body">
+        <h2 class="title-jp">カタカナと外来語</h2>
+        <p class="title-kr">가타카나와 외래어 표기</p>
+        <p class="desc">가타카나 오십음도와 자주 쓰는 외래어 100선. 한글 표기와의 대응 규칙 정리.</p>
+        <div class="meta">
+          <span class="tags"><span class="tag hl">文字</span><span class="tag">어휘</span></span>
+          <span>2026.07</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- ── 카드 3 ─────────────────────────────────────── -->
+    <a class="card" href="unit03-greetings.html" data-accent="wakatake">
+      <div class="thumb">
+        <span class="stamp" aria-hidden="true">挨</span>
+        <span class="seal">03</span>
+      </div>
+      <div class="body">
+        <h2 class="title-jp">あいさつと決まり文句</h2>
+        <p class="title-kr">인사말과 상황별 관용 표현</p>
+        <p class="desc">아침·저녁 인사부터 식사·방문·전화까지, 장면별로 묶은 필수 표현 지도.</p>
+        <div class="meta">
+          <span class="tags"><span class="tag hl">文化</span><span class="tag">표현</span></span>
+          <span>2026.08</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- ── 카드 4 ─────────────────────────────────────── -->
+    <a class="card" href="unit04-particles.html" data-accent="yamabuki">
+      <div class="thumb">
+        <span class="stamp" aria-hidden="true">は</span>
+        <span class="seal">04</span>
+      </div>
+      <div class="body">
+        <h2 class="title-jp">助詞の基本 — は・が・を</h2>
+        <p class="title-kr">조사의 기본: 은/는·이/가·을/를</p>
+        <p class="desc">한국어 조사와 1:1 대응표로 이해하는 일본어 조사. 헷갈리는 は/が 구분 도해.</p>
+        <div class="meta">
+          <span class="tags"><span class="tag hl">文法</span><span class="tag">비교</span></span>
+          <span>2026.08</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- ── 카드 5 (준비 중 예시) ───────────────────────── -->
+    <a class="card is-soon" href="#" data-accent="fuji" aria-disabled="true" tabindex="-1">
+      <div class="thumb">
+        <span class="stamp" aria-hidden="true">数</span>
+        <span class="seal">05</span>
+      </div>
+      <div class="body">
+        <h2 class="title-jp">数と時間の言い方</h2>
+        <p class="title-kr">숫자·날짜·시간 읽기 (준비 중)</p>
+        <p class="desc">고유수사와 한자수사, 날짜·요일·시각 읽기를 표와 그림으로 정리할 예정.</p>
+        <div class="meta">
+          <span class="tags"><span class="tag">語彙</span></span>
+          <span>coming soon</span>
+        </div>
+      </div>
+    </a>
+
+  </main>
+
+  <footer>
+    <span>© 2026 StatePark · 일본어 첫걸음 시리즈</span>
+    <span>
+      <a href="https://statepark62.github.io">statepark62.github.io</a>
+      &nbsp;·&nbsp; 문의: 네이버 카페 게시판
+    </span>
+  </footer>
+
+</div>
+</body>
+</html>
+
