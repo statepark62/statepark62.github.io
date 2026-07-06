@@ -1,18 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>일본어 첫걸음 · 인포그래픽 시리즈</title>
+<title>일본어 첫걸음 · 인포그래픽 42선</title>
 
 <!-- ============================================================
-  일본어 인포그래픽 시리즈 index 페이지 템플릿
-  · 새 자료 추가: 아래 <main> 안의 .card 블록 하나를 복사해서
-    ①href ②data-accent(전통색) ③번호 ④제목 ⑤설명 ⑥태그/날짜만 수정
-  · 준비 중인 자료: .card에 class="card is-soon" 지정 (링크 비활성)
-  · 썸네일: 기본은 CSS 문자 스탬프. 이미지로 바꾸려면
-    .thumb 안에 <img src="..."> 를 넣으면 자동으로 채워짐
+  일본어 인포그래픽 시리즈 index (이미지 42개 · 카테고리별 구성)
+  · 이 파일과 rename-files.ps1로 이름을 바꾼 이미지 42개를
+    같은 폴더(예: japanese/)에 두면 바로 동작합니다
+  · 새 자료 추가: 해당 섹션의 .card 하나를 복사해
+    href / img src / 제목만 수정
 ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,20 +18,18 @@
 
 <style>
 :root{
-  /* ── 기본 색 (종이 + 먹) ───────────────────────────── */
-  --paper:   #FBF8F1;   /* 미색 종이 */
-  --paper-2: #F3EEE2;   /* 살짝 어두운 종이 (썸네일 바탕) */
-  --ink:     #2E2A24;   /* 먹색 본문 */
-  --ink-soft:#6E6659;   /* 옅은 먹 (보조 텍스트) */
-  --line:    #DDD5C4;   /* 괘선 */
+  --paper:   #FBF8F1;
+  --paper-2: #F3EEE2;
+  --ink:     #2E2A24;
+  --ink-soft:#6E6659;
+  --line:    #DDD5C4;
 
-  /* ── 단원별 액센트: 일본 전통색(伝統色) ─────────────── */
-  --ai:       #2A5674;  /* 藍   남색   */
-  --suou:     #9E3D3F;  /* 蘇芳 다홍   */
-  --wakatake: #5E8C61;  /* 若竹 청죽색 */
-  --yamabuki: #C08A2D;  /* 山吹 황금색 */
-  --fuji:     #7A6DA0;  /* 藤   등나무 */
-  --sakura:   #C4707F;  /* 桜   벚꽃   */
+  /* 카테고리별 액센트: 일본 전통색(伝統色) */
+  --ai:       #2A5674;  /* 藍   기초·구조 */
+  --suou:     #9E3D3F;  /* 蘇芳 문법     */
+  --wakatake: #5E8C61;  /* 若竹 어휘·표현 */
+  --yamabuki: #C08A2D;  /* 山吹 회화     */
+  --fuji:     #7A6DA0;  /* 藤   문화     */
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -43,14 +39,12 @@ body{
   color:var(--ink);
   font-family:'Noto Serif KR',serif;
   line-height:1.7;
-  /* 종이 결 느낌의 아주 옅은 가로 괘선 */
   background-image:repeating-linear-gradient(
     to bottom, transparent 0 31px, rgba(93,80,60,.045) 31px 32px);
 }
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px 96px}
 
-.wrap{max-width:1080px;margin:0 auto;padding:0 24px 96px}
-
-/* ── 머리글 ──────────────────────────────────────────── */
+/* ── 머리글 ─────────────────────────────────────────── */
 header{
   padding:72px 0 40px;
   border-bottom:3px double var(--line);
@@ -64,10 +58,8 @@ header{
 }
 h1{
   font-family:'Noto Serif JP','Noto Serif KR',serif;
-  font-weight:900;font-size:clamp(30px,4.5vw,44px);
-  line-height:1.25;letter-spacing:.01em;
+  font-weight:900;font-size:clamp(30px,4.5vw,44px);line-height:1.25;
 }
-h1 .jp{display:block}
 h1 .kr{
   display:block;font-family:'Noto Serif KR',serif;
   font-weight:600;font-size:.48em;color:var(--ink-soft);
@@ -78,26 +70,53 @@ h1 .kr{
   border-left:2px solid var(--line);padding-left:16px;
 }
 
-/* ── 범례(태그 안내) ─────────────────────────────────── */
-.legend{
-  display:flex;gap:18px;flex-wrap:wrap;
+/* ── 목차(카테고리 바로가기) ─────────────────────────── */
+nav{
+  display:flex;gap:10px;flex-wrap:wrap;
   padding:18px 0;border-bottom:1px solid var(--line);
-  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);
+  font-family:'JetBrains Mono',monospace;font-size:12.5px;
 }
-.legend b{font-weight:600;color:var(--ink)}
-
-/* ── 카드 그리드 ─────────────────────────────────────── */
-main{
-  margin-top:36px;
-  display:grid;gap:28px;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+nav a{
+  text-decoration:none;color:var(--ink);
+  border:1px solid var(--line);border-radius:999px;
+  padding:5px 14px;background:#fff;
 }
+nav a b{font-weight:600}
+nav a:hover{border-color:var(--ink-soft)}
 
+/* ── 섹션 ───────────────────────────────────────────── */
+section{margin-top:56px}
+.sec-head{
+  display:flex;align-items:baseline;gap:14px;
+  border-bottom:2px solid var(--accent);padding-bottom:10px;margin-bottom:24px;
+}
+.sec-head .no{
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+  color:var(--accent);letter-spacing:.12em;
+}
+.sec-head h2{
+  font-family:'Noto Serif JP','Noto Serif KR',serif;
+  font-weight:700;font-size:24px;
+}
+.sec-head .count{
+  margin-left:auto;font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--ink-soft);
+}
+section[data-accent="ai"]      {--accent:var(--ai)}
+section[data-accent="suou"]    {--accent:var(--suou)}
+section[data-accent="wakatake"]{--accent:var(--wakatake)}
+section[data-accent="yamabuki"]{--accent:var(--yamabuki)}
+section[data-accent="fuji"]    {--accent:var(--fuji)}
+
+/* ── 카드 ───────────────────────────────────────────── */
+.grid{
+  display:grid;gap:22px;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+}
 .card{
   display:flex;flex-direction:column;
-  background:#fff;
-  border:1px solid var(--line);
-  border-top:4px solid var(--accent,var(--ink));
+  background:#fff;border:1px solid var(--line);
+  border-top:4px solid var(--accent);
   text-decoration:none;color:inherit;
   transition:transform .18s ease, box-shadow .18s ease;
 }
@@ -105,65 +124,22 @@ main{
   transform:translateY(-4px);
   box-shadow:0 10px 24px rgba(46,42,36,.12);
 }
-.card:focus-visible{outline:3px solid var(--accent,var(--ink));outline-offset:2px}
+.card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
-/* 액센트 색 지정 */
-.card[data-accent="ai"]      {--accent:var(--ai)}
-.card[data-accent="suou"]    {--accent:var(--suou)}
-.card[data-accent="wakatake"]{--accent:var(--wakatake)}
-.card[data-accent="yamabuki"]{--accent:var(--yamabuki)}
-.card[data-accent="fuji"]    {--accent:var(--fuji)}
-.card[data-accent="sakura"]  {--accent:var(--sakura)}
-
-/* ── 썸네일: 문자 스탬프 ─────────────────────────────── */
 .thumb{
-  position:relative;height:170px;overflow:hidden;
-  background:var(--paper-2);
-  display:flex;align-items:center;justify-content:center;
+  height:150px;overflow:hidden;background:var(--paper-2);
   border-bottom:1px solid var(--line);
 }
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.stamp{
-  font-family:'Noto Serif JP',serif;font-weight:900;
-  font-size:96px;line-height:1;color:var(--accent);
-  opacity:.88;user-select:none;
+.thumb img{
+  width:100%;height:100%;object-fit:cover;object-position:top;display:block;
 }
-/* 낙관(落款) 스타일 단원 번호 */
-.seal{
-  position:absolute;top:14px;right:14px;
-  width:44px;height:44px;border:2px solid var(--accent);
-  color:var(--accent);border-radius:4px;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
-  background:rgba(255,255,255,.75);
+.body{padding:14px 16px 16px}
+.title{font-weight:700;font-size:15.5px;line-height:1.45}
+.sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--ink-soft);margin-top:6px;
 }
 
-/* ── 카드 본문 ───────────────────────────────────────── */
-.body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
-.title-jp{
-  font-family:'Noto Serif JP',serif;font-weight:700;
-  font-size:20px;line-height:1.4;
-}
-.title-kr{font-size:14px;color:var(--ink-soft);margin-top:-4px}
-.desc{font-size:14px;color:var(--ink);flex:1}
-
-.meta{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;border-top:1px dashed var(--line);padding-top:12px;
-  font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-soft);
-}
-.tags{display:flex;gap:6px;flex-wrap:wrap}
-.tag{
-  border:1px solid var(--line);padding:2px 8px;border-radius:999px;
-  background:var(--paper);
-}
-.tag.hl{border-color:var(--accent);color:var(--accent)}
-
-/* ── 준비 중 카드 ────────────────────────────────────── */
-.card.is-soon{pointer-events:none;opacity:.55;border-top-style:dashed}
-.card.is-soon .stamp{opacity:.35}
-
-/* ── 바닥글 ──────────────────────────────────────────── */
 footer{
   margin-top:72px;padding-top:24px;border-top:3px double var(--line);
   display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
@@ -186,113 +162,238 @@ footer a{color:inherit}
 
   <header>
     <div>
-      <p class="site-eyebrow">Japanese for Beginners · Infographic Series</p>
+      <p class="site-eyebrow">Japanese for Beginners · 42 Infographics</p>
       <h1>
-        <span class="jp">はじめての日本語</span>
-        <span class="kr">일본어 첫걸음 — 인포그래픽으로 배우는 기초</span>
+        はじめての日本語
+        <span class="kr">일본어 첫걸음 — 한 장으로 정리하는 인포그래픽 42선</span>
       </h1>
     </div>
     <p class="site-note">
-      한 장의 인포그래픽으로 핵심을 정리하는 일본어 입문 시리즈입니다.
-      카드를 누르면 각 자료로 이동합니다.
+      기초 구조부터 문법·어휘·회화·문화까지, 주제별 인포그래픽 모음입니다.
+      카드를 누르면 고해상도 원본이 열립니다.
     </p>
   </header>
 
-  <div class="legend">
-    <span><b>文字</b> 문자·발음</span>
-    <span><b>文法</b> 문법</span>
-    <span><b>語彙</b> 어휘</span>
-    <span><b>文化</b> 문화·표현</span>
-  </div>
+  <nav aria-label="카테고리 바로가기">
+    <a href="#basics"><b>기초·구조</b> 7</a>
+    <a href="#grammar"><b>문법</b> 17</a>
+    <a href="#vocab"><b>어휘·표현</b> 12</a>
+    <a href="#dialogue"><b>회화</b> 5</a>
+    <a href="#culture"><b>문화</b> 1</a>
+  </nav>
 
-  <main>
+  <!-- ════════ 1. 기초·구조 ════════ -->
+  <section id="basics" data-accent="ai">
+    <div class="sec-head">
+      <span class="no">基礎</span><h2>기초·구조</h2><span class="count">7편</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="basics-japanese-structure.png">
+        <div class="thumb"><img src="basics-japanese-structure.png" alt="일본어의 구성 및 구조" loading="lazy"></div>
+        <div class="body"><p class="title">일본어의 구성 및 구조</p><p class="sub">basics</p></div>
+      </a>
+      <a class="card" href="basics-korean-japanese-structure.png">
+        <div class="thumb"><img src="basics-korean-japanese-structure.png" alt="한국어 일본어 구조" loading="lazy"></div>
+        <div class="body"><p class="title">한국어·일본어 구조 비교</p><p class="sub">basics</p></div>
+      </a>
+      <a class="card" href="basics-korean-japanese-differences.png">
+        <div class="thumb"><img src="basics-korean-japanese-differences.png" alt="한국어 일본어 차이" loading="lazy"></div>
+        <div class="body"><p class="title">한국어·일본어 차이</p><p class="sub">basics</p></div>
+      </a>
+      <a class="card" href="basics-hiragana-words-01.png">
+        <div class="thumb"><img src="basics-hiragana-words-01.png" alt="히라가나 활용 단어 01" loading="lazy"></div>
+        <div class="body"><p class="title">히라가나 활용 단어 ①</p><p class="sub">basics</p></div>
+      </a>
+      <a class="card" href="basics-hiragana-words-02.png">
+        <div class="thumb"><img src="basics-hiragana-words-02.png" alt="히라가나 활용 단어 02" loading="lazy"></div>
+        <div class="body"><p class="title">히라가나 활용 단어 ②</p><p class="sub">basics</p></div>
+      </a>
+      <a class="card" href="basics-katakana-words-01.png">
+        <div class="thumb"><img src="basics-katakana-words-01.png" alt="가타카나 활용 단어 01" loading="lazy"></div>
+        <div class="body"><p class="title">가타카나 활용 단어 ①</p><p class="sub">basics</p></div>
+      </a>
+      <a class="card" href="basics-katakana-words-02.png">
+        <div class="thumb"><img src="basics-katakana-words-02.png" alt="가타카나 활용 단어 02" loading="lazy"></div>
+        <div class="body"><p class="title">가타카나 활용 단어 ②</p><p class="sub">basics</p></div>
+      </a>
+    </div>
+  </section>
 
-    <!-- ── 카드 1 ─────────────────────────────────────── -->
-    <a class="card" href="unit01-hiragana.html" data-accent="ai">
-      <div class="thumb">
-        <span class="stamp" aria-hidden="true">あ</span>
-        <span class="seal">01</span>
-      </div>
-      <div class="body">
-        <h2 class="title-jp">ひらがな 五十音</h2>
-        <p class="title-kr">히라가나 오십음도 한눈에 보기</p>
-        <p class="desc">기본 46자와 탁음·반탁음·요음을 한 장으로 정리. 획순 애니메이션 포함.</p>
-        <div class="meta">
-          <span class="tags"><span class="tag hl">文字</span><span class="tag">입문</span></span>
-          <span>2026.07</span>
-        </div>
-      </div>
-    </a>
+  <!-- ════════ 2. 문법 ════════ -->
+  <section id="grammar" data-accent="suou">
+    <div class="sec-head">
+      <span class="no">文法</span><h2>문법</h2><span class="count">17편</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="grammar-verb-conjugation.png">
+        <div class="thumb"><img src="grammar-verb-conjugation.png" alt="일본어 동사활용" loading="lazy"></div>
+        <div class="body"><p class="title">동사 활용 총정리</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-te-form-basics.png">
+        <div class="thumb"><img src="grammar-te-form-basics.png" alt="て형 만들기 원리편" loading="lazy"></div>
+        <div class="body"><p class="title">て형 만들기 — 원리편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-te-form-usage.png">
+        <div class="thumb"><img src="grammar-te-form-usage.png" alt="て형 만들기 활용편" loading="lazy"></div>
+        <div class="body"><p class="title">て형 만들기 — 활용편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-masu-form-basics.png">
+        <div class="thumb"><img src="grammar-masu-form-basics.png" alt="ます형 만들기 원리편" loading="lazy"></div>
+        <div class="body"><p class="title">ます형 만들기 — 원리편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-masu-form-usage.png">
+        <div class="thumb"><img src="grammar-masu-form-usage.png" alt="ます형 만들기 활용편" loading="lazy"></div>
+        <div class="body"><p class="title">ます형 만들기 — 활용편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-potential-basics.png">
+        <div class="thumb"><img src="grammar-potential-basics.png" alt="가능형 만들기 원리편" loading="lazy"></div>
+        <div class="body"><p class="title">가능형 만들기 — 원리편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-potential-usage.png">
+        <div class="thumb"><img src="grammar-potential-usage.png" alt="가능형 만들기 활용편" loading="lazy"></div>
+        <div class="body"><p class="title">가능형 만들기 — 활용편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-causative-basics.png">
+        <div class="thumb"><img src="grammar-causative-basics.png" alt="사역형 만들기 원리편" loading="lazy"></div>
+        <div class="body"><p class="title">사역형 만들기 — 원리편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-causative-usage.png">
+        <div class="thumb"><img src="grammar-causative-usage.png" alt="사역형 만들기 활용편" loading="lazy"></div>
+        <div class="body"><p class="title">사역형 만들기 — 활용편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-passive-basics.png">
+        <div class="thumb"><img src="grammar-passive-basics.png" alt="수동형 만들기 원리편" loading="lazy"></div>
+        <div class="body"><p class="title">수동형 만들기 — 원리편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-passive-usage.png">
+        <div class="thumb"><img src="grammar-passive-usage.png" alt="수동형 만들기 활용편" loading="lazy"></div>
+        <div class="body"><p class="title">수동형 만들기 — 활용편</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-kr-jp-causative-passive.png">
+        <div class="thumb"><img src="grammar-kr-jp-causative-passive.png" alt="한국어 일본어 차이 사역형 수동형" loading="lazy"></div>
+        <div class="body"><p class="title">한·일 차이 — 사역형과 수동형</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-particles.png">
+        <div class="thumb"><img src="grammar-particles.png" alt="일본어 조사" loading="lazy"></div>
+        <div class="body"><p class="title">조사 총정리</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-conditionals.png">
+        <div class="thumb"><img src="grammar-conditionals.png" alt="일본어 조건 가정 표현" loading="lazy"></div>
+        <div class="body"><p class="title">조건·가정 표현</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-only-expressions.png">
+        <div class="thumb"><img src="grammar-only-expressions.png" alt="일본어 만 뿐 오직" loading="lazy"></div>
+        <div class="body"><p class="title">「~만·~뿐·오직」 한정 표현</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-i-adjectives.png">
+        <div class="thumb"><img src="grammar-i-adjectives.png" alt="대표적인 い형용사" loading="lazy"></div>
+        <div class="body"><p class="title">대표적인 い형용사</p><p class="sub">grammar</p></div>
+      </a>
+      <a class="card" href="grammar-na-adjectives.png">
+        <div class="thumb"><img src="grammar-na-adjectives.png" alt="대표적인 な형용사" loading="lazy"></div>
+        <div class="body"><p class="title">대표적인 な형용사</p><p class="sub">grammar</p></div>
+      </a>
+    </div>
+  </section>
 
-    <!-- ── 카드 2 ─────────────────────────────────────── -->
-    <a class="card" href="unit02-katakana.html" data-accent="suou">
-      <div class="thumb">
-        <span class="stamp" aria-hidden="true">ア</span>
-        <span class="seal">02</span>
-      </div>
-      <div class="body">
-        <h2 class="title-jp">カタカナと外来語</h2>
-        <p class="title-kr">가타카나와 외래어 표기</p>
-        <p class="desc">가타카나 오십음도와 자주 쓰는 외래어 100선. 한글 표기와의 대응 규칙 정리.</p>
-        <div class="meta">
-          <span class="tags"><span class="tag hl">文字</span><span class="tag">어휘</span></span>
-          <span>2026.07</span>
-        </div>
-      </div>
-    </a>
+  <!-- ════════ 3. 어휘·표현 ════════ -->
+  <section id="vocab" data-accent="wakatake">
+    <div class="sec-head">
+      <span class="no">語彙</span><h2>어휘·표현</h2><span class="count">12편</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="vocab-numbers.png">
+        <div class="thumb"><img src="vocab-numbers.png" alt="일본어 숫자 읽기" loading="lazy"></div>
+        <div class="body"><p class="title">숫자 읽기</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-dates-weekdays.png">
+        <div class="thumb"><img src="vocab-dates-weekdays.png" alt="일본어 날짜 요일 읽기" loading="lazy"></div>
+        <div class="body"><p class="title">날짜·요일 읽기</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-telling-time.png">
+        <div class="thumb"><img src="vocab-telling-time.png" alt="일본어 시간 말하기" loading="lazy"></div>
+        <div class="body"><p class="title">시간 말하기</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-time-expressions.png">
+        <div class="thumb"><img src="vocab-time-expressions.png" alt="일본어 시간대 표현" loading="lazy"></div>
+        <div class="body"><p class="title">시간대 표현</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-weather.png">
+        <div class="thumb"><img src="vocab-weather.png" alt="일본어 날씨 용어" loading="lazy"></div>
+        <div class="body"><p class="title">날씨 용어</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-cooking.png">
+        <div class="thumb"><img src="vocab-cooking.png" alt="일본어 조리 용어" loading="lazy"></div>
+        <div class="body"><p class="title">조리 용어</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-directions.png">
+        <div class="thumb"><img src="vocab-directions.png" alt="일본어 방향 말하기" loading="lazy"></div>
+        <div class="body"><p class="title">방향 말하기</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-directions-demonstratives.jpg">
+        <div class="thumb"><img src="vocab-directions-demonstratives.jpg" alt="일본어 방향 지시대명사" loading="lazy"></div>
+        <div class="body"><p class="title">방향·지시대명사 (こそあど)</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-onomatopoeia-01.png">
+        <div class="thumb"><img src="vocab-onomatopoeia-01.png" alt="일본어 주요 오노마토페 01" loading="lazy"></div>
+        <div class="body"><p class="title">주요 오노마토페 ①</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-onomatopoeia-02.png">
+        <div class="thumb"><img src="vocab-onomatopoeia-02.png" alt="일본어 주요 오노마토페 02" loading="lazy"></div>
+        <div class="body"><p class="title">주요 오노마토페 ②</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-nonbiri-yuttari.png">
+        <div class="thumb"><img src="vocab-nonbiri-yuttari.png" alt="のんびりゆったり" loading="lazy"></div>
+        <div class="body"><p class="title">のんびり vs ゆったり</p><p class="sub">vocab</p></div>
+      </a>
+      <a class="card" href="vocab-mendou-vs-sewa.png">
+        <div class="thumb"><img src="vocab-mendou-vs-sewa.png" alt="面倒を見る vs 世話をする" loading="lazy"></div>
+        <div class="body"><p class="title">面倒を見る vs 世話をする</p><p class="sub">vocab</p></div>
+      </a>
+    </div>
+  </section>
 
-    <!-- ── 카드 3 ─────────────────────────────────────── -->
-    <a class="card" href="unit03-greetings.html" data-accent="wakatake">
-      <div class="thumb">
-        <span class="stamp" aria-hidden="true">挨</span>
-        <span class="seal">03</span>
-      </div>
-      <div class="body">
-        <h2 class="title-jp">あいさつと決まり文句</h2>
-        <p class="title-kr">인사말과 상황별 관용 표현</p>
-        <p class="desc">아침·저녁 인사부터 식사·방문·전화까지, 장면별로 묶은 필수 표현 지도.</p>
-        <div class="meta">
-          <span class="tags"><span class="tag hl">文化</span><span class="tag">표현</span></span>
-          <span>2026.08</span>
-        </div>
-      </div>
-    </a>
+  <!-- ════════ 4. 회화 ════════ -->
+  <section id="dialogue" data-accent="yamabuki">
+    <div class="sec-head">
+      <span class="no">会話</span><h2>회화</h2><span class="count">5편</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="dialogue-immigration.png">
+        <div class="thumb"><img src="dialogue-immigration.png" alt="일본 입국과정 대화 예시" loading="lazy"></div>
+        <div class="body"><p class="title">입국 과정 대화</p><p class="sub">dialogue</p></div>
+      </a>
+      <a class="card" href="dialogue-transport-01.png">
+        <div class="thumb"><img src="dialogue-transport-01.png" alt="일본 교통수단 이용시 대화 01" loading="lazy"></div>
+        <div class="body"><p class="title">교통수단 이용 대화 ①</p><p class="sub">dialogue</p></div>
+      </a>
+      <a class="card" href="dialogue-transport-02.png">
+        <div class="thumb"><img src="dialogue-transport-02.png" alt="일본 교통수단 이용시 대화 02" loading="lazy"></div>
+        <div class="body"><p class="title">교통수단 이용 대화 ②</p><p class="sub">dialogue</p></div>
+      </a>
+      <a class="card" href="dialogue-restaurant-01.png">
+        <div class="thumb"><img src="dialogue-restaurant-01.png" alt="일본 식당에서의 대화 01" loading="lazy"></div>
+        <div class="body"><p class="title">식당에서의 대화 ①</p><p class="sub">dialogue</p></div>
+      </a>
+      <a class="card" href="dialogue-restaurant-02.png">
+        <div class="thumb"><img src="dialogue-restaurant-02.png" alt="일본 식당에서의 대화 02" loading="lazy"></div>
+        <div class="body"><p class="title">식당에서의 대화 ②</p><p class="sub">dialogue</p></div>
+      </a>
+    </div>
+  </section>
 
-    <!-- ── 카드 4 ─────────────────────────────────────── -->
-    <a class="card" href="unit04-particles.html" data-accent="yamabuki">
-      <div class="thumb">
-        <span class="stamp" aria-hidden="true">は</span>
-        <span class="seal">04</span>
-      </div>
-      <div class="body">
-        <h2 class="title-jp">助詞の基本 — は・が・を</h2>
-        <p class="title-kr">조사의 기본: 은/는·이/가·을/를</p>
-        <p class="desc">한국어 조사와 1:1 대응표로 이해하는 일본어 조사. 헷갈리는 は/が 구분 도해.</p>
-        <div class="meta">
-          <span class="tags"><span class="tag hl">文法</span><span class="tag">비교</span></span>
-          <span>2026.08</span>
-        </div>
-      </div>
-    </a>
-
-    <!-- ── 카드 5 (준비 중 예시) ───────────────────────── -->
-    <a class="card is-soon" href="#" data-accent="fuji" aria-disabled="true" tabindex="-1">
-      <div class="thumb">
-        <span class="stamp" aria-hidden="true">数</span>
-        <span class="seal">05</span>
-      </div>
-      <div class="body">
-        <h2 class="title-jp">数と時間の言い方</h2>
-        <p class="title-kr">숫자·날짜·시간 읽기 (준비 중)</p>
-        <p class="desc">고유수사와 한자수사, 날짜·요일·시각 읽기를 표와 그림으로 정리할 예정.</p>
-        <div class="meta">
-          <span class="tags"><span class="tag">語彙</span></span>
-          <span>coming soon</span>
-        </div>
-      </div>
-    </a>
-
-  </main>
+  <!-- ════════ 5. 문화 ════════ -->
+  <section id="culture" data-accent="fuji">
+    <div class="sec-head">
+      <span class="no">文化</span><h2>문화</h2><span class="count">1편</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="culture-sumo.png">
+        <div class="thumb"><img src="culture-sumo.png" alt="일본 스모" loading="lazy"></div>
+        <div class="body"><p class="title">일본 스모</p><p class="sub">culture</p></div>
+      </a>
+    </div>
+  </section>
 
   <footer>
     <span>© 2026 StatePark · 일본어 첫걸음 시리즈</span>
@@ -305,4 +406,3 @@ footer a{color:inherit}
 </div>
 </body>
 </html>
-
