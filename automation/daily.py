@@ -1,1 +1,290 @@
+# -*- coding: utf-8 -*-
+"""
+daily.py — 天声人語 일일 학습 페이지 자동 생성 파이프라인
 
+흐름: 크롤링(무료 서두) → AI 요약/단어장(JSON) → HTML 생성 → index 갱신
+
+사용법:
+  python automation/daily.py            # 전체 파이프라인 실행
+  python automation/daily.py --sample   # 네트워크/AI 없이 샘플 데이터로 렌더링만 테스트
+
+환경 변수:
+  PROVIDER          "gemini"(기본) 또는 "claude"
+  GEMINI_API_KEY    Gemini 사용 시 필수
+  GEMINI_MODEL      기본값 "gemini-2.5-flash" (무료 티어)
+  ANTHROPIC_API_KEY Claude 사용 시 필수
+  CLAUDE_MODEL      기본값 "claude-haiku-4-5-20251001"
+  ARTICLE_URL       (선택) 특정 기사 URL을 직접 지정해 테스트
+"""
+import json
+import os
+import re
+import sys
+import html
+from datetime import date
+from pathlib import Path
+
+# ──────────────────────────────────────────────────────────
+# 경로 설정 (저장소 루트 기준)
+# ──────────────────────────────────────────────────────────
+HERE = Path(__file__).resolve().parent          # automation/
+ROOT = HERE.parent                              # 저장소 루트
+OUT_DIR = ROOT / "tenseijingo"                  # 공개 페이지 폴더
+ARCHIVE = OUT_DIR / "archive.json"              # 목록 생성용 누적 데이터
+START_DATE = date(2026, 7, 8)                   # 第1回 날짜 (회차 계산 기준)
+
+# ──────────────────────────────────────────────────────────
+# 크롤링 설정 — ※ 최초 1회, 실제 페이지에서 선택자 확인 필요
+# 사이트 구조가 바뀌면 이 블록만 수정하면 됩니다.
+# ──────────────────────────────────────────────────────────
+LIST_URL = "https://www.asahi.com/rensai/list.html?id=61"   # 天声人語 연재 목록
+LINK_SELECTOR_CANDIDATES = [
+    'a[href*="/articles/"]',        # 목록에서 기사 링크
+]
+BODY_SELECTOR_CANDIDATES = [
+    "div.nlkStyleArticleBody p",    # 후보 1
+    "main article p",               # 후보 2
+    "main p",                       # 후보 3 (가장 느슨한 fallback)
+]
+MAX_CHARS = 600      # 무료 공개분만 사용 (저작권 안전을 위해 상한)
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                  "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"
+}
+
+WEEKDAY_KO = ["월", "화", "수", "목", "금", "토", "일"]
+
+VOCAB_ITEM = """        <div class="vocab-item">
+          <div class="vocab-word"><ruby>{word}<rt>{reading}</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">{meaning}</span><span class="level">{level}</span>
+            <p class="ex"><span class="ja">{ex_ja}</span><br>{ex_ko}</p>
+          </div>
+        </div>"""
+
+INDEX_ITEM = """      <li>
+        <a href="{fname}">
+          <span class="d">第{no}回 · {date}</span>
+          <span class="t-ja">{topic_ja}</span>
+          <span class="t-ko">{topic_ko}</span>
+        </a>
+      </li>"""
+
+
+def esc(s):
+    return html.escape(str(s), quote=True)
+
+
+# ══════════════════════════════════════════════════════════
+# 1단계: 크롤링
+# ══════════════════════════════════════════════════════════
+def fetch_article():
+    import requests
+    from bs4 import BeautifulSoup
+
+    article_url = os.environ.get("ARTICLE_URL")
+    if not article_url:
+        r = requests.get(LIST_URL, headers=HEADERS, timeout=20)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+        link = None
+        for sel in LINK_SELECTOR_CANDIDATES:
+            found = soup.select_one(sel)
+            if found and found.get("href"):
+                link = found["href"]
+                break
+        if not link:
+            raise RuntimeError(
+                "목록 페이지에서 기사 링크를 찾지 못했습니다. "
+                "브라우저 F12로 구조를 확인해 LINK_SELECTOR_CANDIDATES를 수정하세요."
+            )
+        article_url = link if link.startswith("http") else "https://www.asahi.com" + link
+
+    r = requests.get(article_url, headers=HEADERS, timeout=20)
+    r.raise_for_status()
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    text = ""
+    for sel in BODY_SELECTOR_CANDIDATES:
+        paras = [p.get_text(strip=True) for p in soup.select(sel)]
+        paras = [p for p in paras if len(p) > 20]      # 잡음 제거
+        if paras:
+            text = "\n".join(paras)
+            break
+    if not text:
+        raise RuntimeError(
+            "본문을 추출하지 못했습니다. "
+            "브라우저 F12로 구조를 확인해 BODY_SELECTOR_CANDIDATES를 수정하세요."
+        )
+    return text[:MAX_CHARS], article_url
+
+
+# ══════════════════════════════════════════════════════════
+# 2단계: AI 호출 (Gemini 또는 Claude)
+# ══════════════════════════════════════════════════════════
+def call_ai(prompt_text):
+    import requests
+
+    provider = os.environ.get("PROVIDER", "gemini").lower()
+
+    if provider == "claude":
+        key = os.environ["ANTHROPIC_API_KEY"]
+        model = os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001")
+        r = requests.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            json={
+                "model": model,
+                "max_tokens": 2000,
+                "messages": [{"role": "user", "content": prompt_text}],
+            },
+            timeout=90,
+        )
+        r.raise_for_status()
+        return r.json()["content"][0]["text"]
+
+    # 기본: Gemini (무료 티어)
+    key = os.environ["GEMINI_API_KEY"]
+    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    r = requests.post(
+        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+        params={"key": key},
+        json={"contents": [{"parts": [{"text": prompt_text}]}]},
+        timeout=90,
+    )
+    r.raise_for_status()
+    return r.json()["candidates"][0]["content"]["parts"][0]["text"]
+
+
+def parse_ai_json(raw):
+    """AI 응답에서 JSON만 안전하게 추출 (코드펜스·잡말 대응)"""
+    raw = raw.strip()
+    raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw)
+    start, end = raw.find("{"), raw.rfind("}")
+    if start == -1 or end == -1:
+        raise ValueError("AI 응답에 JSON이 없습니다:\n" + raw[:300])
+    data = json.loads(raw[start:end + 1])
+
+    # 스키마 검증
+    assert len(data["summary_ko"]) == 3, "summary_ko는 3문장이어야 합니다"
+    assert len(data["vocab"]) >= 5, "vocab는 5개 이상이어야 합니다"
+    for k in ("topic_ja", "topic_ko", "grammar", "today_line"):
+        assert k in data, f"필수 키 누락: {k}"
+    return data
+
+
+# ══════════════════════════════════════════════════════════
+# 3단계: HTML 렌더링
+# ══════════════════════════════════════════════════════════
+def render_page(data, today, source_url):
+    tpl = (HERE / "template.html").read_text(encoding="utf-8")
+    issue_no = (today - START_DATE).days + 1
+    date_ko = f"{today.year}년 {today.month}월 {today.day}일 ({WEEKDAY_KO[today.weekday()]})"
+
+    s = data["summary_ko"]
+    tokens = {
+        "{{DATE_ISO}}": today.isoformat(),
+        "{{DATE_KO}}": date_ko,
+        "{{ISSUE_NO}}": str(issue_no),
+        "{{TOPIC_JA}}": esc(data["topic_ja"]),
+        "{{TOPIC_KO}}": esc(data["topic_ko"]),
+        "{{SUMMARY_1}}": esc(s[0]),
+        "{{SUMMARY_2}}": esc(s[1]),
+        "{{SUMMARY_3}}": esc(s[2]),
+        "{{GRAMMAR_PATTERN}}": esc(data["grammar"]["pattern"]),
+        "{{GRAMMAR_PATTERN_KO}}": esc(data["grammar"]["pattern_ko"]),
+        "{{GRAMMAR_EXPLAIN}}": esc(data["grammar"]["explanation_ko"]),
+        "{{GRAMMAR_EX_JA}}": esc(data["grammar"]["example_ja"]),
+        "{{GRAMMAR_EX_KO}}": esc(data["grammar"]["example_ko"]),
+        "{{TODAY_JA}}": esc(data["today_line"]["ja"]),
+        "{{TODAY_KO}}": esc(data["today_line"]["ko"]),
+        "{{SOURCE_URL}}": esc(source_url),
+    }
+    for k, v in tokens.items():
+        tpl = tpl.replace(k, v)
+
+    items = "\n".join(
+        VOCAB_ITEM.format(
+            word=esc(v["word"]), reading=esc(v["reading"]),
+            meaning=esc(v["meaning_ko"]), level=esc(v.get("level", "-")),
+            ex_ja=esc(v["example_ja"]), ex_ko=esc(v["example_ko"]),
+        )
+        for v in data["vocab"][:5]
+    )
+    return tpl.replace("<!--VOCAB_ITEMS-->", items), issue_no
+
+
+# ══════════════════════════════════════════════════════════
+# 4단계: 목록(index.html) 갱신
+# ══════════════════════════════════════════════════════════
+def update_index(entry):
+    records = []
+    if ARCHIVE.exists():
+        records = json.loads(ARCHIVE.read_text(encoding="utf-8"))
+    records = [r for r in records if r["date"] != entry["date"]]  # 중복 방지
+    records.append(entry)
+    records.sort(key=lambda r: r["date"], reverse=True)
+    ARCHIVE.write_text(json.dumps(records, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    items = "\n".join(
+        INDEX_ITEM.format(
+            fname=f"{r['date']}.html", no=r["no"], date=r["date"],
+            topic_ja=esc(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
+        )
+        for r in records
+    )
+    idx_tpl = (HERE / "index_template.html").read_text(encoding="utf-8")
+    idx = idx_tpl.replace("<!--INDEX_ITEMS-->", items)
+    idx = idx.replace("{{COUNT}}", str(len(records)))
+    (OUT_DIR / "index.html").write_text(idx, encoding="utf-8")
+
+
+# ══════════════════════════════════════════════════════════
+# 메인
+# ══════════════════════════════════════════════════════════
+def main():
+    OUT_DIR.mkdir(exist_ok=True)
+    sample_mode = "--sample" in sys.argv
+
+    if sample_mode:
+        data = json.loads((HERE / "sample_data.json").read_text(encoding="utf-8"))
+        today = date.fromisoformat(data.get("date", date.today().isoformat()))
+        source_url = data.get("source_url", LIST_URL)
+        print("[샘플 모드] 네트워크/AI 없이 렌더링만 테스트합니다.")
+    else:
+        today = date.today()
+        out_file = OUT_DIR / f"{today.isoformat()}.html"
+        if out_file.exists():
+            print(f"오늘자 파일이 이미 있습니다: {out_file} — 종료")
+            return
+
+        print("[1/4] 천성인어 무료 서두 수집 중...")
+        article_text, source_url = fetch_article()
+        print(f"      수집 완료 ({len(article_text)}자) ← {source_url}")
+
+        print("[2/4] AI 요약·단어장 생성 중...")
+        prompt = (HERE / "prompt.txt").read_text(encoding="utf-8")
+        prompt = prompt.replace("{{ARTICLE_TEXT}}", article_text)
+        data = parse_ai_json(call_ai(prompt))
+        print(f"      완료: {data['topic_ja']} / {data['topic_ko']}")
+
+    print("[3/4] HTML 페이지 생성 중...")
+    page, issue_no = render_page(data, today, source_url)
+    out_file = OUT_DIR / f"{today.isoformat()}.html"
+    out_file.write_text(page, encoding="utf-8")
+    print(f"      생성: {out_file}")
+
+    print("[4/4] 목록 페이지 갱신 중...")
+    update_index({
+        "date": today.isoformat(), "no": issue_no,
+        "topic_ja": data["topic_ja"], "topic_ko": data["topic_ko"],
+    })
+    print("모든 작업 완료.")
+
+
+if __name__ == "__main__":
+    main()
