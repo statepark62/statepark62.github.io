@@ -21,7 +21,9 @@ import os
 import re
 import sys
 import html
-from datetime import date
+from datetime import date, datetime, timezone, timedelta
+
+KST = timezone(timedelta(hours=9))  # 한국 표준시
 from pathlib import Path
 
 # ──────────────────────────────────────────────────────────
@@ -148,11 +150,12 @@ def call_ai(prompt_text):
         return r.json()["content"][0]["text"]
 
     # 기본: Gemini (무료 티어)
-    key = os.environ["GEMINI_API_KEY"]
+    # 신형(AQ.)·구형(AIza) 키 모두 호환되는 x-goog-api-key 헤더 인증 사용
+    key = os.environ["GEMINI_API_KEY"].strip()
     model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
     r = requests.post(
         f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-        params={"key": key},
+        headers={"x-goog-api-key": key, "content-type": "application/json"},
         json={"contents": [{"parts": [{"text": prompt_text}]}]},
         timeout=90,
     )
@@ -256,7 +259,7 @@ def main():
         source_url = data.get("source_url", LIST_URL)
         print("[샘플 모드] 네트워크/AI 없이 렌더링만 테스트합니다.")
     else:
-        today = date.today()
+        today = datetime.now(KST).date()  # 한국 시간 기준 오늘 날짜
         out_file = OUT_DIR / f"{today.isoformat()}.html"
         if out_file.exists():
             print(f"오늘자 파일이 이미 있습니다: {out_file} — 종료")
