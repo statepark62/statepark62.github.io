@@ -267,6 +267,13 @@ def main():
 
         print("[1/4] 천성인어 무료 서두 수집 중...")
         article_text, source_url = fetch_article()
+
+        # 휴간일 감지: 이 기사 주소로 이미 발행한 적이 있으면 새 칼럼이 없는 날
+        if ARCHIVE.exists():
+            records = json.loads(ARCHIVE.read_text(encoding="utf-8"))
+            if any(r.get("url") == source_url for r in records):
+                print("이미 발행한 칼럼입니다 (휴간일로 추정) — 오늘은 건너뜁니다.")
+                return
         print(f"      수집 완료 ({len(article_text)}자) ← {source_url}")
 
         print("[2/4] AI 요약·단어장 생성 중...")
@@ -285,6 +292,7 @@ def main():
     update_index({
         "date": today.isoformat(), "no": issue_no,
         "topic_ja": data["topic_ja"], "topic_ko": data["topic_ko"],
+        "url": source_url,
     })
     print("모든 작업 완료.")
 
