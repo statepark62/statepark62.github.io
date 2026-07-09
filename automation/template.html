@@ -39,7 +39,7 @@
     display:grid;grid-template-columns:96px 1fr;gap:36px;
   }
 
-  /* ── 세로쓰기 제호 (신문 칼럼 오마주) ── */
+  /* ── 세로쓰기 제호 ── */
   .masthead{
     display:flex;flex-direction:column;align-items:center;gap:20px;
     border-right:1px solid var(--line);padding-right:28px;
@@ -69,10 +69,19 @@
   }
   .meta .no{color:var(--shu);font-weight:600}
   h1{
-    font-family:var(--ja);font-weight:800;font-size:clamp(30px,4.6vw,44px);
-    line-height:1.3;margin:26px 0 6px;letter-spacing:1px;
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
   }
-  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:36px}
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
 
   section{margin-bottom:44px}
   .sec-label{
@@ -95,11 +104,11 @@
   /* 단어장 */
   .vocab{display:flex;flex-direction:column}
   .vocab-item{
-    display:grid;grid-template-columns:150px 1fr;gap:20px;
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
     padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
   }
   .vocab-item:last-child{border-bottom:none}
-  .vocab-word{font-family:var(--ja);font-weight:600;font-size:30px;line-height:1.2}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
   .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
   .vocab-body .mean{font-size:16.5px;font-weight:600}
   .vocab-body .level{
@@ -121,6 +130,24 @@
   .grammar .explain{font-size:15.5px;margin-bottom:12px}
   .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
   .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
 
   /* 오늘의 한 문장 */
   .today{
@@ -176,6 +203,11 @@
     <h1>{{TOPIC_JA}}</h1>
     <p class="topic-ko">{{TOPIC_KO}}</p>
 
+    <div class="keyquote">
+      <div class="ja">「{{KEY_QUOTE_JA}}」</div>
+      <div class="ko">{{KEY_QUOTE_KO}} <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
     <section class="summary" aria-labelledby="lb-summary">
       <div class="sec-label" id="lb-summary">
         <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
@@ -187,7 +219,7 @@
 
     <section aria-labelledby="lb-vocab">
       <div class="sec-label" id="lb-vocab">
-        <span class="tag">語彙</span><span class="tag-ko">오늘의 단어 5</span>
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
       </div>
       <div class="vocab">
 <!--VOCAB_ITEMS-->
@@ -206,6 +238,35 @@
       </div>
     </section>
 
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>{{COMMENT_1}}</p>
+        <p>{{COMMENT_2}}</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> {{ONE_LINE_KO}}</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+<!--BG_PARAS-->
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+<!--WP_ITEMS-->
+      </div>
+    </section>
+
     <section class="today" aria-labelledby="lb-today">
       <span class="ja" id="lb-today">{{TODAY_JA}}</span>
       <span class="ko">{{TODAY_KO}}</span>
@@ -213,7 +274,7 @@
 
     <footer>
       <p class="src">원문: 아사히신문 天声人語 ({{DATE_ISO}}) — <a href="{{SOURCE_URL}}" target="_blank" rel="noopener">기사 보기</a></p>
-      <p>본 페이지의 요약·예문·해설은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
       <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a></p>
     </footer>
   </main>

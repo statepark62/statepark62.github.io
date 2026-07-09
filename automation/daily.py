@@ -118,6 +118,13 @@ def fetch_article():
             "본문을 추출하지 못했습니다. "
             "브라우저 F12로 구조를 확인해 BODY_SELECTOR_CANDIDATES를 수정하세요."
         )
+
+    # 칼럼 제목도 추출해 앞에 붙임 (prompt가 제목을 topic_ja로 활용)
+    title_tag = soup.find("h1")
+    title = title_tag.get_text(strip=True) if title_tag else ""
+    if title:
+        text = f"제목: {title}\n{text}"
+
     return text[:MAX_CHARS], article_url
 
 
@@ -175,6 +182,10 @@ def parse_ai_json(raw):
     # 스키마 검증
     assert len(data["summary_ko"]) == 3, "summary_ko는 3문장이어야 합니다"
     assert len(data["vocab"]) >= 5, "vocab는 5개 이상이어야 합니다"
+    assert len(data.get("commentary_ko", [])) >= 2, "commentary_ko는 2문단이어야 합니다"
+    for k in ("key_quote", "one_line_ko", "background_ko",
+              "writing_points_ko", "publish_memo_ko"):
+        assert k in data, f"필수 키 누락: {k}"
     for k in ("topic_ja", "topic_ko", "grammar", "today_line"):
         assert k in data, f"필수 키 누락: {k}"
     return data
@@ -205,10 +216,23 @@ def render_page(data, today, source_url):
         "{{GRAMMAR_EX_KO}}": esc(data["grammar"]["example_ko"]),
         "{{TODAY_JA}}": esc(data["today_line"]["ja"]),
         "{{TODAY_KO}}": esc(data["today_line"]["ko"]),
+        "{{KEY_QUOTE_JA}}": esc(data["key_quote"]["ja"]),
+        "{{KEY_QUOTE_KO}}": esc(data["key_quote"]["ko"]),
+        "{{COMMENT_1}}": esc(data["commentary_ko"][0]),
+        "{{COMMENT_2}}": esc(data["commentary_ko"][1]),
+        "{{ONE_LINE_KO}}": esc(data["one_line_ko"]),
         "{{SOURCE_URL}}": esc(source_url),
     }
     for k, v in tokens.items():
         tpl = tpl.replace(k, v)
+
+    tpl = tpl.replace("<!--BG_PARAS-->", "\n".join(
+        f"        <p>{esc(p)}</p>" for p in data["background_ko"]))
+
+    marks = ["一", "二", "三", "四", "五"]
+    tpl = tpl.replace("<!--WP_ITEMS-->", "\n".join(
+        f'        <p><span class="n">{marks[i]}</span>{esc(p)}</p>'
+        for i, p in enumerate(data["writing_points_ko"][:5])))
 
     items = "\n".join(
         VOCAB_ITEM.format(
@@ -293,6 +317,7 @@ def main():
         "date": today.isoformat(), "no": issue_no,
         "topic_ja": data["topic_ja"], "topic_ko": data["topic_ko"],
         "url": source_url,
+        "memo": data.get("publish_memo_ko", ""),   # 출판 메모 (페이지에는 비공개, 기록만 축적)
     })
     print("모든 작업 완료.")
 
