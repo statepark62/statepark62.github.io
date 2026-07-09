@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+  :root{
+    --navy:#1E3A6E; --ink:#2B2B33; --soft:#6B7280;
+    --paper:#FFFFFF; --bg:#F3F5F9; --line:#D8DEE9;
+    --teal:#0E7C6B; --green:#2F7D32; --purple:#5B3E96;
+    --orange:#D9711C; --red:#BE3A34; --blue:#33547A;
+    --sans:'Noto Sans CJK KR','Noto Sans CJK JP',sans-serif;
+    --serif:'Noto Serif CJK JP','Noto Serif CJK KR',serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{width:1080px;background:var(--paper);font-family:var(--sans);color:var(--ink);line-height:1.6}
+  .wrap{padding:44px 48px 36px}
+
+  header{border-bottom:4px solid var(--navy);padding-bottom:18px;margin-bottom:26px}
+  .h-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .h-title{font-size:50px;font-weight:900;color:var(--navy);letter-spacing:-1px}
+  .h-title small{font-size:32px;font-weight:700}
+  .h-meta{text-align:right;color:var(--soft);font-size:22px;padding-top:10px}
+  .h-meta .no{color:var(--red);font-weight:700}
+  .topic{margin-top:14px}
+  .topic .ja{font-family:var(--serif);font-size:44px;font-weight:800;line-height:1.35}
+  .topic .ko{font-size:24px;color:var(--soft);margin-top:4px}
+  .kq{margin-top:12px;font-size:22px;color:var(--red);font-weight:700}
+  .kq .t{font-family:var(--serif)}
+  .kq .k{color:var(--soft);font-weight:400;font-size:19px}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .full{grid-column:1/3}
+  .box{background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:22px 24px}
+  .badge{display:inline-block;color:#fff;font-size:21px;font-weight:800;
+         padding:5px 16px;border-radius:8px;margin-bottom:14px}
+  .b-navy{background:var(--navy)} .b-teal{background:var(--teal)}
+  .b-green{background:var(--green)} .b-purple{background:var(--purple)}
+  .b-orange{background:var(--orange)}
+
+  .sum li{list-style:none;position:relative;padding-left:22px;font-size:21px;margin-bottom:10px}
+  .sum li::before{content:'';position:absolute;left:0;top:12px;width:9px;height:9px;
+                  border-radius:50%;background:var(--teal)}
+
+  .vocab li{list-style:none;display:flex;gap:14px;margin-bottom:13px;align-items:flex-start}
+  .vocab .n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--green);
+            color:#fff;font-weight:800;font-size:20px;display:flex;align-items:center;
+            justify-content:center;margin-top:4px}
+  .vocab .w{font-family:var(--serif);font-size:28px;font-weight:800}
+  .vocab .r{color:var(--red);font-size:17px;font-weight:700;margin-left:8px}
+  .vocab .lv{font-size:15px;color:var(--blue);border:1.5px solid var(--blue);
+             border-radius:5px;padding:0 7px;margin-left:8px;vertical-align:3px}
+  .vocab .m{font-size:20px;color:var(--soft)}
+
+  .gram .p{font-family:var(--serif);font-size:29px;font-weight:800;color:var(--red)}
+  .gram .pk{font-size:20px;color:var(--soft);margin-bottom:8px}
+  .gram .e{font-size:20px;margin-top:8px}
+  .gram .e .ja{font-family:var(--serif);font-weight:700}
+
+  .list li{list-style:none;position:relative;padding-left:22px;font-size:20px;margin-bottom:9px}
+  .bgl li::before{content:'';position:absolute;left:0;top:11px;width:8px;height:8px;
+                  border-radius:2px;background:var(--purple)}
+  .wpl li::before{content:'✔';position:absolute;left:0;top:0;color:var(--orange);font-weight:900}
+
+  .quote{background:linear-gradient(135deg,#F6F2E9,#FBF8F1);border:1.5px solid #E3DAC5;
+         border-radius:14px;padding:26px 30px;text-align:center}
+  .quote .ja{font-family:var(--serif);font-size:30px;font-weight:800;line-height:1.6}
+  .quote .ko{font-size:20px;color:var(--soft);margin-top:10px}
+  .quote .lbl{color:var(--red);font-size:20px;font-weight:800;margin-bottom:10px}
+
+  footer{display:flex;justify-content:space-between;align-items:center;
+         border-top:2.5px solid var(--navy);margin-top:26px;padding-top:18px}
+  footer .l .big{font-size:23px;font-weight:800}
+  footer .l .url{font-size:19px;color:var(--soft);margin-top:3px}
+  footer .l .note{font-size:16px;color:var(--soft);margin-top:8px}
+  footer svg{display:block}
+  .qrbox{background:#fff;padding:8px;border:1.5px solid var(--line);border-radius:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="h-top">
+      <div class="h-title">오늘의 천성인어 <small>(天声人語)</small></div>
+      <div class="h-meta"><span class="no">第{{ISSUE_NO}}回</span><br>{{DATE_KO}}</div>
+    </div>
+    <div class="topic">
+      <div class="ja">{{TOPIC_JA}}</div>
+      <div class="ko">{{TOPIC_KO}}</div>
+      <div class="kq"><span class="t">「{{KEY_QUOTE_JA}}」</span> <span class="k">— {{KEY_QUOTE_KO}}</span></div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="box">
+      <span class="badge b-teal">핵심 요약</span>
+      <ul class="sum">
+<!--SUMMARY_ITEMS-->
+      </ul>
+    </div>
+
+    <div class="box">
+      <span class="badge b-purple">시대·문화적 배경</span>
+      <ul class="list bgl">
+<!--BG_ITEMS-->
+      </ul>
+    </div>
+
+    <div class="box full">
+      <span class="badge b-green">중요 표현 5가지</span>
+      <ul class="vocab">
+<!--VOCAB_ITEMS-->
+      </ul>
+    </div>
+
+    <div class="box">
+      <span class="badge b-navy">오늘의 문형</span>
+      <div class="gram">
+        <div class="p">{{GRAMMAR_PATTERN}}</div>
+        <div class="pk">{{GRAMMAR_PATTERN_KO}}</div>
+        <div style="font-size:20px">{{GRAMMAR_EXPLAIN}}</div>
+        <div class="e"><span class="ja">{{GRAMMAR_EX_JA}}</span><br>{{GRAMMAR_EX_KO}}</div>
+      </div>
+    </div>
+
+    <div class="box">
+      <span class="badge b-orange">글쓰기 포인트</span>
+      <ul class="list wpl">
+<!--WP_ITEMS-->
+      </ul>
+    </div>
+
+    <div class="quote full">
+      <div class="lbl">오늘의 한 문장</div>
+      <div class="ja">{{TODAY_JA}}</div>
+      <div class="ko">{{TODAY_KO}}</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="l">
+      <div class="big">매일 아침, 칼럼 한 편으로 배우는 일본어</div>
+      <div class="url">statepark62.github.io/tenseijingo</div>
+      <div class="note">※ 본 자료는 학습 목적으로 요약·재구성한 것입니다. 원문은 아사히신문 天声人語를 참고하세요.</div>
+    </div>
+    <div class="qrbox"><!--QR_SVG--></div>
+  </footer>
+</div>
+</body>
+</html>
