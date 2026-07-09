@@ -210,15 +210,13 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
   <!-- 상단 배너 : 공주 금강 풍경 -->
   <div class="hero">
     <nav class="lang"><a href="index.html">한국어</a><a href="en.html">English</a><a href="ja.html" class="on">日本語</a></nav>
-    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Baekje%20Historic%20Areas%20Gongsanseong%20Fortress.jpg?width=1400"
-         alt="公州・公山城(百済歴史遺跡地区)" loading="lazy"
-         onerror="this.style.display='none'">
+    <img id="heroImg" src="" alt="公州・公山城(百済歴史遺跡地区)" loading="lazy">
     <div class="title">
       <div class="eyebrow">CURRICULUM VITAE · DIGITAL CARD</div>
       <h1>朴 相 泰 <span style="font-size:.45em;font-weight:400;letter-spacing:.06em">パク・サンテ · Sangtae PARK</span></h1>
       <p>国立公州大学校 師範大学 物理教育科 教授</p>
     </div>
-    <span class="cap">公州・公山城(ユネスコ世界遺産)— Wikimedia Commons</span>
+    <span class="cap" id="heroCap">公州・公山城(ユネスコ世界遺産)— Wikimedia Commons</span>
   </div>
 
   <div class="body">
@@ -407,6 +405,29 @@ gbForm.addEventListener("submit", async (e) => {
   }
   gbBtn.disabled = false;
 });
+
+/* ⑦ ───── 계절별 배너 사진 (월에 따라 자동 선택) ───── */
+const SEASONS = {
+  spring: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/Japan%20070416%20Nara%2001.jpg?width=1400", alt: "奈良公園の春 — 桜と鹿", cap: "春 · 奈良公園の桜と鹿 — Wikimedia Commons"},
+  summer: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/20100716%20Nara%20Todaiji%202270.jpg?width=1400", alt: "東大寺の夏", cap: "夏 · 奈良・東大寺 — Wikimedia Commons"},
+  autumn: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/2016-11-12%20A%20male%20Shika%20deer%20in%20the%20park.jpg?width=1400", alt: "奈良公園の秋 — 鹿", cap: "秋 · 奈良公園の鹿 — Wikimedia Commons"},
+  winter: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/20190121%20T%C5%8Ddai-ji%20Great%20South%20Gate-1.jpg?width=1400", alt: "東大寺南大門の冬", cap: "冬 · 東大寺南大門 — Wikimedia Commons"}
+};
+(function () {
+  const img = document.getElementById("heroImg");
+  const cap = document.getElementById("heroCap");
+  if (!img) return;
+  const m = new Date().getMonth() + 1;
+  const s = (m >= 3 && m <= 5) ? "spring" : (m >= 6 && m <= 8) ? "summer"
+          : (m >= 9 && m <= 11) ? "autumn" : "winter";
+  const d = SEASONS[s];
+  let fell = false;
+  img.onerror = function () {
+    if (!fell) { fell = true; img.src = "https://commons.wikimedia.org/wiki/Special:FilePath/20100716%20Nara%20Todaiji%202270.jpg?width=1400"; img.alt = "東大寺の夏"; cap.textContent = "夏 · 奈良・東大寺 — Wikimedia Commons"; }
+    else { img.style.display = "none"; }
+  };
+  img.src = d.src; img.alt = d.alt; cap.textContent = d.cap;
+})();
 </script>
 </body>
 </html>

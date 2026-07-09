@@ -214,15 +214,13 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
   <!-- 상단 배너 : 공주 금강 풍경 -->
   <div class="hero">
     <nav class="lang"><a href="index.html">한국어</a><a href="en.html" class="on">English</a><a href="ja.html">日本語</a></nav>
-    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Baekje%20Historic%20Areas%20Gongsanseong%20Fortress.jpg?width=1400"
-         alt="Gongsanseong Fortress, Gongju (Baekje Historic Areas)" loading="lazy"
-         onerror="this.style.display='none'">
+    <img id="heroImg" src="" alt="Gongsanseong Fortress, Gongju (Baekje Historic Areas)" loading="lazy">
     <div class="title">
       <div class="eyebrow">CURRICULUM VITAE · DIGITAL CARD</div>
       <h1>Sangtae PARK <span style="font-size:.45em;font-weight:400;letter-spacing:.06em">박상태 · 朴相泰</span></h1>
       <p>Professor, Department of Physics Education, Kongju National University</p>
     </div>
-    <span class="cap">Gongsanseong Fortress, Gongju (UNESCO World Heritage) — Wikimedia Commons</span>
+    <span class="cap" id="heroCap">Gongsanseong Fortress, Gongju (UNESCO World Heritage) — Wikimedia Commons</span>
   </div>
 
   <div class="body">
@@ -412,6 +410,29 @@ gbForm.addEventListener("submit", async (e) => {
   }
   gbBtn.disabled = false;
 });
+
+/* ⑦ ───── 계절별 배너 사진 (월에 따라 자동 선택) ───── */
+const SEASONS = {
+  spring: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/Cherry%20Blossoms%20Washington%20Monument.jpg?width=1400", alt: "Cherry blossoms at the Washington Monument", cap: "Spring · Washington, D.C. — Wikimedia Commons"},
+  summer: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/A%20Burst%20of%20Sunlight%20in%20Tupelo%20Meadow.jpg?width=1400", alt: "Tupelo Meadow, Central Park, New York", cap: "Summer · Central Park, New York — Wikimedia Commons"},
+  autumn: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/Bow%20Bridge%20in%20Autumn%2C%20Central%20Park.jpg?width=1400", alt: "Bow Bridge in autumn, Central Park", cap: "Autumn · Central Park, New York — Wikimedia Commons"},
+  winter: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/Engineers%27%20Gate%20full%20of%20snow%2C%20Central%20Park%2C%20winter%202020%2C%20Manhattan%2C%20New%20York.jpg?width=1400", alt: "Central Park in snow, New York", cap: "Winter · Central Park, New York — Wikimedia Commons"}
+};
+(function () {
+  const img = document.getElementById("heroImg");
+  const cap = document.getElementById("heroCap");
+  if (!img) return;
+  const m = new Date().getMonth() + 1;
+  const s = (m >= 3 && m <= 5) ? "spring" : (m >= 6 && m <= 8) ? "summer"
+          : (m >= 9 && m <= 11) ? "autumn" : "winter";
+  const d = SEASONS[s];
+  let fell = false;
+  img.onerror = function () {
+    if (!fell) { fell = true; img.src = "https://commons.wikimedia.org/wiki/Special:FilePath/A%20Burst%20of%20Sunlight%20in%20Tupelo%20Meadow.jpg?width=1400"; img.alt = "Tupelo Meadow, Central Park, New York"; cap.textContent = "Summer · Central Park, New York — Wikimedia Commons"; }
+    else { img.style.display = "none"; }
+  };
+  img.src = d.src; img.alt = d.alt; cap.textContent = d.cap;
+})();
 </script>
 </body>
 </html>

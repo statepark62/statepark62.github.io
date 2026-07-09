@@ -210,15 +210,13 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
   <!-- 상단 배너 : 공주 금강 풍경 -->
   <div class="hero">
     <nav class="lang"><a href="index.html" class="on">한국어</a><a href="en.html">English</a><a href="ja.html">日本語</a></nav>
-    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Baekje%20Historic%20Areas%20Gongsanseong%20Fortress.jpg?width=1400"
-         alt="공주 공산성 (백제역사유적지구)" loading="lazy"
-         onerror="this.style.display='none'">
+    <img id="heroImg" src="" alt="공주 공산성 (백제역사유적지구)" loading="lazy">
     <div class="title">
       <div class="eyebrow">CURRICULUM VITAE · DIGITAL CARD</div>
       <h1>박 상 태 <span style="font-size:.45em;font-weight:400;letter-spacing:.06em">Sangtae PARK</span></h1>
       <p>국립공주대학교 사범대학 물리교육과 교수</p>
     </div>
-    <span class="cap">공주 공산성 (유네스코 세계유산) — Wikimedia Commons</span>
+    <span class="cap" id="heroCap">공주 공산성 (유네스코 세계유산) — Wikimedia Commons</span>
   </div>
 
   <div class="body">
@@ -407,6 +405,29 @@ gbForm.addEventListener("submit", async (e) => {
   }
   gbBtn.disabled = false;
 });
+
+/* ⑦ ───── 계절별 배너 사진 (월에 따라 자동 선택) ───── */
+const SEASONS = {
+  spring: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/Cherry%20flowers%20during%20the%20cherry%20blossom%20at%20the%20Gyeongbokgung%20Palace%2C%20South%20Korea.jpg?width=1400", alt: "경복궁의 봄 — 벚꽃", cap: "봄 · 경복궁 벚꽃 — Wikimedia Commons"},
+  summer: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/Baekje%20Historic%20Areas%20Gongsanseong%20Fortress.jpg?width=1400", alt: "공주 공산성의 여름", cap: "여름 · 공주 공산성 (유네스코 세계유산) — Wikimedia Commons"},
+  autumn: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/%EA%B2%BD%EB%B3%B5%EA%B6%81%20%EA%B2%BD%ED%9A%8C%EB%A3%A8%202011%EB%85%84%2011%EC%9B%94%20%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%20%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EB%AA%85%EC%86%8C%20%28Seoul%20best%20attractions%29%207.jpg?width=1400", alt: "경회루의 가을", cap: "가을 · 경복궁 경회루 — Wikimedia Commons"},
+  winter: {src: "https://commons.wikimedia.org/wiki/Special:FilePath/KOCIS%20Korea%20Snowfall%20in%20Gyeongbokgung%2003%20%2811318876484%29.jpg?width=1400", alt: "경복궁의 겨울 — 설경", cap: "겨울 · 눈 내린 경복궁 — Wikimedia Commons"}
+};
+(function () {
+  const img = document.getElementById("heroImg");
+  const cap = document.getElementById("heroCap");
+  if (!img) return;
+  const m = new Date().getMonth() + 1;
+  const s = (m >= 3 && m <= 5) ? "spring" : (m >= 6 && m <= 8) ? "summer"
+          : (m >= 9 && m <= 11) ? "autumn" : "winter";
+  const d = SEASONS[s];
+  let fell = false;
+  img.onerror = function () {
+    if (!fell) { fell = true; img.src = "https://commons.wikimedia.org/wiki/Special:FilePath/Baekje%20Historic%20Areas%20Gongsanseong%20Fortress.jpg?width=1400"; img.alt = "공주 공산성의 여름"; cap.textContent = "여름 · 공주 공산성 (유네스코 세계유산) — Wikimedia Commons"; }
+    else { img.style.display = "none"; }
+  };
+  img.src = d.src; img.alt = d.alt; cap.textContent = d.cap;
+})();
 </script>
 </body>
 </html>
