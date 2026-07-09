@@ -2,7 +2,9 @@ name: Tenseijingo Daily
 
 on:
   schedule:
-    - cron: '30 22 * * *'   # UTC 22:30 = 한국 시간 아침 07:30
+    - cron: '37 22 * * *'   # 한국 시간 07:37 (1차)
+    - cron: '37 0 * * *'    # 한국 시간 09:37 (예비 1)
+    - cron: '37 3 * * *'    # 한국 시간 12:37 (예비 2)
   workflow_dispatch:         # Actions 탭에서 수동 실행 버튼 제공
 
 permissions:
