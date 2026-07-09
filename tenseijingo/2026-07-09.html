@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-09 天声人語로 배우는 일본어 — &#x27;처음 심부름&#x27;이라는 그림책</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .masthead{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .masthead-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .masthead-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 */
+  .summary p{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+    font-size:16.5px;
+  }
+  .summary p+p{margin-top:6px}
+  .summary p:first-child{border-left-color:var(--shu)}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .masthead{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .masthead-title,.masthead-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .masthead-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第2回</span>
+      <span>2026-07-09</span>
+      <span>2026년 7월 9일 (목)</span>
+    </div>
+
+    <h1>はじめてのおつかい</h1>
+    <p class="topic-ko">&#x27;처음 심부름&#x27;이라는 그림책</p>
+
+    <div class="keyquote">
+      <div class="ja">「幼心は今もみずみずしい」</div>
+      <div class="ko">어린 마음은 지금도 생생하다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <p>칼럼은 다섯 살 미이짱이 백 엔 동전 두 개를 꽉 움켜쥐고 홀로 심부름을 가는 모습으로 이야기를 시작한다.</p>
+      <p>이는 반세기 전에 출판된 그림책 『처음 심부름』의 한 장면으로, 가게 주인에게 말을 걸 때의 불안감과 우유를 사고 안도하는 아이의 미묘한 감정을 섬세하게 포착하고 있다.</p>
+      <p>필자는 세월이 흘러도 이 그림책 속 순수한 어린 마음은 여전히 생생하게 다가오며, 미야자키 하야오 감독 또한 이 작품에 깊이 매료되었음을 언급한다.</p>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>握りしめる<rt>にぎりしめる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">꽉 움켜쥐다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">子どもは母の手を握りしめた。</span><br>아이는 엄마의 손을 꽉 움켜쥐었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>おつかい<rt>おつかい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">심부름</span><span class="level">N4</span>
+            <p class="ex"><span class="ja">毎週土曜日に、母におつかいを頼まれる。</span><br>매주 토요일에 엄마에게 심부름을 부탁받는다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>声を掛ける<rt>こえをかける</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">말을 걸다</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">困っている人に、優しく声を掛けてあげよう。</span><br>곤란한 사람에게 상냥하게 말을 걸어주자.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>ほっとする<rt>ほっとする</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">안도하다, 한숨 돌리다</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">大変だった仕事が終わって、やっとほっとした。</span><br>힘들었던 일이 끝나서 드디어 안도했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>みずみずしい<rt>みずみずしい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">싱싱하다, 생생하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">この果物は、とてもみずみずしくておいしい。</span><br>이 과일은 매우 싱싱하고 맛있다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜ものだ</div>
+        <div class="pattern-ko">~하는 법이다 / ~하곤 했다</div>
+        <p class="explain">`〜ものだ`는 크게 두 가지 용법으로 사용됩니다. 하나는 `〜するものである` 형태로 일반적인 사실이나 자연스러운 현상을 나타낼 때 쓰이며, &quot;〜하는 법이다&quot;로 해석할 수 있습니다. 다른 하나는 과거의 습관이나 회상을 나타낼 때 쓰이며, &quot;〜하곤 했다&quot;로 해석됩니다. 이 문형은 글의 내용을 보편적인 진리로 확장하거나 과거를 회상하며 감성적인 깊이를 더할 때 유용합니다.</p>
+        <p class="ex"><span class="ja">子どもの頃の記憶は、何年経っても色褪せないものだ。</span><br>어린 시절의 기억은 몇 년이 지나도 바래지 않는 법이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 천성인어는 일본의 국민 그림책인 『처음 심부름』의 한 장면을 인용하며 시작하는데, 이는 일상의 소박한 경험에서 시대를 초월하는 보편적인 감성을 이끌어내는 천성인어 특유의 작법을 잘 보여줍니다. 5살 아이의 심부름이라는 구체적인 상황 묘사를 통해 독자는 어린 시절의 불안과 안도감을 생생하게 느끼게 되며, 이는 글 전체에 걸쳐 깊은 공감대를 형성하는 기반이 됩니다. 짧은 서두임에도 불구하고, 단순한 그림책 소개를 넘어 어린 시절의 순수함과 그 가치에 대한 성찰을 유도하는 필자의 섬세한 필치가 돋보입니다.</p>
+        <p>한국 독자의 시각에서 이 칼럼은 일본 문화를 이해하는 좋은 기회가 됩니다. 『처음 심부름』은 일본에서 오랫동안 사랑받아 온 대표적인 그림책으로, 이 작품을 통해 일본 사회가 중요하게 여기는 아이들의 독립심과 정서 발달 과정을 엿볼 수 있습니다. 또한, 미야자키 하야오 감독이 이 그림책에 매료되었다는 언급은 한국인에게도 익숙한 거장의 시선을 통해 작품의 가치를 더욱 높이는 효과를 주며, 어린 시절의 감정은 국경을 넘어 모두에게 공통된 보편적인 경험임을 다시금 상기시켜줍니다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 반세기 지난 그림책 속에서도 변치 않는 아이들의 순수한 감정을 통해 보편적인 공감을 자아내는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>『はじめてのおつかい』: 이 그림책은 아이가 처음으로 혼자 심부름을 가는 과정을 통해 겪는 불안감과 성취감을 섬세하게 그려내 일본에서 오랫동안 사랑받아 온 대표적인 작품이다.</p>
+        <p>천성인어 (天声人語): 아사히신문의 대표적인 시사 칼럼으로, 시의성 있는 주제를 문학적이고 깊이 있는 필치로 풀어내 독자의 공감과 성찰을 이끌어내는 것이 특징이며, 일본 사회의 주요 쟁점을 이해하는 데 중요한 역할을 한다.</p>
+        <p>미야자키 하야오 감독의 영향: 세계적인 애니메이션 감독 미야자키 하야오가 영감을 받은 작품으로 언급될 만큼, 『처음 심부름』은 일본 문화계 전반에 걸쳐 깊은 영향을 미쳤음을 보여준다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>일상의 작은 소재에서 시작하여 시대를 초월하는 보편적인 감정과 가치를 이끌어내는 능력을 배울 수 있다.</p>
+        <p><span class="n">二</span>구체적인 장면 묘사와 섬세한 심리 묘사를 통해 독자의 공감을 유도하는 서술 방식을 주목해야 한다.</p>
+        <p><span class="n">三</span>단순한 정보 전달을 넘어 독자가 스스로 삶을 성찰하도록 이끄는 간결하면서도 깊이 있는 필자의 글쓰기 기교를 익힐 수 있다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">どんなに時代が変わっても、子どもの純粋な心は変わらない。</span>
+      <span class="ko">아무리 시대가 변해도 아이들의 순수한 마음은 변하지 않는다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-07-09) — <a href="https://www.asahi.com/articles/DA3S16499643.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
