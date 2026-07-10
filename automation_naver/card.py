@@ -76,21 +76,22 @@ def qr_matrix(url: str):
         return rem[len(data):]
 
     db = url.encode()
+    assert len(db) <= 62, f"QR 용량 초과: {len(db)}자 (최대 62자)"
     bits = "0100" + format(len(db), "08b") + "".join(format(b, "08b") for b in db)
-    bits += "0" * min(4, 384 - len(bits))
+    bits += "0" * min(4, 512 - len(bits))
     bits += "0" * ((8 - len(bits) % 8) % 8)
     pads = ["11101100", "00010001"]
     i = 0
-    while len(bits) < 384:
+    while len(bits) < 512:
         bits += pads[i % 2]
         i += 1
-    cw = [int(bits[i:i + 8], 2) for i in range(0, 384, 8)]
-    b1, b2 = cw[:24], cw[24:]
-    e1, e2 = rs(b1, 26), rs(b2, 26)
+    cw = [int(bits[i:i + 8], 2) for i in range(0, 512, 8)]
+    b1, b2 = cw[:32], cw[32:]
+    e1, e2 = rs(b1, 18), rs(b2, 18)
     fin = []
-    for i in range(24):
+    for i in range(32):
         fin += [b1[i], b2[i]]
-    for i in range(26):
+    for i in range(18):
         fin += [e1[i], e2[i]]
     stream = "".join(format(c, "08b") for c in fin) + "0000000"
 
@@ -151,7 +152,7 @@ def qr_matrix(url: str):
         for c in range(N):
             if not R[r][c] and (r + c) % 2 == 0:
                 Mx[r][c] ^= 1
-    fmt = (0b11 << 3) | mask
+    fmt = (0b00 << 3) | mask   # 오류정정 M등급
     v = fmt << 10
     g = 0b10100110111
     for i in range(14, 9, -1):
