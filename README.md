@@ -16,15 +16,16 @@
 - **디지털 명함**: 약력, 연구 분야, 연락처, 방명록
 - **天声人語로 배우는 일본어**: 아사히신문 칼럼 '천성인어'를 매일 아침
   자동 수집·요약하여 발행하는 일본어 학습 페이지
-  → https://statepark62.github.io/tenseijingo/
+  → https://statepark62.github.io/tenseijingo_naver/
 - **일본어 학습 인포그래픽**: 문법·표현을 주제별로 정리한 학습 자료 시리즈
+  → https://statepark62.github.io/japanese/
 
 ## 저장소 구성
 
 ```
 ├── index.html        # 디지털 명함 (메인 페이지)
-├── tenseijingo/      # 천성인어 일일 학습 페이지 (매일 자동 발행)
-├── automation/       # 자동 발행 시스템 (설명서는 폴더 안 README 참고)
+├── tenseijingo_naver/      # 천성인어 일일 학습 페이지 (매일 자동 발행)
+├── automation_naver/       # 자동 발행 시스템 (설명서는 폴더 안 README 참고)
 └── .github/          # 매일 아침 자동 실행 설정
 ```
 
