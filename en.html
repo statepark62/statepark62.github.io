@@ -246,7 +246,7 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
         <div class="row"><span class="k">MOBILE</span><a href="tel:+821028088275">010-2808-8275</a></div>
         <div class="row"><span class="k">ADDRESS</span><span>56 Kongjudaehak-ro, Gongju-si,<br>Chungcheongnam-do 32588, Korea</span></div>
         <div class="row"><span class="k">WEB</span><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener" style="color:#2563EB; font-weight:700;">Naver Cafe</a></div>
-        <div class="row"><span class="k">COLUMN</span><a href="https://statepark62.github.io/tenseijingo_naver/" target="_blank" rel="noopener" style="color:#2563EB; font-weight:700;">Tensei Jingo (天声人語)</a></div>
+        <div class="row"><span class="k">COLUMN</span><a href="https://statepark62.github.io/tenseijingo/" target="_blank" rel="noopener" style="color:#2563EB; font-weight:700;">Tensei Jingo (天声人語)</a></div>
       </div>
 
       <h2>EXPERTISE</h2>
@@ -375,6 +375,7 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
     <a href="mailto:stpark@kongju.ac.kr">stpark@kongju.ac.kr</a>
     <a href="tel:+821028088275">+82-10-2808-8275</a>
     <a href="https://site.google.com/view/statepark62" target="_blank" rel="noopener">site.google.com/view/statepark62</a>
+    <span id="visitWrap" style="opacity:.85">👁 Visitors <b id="visitCount">····</b></span>
   </footer>
 </div>
 
@@ -432,6 +433,21 @@ const SEASONS = {
     else { img.style.display = "none"; }
   };
   img.src = d.src; img.alt = d.alt; cap.textContent = d.cap;
+})();
+
+/* ⑧ ───── 방문자 수 (방명록과 같은 Apps Script 사용) ───── */
+(async function () {
+  const el = document.getElementById("visitCount");
+  if (!el) return;
+  try {
+    const mode = sessionStorage.getItem("visit_counted") ? "read" : "hit";
+    const res = await fetch(gbForm.action + "?mode=" + mode);
+    const data = await res.json();
+    sessionStorage.setItem("visit_counted", "1");
+    el.textContent = Number(data.count).toLocaleString();
+  } catch (e) {
+    document.getElementById("visitWrap").style.display = "none";
+  }
 })();
 </script>
 </body>
