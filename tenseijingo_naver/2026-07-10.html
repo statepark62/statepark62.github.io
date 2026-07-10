@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-10 天声人語로 배우는 일본어 — 오키나와 각력</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .masthead{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .masthead-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .masthead-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 */
+  .summary p{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+    font-size:16.5px;
+  }
+  .summary p+p{margin-top:6px}
+  .summary p:first-child{border-left-color:var(--shu)}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .masthead{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .masthead-title,.masthead-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .masthead-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第3回</span>
+      <span>2026-07-10</span>
+      <span>2026년 7월 10일 (금)</span>
+    </div>
+
+    <h1>沖縄角力</h1>
+    <p class="topic-ko">오키나와 각력</p>
+
+    <div class="keyquote">
+      <div class="ja">「みなさん、ちばりよー！」</div>
+      <div class="ko">여러분, 힘내라! <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <p>공업시설이 늘어선 연안 공원의 한편에서 오키나와 전통 씨름인 각력이 열렸고 32명의 참가자가 모였다.</p>
+      <p>대회에서는 마와시 대신 유도복과 비슷한 상의를 입고 모래로 만든 즉석 씨름판에서 서로 던지기를 겨루었으며 현지 사람들의 환호가 있었다고 전해진다.</p>
+      <p>필자는 지역 방언의 격려와 산업 배경이 어우러지는 장면을 통해 소박한 공동체의 기운을 전하려는 듯하다.</p>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>土俵<rt>どひょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">씨름판, 모래로 만든 경기장</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">町の祭りでは子どもたちが土俵で遊んだ。</span><br>마을 축제에서 아이들이 씨름판에서 놀았다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>島言葉<rt>しまことば</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">섬의 방언, 지역 고유의 말투</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">祖母は島言葉で昔話を語った。</span><br>할머니는 섬말로 옛이야기를 들려주었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>まわし<rt>まわし</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">스모에서 쓰는 허리띠(마와시)</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">選手はまわしをしっかり結んだ。</span><br>선수는 마와시를 단단히 매었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>臨海<rt>りんかい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">해안에 접한, 연안의</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">臨海公園で写真を撮った。</span><br>연안 공원에서 사진을 찍었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>工業地帯<rt>こうぎょうちたい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">공업지대</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">その町は大きな工業地帯に囲まれている。</span><br>그 마을은 큰 공업지대에 둘러싸여 있다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜ざるを得ない</div>
+        <div class="pattern-ko">~하지 않을 수 없다</div>
+        <p class="explain">この表現は話者の意志に反して何かを行わなければならない状況を表す。フォーマルな文語調で使われることが多く、書き言葉にも適する。命令や強い要請ではなく、避けられない事情を示す際に用いる表現である。</p>
+        <p class="ex"><span class="ja">検査で異常が見つかれば中止せざるを得ない。</span><br>검사에서 이상이 발견되면 중지하지 않을 수 없다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 공업지대라는 이질적 배경과 오키나와의 전통 씨름이라는 지역 문화가 한 장면에 공존하는 모습을 간결하게 제시한다. 짧은 서술과 구체적 디테일(섬말로의 격려, 유사 유도복의 착용)은 현장의 분위기를 생생하게 전달한다. 특히 지역 주민의 환호나 즉석으로 만든 모래판 같은 요소가 독자의 상상력을 자극한다. 아사히신문의 칼럼 &#x27;천성인어(天声人語)&#x27; 특유의 소묘적 접근이 보인다.</p>
+        <p>한국 독자의 관점에서는 대도시 주변에서 펼쳐지는 지역 축제가 이국적으로도 느껴지지만 동시에 공동체의 연대를 확인하는 보편적 장면으로 다가온다. 방언 사용이나 전통 복식의 변용은 지역 문화의 다양성과 전승 방식을 보여준다. 또한 산업 풍경과 전통 행사의 대조는 현대 사회에서 지역 정체성이 어떻게 유지되는지 생각하게 한다. 이런 점들이 이 글의 흥미를 더한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 연안의 공업지대에서 열린 오키나와 전통 씨름을 통해 지역색과 공동체의 결속을 간결하게 드러낸 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>오키나와의 전통 씨름은 본토의 스모와는 달리 지역마다 형태가 다르며, 때로는 마와시 대신 상의를 입는 방식이 보인다.</p>
+        <p>오키나와 방언(島言葉)은 어휘와 억양이 표준일본어와 달라 지역 행사에서 정체성을 드러내는 요소로 사용되곤 한다.</p>
+        <p>일본의 연안 공업지대에서는 공장과 창고가 주를 이루지만 지역 축제나 체육 행사가 공동체 결속을 위해 개최되는 경우가 보인다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적이면서도 짧은 묘사로 현장의 분위기를 즉시 전달하는 점을 배울 것.</p>
+        <p><span class="n">二</span>지역어 표현이나 작은 물건 하나를 언급해 현지성을 부각시키는 방법을 활용할 것.</p>
+        <p><span class="n">三</span>대조되는 배경(산업·전통)을 병치하여 주제의 의미를 강화하는 구성을 참고할 것.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">みんなで声を合わせて頑張ろう。</span>
+      <span class="ko">모두 함께 목소리를 모아 힘내자.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-07-10) — <a href="https://www.asahi.com/articles/DA3S16500420.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-07-10.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
