@@ -188,6 +188,25 @@ def call_ai(prompt_text):
     return r.json()["candidates"][0]["content"]["parts"][0]["text"]
 
 
+def korean_fields_ok(data):
+    """한국어여야 하는 필드에 일본어(가나)가 과도하게 섞였는지 검사"""
+    import re as _re
+    kana = _re.compile(r"[\u3040-\u30FF]")
+    fields = (list(data.get("summary_ko", [])) + list(data.get("commentary_ko", []))
+              + list(data.get("background_ko", [])) + list(data.get("writing_points_ko", []))
+              + [data.get("one_line_ko", "")])
+    text = " ".join(str(f) for f in fields)
+    if not text.strip():
+        return False
+    return len(kana.findall(text)) < max(1, int(len(text) * 0.05))
+
+
+RETRY_NOTE = (
+    "\n\n## 경고\n직전 응답에서 한국어 필드(summary_ko, commentary_ko, "
+    "background_ko, writing_points_ko, one_line_ko)가 일본어로 작성되는 오류가 "
+    "있었습니다. 이번에는 해당 필드를 반드시 전부 한국어 문장으로 작성하세요.")
+
+
 def parse_ai_json(raw):
     """AI 응답에서 JSON만 안전하게 추출 (코드펜스·잡말 대응)"""
     raw = raw.strip()
@@ -326,6 +345,13 @@ def main():
         prompt = (HERE / "prompt.txt").read_text(encoding="utf-8")
         prompt = prompt.replace("{{ARTICLE_TEXT}}", article_text)
         data = parse_ai_json(call_ai(prompt))
+        if not korean_fields_ok(data):
+            print("      한국어 필드에 일본어 감지 — 한 번 더 생성합니다")
+            data = parse_ai_json(call_ai(prompt + RETRY_NOTE))
+            if not korean_fields_ok(data):
+                raise RuntimeError(
+                    "AI가 한국어 필드를 반복해서 일본어로 작성했습니다. "
+                    "모델 변경(PROVIDER/모델명) 또는 프롬프트 점검이 필요합니다.")
         print(f"      완료: {data['topic_ja']} / {data['topic_ko']}")
 
     print("[3/6] 학습 카드 이미지 생성 중...")
@@ -364,7 +390,7 @@ def main():
                 print("      네이버 설정(Secrets) 없음 — 카페 게시 생략")
             else:
                 page_url = f"https://statepark62.github.io/tenseijingo2/{today.isoformat()}.html"
-                subject = f"[테스트][天声人語 학습] {today.month}월 {today.day}일 — {data['topic_ko']}"
+                subject = f"천성인어 {today.year}년 {today.month}월 {today.day}일자"
                 content = (
                     f"{data['topic_ja']}\n{data['topic_ko']}\n\n"
                     f"{data['one_line_ko']}\n\n"

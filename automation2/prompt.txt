@@ -13,7 +13,12 @@
      원문 문장의 뼈대를 통째로 옮기는 것은 금지합니다.
    - key_quote는 원문에서 단 하나, 15자 이내의 핵심 구절만 허용합니다.
    - 모든 예문(example_ja)은 원문에서 가져오지 말고 새로 작성하세요.
-3. 모든 한국어는 자연스러운 문어체(~다/~이다)로 통일하세요.
+3. 언어 규칙 (매우 중요): 필드 이름이 _ko로 끝나는 모든 값(summary_ko,
+   commentary_ko, background_ko, writing_points_ko, one_line_ko, meaning_ko,
+   explanation_ko, example_ko, topic_ko 등)은 반드시 100% 한국어 문장으로
+   작성하세요. 이 필드들에 일본어 문장을 쓰는 것은 심각한 오류입니다.
+   (단어 표기를 위한 괄호 속 한자·일본어 병기는 허용)
+   모든 한국어는 자연스러운 문어체(~다/~이다)로 통일하세요.
 4. 일본어 표기: 신문 표기 그대로(한자 포함), reading은 히라가나로.
 5. 개수 준수: summary_ko 3문장, vocab 5개, commentary_ko 2문단,
    background_ko 3항목, writing_points_ko 3항목.
@@ -80,3 +85,9 @@
 ## [원문]
 
 {{ARTICLE_TEXT}}
+
+## 마지막 확인
+
+출력 직전에 스스로 점검하세요: summary_ko, commentary_ko, background_ko,
+writing_points_ko, one_line_ko가 한국어 문장인가? 일본어로 작성했다면
+반드시 한국어로 다시 작성한 뒤 출력하세요.
