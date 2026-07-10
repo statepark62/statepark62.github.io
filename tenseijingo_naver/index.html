@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天声人語로 배우는 일본어 — 전체 목록</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9; --ink:#26221C; --ink-soft:#6E6558;
+    --shu:#BE3A34; --ai:#33547A; --line:#DCD3C2; --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--paper);color:var(--ink);font-family:var(--ko);line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:inherit;text-decoration:none}
+  a:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+  .frame{max-width:760px;margin:0 auto;padding:56px 24px 64px}
+
+  header{display:flex;align-items:center;gap:18px;margin-bottom:8px}
+  .seal{
+    width:56px;height:56px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;font-family:var(--ja);font-weight:800;
+    font-size:17px;line-height:1.15;writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;flex:none;
+  }
+  h1{font-family:var(--ja);font-weight:800;font-size:clamp(26px,5vw,36px);letter-spacing:4px}
+  .sub{font-size:14px;color:var(--ink-soft);margin-bottom:34px}
+  .sub .count{font-family:var(--mono);color:var(--shu)}
+
+  ul{list-style:none;border-top:2px solid var(--ink)}
+  li{border-bottom:1px dashed var(--line)}
+  li a{
+    display:grid;grid-template-columns:190px 1fr;gap:4px 20px;
+    padding:18px 6px;align-items:baseline;transition:background .15s;
+  }
+  li a:hover{background:var(--card)}
+  .d{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft)}
+  .t-ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .t-ko{grid-column:2;font-size:13.5px;color:var(--ink-soft)}
+
+  footer{margin-top:40px;font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:16px}
+  footer a{color:var(--ai);text-decoration:underline}
+
+  @media (max-width:560px){
+    li a{grid-template-columns:1fr}
+    .t-ko{grid-column:1}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+  <header>
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <h1>天声人語で学ぶ日本語</h1>
+  </header>
+  <p class="sub">아사히신문 칼럼으로 매일 배우는 일본어 · 총 <span class="count">1</span>회</p>
+
+  <ul>
+      <li>
+        <a href="2026-07-10.html">
+          <span class="d">第3回 · 2026-07-10</span>
+          <span class="t-ja">沖縄角力</span>
+          <span class="t-ko">오키나와 각력</span>
+        </a>
+      </li>
+  </ul>
+
+  <footer>
+    <p>매일 아침 자동 발행됩니다. 요약·예문·해설은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+    <p><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페 「여행하며 일본어 공부하기」</a></p>
+  </footer>
+</div>
+</body>
+</html>
