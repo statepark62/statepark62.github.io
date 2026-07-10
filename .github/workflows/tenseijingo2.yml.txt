@@ -1,0 +1,52 @@
+name: Tenseijingo2 Test
+
+on:
+  workflow_dispatch:         # 테스트용 — 수동 실행만 (예약 없음)
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 파이썬 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 한글·일본어 폰트 설치 (카드 렌더링용)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-noto-cjk
+
+      - name: 라이브러리 설치
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      - name: 테스트 페이지·카드 생성 및 카페 게시
+        env:
+          PROVIDER: openai                                   # ChatGPT로 생성
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+          NAVER_REFRESH_TOKEN: ${{ secrets.NAVER_REFRESH_TOKEN }}
+          NAVER_CAFE_CLUB_ID: ${{ secrets.NAVER_CAFE_CLUB_ID }}
+          NAVER_CAFE_MENU_ID: ${{ secrets.NAVER_CAFE_MENU_ID }}
+        run: python automation2/daily.py
+
+      - name: 커밋 및 푸시
+        run: |
+          git config user.name "tenseijingo-bot"
+          git config user.email "actions@github.com"
+          git add tenseijingo2/
+          if git diff --cached --quiet; then
+            echo "변경 사항 없음 — 커밋 생략"
+          else
+            git commit -m "天声人語 테스트 $(date -u -d '+9 hours' +%F)"
+            git push
+          fi
