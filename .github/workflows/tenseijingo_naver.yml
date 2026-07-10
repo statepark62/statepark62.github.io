@@ -1,12 +1,12 @@
 name: Tenseijingo Naver
 
 on:
-schedule:
-    - cron: '7 22 * * *'    # 한국 시간 07:07 (1차 — 앞당김)
+  schedule:
+    - cron: '7 22 * * *'    # 한국 시간 07:07 (1차)
     - cron: '7 23 * * *'    # 한국 시간 08:07 (예비 1)
     - cron: '7 0 * * *'     # 한국 시간 09:07 (예비 2)
     - cron: '7 2 * * *'     # 한국 시간 11:07 (예비 3)
-  workflow_dispatch:         # 수동 실행 버튼
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -33,7 +33,7 @@ jobs:
 
       - name: 페이지·카드 생성 및 카페 게시
         env:
-          PROVIDER: openai                                   # ChatGPT로 생성
+          PROVIDER: openai
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -55,4 +55,3 @@ jobs:
             git commit -m "天声人語(naver) $(date -u -d '+9 hours' +%F) 발행"
             git push
           fi
-
