@@ -93,13 +93,14 @@
   }
   .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
 
-  /* 요약 */
-  .summary p{
+  /* 요약 (일한 병기) */
+  .summary .s-item{
     padding:10px 0 10px 18px;border-left:3px solid var(--line);
-    font-size:16.5px;
   }
-  .summary p+p{margin-top:6px}
-  .summary p:first-child{border-left-color:var(--shu)}
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
 
   /* 단어장 */
   .vocab{display:flex;flex-direction:column}
@@ -212,9 +213,7 @@
       <div class="sec-label" id="lb-summary">
         <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
       </div>
-      <p>{{SUMMARY_1}}</p>
-      <p>{{SUMMARY_2}}</p>
-      <p>{{SUMMARY_3}}</p>
+<!--SUMMARY_ITEMS-->
     </section>
 
     <section aria-labelledby="lb-vocab">

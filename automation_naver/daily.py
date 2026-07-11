@@ -218,6 +218,7 @@ def parse_ai_json(raw):
 
     # 스키마 검증
     assert len(data["summary_ko"]) == 3, "summary_ko는 3문장이어야 합니다"
+    assert len(data.get("summary_ja", [])) == 3, "summary_ja는 3문장이어야 합니다"
     assert len(data["vocab"]) >= 5, "vocab는 5개 이상이어야 합니다"
     assert len(data.get("commentary_ko", [])) >= 2, "commentary_ko는 2문단이어야 합니다"
     for k in ("key_quote", "one_line_ko", "background_ko",
@@ -240,16 +241,13 @@ def render_page(data, today, source_url, has_card=False):
                 if has_card else "")
     tpl = tpl.replace("{{CARD_NAV}}", card_nav)
 
-    s = data["summary_ko"]
     tokens = {
         "{{DATE_ISO}}": today.isoformat(),
         "{{DATE_KO}}": date_ko,
         "{{ISSUE_NO}}": str(issue_no),
         "{{TOPIC_JA}}": esc(data["topic_ja"]),
         "{{TOPIC_KO}}": esc(data["topic_ko"]),
-        "{{SUMMARY_1}}": esc(s[0]),
-        "{{SUMMARY_2}}": esc(s[1]),
-        "{{SUMMARY_3}}": esc(s[2]),
+
         "{{GRAMMAR_PATTERN}}": esc(data["grammar"]["pattern"]),
         "{{GRAMMAR_PATTERN_KO}}": esc(data["grammar"]["pattern_ko"]),
         "{{GRAMMAR_EXPLAIN}}": esc(data["grammar"]["explanation_ko"]),
@@ -266,6 +264,12 @@ def render_page(data, today, source_url, has_card=False):
     }
     for k, v in tokens.items():
         tpl = tpl.replace(k, v)
+
+    s_ja = data.get("summary_ja", [""] * 3)
+    s_ko = data["summary_ko"]
+    tpl = tpl.replace("<!--SUMMARY_ITEMS-->", "\n".join(
+        f'      <div class="s-item"><p class="ja">{esc(j)}</p><p class="ko">{esc(k)}</p></div>'
+        for j, k in zip(s_ja, s_ko)))
 
     tpl = tpl.replace("<!--BG_PARAS-->", "\n".join(
         f"        <p>{esc(p)}</p>" for p in data["background_ko"]))
