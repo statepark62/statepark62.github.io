@@ -349,13 +349,15 @@ def main():
         prompt = (HERE / "prompt.txt").read_text(encoding="utf-8")
         prompt = prompt.replace("{{ARTICLE_TEXT}}", article_text)
         data = parse_ai_json(call_ai(prompt))
-        if not korean_fields_ok(data):
-            print("      한국어 필드에 일본어 감지 — 한 번 더 생성합니다")
+        for attempt in (1, 2):
+            if korean_fields_ok(data):
+                break
+            print(f"      한국어 필드에 일본어 감지 — 재생성 {attempt}회차")
             data = parse_ai_json(call_ai(prompt + RETRY_NOTE))
-            if not korean_fields_ok(data):
-                raise RuntimeError(
-                    "AI가 한국어 필드를 반복해서 일본어로 작성했습니다. "
-                    "모델 변경(PROVIDER/모델명) 또는 프롬프트 점검이 필요합니다.")
+        if not korean_fields_ok(data):
+            raise RuntimeError(
+                "AI가 한국어 필드를 반복해서 일본어로 작성했습니다. "
+                "모델 변경(PROVIDER/모델명) 또는 프롬프트 점검이 필요합니다.")
         print(f"      완료: {data['topic_ja']} / {data['topic_ko']}")
 
     print("[3/6] 학습 카드 이미지 생성 중...")
