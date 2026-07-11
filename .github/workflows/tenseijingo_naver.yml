@@ -10,7 +10,9 @@ on:
 
 permissions:
   contents: write
-
+concurrency:
+  group: tenseijingo-naver
+  cancel-in-progress: false
 jobs:
   publish:
     runs-on: ubuntu-latest
