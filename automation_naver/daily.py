@@ -348,6 +348,15 @@ def main():
         print("[2/4] AI 요약·단어장 생성 중...")
         prompt = (HERE / "prompt.txt").read_text(encoding="utf-8")
         prompt = prompt.replace("{{ARTICLE_TEXT}}", article_text)
+
+        # 최근 7회의 문형을 프롬프트에 주입해 중복 회피
+        recent = "(없음)"
+        if ARCHIVE.exists():
+            recs = json.loads(ARCHIVE.read_text(encoding="utf-8"))
+            pats = [r["pattern"] for r in recs[:7] if r.get("pattern")]
+            if pats:
+                recent = ", ".join(pats)
+        prompt = prompt.replace("{{RECENT_PATTERNS}}", recent)
         data = parse_ai_json(call_ai(prompt))
         for attempt in (1, 2):
             if korean_fields_ok(data):
@@ -384,6 +393,7 @@ def main():
         "topic_ja": data["topic_ja"], "topic_ko": data["topic_ko"],
         "url": source_url,
         "memo": data.get("publish_memo_ko", ""),   # 출판 메모 (페이지에는 비공개, 기록만 축적)
+        "pattern": data["grammar"]["pattern"],      # 문형 기록 (다음 날 중복 회피용)
     })
 
     print("[6/6] 네이버 카페 게시 중...")
