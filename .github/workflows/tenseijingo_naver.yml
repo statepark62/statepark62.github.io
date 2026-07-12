@@ -45,6 +45,8 @@ jobs:
           NAVER_REFRESH_TOKEN: ${{ secrets.NAVER_REFRESH_TOKEN }}
           NAVER_CAFE_CLUB_ID: ${{ secrets.NAVER_CAFE_CLUB_ID }}
           NAVER_CAFE_MENU_ID: ${{ secrets.NAVER_CAFE_MENU_ID }}
+          GAS_WORDS_URL: ${{ secrets.GAS_WORDS_URL }}
+          GAS_WORDS_TOKEN: ${{ secrets.GAS_WORDS_TOKEN }}
         run: python automation_naver/daily.py
 
       - name: 커밋 및 푸시
