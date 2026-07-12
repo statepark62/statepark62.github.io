@@ -63,9 +63,16 @@
     <div class="seal" aria-hidden="true">天声<br>人語</div>
     <h1>天声人語で学ぶ日本語</h1>
   </header>
-  <p class="sub">아사히신문 칼럼으로 매일 배우는 일본어 · 총 <span class="count">2</span>회</p>
+  <p class="sub">아사히신문 칼럼으로 매일 배우는 일본어 · 총 <span class="count">3</span>회</p>
 
   <ul>
+      <li>
+        <a href="2026-07-12.html">
+          <span class="d">第5回 · 2026-07-12</span>
+          <span class="t-ja">教育と生成ＡＩ</span>
+          <span class="t-ko">교육과 생성 AI</span>
+        </a>
+      </li>
       <li>
         <a href="2026-07-11.html">
           <span class="d">第4回 · 2026-07-11</span>
@@ -83,9 +90,31 @@
   </ul>
 
   <footer>
+    <p class="visit" id="visitline" style="display:none">지금까지 <span id="vcount" style="color:var(--shu);font-weight:700">0</span>명이 함께 공부했습니다.</p>
     <p>매일 아침 자동 발행됩니다. 요약·예문·해설은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
     <p><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페 「여행하며 일본어 공부하기」</a></p>
   </footer>
 </div>
+<script>
+(function(){
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbzzsK1vQDlffHyzt6se264eGravJdfOik-kYtEOrFuN7inaXw2CKg2ryXSAP8MLSFehxA/exec";   // ← Apps Script 배포 URL(/exec)로 교체
+  if (GAS_URL.indexOf("https") !== 0) return;               // 미설정 시 표시 안 함
+  var uid = localStorage.getItem("tj_uid");
+  if (!uid) {
+    uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+          : Date.now() + "-" + Math.random().toString(36).slice(2);
+    localStorage.setItem("tj_uid", uid);
+  }
+  fetch(GAS_URL + "?uid=" + encodeURIComponent(uid))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (d && d.unique) {
+        document.getElementById("vcount").textContent = Number(d.unique).toLocaleString();
+        document.getElementById("visitline").style.display = "";
+      }
+    })
+    .catch(function(){});
+})();
+</script>
 </body>
 </html>
