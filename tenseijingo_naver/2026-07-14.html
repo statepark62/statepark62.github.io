@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-14 天声人語로 배우는 일본어 — 챔피언의 경의</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .masthead{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .masthead-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .masthead-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .masthead{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .masthead-title,.masthead-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .masthead-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第7回</span>
+      <span>2026-07-14</span>
+      <span>2026년 7월 14일 (화)</span>
+    </div>
+
+    <h1>王者の敬意</h1>
+    <p class="topic-ko">챔피언의 경의</p>
+
+    <div class="keyquote">
+      <div class="ja">「クニエダがいる」</div>
+      <div class="ko">구니에다가 있다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">本稿は「日本のテニスに世界的スターが少ない」という通念を取り上げる。</p><p class="ko">칼럼은 ‘일본 테니스에 왜 세계적 선수가 없느냐’는 단골 의문을 소재로 삼는다.</p></div>
+      <div class="s-item"><p class="ja">その問いに対し、フェデラーが国枝慎吾の名を挙げて異議を唱えたエピソードが紹介される。</p><p class="ko">이에 대해 페더러가 국枝慎吾의 이름을 언급하며 그 통념에 이의를 제기한 장면을 소개한다.</p></div>
+      <div class="s-item"><p class="ja">王者が王者を敬う視点から、国枝の存在感を浮かび上がらせようとしているようだ。</p><p class="ko">글은 한 챔피언이 다른 챔피언을 존중하는 시선을 통해 국枝의 존재감을 비추는 방향으로 전개되는 것으로 보인다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>敬意<rt>けいい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">경의, 존중</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">相手の努力に敬意を払う。</span><br>상대의 노력에 경의를 표하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>反論する<rt>はんろんする</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">반박하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">彼は静かに反論した。</span><br>그는 조용히 반박했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>記者<rt>きしゃ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">기자</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">記者が選手に質問を投げかけた。</span><br>기자가 선수에게 질문을 던졌다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>称える<rt>たたえる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">칭송하다, 기리다</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">観客は勝者の健闘を称えた。</span><br>관객은 승자의 선전을 칭송했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>車いすテニス<rt>くるまいすてにす</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">휠체어 테니스</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">車いすテニスの大会を初めて観戦した。</span><br>휠체어 테니스 대회를 처음 관전했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">言わずもがなだが</div>
+        <div class="pattern-ko">말할 것도 없지만; 두말할 나위 없지만</div>
+        <p class="explain">너무 자명해서 굳이 말할 필요가 없음을 전제로, 상기나 확인 차원에서 덧붙일 때 쓰는 표현이다. 다소 문어적이며, 단정적으로 주장하기보다 정중하게 강조하는 뉘앙스를 준다.</p>
+        <p class="ex"><span class="ja">言わずもがなだが、基本こそ最強の武器だ。</span><br>말할 것도 없지만, 기본이야말로 가장 강력한 무기다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 ‘왜 일본에 세계적 선수가 없나’라는 상투적 질문을 던진 뒤, 곧장 시점을 전환해 페더러의 발언을 배치한다. 반전을 통해 독자의 전제 자체를 흔들고, ‘세계적’의 기준을 재정의하도록 유도하는 구성이다. 특히 휠체어 테니스 선수 국枝慎吾를 호출함으로써 종목의 경계를 넘어서는 성취와 평판을 전면에 올린다. 천성인어 특유의 압축된 인용과 여백이 결합해, 짧은 문단에서도 강한 전환 효과를 낳는다.</p>
+        <p>글이 남기는 울림은 ‘누가 세계를 대표하는가’라는 물음의 확장성이다. 일본 독자뿐 아니라 한국 독자에게도, 패럴 스포츠와 올림픽 종목 간 위계적 시선을 넘어 존중의 언어로 재배치하는 관점이 흥미롭다. 이어지는 본문은 국枝의 업적과 태도, 그리고 그에 대한 사회적 존중을 비출 가능성이 커 보인다. 결과적으로 이 칼럼은 스포츠가 품은 보편적 가치—존중, 인정, 시야의 전환—를 간명하게 보여준다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 챔피언의 목소리를 빌려 ‘세계적’의 기준을 다시 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>국枝慎吾는 일본의 휠체어 테니스 상징적 선수로, 패럴림픽과 4대 메이저 대회에서 다수의 우승을 거두며 세계적 명성을 얻었다.</p>
+        <p>휠체어 테니스는 패럴림픽 공식 종목이며, 그랜드슬램에서도 휠체어 부문 경기가 열리는 등 국제적 위상이 확고하다.</p>
+        <p>천성인어(天声人語)는 사회 이슈와 일상적 일화를 짧은 호흡으로 연결해 보편적 메시지를 도출하는 칼럼으로, 수험 일본어 학습 자료로도 널리 읽힌다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>통념을 먼저 제시한 뒤 반박 사례를 배치해 독자의 관점을 즉각 전환시킨다.</p>
+        <p><span class="n">二</span>유명 인물의 짧은 발언을 인용해 글의 신뢰도와 응집력을 동시에 높인다.</p>
+        <p><span class="n">三</span>종목·장르의 경계를 넘어 하나의 가치(존중)로 수렴시키는 주제 통합이 돋보인다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">視点を変えれば、英雄はすぐそばにいる。</span>
+      <span class="ko">관점을 바꾸면 영웅은 바로 곁에 있다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-07-14) — <a href="https://www.asahi.com/articles/DA3S16502950.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-07-14.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
