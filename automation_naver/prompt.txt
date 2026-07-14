@@ -53,10 +53,11 @@
       "meaning_ko": "꽉 움켜쥐다",
       "level": "N2",
       "example_ja": "子どもは母の手を握りしめた。",
-      "example_reading": "こどもはははのてをにぎりしめた。", // example_reading은 example_ja 전체를 히라가나로 표기한 것.
+      "example_reading": "こどもははははのてをにぎりしめた。",
       "example_ko": "아이는 엄마의 손을 꽉 움켜쥐었다."
     }
     // 이런 형식으로 총 5개. 단어 또는 8자 이내의 짧은 구만.
+    // example_reading은 example_ja 전체를 히라가나로 읽은 것.
     // level은 JLPT 기준 추정(N1~N5). 학습 가치가 높은 순서로 선정.
   ],
   "grammar": {
