@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-15 天声人語로 배우는 일본어 — 체르노빌의 기억</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .masthead{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .masthead-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .masthead-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .masthead{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .masthead-title,.masthead-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .masthead-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第8回</span>
+      <span>2026-07-15</span>
+      <span>2026년 7월 15일 (수)</span>
+    </div>
+
+    <h1>チョルノービリの記憶</h1>
+    <p class="topic-ko">체르노빌의 기억</p>
+
+    <div class="keyquote">
+      <div class="ja">「あの原子力発電所」</div>
+      <div class="ko">그 원자력 발전소 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">ロシア語とウクライナ語で名が異なるチョルノービリを入口に、事故の位置と周辺国を思い起こさせる。</p><p class="ko">러시아어와 우크라이나어에서 다른 이름으로 불리는 체르노빌을 출발점으로, 사고 지점의 위치와 인접 국가를 환기한다.</p></div>
+      <div class="s-item"><p class="ja">1986年に起きた大規模な放射能汚染事故であったことを示し、ベラルーシに隣接する地理を落ち着いてたどる。</p><p class="ko">1986년의 대형 방사능 오염 사고였음을 상기시키며, 벨라루스와 맞닿은 지리적 맥락을 차분히 짚는다.</p></div>
+      <div class="s-item"><p class="ja">続きでは、事故後に生まれたスガク・パーヴェルという人物を通して、集団の記憶が個人の生へつながる気配がある。</p><p class="ko">이어지는 부분에서는 사고 뒤 태어난 스가크 파벨이라는 인물을 통해 집단적 기억이 개인의 삶으로 이어지는 흐름을 보여줄 것으로 보인다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>原発<rt>げんぱつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">원전(원자력 발전소)</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">事故後、原発の安全基準が見直された。</span><br>사고 후, 원전의 안전 기준이 재검토되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>放射能<rt>ほうしゃのう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">방사능</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">放射能への不安が地域に残る。</span><br>방사능에 대한 불안이 지역에 남아 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>汚染<rt>おせん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">오염</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">土壌の汚染を測定する。</span><br>토양의 오염을 측정한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>国境を越える<rt>こっきょうをこえる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">국경을 넘다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">歌は国境を越えて人の心に届く。</span><br>노래는 국경을 넘어 사람들의 마음에 닿는다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>隣国<rt>りんごく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">인접국, 이웃 나라</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">隣国との往来がようやく再開した。</span><br>이웃 나라와의 왕래가 마침내 재개되었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜では〜となる</div>
+        <div class="pattern-ko">~에서는 ~가 된다</div>
+        <p class="explain">지역·조건·文脈에 따라 어떤 것이 다른 형태나 의미로 &#x27;된다&#x27;는 결과를 말할 때 쓴다. 「になる」보다 서술적·객관적 느낌이 강하며, 용어·표기·역할의 변환을 설명할 때 자주 보인다.</p>
+        <p class="ex"><span class="ja">関西では『なおす』は『片づける』となる。</span><br>간사이에서는 &#x27;나오스&#x27;가 &#x27;정리하다&#x27;라는 뜻이 된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 먼저 지명의 이칭을 대비시키며 독자의 귀를 세운다. 이어서 지도를 펼치듯 국가와 경계를 짚어 독해의 좌표를 제공한다. 거대한 사고를 단정한 문장으로 호출하되 감정을 서두르지 않아, 독자가 스스로 거리를 가늠하게 한다. 마지막에 실명 인물을 등장시켜 사건을 생활의 시간으로 끌어들이는 구성은 천성인어의 전형적 기법이다.</p>
+        <p>글이 남기는 핵심은 경계의 바깥으로 스며드는 기억의 성질이다. 이름과 언어가 달라도 재난의 흔적은 국경을 넘어 이어진다는 인식이 배경을 이룬다. 한국 독자에게는 동아시아의 원전 안전 논의와 맞물려 읽히며, 지리·언어·개인의 삶이 교차하는 지점이 특히 흥미롭다. 거대사와 개인사를 접속하는 이 방식은 사건을 다시 현재형으로 사유하게 만든다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 체르노빌의 이름과 지리를 짚은 뒤, 국경 넘어 태어난 한 개인의 서사로 재난의 기억을 잇는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>체르노빌 원전 사고는 1986년 소련 시절, 현재의 우크라이나 북부에서 발생했으며 방사성 물질 확산이 광범위하게 논의되었다.</p>
+        <p>벨라루스의 고멜(ゴメリ) 주는 우크라이나와 접해 있어, 사고 당시 낙진 영향이 컸다고 보고되어 왔다.</p>
+        <p>지명 표기는 언어권에 따라 달라지며, 러시아어식 &#x27;チェルノブイリ&#x27;와 우크라이나어식 &#x27;チョルノービリ&#x27;처럼 발음과 표기가 갈린다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>지명의 이칭을 도입부에 배치해 다중의 시각을 예고한다.</p>
+        <p><span class="n">二</span>지리 정보를 간결한 문장으로 배열해 독자의 머릿속에 지도를 그리게 한다.</p>
+        <p><span class="n">三</span>대사건에서 한 인물로 초점을 좁혀 정서적 공명을 만든다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">名前が変わっても、記憶は国境を越える。</span>
+      <span class="ko">이름이 달라도 기억은 국경을 넘는다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-07-15) — <a href="https://www.asahi.com/articles/DA3S16504019.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-07-15.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
