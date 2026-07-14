@@ -8,12 +8,14 @@ daily.py — 天声人語 일일 학습 페이지 자동 생성 파이프라인
   python automation/daily.py            # 전체 파이프라인 실행
   python automation/daily.py --sample   # 네트워크/AI 없이 샘플 데이터로 렌더링만 테스트
 
-환경 변수:
-  PROVIDER          "gemini"(기본) 또는 "claude"
-  GEMINI_API_KEY    Gemini 사용 시 필수
-  GEMINI_MODEL      기본값 "gemini-2.5-flash" (무료 티어)
-  ANTHROPIC_API_KEY Claude 사용 시 필수
-  CLAUDE_MODEL      기본값 "claude-haiku-4-5-20251001"
+환경 변수 (yml의 env에서 지정):
+  PROVIDER          "gemini" / "claude" / "openai" 중 선택 (미지정 시 gemini)
+  OPENAI_API_KEY    ChatGPT 사용 시 필수 / OPENAI_MODEL 기본값 "gpt-5-mini"
+  GEMINI_API_KEY    Gemini 사용 시 필수 / GEMINI_MODEL 기본값 "gemini-2.5-flash"
+  ANTHROPIC_API_KEY Claude 사용 시 필수 / CLAUDE_MODEL 기본값 "claude-haiku-4-5-20251001"
+  NAVER_*           네이버 카페 게시용 5종 (naver.py 참고)
+  GAS_WORDS_URL     ことば帖 단어장 전송용 GAS 배포 주소 (선택)
+  GAS_WORDS_TOKEN   ことば帖 전송 토큰 (선택)
   ARTICLE_URL       (선택) 특정 기사 URL을 직접 지정해 테스트
 """
 import json
@@ -314,32 +316,42 @@ def update_index(entry):
     idx = idx.replace("{{COUNT}}", str(len(records)))
     (OUT_DIR / "index.html").write_text(idx, encoding="utf-8")
 
+
 # ══════════════════════════════════════════════════════════
 # 추가: 오늘의 단어를 ことば帖 단어장(Google Sheets)으로 전송
 # ══════════════════════════════════════════════════════════
 def send_words_to_gas(data):
+    """기존 범용 수집기 GAS의 'id 자동채번 모드'로 오늘의 단어 전송"""
     import requests
     url = os.environ.get("GAS_WORDS_URL")
     token = os.environ.get("GAS_WORDS_TOKEN")
     if not url or not token:
         print("      GAS 설정(Secrets) 없음 — 단어장 전송 생략")
         return
-    words = [{
-        "word": v.get("word", ""),
-        "reading": v.get("reading", ""),
-        "meaning": v.get("meaning_ko", ""),
-        "level": v.get("level", "N3"),
-        "example": v.get("example_ja", ""),
-        "exampleReading": v.get("example_reading", ""),
-        "exampleMeaning": v.get("example_ko", ""),
-    } for v in data.get("vocab", [])[:5]]
-    r = requests.post(url, json={"token": token, "words": words}, timeout=60)
+    rows = [[
+        v.get("word", ""),
+        v.get("reading", ""),
+        v.get("meaning_ko", ""),
+        v.get("level", "N3"),
+        v.get("example_ja", ""),
+        v.get("example_reading", ""),
+        v.get("example_ko", ""),
+    ] for v in data.get("vocab", [])[:5]]
+    r = requests.post(url, json={
+        "secret": token,
+        "sheet": "단어장",
+        "dedupIndex": 0,      # 단어(첫 칸) 기준 중복 제거
+        "idPrefix": "tj",     # 천성인어 출신 단어는 tj1, tj2... 로 채번
+        "rows": rows,
+    }, timeout=60)
     res = r.json()
     if res.get("ok"):
-        print(f"      단어장 전송 완료: 추가 {res['added']}개, 건너뜀 {res['skipped']}개")
+        added = res.get("added", 0)
+        print(f"      단어장 전송 완료: 추가 {added}개, 건너뜀 {len(rows) - added}개")
     else:
         print(f"      단어장 전송 실패: {res.get('error')}")
-      
+
+
 # ══════════════════════════════════════════════════════════
 # 메인
 # ══════════════════════════════════════════════════════════
@@ -444,7 +456,7 @@ def main():
         except Exception as e:
             print(f"      카페 게시 실패 (발행은 정상 완료됨): {e}")
 
-  print("[추가] ことば帖 단어장 전송 중...")
+    print("[추가] ことば帖 단어장 전송 중...")
     if sample_mode:
         print("      샘플 모드 — 전송 생략")
     else:
@@ -452,7 +464,7 @@ def main():
             send_words_to_gas(data)
         except Exception as e:
             print(f"      단어장 전송 실패 (발행은 정상 완료됨): {e}")
-  
+
     print("모든 작업 완료.")
 
 
