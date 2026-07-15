@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-07-16",
+    "no": 9,
+    "topic_ja": "買官売官を問う",
+    "topic_ko": "관직 매매를 묻다",
+    "url": "https://www.asahi.com/articles/DA3S16504914.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘권력과 부패’, ‘의혹과 검증’. 권력 인사 거래라는 보편적 부패 메커니즘을 역사와 현재를 엮어 성찰하며, 의혹 보도의 균형 원칙을 함께 환기하기 때문이다.",
+    "pattern": "〜につれ"
+  },
+  {
     "date": "2026-07-15",
     "no": 8,
     "topic_ja": "チョルノービリの記憶",
