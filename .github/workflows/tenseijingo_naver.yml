@@ -49,11 +49,20 @@ jobs:
           GAS_WORDS_TOKEN: ${{ secrets.GAS_WORDS_TOKEN }}
         run: python automation_naver/daily.py
 
+      - name: PWA 단어 동기화 (시트 → kotoba/words.json)
+        if: always()    # 새 글이 없는 날도 시트 수동 편집분을 반영
+        env:
+          GAS_WORDS_URL: ${{ secrets.GAS_WORDS_URL }}
+          GAS_WORDS_TOKEN: ${{ secrets.GAS_WORDS_TOKEN }}
+        run: python automation_naver/sync_words.py
+
       - name: 커밋 및 푸시
+        if: always()
         run: |
           git config user.name "tenseijingo-bot"
           git config user.email "actions@github.com"
           git add tenseijingo_naver/
+          git add kotoba/words.json
           if git diff --cached --quiet; then
             echo "변경 사항 없음 — 커밋 생략"
           else
