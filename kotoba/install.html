@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ことば帖 설치 안내</title>
+<link rel="icon" type="image/png" href="https://statepark62.github.io/kotoba/icon-B-48.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --washi:#F6F1E7; --paper:#FFFDF7; --ink:#2A2723; --muted:#8A8070;
+    --shu:#B93A32; --shu-dark:#96271F; --ai:#33566B; --line:#E0D6C2; --ok:#3E7C4F;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Noto Sans KR',sans-serif; color:var(--ink); background:var(--washi);
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(185,58,50,.03) 0, transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(51,86,107,.04) 0, transparent 45%);
+    line-height:1.75; font-size:15.5px; padding-bottom:70px;
+  }
+  .jp{font-family:'Noto Serif JP',serif;}
+  .wrap{max-width:660px; margin:0 auto; padding:0 20px;}
+
+  .cover{text-align:center; padding:46px 0 24px;}
+  .hanko{
+    width:58px; height:58px; margin:0 auto 14px; background:var(--shu); color:#FFF9F2;
+    font-family:'Noto Serif JP',serif; font-size:30px; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:10px; box-shadow:inset 0 0 0 3px rgba(255,255,255,.25);
+    transform:rotate(-3deg);
+  }
+  .cover h1{font-family:'Noto Serif JP',serif; font-size:32px; letter-spacing:3px;}
+  .cover .sub{color:var(--muted); margin-top:6px; font-size:14.5px;}
+  .cover .btn{
+    display:inline-block; margin-top:18px; padding:14px 36px; border-radius:999px;
+    background:var(--shu); color:#fff; text-decoration:none; font-weight:700; font-size:16.5px;
+  }
+  .cover .url{margin-top:10px; font-size:13px; color:var(--muted); word-break:break-all;}
+
+  .lead{
+    background:var(--paper); border:1px solid var(--line); border-radius:14px;
+    padding:15px 19px; margin:8px 0 26px; text-align:center; font-size:14.5px;
+  }
+
+  .stage{
+    background:var(--paper); border:1px solid var(--line); border-radius:14px;
+    padding:20px 22px 16px; margin:16px 0; box-shadow:0 2px 8px rgba(42,39,35,.05);
+    position:relative; overflow:hidden;
+  }
+  .stage::before{content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--shu);}
+  .stage h2{
+    font-family:'Noto Serif JP',serif; font-size:18.5px; color:var(--shu-dark);
+    margin-bottom:10px; letter-spacing:1px;
+  }
+  .stage h2 .no{
+    display:inline-flex; width:27px; height:27px; margin-right:9px; background:var(--shu);
+    color:#fff; border-radius:6px; align-items:center; justify-content:center;
+    font-size:15px; vertical-align:-4px; transform:rotate(-2deg); font-family:'Noto Sans KR',sans-serif;
+  }
+  .steps{counter-reset:step; list-style:none;}
+  .steps li{counter-increment:step; position:relative; padding:5px 0 5px 40px; margin:3px 0;}
+  .steps li::before{
+    content:counter(step); position:absolute; left:0; top:7px;
+    width:26px; height:26px; background:var(--ai); color:#fff; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:13.5px; font-weight:700;
+  }
+  b{font-weight:700;}
+  .warn{border-left:4px solid var(--shu); padding-left:13px; color:var(--shu-dark); margin:11px 0; font-size:14.5px;}
+  .ok{border-left:4px solid var(--ok); padding-left:13px; margin:11px 0; font-size:14.5px;}
+  .muted{color:var(--muted); font-size:13.5px;}
+  .os{
+    display:inline-block; padding:2px 12px; border-radius:999px; font-size:12.5px;
+    background:var(--ai); color:#fff; font-weight:500; margin:8px 0 2px;
+  }
+  .check{background:#EFE8DA; border-radius:11px; padding:14px 18px; margin-top:8px; font-size:14.5px;}
+  .check li{margin:4px 0 4px 20px;}
+  .feat{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:6px;}
+  .feat div{background:#FBF8F1; border:1px solid var(--line); border-radius:10px; padding:11px 13px; font-size:13.5px;}
+  .feat b{display:block; color:var(--shu-dark); margin-bottom:2px;}
+  details{background:#FBF8F1; border:1px solid var(--line); border-radius:11px; padding:11px 15px; margin:8px 0;}
+  summary{cursor:pointer; font-weight:700;}
+  details p{margin-top:8px; font-size:14.5px;}
+  footer{text-align:center; color:var(--muted); font-size:13px; margin-top:42px;}
+  @media (max-width:460px){ .feat{grid-template-columns:1fr;} }
+  @media print{ .cover .btn{display:none;} body{background:#fff;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="cover">
+    <div class="hanko jp">学</div>
+    <h1 class="jp">ことば帖</h1>
+    <p class="sub">일본어 단어 자동학습 앱 — 설치 안내 (무료 · 로그인 불필요)</p>
+    <a class="btn" href="https://statepark62.github.io/kotoba/">앱 열기 →</a>
+    <p class="url">statepark62.github.io/kotoba</p>
+  </div>
+
+  <div class="lead">
+    앱스토어 설치가 아닙니다. <b>링크를 열고 → 홈 화면에 추가</b> — 이게 전부입니다.<br>
+    회원가입도, 로그인도, 권한 승인도 없습니다.
+  </div>
+
+  <div class="stage">
+    <h2><span class="no">1</span>이런 앱입니다</h2>
+    <div class="feat">
+      <div><b>매일 자라는 단어장</b>아사히신문 명칼럼 천성인어(天声人語)와 NHK 뉴스에서 뽑은 단어가 매일 아침 자동 추가됩니다.</div>
+      <div><b>N5~N1 기본 단어 내장</b>JLPT 전 레벨 100단어 + 예문·번역·발음으로 바로 시작할 수 있습니다.</div>
+      <div><b>세 가지 학습 모드</b>자동재생(흘려듣기) · 퀴즈 · 간격반복 복습(SRS)으로 과학적으로 외웁니다.</div>
+      <div><b>오프라인 지원</b>한 번 접속한 뒤에는 지하철에서도 작동합니다. 학습 기록은 내 기기에만 저장됩니다.</div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <h2><span class="no">2</span>홈 화면에 추가하기 (1분)</h2>
+    <p>위의 <b>"앱 열기"</b> 버튼으로 접속한 뒤:</p>
+    <span class="os">iPhone — Safari에서</span>
+    <ol class="steps">
+      <li>하단 가운데 <b>공유 버튼(⬆)</b>을 누릅니다.</li>
+      <li>아래로 내려 <b>"홈 화면에 추가"</b> → <b>추가</b>.</li>
+    </ol>
+    <span class="os">Android — Chrome에서</span>
+    <ol class="steps">
+      <li>화면에 <b>"홈 화면에 ことば帖 추가"</b> 안내가 뜨면 그대로 누르면 끝. 안 뜨면 우측 상단 <b>⋮ 메뉴 → "홈 화면에 추가"</b>.</li>
+    </ol>
+    <p class="muted">카카오톡·네이버 앱 안에서 링크를 열었다면, 구석 메뉴에서 "다른 브라우저로 열기"(iPhone은 "Safari로 열기")를 먼저 눌러 주세요.</p>
+    <p class="ok">홈 화면에 붉은 낙관이 찍힌 <b>「言」 아이콘</b>이 생기면 완료 — 이제 앱처럼 눌러서 쓰면 됩니다.</p>
+  </div>
+
+  <div class="stage">
+    <h2><span class="no">3</span>꼭 알아둘 한 가지 — 학습 기록 백업</h2>
+    <p>학습 기록(복습 단계, 정답/오답)은 서버가 아니라 <b>지금 이 기기 안에만</b> 저장됩니다. 그래서 기기를 바꾸거나 브라우저 데이터를 지우면 기록이 사라질 수 있습니다.</p>
+    <ol class="steps">
+      <li><b>단어장 탭</b> 맨 아래의 <b>"진도 내보내기"</b>를 누르면 백업 파일이 저장됩니다.</li>
+      <li>그 파일을 카카오톡 '나에게 보내기'나 클라우드에 올려 두세요.</li>
+      <li>새 기기에서는 <b>"진도 가져오기"</b>로 파일을 선택하면 기록이 그대로 복원됩니다.</li>
+    </ol>
+    <p class="warn">기록이 쌓이면 앱이 알아서 "백업하세요" 알림을 띄워 줍니다. 그때 한 번씩 눌러 주시면 충분합니다.</p>
+  </div>
+
+  <div class="stage">
+    <h2><span class="no">4</span>추천 사용법</h2>
+    <ol class="steps">
+      <li>매일 <b>복습 탭</b>의 '오늘 복습'을 0으로 만들기 (5~10분)</li>
+      <li><b>자동학습</b>으로 새 단어 흘려듣기 — 카드 간격·레벨(N5~N1)은 취향대로</li>
+      <li><b>퀴즈</b>로 마무리 — 결과가 복습 일정에 자동 반영됩니다</li>
+    </ol>
+    <p class="muted">발음이 어색하면 기기에 일본어 음성을 설치해 보세요. iPhone: 설정 → 손쉬운 사용 → 콘텐츠 말하기 → 음성 → 일본어 / Android: 설정에서 TTS 검색 → Google TTS → 일본어 음성 데이터.</p>
+  </div>
+
+  <div class="stage">
+    <h2><span class="no">5</span>문제가 생기면</h2>
+    <details><summary>소리가 안 나요</summary>
+      <p>iPhone 측면 <b>무음 스위치</b>를 확인하세요. 화면 하단 "음성 읽기" 체크와, 위 4번의 일본어 음성 설치도 확인.</p></details>
+    <details><summary>새 단어가 안 보여요</summary>
+      <p>단어는 매일 아침 추가됩니다. 앱을 완전히 닫았다가 다시 열거나, 화면을 당겨 새로고침해 보세요.</p></details>
+    <details><summary>화면이 이상하거나 옛날 그대로예요</summary>
+      <p>홈 화면 아이콘을 지우고 링크로 재접속해 다시 추가하면 해결됩니다. <b>단, 지우기 전에 3번의 백업을 먼저!</b></p></details>
+    <details><summary>기기를 바꿨더니 기록이 없어요</summary>
+      <p>기록은 기기별 저장이라 정상입니다. 이전 기기에서 만든 백업 파일을 <b>단어장 탭 → 진도 가져오기</b>로 불러오세요.</p></details>
+  </div>
+
+  <footer>
+    <p class="jp" style="font-size:16px; letter-spacing:2px;">日々のことばを、たいせつに。</p>
+    <p>만든 이: 박상태 (공주대학교) · 문의는 네이버 카페 <b>cafe.naver.com/statepark62</b></p>
+  </footer>
+
+</div>
+</body>
+</html>
