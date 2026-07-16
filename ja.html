@@ -201,6 +201,22 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
   .hero .title h1{font-size:clamp(24px,7vw,32px)}
   .hero .title p{font-size:13px}
 }
+
+/* 방명록 바로가기 버튼 */
+html{scroll-behavior:smooth}
+.gb-fab{
+  position:fixed;right:18px;bottom:18px;z-index:60;
+  display:flex;align-items:center;gap:8px;
+  background:var(--pine);color:#F3F1E7;text-decoration:none;
+  font-size:13.5px;font-weight:700;letter-spacing:.06em;
+  padding:12px 20px;border-radius:99px;
+  box-shadow:0 8px 24px rgba(15,58,51,.45);
+  transition:opacity .3s, transform .25s, background .2s;
+}
+.gb-fab:hover{background:var(--brass);transform:translateY(-2px)}
+.gb-fab .pen{font-size:15px}
+.gb-fab.hide{opacity:0;pointer-events:none}
+@media print{.gb-fab{display:none}}
 </style>
 </head>
 <body>
@@ -291,7 +307,7 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
           <li><span class="when">1997. 11 — 1998. 11</span><div class="what">韓国標準科学研究院 放射線研究室 博士研究員</div></li>
           <li><span class="when">1996. 7 — 1997. 7</span><div class="what">東京工業大学 原子炉工学研究所 博士研究員</div></li>
           <li><span class="when">1990 — 1995</span><div class="what">釜山大学校 大学院 博士(核物理学・核分光学)</div><div class="memo">有機液体シンチレーション検出器による中性子スペクトルの研究</div></li>
-          <li><span class="when">1981 — 1985</span><div class="what">釜山大学校 物理学科 学士</div></li>
+          <li><span class="when">1981 — 1985</span><div class="what">釜山大学校 物理教育科 学士</div></li>
         </ul>
       </section>
 
@@ -353,7 +369,7 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
         </div>
       </section>
 
-      <section class="sec">
+      <section class="sec" id="guestbook">
         <div class="sec-head"><span class="no">06</span><h2>芳名録</h2><small>LEAVE A MESSAGE</small></div>
         <!-- ⑥ 방명록: 구글 Apps Script 웹 앱과 연결됨. 스크립트를 새로 배포해 주소가 바뀌면 action 값을 교체 -->
         <form class="gb-form" id="gbForm" action="https://script.google.com/macros/s/AKfycbz3uVm1C52c6xI3cHYL0Ic7GE4wY9PqjTZqcgszDQKQlg6NsMBTNQm8-Ad6RQOGhMeiiA/exec" method="POST">
@@ -376,6 +392,8 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
         <span id="visitWrap" style="opacity:.85">👁 訪問者数 <b id="visitCount">····</b></span>
   </footer>
 </div>
+
+<a class="gb-fab" id="gbFab" href="#guestbook" aria-label="芳名録"><span class="pen">✎</span>芳名録</a>
 
 <script>
 /* ⑤ ───── QR코드가 가리킬 주소 ───── */
@@ -446,6 +464,16 @@ const SEASONS = {
   } catch (e) {
     document.getElementById("visitWrap").style.display = "none";
   }
+})();
+
+/* ⑨ ───── 방명록 바로가기 버튼 (방명록이 보이면 자동 숨김) ───── */
+(function () {
+  const fab = document.getElementById("gbFab");
+  const target = document.getElementById("guestbook");
+  if (!fab || !target) return;
+  new IntersectionObserver(function (entries) {
+    fab.classList.toggle("hide", entries[0].isIntersecting);
+  }, { threshold: 0.2 }).observe(target);
 })();
 </script>
 </body>
