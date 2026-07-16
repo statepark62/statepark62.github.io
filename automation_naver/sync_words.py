@@ -33,7 +33,15 @@ def main():
 
     r = requests.get(url, params={"action": "export", "secret": secret},
                      timeout=60, allow_redirects=True)
-    data = r.json()
+    try:
+        data = r.json()
+    except ValueError:
+        # JSON이 아닌 응답(대개 GAS의 HTML 오류 페이지) → 원인 진단용 출력
+        head = r.text[:300].replace("\n", " ")
+        print(f"JSON 아님 (HTTP {r.status_code}). 응답 앞부분: {head}", file=sys.stderr)
+        print("→ 흔한 원인: 수집기에 v2(doGet) 미배포, 또는 URL이 다른 배포를 가리킴",
+              file=sys.stderr)
+        return 1
 
     if isinstance(data, dict) and not data.get("ok", True):
         print(f"내보내기 실패: {data.get('error')}", file=sys.stderr)
