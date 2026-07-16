@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-17 天声人語로 배우는 일본어 — 울트라맨과 직업</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .masthead{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .masthead-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .masthead-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .masthead{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .masthead-title,.masthead-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .masthead-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第10回</span>
+      <span>2026-07-17</span>
+      <span>2026년 7월 17일 (금)</span>
+    </div>
+
+    <h1>ウルトラマンと職業</h1>
+    <p class="topic-ko">울트라맨과 직업</p>
+
+    <div class="keyquote">
+      <div class="ja">「なぜ彼は公務員なのか」</div>
+      <div class="ko">왜 그는 공무원인가 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">本稿はウルトラマンの「職業」に目を向け、光の国から来た宇宙警備隊員という設定を手がかりにする。</p><p class="ko">이 칼럼은 울트라맨의 ‘직업’ 설정을 화제로 삼아, 그가 ‘빛의 나라’에서 온 우주 경비대 소속이라는 설정을 상기시킨다.</p></div>
+      <div class="s-item"><p class="ja">彼がなぜ公務員と見なされるのかを問い、米国ヒーローの例としてスーパーマンは記者、アイアンマンは民間人という立場を引き、比較の軸を示す。</p><p class="ko">왜 그가 공무원으로 불리는지 묻고, 슈퍼맨은 신문기자, 아이언맨은 민간인이라는 대비를 통해 논점을 펼친다.</p></div>
+      <div class="s-item"><p class="ja">ヒーローの肩書が市民と国家の関係を映す鏡になり得るという含意を残す結びになっているようだ。</p><p class="ko">영웅의 직업 선택이 시민과 국가의 관계를 비추는 거울일 수 있다는 함의를 던지는 글로 보인다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>公務員<rt>こうむいん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">공무원</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">彼は市役所の公務員として働いている。</span><br>그는 시청의 공무원으로 일하고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>民間人<rt>みんかんじん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">민간인</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">戦場では民間人の安全が最優先だ。</span><br>전쟁터에서는 민간인의 안전이 최우선이다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>新聞記者<rt>しんぶんきしゃ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">신문 기자</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">新聞記者は現場で事実を確かめた。</span><br>신문 기자는 현장에서 사실을 확인했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>謎<rt>なぞ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수수께끼, 미스터리</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">この物語にはまだ多くの謎が残っている。</span><br>이 이야기에는 아직도 많은 수수께끼가 남아 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>宇宙警備隊<rt>うちゅうけいびたい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">우주 경비대</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">彼は宇宙警備隊の訓練に合格したという設定だ。</span><br>그는 우주 경비대 훈련에 합격했다는 설정이다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">だとすれば</div>
+        <div class="pattern-ko">그렇다면, ~라면</div>
+        <p class="explain">앞의 사실이나 가정을 임시로 받아들이고 그 결과를 논리적으로 이어갈 때 쓰는 표현이다. 단정적이라기보다 ‘그게 사실이라면’이라는 가정적 뉘앙스를 띠며, 추론·비교·문제 제기에서 자주 사용된다.</p>
+        <p class="ex"><span class="ja">彼が公務員だとすれば、任務には公的責任が伴う。</span><br>그가 공무원이라면, 임무에는 공적 책임이 따른다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 대중문화 아이콘을 전면에 세워 독자의 주의를 붙잡고, ‘울트라맨의 직업’이라는 엉뚱한 질문에서 출발한다. 설정의 단서를 간단히 환기한 뒤, 미국 히어로의 민간인 정체성과 나란히 놓아 대비를 만든다. 단정 대신 질문을 반복하고 예시를 포개며, 사소해 보이는 논점을 사회적 사유로 끌어올리는 천성인어 특유의 완급 조절이 드러난다. 톤은 가볍지만 문제 제기의 방향과 구조는 치밀하다.</p>
+        <p>이 글이 남기는 의미는 영웅의 소속이 국가 조직인지 개인인지라는 차이가 어떤 책임·권한의 상상력을 낳는가에 대한 성찰이다. 한국 독자에게도 공공성과 사적 자율성의 균형은 익숙한 화두다. 공무원·경찰에 대한 신뢰, 시민의 자발성에 대한 기대가 문화마다 어떻게 다르게 형상화되는지 생각하게 한다. 답을 내리기보다 비교의 장면을 제시해, 독자로 하여금 자신의 기준을 점검하게 만든다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 영웅의 직업 설정을 통해 국가와 시민의 경계를 되묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>울트라맨은 1960년대에 시작된 일본 특촬 히어로 시리즈로, 거대 히어로가 괴수와 대결한다는 설정으로 널리 알려져 있다.</p>
+        <p>미국 슈퍼히어로 서사에서는 평소에는 시민으로 살다가 필요할 때 영웅으로 변하는 이중생활 도식이 자주 쓰인다.</p>
+        <p>일본어 ‘公務員’은 국가나 지자체가 고용한 직원을 뜻하며, 안정성과 공적 책임의 뉘앙스를 함께 지닌다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>사소한 물음 하나로 화제를 열고 점차 범위를 넓혀 사회적 질문으로 연결한다.</p>
+        <p><span class="n">二</span>양쪽 문화의 구체적 사례를 병치해 대비의 힘으로 독자의 사고를 자극한다.</p>
+        <p><span class="n">三</span>단정적 결론을 피하고 의문문과 가정형을 활용해 독자 스스로 판단하게 한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">英雄の肩書は、社会が望む正義の形を映し出す。</span>
+      <span class="ko">영웅의 직함은 사회가 바라는 정의의 형태를 비춘다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-07-17) — <a href="https://www.asahi.com/articles/DA3S16505828.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-07-17.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
