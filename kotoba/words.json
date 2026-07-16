@@ -1,0 +1,1002 @@
+[
+ {
+  "id": "w1",
+  "word": "水",
+  "reading": "みず",
+  "meaning": "물",
+  "level": "N5",
+  "example": "冷たい水を飲みます。",
+  "exampleReading": "つめたいみずをのみます。",
+  "exampleMeaning": "차가운 물을 마십니다."
+ },
+ {
+  "id": "w2",
+  "word": "学校",
+  "reading": "がっこう",
+  "meaning": "학교",
+  "level": "N5",
+  "example": "毎日学校へ行きます。",
+  "exampleReading": "まいにちがっこうへいきます。",
+  "exampleMeaning": "매일 학교에 갑니다."
+ },
+ {
+  "id": "w3",
+  "word": "先生",
+  "reading": "せんせい",
+  "meaning": "선생님",
+  "level": "N5",
+  "example": "先生に質問しました。",
+  "exampleReading": "せんせいにしつもんしました。",
+  "exampleMeaning": "선생님께 질문했습니다."
+ },
+ {
+  "id": "w4",
+  "word": "友達",
+  "reading": "ともだち",
+  "meaning": "친구",
+  "level": "N5",
+  "example": "友達と映画を見ました。",
+  "exampleReading": "ともだちとえいがをみました。",
+  "exampleMeaning": "친구와 영화를 봤습니다."
+ },
+ {
+  "id": "w5",
+  "word": "時間",
+  "reading": "じかん",
+  "meaning": "시간",
+  "level": "N5",
+  "example": "時間がありません。",
+  "exampleReading": "じかんがありません。",
+  "exampleMeaning": "시간이 없습니다."
+ },
+ {
+  "id": "w6",
+  "word": "食べる",
+  "reading": "たべる",
+  "meaning": "먹다",
+  "level": "N5",
+  "example": "朝ごはんを食べます。",
+  "exampleReading": "あさごはんをたべます。",
+  "exampleMeaning": "아침밥을 먹습니다."
+ },
+ {
+  "id": "w7",
+  "word": "飲む",
+  "reading": "のむ",
+  "meaning": "마시다",
+  "level": "N5",
+  "example": "コーヒーを飲みますか。",
+  "exampleReading": "コーヒーをのみますか。",
+  "exampleMeaning": "커피를 마시겠습니까?"
+ },
+ {
+  "id": "w8",
+  "word": "行く",
+  "reading": "いく",
+  "meaning": "가다",
+  "level": "N5",
+  "example": "明日、東京へ行きます。",
+  "exampleReading": "あした、とうきょうへいきます。",
+  "exampleMeaning": "내일 도쿄에 갑니다."
+ },
+ {
+  "id": "w9",
+  "word": "来る",
+  "reading": "くる",
+  "meaning": "오다",
+  "level": "N5",
+  "example": "友達がうちに来ます。",
+  "exampleReading": "ともだちがうちにきます。",
+  "exampleMeaning": "친구가 집에 옵니다."
+ },
+ {
+  "id": "w10",
+  "word": "見る",
+  "reading": "みる",
+  "meaning": "보다",
+  "level": "N5",
+  "example": "テレビを見ながら食べます。",
+  "exampleReading": "テレビをみながらたべます。",
+  "exampleMeaning": "텔레비전을 보면서 먹습니다."
+ },
+ {
+  "id": "w11",
+  "word": "大きい",
+  "reading": "おおきい",
+  "meaning": "크다",
+  "level": "N5",
+  "example": "この犬はとても大きいです。",
+  "exampleReading": "このいぬはとてもおおきいです。",
+  "exampleMeaning": "이 개는 아주 큽니다."
+ },
+ {
+  "id": "w12",
+  "word": "小さい",
+  "reading": "ちいさい",
+  "meaning": "작다",
+  "level": "N5",
+  "example": "小さい町に住んでいます。",
+  "exampleReading": "ちいさいまちにすんでいます。",
+  "exampleMeaning": "작은 마을에 살고 있습니다."
+ },
+ {
+  "id": "w13",
+  "word": "新しい",
+  "reading": "あたらしい",
+  "meaning": "새롭다",
+  "level": "N5",
+  "example": "新しい靴を買いました。",
+  "exampleReading": "あたらしいくつをかいました。",
+  "exampleMeaning": "새 신발을 샀습니다."
+ },
+ {
+  "id": "w14",
+  "word": "高い",
+  "reading": "たかい",
+  "meaning": "높다·비싸다",
+  "level": "N5",
+  "example": "この店は少し高いです。",
+  "exampleReading": "このみせはすこしたかいです。",
+  "exampleMeaning": "이 가게는 조금 비쌉니다."
+ },
+ {
+  "id": "w15",
+  "word": "安い",
+  "reading": "やすい",
+  "meaning": "싸다",
+  "level": "N5",
+  "example": "安いホテルを探しています。",
+  "exampleReading": "やすいホテルをさがしています。",
+  "exampleMeaning": "싼 호텔을 찾고 있습니다."
+ },
+ {
+  "id": "w16",
+  "word": "今日",
+  "reading": "きょう",
+  "meaning": "오늘",
+  "level": "N5",
+  "example": "今日はいい天気ですね。",
+  "exampleReading": "きょうはいいてんきですね。",
+  "exampleMeaning": "오늘은 날씨가 좋네요."
+ },
+ {
+  "id": "w17",
+  "word": "明日",
+  "reading": "あした",
+  "meaning": "내일",
+  "level": "N5",
+  "example": "明日また会いましょう。",
+  "exampleReading": "あしたまたあいましょう。",
+  "exampleMeaning": "내일 또 만납시다."
+ },
+ {
+  "id": "w18",
+  "word": "本",
+  "reading": "ほん",
+  "meaning": "책",
+  "level": "N5",
+  "example": "図書館で本を借りました。",
+  "exampleReading": "としょかんでほんをかりました。",
+  "exampleMeaning": "도서관에서 책을 빌렸습니다."
+ },
+ {
+  "id": "w19",
+  "word": "駅",
+  "reading": "えき",
+  "meaning": "역",
+  "level": "N5",
+  "example": "駅まで歩いて十分です。",
+  "exampleReading": "えきまであるいてじゅっぷんです。",
+  "exampleMeaning": "역까지 걸어서 10분입니다."
+ },
+ {
+  "id": "w20",
+  "word": "天気",
+  "reading": "てんき",
+  "meaning": "날씨",
+  "level": "N5",
+  "example": "天気がいいから散歩しましょう。",
+  "exampleReading": "てんきがいいからさんぽしましょう。",
+  "exampleMeaning": "날씨가 좋으니 산책합시다."
+ },
+ {
+  "id": "w21",
+  "word": "経験",
+  "reading": "けいけん",
+  "meaning": "경험",
+  "level": "N4",
+  "example": "日本で働いた経験があります。",
+  "exampleReading": "にほんではたらいたけいけんがあります。",
+  "exampleMeaning": "일본에서 일한 경험이 있습니다."
+ },
+ {
+  "id": "w22",
+  "word": "案内",
+  "reading": "あんない",
+  "meaning": "안내",
+  "level": "N4",
+  "example": "駅まで案内してください。",
+  "exampleReading": "えきまであんないしてください。",
+  "exampleMeaning": "역까지 안내해 주세요."
+ },
+ {
+  "id": "w23",
+  "word": "予定",
+  "reading": "よてい",
+  "meaning": "예정",
+  "level": "N4",
+  "example": "週末の予定はありますか。",
+  "exampleReading": "しゅうまつのよていはありますか。",
+  "exampleMeaning": "주말 예정 있으세요?"
+ },
+ {
+  "id": "w24",
+  "word": "会議",
+  "reading": "かいぎ",
+  "meaning": "회의",
+  "level": "N4",
+  "example": "会議は三時に始まります。",
+  "exampleReading": "かいぎはさんじにはじまります。",
+  "exampleMeaning": "회의는 3시에 시작합니다."
+ },
+ {
+  "id": "w25",
+  "word": "準備",
+  "reading": "じゅんび",
+  "meaning": "준비",
+  "level": "N4",
+  "example": "旅行の準備をしています。",
+  "exampleReading": "りょこうのじゅんびをしています。",
+  "exampleMeaning": "여행 준비를 하고 있습니다."
+ },
+ {
+  "id": "w26",
+  "word": "説明",
+  "reading": "せつめい",
+  "meaning": "설명",
+  "level": "N4",
+  "example": "もう一度説明してもらえますか。",
+  "exampleReading": "もういちどせつめいしてもらえますか。",
+  "exampleMeaning": "한 번 더 설명해 주시겠어요?"
+ },
+ {
+  "id": "w27",
+  "word": "遅れる",
+  "reading": "おくれる",
+  "meaning": "늦다",
+  "level": "N4",
+  "example": "電車が遅れて遅刻しました。",
+  "exampleReading": "でんしゃがおくれてちこくしました。",
+  "exampleMeaning": "전철이 늦어서 지각했습니다."
+ },
+ {
+  "id": "w28",
+  "word": "決める",
+  "reading": "きめる",
+  "meaning": "정하다",
+  "level": "N4",
+  "example": "旅行の日を決めましょう。",
+  "exampleReading": "りょこうのひをきめましょう。",
+  "exampleMeaning": "여행 날짜를 정합시다."
+ },
+ {
+  "id": "w29",
+  "word": "届く",
+  "reading": "とどく",
+  "meaning": "도착하다·닿다",
+  "level": "N4",
+  "example": "荷物が今朝届きました。",
+  "exampleReading": "にもつがけさとどきました。",
+  "exampleMeaning": "짐이 오늘 아침에 도착했습니다."
+ },
+ {
+  "id": "w30",
+  "word": "慣れる",
+  "reading": "なれる",
+  "meaning": "익숙해지다",
+  "level": "N4",
+  "example": "日本の生活に慣れましたか。",
+  "exampleReading": "にほんのせいかつになれましたか。",
+  "exampleMeaning": "일본 생활에 익숙해졌습니까?"
+ },
+ {
+  "id": "w31",
+  "word": "便利",
+  "reading": "べんり",
+  "meaning": "편리함",
+  "level": "N4",
+  "example": "このアプリはとても便利です。",
+  "exampleReading": "このアプリはとてもべんりです。",
+  "exampleMeaning": "이 앱은 아주 편리합니다."
+ },
+ {
+  "id": "w32",
+  "word": "複雑",
+  "reading": "ふくざつ",
+  "meaning": "복잡함",
+  "level": "N4",
+  "example": "東京の地下鉄は複雑です。",
+  "exampleReading": "とうきょうのちかてつはふくざつです。",
+  "exampleMeaning": "도쿄의 지하철은 복잡합니다."
+ },
+ {
+  "id": "w33",
+  "word": "熱心",
+  "reading": "ねっしん",
+  "meaning": "열심임",
+  "level": "N4",
+  "example": "彼は熱心に勉強しています。",
+  "exampleReading": "かれはねっしんにべんきょうしています。",
+  "exampleMeaning": "그는 열심히 공부하고 있습니다."
+ },
+ {
+  "id": "w34",
+  "word": "最近",
+  "reading": "さいきん",
+  "meaning": "최근",
+  "level": "N4",
+  "example": "最近、忙しいですか。",
+  "exampleReading": "さいきん、いそがしいですか。",
+  "exampleMeaning": "요즘 바쁘세요?"
+ },
+ {
+  "id": "w35",
+  "word": "将来",
+  "reading": "しょうらい",
+  "meaning": "장래",
+  "level": "N4",
+  "example": "将来、先生になりたいです。",
+  "exampleReading": "しょうらい、せんせいになりたいです。",
+  "exampleMeaning": "장래에 선생님이 되고 싶습니다."
+ },
+ {
+  "id": "w36",
+  "word": "途中",
+  "reading": "とちゅう",
+  "meaning": "도중",
+  "level": "N4",
+  "example": "帰る途中で雨が降りました。",
+  "exampleReading": "かえるとちゅうであめがふりました。",
+  "exampleMeaning": "돌아가는 도중에 비가 내렸습니다."
+ },
+ {
+  "id": "w37",
+  "word": "都合",
+  "reading": "つごう",
+  "meaning": "사정·형편",
+  "level": "N4",
+  "example": "明日は都合が悪いです。",
+  "exampleReading": "あしたはつごうがわるいです。",
+  "exampleMeaning": "내일은 사정이 안 됩니다."
+ },
+ {
+  "id": "w38",
+  "word": "約束",
+  "reading": "やくそく",
+  "meaning": "약속",
+  "level": "N4",
+  "example": "友達と約束があります。",
+  "exampleReading": "ともだちとやくそくがあります。",
+  "exampleMeaning": "친구와 약속이 있습니다."
+ },
+ {
+  "id": "w39",
+  "word": "相談",
+  "reading": "そうだん",
+  "meaning": "상담·의논",
+  "level": "N4",
+  "example": "先生に相談してみます。",
+  "exampleReading": "せんせいにそうだんしてみます。",
+  "exampleMeaning": "선생님과 상의해 보겠습니다."
+ },
+ {
+  "id": "w40",
+  "word": "見つける",
+  "reading": "みつける",
+  "meaning": "찾아내다",
+  "level": "N4",
+  "example": "いい店を見つけました。",
+  "exampleReading": "いいみせをみつけました。",
+  "exampleMeaning": "좋은 가게를 찾았습니다."
+ },
+ {
+  "id": "w41",
+  "word": "影響",
+  "reading": "えいきょう",
+  "meaning": "영향",
+  "level": "N3",
+  "example": "台風の影響で電車が止まった。",
+  "exampleReading": "たいふうのえいきょうででんしゃがとまった。",
+  "exampleMeaning": "태풍의 영향으로 전철이 멈췄다."
+ },
+ {
+  "id": "w42",
+  "word": "環境",
+  "reading": "かんきょう",
+  "meaning": "환경",
+  "level": "N3",
+  "example": "環境問題に関心があります。",
+  "exampleReading": "かんきょうもんだいにかんしんがあります。",
+  "exampleMeaning": "환경 문제에 관심이 있습니다."
+ },
+ {
+  "id": "w43",
+  "word": "状況",
+  "reading": "じょうきょう",
+  "meaning": "상황",
+  "level": "N3",
+  "example": "現在の状況を説明します。",
+  "exampleReading": "げんざいのじょうきょうをせつめいします。",
+  "exampleMeaning": "현재 상황을 설명하겠습니다."
+ },
+ {
+  "id": "w44",
+  "word": "解決",
+  "reading": "かいけつ",
+  "meaning": "해결",
+  "level": "N3",
+  "example": "問題はまだ解決していない。",
+  "exampleReading": "もんだいはまだかいけつしていない。",
+  "exampleMeaning": "문제는 아직 해결되지 않았다."
+ },
+ {
+  "id": "w45",
+  "word": "確認",
+  "reading": "かくにん",
+  "meaning": "확인",
+  "level": "N3",
+  "example": "予約を確認してください。",
+  "exampleReading": "よやくをかくにんしてください。",
+  "exampleMeaning": "예약을 확인해 주세요."
+ },
+ {
+  "id": "w46",
+  "word": "増える",
+  "reading": "ふえる",
+  "meaning": "늘다",
+  "level": "N3",
+  "example": "外国人観光客が増えている。",
+  "exampleReading": "がいこくじんかんこうきゃくがふえている。",
+  "exampleMeaning": "외국인 관광객이 늘고 있다."
+ },
+ {
+  "id": "w47",
+  "word": "減る",
+  "reading": "へる",
+  "meaning": "줄다",
+  "level": "N3",
+  "example": "人口が少しずつ減っている。",
+  "exampleReading": "じんこうがすこしずつへっている。",
+  "exampleMeaning": "인구가 조금씩 줄고 있다."
+ },
+ {
+  "id": "w48",
+  "word": "比べる",
+  "reading": "くらべる",
+  "meaning": "비교하다",
+  "level": "N3",
+  "example": "去年と比べて暑いです。",
+  "exampleReading": "きょねんとくらべてあついです。",
+  "exampleMeaning": "작년과 비교해서 덥습니다."
+ },
+ {
+  "id": "w49",
+  "word": "求める",
+  "reading": "もとめる",
+  "meaning": "요구하다·구하다",
+  "level": "N3",
+  "example": "会社は若い人材を求めている。",
+  "exampleReading": "かいしゃはわかいじんざいをもとめている。",
+  "exampleMeaning": "회사는 젊은 인재를 구하고 있다."
+ },
+ {
+  "id": "w50",
+  "word": "諦める",
+  "reading": "あきらめる",
+  "meaning": "포기하다",
+  "level": "N3",
+  "example": "最後まで諦めないでください。",
+  "exampleReading": "さいごまであきらめないでください。",
+  "exampleMeaning": "마지막까지 포기하지 마세요."
+ },
+ {
+  "id": "w51",
+  "word": "詳しい",
+  "reading": "くわしい",
+  "meaning": "자세하다·잘 알다",
+  "level": "N3",
+  "example": "彼は歴史に詳しいです。",
+  "exampleReading": "かれはれきしにくわしいです。",
+  "exampleMeaning": "그는 역사를 잘 압니다."
+ },
+ {
+  "id": "w52",
+  "word": "盛ん",
+  "reading": "さかん",
+  "meaning": "왕성함·활발함",
+  "level": "N3",
+  "example": "この町は貿易が盛んです。",
+  "exampleReading": "このまちはぼうえきがさかんです。",
+  "exampleMeaning": "이 도시는 무역이 활발합니다."
+ },
+ {
+  "id": "w53",
+  "word": "我慢",
+  "reading": "がまん",
+  "meaning": "참음·인내",
+  "level": "N3",
+  "example": "痛みを我慢しないでください。",
+  "exampleReading": "いたみをがまんしないでください。",
+  "exampleMeaning": "아픔을 참지 마세요."
+ },
+ {
+  "id": "w54",
+  "word": "印象",
+  "reading": "いんしょう",
+  "meaning": "인상",
+  "level": "N3",
+  "example": "彼女の第一印象はよかった。",
+  "exampleReading": "かのじょのだいいちいんしょうはよかった。",
+  "exampleMeaning": "그녀의 첫인상은 좋았다."
+ },
+ {
+  "id": "w55",
+  "word": "誤解",
+  "reading": "ごかい",
+  "meaning": "오해",
+  "level": "N3",
+  "example": "それは誤解だと思います。",
+  "exampleReading": "それはごかいだとおもいます。",
+  "exampleMeaning": "그것은 오해라고 생각합니다."
+ },
+ {
+  "id": "w56",
+  "word": "制度",
+  "reading": "せいど",
+  "meaning": "제도",
+  "level": "N3",
+  "example": "新しい制度が始まりました。",
+  "exampleReading": "あたらしいせいどがはじまりました。",
+  "exampleMeaning": "새로운 제도가 시작되었습니다."
+ },
+ {
+  "id": "w57",
+  "word": "割合",
+  "reading": "わりあい",
+  "meaning": "비율",
+  "level": "N3",
+  "example": "賛成の割合が高かった。",
+  "exampleReading": "さんせいのわりあいがたかかった。",
+  "exampleMeaning": "찬성 비율이 높았다."
+ },
+ {
+  "id": "w58",
+  "word": "効果",
+  "reading": "こうか",
+  "meaning": "효과",
+  "level": "N3",
+  "example": "この薬はすぐ効果が出ます。",
+  "exampleReading": "このくすりはすぐこうかがでます。",
+  "exampleMeaning": "이 약은 바로 효과가 나타납니다."
+ },
+ {
+  "id": "w59",
+  "word": "目的",
+  "reading": "もくてき",
+  "meaning": "목적",
+  "level": "N3",
+  "example": "旅行の目的は何ですか。",
+  "exampleReading": "りょこうのもくてきはなんですか。",
+  "exampleMeaning": "여행의 목적은 무엇입니까?"
+ },
+ {
+  "id": "w60",
+  "word": "発展",
+  "reading": "はってん",
+  "meaning": "발전",
+  "level": "N3",
+  "example": "この地域は急速に発展した。",
+  "exampleReading": "このちいきはきゅうそくにはってんした。",
+  "exampleMeaning": "이 지역은 급속히 발전했다."
+ },
+ {
+  "id": "n2_01",
+  "word": "把握",
+  "reading": "はあく",
+  "meaning": "파악",
+  "level": "N2",
+  "example": "現状を正しく把握することが大切だ。",
+  "exampleReading": "げんじょうをただしくはあくすることがたいせつだ。",
+  "exampleMeaning": "현상을 올바르게 파악하는 것이 중요하다."
+ },
+ {
+  "id": "n2_02",
+  "word": "貢献",
+  "reading": "こうけん",
+  "meaning": "공헌",
+  "level": "N2",
+  "example": "彼は地域社会に大きく貢献した。",
+  "exampleReading": "かれはちいきしゃかいにおおきくこうけんした。",
+  "exampleMeaning": "그는 지역 사회에 크게 공헌했다."
+ },
+ {
+  "id": "n2_03",
+  "word": "維持",
+  "reading": "いじ",
+  "meaning": "유지",
+  "level": "N2",
+  "example": "健康を維持するために毎日歩いている。",
+  "exampleReading": "けんこうをいじするためにまいにちあるいている。",
+  "exampleMeaning": "건강을 유지하기 위해 매일 걷고 있다."
+ },
+ {
+  "id": "n2_04",
+  "word": "促す",
+  "reading": "うながす",
+  "meaning": "촉구하다·재촉하다",
+  "level": "N2",
+  "example": "政府は企業に対応を促した。",
+  "exampleReading": "せいふはきぎょうにたいおうをうながした。",
+  "exampleMeaning": "정부는 기업에 대응을 촉구했다."
+ },
+ {
+  "id": "n2_05",
+  "word": "図る",
+  "reading": "はかる",
+  "meaning": "도모하다",
+  "level": "N2",
+  "example": "会社は業務の効率化を図っている。",
+  "exampleReading": "かいしゃはぎょうむのこうりつかをはかっている。",
+  "exampleMeaning": "회사는 업무 효율화를 도모하고 있다."
+ },
+ {
+  "id": "n2_06",
+  "word": "補う",
+  "reading": "おぎなう",
+  "meaning": "보완하다·보충하다",
+  "level": "N2",
+  "example": "足りない栄養をサプリで補う。",
+  "exampleReading": "たりないえいようをサプリでおぎなう。",
+  "exampleMeaning": "부족한 영양을 보충제로 보충한다."
+ },
+ {
+  "id": "n2_07",
+  "word": "抱える",
+  "reading": "かかえる",
+  "meaning": "안다·떠안다",
+  "level": "N2",
+  "example": "この会社は多くの問題を抱えている。",
+  "exampleReading": "このかいしゃはおおくのもんだいをかかえている。",
+  "exampleMeaning": "이 회사는 많은 문제를 안고 있다."
+ },
+ {
+  "id": "n2_08",
+  "word": "損なう",
+  "reading": "そこなう",
+  "meaning": "해치다·손상하다",
+  "level": "N2",
+  "example": "睡眠不足は健康を損なう。",
+  "exampleReading": "すいみんぶそくはけんこうをそこなう。",
+  "exampleMeaning": "수면 부족은 건강을 해친다."
+ },
+ {
+  "id": "n2_09",
+  "word": "著しい",
+  "reading": "いちじるしい",
+  "meaning": "현저하다",
+  "level": "N2",
+  "example": "この分野は技術の進歩が著しい。",
+  "exampleReading": "このぶんやはぎじゅつのしんぽがいちじるしい。",
+  "exampleMeaning": "이 분야는 기술의 진보가 현저하다."
+ },
+ {
+  "id": "n2_10",
+  "word": "妥当",
+  "reading": "だとう",
+  "meaning": "타당함",
+  "level": "N2",
+  "example": "その判断は妥当だと思う。",
+  "exampleReading": "そのはんだんはだとうだとおもう。",
+  "exampleMeaning": "그 판단은 타당하다고 생각한다."
+ },
+ {
+  "id": "n2_11",
+  "word": "円滑",
+  "reading": "えんかつ",
+  "meaning": "원활함",
+  "level": "N2",
+  "example": "会議は円滑に進んだ。",
+  "exampleReading": "かいぎはえんかつにすすんだ。",
+  "exampleMeaning": "회의는 원활하게 진행되었다."
+ },
+ {
+  "id": "n2_12",
+  "word": "慎重",
+  "reading": "しんちょう",
+  "meaning": "신중함",
+  "level": "N2",
+  "example": "慎重に言葉を選んで話した。",
+  "exampleReading": "しんちょうにことばをえらんではなした。",
+  "exampleMeaning": "신중하게 말을 골라 이야기했다."
+ },
+ {
+  "id": "n2_13",
+  "word": "傾向",
+  "reading": "けいこう",
+  "meaning": "경향",
+  "level": "N2",
+  "example": "若者は都市に集まる傾向がある。",
+  "exampleReading": "わかものはとしにあつまるけいこうがある。",
+  "exampleMeaning": "젊은이는 도시에 모이는 경향이 있다."
+ },
+ {
+  "id": "n2_14",
+  "word": "課題",
+  "reading": "かだい",
+  "meaning": "과제",
+  "level": "N2",
+  "example": "環境問題は世界共通の課題だ。",
+  "exampleReading": "かんきょうもんだいはせかいきょうつうのかだいだ。",
+  "exampleMeaning": "환경 문제는 세계 공통의 과제다."
+ },
+ {
+  "id": "n2_15",
+  "word": "対象",
+  "reading": "たいしょう",
+  "meaning": "대상",
+  "level": "N2",
+  "example": "この調査は大学生を対象に行った。",
+  "exampleReading": "このちょうさはだいがくせいをたいしょうにおこなった。",
+  "exampleMeaning": "이 조사는 대학생을 대상으로 실시했다."
+ },
+ {
+  "id": "n2_16",
+  "word": "需要",
+  "reading": "じゅよう",
+  "meaning": "수요",
+  "level": "N2",
+  "example": "電気自動車の需要が高まっている。",
+  "exampleReading": "でんきじどうしゃのじゅようがたかまっている。",
+  "exampleMeaning": "전기차 수요가 높아지고 있다."
+ },
+ {
+  "id": "n2_17",
+  "word": "供給",
+  "reading": "きょうきゅう",
+  "meaning": "공급",
+  "level": "N2",
+  "example": "電力の供給が不足している。",
+  "exampleReading": "でんりょくのきょうきゅうがふそくしている。",
+  "exampleMeaning": "전력 공급이 부족하다."
+ },
+ {
+  "id": "n2_18",
+  "word": "依然",
+  "reading": "いぜん",
+  "meaning": "여전히",
+  "level": "N2",
+  "example": "状況は依然として厳しい。",
+  "exampleReading": "じょうきょうはいぜんとしてきびしい。",
+  "exampleMeaning": "상황은 여전히 어렵다."
+ },
+ {
+  "id": "n2_19",
+  "word": "次第に",
+  "reading": "しだいに",
+  "meaning": "점차",
+  "level": "N2",
+  "example": "空が次第に明るくなった。",
+  "exampleReading": "そらがしだいにあかるくなった。",
+  "exampleMeaning": "하늘이 점차 밝아졌다."
+ },
+ {
+  "id": "n2_20",
+  "word": "巡る",
+  "reading": "めぐる",
+  "meaning": "둘러싸다·돌다",
+  "level": "N2",
+  "example": "予算を巡って議論が続いている。",
+  "exampleReading": "よさんをめぐってぎろんがつづいている。",
+  "exampleMeaning": "예산을 둘러싸고 논의가 계속되고 있다."
+ },
+ {
+  "id": "n1_01",
+  "word": "顕著",
+  "reading": "けんちょ",
+  "meaning": "현저함·두드러짐",
+  "level": "N1",
+  "example": "若者の車離れが顕著になっている。",
+  "exampleReading": "わかもののくるまばなれがけんちょになっている。",
+  "exampleMeaning": "젊은층의 자동차 기피가 두드러지고 있다."
+ },
+ {
+  "id": "n1_02",
+  "word": "懸念",
+  "reading": "けねん",
+  "meaning": "우려",
+  "level": "N1",
+  "example": "景気の悪化が懸念されている。",
+  "exampleReading": "けいきのあっかがけねんされている。",
+  "exampleMeaning": "경기 악화가 우려되고 있다."
+ },
+ {
+  "id": "n1_03",
+  "word": "示唆",
+  "reading": "しさ",
+  "meaning": "시사",
+  "level": "N1",
+  "example": "首相は増税の可能性を示唆した。",
+  "exampleReading": "しゅしょうはぞうぜいのかのうせいをしさした。",
+  "exampleMeaning": "총리는 증세 가능성을 시사했다."
+ },
+ {
+  "id": "n1_04",
+  "word": "措置",
+  "reading": "そち",
+  "meaning": "조치",
+  "level": "N1",
+  "example": "政府は特別な措置を取った。",
+  "exampleReading": "せいふはとくべつなそちをとった。",
+  "exampleMeaning": "정부는 특별한 조치를 취했다."
+ },
+ {
+  "id": "n1_05",
+  "word": "是正",
+  "reading": "ぜせい",
+  "meaning": "시정",
+  "level": "N1",
+  "example": "賃金格差の是正が求められている。",
+  "exampleReading": "ちんぎんかくさのぜせいがもとめられている。",
+  "exampleMeaning": "임금 격차의 시정이 요구되고 있다."
+ },
+ {
+  "id": "n1_06",
+  "word": "逼迫",
+  "reading": "ひっぱく",
+  "meaning": "절박·여유가 없음",
+  "level": "N1",
+  "example": "都市部の病床が逼迫している。",
+  "exampleReading": "としぶのびょうしょうがひっぱくしている。",
+  "exampleMeaning": "도시 지역의 병상이 부족해 절박한 상황이다."
+ },
+ {
+  "id": "n1_07",
+  "word": "融資",
+  "reading": "ゆうし",
+  "meaning": "융자",
+  "level": "N1",
+  "example": "銀行から融資を受けて店を開いた。",
+  "exampleReading": "ぎんこうからゆうしをうけてみせをひらいた。",
+  "exampleMeaning": "은행에서 융자를 받아 가게를 열었다."
+ },
+ {
+  "id": "n1_08",
+  "word": "相次ぐ",
+  "reading": "あいつぐ",
+  "meaning": "잇따르다",
+  "level": "N1",
+  "example": "値上げの発表が相次いだ。",
+  "exampleReading": "ねあげのはっぴょうがあいついだ。",
+  "exampleMeaning": "가격 인상 발표가 잇따랐다."
+ },
+ {
+  "id": "n1_09",
+  "word": "踏まえる",
+  "reading": "ふまえる",
+  "meaning": "근거로 하다·감안하다",
+  "level": "N1",
+  "example": "現状を踏まえて計画を立てる。",
+  "exampleReading": "げんじょうをふまえてけいかくをたてる。",
+  "exampleMeaning": "현 상황을 감안하여 계획을 세운다."
+ },
+ {
+  "id": "n1_10",
+  "word": "担う",
+  "reading": "になう",
+  "meaning": "짊어지다·담당하다",
+  "level": "N1",
+  "example": "若者が地域の未来を担っている。",
+  "exampleReading": "わかものがちいきのみらいをになっている。",
+  "exampleMeaning": "젊은이들이 지역의 미래를 짊어지고 있다."
+ },
+ {
+  "id": "n1_11",
+  "word": "覆す",
+  "reading": "くつがえす",
+  "meaning": "뒤집다",
+  "level": "N1",
+  "example": "新しい研究が定説を覆した。",
+  "exampleReading": "あたらしいけんきゅうがていせつをくつがえした。",
+  "exampleMeaning": "새로운 연구가 정설을 뒤집었다."
+ },
+ {
+  "id": "n1_12",
+  "word": "漂う",
+  "reading": "ただよう",
+  "meaning": "감돌다·떠돌다",
+  "level": "N1",
+  "example": "会場に緊張感が漂っていた。",
+  "exampleReading": "かいじょうにきんちょうかんがただよっていた。",
+  "exampleMeaning": "회장에 긴장감이 감돌고 있었다."
+ },
+ {
+  "id": "n1_13",
+  "word": "遂げる",
+  "reading": "とげる",
+  "meaning": "이루다·완수하다",
+  "level": "N1",
+  "example": "この十年で会社は急成長を遂げた。",
+  "exampleReading": "このじゅうねんでかいしゃはきゅうせいちょうをとげた。",
+  "exampleMeaning": "지난 10년 사이 회사는 급성장을 이뤘다."
+ },
+ {
+  "id": "n1_14",
+  "word": "乏しい",
+  "reading": "とぼしい",
+  "meaning": "부족하다·모자라다",
+  "level": "N1",
+  "example": "彼は海外経験に乏しい。",
+  "exampleReading": "かれはかいがいけいけんにとぼしい。",
+  "exampleMeaning": "그는 해외 경험이 부족하다."
+ },
+ {
+  "id": "n1_15",
+  "word": "巧妙",
+  "reading": "こうみょう",
+  "meaning": "교묘함",
+  "level": "N1",
+  "example": "詐欺の手口がますます巧妙になっている。",
+  "exampleReading": "さぎのてぐちがますますこうみょうになっている。",
+  "exampleMeaning": "사기 수법이 점점 교묘해지고 있다."
+ },
+ {
+  "id": "n1_16",
+  "word": "曖昧",
+  "reading": "あいまい",
+  "meaning": "애매함",
+  "level": "N1",
+  "example": "曖昧な返事は誤解を生む。",
+  "exampleReading": "あいまいなへんじはごかいをうむ。",
+  "exampleMeaning": "애매한 대답은 오해를 낳는다."
+ },
+ {
+  "id": "n1_17",
+  "word": "葛藤",
+  "reading": "かっとう",
+  "meaning": "갈등",
+  "level": "N1",
+  "example": "理想と現実の間で葛藤する。",
+  "exampleReading": "りそうとげんじつのあいだでかっとうする。",
+  "exampleMeaning": "이상과 현실 사이에서 갈등한다."
+ },
+ {
+  "id": "n1_18",
+  "word": "極めて",
+  "reading": "きわめて",
+  "meaning": "극히·매우",
+  "level": "N1",
+  "example": "この病気は極めてまれだ。",
+  "exampleReading": "このびょうきはきわめてまれだ。",
+  "exampleMeaning": "이 병은 극히 드물다."
+ },
+ {
+  "id": "n1_19",
+  "word": "軒並み",
+  "reading": "のきなみ",
+  "meaning": "일제히·모두",
+  "level": "N1",
+  "example": "食品の価格が軒並み上がった。",
+  "exampleReading": "しょくひんのかかくがのきなみあがった。",
+  "exampleMeaning": "식품 가격이 일제히 올랐다."
+ },
+ {
+  "id": "n1_20",
+  "word": "賄う",
+  "reading": "まかなう",
+  "meaning": "충당하다·조달하다",
+  "level": "N1",
+  "example": "行事の費用は寄付で賄われた。",
+  "exampleReading": "ぎょうじのひようはきふでまかなわれた。",
+  "exampleMeaning": "행사 비용은 기부로 충당되었다."
+ }
+]
