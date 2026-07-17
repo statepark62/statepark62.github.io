@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  ことば帖 (Kotoba-cho) v1.2 — 일본어 단어 자동학습 PWA
+  ことば帖 (Kotoba-cho) v1.4 — 일본어 단어 자동학습 PWA
   © 2026 박상태 (Sangtae Park), Kongju National University.
   All rights reserved. 무단 복제·수정·재배포를 금지합니다.
   Unauthorized copying, modification or redistribution is prohibited.
@@ -319,9 +319,10 @@
 
 
 <footer>
-  <span class="jp">ことば帖</span> v1.2 · © 2026 박상태 (Sangtae Park) · All rights reserved. · 무단 복제·재배포 금지<br>
+  <span class="jp">ことば帖</span> v1.4 · © 2026 박상태 (Sangtae Park) · All rights reserved. · 무단 복제·재배포 금지<br>
   💬 <a href="https://forms.gle/1oTmcoWRLYCgucX79" target="_blank" rel="noopener">의견 보내기</a>
   &nbsp;·&nbsp; 문의: <a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a>
+  <span id="visitInfo" style="display:block; margin-top:2px;"></span>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -333,6 +334,8 @@ const LS = {
   custom:    'kotoba_custom',      // 직접 추가한 단어 배열
   hidden:    'kotoba_hidden',      // 숨긴 공용 단어 id 배열
   lastBackup:'kotoba_last_backup', // 마지막 백업 시각(ms)
+  visitDate: 'kotoba_visit_date',    // 오늘 방문 신호를 보냈는지
+  visitor:   'kotoba_visitor',       // 이 기기가 기존 방문자인지
 };
 function lsGet(key, fallback){
   try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
@@ -369,21 +372,45 @@ window.addEventListener('load', () => {
     if (autoTimer) { stopAuto(); startAuto(); }
   });
 
+  fetchWords(true);
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+
+  // 홈 화면 앱은 새로고침 수단이 없으므로, 화면에 복귀할 때마다 단어를 자동 갱신
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') fetchWords(false);
+  });
+  window.addEventListener('pageshow', () => fetchWords(false));
+});
+
+let lastWordsFetch = 0;
+
+function fetchWords(isFirst){
+  const now = Date.now();
+  if (!isFirst && now - lastWordsFetch < 30*60*1000) return;  // 30분 이내 재확인 생략
   fetch('words.json', {cache:'no-cache'})
     .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(list => { SHARED = list.filter(w => w && w.word && w.reading); startApp(); })
+    .then(list => {
+      lastWordsFetch = now;
+      const fresh = list.filter(w => w && w.word && w.reading);
+      const grew = fresh.length - SHARED.length;
+      SHARED = fresh;
+      if (isFirst) { startApp(); return; }
+      rebuildWords();
+      renderSrsStats();
+      if (grew > 0) toast(`새 단어 ${grew}개가 추가되었습니다`);
+    })
     .catch(() => {
-      // 오프라인 등: 캐시된 words.json은 SW가 돌려주므로 여기 오면 첫 방문 실패
+      if (!isFirst) return;   // 복귀 시 실패는 조용히 무시 (다음 기회에)
       SHARED = [];
       if (CUSTOM.length) { startApp(); toast('단어 목록을 못 받아 저장된 단어만 표시합니다'); }
       else document.getElementById('loading').textContent =
         '단어장을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.';
     });
-
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
-});
+}
 
 function startApp(){
+  logVisit();
   rebuildWords();
   document.getElementById('loading').style.display = 'none';
   updateBackupInfo();
@@ -734,6 +761,33 @@ function doResetProgress(){
   PROGRESS = {};
   lsSet(LS.progress, PROGRESS);
   toast('진도를 초기화했습니다'); renderList();
+}
+
+
+/* ====================== 방문 집계 (기기당 하루 1회) ====================== */
+// ★ 아래 URL을 수집기(범용 시트 수집 웹앱) 배포 URL로 교체하세요.
+const VISIT_URL = '여기에_수집기_배포_URL';
+
+function localToday(){
+  const d = new Date(), pad = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
+function logVisit(){
+  if (!VISIT_URL || VISIT_URL.indexOf('http') !== 0) return;  // URL 미설정 시 조용히 생략
+  const today = localToday();
+  let t = 'count';                                   // 오늘 이미 집계됨 → 조회만
+  if (lsGet(LS.visitDate, null) !== today){
+    t = lsGet(LS.visitor, null) ? 'ret' : 'new';     // 오늘 첫 실행 → 재방문/신규 집계
+  }
+  fetch(`${VISIT_URL}?action=visit&t=${t}`)
+    .then(r => r.json())
+    .then(res => {
+      if (!res || !res.ok) return;
+      lsSet(LS.visitDate, today); lsSet(LS.visitor, 1);
+      const el = document.getElementById('visitInfo');
+      if (el && res.today) el.textContent = `오늘 ${res.today}명이 함께 공부했습니다 · 누적 방문 ${res.total}`;
+    })
+    .catch(() => {});                                // 오프라인 등 — 조용히 무시
 }
 
 /* ====================== 백업 / 복원 ====================== */
