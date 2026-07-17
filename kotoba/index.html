@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  ことば帖 (Kotoba-cho) v1.1 — 일본어 단어 자동학습 PWA
+  © 2026 박상태 (Sangtae Park), Kongju National University.
+  All rights reserved. 무단 복제·수정·재배포를 금지합니다.
+  Unauthorized copying, modification or redistribution is prohibited.
+  Contact: cafe.naver.com/statepark62
+-->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -149,6 +156,12 @@
   .loading{text-align:center; padding:60px 0; color:var(--muted);}
   .empty{text-align:center; padding:40px 16px; color:var(--muted); font-size:14.5px; line-height:1.8;}
 
+  footer{
+    max-width:680px; margin:34px auto 0; padding:14px 18px 0;
+    border-top:1px solid var(--line); text-align:center;
+    color:var(--muted); font-size:12px; line-height:1.9;
+  }
+  footer a{color:var(--ai); text-decoration:none;}
   @media (max-width:420px){
     .flash .word{font-size:44px;}
     .qword{font-size:36px;}
@@ -304,6 +317,12 @@
   </section>
 </main>
 
+
+<footer>
+  <span class="jp">ことば帖</span> v1.1 · © 2026 박상태 (Sangtae Park) · All rights reserved.<br>
+  무단 복제·재배포 금지 · 문의와 의견: <a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a>
+</footer>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -351,7 +370,7 @@ window.addEventListener('load', () => {
 
   fetch('words.json', {cache:'no-cache'})
     .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(list => { SHARED = list; startApp(); })
+    .then(list => { SHARED = list.filter(w => w && w.word && w.reading); startApp(); })
     .catch(() => {
       // 오프라인 등: 캐시된 words.json은 SW가 돌려주므로 여기 오면 첫 방문 실패
       SHARED = [];
