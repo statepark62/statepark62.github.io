@@ -20,6 +20,13 @@ import requests
 ROOT = Path(__file__).resolve().parent.parent
 WORDS_PATH = ROOT / "kotoba" / "words.json"
 
+# words.json 맨 앞에 항상 포함되는 저작권 고지 (앱은 word 필드가 없는 항목을 무시함)
+LICENSE_META = {
+    "_license": "© 2026 Sangtae Park (박상태), Kongju National University. "
+                "All rights reserved. 무단 복제·재배포 금지. "
+                "Contact: cafe.naver.com/statepark62",
+}
+
 
 def main():
     url = os.environ.get("GAS_WORDS_URL")
@@ -54,6 +61,8 @@ def main():
         print(f"단어가 {len(data)}개뿐 — 이상 상황으로 판단, 기존 파일 유지", file=sys.stderr)
         return 1
 
+    content = [LICENSE_META] + data   # 저작권 고지를 항상 선두에
+
     old = None
     if WORDS_PATH.exists():
         try:
@@ -61,14 +70,15 @@ def main():
         except json.JSONDecodeError:
             old = None
 
-    if old == data:
+    if old == content:
         print(f"변경 없음 (총 {len(data)}개)")
         return 0
 
-    WORDS_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=1),
+    WORDS_PATH.write_text(json.dumps(content, ensure_ascii=False, indent=1),
                           encoding="utf-8")
+    n_old = len([w for w in old if isinstance(w, dict) and w.get("word")]) if isinstance(old, list) else None
     print(f"words.json 동기화 완료: 총 {len(data)}개"
-          + (f" (이전 {len(old)}개)" if isinstance(old, list) else ""))
+          + (f" (이전 {n_old}개)" if n_old is not None else ""))
     return 0
 
 
