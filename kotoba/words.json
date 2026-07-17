@@ -1,5 +1,8 @@
 [
  {
+  "_license": "© 2026 Sangtae Park (박상태), Kongju National University. All rights reserved. 무단 복제·재배포 금지. Contact: cafe.naver.com/statepark62"
+ },
+ {
   "id": "w1",
   "word": "水",
   "reading": "みず",
@@ -600,6 +603,16 @@
   "exampleMeaning": "이 지역은 급속히 발전했다."
  },
  {
+  "id": "w1783730980112",
+  "word": "桜",
+  "reading": "さくら",
+  "meaning": "벚꽃",
+  "level": "N5",
+  "example": "桜が綺麗に咲いています。",
+  "exampleReading": "",
+  "exampleMeaning": "벚꽃이 예쁘게 피었습니다."
+ },
+ {
   "id": "n2_01",
   "word": "把握",
   "reading": "はあく",
@@ -998,5 +1011,625 @@
   "example": "行事の費用は寄付で賄われた。",
   "exampleReading": "ぎょうじのひようはきふでまかなわれた。",
   "exampleMeaning": "행사 비용은 기부로 충당되었다."
+ },
+ {
+  "id": "news1",
+  "word": "拠点",
+  "reading": "きょてん",
+  "meaning": "거점, 근거지",
+  "level": "N2",
+  "example": "この会社はアジア展開の拠点として東京にオフィスを構えている。",
+  "exampleReading": "このかいしゃはアジアてんかいのきょてんとしてとうきょうにオフィスをかまえている。",
+  "exampleMeaning": "이 회사는 아시아 진출의 거점으로 도쿄에 사무실을 두고 있다."
+ },
+ {
+  "id": "news2",
+  "word": "起訴",
+  "reading": "きそ",
+  "meaning": "기소",
+  "level": "N1",
+  "example": "検察は証拠が十分にそろったとして容疑者を起訴した。",
+  "exampleReading": "けんさつはしょうこがじゅうぶんにそろったとしてようぎしゃをきそした。",
+  "exampleMeaning": "검찰은 증거가 충분히 갖춰졌다며 용의자를 기소했다."
+ },
+ {
+  "id": "news3",
+  "word": "不透明",
+  "reading": "ふとうめい",
+  "meaning": "불투명, 불확실",
+  "level": "N2",
+  "example": "今後の経済情勢は不透明で、専門家の間でも意見が分かれている。",
+  "exampleReading": "こんごのけいざいじょうせいはふとうめいで、せんもんかのあいだでもいけんがわかれている。",
+  "exampleMeaning": "앞으로의 경제 정세는 불투명해서, 전문가들 사이에서도 의견이 갈리고 있다."
+ },
+ {
+  "id": "news4",
+  "word": "猛烈",
+  "reading": "もうれつ",
+  "meaning": "맹렬함, 격렬함",
+  "level": "N2",
+  "example": "今年の夏は猛烈な暑さが続き、外出するだけで体力を消耗する。",
+  "exampleReading": "ことしのなつはもうれつなあつさがつづき、がいしゅつするだけでたいりょくをしょうもうする。",
+  "exampleMeaning": "올여름은 맹렬한 더위가 계속되어, 외출하는 것만으로도 체력을 소모한다."
+ },
+ {
+  "id": "news5",
+  "word": "実装",
+  "reading": "じっそう",
+  "meaning": "실장, 실제 적용(구현)",
+  "level": "N1",
+  "example": "この研究成果を社会実装するには、企業との連携が欠かせない。",
+  "exampleReading": "このけんきゅうせいかをしゃかいじっそうするには、きぎょうとのれんけいがかかせない。",
+  "exampleMeaning": "이 연구 성과를 사회에 실제 적용하려면 기업과의 협력이 필수적이다."
+ },
+ {
+  "id": "news6",
+  "word": "治験",
+  "reading": "ちけん",
+  "meaning": "임상시험",
+  "level": "N1",
+  "example": "新しい薬の効果を確かめるため、大学病院で治験が行われている。",
+  "exampleReading": "あたらしいくすりのこうかをたしかめるため、だいがくびょういんでちけんがおこなわれている。",
+  "exampleMeaning": "새로운 약의 효과를 확인하기 위해 대학병원에서 임상시험이 이루어지고 있다."
+ },
+ {
+  "id": "news7",
+  "word": "採決",
+  "reading": "さいけつ",
+  "meaning": "표결, 채결",
+  "level": "N1",
+  "example": "与党は野党の反対を押し切り、法案を採決する方針を固めた。",
+  "exampleReading": "よとうはやとうのはんたいをおしきり、ほうあんをさいけつするほうしんをかためた。",
+  "exampleMeaning": "여당은 야당의 반대를 무릅쓰고 법안을 표결에 부치겠다는 방침을 굳혔다."
+ },
+ {
+  "id": "news8",
+  "word": "警戒感",
+  "reading": "けいかいかん",
+  "meaning": "경계감, 경계심",
+  "level": "N2",
+  "example": "原油価格の急騰を受け、市場では警戒感が広がっている。",
+  "exampleReading": "げんゆかかくのきゅうとうをうけ、しじょうではけいかいかんがひろがっている。",
+  "exampleMeaning": "원유 가격 급등으로 인해 시장에서는 경계감이 확산되고 있다."
+ },
+ {
+  "id": "news9",
+  "word": "攻撃",
+  "reading": "こうげき",
+  "meaning": "공격",
+  "level": "N3",
+  "example": "軍は敵の基地に対して攻撃を開始した。",
+  "exampleReading": "ぐんはてきのきちにたいしてこうげきをかいしした。",
+  "exampleMeaning": "군은 적의 기지에 대해 공격을 개시했다."
+ },
+ {
+  "id": "news10",
+  "word": "猛暑日",
+  "reading": "もうしょび",
+  "meaning": "폭염일 (최고기온 35도 이상인 날)",
+  "level": "N2",
+  "example": "今週は猛暑日が続く見込みです。",
+  "exampleReading": "こんしゅうはもうしょびがつづくみこみです。",
+  "exampleMeaning": "이번 주는 폭염일이 계속될 전망입니다."
+ },
+ {
+  "id": "news11",
+  "word": "徹底",
+  "reading": "てってい",
+  "meaning": "철저(히 함)",
+  "level": "N2",
+  "example": "熱中症対策の徹底が呼びかけられている。",
+  "exampleReading": "ねっちゅうしょうたいさくのてっていがよびかけられている。",
+  "exampleMeaning": "열사병 대책을 철저히 할 것이 촉구되고 있다."
+ },
+ {
+  "id": "news12",
+  "word": "制限",
+  "reading": "せいげん",
+  "meaning": "제한",
+  "level": "N3",
+  "example": "このアプリは利用時間を制限する機能がある。",
+  "exampleReading": "このアプリはりようじかんをせいげんするきのうがある。",
+  "exampleMeaning": "이 앱은 이용 시간을 제한하는 기능이 있다."
+ },
+ {
+  "id": "news13",
+  "word": "反発",
+  "reading": "はんぱつ",
+  "meaning": "반발",
+  "level": "N2",
+  "example": "新しい政策に対して国民から強い反発が出ている。",
+  "exampleReading": "あたらしいせいさくにたいしてこくみんからつよいはんぱつがでている。",
+  "exampleMeaning": "새로운 정책에 대해 국민들의 강한 반발이 나오고 있다."
+ },
+ {
+  "id": "news14",
+  "word": "判決",
+  "reading": "はんけつ",
+  "meaning": "판결",
+  "level": "N2",
+  "example": "裁判所はきょう重要な判決を下した。",
+  "exampleReading": "さいばんしょはきょうじゅうようなはんけつをくだした。",
+  "exampleMeaning": "법원은 오늘 중요한 판결을 내렸다."
+ },
+ {
+  "id": "news15",
+  "word": "差し止め",
+  "reading": "さしとめ",
+  "meaning": "정지, 금지(처분)",
+  "level": "N1",
+  "example": "住民は工事の差し止めを求めて訴訟を起こした。",
+  "exampleReading": "じゅうみんはこうじのさしとめをもとめてそしょうをおこした。",
+  "exampleMeaning": "주민들은 공사 중지를 요구하며 소송을 제기했다."
+ },
+ {
+  "id": "news16",
+  "word": "対価",
+  "reading": "たいか",
+  "meaning": "대가, 보상",
+  "level": "N1",
+  "example": "彼はその情報の対価として多額の金を要求した。",
+  "exampleReading": "かれはそのじょうほうのたいかとしてたがくのかねをようきゅうした。",
+  "exampleMeaning": "그는 그 정보의 대가로 거액의 돈을 요구했다."
+ },
+ {
+  "id": "tj1",
+  "word": "敬意",
+  "reading": "けいい",
+  "meaning": "경의, 존중",
+  "level": "N2",
+  "example": "相手の努力に敬意を払う。",
+  "exampleReading": "あいてのどりょくにけいいをはらう。",
+  "exampleMeaning": "상대의 노력에 경의를 표하다."
+ },
+ {
+  "id": "tj2",
+  "word": "反論する",
+  "reading": "はんろんする",
+  "meaning": "반박하다",
+  "level": "N2",
+  "example": "彼は静かに反論した。",
+  "exampleReading": "かれはしずかにはんろんした。",
+  "exampleMeaning": "그는 조용히 반박했다."
+ },
+ {
+  "id": "tj3",
+  "word": "記者",
+  "reading": "きしゃ",
+  "meaning": "기자",
+  "level": "N3",
+  "example": "記者が選手に質問を投げかけた。",
+  "exampleReading": "きしゃがせんしゅにしつもんをなげかけた。",
+  "exampleMeaning": "기자가 선수에게 질문을 던졌다."
+ },
+ {
+  "id": "tj4",
+  "word": "称える",
+  "reading": "たたえる",
+  "meaning": "칭송하다, 기리다",
+  "level": "N1",
+  "example": "観客は勝者の健闘を称えた。",
+  "exampleReading": "かんきゃくはしょうしゃのけんとうをたたえた。",
+  "exampleMeaning": "관객은 승자의 선전을 칭송했다."
+ },
+ {
+  "id": "tj5",
+  "word": "車いすテニス",
+  "reading": "くるまいすてにす",
+  "meaning": "휠체어 테니스",
+  "level": "N2",
+  "example": "車いすテニスの大会を初めて観戦した。",
+  "exampleReading": "くるまいすてにすのたいかいをはじめてかんせんした。",
+  "exampleMeaning": "휠체어 테니스 대회를 처음 관전했다."
+ },
+ {
+  "id": "news17",
+  "word": "封鎖",
+  "reading": "ふうさ",
+  "meaning": "봉쇄",
+  "level": "N2",
+  "example": "台風の影響で道路が封鎖された。",
+  "exampleReading": "たいふうのえいきょうでどうろがふうさされた。",
+  "exampleMeaning": "태풍의 영향으로 도로가 봉쇄되었다."
+ },
+ {
+  "id": "news18",
+  "word": "撤回",
+  "reading": "てっかい",
+  "meaning": "철회",
+  "level": "N1",
+  "example": "彼は自分の発言を撤回した。",
+  "exampleReading": "かれはじぶんのはつげんをてっかいした。",
+  "exampleMeaning": "그는 자신의 발언을 철회했다."
+ },
+ {
+  "id": "news19",
+  "word": "審議",
+  "reading": "しんぎ",
+  "meaning": "심의",
+  "level": "N1",
+  "example": "国会でその法案が審議されている。",
+  "exampleReading": "こっかいでそのほうあんがしんぎされている。",
+  "exampleMeaning": "국회에서 그 법안이 심의되고 있다."
+ },
+ {
+  "id": "news20",
+  "word": "厳重",
+  "reading": "げんじゅう",
+  "meaning": "엄중함, 철저함",
+  "level": "N2",
+  "example": "空港では荷物の検査が厳重に行われている。",
+  "exampleReading": "くうこうではにもつのけんさがげんじゅうにおこなわれている。",
+  "exampleMeaning": "공항에서는 짐 검사가 엄중하게 이루어지고 있다."
+ },
+ {
+  "id": "news21",
+  "word": "普及",
+  "reading": "ふきゅう",
+  "meaning": "보급, 확산",
+  "level": "N2",
+  "example": "スマートフォンの普及で生活が大きく変わった。",
+  "exampleReading": "すまーとふぉんのふきゅうでせいかつがおおきくかわった。",
+  "exampleMeaning": "스마트폰의 보급으로 생활이 크게 바뀌었다."
+ },
+ {
+  "id": "news22",
+  "word": "選考",
+  "reading": "せんこう",
+  "meaning": "선고, 심사 선발",
+  "level": "N1",
+  "example": "採用試験の選考結果が来週発表される。",
+  "exampleReading": "さいようしけんのせんこうけっかがらいしゅうはっぴょうされる。",
+  "exampleMeaning": "채용 시험의 선발 결과가 다음 주 발표된다."
+ },
+ {
+  "id": "tj6",
+  "word": "原発",
+  "reading": "げんぱつ",
+  "meaning": "원전(원자력 발전소)",
+  "level": "N2",
+  "example": "事故後、原発の安全基準が見直された。",
+  "exampleReading": "じこご、げんぱつのあんぜんきじゅんがみなおされた。",
+  "exampleMeaning": "사고 후, 원전의 안전 기준이 재검토되었다."
+ },
+ {
+  "id": "tj7",
+  "word": "放射能",
+  "reading": "ほうしゃのう",
+  "meaning": "방사능",
+  "level": "N2",
+  "example": "放射能への不安が地域に残る。",
+  "exampleReading": "ほうしゃのうへのふあんがちいきにのこる。",
+  "exampleMeaning": "방사능에 대한 불안이 지역에 남아 있다."
+ },
+ {
+  "id": "tj8",
+  "word": "汚染",
+  "reading": "おせん",
+  "meaning": "오염",
+  "level": "N2",
+  "example": "土壌の汚染を測定する。",
+  "exampleReading": "どじょうのおせんをそくていする。",
+  "exampleMeaning": "토양의 오염을 측정한다."
+ },
+ {
+  "id": "tj9",
+  "word": "国境を越える",
+  "reading": "こっきょうをこえる",
+  "meaning": "국경을 넘다",
+  "level": "N2",
+  "example": "歌は国境を越えて人の心に届く。",
+  "exampleReading": "うたはこっきょうをこえてひとのこころにとどく。",
+  "exampleMeaning": "노래는 국경을 넘어 사람들의 마음에 닿는다."
+ },
+ {
+  "id": "tj10",
+  "word": "隣国",
+  "reading": "りんごく",
+  "meaning": "인접국, 이웃 나라",
+  "level": "N3",
+  "example": "隣国との往来がようやく再開した。",
+  "exampleReading": "りんごくとのおうらいがようやくさいかいした。",
+  "exampleMeaning": "이웃 나라와의 왕래가 마침내 재개되었다."
+ },
+ {
+  "id": "news23",
+  "word": "猛暑",
+  "reading": "もうしょ",
+  "meaning": "혹서, 폭염",
+  "level": "N2",
+  "example": "今年の夏は猛暑が続いている。",
+  "exampleReading": "ことしのなつはもうしょがつづいている。",
+  "exampleMeaning": "올해 여름은 폭염이 계속되고 있다."
+ },
+ {
+  "id": "news24",
+  "word": "談合",
+  "reading": "だんごう",
+  "meaning": "담합",
+  "level": "N1",
+  "example": "会社が談合を行った疑いで捜査されている。",
+  "exampleReading": "かいしゃがだんごうをおこなったうたがいでそうさされている。",
+  "exampleMeaning": "회사가 담합을 한 혐의로 수사받고 있다."
+ },
+ {
+  "id": "news25",
+  "word": "罰金",
+  "reading": "ばっきん",
+  "meaning": "벌금",
+  "level": "N2",
+  "example": "交通違反で罰金を払った。",
+  "exampleReading": "こうつういはんでばっきんをはらった。",
+  "exampleMeaning": "교통위반으로 벌금을 냈다."
+ },
+ {
+  "id": "news26",
+  "word": "脱税",
+  "reading": "だつぜい",
+  "meaning": "탈세",
+  "level": "N1",
+  "example": "彼は脱税の罪で逮捕された。",
+  "exampleReading": "かれはだつぜいのつみでたいほされた。",
+  "exampleMeaning": "그는 탈세 죄로 체포되었다."
+ },
+ {
+  "id": "news27",
+  "word": "見込み",
+  "reading": "みこみ",
+  "meaning": "전망, 예상",
+  "level": "N2",
+  "example": "今後の景気回復には期待できる見込みがある。",
+  "exampleReading": "こんごのけいきかいふくにはきたいできるみこみがある。",
+  "exampleMeaning": "앞으로의 경기 회복에는 기대할 수 있는 전망이 있다."
+ },
+ {
+  "id": "news28",
+  "word": "見送り",
+  "reading": "みおくり",
+  "meaning": "보류, 연기, 미룸",
+  "level": "N2",
+  "example": "予算不足のため、新しいプロジェクトの開始は見送りとなった。",
+  "exampleReading": "よさんぶそくのため、あたらしいプロジェクトのかいしはみおくりとなった。",
+  "exampleMeaning": "예산 부족으로 새로운 프로젝트 시작이 보류되었다."
+ },
+ {
+  "id": "news29",
+  "word": "誤り",
+  "reading": "あやまり",
+  "meaning": "실수, 잘못, 오류",
+  "level": "N2",
+  "example": "彼の判断の誤りが大きな損失につながった。",
+  "exampleReading": "かれのはんだんのあやまりがおおきなそんしつにつながった。",
+  "exampleMeaning": "그의 판단 실수가 큰 손실로 이어졌다."
+ },
+ {
+  "id": "news30",
+  "word": "臨床試験",
+  "reading": "りんしょうしけん",
+  "meaning": "임상시험",
+  "level": "N1",
+  "example": "新薬の効果を確かめるために臨床試験が行われた。",
+  "exampleReading": "しんやくのこうかをたしかめるためにりんしょうしけんがおこなわれた。",
+  "exampleMeaning": "신약의 효과를 확인하기 위해 임상시험이 실시되었다."
+ },
+ {
+  "id": "news31",
+  "word": "社会実装",
+  "reading": "しゃかいじっそう",
+  "meaning": "사회 실장(연구성과를 실제 사회에 적용하는 것)",
+  "level": "N1",
+  "example": "大学の研究成果を社会実装するための支援策が求められている。",
+  "exampleReading": "だいがくのけんきゅうせいかをしゃかいじっそうするためのしえんさくがもとめられている。",
+  "exampleMeaning": "대학의 연구 성과를 사회에 실용화하기 위한 지원책이 요구되고 있다."
+ },
+ {
+  "id": "news32",
+  "word": "禁錮",
+  "reading": "きんこ",
+  "meaning": "금고형",
+  "level": "N1",
+  "example": "被告は禁錮3年の判決を受けた。",
+  "exampleReading": "ひこくはきんこさんねんのはんけつをうけた。",
+  "exampleMeaning": "피고는 금고 3년 판결을 받았다."
+ },
+ {
+  "id": "news33",
+  "word": "補助金",
+  "reading": "ほじょきん",
+  "meaning": "보조금",
+  "level": "N2",
+  "example": "政府は中小企業に補助金を支給することにした。",
+  "exampleReading": "せいふはちゅうしょうきぎょうにほじょきんをしきゅうすることにした。",
+  "exampleMeaning": "정부는 중소기업에 보조금을 지급하기로 했다."
+ },
+ {
+  "id": "news34",
+  "word": "位置づける",
+  "reading": "いちづける",
+  "meaning": "위치시키다, 자리매김하다",
+  "level": "N1",
+  "example": "この技術は今後の産業発展の鍵として位置づけられている。",
+  "exampleReading": "このぎじゅつはこんごのさんぎょうはってんのかぎとしていちづけられている。",
+  "exampleMeaning": "이 기술은 향후 산업 발전의 열쇠로 자리매김하고 있다."
+ },
+ {
+  "id": "news35",
+  "word": "訴訟",
+  "reading": "そしょう",
+  "meaning": "소송",
+  "level": "N1",
+  "example": "会社を相手に損害賠償の訴訟を起こした。",
+  "exampleReading": "かいしゃをあいてにそんがいばいしょうのそしょうをおこした。",
+  "exampleMeaning": "회사를 상대로 손해배상 소송을 제기했다."
+ },
+ {
+  "id": "news36",
+  "word": "望ましい",
+  "reading": "のぞましい",
+  "meaning": "바람직하다",
+  "level": "N2",
+  "example": "健康のためには規則正しい生活が望ましい。",
+  "exampleReading": "けんこうのためにはきそくただしいせいかつがのぞましい。",
+  "exampleMeaning": "건강을 위해서는 규칙적인 생활이 바람직하다."
+ },
+ {
+  "id": "tj11",
+  "word": "摘発",
+  "reading": "てきはつ",
+  "meaning": "적발, 단속",
+  "level": "N2",
+  "example": "当局は不正を次々と摘発した。",
+  "exampleReading": "とうきょくはふせいをつぎつぎとてきはつした。",
+  "exampleMeaning": "당국은 부정을 잇따라 적발했다."
+ },
+ {
+  "id": "tj12",
+  "word": "温床",
+  "reading": "おんしょう",
+  "meaning": "온상, 번식의 토양",
+  "level": "N1",
+  "example": "不透明な人事は腐敗の温床になりかねない。",
+  "exampleReading": "ふとうめいなじんじはふはいのおんしょうになりかねない。",
+  "exampleMeaning": "불투명한 인사는 부패의 온상이 되기 쉽다."
+ },
+ {
+  "id": "tj13",
+  "word": "倣う",
+  "reading": "ならう",
+  "meaning": "본받다, 따르다",
+  "level": "N2",
+  "example": "悪い慣習に倣う必要はない。",
+  "exampleReading": "わるいかんしゅうにならうひつようはない。",
+  "exampleMeaning": "나쁜 관습을 따를 필요는 없다."
+ },
+ {
+  "id": "tj14",
+  "word": "買官売官",
+  "reading": "ばいかんばいかん",
+  "meaning": "관직 매매",
+  "level": "N1",
+  "example": "買官売官は社会の信頼を根底から揺るがす。",
+  "exampleReading": "ばいかんばいかんはしゃかいのしんらいをこんていからゆるがす。",
+  "exampleMeaning": "관직 매매는 사회의 신뢰를 근본부터 흔든다."
+ },
+ {
+  "id": "tj15",
+  "word": "爵位",
+  "reading": "しゃくい",
+  "meaning": "작위",
+  "level": "N1",
+  "example": "昔の爵位は功績の証しとされた。",
+  "exampleReading": "むかしのしゃくいはこうせきのあかしとされた。",
+  "exampleMeaning": "옛날의 작위는 공적의 증표로 여겨졌다."
+ },
+ {
+  "id": "news37",
+  "word": "死去",
+  "reading": "しきょ",
+  "meaning": "사망, 별세 (공식적이고 격식있는 표현)",
+  "level": "N2",
+  "example": "有名な作家が昨夜、病院で死去したというニュースが流れた。",
+  "exampleReading": "ゆうめいなさっかがさくや、びょういんでしきょしたというニュースがながれた。",
+  "exampleMeaning": "유명한 작가가 어젯밤 병원에서 사망했다는 뉴스가 나왔다."
+ },
+ {
+  "id": "news38",
+  "word": "究明",
+  "reading": "きゅうめい",
+  "meaning": "규명, 원인 등을 밝혀냄 (사건·사고 보도에서 자주 사용)",
+  "level": "N1",
+  "example": "警察は事故の原因究明のため、現場検証を続けている。",
+  "exampleReading": "けいさつはじこのげんいんきゅうめいのため、げんばけんしょうをつづけている。",
+  "exampleMeaning": "경찰은 사고의 원인 규명을 위해 현장 검증을 계속하고 있다."
+ },
+ {
+  "id": "news39",
+  "word": "通過",
+  "reading": "つうか",
+  "meaning": "통과 (법안이 의회를 통과하는 등의 표현에 자주 사용)",
+  "level": "N2",
+  "example": "その法案は賛成多数で衆議院を通過した。",
+  "exampleReading": "そのほうあんはさんせいたすうでしゅうぎいんをつうかした。",
+  "exampleMeaning": "그 법안은 찬성 다수로 중의원을 통과했다."
+ },
+ {
+  "id": "news40",
+  "word": "遺志",
+  "reading": "いし",
+  "meaning": "고인의 뜻, 유지 (故人の意志를 이어받는다는 표현에서 자주 사용)",
+  "level": "N1",
+  "example": "彼は亡くなった父の遺志を受け継いで、会社を経営することにした。",
+  "exampleReading": "かれはなくなったちちのいしをうけついで、かいしゃをけいえいすることにした。",
+  "exampleMeaning": "그는 돌아가신 아버지의 유지를 이어받아 회사를 경영하기로 했다."
+ },
+ {
+  "id": "news41",
+  "word": "値下がり",
+  "reading": "ねさがり",
+  "meaning": "가격 하락, 값이 내려감 (주가·경제 뉴스에서 자주 사용)",
+  "level": "N2",
+  "example": "半導体関連株の値下がりが目立ち、市場全体が不安定になった。",
+  "exampleReading": "はんどうたいかんれんかぶのねさがりがめだち、しじょうぜんたいがふあんていになった。",
+  "exampleMeaning": "반도체 관련주의 가격 하락이 두드러져 시장 전체가 불안정해졌다."
+ },
+ {
+  "id": "news42",
+  "word": "会期延長",
+  "reading": "かいきえんちょう",
+  "meaning": "회기 연장 (국회 등의 회의 기간을 연장하는 것)",
+  "level": "N2",
+  "example": "与党は法案成立のため会期延長を決定した。",
+  "exampleReading": "よとうはほうあんせいりつのためかいきえんちょうをけっていした。",
+  "exampleMeaning": "여당은 법안 성립을 위해 회기 연장을 결정했다."
+ },
+ {
+  "id": "news43",
+  "word": "焦点",
+  "reading": "しょうてん",
+  "meaning": "초점, 관심의 중심",
+  "level": "N2",
+  "example": "物流網が正常化できるかが焦点となっている。",
+  "exampleReading": "ぶつりゅうもうがせいじょうかできるかがしょうてんとなっている。",
+  "exampleMeaning": "물류망이 정상화될 수 있을지가 초점이 되고 있다."
+ },
+ {
+  "id": "news44",
+  "word": "隔たり",
+  "reading": "へだたり",
+  "meaning": "차이, 격차, 간극",
+  "level": "N2",
+  "example": "与野党の意見には大きな隔たりがある。",
+  "exampleReading": "よやとうのいけんにはおおきなへだたりがある。",
+  "exampleMeaning": "여야당의 의견에는 큰 차이가 있다."
+ },
+ {
+  "id": "news45",
+  "word": "見通し",
+  "reading": "みとおし",
+  "meaning": "전망, 예측",
+  "level": "N2",
+  "example": "法案は今月中に成立する見通しだ。",
+  "exampleReading": "ほうあんはこんげつちゅうにせいりつするみとおしだ。",
+  "exampleMeaning": "법안은 이번 달 안에 성립될 전망이다."
+ },
+ {
+  "id": "news46",
+  "word": "大筋合意",
+  "reading": "おおすじごうい",
+  "meaning": "대체적인 합의, 대강의 합의",
+  "level": "N1",
+  "example": "実務者会議で税制改正について大筋合意に達した。",
+  "exampleReading": "じつむしゃかいぎでぜいせいかいせいについておおすじごういにたっした。",
+  "exampleMeaning": "실무자 회의에서 세제 개정에 대해 대체적인 합의에 도달했다."
+ },
+ {
+  "id": "w901",
+  "word": "栞",
+  "reading": "しおり",
+  "meaning": "책갈피",
+  "level": "N1",
+  "example": "ことば帖は日々の学びの栞になる。",
+  "exampleReading": "ことばちょうはひびのまなびのしおりになる。",
+  "exampleMeaning": "고토바초는 나날의 배움의 책갈피가 된다."
  }
 ]
