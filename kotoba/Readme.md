@@ -3,6 +3,15 @@
 GAS 버전과 별개로 운영되는 **불특정 다수 배포용** 버전입니다.
 로그인 불필요 · 진도는 각 기기에 저장(백업/복원 지원) · 단어는 저장소의 `words.json`에서 자동 공급.
 
+## 저작권 안내 / Copyright Notice
+
+이 저장소의 「ことば帖」 앱(kotoba/)과 단어 데이터(words.json)의 저작권은
+박상태(Sangtae Park)에게 있습니다. 열람 외의 복제·수정·재배포·상업적 이용을
+금지합니다. 별도의 오픈소스 라이선스를 부여하지 않습니다 (All rights reserved).
+
+The Kotoba-cho app and its vocabulary data are © 2026 Sangtae Park.
+No open-source license is granted. All rights reserved.
+
 ## 1. 패키지 구성 (kotoba-pwa.zip)
 
 | 파일 | 역할 |
