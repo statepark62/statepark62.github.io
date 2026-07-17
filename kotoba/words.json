@@ -1631,5 +1631,95 @@
   "example": "ことば帖は日々の学びの栞になる。",
   "exampleReading": "ことばちょうはひびのまなびのしおりになる。",
   "exampleMeaning": "고토바초는 나날의 배움의 책갈피가 된다."
+ },
+ {
+  "id": "news47",
+  "word": "崩れる",
+  "reading": "くずれる",
+  "meaning": "무너지다, 붕괴되다",
+  "level": "N2",
+  "example": "大雨で山の斜面が崩れて、住宅に土砂が流れ込んだ。",
+  "exampleReading": "おおあめでやまのしゃめんがくずれて、じゅうたくにどしゃがながれこんだ。",
+  "exampleMeaning": "폭우로 산 경사면이 무너져서 주택으로 토사가 흘러들었다."
+ },
+ {
+  "id": "news48",
+  "word": "失墜",
+  "reading": "しっつい",
+  "meaning": "실추, (신뢰나 명예 등이) 떨어짐",
+  "level": "N1",
+  "example": "不正が発覚し、企業への信頼が完全に失墜した。",
+  "exampleReading": "ふせいがはっかくし、きぎょうへのしんらいがかんぜんにしっついした。",
+  "exampleMeaning": "부정이 발각되어 기업에 대한 신뢰가 완전히 실추되었다."
+ },
+ {
+  "id": "news49",
+  "word": "検討",
+  "reading": "けんとう",
+  "meaning": "검토",
+  "level": "N3",
+  "example": "政府は新しい制度の導入について検討を進めている。",
+  "exampleReading": "せいふはあたらしいせいどのどうにゅうについてけんとうをすすめている。",
+  "exampleMeaning": "정부는 새로운 제도의 도입에 대해 검토를 진행하고 있다."
+ },
+ {
+  "id": "news50",
+  "word": "認定",
+  "reading": "にんてい",
+  "meaning": "인정, (자격 등을) 공식적으로 인정함",
+  "level": "N2",
+  "example": "審査の結果、彼は人間国宝として認定された。",
+  "exampleReading": "しんさのけっか、かれはにんげんこくほうとしてにんていされた。",
+  "exampleMeaning": "심사 결과, 그는 인간국보로 인정되었다."
+ },
+ {
+  "id": "tj16",
+  "word": "問いかける",
+  "reading": "といかける",
+  "meaning": "물음을 던지다",
+  "level": "N2",
+  "example": "子どもが素直に問いかける。",
+  "exampleReading": "こどもがすなおにといかける。",
+  "exampleMeaning": "아이가 솔직하게 물음을 던진다."
+ },
+ {
+  "id": "tj17",
+  "word": "首相",
+  "reading": "しゅしょう",
+  "meaning": "총리",
+  "level": "N3",
+  "example": "首相は会見で方針を述べた。",
+  "exampleReading": "しゅしょうはかいけんでほうしんをのべた。",
+  "exampleMeaning": "총리는 기자회견에서 방침을 밝혔다."
+ },
+ {
+  "id": "tj18",
+  "word": "うらやましい",
+  "reading": "うらやましい",
+  "meaning": "부럽다",
+  "level": "N2",
+  "example": "彼の落ち着いた口調がうらやましい。",
+  "exampleReading": "かれのおちついたくちょうがうらやましい。",
+  "exampleMeaning": "그의 차분한 말투가 부럽다."
+ },
+ {
+  "id": "tj19",
+  "word": "就いた",
+  "reading": "ついた",
+  "meaning": "취임했다",
+  "level": "N2",
+  "example": "彼女は新しい役職に就いた。",
+  "exampleReading": "かのじょはあたらしいやくしょくについた。",
+  "exampleMeaning": "그녀는 새로운 직책에 취임했다."
+ },
+ {
+  "id": "tj20",
+  "word": "時代",
+  "reading": "じだい",
+  "meaning": "시대",
+  "level": "N4",
+  "example": "今は価値観が揺れる時代だ。",
+  "exampleReading": "いまはかちかんがゆれるじだいだ。",
+  "exampleMeaning": "지금은 가치관이 흔들리는 시대다."
  }
 ]

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-18 天声人語로 배우는 일본어 — 총리와 성별의 물음</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .masthead{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .masthead-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .masthead-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .masthead{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .masthead-title,.masthead-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .masthead-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第11回</span>
+      <span>2026-07-18</span>
+      <span>2026년 7월 18일 (토)</span>
+    </div>
+
+    <h1>首相と性別の問い</h1>
+    <p class="topic-ko">총리와 성별의 물음</p>
+
+    <div class="keyquote">
+      <div class="ja">「男でも首相になれるの？」</div>
+      <div class="ko">남자도 총리가 될 수 있어? <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">メルケル氏の長期政権下のドイツでは、子どもが男性の首相を想像できるかを尋ねる場面が珍しくなかったと伝える。</p><p class="ko">독일에서 메르켈 총리가 장기간 집권하던 때, 아이들이 남성도 총리가 될 수 있느냐고 묻는 장면이 흔했다고 전한다.</p></div>
+      <div class="s-item"><p class="ja">筆者はその状況をうらやましく感じ、日本では長く女性の首相が可能かどうかが問いとして定着していたと振り返る。</p><p class="ko">필자는 그 풍경을 부러워하며, 일본에서는 오랫동안 ‘여자도 총리가 될 수 있느냐’가 더 익숙한 질문이었음을 상기시킨다.</p></div>
+      <div class="s-item"><p class="ja">さらに、日本でも昨秋に女性の首相が誕生したとの言及を起点に、問いが時代の常識と権力の姿を映す鏡だと考えさせる。</p><p class="ko">그리고 글은 일본에서도 지난해 가을 여성 총리가 나왔다는 언급을 바탕으로, 질문이 시대의 상식과 권력의 얼굴을 비추는 거울임을 생각하게 한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>問いかける<rt>といかける</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">물음을 던지다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">子どもが素直に問いかける。</span><br>아이가 솔직하게 물음을 던진다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>首相<rt>しゅしょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">총리</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">首相は会見で方針を述べた。</span><br>총리는 기자회견에서 방침을 밝혔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>うらやましい<rt>うらやましい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">부럽다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">彼の落ち着いた口調がうらやましい。</span><br>그의 차분한 말투가 부럽다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>就いた<rt>ついた</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">취임했다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">彼女は新しい役職に就いた。</span><br>그녀는 새로운 직책에 취임했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>時代<rt>じだい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">시대</span><span class="level">N4</span>
+            <p class="ex"><span class="ja">今は価値観が揺れる時代だ。</span><br>지금은 가치관이 흔들리는 시대다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜にわたり</div>
+        <div class="pattern-ko">~에 걸쳐</div>
+        <p class="explain">시간이나 범위의 전 구간에 걸친 지속·포괄을 나타내는 격식 있는 표현이다. 주로 기간(年、時間)이나 영역(地域、分野)과 함께 쓰이며, ‘동안’보다 넓고 공적인 뉘앙스를 띤다.</p>
+        <p class="ex"><span class="ja">二十年にわたり、この課題を追い続けてきた。</span><br>20년에 걸쳐 이 과제를 추적해 왔다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 아이의 짧은 질문을 서두에 배치해 독자가 즉시 주제를 감각적으로 파악하게 한다. 독일과 일본의 질문 프레임을 대비시키며, 같은 직함도 성별에 따라 다르게 상상된다는 사실을 드러낸다. ‘부러움’이라는 감정을 끼워 넣어 가치 판단을 노골적으로 드러내지 않으면서도 방향성을 제시한다. 천성인어 특유의 간결한 구문과 전환 기호(▼)는 장면 전환과 논지의 단계 상승을 리드미컬하게 만든다.</p>
+        <p>또한 글은 ‘지난가을 일본에서도 여성 총리가 나왔다’는 서술을 단초로 삼아, 질문이 사회의 상식을 반사하는 거울임을 사유하게 한다. 사실관계의 정합성은 전체 맥락 확인이 필요해 보이지만, 핵심은 질문의 방향이 바뀌는 순간 사회가 변한다는 통찰에 있다. 한국 독자에게도 정치의 얼굴과 일상의 언어가 맞물리는 지점이 흥미롭게 읽힌다. 결과보다 질문의 프레이밍 자체가 여론과 상상을 재구성한다는 지점을 포착한 점이 인상적이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 아이의 질문을 통해 권력의 성별 상식을 비추며 질문의 방향이 사회 변화를 예고함을 짚는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>앙겔라 메르켈은 2005년부터 2021년까지 독일 총리를 지내며 16년에 걸친 장기 집권을 이뤘다. 여성 리더십의 지속은 사회적 상상의 틀을 바꾸는 상징으로 자주 언급된다.</p>
+        <p>일본 정치에는 역사적으로 여성 총리가 없었다는 점이 자주 지적되어 왔다. 본 칼럼은 ‘지난가을 여성 총리’라는 언급을 단서로 논지를 전개하는데, 구체적 콘텍스트는 원문 전체 확인이 필요해 보인다.</p>
+        <p>어린이의 질문은 사회가 ‘당연시’하는 규범을 드러내는 거울로 기능한다. 질문이 바뀌면 상상 가능한 미래 역시 달라진다는 통찰은 교육·정치 담론에서 반복적으로 다뤄진다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>일상의 짧은 질문을 전면에 세워 거대 담론을 독자에게 가볍게 열어준다.</p>
+        <p><span class="n">二</span>대비(독일/일본)를 통해 같은 사안을 다른 각도에서 바라보게 한다.</p>
+        <p><span class="n">三</span>감정 한 조각(부러움)을 배치해 논지를 거칠지 않게 이끈다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">問いは社会の当たり前を揺さぶる。</span>
+      <span class="ko">물음은 사회의 ‘당연함’을 흔든다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-07-18) — <a href="https://www.asahi.com/articles/DA3S16506710.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-07-18.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
