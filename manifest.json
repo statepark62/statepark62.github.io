@@ -1,0 +1,20 @@
+{
+  "name": "박상태 디지털 명함 | Sangtae PARK",
+  "short_name": "박상태 명함",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FBFAF6",
+  "theme_color": "#175349",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
