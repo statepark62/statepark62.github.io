@@ -40,7 +40,7 @@
   }
 
   /* ── 세로쓰기 제호 ── */
-  .masthead{
+  .mast{
     display:flex;flex-direction:column;align-items:center;gap:20px;
     border-right:1px solid var(--line);padding-right:28px;
   }
@@ -51,12 +51,12 @@
     writing-mode:vertical-rl;letter-spacing:2px;
     border-radius:4px;
   }
-  .masthead-title{
+  .mast-title{
     writing-mode:vertical-rl;
     font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
     color:var(--ink);
   }
-  .masthead-sub{
+  .mast-sub{
     writing-mode:vertical-rl;
     font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
   }
@@ -173,17 +173,20 @@
   /* ── 모바일 ── */
   @media (max-width:680px){
     .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
-    .masthead{
+    .mast{
       flex-direction:row;justify-content:flex-start;
       border-right:none;border-bottom:1px solid var(--line);
       padding:0 0 18px;
     }
-    .masthead-title,.masthead-sub{writing-mode:horizontal-tb;letter-spacing:6px}
-    .masthead-title{font-size:22px}
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
     .seal{width:52px;height:52px;font-size:16px}
     .vocab-item{grid-template-columns:1fr;gap:8px}
   }
 </style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
 </head>
 <body>
 <div class="frame">
