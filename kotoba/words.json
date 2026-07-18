@@ -1721,5 +1721,85 @@
   "example": "今は価値観が揺れる時代だ。",
   "exampleReading": "いまはかちかんがゆれるじだいだ。",
   "exampleMeaning": "지금은 가치관이 흔들리는 시대다."
+ },
+ {
+  "id": "news51",
+  "word": "行方不明",
+  "reading": "ゆくえふめい",
+  "meaning": "행방불명, 실종",
+  "level": "N2",
+  "example": "台風の後、山で行方不明になった人が発見された。",
+  "exampleReading": "たいふうのあと、やまでゆくえふめいになったひとがはっけんされた。",
+  "exampleMeaning": "태풍 이후 산에서 행방불명되었던 사람이 발견되었다."
+ },
+ {
+  "id": "news52",
+  "word": "復元",
+  "reading": "ふくげん",
+  "meaning": "복원",
+  "level": "N2",
+  "example": "古い城の一部が最新技術で復元された。",
+  "exampleReading": "ふるいしろのいちぶがさいしんぎじゅつでふくげんされた。",
+  "exampleMeaning": "오래된 성의 일부가 최신 기술로 복원되었다."
+ },
+ {
+  "id": "news53",
+  "word": "信頼",
+  "reading": "しんらい",
+  "meaning": "신뢰",
+  "level": "N3",
+  "example": "不正が発覚し、会社への信頼が大きく揺らいだ。",
+  "exampleReading": "ふせいがはっかくし、かいしゃへのしんらいがおおきくゆらいだ。",
+  "exampleMeaning": "부정이 발각되어 회사에 대한 신뢰가 크게 흔들렸다."
+ },
+ {
+  "id": "tj21",
+  "word": "猛暑",
+  "reading": "もうしょ",
+  "meaning": "극심한 더위, 폭염",
+  "level": "N2",
+  "example": "猛暑で外出を控える人が増えた。",
+  "exampleReading": "もうしょでがいしゅつをひかえるひとがふえた。",
+  "exampleMeaning": "찜통더위로 외출을 삼가는 사람이 늘었다."
+ },
+ {
+  "id": "tj22",
+  "word": "普及",
+  "reading": "ふきゅう",
+  "meaning": "보급, 확산",
+  "level": "N2",
+  "example": "リモート勤務が急速に普及した。",
+  "exampleReading": "りもーときんむがきゅうそくにふきゅうした。",
+  "exampleMeaning": "원격 근무가 급속히 보급되었다."
+ },
+ {
+  "id": "tj23",
+  "word": "日焼け",
+  "reading": "ひやけ",
+  "meaning": "햇볕에 탐, 일광욕으로 그을림",
+  "level": "N3",
+  "example": "海で日焼けをしすぎて肌が痛い。",
+  "exampleReading": "うみでひやけをしすぎてはだがいたい。",
+  "exampleMeaning": "바다에서 햇볕에 너무 그을려 피부가 아프다."
+ },
+ {
+  "id": "tj24",
+  "word": "紺色",
+  "reading": "こんいろ",
+  "meaning": "곤색, 남색",
+  "level": "N3",
+  "example": "紺色のＴシャツは落ち着いて見える。",
+  "exampleReading": "こんいろのてぃーしゃつはおちついてみえる。",
+  "exampleMeaning": "곤색 티셔츠는 차분해 보인다."
+ },
+ {
+  "id": "tj25",
+  "word": "究極",
+  "reading": "きゅうきょく",
+  "meaning": "궁극, 최종적임",
+  "level": "N1",
+  "example": "彼は究極のシンプルさを追求する。",
+  "exampleReading": "かれはきゅうきょくのしんぷるさをついきゅうする。",
+  "exampleMeaning": "그는 궁극의 단순함을 추구한다."
  }
 ]
