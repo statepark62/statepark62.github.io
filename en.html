@@ -466,10 +466,10 @@ const SEASONS = {
   const el = document.getElementById("visitCount");
   if (!el) return;
   try {
-    const mode = sessionStorage.getItem("visit_counted") ? "read" : "hit";
+    const mode = localStorage.getItem("visit_counted") ? "read" : "hit";
     const res = await fetch(gbForm.action + "?mode=" + mode);
     const data = await res.json();
-    sessionStorage.setItem("visit_counted", "1");
+    localStorage.setItem("visit_counted", "1");
     el.textContent = Number(data.count).toLocaleString();
   } catch (e) {
     document.getElementById("visitWrap").style.display = "none";
