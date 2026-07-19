@@ -1801,5 +1801,65 @@
   "example": "彼は究極のシンプルさを追求する。",
   "exampleReading": "かれはきゅうきょくのしんぷるさをついきゅうする。",
   "exampleMeaning": "그는 궁극의 단순함을 추구한다."
+ },
+ {
+  "id": "news54",
+  "word": "高騰",
+  "reading": "こうとう",
+  "meaning": "(가격 등이) 급등함, 치솟음",
+  "level": "N1",
+  "example": "原油価格の高騰でガソリン代が上がった。",
+  "exampleReading": "げんゆかかくのこうとうでガソリンだいがあがった。",
+  "exampleMeaning": "원유 가격 급등으로 휘발유값이 올랐다."
+ },
+ {
+  "id": "tj26",
+  "word": "仏像",
+  "reading": "ぶつぞう",
+  "meaning": "불상",
+  "level": "N2",
+  "example": "寺には古い仏像が安置されている。",
+  "exampleReading": "てらにはふるいぶつぞうがあんちされている。",
+  "exampleMeaning": "절에는 오래된 불상이 안치되어 있다."
+ },
+ {
+  "id": "tj27",
+  "word": "源平合戦",
+  "reading": "げんぺいかっせん",
+  "meaning": "겐페이 전쟁",
+  "level": "N2",
+  "example": "源平合戦について授業で学んだ。",
+  "exampleReading": "げんぺいかっせんについてじゅぎょうでまなんだ。",
+  "exampleMeaning": "겐페이 전쟁에 대해 수업에서 배웠다."
+ },
+ {
+  "id": "tj28",
+  "word": "文書",
+  "reading": "もんじょ",
+  "meaning": "문서, 고문서",
+  "level": "N2",
+  "example": "文書を丁寧に保管する。",
+  "exampleReading": "もんじょをていねいにほかんする。",
+  "exampleMeaning": "문서를 정성스럽게 보관한다."
+ },
+ {
+  "id": "tj29",
+  "word": "納める",
+  "reading": "おさめる",
+  "meaning": "납입하다, 넣어 두다",
+  "level": "N2",
+  "example": "封筒に手紙を納めた。",
+  "exampleReading": "ふうとうにてがみをおさめた。",
+  "exampleMeaning": "봉투에 편지를 넣어 두었다."
+ },
+ {
+  "id": "tj30",
+  "word": "公開",
+  "reading": "こうかい",
+  "meaning": "공개",
+  "level": "N3",
+  "example": "新発見の資料が一般に公開された。",
+  "exampleReading": "しんはっけんのしりょうがいっぱんにこうかいされた。",
+  "exampleMeaning": "새로 발견된 자료가 일반에 공개되었다."
  }
 ]
