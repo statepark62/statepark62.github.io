@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  ことば帖 (Kotoba-cho) v1.4 — 일본어 단어 자동학습 PWA
+  ことば帖 (Kotoba-cho) v1.5 — 일본어 단어 자동학습 PWA
   © 2026 박상태 (Sangtae Park), Kongju National University.
   All rights reserved. 무단 복제·수정·재배포를 금지합니다.
   Unauthorized copying, modification or redistribution is prohibited.
@@ -319,7 +319,7 @@
 
 
 <footer>
-  <span class="jp">ことば帖</span> v1.4 · © 2026 박상태 (Sangtae Park) · All rights reserved. · 무단 복제·재배포 금지<br>
+  <span class="jp">ことば帖</span> v1.5 · © 2026 박상태 (Sangtae Park) · All rights reserved. · 무단 복제·재배포 금지<br>
   💬 <a href="https://forms.gle/1oTmcoWRLYCgucX79" target="_blank" rel="noopener">의견 보내기</a>
   &nbsp;·&nbsp; 문의: <a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a>
   <span id="visitInfo" style="display:block; margin-top:2px;"></span>
@@ -533,7 +533,7 @@ function runAutoCycle(){
   renderAuto(false);
   const w = autoDeck[autoIdx];
   const tts = document.getElementById('ttsOn').checked;
-  if (tts) speak(w.word);
+  if (tts) speak(w.reading || w.word);
   const sec = Number(document.getElementById('interval').value);
   revealTimer = setTimeout(() => {
     renderAuto(true);
@@ -550,18 +550,18 @@ function autoNext(manual){
   if (!autoDeck.length) return;
   if (manual) stopAuto();
   autoIdx = (autoIdx+1)%autoDeck.length; renderAuto(true);
-  if (document.getElementById('ttsOn').checked) speak(autoDeck[autoIdx].word);
+  if (document.getElementById('ttsOn').checked) speak(autoDeck[autoIdx].reading || autoDeck[autoIdx].word);
 }
 function autoPrev(){
   if (!autoDeck.length) return;
   stopAuto();
   autoIdx = (autoIdx-1+autoDeck.length)%autoDeck.length; renderAuto(true);
-  if (document.getElementById('ttsOn').checked) speak(autoDeck[autoIdx].word);
+  if (document.getElementById('ttsOn').checked) speak(autoDeck[autoIdx].reading || autoDeck[autoIdx].word);
 }
 function speakCurrent(){
   if (!autoDeck.length) return;
   const w = autoDeck[autoIdx];
-  speak(w.word, () => { if (w.example) speak(w.example); });
+  speak(w.reading || w.word, () => { if (w.example) speak(w.example); });
 }
 
 /* ====================== 퀴즈 ====================== */
@@ -604,10 +604,10 @@ function gradeQuiz(btn, correct){
   document.getElementById('qScore').textContent = `정답 ${qScore.ok} · 오답 ${qScore.no}`;
   document.getElementById('qStreak').textContent = `연속 정답 ${qScore.streak}`;
   document.getElementById('qNextBtn').disabled = false;
-  speak(qCurrent.word);
+  speak(qCurrent.reading || qCurrent.word);
   recordAnswer(qCurrent, correct);
 }
-function speakQuiz(){ if (qCurrent) speak(qCurrent.word); }
+function speakQuiz(){ if (qCurrent) speak(qCurrent.reading || qCurrent.word); }
 
 /* ====================== SRS 복습 ====================== */
 let srsQueue = [], srsCur = null, srsDoneToday = 0;
@@ -658,7 +658,7 @@ function revealSrs(){
   document.getElementById('rHint').style.display = 'none';
   document.getElementById('rYes').disabled = false;
   document.getElementById('rNo').disabled = false;
-  speak(srsCur.word);
+  speak(srsCur.reading || srsCur.word);
 }
 function answerSrs(correct){
   if (!srsCur) return;
@@ -670,7 +670,7 @@ function answerSrs(correct){
   nextSrs();
 }
 function speakSrs(){
-  if (srsCur) speak(srsCur.word, () => { if (srsCur.example) speak(srsCur.example); });
+  if (srsCur) speak(srsCur.reading || srsCur.word, () => { if (srsCur.example) speak(srsCur.example); });
 }
 
 /* ====================== 단어장 관리 ====================== */
@@ -766,7 +766,7 @@ function doResetProgress(){
 
 /* ====================== 방문 집계 (기기당 하루 1회) ====================== */
 // ★ 아래 URL을 수집기(범용 시트 수집 웹앱) 배포 URL로 교체하세요.
-const VISIT_URL = 'https://script.google.com/macros/s/AKfycbxvkLvDu_kNKFO4ePGRvmbsZ6KwKUGlVkVqNqrX1RW0nSyvFQjWM3p34GyyZUnAfrWq/exec';
+const VISIT_URL = '여기에_수집기_배포_URL';
 
 function localToday(){
   const d = new Date(), pad = n => String(n).padStart(2,'0');
