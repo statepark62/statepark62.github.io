@@ -22,6 +22,7 @@
   }
   .jp{font-family:'Noto Serif JP',serif;}
   .wrap{max-width:660px; margin:0 auto; padding:0 20px;}
+  a{color:var(--ai);}
 
   .cover{text-align:center; padding:46px 0 24px;}
   .hanko{
@@ -82,7 +83,7 @@
   details{background:#FBF8F1; border:1px solid var(--line); border-radius:11px; padding:11px 15px; margin:8px 0;}
   summary{cursor:pointer; font-weight:700;}
   details p{margin-top:8px; font-size:14.5px;}
-  footer{text-align:center; color:var(--muted); font-size:13px; margin-top:42px;}
+  footer{text-align:center; color:var(--muted); font-size:13px; margin-top:42px; line-height:2;}
   @media (max-width:460px){ .feat{grid-template-columns:1fr;} }
   @media print{ .cover .btn{display:none;} body{background:#fff;} }
 </style>
@@ -141,21 +142,32 @@
   </div>
 
   <div class="stage">
-    <h2><span class="no">4</span>추천 사용법</h2>
-    <ol class="steps">
-      <li>매일 <b>복습 탭</b>의 '오늘 복습'을 0으로 만들기 (5~10분)</li>
-      <li><b>자동학습</b>으로 새 단어 흘려듣기 — 카드 간격·레벨(N5~N1)은 취향대로</li>
-      <li><b>퀴즈</b>로 마무리 — 결과가 복습 일정에 자동 반영됩니다</li>
-    </ol>
-    <p class="muted">발음이 어색하면 기기에 일본어 음성을 설치해 보세요. iPhone: 설정 → 손쉬운 사용 → 콘텐츠 말하기 → 음성 → 일본어 / Android: 설정에서 TTS 검색 → Google TTS → 일본어 음성 데이터.</p>
+    <h2><span class="no">4</span>발음을 더 자연스럽게 (권장)</h2>
+    <p>발음은 여러분 기기의 일본어 음성이 냅니다. 기기에 일본어 음성을 설치하면 훨씬 또렷해집니다 — 기기별 설정법을 정리해 두었습니다:</p>
+    <p style="text-align:center; margin:10px 0;">
+      <a href="https://statepark62.github.io/kotoba/voice.html"><b>🔉 음성(발음) 설정 가이드 →</b></a>
+    </p>
+    <p class="muted">요약: iPhone은 설정 → 손쉬운 사용 → 읽기 및 말하기 → 음성 → 일본어(Kyoko 고품질판), Android는 설정에서 "TTS" 검색 → Google 음성 서비스 → 일본어 데이터 설치.</p>
   </div>
 
   <div class="stage">
-    <h2><span class="no">5</span>문제가 생기면</h2>
-    <details><summary>소리가 안 나요</summary>
-      <p>iPhone 측면 <b>무음 스위치</b>를 확인하세요. 화면 하단 "음성 읽기" 체크와, 위 4번의 일본어 음성 설치도 확인.</p></details>
+    <h2><span class="no">5</span>추천 사용법</h2>
+    <ol class="steps">
+      <li>매일 <b>복습 탭</b>의 '오늘 복습'을 0으로 만들기 (5~10분)</li>
+      <li><b>자동학습</b>으로 새 단어 흘려듣기 — 카드 간격·레벨(N5~N1)은 취향대로. 예문이 길어 끊기면 카드 간격을 10~15초로</li>
+      <li><b>퀴즈</b>로 마무리 — 결과가 복습 일정에 자동 반영됩니다</li>
+    </ol>
+    <p class="muted">카드 오른쪽 위 도장(壱~五)은 그 단어의 복습 단계입니다. 맞히면 승급, 틀리면 壱으로 — 도장이 올라가는 게 외워지고 있다는 증거입니다.</p>
+  </div>
+
+  <div class="stage">
+    <h2><span class="no">6</span>문제가 생기면</h2>
+    <details><summary>소리가 안 나요 / 발음이 어색해요</summary>
+      <p>① iPhone 측면 <b>무음 스위치</b> 확인 ② 화면 하단 "음성 읽기" 체크 확인 ③ <a href="https://statepark62.github.io/kotoba/voice.html">음성 설정 가이드</a>대로 일본어 음성 설치.</p></details>
+    <details><summary>예문이 중간에 끊겨요</summary>
+      <p>자동재생의 카드 간격(기본 7초)보다 예문이 길어서입니다. <b>"카드 간격" 슬라이더를 10~15초로</b> 늘리거나, 자동재생을 멈추고 🔊 버튼으로 들으면 끝까지 재생됩니다.</p></details>
     <details><summary>새 단어가 안 보여요</summary>
-      <p>단어는 매일 아침 추가됩니다. 앱을 완전히 닫았다가 다시 열거나, 화면을 당겨 새로고침해 보세요.</p></details>
+      <p>단어는 매일 아침 추가됩니다. 앱을 완전히 닫았다가 다시 열면 "새 단어 N개 추가" 알림과 함께 갱신됩니다.</p></details>
     <details><summary>화면이 이상하거나 옛날 그대로예요</summary>
       <p>홈 화면 아이콘을 지우고 링크로 재접속해 다시 추가하면 해결됩니다. <b>단, 지우기 전에 3번의 백업을 먼저!</b></p></details>
     <details><summary>기기를 바꿨더니 기록이 없어요</summary>
@@ -164,7 +176,8 @@
 
   <footer>
     <p class="jp" style="font-size:16px; letter-spacing:2px;">日々のことばを、たいせつに。</p>
-    <p>만든 이: 박상태 (공주대학교) · 문의는 네이버 카페 <b>cafe.naver.com/statepark62</b></p>
+    <p>💬 <a href="https://forms.gle/1oTmcoWRLYCgucX79">의견 보내기</a> · 문의: 네이버 카페 <a href="https://cafe.naver.com/statepark62">cafe.naver.com/statepark62</a></p>
+    <p>© 2026 박상태 (Sangtae Park) · 무단 복제·재배포 금지</p>
   </footer>
 
 </div>
