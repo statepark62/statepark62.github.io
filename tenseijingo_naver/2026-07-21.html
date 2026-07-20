@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-21 天声人語로 배우는 일본어 — 가자와 월드컵의 밤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第14回</span>
+      <span>2026-07-21</span>
+      <span>2026년 7월 21일 (화)</span>
+    </div>
+
+    <h1>ガザとＷ杯の夜</h1>
+    <p class="topic-ko">가자와 월드컵의 밤</p>
+
+    <div class="keyquote">
+      <div class="ja">「サッカーへの愛情」</div>
+      <div class="ko">축구에 대한 애정 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">ガザでは、暗い場所で大人も子どももＷ杯決勝の放送に釘付けになっていた様子が取り上げられる。</p><p class="ko">가자 지구의 어둠 속에서 어른과 아이가 월드컵 결승 생중계를 지켜보는 장면이 소개된다.</p></div>
+      <div class="s-item"><p class="ja">大会のさなかもイスラエル軍の攻撃はやまず、７日には現地の支援活動家モハメド・アルワヒディ氏（６５）が命を落とした。</p><p class="ko">대회 기간에도 이스라엘의 군사행동은 이어졌고, 7일에는 현지의 65세 지원 활동가 모하메드 알와히디가 목숨을 잃었다.</p></div>
+      <div class="s-item"><p class="ja">スポーツへの情熱と戦火の現実を並べ、祝祭と悲劇が同時にあるという皮肉を読者に考えさせる。</p><p class="ko">칼럼은 스포츠 열정과 전쟁 현실을 나란히 놓아, 축제와 비극이 동시에 존재하는 아이러니를 성찰하게 한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>攻撃<rt>こうげき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">공격</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">深夜の攻撃で多くが避難した。</span><br>심야의 공격으로 많은 이가 피난했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>封鎖<rt>ふうさ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">봉쇄</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">港は封鎖が続いた。</span><br>항구는 봉쇄가 계속되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>実況中継<rt>じっきょうちゅうけい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">생중계</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">試合は実況中継で全国に流れた。</span><br>경기는 생중계로 전국에 송출되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>支援活動家<rt>しえんかつどうか</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">지원 활동가</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">彼は難民を助ける支援活動家だ。</span><br>그는 난민을 돕는 지원 활동가이다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>パレスチナ自治区<rt>ぱれすちなじちく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">팔레스타인 자치구</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">彼はパレスチナ自治区で育った。</span><br>그는 팔레스타인 자치구에서 자랐다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜ことはない</div>
+        <div class="pattern-ko">~할 일이 없다, 결코 ~하지 않다</div>
+        <p class="explain">어떤 가능성이나 필요가 전혀 없음을 강하게 부정할 때 쓴다. 기대·예상과 반대로 단정하거나, 감정이 실린 부정(강조된 부정)을 표현할 때 자주 사용된다.</p>
+        <p class="ex"><span class="ja">彼の誠実さを疑うことはない。</span><br>그의 성실함을 의심할 일은 없다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼의 서두는 어둠 속 생중계를 지켜보는 사람들의 시선을 먼저 포착해 독자를 장면 속으로 끌어들인다. 이어 같은 시간대에 이어지는 폭력의 뉴스를 배치해 대비 효과를 극대화한다. 날짜와 이름을 제시하는 사실 정보는 감정의 과잉을 피하면서도 현실감을 높인다. 천성인어 특유의 압축된 묘사와 전환으로, 단 몇 문장 안에 축제와 전쟁이 교차하는 공간을 만들어낸다.</p>
+        <p>이 글이 남기는 의미는, 스포츠가 주는 위안과 연대감이 전쟁의 그늘 아래서도 꺼지지 않는다는 사실과 동시에, 그 빛이 결코 고통을 지우지 못한다는 인식이다. 한국 독자에게도 익숙한 월드컵의 열기가 분쟁 지역의 일상과 만날 때 생기는 감정의 충돌이 흥미롭다. 한 인물의 비극적 소식을 덧붙임으로써, 추상적 담론이 아닌 구체적 삶의 무게로 독해를 이끈다. 전체 칼럼의 전개는 확인할 수 없지만, 서두만으로도 보편적 감정과 정치적 현실을 함께 바라보게 하는 균형감이 돋보인다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 월드컵의 환희와 가자의 참혹한 현실을 교차시켜, 스포츠와 전쟁의 동시성을 성찰하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>가자 지구는 오랜 분쟁과 봉쇄로 인해 이동·물자·전력 등이 제약되는 일이 많아, 야간의 일상도 자주 위축된다.</p>
+        <p>월드컵은 분쟁지에서도 공동 시청을 통해 소속감과 위로를 제공하는 세계적 이벤트로 기능해 왔다.</p>
+        <p>아사히신문의 ‘천성인어(天声人語)’는 시사·문화·일상의 미세한 장면을 압축적으로 엮어 사회적 함의를 비추는 일일 칼럼이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>서사적 장면(어둠 속 시청)과 시사 정보(날짜·인명)를 교차 배치해 정서와 사실의 균형을 잡는다.</p>
+        <p><span class="n">二</span>대비(축제 vs. 폭력)를 통해 주제 의식을 독자 스스로 도출하게 하는 여백을 남긴다.</p>
+        <p><span class="n">三</span>감정의 강조 대신 구체 명사와 숫자를 배치해 신뢰성과 현장감을 높인다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">暗闇でも、ボールを追う目は希望を忘れない。</span>
+      <span class="ko">어둠 속에서도 공을 좇는 눈은 희망을 잊지 않는다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-07-21) — <a href="https://www.asahi.com/articles/DA3S16508428.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-07-21.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

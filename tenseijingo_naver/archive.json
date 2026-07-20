@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-07-21",
+    "no": 14,
+    "topic_ja": "ガザとＷ杯の夜",
+    "topic_ko": "가자와 월드컵의 밤",
+    "url": "https://www.asahi.com/articles/DA3S16508428.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘스포츠와 전쟁’, ‘일상의 끈’, ‘공감의 윤리’ — 세계적 축제가 분쟁의 현실과 맞닿을 때 드러나는 보편적 감정과 도덕적 질문을 응축해 보여 주기 때문임.",
+    "pattern": "〜ことはない"
+  },
+  {
     "date": "2026-07-20",
     "no": 13,
     "topic_ja": "仏像と古文書",

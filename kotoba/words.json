@@ -1861,5 +1861,75 @@
   "example": "新発見の資料が一般に公開された。",
   "exampleReading": "しんはっけんのしりょうがいっぱんにこうかいされた。",
   "exampleMeaning": "새로 발견된 자료가 일반에 공개되었다."
+ },
+ {
+  "id": "news55",
+  "word": "厳重警戒",
+  "reading": "げんじゅうけいかい",
+  "meaning": "엄중 경계, 철저한 주의",
+  "level": "N1",
+  "example": "台風の接近により、沿岸部では厳重警戒が呼びかけられている。",
+  "exampleReading": "たいふうのせっきんにより、えんがんぶではげんじゅうけいかいがよびかけられている。",
+  "exampleMeaning": "태풍의 접근으로 인해 연안 지역에서는 엄중 경계가 촉구되고 있다."
+ },
+ {
+  "id": "news56",
+  "word": "施行",
+  "reading": "しこう",
+  "meaning": "(법률 등의) 시행",
+  "level": "N1",
+  "example": "新しい法律が来月から施行される予定だ。",
+  "exampleReading": "あたらしいほうりつがらいげつからしこうされるよていだ。",
+  "exampleMeaning": "새로운 법률이 다음 달부터 시행될 예정이다."
+ },
+ {
+  "id": "tj31",
+  "word": "攻撃",
+  "reading": "こうげき",
+  "meaning": "공격",
+  "level": "N2",
+  "example": "深夜の攻撃で多くが避難した。",
+  "exampleReading": "しんやのこうげきでおおくがひなんした。",
+  "exampleMeaning": "심야의 공격으로 많은 이가 피난했다."
+ },
+ {
+  "id": "tj32",
+  "word": "封鎖",
+  "reading": "ふうさ",
+  "meaning": "봉쇄",
+  "level": "N1",
+  "example": "港は封鎖が続いた。",
+  "exampleReading": "みなとはふうさがつづいた。",
+  "exampleMeaning": "항구는 봉쇄가 계속되었다."
+ },
+ {
+  "id": "tj33",
+  "word": "実況中継",
+  "reading": "じっきょうちゅうけい",
+  "meaning": "생중계",
+  "level": "N2",
+  "example": "試合は実況中継で全国に流れた。",
+  "exampleReading": "しあいはじっきょうちゅうけいでぜんこくにながれた。",
+  "exampleMeaning": "경기는 생중계로 전국에 송출되었다."
+ },
+ {
+  "id": "tj34",
+  "word": "支援活動家",
+  "reading": "しえんかつどうか",
+  "meaning": "지원 활동가",
+  "level": "N1",
+  "example": "彼は難民を助ける支援活動家だ。",
+  "exampleReading": "かれはなんみんをたすけるしえんかつどうかだ。",
+  "exampleMeaning": "그는 난민을 돕는 지원 활동가이다."
+ },
+ {
+  "id": "tj35",
+  "word": "パレスチナ自治区",
+  "reading": "ぱれすちなじちく",
+  "meaning": "팔레스타인 자치구",
+  "level": "N2",
+  "example": "彼はパレスチナ自治区で育った。",
+  "exampleReading": "かれはぱれすちなじちくでそだった。",
+  "exampleMeaning": "그는 팔레스타인 자치구에서 자랐다."
  }
 ]
