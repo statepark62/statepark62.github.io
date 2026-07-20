@@ -1,7 +1,7 @@
 /* ことば帖 Service Worker — © 2026 박상태 (Sangtae Park). All rights reserved.
  * 앱 껍데기(HTML·아이콘)는 캐시 우선, words.json은 네트워크 우선(오프라인 시 캐시).
  * index.html 등을 수정해 올릴 때는 아래 CACHE 버전을 v2, v3...으로 올려야 반영됩니다. */
-const CACHE = 'kotoba-v6';
+const CACHE = 'kotoba-v7';
 const SHELL = [
   './',
   './index.html',

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-  ことば帖 (Kotoba-cho) v1.5 — 일본어 단어 자동학습 PWA
+  ことば帖 (Kotoba-cho) v1.6 — 일본어 단어 자동학습 PWA
   © 2026 박상태 (Sangtae Park), Kongju National University.
   All rights reserved. 무단 복제·수정·재배포를 금지합니다.
   Unauthorized copying, modification or redistribution is prohibited.
@@ -319,7 +319,7 @@
 
 
 <footer>
-  <span class="jp">ことば帖</span> v1.5 · © 2026 박상태 (Sangtae Park) · All rights reserved. · 무단 복제·재배포 금지<br>
+  <span class="jp">ことば帖</span> v1.6 · © 2026 박상태 (Sangtae Park) · All rights reserved. · 무단 복제·재배포 금지<br>
   💬 <a href="https://forms.gle/1oTmcoWRLYCgucX79" target="_blank" rel="noopener">의견 보내기</a>
   &nbsp;·&nbsp; 문의: <a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a>
   <span id="visitInfo" style="display:block; margin-top:2px;"></span>
@@ -537,7 +537,7 @@ function runAutoCycle(){
   const sec = Number(document.getElementById('interval').value);
   revealTimer = setTimeout(() => {
     renderAuto(true);
-    if (tts && w.example) speak(w.example);
+    if (tts && w.example) speak(w.exampleReading || w.example);
   }, Math.min(2500, sec*400));
 }
 function stopAuto(){
@@ -561,7 +561,7 @@ function autoPrev(){
 function speakCurrent(){
   if (!autoDeck.length) return;
   const w = autoDeck[autoIdx];
-  speak(w.reading || w.word, () => { if (w.example) speak(w.example); });
+  speak(w.reading || w.word, () => { if (w.example) speak(w.exampleReading || w.example); });
 }
 
 /* ====================== 퀴즈 ====================== */
@@ -670,7 +670,7 @@ function answerSrs(correct){
   nextSrs();
 }
 function speakSrs(){
-  if (srsCur) speak(srsCur.reading || srsCur.word, () => { if (srsCur.example) speak(srsCur.example); });
+  if (srsCur) speak(srsCur.reading || srsCur.word, () => { if (srsCur.example) speak(srsCur.exampleReading || srsCur.example); });
 }
 
 /* ====================== 단어장 관리 ====================== */
