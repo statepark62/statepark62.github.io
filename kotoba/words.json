@@ -1931,5 +1931,75 @@
   "example": "彼はパレスチナ自治区で育った。",
   "exampleReading": "かれはぱれすちなじちくでそだった。",
   "exampleMeaning": "그는 팔레스타인 자치구에서 자랐다."
+ },
+ {
+  "id": "news57",
+  "word": "熱中症",
+  "reading": "ねっちゅうしょう",
+  "meaning": "열사병, 온열질환",
+  "level": "N3",
+  "example": "今日は気温が高いので、熱中症に気をつけてください。",
+  "exampleReading": "きょうはきおんがたかいので、ねっちゅうしょうにきをつけてください。",
+  "exampleMeaning": "오늘은 기온이 높으니 열사병에 주의하세요."
+ },
+ {
+  "id": "news58",
+  "word": "異例",
+  "reading": "いれい",
+  "meaning": "이례적임, 전례가 없음",
+  "level": "N2",
+  "example": "彼が若くして社長に就任するのは異例のことだ。",
+  "exampleReading": "かれがわかくしてしゃちょうにしゅうにんするのはいれいのことだ。",
+  "exampleMeaning": "그가 젊은 나이에 사장으로 취임하는 것은 이례적인 일이다."
+ },
+ {
+  "id": "tj36",
+  "word": "茹だる",
+  "reading": "うだる",
+  "meaning": "(더위에) 지치다, 녹초가 되다",
+  "level": "N1",
+  "example": "暑さに茹だって動けない。",
+  "exampleReading": "あつさにうだってうごけない。",
+  "exampleMeaning": "더위에 지쳐서 움직일 수가 없다."
+ },
+ {
+  "id": "tj37",
+  "word": "猛烈",
+  "reading": "もうれつ",
+  "meaning": "맹렬함, 거셈",
+  "level": "N2",
+  "example": "猛烈な風が窓を揺らした。",
+  "exampleReading": "もうれつなかぜがまどをゆらした。",
+  "exampleMeaning": "맹렬한 바람이 창을 흔들었다."
+ },
+ {
+  "id": "tj38",
+  "word": "梅雨明け",
+  "reading": "つゆあけ",
+  "meaning": "장마가 끝남",
+  "level": "N2",
+  "example": "九州は梅雨明けが発表された。",
+  "exampleReading": "きゅうしゅうはつゆあけがはっぴょうされた。",
+  "exampleMeaning": "규슈는 장마가 끝났다고 발표되었다."
+ },
+ {
+  "id": "tj39",
+  "word": "酷暑日",
+  "reading": "こくしょび",
+  "meaning": "혹서일(40도 이상)",
+  "level": "N1",
+  "example": "今年初の酷暑日を記録した。",
+  "exampleReading": "ことしはつのこくしょびをきろくした。",
+  "exampleMeaning": "올해 첫 혹서일을 기록했다."
+ },
+ {
+  "id": "tj40",
+  "word": "最高気温",
+  "reading": "さいこうきおん",
+  "meaning": "최고 기온",
+  "level": "N2",
+  "example": "東京の最高気温は三十七度だった。",
+  "exampleReading": "とうきょうのさいこうきおんはさんじゅうななどだった。",
+  "exampleMeaning": "도쿄의 최고 기온은 37도였다."
  }
 ]
