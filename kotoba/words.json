@@ -2001,5 +2001,55 @@
   "example": "東京の最高気温は三十七度だった。",
   "exampleReading": "とうきょうのさいこうきおんはさんじゅうななどだった。",
   "exampleMeaning": "도쿄의 최고 기온은 37도였다."
+ },
+ {
+  "id": "tj41",
+  "word": "政権交代",
+  "reading": "せいけんこうたい",
+  "meaning": "정권 교체",
+  "level": "N1",
+  "example": "今年は政権交代の可能性が高いとみられる。",
+  "exampleReading": "ことしはせいけんこうたいのかのうせいがたかいとみられる。",
+  "exampleMeaning": "올해는 정권 교체 가능성이 높다고 여겨진다."
+ },
+ {
+  "id": "tj42",
+  "word": "公共メディア",
+  "reading": "こうきょうめでぃあ",
+  "meaning": "공공 미디어",
+  "level": "N1",
+  "example": "公共メディアは市民の信頼に支えられる。",
+  "exampleReading": "こうきょうめでぃあはしみんのしんらいにささえられる。",
+  "exampleMeaning": "공공 미디어는 시민의 신뢰로 지탱된다."
+ },
+ {
+  "id": "tj43",
+  "word": "真っ黒",
+  "reading": "まっくろ",
+  "meaning": "새까맣다",
+  "level": "N2",
+  "example": "夜空は雲に覆われて真っ黒だった。",
+  "exampleReading": "よぞらはくもにおおわれてまっくろだった。",
+  "exampleMeaning": "밤하늘은 구름에 가려 새까맸다."
+ },
+ {
+  "id": "tj44",
+  "word": "謝罪",
+  "reading": "しゃざい",
+  "meaning": "사과",
+  "level": "N2",
+  "example": "局長は番組の不備を謝罪した。",
+  "exampleReading": "きょくちょうはばんぐみのふびをしゃざいした。",
+  "exampleMeaning": "국장은 프로그램의 미비를 사과했다."
+ },
+ {
+  "id": "tj45",
+  "word": "停波",
+  "reading": "ていは",
+  "meaning": "송출 중단(정파)",
+  "level": "N1",
+  "example": "緊急点検のため、一時的に停波する。",
+  "exampleReading": "きんきゅうてんけんのため、いちじてきにていはする。",
+  "exampleMeaning": "긴급 점검을 위해 일시적으로 송출을 중단한다."
  }
 ]
