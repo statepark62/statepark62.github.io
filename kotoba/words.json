@@ -2051,5 +2051,95 @@
   "example": "緊急点検のため、一時的に停波する。",
   "exampleReading": "きんきゅうてんけんのため、いちじてきにていはする。",
   "exampleMeaning": "긴급 점검을 위해 일시적으로 송출을 중단한다."
+ },
+ {
+  "id": "news59",
+  "word": "発動",
+  "reading": "はつどう",
+  "meaning": "발동, (법령·조치 등을) 실행함",
+  "level": "N2",
+  "example": "政府は来月から新しい経済制裁を発動する予定だ。",
+  "exampleReading": "せいふはらいげつからあたらしいけいざいせいさいをはつどうするよていだ。",
+  "exampleMeaning": "정부는 다음 달부터 새로운 경제 제재를 발동할 예정이다."
+ },
+ {
+  "id": "news60",
+  "word": "見極める",
+  "reading": "みきわめる",
+  "meaning": "끝까지 지켜보고 판단하다, 진위나 상황을 정확히 파악하다",
+  "level": "N2",
+  "example": "交渉が成功するかどうか、相手の出方を見極める必要がある。",
+  "exampleReading": "こうしょうがせいこうするかどうか、あいてのでかたをみきわめるひつようがある。",
+  "exampleMeaning": "협상이 성공할지 여부는 상대방의 태도를 잘 지켜보고 판단할 필요가 있다."
+ },
+ {
+  "id": "news61",
+  "word": "勧告",
+  "reading": "かんこく",
+  "meaning": "권고",
+  "level": "N2",
+  "example": "委員会は工場に対して安全対策の改善を勧告した。",
+  "exampleReading": "いいんかいはこうじょうにたいしてあんぜんたいさくのかいぜんをかんこくした。",
+  "exampleMeaning": "위원회는 공장에 대해 안전 대책 개선을 권고했다."
+ },
+ {
+  "id": "news62",
+  "word": "貫徹",
+  "reading": "かんてつ",
+  "meaning": "관철, 끝까지 밀고 나감",
+  "level": "N1",
+  "example": "彼は自分の主張を最後まで貫徹した。",
+  "exampleReading": "かれはじぶんのしゅちょうをさいごまでかんてつした。",
+  "exampleMeaning": "그는 자신의 주장을 끝까지 관철시켰다."
+ },
+ {
+  "id": "tj46",
+  "word": "求める",
+  "reading": "もとめる",
+  "meaning": "구하다, 요구하다",
+  "level": "N2",
+  "example": "彼は答えを求めて本を読みあさった。",
+  "exampleReading": "かれはこたえをもとめてほんをよみあさった。",
+  "exampleMeaning": "그는 답을 구하고자 책을 탐독했다."
+ },
+ {
+  "id": "tj47",
+  "word": "コスパ",
+  "reading": "こすぱ",
+  "meaning": "가성비(비용 대비 성과)",
+  "level": "N2",
+  "example": "このルートはコスパが高いと評判だ。",
+  "exampleReading": "このるーとはこすぱがたかいとひょうばんだ。",
+  "exampleMeaning": "이 루트는 가성비가 높다고 평판이 좋다."
+ },
+ {
+  "id": "tj48",
+  "word": "タイパ",
+  "reading": "たいぱ",
+  "meaning": "타이파, 시간 대비 효율",
+  "level": "N2",
+  "example": "短時間で景色を満喫できるならタイパがいい。",
+  "exampleReading": "たんじかんできしきをまんきつできるならたいぱがいい。",
+  "exampleMeaning": "짧은 시간에 경치를 만끽할 수 있다면 타이파가 좋다."
+ },
+ {
+  "id": "tj49",
+  "word": "登山口",
+  "reading": "とざんぐち",
+  "meaning": "등산로 입구",
+  "level": "N2",
+  "example": "登山口までバスが出ている。",
+  "exampleReading": "とざんぐちまでばすがでている。",
+  "exampleMeaning": "등산로 입구까지 버스가 운행된다."
+ },
+ {
+  "id": "tj50",
+  "word": "縦走",
+  "reading": "じゅうそう",
+  "meaning": "종주(능선 이어 걷기)",
+  "level": "N1",
+  "example": "秋に北アルプスを縦走する計画だ。",
+  "exampleReading": "あきにきたあるぷすをじゅうそうするけいかくだ。",
+  "exampleMeaning": "가을에 북알프스를 종주할 계획이다."
  }
 ]
