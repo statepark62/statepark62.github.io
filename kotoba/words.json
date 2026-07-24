@@ -2221,5 +2221,105 @@
   "example": "労働者側は最低賃金の大幅な引き上げを求めている。",
   "exampleReading": "ろうどうしゃがわはさいていちんぎんのおおはばなひきあげをもとめている。",
   "exampleMeaning": "노동자 측은 최저임금의 대폭적인 인상을 요구하고 있다."
+ },
+ {
+  "id": "news71",
+  "word": "経営破綻",
+  "reading": "けいえいはたん",
+  "meaning": "경영 파탄(파산)",
+  "level": "N2",
+  "example": "その会社は資金繰りが悪化し、経営破綻に至った。",
+  "exampleReading": "そのかいしゃはしきんぐりがあっかし、けいえいはたんにいたった。",
+  "exampleMeaning": "그 회사는 자금 사정이 악화되어 경영 파탄에 이르렀다."
+ },
+ {
+  "id": "news72",
+  "word": "透明性",
+  "reading": "とうめいせい",
+  "meaning": "투명성",
+  "level": "N2",
+  "example": "調査の透明性を確保することが求められている。",
+  "exampleReading": "ちょうさのとうめいせいをかくほすることがもとめられている。",
+  "exampleMeaning": "조사의 투명성을 확보하는 것이 요구되고 있다."
+ },
+ {
+  "id": "news73",
+  "word": "成立",
+  "reading": "せいりつ",
+  "meaning": "성립(법 등이 통과됨)",
+  "level": "N3",
+  "example": "新しい法律が国会で成立した。",
+  "exampleReading": "あたらしいほうりつがこっかいでせいりつした。",
+  "exampleMeaning": "새로운 법률이 국회에서 성립되었다(통과되었다)."
+ },
+ {
+  "id": "news74",
+  "word": "在庫量",
+  "reading": "ざいこりょう",
+  "meaning": "재고량",
+  "level": "N3",
+  "example": "米の在庫量が例年に比べて増加している。",
+  "exampleReading": "こめのざいこりょうがれいねんにくらべてぞうかしている。",
+  "exampleMeaning": "쌀 재고량이 예년에 비해 증가하고 있다."
+ },
+ {
+  "id": "news75",
+  "word": "構想",
+  "reading": "こうそう",
+  "meaning": "구상, 계획",
+  "level": "N2",
+  "example": "政府は新しい都市開発の構想を発表した。",
+  "exampleReading": "せいふはあたらしいとしかいはつのこうそうをはっぴょうした。",
+  "exampleMeaning": "정부는 새로운 도시 개발 구상을 발표했다."
+ },
+ {
+  "id": "tj51",
+  "word": "自動演奏",
+  "reading": "じどうえんそう",
+  "meaning": "자동연주",
+  "level": "N2",
+  "example": "自動演奏のピアノが静かに曲を始めた。",
+  "exampleReading": "じどうえんそうのぴあのがしずかにきょくをはじめた。",
+  "exampleMeaning": "자동연주 피아노가 조용히 곡을 시작했다."
+ },
+ {
+  "id": "tj52",
+  "word": "鍵盤",
+  "reading": "けんばん",
+  "meaning": "건반",
+  "level": "N2",
+  "example": "鍵盤に触れる指の重さで音色が変わる。",
+  "exampleReading": "けんばんにふれるゆびのおもさでねいろがかわる。",
+  "exampleMeaning": "건반에 닿는 손가락의 무게에 따라 음색이 달라진다."
+ },
+ {
+  "id": "tj53",
+  "word": "再現",
+  "reading": "さいげん",
+  "meaning": "재현",
+  "level": "N2",
+  "example": "失われた録音を最新技術で再現した。",
+  "exampleReading": "うしなわれたろくおんをさいしんぎじゅつでさいげんした。",
+  "exampleMeaning": "사라진 녹음을 최신 기술로 재현했다."
+ },
+ {
+  "id": "tj54",
+  "word": "音源",
+  "reading": "おんげん",
+  "meaning": "음원",
+  "level": "N2",
+  "example": "貴重なライブ音源が公開された。",
+  "exampleReading": "きちょうならいぶおんげんがこうかいされた。",
+  "exampleMeaning": "귀중한 라이브 음원이 공개되었다."
+ },
+ {
+  "id": "tj55",
+  "word": "精緻",
+  "reading": "せいち",
+  "meaning": "정교함, 세밀함",
+  "level": "N1",
+  "example": "精緻な編集で雑音が目立たなくなった。",
+  "exampleReading": "せいちなへんしゅうでざつおんがめだたなくなった。",
+  "exampleMeaning": "정교한 편집으로 잡음이 눈에 띄지 않게 되었다."
  }
 ]
