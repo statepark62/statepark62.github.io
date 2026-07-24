@@ -2141,5 +2141,85 @@
   "example": "秋に北アルプスを縦走する計画だ。",
   "exampleReading": "あきにきたあるぷすをじゅうそうするけいかくだ。",
   "exampleMeaning": "가을에 북알프스를 종주할 계획이다."
+ },
+ {
+  "id": "news63",
+  "word": "公布",
+  "reading": "こうふ",
+  "meaning": "공포(법령 등을 정식으로 널리 알림)",
+  "level": "N1",
+  "example": "改正された法律が官報に公布された。",
+  "exampleReading": "かいせいされたほうりつがかんぽうにこうふされた。",
+  "exampleMeaning": "개정된 법률이 관보에 공포되었다."
+ },
+ {
+  "id": "news64",
+  "word": "警戒",
+  "reading": "けいかい",
+  "meaning": "경계(위험이나 재해에 대비하여 주의함)",
+  "level": "N2",
+  "example": "台風の接近に伴い、住民に厳重な警戒が呼びかけられた。",
+  "exampleReading": "たいふうのせっきんにともない、じゅうみんにげんじゅうなけいかいがよびかけられた。",
+  "exampleMeaning": "태풍의 접근에 따라 주민들에게 엄중한 경계가 요청되었다."
+ },
+ {
+  "id": "news65",
+  "word": "変動",
+  "reading": "へんどう",
+  "meaning": "변동",
+  "level": "N2",
+  "example": "為替相場の変動が激しくて心配だ。",
+  "exampleReading": "かわせそうばのへんどうがはげしくてしんぱいだ。",
+  "exampleMeaning": "환율 시세의 변동이 심해서 걱정이다."
+ },
+ {
+  "id": "news66",
+  "word": "関税",
+  "reading": "かんぜい",
+  "meaning": "관세",
+  "level": "N2",
+  "example": "アメリカは輸入品に高い関税をかけた。",
+  "exampleReading": "あめりかはゆにゅうひんにたかいかんぜいをかけた。",
+  "exampleMeaning": "미국은 수입품에 높은 관세를 부과했다."
+ },
+ {
+  "id": "news67",
+  "word": "情勢",
+  "reading": "じょうせい",
+  "meaning": "정세(사회나 정치 등의 상황)",
+  "level": "N1",
+  "example": "国際情勢は日々変化している。",
+  "exampleReading": "こくさいじょうせいはひびへんかしている。",
+  "exampleMeaning": "국제 정세는 나날이 변화하고 있다."
+ },
+ {
+  "id": "news68",
+  "word": "過度",
+  "reading": "かど",
+  "meaning": "과도함, 지나침",
+  "level": "N2",
+  "example": "過度な運動は体に負担をかけることがある。",
+  "exampleReading": "かどなうんどうはからだにふたんをかけることがある。",
+  "exampleMeaning": "과도한 운동은 몸에 부담을 줄 수 있다."
+ },
+ {
+  "id": "news69",
+  "word": "前年比",
+  "reading": "ぜんねんひ",
+  "meaning": "전년 대비",
+  "level": "N2",
+  "example": "今年の売上は前年比で10％増加した。",
+  "exampleReading": "ことしのうりあげはぜんねんひでじゅっぱーせんとぞうかした。",
+  "exampleMeaning": "올해 매출은 전년 대비 10% 증가했다."
+ },
+ {
+  "id": "news70",
+  "word": "引き上げ",
+  "reading": "ひきあげ",
+  "meaning": "인상, 끌어올림",
+  "level": "N2",
+  "example": "労働者側は最低賃金の大幅な引き上げを求めている。",
+  "exampleReading": "ろうどうしゃがわはさいていちんぎんのおおはばなひきあげをもとめている。",
+  "exampleMeaning": "노동자 측은 최저임금의 대폭적인 인상을 요구하고 있다."
  }
 ]
