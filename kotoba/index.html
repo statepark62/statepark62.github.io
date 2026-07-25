@@ -187,13 +187,14 @@
     <button onclick="dismissBanner()">나중에</button>
   </div>
 </div>
-
-<nav>
-  <button id="tab-auto" class="on" onclick="showTab('auto')">자동학습</button>
-  <button id="tab-quiz" onclick="showTab('quiz')">퀴즈</button>
-  <button id="tab-srs"  onclick="showTab('srs')">복습</button>
-  <button id="tab-list" onclick="showTab('list')">단어장</button>
-</nav>
+<div class="tabs" style="position:sticky; top:0; z-index:100; background-color:#fff;">
+  <nav>
+    <button id="tab-auto" class="on" onclick="showTab('auto')">자동학습</button>
+    <button id="tab-quiz" onclick="showTab('quiz')">퀴즈</button>
+    <button id="tab-srs" onclick="showTab('srs')">복습</button>
+    <button id="tab-list" onclick="showTab('list')">단어장</button>
+  </nav>
+</div>
 
 <main>
   <div id="loading" class="loading">단어장을 불러오는 중…</div>
