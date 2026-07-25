@@ -2321,5 +2321,55 @@
   "example": "精緻な編集で雑音が目立たなくなった。",
   "exampleReading": "せいちなへんしゅうでざつおんがめだたなくなった。",
   "exampleMeaning": "정교한 편집으로 잡음이 눈에 띄지 않게 되었다."
+ },
+ {
+  "id": "tj56",
+  "word": "幻覚",
+  "reading": "げんかく",
+  "meaning": "환각",
+  "level": "N1",
+  "example": "極度の疲れで幻覚が見えた気がした。",
+  "exampleReading": "きょくどのつかれでげんかくがみえたきがした。",
+  "exampleMeaning": "극도의 피로로 환각이 보인 듯했다."
+ },
+ {
+  "id": "tj57",
+  "word": "姿をした",
+  "reading": "すがたをした",
+  "meaning": "~한 모습을 한",
+  "level": "N2",
+  "example": "天使の姿をした像が広場に立っている。",
+  "exampleReading": "てんしのすがたをしたぞうがひろばにたっている。",
+  "exampleMeaning": "천사의 모습을 한 조각상이 광장에 서 있다."
+ },
+ {
+  "id": "tj58",
+  "word": "目にする",
+  "reading": "めにする",
+  "meaning": "접하다, 목격하다",
+  "level": "N2",
+  "example": "最近この言葉をよく目にする。",
+  "exampleReading": "さいきんこのことばをよくめにする。",
+  "exampleMeaning": "요즘 이 말을 자주 접한다."
+ },
+ {
+  "id": "tj59",
+  "word": "思い出す",
+  "reading": "おもいだす",
+  "meaning": "떠올리다",
+  "level": "N3",
+  "example": "春になると祖母の庭を思い出す。",
+  "exampleReading": "はるになるとそぼのにわをおもいだす。",
+  "exampleMeaning": "봄이 되면 할머니의 정원이 떠오른다."
+ },
+ {
+  "id": "tj60",
+  "word": "短編小説",
+  "reading": "たんぺんしょうせつ",
+  "meaning": "단편소설",
+  "level": "N2",
+  "example": "彼は短編小説を一晩で読み切った。",
+  "exampleReading": "かれはたんぺんしょうせつをひとばんでよみきった。",
+  "exampleMeaning": "그는 단편소설을 하룻밤에 다 읽었다."
  }
 ]

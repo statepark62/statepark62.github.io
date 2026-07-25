@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-26 天声人語로 배우는 일본어 — 환각과 ‘고양이 마을’</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第19回</span>
+      <span>2026-07-26</span>
+      <span>2026년 7월 26일 (일)</span>
+    </div>
+
+    <h1>幻覚と『猫町』</h1>
+    <p class="topic-ko">환각과 ‘고양이 마을’</p>
+
+    <div class="keyquote">
+      <div class="ja">「幻覚という言葉」</div>
+      <div class="ko">‘환각’이라는 말 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">コラムは日本の近代詩人・萩原朔太郎の短編『猫町』を思い起こすところから始まる。</p><p class="ko">칼럼은 일본 근대시인 하agiwara 사쿠타로의 단편 ‘猫町’를 떠올리며 시작한다.</p></div>
+      <div class="s-item"><p class="ja">散歩中の町が一瞬、人の姿をした猫で満ちて見え、すぐに元の景色へ戻る場面が核として示される。</p><p class="ko">산책 중 보이던 마을이 잠시 인간 같은 고양이들로 가득해졌다가 곧 본래 풍경으로 돌아가는 장면이 핵심으로 제시된다.</p></div>
+      <div class="s-item"><p class="ja">筆者は近ごろニュースで「幻覚」という語を頻繁に目にすることを契機に、現実と錯覚の境界を見つめ直そうとしているような余韻を残す.</p><p class="ko">필자는 최근 뉴스에서 ‘환각’이라는 말을 자주 접한다는 계기를 통해, 현실과 착각의 경계를 성찰하려는 듯한 여운을 남긴다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>幻覚<rt>げんかく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">환각</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">極度の疲れで幻覚が見えた気がした。</span><br>극도의 피로로 환각이 보인 듯했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>姿をした<rt>すがたをした</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">~한 모습을 한</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">天使の姿をした像が広場に立っている。</span><br>천사의 모습을 한 조각상이 광장에 서 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>目にする<rt>めにする</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">접하다, 목격하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">最近この言葉をよく目にする。</span><br>요즘 이 말을 자주 접한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>思い出す<rt>おもいだす</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">떠올리다</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">春になると祖母の庭を思い出す。</span><br>봄이 되면 할머니의 정원이 떠오른다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>短編小説<rt>たんぺんしょうせつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">단편소설</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">彼は短編小説を一晩で読み切った。</span><br>그는 단편소설을 하룻밤에 다 읽었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜のは〜からだ</div>
+        <div class="pattern-ko">~한 것은 ~때문이다</div>
+        <p class="explain">원인·이유를 또렷이 밝힐 때 쓰는 문형이다. 주제화된 대상(〜のは)에 대해 그 까닭(〜からだ)을 강조해 논리적이고 간결한 문장을 만들 수 있다.</p>
+        <p class="ex"><span class="ja">私が日本語を学び続けるのは、表現の幅を広げたいからだ。</span><br>내가 일본어를 계속 배우는 것은 표현의 폭을 넓히고 싶기 때문이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 문학 작품의 장면을 도입부에 배치하여 독자의 감각을 먼저 뒤흔든다. ‘인간의 형상을 한 고양이’라는 이미지로 현실의 틈을 벌려, 이후 사회 현상의 단어 선택으로 미끄러지듯 전환한다. 이처럼 구체적 장면과 추상적 개념을 교차시키는 방식은 천성인어가 자주 쓰는 리듬이다. 덕분에 독자는 하나의 키워드(환각)로 문학과 뉴스의 거리를 자연스럽게 잇게 된다.</p>
+        <p>칼럼이 남기는 질문은 단어 사용 빈도 그 자체가 아니라, 그 단어가 현실 인식을 어떻게 바꾸는가에 가깝다. 한국 독자에게도 ‘보도 언어’가 사고의 틀을 만드는 경험은 익숙하므로 공감의 지점이 생긴다. 또한 ‘환각/현실’ 대비는 미디어 리터러시와도 연결되어, 무엇을 보고 믿을지의 문제로 확장된다. 짧지만 다음 전개를 기대하게 하는 여백이 강한 글이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 ‘환각’이라는 단어를 실마리로 문학적 이미지와 뉴스 현실의 간극을 사유하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>萩原朔太郎는 일본 근대시의 대표적 시인으로, 산문과 소설에서도 실험적 상상력을 보인 인물로 알려져 있다.</p>
+        <p>‘猫町’는 낯선 감각과 현실의 뒤틀림을 통해 일상의 불확실성을 드러내는 단편으로, 초현실적 분위기가 특징이다.</p>
+        <p>일본의 시사 칼럼 ‘天声人語’는 문학·역사 인용으로 현안을 조명하는 전통이 있으며, 단어 하나를 집어 시대 감각을 비추는 구성이 자주 보인다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 이미지로 시작해 추상적 주제로 점진적으로 확대하는 서술 전환을 배운다.</p>
+        <p><span class="n">二</span>단어 하나를 ‘키워드’로 세우고 사례·연상을 엮어 논지의 중심을 잡는 방식을 익힌다.</p>
+        <p><span class="n">三</span>짧은 문장을 연쇄해 리듬을 만들고, 반문으로 여백을 남겨 독자의 사유를 유도한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">見えるものがすべて現実とは限らない。</span>
+      <span class="ko">보이는 것이 모두 현실인 것은 아니다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-07-26) — <a href="https://www.asahi.com/articles/DA3S16513130.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-07-26.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-07-26",
+    "no": 19,
+    "topic_ja": "幻覚と『猫町』",
+    "topic_ko": "환각과 ‘고양이 마을’",
+    "url": "https://www.asahi.com/articles/DA3S16513130.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘현실과 착각’, ‘단어의 힘’. 문학적 장면으로 시작해 뉴스 언어의 영향력을 비추므로, 인식과 언어의 상호작용을 다루는 장에 적합하다.",
+    "pattern": "〜のは〜からだ"
+  },
+  {
     "date": "2026-07-25",
     "no": 18,
     "topic_ja": "時を超える音",
