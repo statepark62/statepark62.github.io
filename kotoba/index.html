@@ -58,7 +58,16 @@
   }
   .banner button.go{background:var(--shu); border-color:var(--shu); color:#fff;}
 
-  nav{max-width:680px; margin:10px auto 0; padding:0 18px; display:flex; gap:6px;}
+  .tabs{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(246,241,231,.96);
+    box-shadow:0 2px 8px rgba(42,39,35,.08);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+  }
+  nav{max-width:680px; margin:0 auto; padding:10px 18px 0; display:flex; gap:6px;}
   nav button{flex:1; padding:10px 4px; font-size:14px; font-weight:500; font-family:inherit;
     background:transparent; color:var(--muted); border:none; cursor:pointer;
     border-bottom:2px solid var(--line);}
@@ -187,7 +196,8 @@
     <button onclick="dismissBanner()">나중에</button>
   </div>
 </div>
-<div class="tabs" style="position:sticky; top:0; z-index:100; background-color:#fff;">
+
+<div class="tabs">
   <nav>
     <button id="tab-auto" class="on" onclick="showTab('auto')">자동학습</button>
     <button id="tab-quiz" onclick="showTab('quiz')">퀴즈</button>
