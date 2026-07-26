@@ -2371,5 +2371,475 @@
   "example": "彼は短編小説を一晩で読み切った。",
   "exampleReading": "かれはたんぺんしょうせつをひとばんでよみきった。",
   "exampleMeaning": "그는 단편소설을 하룻밤에 다 읽었다."
+ },
+ {
+  "id": "news76",
+  "word": "死傷者",
+  "reading": "ししょうしゃ",
+  "meaning": "사상자 (죽거나 다친 사람)",
+  "level": "N2",
+  "example": "交通事故で多くの死傷者が出た。",
+  "exampleReading": "こうつうじこで おおくの ししょうしゃが でた。",
+  "exampleMeaning": "교통사고로 많은 사상자가 발생했다."
+ },
+ {
+  "id": "news77",
+  "word": "兆候",
+  "reading": "ちょうこう",
+  "meaning": "징후, 조짐",
+  "level": "N1",
+  "example": "景気回復の兆候が見え始めた。",
+  "exampleReading": "けいきかいふくの ちょうこうが みえはじめた。",
+  "exampleMeaning": "경기 회복의 징후가 보이기 시작했다."
+ },
+ {
+  "id": "news78",
+  "word": "加速",
+  "reading": "かそく",
+  "meaning": "가속, 속도를 높임",
+  "level": "N2",
+  "example": "新製品の開発を加速させる方針だ。",
+  "exampleReading": "しんせいひんの かいはつを かそくさせる ほうしんだ。",
+  "exampleMeaning": "신제품 개발을 가속화하는 방침이다."
+ },
+ {
+  "id": "news79",
+  "word": "規模",
+  "reading": "きぼ",
+  "meaning": "규모",
+  "level": "N2",
+  "example": "この工事は非常に大きな規模で行われている。",
+  "exampleReading": "この こうじは ひじょうに おおきな きぼで おこなわれている。",
+  "exampleMeaning": "이 공사는 매우 큰 규모로 진행되고 있다."
+ },
+ {
+  "id": "news80",
+  "word": "彩る",
+  "reading": "いろどる",
+  "meaning": "물들이다, 색을 더하다",
+  "level": "N1",
+  "example": "紅葉が山々を美しく彩っている。",
+  "exampleReading": "こうようが やまやまを うつくしく いろどっている。",
+  "exampleMeaning": "단풍이 산들을 아름답게 물들이고 있다."
+ },
+ {
+  "id": "news81",
+  "word": "見据える",
+  "reading": "みすえる",
+  "meaning": "(미래 등을) 내다보다, 응시하다",
+  "level": "N1",
+  "example": "将来を見据えて計画を立てることが大切だ。",
+  "exampleReading": "しょうらいを みすえて けいかくを たてることが たいせつだ。",
+  "exampleMeaning": "미래를 내다보고 계획을 세우는 것이 중요하다."
+ },
+ {
+  "id": "news82",
+  "word": "移籍",
+  "reading": "いせき",
+  "meaning": "(선수 등의) 이적",
+  "level": "N2",
+  "example": "彼は海外のチームへの移籍を決めた。",
+  "exampleReading": "かれは かいがいの チームへの いせきを きめた。",
+  "exampleMeaning": "그는 해외 팀으로의 이적을 결정했다."
+ },
+ {
+  "id": "n5b_01",
+  "word": "猫",
+  "reading": "ねこ",
+  "meaning": "고양이",
+  "level": "N5",
+  "example": "猫が窓の外を見ています。",
+  "exampleReading": "ねこがまどのそとをみています。",
+  "exampleMeaning": "고양이가 창밖을 보고 있습니다."
+ },
+ {
+  "id": "n5b_02",
+  "word": "犬",
+  "reading": "いぬ",
+  "meaning": "개",
+  "level": "N5",
+  "example": "犬と公園を散歩しました。",
+  "exampleReading": "いぬとこうえんをさんぽしました。",
+  "exampleMeaning": "개와 공원을 산책했습니다."
+ },
+ {
+  "id": "n5b_03",
+  "word": "電話",
+  "reading": "でんわ",
+  "meaning": "전화",
+  "level": "N5",
+  "example": "後で電話します。",
+  "exampleReading": "あとででんわします。",
+  "exampleMeaning": "나중에 전화하겠습니다."
+ },
+ {
+  "id": "n5b_04",
+  "word": "教室",
+  "reading": "きょうしつ",
+  "meaning": "교실",
+  "level": "N5",
+  "example": "教室に誰もいません。",
+  "exampleReading": "きょうしつにだれもいません。",
+  "exampleMeaning": "교실에 아무도 없습니다."
+ },
+ {
+  "id": "n5b_05",
+  "word": "病院",
+  "reading": "びょういん",
+  "meaning": "병원",
+  "level": "N5",
+  "example": "病院で薬をもらいました。",
+  "exampleReading": "びょういんでくすりをもらいました。",
+  "exampleMeaning": "병원에서 약을 받았습니다."
+ },
+ {
+  "id": "n5b_06",
+  "word": "買う",
+  "reading": "かう",
+  "meaning": "사다",
+  "level": "N5",
+  "example": "新しい靴を買いました。",
+  "exampleReading": "あたらしいくつをかいました。",
+  "exampleMeaning": "새 신발을 샀습니다."
+ },
+ {
+  "id": "n5b_07",
+  "word": "読む",
+  "reading": "よむ",
+  "meaning": "읽다",
+  "level": "N5",
+  "example": "毎晩本を読みます。",
+  "exampleReading": "まいばんほんをよみます。",
+  "exampleMeaning": "매일 밤 책을 읽습니다."
+ },
+ {
+  "id": "n5b_08",
+  "word": "書く",
+  "reading": "かく",
+  "meaning": "쓰다",
+  "level": "N5",
+  "example": "手紙を書いています。",
+  "exampleReading": "てがみをかいています。",
+  "exampleMeaning": "편지를 쓰고 있습니다."
+ },
+ {
+  "id": "n5b_09",
+  "word": "聞く",
+  "reading": "きく",
+  "meaning": "듣다·묻다",
+  "level": "N5",
+  "example": "音楽を聞くのが好きです。",
+  "exampleReading": "おんがくをきくのがすきです。",
+  "exampleMeaning": "음악을 듣는 것을 좋아합니다."
+ },
+ {
+  "id": "n5b_10",
+  "word": "話す",
+  "reading": "はなす",
+  "meaning": "이야기하다",
+  "level": "N5",
+  "example": "日本語で話しましょう。",
+  "exampleReading": "にほんごではなしましょう。",
+  "exampleMeaning": "일본어로 이야기합시다."
+ },
+ {
+  "id": "n5b_11",
+  "word": "暑い",
+  "reading": "あつい",
+  "meaning": "덥다",
+  "level": "N5",
+  "example": "今日はとても暑いです。",
+  "exampleReading": "きょうはとてもあついです。",
+  "exampleMeaning": "오늘은 아주 덥습니다."
+ },
+ {
+  "id": "n5b_12",
+  "word": "寒い",
+  "reading": "さむい",
+  "meaning": "춥다",
+  "level": "N5",
+  "example": "冬は寒くて嫌いです。",
+  "exampleReading": "ふゆはさむくてきらいです。",
+  "exampleMeaning": "겨울은 추워서 싫습니다."
+ },
+ {
+  "id": "n5b_13",
+  "word": "忙しい",
+  "reading": "いそがしい",
+  "meaning": "바쁘다",
+  "level": "N5",
+  "example": "今週はずっと忙しいです。",
+  "exampleReading": "こんしゅうはずっといそがしいです。",
+  "exampleMeaning": "이번 주는 계속 바쁩니다."
+ },
+ {
+  "id": "n5b_14",
+  "word": "楽しい",
+  "reading": "たのしい",
+  "meaning": "즐겁다",
+  "level": "N5",
+  "example": "旅行はとても楽しかったです。",
+  "exampleReading": "りょこうはとてもたのしかったです。",
+  "exampleMeaning": "여행은 아주 즐거웠습니다."
+ },
+ {
+  "id": "n5b_15",
+  "word": "早い",
+  "reading": "はやい",
+  "meaning": "이르다·빠르다",
+  "level": "N5",
+  "example": "今日は早く起きました。",
+  "exampleReading": "きょうははやくおきました。",
+  "exampleMeaning": "오늘은 일찍 일어났습니다."
+ },
+ {
+  "id": "n5b_16",
+  "word": "遅い",
+  "reading": "おそい",
+  "meaning": "늦다·느리다",
+  "level": "N5",
+  "example": "バスが遅くて困りました。",
+  "exampleReading": "バスがおそくてこまりました。",
+  "exampleMeaning": "버스가 늦어서 곤란했습니다."
+ },
+ {
+  "id": "n5b_17",
+  "word": "教える",
+  "reading": "おしえる",
+  "meaning": "가르치다",
+  "level": "N5",
+  "example": "弟に英語を教えています。",
+  "exampleReading": "おとうとにえいごをおしえています。",
+  "exampleMeaning": "남동생에게 영어를 가르치고 있습니다."
+ },
+ {
+  "id": "n5b_18",
+  "word": "習う",
+  "reading": "ならう",
+  "meaning": "배우다",
+  "level": "N5",
+  "example": "ピアノを習いたいです。",
+  "exampleReading": "ピアノをならいたいです。",
+  "exampleMeaning": "피아노를 배우고 싶습니다."
+ },
+ {
+  "id": "n5b_19",
+  "word": "家族",
+  "reading": "かぞく",
+  "meaning": "가족",
+  "level": "N5",
+  "example": "家族と写真を撮りました。",
+  "exampleReading": "かぞくとしゃしんをとりました。",
+  "exampleMeaning": "가족과 사진을 찍었습니다."
+ },
+ {
+  "id": "n5b_20",
+  "word": "部屋",
+  "reading": "へや",
+  "meaning": "방",
+  "level": "N5",
+  "example": "部屋を掃除しました。",
+  "exampleReading": "へやをそうじしました。",
+  "exampleMeaning": "방을 청소했습니다."
+ },
+ {
+  "id": "n4b_01",
+  "word": "経済",
+  "reading": "けいざい",
+  "meaning": "경제",
+  "level": "N4",
+  "example": "経済のニュースをよく見ます。",
+  "exampleReading": "けいざいのニュースをよくみます。",
+  "exampleMeaning": "경제 뉴스를 자주 봅니다."
+ },
+ {
+  "id": "n4b_02",
+  "word": "政治",
+  "reading": "せいじ",
+  "meaning": "정치",
+  "level": "N4",
+  "example": "政治にはあまり詳しくありません。",
+  "exampleReading": "せいじにはあまりくわしくありません。",
+  "exampleMeaning": "정치는 잘 모릅니다."
+ },
+ {
+  "id": "n4b_03",
+  "word": "社会",
+  "reading": "しゃかい",
+  "meaning": "사회",
+  "level": "N4",
+  "example": "社会の変化は早いです。",
+  "exampleReading": "しゃかいのへんかははやいです。",
+  "exampleMeaning": "사회의 변화는 빠릅니다."
+ },
+ {
+  "id": "n4b_04",
+  "word": "文化",
+  "reading": "ぶんか",
+  "meaning": "문화",
+  "level": "N4",
+  "example": "日本の文化に興味があります。",
+  "exampleReading": "にほんのぶんかにきょうみがあります。",
+  "exampleMeaning": "일본 문화에 관심이 있습니다."
+ },
+ {
+  "id": "n4b_05",
+  "word": "意見",
+  "reading": "いけん",
+  "meaning": "의견",
+  "level": "N4",
+  "example": "あなたの意見を聞かせてください。",
+  "exampleReading": "あなたのいけんをきかせてください。",
+  "exampleMeaning": "당신의 의견을 들려주세요."
+ },
+ {
+  "id": "n4b_06",
+  "word": "感じる",
+  "reading": "かんじる",
+  "meaning": "느끼다",
+  "level": "N4",
+  "example": "最近、成長を感じます。",
+  "exampleReading": "さいきん、せいちょうをかんじます。",
+  "exampleMeaning": "요즘 성장을 느낍니다."
+ },
+ {
+  "id": "n4b_07",
+  "word": "比較",
+  "reading": "ひかく",
+  "meaning": "비교",
+  "level": "N4",
+  "example": "二つの製品を比較しました。",
+  "exampleReading": "ふたつのせいひんをひかくしました。",
+  "exampleMeaning": "두 제품을 비교했습니다."
+ },
+ {
+  "id": "n4b_08",
+  "word": "表現",
+  "reading": "ひょうげん",
+  "meaning": "표현",
+  "level": "N4",
+  "example": "気持ちをうまく表現できません。",
+  "exampleReading": "きもちをうまくひょうげんできません。",
+  "exampleMeaning": "마음을 잘 표현하지 못합니다."
+ },
+ {
+  "id": "n4b_09",
+  "word": "参加",
+  "reading": "さんか",
+  "meaning": "참가",
+  "level": "N4",
+  "example": "イベントに参加しました。",
+  "exampleReading": "イベントにさんかしました。",
+  "exampleMeaning": "행사에 참가했습니다."
+ },
+ {
+  "id": "n4b_10",
+  "word": "提出",
+  "reading": "ていしゅつ",
+  "meaning": "제출",
+  "level": "N4",
+  "example": "レポートを明日提出します。",
+  "exampleReading": "レポートをあしたていしゅつします。",
+  "exampleMeaning": "리포트를 내일 제출합니다."
+ },
+ {
+  "id": "n4b_11",
+  "word": "申し込む",
+  "reading": "もうしこむ",
+  "meaning": "신청하다",
+  "level": "N4",
+  "example": "講座に申し込みました。",
+  "exampleReading": "こうざにもうしこみました。",
+  "exampleMeaning": "강좌를 신청했습니다."
+ },
+ {
+  "id": "n4b_12",
+  "word": "続ける",
+  "reading": "つづける",
+  "meaning": "계속하다",
+  "level": "N4",
+  "example": "毎日運動を続けています。",
+  "exampleReading": "まいにちうんどうをつづけています。",
+  "exampleMeaning": "매일 운동을 계속하고 있습니다."
+ },
+ {
+  "id": "n4b_13",
+  "word": "変える",
+  "reading": "かえる",
+  "meaning": "바꾸다",
+  "level": "N4",
+  "example": "髪型を変えました。",
+  "exampleReading": "かみがたをかえました。",
+  "exampleMeaning": "머리 모양을 바꿨습니다."
+ },
+ {
+  "id": "n4b_14",
+  "word": "増やす",
+  "reading": "ふやす",
+  "meaning": "늘리다",
+  "level": "N4",
+  "example": "貯金を増やしたいです。",
+  "exampleReading": "ちょきんをふやしたいです。",
+  "exampleMeaning": "저축을 늘리고 싶습니다."
+ },
+ {
+  "id": "n4b_15",
+  "word": "減らす",
+  "reading": "へらす",
+  "meaning": "줄이다",
+  "level": "N4",
+  "example": "体重を減らそうとしています。",
+  "exampleReading": "たいじゅうをへらそうとしています。",
+  "exampleMeaning": "체중을 줄이려 하고 있습니다."
+ },
+ {
+  "id": "n4b_16",
+  "word": "気づく",
+  "reading": "きづく",
+  "meaning": "알아차리다",
+  "level": "N4",
+  "example": "間違いにすぐ気づきました。",
+  "exampleReading": "まちがいにすぐきづきました。",
+  "exampleMeaning": "실수를 바로 알아차렸습니다."
+ },
+ {
+  "id": "n4b_17",
+  "word": "集める",
+  "reading": "あつめる",
+  "meaning": "모으다",
+  "level": "N4",
+  "example": "切手を集めるのが趣味です。",
+  "exampleReading": "きってをあつめるのがしゅみです。",
+  "exampleMeaning": "우표를 모으는 것이 취미입니다."
+ },
+ {
+  "id": "n4b_18",
+  "word": "選ぶ",
+  "reading": "えらぶ",
+  "meaning": "고르다",
+  "level": "N4",
+  "example": "好きな色を選んでください。",
+  "exampleReading": "すきないろをえらんでください。",
+  "exampleMeaning": "좋아하는 색을 골라 주세요."
+ },
+ {
+  "id": "n4b_19",
+  "word": "調べる",
+  "reading": "しらべる",
+  "meaning": "조사하다",
+  "level": "N4",
+  "example": "単語の意味を調べました。",
+  "exampleReading": "たんごのいみをしらべました。",
+  "exampleMeaning": "단어의 뜻을 조사했습니다."
+ },
+ {
+  "id": "n4b_20",
+  "word": "頼む",
+  "reading": "たのむ",
+  "meaning": "부탁하다",
+  "level": "N4",
+  "example": "友達に手伝いを頼みました。",
+  "exampleReading": "ともだちにてつだいをたのみました。",
+  "exampleMeaning": "친구에게 도움을 부탁했습니다."
  }
 ]
