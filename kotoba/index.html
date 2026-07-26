@@ -1,20 +1,8 @@
 <!DOCTYPE html>
-<!--
-  ことば帖 (Kotoba-cho) v1.6.1 — 일본어 단어 자동학습 PWA
-  © 2026 박상태 (Sangtae Park), Kongju National University.
-  All rights reserved. 무단 복제·수정·재배포를 금지합니다.
-  Unauthorized copying, modification or redistribution is prohibited.
-  Contact: cafe.naver.com/statepark62
--->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>ことば帖 · 일본어 단어 자동학습</title>
-<meta name="theme-color" content="#B93A32">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="icon-B-48.png">
-<link rel="apple-touch-icon" href="icon-B-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -31,76 +19,65 @@
     background-image:
       radial-gradient(circle at 15% 20%, rgba(185,58,50,.03) 0, transparent 40%),
       radial-gradient(circle at 85% 80%, rgba(51,86,107,.04) 0, transparent 45%);
-    min-height:100vh; padding-top:58px !important; padding-bottom:56px;
+    min-height:100vh; padding-bottom:56px;
   }
   .jp{font-family:'Noto Serif JP',serif;}
 
-  header{max-width:680px; margin:0 auto; padding:22px 18px 10px;
-    display:flex; align-items:center; gap:14px;}
-  .hanko{width:46px; height:46px; flex:0 0 46px; background:var(--shu); color:#FFF9F2;
+  /* ---------- 헤더 ---------- */
+  header{
+    max-width:680px; margin:0 auto; padding:22px 18px 10px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .hanko{
+    width:46px; height:46px; flex:0 0 46px; background:var(--shu); color:#FFF9F2;
     font-family:'Noto Serif JP',serif; font-size:24px; font-weight:700;
     display:flex; align-items:center; justify-content:center;
-    border-radius:8px; box-shadow:inset 0 0 0 2px rgba(255,255,255,.25); transform:rotate(-3deg);}
+    border-radius:8px; box-shadow:inset 0 0 0 2px rgba(255,255,255,.25);
+    transform:rotate(-3deg);
+  }
   header h1{font-family:'Noto Serif JP',serif; font-size:26px; letter-spacing:2px; line-height:1;}
   header p{color:var(--muted); font-size:13px; margin-top:5px;}
 
-  .banner{
-    max-width:680px; margin:4px auto 0; padding:0 18px; display:none;
+  /* ---------- 탭 ---------- */
+  nav{
+    max-width:680px; margin:10px auto 0; padding:0 18px;
+    display:flex; gap:6px;
   }
-  .banner.on{display:block;}
-  .banner .inner{
-    background:#FCF3E3; border:1px solid #E8D9B0; border-radius:11px;
-    padding:10px 14px; font-size:13.5px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-  }
-  .banner button{
-    padding:6px 13px; border-radius:8px; border:1px solid var(--line); background:#fff;
-    font-family:inherit; font-size:12.5px; cursor:pointer; color:var(--ai);
-  }
-  .banner button.go{background:var(--shu); border-color:var(--shu); color:#fff;}
-
-  .tabs{
-    position:fixed !important;
-    top:0 !important;
-    left:0 !important;
-    right:0 !important;
-    width:100% !important;
-    z-index:2147483647 !important;
-    background:#F6F1E7 !important;
-    box-shadow:0 2px 10px rgba(42,39,35,.18) !important;
-    transform:translateZ(0);
-    -webkit-transform:translateZ(0);
-  }
-  nav{max-width:680px; margin:0 auto; padding:10px 18px 0; display:flex; gap:6px;}
-  nav button{flex:1; padding:10px 4px; font-size:14px; font-weight:500; font-family:inherit;
+  nav button{
+    flex:1; padding:10px 4px; font-size:14px; font-weight:500; font-family:inherit;
     background:transparent; color:var(--muted); border:none; cursor:pointer;
-    border-bottom:2px solid var(--line);}
+    border-bottom:2px solid var(--line);
+  }
   nav button.on{color:var(--shu); border-bottom-color:var(--shu); font-weight:700;}
   nav button:focus-visible{outline:2px solid var(--ai); outline-offset:-2px;}
-
-  @supports (padding-top: env(safe-area-inset-top)){
-    .tabs{padding-top:env(safe-area-inset-top) !important;}
-    body{padding-top:calc(58px + env(safe-area-inset-top)) !important;}
-  }
 
   main{max-width:680px; margin:0 auto; padding:16px 18px;}
   .panel{display:none;} .panel.on{display:block;}
 
+  /* ---------- 공용 ---------- */
   .chips{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
-  .chip{padding:6px 14px; border-radius:999px; font-size:13px; font-family:inherit;
-    border:1px solid var(--line); background:var(--paper); color:var(--muted); cursor:pointer;}
+  .chip{
+    padding:6px 14px; border-radius:999px; font-size:13px; font-family:inherit;
+    border:1px solid var(--line); background:var(--paper); color:var(--muted); cursor:pointer;
+  }
   .chip.on{background:var(--ai); border-color:var(--ai); color:#fff; font-weight:500;}
   button:focus-visible, input:focus-visible, select:focus-visible{outline:2px solid var(--ai); outline-offset:2px;}
 
-  .card{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
-    box-shadow:0 2px 10px rgba(42,39,35,.06); position:relative; overflow:hidden;}
+  .card{
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    box-shadow:0 2px 10px rgba(42,39,35,.06); position:relative; overflow:hidden;
+  }
   .card::before{content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--shu);}
 
+  /* ---------- 플래시카드 ---------- */
   .flash{min-height:320px; padding:34px 24px 26px; text-align:center;
     display:flex; flex-direction:column; justify-content:center; align-items:center; gap:10px;}
-  .flash .seal{position:absolute; top:16px; right:16px; width:34px; height:34px;
+  .flash .seal{
+    position:absolute; top:16px; right:16px; width:34px; height:34px;
     background:var(--shu); color:#FFF9F2; border-radius:6px; transform:rotate(3deg);
     font-family:'Noto Serif JP',serif; font-size:17px; font-weight:700;
-    display:flex; align-items:center; justify-content:center;}
+    display:flex; align-items:center; justify-content:center;
+  }
   .flash .lv{position:absolute; top:20px; left:20px; font-size:12px; color:var(--muted); letter-spacing:1px;}
   .flash .reading{font-size:17px; color:var(--ai); min-height:24px; letter-spacing:1px;}
   .flash .word{font-size:56px; font-weight:700; line-height:1.15; word-break:keep-all;}
@@ -111,9 +88,11 @@
   .tapHint{font-size:12px; color:var(--muted); margin-top:14px;}
 
   .ctrl{display:flex; gap:8px; margin-top:14px; align-items:center; flex-wrap:wrap;}
-  .btn{padding:11px 18px; border-radius:10px; border:1px solid var(--line);
+  .btn{
+    padding:11px 18px; border-radius:10px; border:1px solid var(--line);
     background:var(--paper); color:var(--ink); font-size:14.5px; font-weight:500;
-    font-family:inherit; cursor:pointer;}
+    font-family:inherit; cursor:pointer;
+  }
   .btn.primary{background:var(--shu); border-color:var(--shu); color:#fff;}
   .btn.blue{background:var(--ai); border-color:var(--ai); color:#fff;}
   .btn.big{flex:1; padding:14px;}
@@ -126,15 +105,19 @@
   .opts input[type=range]{width:90px; accent-color:var(--shu);}
   .opts input[type=checkbox]{accent-color:var(--shu);}
 
+  /* ---------- 퀴즈 ---------- */
   .qword{font-size:44px; font-weight:700; text-align:center; padding:30px 16px 6px;}
   .qreading{text-align:center; color:var(--ai); font-size:15px; min-height:22px;}
   .choices{display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:18px;}
-  .choice{padding:16px 10px; border-radius:10px; border:1.5px solid var(--line);
-    background:#fff; font-size:15.5px; font-family:inherit; cursor:pointer; color:var(--ink);}
+  .choice{
+    padding:16px 10px; border-radius:10px; border:1.5px solid var(--line);
+    background:#fff; font-size:15.5px; font-family:inherit; cursor:pointer; color:var(--ink);
+  }
   .choice.right{background:#EAF4EC; border-color:var(--ok); color:var(--ok); font-weight:700;}
   .choice.wrong{background:#FBEDEB; border-color:var(--shu); color:var(--shu); font-weight:700;}
   .qmeta{display:flex; justify-content:space-between; padding:0 20px 16px; font-size:13px; color:var(--muted);}
 
+  /* ---------- 진도/통계 ---------- */
   .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:14px;}
   .stat{background:var(--paper); border:1px solid var(--line); border-radius:10px;
     padding:12px 8px; text-align:center;}
@@ -144,12 +127,15 @@
   .boxbar div{border-radius:4px; min-width:6px;}
   .boxlegend{font-size:11.5px; color:var(--muted); margin-bottom:16px;}
 
+  /* ---------- 단어장 ---------- */
   .form{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
     padding:16px; margin-bottom:16px;}
   .form h3{font-size:15px; margin-bottom:10px; color:var(--ai);}
   .frow{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;}
-  .form input, .form select{width:100%; padding:10px; border:1px solid var(--line);
-    border-radius:8px; font-size:14px; font-family:inherit; background:#fff; color:var(--ink);}
+  .form input, .form select{
+    width:100%; padding:10px; border:1px solid var(--line); border-radius:8px;
+    font-size:14px; font-family:inherit; background:#fff; color:var(--ink);
+  }
   .full{grid-column:1/-1;}
   .wlist{display:flex; flex-direction:column; gap:8px;}
   .wrow{background:var(--paper); border:1px solid var(--line); border-radius:10px;
@@ -161,24 +147,15 @@
     background:#fff; cursor:pointer; font-family:inherit; color:var(--ai);}
   .mini.del{color:var(--shu);}
 
-  .backup{background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
-    padding:16px; margin-top:20px;}
-  .backup h3{font-size:15px; margin-bottom:4px; color:var(--ai);}
-  .backup .muted{font-size:12.5px; color:var(--muted); margin-bottom:10px;}
-
-  .toast{position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+  .toast{
+    position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
     background:var(--ink); color:#FFF9F2; padding:10px 20px; border-radius:999px;
-    font-size:13.5px; opacity:0; transition:opacity .25s; pointer-events:none; z-index:50;}
+    font-size:13.5px; opacity:0; transition:opacity .25s; pointer-events:none; z-index:50;
+  }
   .toast.on{opacity:1;}
   .loading{text-align:center; padding:60px 0; color:var(--muted);}
   .empty{text-align:center; padding:40px 16px; color:var(--muted); font-size:14.5px; line-height:1.8;}
 
-  footer{
-    max-width:680px; margin:34px auto 0; padding:14px 18px 0;
-    border-top:1px solid var(--line); text-align:center;
-    color:var(--muted); font-size:12px; line-height:1.9;
-  }
-  footer a{color:var(--ai); text-decoration:none;}
   @media (max-width:420px){
     .flash .word{font-size:44px;}
     .qword{font-size:36px;}
@@ -186,35 +163,6 @@
   }
   @media (prefers-reduced-motion:reduce){ *{transition:none!important;} }
 </style>
-
-<script>
-/* ===== v1.6.1 업데이트: 이전 PWA 캐시 1회 초기화 ===== */
-(async function forceFreshVersion(){
-  const RESET_KEY = 'kotoba_cache_reset_v161';
-  if (localStorage.getItem(RESET_KEY)) return;
-
-  try {
-    if ('serviceWorker' in navigator) {
-      const regs = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(reg => reg.unregister()));
-    }
-
-    if ('caches' in window) {
-      const keys = await caches.keys();
-      await Promise.all(keys.map(key => caches.delete(key)));
-    }
-
-    localStorage.setItem(RESET_KEY, 'done');
-
-    const url = new URL(location.href);
-    url.searchParams.set('v', '161');
-    location.replace(url.toString());
-  } catch (e) {
-    console.warn('캐시 초기화 실패:', e);
-  }
-})();
-</script>
-
 </head>
 <body>
 
@@ -226,22 +174,12 @@
   </div>
 </header>
 
-<div class="banner" id="backupBanner">
-  <div class="inner">
-    <span>💾 학습 기록을 백업한 지 오래됐어요. 기기 교체·데이터 삭제에 대비해 저장해 두세요.</span>
-    <button class="go" onclick="exportBackup()">지금 백업</button>
-    <button onclick="dismissBanner()">나중에</button>
-  </div>
-</div>
-
-<div class="tabs">
-  <nav>
-    <button id="tab-auto" class="on" onclick="showTab('auto')">자동학습</button>
-    <button id="tab-quiz" onclick="showTab('quiz')">퀴즈</button>
-    <button id="tab-srs" onclick="showTab('srs')">복습</button>
-    <button id="tab-list" onclick="showTab('list')">단어장</button>
-  </nav>
-</div>
+<nav>
+  <button id="tab-auto" class="on" onclick="showTab('auto')">자동학습</button>
+  <button id="tab-quiz" onclick="showTab('quiz')">퀴즈</button>
+  <button id="tab-srs"  onclick="showTab('srs')">복습</button>
+  <button id="tab-list" onclick="showTab('list')">단어장</button>
+</nav>
 
 <main>
   <div id="loading" class="loading">단어장을 불러오는 중…</div>
@@ -348,69 +286,20 @@
     </div>
     <div class="chips" id="listChips"></div>
     <div class="wlist" id="wList"></div>
-
-    <div class="backup">
-      <h3>💾 학습 기록 백업</h3>
-      <p class="muted">이 앱의 학습 기록은 <b>이 기기 안에만</b> 저장됩니다. 기기를 바꾸거나 브라우저 데이터를 지우기 전에 꼭 백업해 두세요. <span id="lastBackupInfo"></span></p>
-      <div class="ctrl" style="margin-top:0">
-        <button class="btn blue big" onclick="exportBackup()">진도 내보내기</button>
-        <button class="btn big" onclick="fileInput.click()">진도 가져오기</button>
-        <input type="file" id="fileInput" accept=".json,application/json" style="display:none" onchange="importBackup(this.files[0])">
-      </div>
-    </div>
-
     <div class="ctrl" style="margin-top:20px">
-      <button class="btn" style="color:var(--shu)" onclick="doResetProgress()">학습 진도 초기화</button>
+      <button class="btn" style="color:var(--shu)" onclick="doResetProgress()">내 학습 진도 초기화</button>
     </div>
   </section>
 </main>
 
-
-<footer>
-  <span class="jp">ことば帖</span> v1.6.1 · © 2026 박상태 (Sangtae Park) · All rights reserved. · 무단 복제·재배포 금지<br>
-  💬 <a href="https://forms.gle/1oTmcoWRLYCgucX79" target="_blank" rel="noopener">의견 보내기</a>
-  &nbsp;·&nbsp; 문의: <a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a>
-  <span id="visitInfo" style="display:block; margin-top:2px;"></span>
-</footer>
-
 <div class="toast" id="toast"></div>
 
 <script>
-/* ====================== 저장소 (localStorage) ====================== */
-const LS = {
-  progress:  'kotoba_progress',    // { id: {box,correct,wrong,lastReview,nextReview} }
-  custom:    'kotoba_custom',      // 직접 추가한 단어 배열
-  hidden:    'kotoba_hidden',      // 숨긴 공용 단어 id 배열
-  lastBackup:'kotoba_last_backup', // 마지막 백업 시각(ms)
-  visitDate: 'kotoba_visit_date',    // 오늘 방문 신호를 보냈는지
-  visitor:   'kotoba_visitor',       // 이 기기가 기존 방문자인지
-};
-function lsGet(key, fallback){
-  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
-  catch(e){ return fallback; }
-}
-function lsSet(key, val){
-  try { localStorage.setItem(key, JSON.stringify(val)); }
-  catch(e){ toast('저장 공간 오류 — 브라우저 설정을 확인하세요'); }
-}
-
-let PROGRESS = lsGet(LS.progress, {});
-let CUSTOM   = lsGet(LS.custom, []);
-let HIDDEN   = new Set(lsGet(LS.hidden, []));
-
 /* ====================== 상태 ====================== */
-let SHARED = [];   // words.json에서 온 공용 단어
-let WORDS  = [];   // SHARED(숨김 제외) + CUSTOM, progress 부착
+let WORDS = [];
 let levelFilter = { auto:'전체', quiz:'전체', list:'전체' };
 const BOX_KANJI = ['壱','弐','参','四','五'];
 const LEVELS = ['전체','N5','N4','N3','N2','N1','기타'];
-const BOX_INTERVALS = [0, 1, 3, 7, 14]; // 일 단위
-
-function emptyProg(){ return {box:1, correct:0, wrong:0, lastReview:null, nextReview:null}; }
-function rebuildWords(){
-  WORDS = SHARED.filter(w => !HIDDEN.has(w.id)).concat(CUSTOM)
-    .map(w => ({...w, progress: PROGRESS[w.id] ? {...PROGRESS[w.id]} : emptyProg()}));
-}
 
 /* ====================== 초기화 ====================== */
 window.addEventListener('load', () => {
@@ -419,50 +308,19 @@ window.addEventListener('load', () => {
     document.getElementById('intervalVal').textContent = e.target.value + '초';
     if (autoTimer) { stopAuto(); startAuto(); }
   });
-
-  fetchWords(true);
-
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js?v=161', {updateViaCache:'none'});
-
-  // 홈 화면 앱은 새로고침 수단이 없으므로, 화면에 복귀할 때마다 단어를 자동 갱신
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') fetchWords(false);
-  });
-  window.addEventListener('pageshow', () => fetchWords(false));
+  google.script.run.withSuccessHandler(onData).withFailureHandler(err => {
+    document.getElementById('loading').textContent = '불러오기 실패: ' + err.message;
+  }).getData();
 });
 
-let lastWordsFetch = 0;
-
-function fetchWords(isFirst){
-  const now = Date.now();
-  if (!isFirst && now - lastWordsFetch < 30*60*1000) return;  // 30분 이내 재확인 생략
-  fetch('words.json', {cache:'no-cache'})
-    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(list => {
-      lastWordsFetch = now;
-      const fresh = list.filter(w => w && w.word && w.reading);
-      const grew = fresh.length - SHARED.length;
-      SHARED = fresh;
-      if (isFirst) { startApp(); return; }
-      rebuildWords();
-      renderSrsStats();
-      if (grew > 0) toast(`새 단어 ${grew}개가 추가되었습니다`);
-    })
-    .catch(() => {
-      if (!isFirst) return;   // 복귀 시 실패는 조용히 무시 (다음 기회에)
-      SHARED = [];
-      if (CUSTOM.length) { startApp(); toast('단어 목록을 못 받아 저장된 단어만 표시합니다'); }
-      else document.getElementById('loading').textContent =
-        '단어장을 불러오지 못했습니다. 인터넷 연결 후 새로고침해 주세요.';
-    });
-}
-
-function startApp(){
-  logVisit();
-  rebuildWords();
+function onData(json){
+  const data = JSON.parse(json);
+  WORDS = data.words;
+  if (data.user){
+    const p = document.querySelector('header p');
+    p.textContent = '일본어 단어 자동학습 · N5–N1 · ' + data.user;
+  }
   document.getElementById('loading').style.display = 'none';
-  updateBackupInfo();
-  maybeShowBanner();
   showTab('auto');
 }
 
@@ -505,7 +363,7 @@ function filtered(key){
 function toast(msg){
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('on');
-  setTimeout(() => t.classList.remove('on'), 2000);
+  setTimeout(() => t.classList.remove('on'), 1800);
 }
 
 function shuffle(a){
@@ -532,20 +390,6 @@ function speak(text, cb){
   speechSynthesis.speak(u);
 }
 
-/* ====================== 진도 기록 (로컬) ====================== */
-function recordAnswer(word, correct){
-  const p = PROGRESS[word.id] || emptyProg();
-  if (correct){ p.box = Math.min((p.box||1)+1, BOX_INTERVALS.length); p.correct = (p.correct||0)+1; }
-  else { p.box = 1; p.wrong = (p.wrong||0)+1; }
-  const now = Date.now();
-  p.lastReview = now;
-  p.nextReview = now + BOX_INTERVALS[p.box-1]*24*60*60*1000;
-  PROGRESS[word.id] = p;
-  lsSet(LS.progress, PROGRESS);
-  word.progress = {...p};
-  renderSrsStats();
-}
-
 /* ====================== 자동학습 ====================== */
 let autoDeck = [], autoIdx = 0, autoTimer = null, revealTimer = null;
 
@@ -564,7 +408,7 @@ function renderAuto(reveal){
   document.getElementById('aReading').textContent = w.reading;
   const show = reveal ? 'visible':'hidden';
   const m = document.getElementById('aMeaning'), e = document.getElementById('aExample'), em = document.getElementById('aExMean');
-  m.textContent = w.meaning; e.textContent = w.example||''; em.textContent = w.exampleMeaning||'';
+  m.textContent = w.meaning; e.textContent = w.example; em.textContent = w.exampleMeaning;
   [m,e,em].forEach(x => x.style.visibility = show);
 }
 function toggleAuto(){ autoTimer ? stopAuto() : startAuto(); }
@@ -653,7 +497,7 @@ function gradeQuiz(btn, correct){
   document.getElementById('qStreak').textContent = `연속 정답 ${qScore.streak}`;
   document.getElementById('qNextBtn').disabled = false;
   speak(qCurrent.reading || qCurrent.word);
-  recordAnswer(qCurrent, correct);
+  sendAnswer(qCurrent, correct);
 }
 function speakQuiz(){ if (qCurrent) speak(qCurrent.reading || qCurrent.word); }
 
@@ -665,7 +509,6 @@ function dueWords(){
   return WORDS.filter(w => !w.progress.nextReview || w.progress.nextReview <= now);
 }
 function initSrs(){
-  rebuildWords();
   srsQueue = shuffle(dueWords());
   renderSrsStats();
   nextSrs();
@@ -673,9 +516,9 @@ function initSrs(){
 function renderSrsStats(){
   document.getElementById('sDue').textContent = srsQueue.length;
   document.getElementById('sDone').textContent = srsDoneToday;
-  document.getElementById('sMaster').textContent = WORDS.filter(w => (PROGRESS[w.id]||{}).box>=5).length;
+  document.getElementById('sMaster').textContent = WORDS.filter(w => w.progress.box>=5).length;
   const counts = [0,0,0,0,0];
-  WORDS.forEach(w => counts[Math.min(((PROGRESS[w.id]||{}).box||1),5)-1]++);
+  WORDS.forEach(w => counts[Math.min((w.progress.box||1),5)-1]++);
   const total = WORDS.length || 1;
   const colors = ['#D9C6B0','#C9A87C','#8FA5B5','#5D7E96','#B93A32'];
   document.getElementById('boxBar').innerHTML =
@@ -691,8 +534,8 @@ function nextSrs(){
   document.getElementById('rWord').textContent = srsCur.word;
   document.getElementById('rReading').textContent = srsCur.reading;
   document.getElementById('rMeaning').textContent = srsCur.meaning;
-  document.getElementById('rExample').textContent = srsCur.example||'';
-  document.getElementById('rExMean').textContent = srsCur.exampleMeaning||'';
+  document.getElementById('rExample').textContent = srsCur.example;
+  document.getElementById('rExMean').textContent = srsCur.exampleMeaning;
   ['rReading','rMeaning','rExample','rExMean'].forEach(id =>
     document.getElementById(id).classList.add('hiddenTxt'));
   document.getElementById('rHint').style.display = 'block';
@@ -710,7 +553,7 @@ function revealSrs(){
 }
 function answerSrs(correct){
   if (!srsCur) return;
-  recordAnswer(srsCur, correct);
+  sendAnswer(srsCur, correct);
   srsQueue.shift();
   if (!correct) srsQueue.push(srsCur);   // 틀린 단어는 오늘 다시
   else srsDoneToday++;
@@ -721,34 +564,35 @@ function speakSrs(){
   if (srsCur) speak(srsCur.reading || srsCur.word, () => { if (srsCur.example) speak(srsCur.exampleReading || srsCur.example); });
 }
 
+/* ====================== 서버 기록 ====================== */
+function sendAnswer(word, correct){
+  google.script.run.withSuccessHandler(json => {
+    word.progress = JSON.parse(json);
+    renderSrsStats();
+  }).withFailureHandler(() => toast('진도 저장 실패 — 네트워크를 확인하세요'))
+    .recordAnswer(word.id, correct);
+}
+
 /* ====================== 단어장 관리 ====================== */
 let editId = null;
 
 function renderList(){
-  rebuildWords();
   const el = document.getElementById('wList');
   const list = filtered('list');
   if (!list.length){ el.innerHTML = '<div class="empty">단어가 없습니다. 위에서 추가해 보세요.</div>'; return; }
   el.innerHTML = '';
   list.forEach(w => {
-    const isCustom = String(w.id).startsWith('loc_');
     const row = document.createElement('div');
     row.className = 'wrow';
     row.innerHTML = `
       <div class="jp">${esc(w.word)}</div>
       <div class="info"><b>${esc(w.reading)}</b> · ${esc(w.meaning)}<br>
-        ${esc(w.level)} · 상자 ${w.progress.box} · 정답 ${w.progress.correct} / 오답 ${w.progress.wrong}${isCustom?' · <b>내 단어</b>':''}</div>`;
-    if (isCustom){
-      const eBtn = document.createElement('button');
-      eBtn.className='mini'; eBtn.textContent='수정'; eBtn.onclick=()=>startEdit(w);
-      const dBtn = document.createElement('button');
-      dBtn.className='mini del'; dBtn.textContent='삭제'; dBtn.onclick=()=>removeWord(w);
-      row.append(eBtn,dBtn);
-    } else {
-      const hBtn = document.createElement('button');
-      hBtn.className='mini del'; hBtn.textContent='숨기기'; hBtn.onclick=()=>hideWord(w);
-      row.append(hBtn);
-    }
+        ${w.level} · 상자 ${w.progress.box} · 정답 ${w.progress.correct} / 오답 ${w.progress.wrong}</div>`;
+    const eBtn = document.createElement('button');
+    eBtn.className='mini'; eBtn.textContent='수정'; eBtn.onclick=()=>startEdit(w);
+    const dBtn = document.createElement('button');
+    dBtn.className='mini del'; dBtn.textContent='삭제'; dBtn.onclick=()=>removeWord(w);
+    row.append(eBtn,dBtn);
     el.appendChild(row);
   });
 }
@@ -761,7 +605,7 @@ function startEdit(w){
   document.getElementById('cancelEdit').style.display = 'inline-block';
   fWord.value=w.word; fReading.value=w.reading; fMeaning.value=w.meaning;
   fLevel.value = ['N5','N4','N3','N2','N1'].includes(w.level) ? w.level : '기타';
-  fExample.value=w.example||''; fExampleReading.value=w.exampleReading||''; fExampleMeaning.value=w.exampleMeaning||'';
+  fExample.value=w.example; fExampleReading.value=w.exampleReading; fExampleMeaning.value=w.exampleMeaning;
   window.scrollTo({top:0, behavior:'smooth'});
 }
 function clearForm(){
@@ -779,118 +623,41 @@ function saveWord(){
     exampleReading:fExampleReading.value.trim(), exampleMeaning:fExampleMeaning.value.trim(),
   };
   if (!p.word || !p.reading || !p.meaning){ toast('단어·읽기·의미는 필수입니다'); return; }
+  document.getElementById('saveBtn').disabled = true;
 
   if (editId){
-    const w = CUSTOM.find(x => x.id===editId);
-    if (w) Object.assign(w, p);
-    toast('수정했습니다');
+    p.id = editId;
+    google.script.run.withSuccessHandler(() => {
+      const w = WORDS.find(x => x.id===editId);
+      Object.assign(w, p);
+      afterSave('수정했습니다');
+    }).withFailureHandler(saveFail).updateWord(JSON.stringify(p));
   } else {
-    CUSTOM.push({...p, id:'loc_'+Date.now()});
-    toast('추가했습니다');
+    google.script.run.withSuccessHandler(id => {
+      WORDS.push({...p, id:id, progress:{box:1,correct:0,wrong:0,lastReview:null,nextReview:null}});
+      afterSave('추가했습니다');
+    }).withFailureHandler(saveFail).addWord(JSON.stringify(p));
   }
-  lsSet(LS.custom, CUSTOM);
-  clearForm(); renderList();
 }
+function afterSave(msg){
+  document.getElementById('saveBtn').disabled = false;
+  toast(msg); clearForm(); renderList();
+}
+function saveFail(){ document.getElementById('saveBtn').disabled = false; toast('저장 실패 — 다시 시도하세요'); }
+
 function removeWord(w){
   if (!confirm(`「${w.word}」을(를) 삭제할까요? 진도 기록도 함께 지워집니다.`)) return;
-  CUSTOM = CUSTOM.filter(x => x.id!==w.id);
-  delete PROGRESS[w.id];
-  lsSet(LS.custom, CUSTOM); lsSet(LS.progress, PROGRESS);
-  toast('삭제했습니다'); renderList();
-}
-function hideWord(w){
-  if (!confirm(`「${w.word}」을(를) 목록에서 숨길까요? (내 화면에서만 숨겨집니다)`)) return;
-  HIDDEN.add(w.id);
-  lsSet(LS.hidden, [...HIDDEN]);
-  toast('숨겼습니다'); renderList();
+  google.script.run.withSuccessHandler(() => {
+    WORDS = WORDS.filter(x => x.id!==w.id);
+    toast('삭제했습니다'); renderList();
+  }).withFailureHandler(() => toast('삭제 실패')).deleteWord(w.id);
 }
 function doResetProgress(){
-  if (!confirm('이 기기의 학습 진도를 모두 초기화할까요? 되돌릴 수 없습니다.\n(백업 파일이 있다면 나중에 복원할 수 있습니다)')) return;
-  PROGRESS = {};
-  lsSet(LS.progress, PROGRESS);
-  toast('진도를 초기화했습니다'); renderList();
-}
-
-
-/* ====================== 방문 집계 (기기당 하루 1회) ====================== */
-// ★ 아래 URL을 수집기(범용 시트 수집 웹앱) 배포 URL로 교체하세요.
-const VISIT_URL = '여기에_수집기_배포_URL';
-
-function localToday(){
-  const d = new Date(), pad = n => String(n).padStart(2,'0');
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-}
-function logVisit(){
-  if (!VISIT_URL || VISIT_URL.indexOf('http') !== 0) return;  // URL 미설정 시 조용히 생략
-  const today = localToday();
-  let t = 'count';                                   // 오늘 이미 집계됨 → 조회만
-  if (lsGet(LS.visitDate, null) !== today){
-    t = lsGet(LS.visitor, null) ? 'ret' : 'new';     // 오늘 첫 실행 → 재방문/신규 집계
-  }
-  fetch(`${VISIT_URL}?action=visit&t=${t}`)
-    .then(r => r.json())
-    .then(res => {
-      if (!res || !res.ok) return;
-      lsSet(LS.visitDate, today); lsSet(LS.visitor, 1);
-      const el = document.getElementById('visitInfo');
-      if (el && res.today) el.textContent = `오늘 ${res.today}명이 함께 공부했습니다 · 누적 방문 ${res.total}`;
-    })
-    .catch(() => {});                                // 오프라인 등 — 조용히 무시
-}
-
-/* ====================== 백업 / 복원 ====================== */
-function exportBackup(){
-  const data = {
-    app: 'kotoba', version: 1, exportedAt: new Date().toISOString(),
-    progress: PROGRESS, custom: CUSTOM, hidden: [...HIDDEN],
-  };
-  const blob = new Blob([JSON.stringify(data, null, 1)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  const d = new Date(), pad = n => String(n).padStart(2,'0');
-  a.download = `kotoba_backup_${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}.json`;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-  lsSet(LS.lastBackup, Date.now());
-  updateBackupInfo(); dismissBanner();
-  toast('백업 파일을 저장했습니다');
-}
-function importBackup(file){
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const data = JSON.parse(reader.result);
-      if (data.app !== 'kotoba' || !data.progress) throw new Error('형식 오류');
-      const cnt = Object.keys(data.progress).length;
-      if (!confirm(`백업 파일(${(data.exportedAt||'').slice(0,10)}, 단어 ${cnt}개 기록)을 불러올까요?\n이 기기의 현재 기록은 백업 내용으로 대체됩니다.`)) return;
-      PROGRESS = data.progress || {};
-      CUSTOM   = Array.isArray(data.custom) ? data.custom : [];
-      HIDDEN   = new Set(Array.isArray(data.hidden) ? data.hidden : []);
-      lsSet(LS.progress, PROGRESS); lsSet(LS.custom, CUSTOM); lsSet(LS.hidden, [...HIDDEN]);
-      rebuildWords();
-      toast('복원했습니다'); showTab('list');
-    } catch(e){
-      toast('백업 파일을 읽을 수 없습니다');
-    }
-  };
-  reader.readAsText(file);
-  document.getElementById('fileInput').value = '';
-}
-function updateBackupInfo(){
-  const t = lsGet(LS.lastBackup, null);
-  document.getElementById('lastBackupInfo').textContent =
-    t ? `마지막 백업: ${new Date(t).toLocaleDateString('ko-KR')}` : '아직 백업한 적이 없습니다.';
-}
-function maybeShowBanner(){
-  const t = lsGet(LS.lastBackup, null);
-  const hasProgress = Object.keys(PROGRESS).length >= 10;
-  const twoWeeks = 14*24*60*60*1000;
-  if (hasProgress && (!t || Date.now()-t > twoWeeks))
-    document.getElementById('backupBanner').classList.add('on');
-}
-function dismissBanner(){
-  document.getElementById('backupBanner').classList.remove('on');
+  if (!confirm('내 학습 진도를 초기화할까요? 다른 멤버의 기록에는 영향이 없습니다.')) return;
+  google.script.run.withSuccessHandler(() => {
+    WORDS.forEach(w => w.progress = {box:1,correct:0,wrong:0,lastReview:null,nextReview:null});
+    toast('진도를 초기화했습니다'); renderList();
+  }).withFailureHandler(() => toast('초기화 실패')).resetProgress();
 }
 </script>
 </body>
