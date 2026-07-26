@@ -1,7 +1,16 @@
 /* ことば帖 Service Worker — © 2026 박상태 (Sangtae Park). All rights reserved.
- * 앱 껍데기(HTML·아이콘)는 캐시 우선, words.json은 네트워크 우선(오프라인 시 캐시).
- * index.html 등을 수정해 올릴 때는 아래 CACHE 버전을 v2, v3...으로 올려야 반영됩니다. */
-const CACHE = 'kotoba-v7';
+ *
+ * index.html과 words.json은 네트워크 우선:
+ * 서버에 새 파일이 있으면 즉시 사용하고, 오프라인일 때만 캐시를 사용합니다.
+ *
+ * 아이콘·manifest 등 정적 파일은 캐시 우선으로 처리합니다.
+ *
+ * 앱 파일을 크게 수정할 때는 CACHE 이름을
+ * kotoba-v9, kotoba-v10처럼 변경하세요.
+ */
+
+const CACHE = 'kotoba-v8';
+
 const SHELL = [
   './',
   './index.html',
@@ -12,44 +21,117 @@ const SHELL = [
   './icon-B-512.png',
 ];
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+/* 설치 */
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches
+      .open(CACHE)
+      .then(cache => cache.addAll(SHELL))
+      .then(() => self.skipWaiting())
+  );
 });
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+/* 이전 캐시 삭제 */
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then(keys =>
+        Promise.all(
+          keys
+            .filter(key => key !== CACHE)
+            .map(key => caches.delete(key))
+        )
+      )
       .then(() => self.clients.claim())
   );
 });
 
-self.addEventListener('fetch', (e) => {
-  const url = new URL(e.request.url);
-  if (e.request.method !== 'GET') return;
+/* 네트워크 우선 함수 */
+async function networkFirst(request) {
+  const cache = await caches.open(CACHE);
 
-  // 단어 데이터: 항상 최신을 시도하고, 실패(오프라인) 시 캐시 사용
-  if (url.pathname.endsWith('/words.json')) {
-    e.respondWith(
-      fetch(e.request)
-        .then(res => {
-          const copy = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, copy));
-          return res;
-        })
-        .catch(() => caches.match(e.request))
+  try {
+    const response = await fetch(request, {
+      cache: 'no-store'
+    });
+
+    if (response && response.ok) {
+      await cache.put(request, response.clone());
+    }
+
+    return response;
+  } catch (error) {
+    const cached = await cache.match(request);
+
+    if (cached) {
+      return cached;
+    }
+
+    throw error;
+  }
+}
+
+/* 캐시 우선 함수 */
+async function cacheFirst(request) {
+  const cache = await caches.open(CACHE);
+  const cached = await cache.match(request);
+
+  if (cached) {
+    return cached;
+  }
+
+  const response = await fetch(request);
+
+  if (response && response.ok) {
+    await cache.put(request, response.clone());
+  }
+
+  return response;
+}
+
+/* 요청 처리 */
+self.addEventListener('fetch', event => {
+  const request = event.request;
+  const url = new URL(request.url);
+
+  if (request.method !== 'GET') {
+    return;
+  }
+
+  /*
+   * HTML 페이지 이동 요청:
+   * 항상 서버의 최신 index.html을 먼저 확인
+   */
+  if (
+    request.mode === 'navigate' ||
+    url.pathname.endsWith('/') ||
+    url.pathname.endsWith('/index.html')
+  ) {
+    event.respondWith(
+      networkFirst(request).catch(() => caches.match('./index.html'))
     );
     return;
   }
 
-  // 나머지(앱 껍데기·폰트 등): 캐시 우선, 없으면 네트워크 후 캐시에 저장
-  e.respondWith(
-    caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
-      if (res.ok && (url.origin === location.origin || url.hostname.includes('gstatic') || url.hostname.includes('googleapis'))) {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy));
-      }
-      return res;
-    }))
-  );
+  /*
+   * 단어 데이터:
+   * 최신 데이터를 먼저 확인하고 오프라인 시 캐시 사용
+   */
+  if (url.pathname.endsWith('/words.json')) {
+    event.respondWith(networkFirst(request));
+    return;
+  }
+
+  /*
+   * 같은 사이트의 정적 파일과 Google Fonts:
+   * 캐시 우선
+   */
+  if (
+    url.origin === self.location.origin ||
+    url.hostname.includes('gstatic.com') ||
+    url.hostname.includes('googleapis.com')
+  ) {
+    event.respondWith(cacheFirst(request));
+  }
 });
