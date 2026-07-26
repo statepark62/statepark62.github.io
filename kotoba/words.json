@@ -2841,5 +2841,385 @@
   "example": "友達に手伝いを頼みました。",
   "exampleReading": "ともだちにてつだいをたのみました。",
   "exampleMeaning": "친구에게 도움을 부탁했습니다."
+ },
+ {
+  "id": "n5c_01",
+  "word": "車",
+  "reading": "くるま",
+  "meaning": "자동차",
+  "level": "N5",
+  "example": "車で駅まで行きます。",
+  "exampleReading": "くるまでえきまでいきます。",
+  "exampleMeaning": "자동차로 역까지 갑니다."
+ },
+ {
+  "id": "n5c_02",
+  "word": "自転車",
+  "reading": "じてんしゃ",
+  "meaning": "자전거",
+  "level": "N5",
+  "example": "自転車で学校へ行きます。",
+  "exampleReading": "じてんしゃでがっこうへいきます。",
+  "exampleMeaning": "자전거로 학교에 갑니다."
+ },
+ {
+  "id": "n5c_03",
+  "word": "会社",
+  "reading": "かいしゃ",
+  "meaning": "회사",
+  "level": "N5",
+  "example": "会社は九時に始まります。",
+  "exampleReading": "かいしゃはくじにはじまります。",
+  "exampleMeaning": "회사는 9시에 시작합니다."
+ },
+ {
+  "id": "n5c_04",
+  "word": "仕事",
+  "reading": "しごと",
+  "meaning": "일·직업",
+  "level": "N5",
+  "example": "仕事はとても忙しいです。",
+  "exampleReading": "しごとはとてもいそがしいです。",
+  "exampleMeaning": "일은 아주 바쁩니다."
+ },
+ {
+  "id": "n5c_05",
+  "word": "音楽",
+  "reading": "おんがく",
+  "meaning": "음악",
+  "level": "N5",
+  "example": "音楽を聞きながら勉強します。",
+  "exampleReading": "おんがくをききながらべんきょうします。",
+  "exampleMeaning": "음악을 들으면서 공부합니다."
+ },
+ {
+  "id": "n5c_06",
+  "word": "映画",
+  "reading": "えいが",
+  "meaning": "영화",
+  "level": "N5",
+  "example": "週末に映画を見ました。",
+  "exampleReading": "しゅうまつにえいがをみました。",
+  "exampleMeaning": "주말에 영화를 봤습니다."
+ },
+ {
+  "id": "n5c_07",
+  "word": "写真",
+  "reading": "しゃしん",
+  "meaning": "사진",
+  "level": "N5",
+  "example": "家族の写真を撮りました。",
+  "exampleReading": "かぞくのしゃしんをとりました。",
+  "exampleMeaning": "가족 사진을 찍었습니다."
+ },
+ {
+  "id": "n5c_08",
+  "word": "花",
+  "reading": "はな",
+  "meaning": "꽃",
+  "level": "N5",
+  "example": "庭にきれいな花が咲きました。",
+  "exampleReading": "にわにきれいなはながさきました。",
+  "exampleMeaning": "정원에 예쁜 꽃이 피었습니다."
+ },
+ {
+  "id": "n5c_09",
+  "word": "山",
+  "reading": "やま",
+  "meaning": "산",
+  "level": "N5",
+  "example": "週末に山に登りました。",
+  "exampleReading": "しゅうまつにやまにのぼりました。",
+  "exampleMeaning": "주말에 산에 올랐습니다."
+ },
+ {
+  "id": "n5c_10",
+  "word": "海",
+  "reading": "うみ",
+  "meaning": "바다",
+  "level": "N5",
+  "example": "夏は海に行きたいです。",
+  "exampleReading": "なつはうみにいきたいです。",
+  "exampleMeaning": "여름에는 바다에 가고 싶습니다."
+ },
+ {
+  "id": "n5c_11",
+  "word": "朝",
+  "reading": "あさ",
+  "meaning": "아침",
+  "level": "N5",
+  "example": "朝、早く起きました。",
+  "exampleReading": "あさ、はやくおきました。",
+  "exampleMeaning": "아침에 일찍 일어났습니다."
+ },
+ {
+  "id": "n5c_12",
+  "word": "夜",
+  "reading": "よる",
+  "meaning": "밤",
+  "level": "N5",
+  "example": "夜、静かに本を読みます。",
+  "exampleReading": "よる、しずかにほんをよみます。",
+  "exampleMeaning": "밤에 조용히 책을 읽습니다."
+ },
+ {
+  "id": "n5c_13",
+  "word": "週末",
+  "reading": "しゅうまつ",
+  "meaning": "주말",
+  "level": "N5",
+  "example": "週末は家でゆっくりします。",
+  "exampleReading": "しゅうまつはいえでゆっくりします。",
+  "exampleMeaning": "주말에는 집에서 느긋하게 지냅니다."
+ },
+ {
+  "id": "n5c_14",
+  "word": "誕生日",
+  "reading": "たんじょうび",
+  "meaning": "생일",
+  "level": "N5",
+  "example": "明日は妹の誕生日です。",
+  "exampleReading": "あしたはいもうとのたんじょうびです。",
+  "exampleMeaning": "내일은 여동생 생일입니다."
+ },
+ {
+  "id": "n5c_15",
+  "word": "買い物",
+  "reading": "かいもの",
+  "meaning": "쇼핑",
+  "level": "N5",
+  "example": "母と買い物に行きました。",
+  "exampleReading": "ははとかいものにいきました。",
+  "exampleMeaning": "어머니와 쇼핑하러 갔습니다."
+ },
+ {
+  "id": "n4c_01",
+  "word": "性格",
+  "reading": "せいかく",
+  "meaning": "성격",
+  "level": "N4",
+  "example": "彼女は明るい性格です。",
+  "exampleReading": "かのじょはあかるいせいかくです。",
+  "exampleMeaning": "그녀는 밝은 성격입니다."
+ },
+ {
+  "id": "n4c_02",
+  "word": "態度",
+  "reading": "たいど",
+  "meaning": "태도",
+  "level": "N4",
+  "example": "彼の態度に驚きました。",
+  "exampleReading": "かれのたいどにおどろきました。",
+  "exampleMeaning": "그의 태도에 놀랐습니다."
+ },
+ {
+  "id": "n4c_03",
+  "word": "状態",
+  "reading": "じょうたい",
+  "meaning": "상태",
+  "level": "N4",
+  "example": "機械はまだいい状態です。",
+  "exampleReading": "きかいはまだいいじょうたいです。",
+  "exampleMeaning": "기계는 아직 좋은 상태입니다."
+ },
+ {
+  "id": "n4c_04",
+  "word": "内容",
+  "reading": "ないよう",
+  "meaning": "내용",
+  "level": "N4",
+  "example": "会議の内容を教えてください。",
+  "exampleReading": "かいぎのないようをおしえてください。",
+  "exampleMeaning": "회의 내용을 알려 주세요."
+ },
+ {
+  "id": "n4c_05",
+  "word": "目標",
+  "reading": "もくひょう",
+  "meaning": "목표",
+  "level": "N4",
+  "example": "今年の目標を立てました。",
+  "exampleReading": "ことしのもくひょうをたてました。",
+  "exampleMeaning": "올해 목표를 세웠습니다."
+ },
+ {
+  "id": "n4c_06",
+  "word": "方法",
+  "reading": "ほうほう",
+  "meaning": "방법",
+  "level": "N4",
+  "example": "もっといい方法を探しています。",
+  "exampleReading": "もっといいほうほうをさがしています。",
+  "exampleMeaning": "더 좋은 방법을 찾고 있습니다."
+ },
+ {
+  "id": "n4c_07",
+  "word": "理由",
+  "reading": "りゆう",
+  "meaning": "이유",
+  "level": "N4",
+  "example": "遅れた理由を説明しました。",
+  "exampleReading": "おくれたりゆうをせつめいしました。",
+  "exampleMeaning": "늦은 이유를 설명했습니다."
+ },
+ {
+  "id": "n4c_08",
+  "word": "原因",
+  "reading": "げんいん",
+  "meaning": "원인",
+  "level": "N4",
+  "example": "事故の原因を調べています。",
+  "exampleReading": "じこのげんいんをしらべています。",
+  "exampleMeaning": "사고 원인을 조사하고 있습니다."
+ },
+ {
+  "id": "n4c_09",
+  "word": "結果",
+  "reading": "けっか",
+  "meaning": "결과",
+  "level": "N4",
+  "example": "テストの結果がよかったです。",
+  "exampleReading": "テストのけっかがよかったです。",
+  "exampleMeaning": "시험 결과가 좋았습니다."
+ },
+ {
+  "id": "n4c_10",
+  "word": "予想",
+  "reading": "よそう",
+  "meaning": "예상",
+  "level": "N4",
+  "example": "予想より簡単でした。",
+  "exampleReading": "よそうよりかんたんでした。",
+  "exampleMeaning": "예상보다 쉬웠습니다."
+ },
+ {
+  "id": "n4c_11",
+  "word": "判断",
+  "reading": "はんだん",
+  "meaning": "판단",
+  "level": "N4",
+  "example": "自分で判断してください。",
+  "exampleReading": "じぶんではんだんしてください。",
+  "exampleMeaning": "스스로 판단해 주세요."
+ },
+ {
+  "id": "n4c_12",
+  "word": "検討",
+  "reading": "けんとう",
+  "meaning": "검토",
+  "level": "N4",
+  "example": "その案を検討しています。",
+  "exampleReading": "そのあんをけんとうしています。",
+  "exampleMeaning": "그 안을 검토하고 있습니다."
+ },
+ {
+  "id": "n4c_13",
+  "word": "対応",
+  "reading": "たいおう",
+  "meaning": "대응",
+  "level": "N4",
+  "example": "早めに対応しましょう。",
+  "exampleReading": "はやめにたいおうしましょう。",
+  "exampleMeaning": "서둘러 대응합시다."
+ },
+ {
+  "id": "n4c_14",
+  "word": "実現",
+  "reading": "じつげん",
+  "meaning": "실현",
+  "level": "N4",
+  "example": "夢がついに実現しました。",
+  "exampleReading": "ゆめがついにじつげんしました。",
+  "exampleMeaning": "꿈이 마침내 실현되었습니다."
+ },
+ {
+  "id": "n4c_15",
+  "word": "完成",
+  "reading": "かんせい",
+  "meaning": "완성",
+  "level": "N4",
+  "example": "作品がやっと完成しました。",
+  "exampleReading": "さくひんがやっとかんせいしました。",
+  "exampleMeaning": "작품이 드디어 완성되었습니다."
+ },
+ {
+  "id": "news83",
+  "word": "解禁",
+  "reading": "かいきん",
+  "meaning": "(금지 조치의) 해제, 해금",
+  "level": "N1",
+  "example": "米国産のジャガイモの輸入が解禁された。",
+  "exampleReading": "べいこくさんのジャガイモのゆにゅうがかいきんされた。",
+  "exampleMeaning": "미국산 감자 수입이 해금(허용)되었다."
+ },
+ {
+  "id": "news84",
+  "word": "据え置き",
+  "reading": "すえおき",
+  "meaning": "(변경하지 않고) 그대로 둠, 동결",
+  "level": "N1",
+  "example": "日銀は政策金利を据え置くことを決定した。",
+  "exampleReading": "にちぎんはせいさくきんりをすえおくことをけっていした。",
+  "exampleMeaning": "일본은행은 정책금리를 동결하기로 결정했다."
+ },
+ {
+  "id": "news85",
+  "word": "告示",
+  "reading": "こくじ",
+  "meaning": "(공식적인) 공고, 고시",
+  "level": "N1",
+  "example": "知事選挙の告示まで残り1か月となった。",
+  "exampleReading": "ちじせんきょのこくじまでのこりいっかげつとなった。",
+  "exampleMeaning": "지사 선거 공고까지 남은 기간이 한 달이 되었다."
+ },
+ {
+  "id": "tj61",
+  "word": "迷う",
+  "reading": "まよう",
+  "meaning": "길을 헤매다, 망설이다",
+  "level": "N3",
+  "example": "地図が古くて道に迷った。",
+  "exampleReading": "ちずがふるくてみちにまよった。",
+  "exampleMeaning": "지도가 오래되어 길을 헤맸다."
+ },
+ {
+  "id": "tj62",
+  "word": "配達",
+  "reading": "はいたつ",
+  "meaning": "배달",
+  "level": "N3",
+  "example": "明日の午前に荷物を配達してください。",
+  "exampleReading": "あしたのごぜんににもつをはいたつしてください。",
+  "exampleMeaning": "내일 오전에 짐을 배달해 주세요."
+ },
+ {
+  "id": "tj63",
+  "word": "確認",
+  "reading": "かくにん",
+  "meaning": "확인",
+  "level": "N3",
+  "example": "住所をもう一度確認してもよろしいですか。",
+  "exampleReading": "じゅうしょをもういちどかくにんしてもよろしいですか。",
+  "exampleMeaning": "주소를 한 번 더 확인해도 될까요?"
+ },
+ {
+  "id": "tj64",
+  "word": "複数",
+  "reading": "ふくすう",
+  "meaning": "복수, 여러 개",
+  "level": "N2",
+  "example": "複数の選択肢から一つを選ぶ。",
+  "exampleReading": "ふくすうのせんたくしからひとつをえらぶ。",
+  "exampleMeaning": "복수의 선택지 중 하나를 고른다."
+ },
+ {
+  "id": "tj65",
+  "word": "断言する",
+  "reading": "だんげんする",
+  "meaning": "단언하다",
+  "level": "N2",
+  "example": "彼はそれが事実だと断言した。",
+  "exampleReading": "かれはそれがじじつだとだんげんした。",
+  "exampleMeaning": "그는 그것이 사실이라고 단언했다."
  }
 ]
