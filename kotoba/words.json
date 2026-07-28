@@ -3341,5 +3341,55 @@
   "example": "彼の表情が一瞬ゆるんだ。",
   "exampleReading": "かれのひょうじょうがいっしゅんゆるんだ。",
   "exampleMeaning": "그의 표정이 잠시 누그러졌다."
+ },
+ {
+  "id": "tj71",
+  "word": "地震速報",
+  "reading": "じしんそくほう",
+  "meaning": "지진 속보",
+  "level": "N2",
+  "example": "地震速報が流れると、社内が一気に静かになった。",
+  "exampleReading": "じしんそくほうがながれると、しゃないがいっきにしずかになった。",
+  "exampleMeaning": "지진 속보가 나오자 사내가 순식간에 조용해졌다."
+ },
+ {
+  "id": "tj72",
+  "word": "震度７",
+  "reading": "しんどなな",
+  "meaning": "진도 7(일본 기상청 체감 강도)",
+  "level": "N2",
+  "example": "震度７の揺れは家具を倒すおそれがある。",
+  "exampleReading": "しんどななのゆれはかぐをたおすおそれがある。",
+  "exampleMeaning": "진도 7의 흔들림은 가구를 넘어뜨릴 우려가 있다."
+ },
+ {
+  "id": "tj73",
+  "word": "携帯電話",
+  "reading": "けいたいでんわ",
+  "meaning": "휴대전화",
+  "level": "N3",
+  "example": "携帯電話がつながらず、不安が募った。",
+  "exampleReading": "けいたいでんわがつながらず、ふあんがつのった。",
+  "exampleMeaning": "휴대전화가 연결되지 않아 불안이 커졌다."
+ },
+ {
+  "id": "tj74",
+  "word": "安否確認",
+  "reading": "あんぴかくにん",
+  "meaning": "안부·생사 확인",
+  "level": "N2",
+  "example": "まずは安否確認を最優先にしてください。",
+  "exampleReading": "まずはあんぴかくにんをさいゆうせんにしてください。",
+  "exampleMeaning": "우선은 안부 확인을 최우선으로 해 주세요."
+ },
+ {
+  "id": "tj75",
+  "word": "短信",
+  "reading": "たんしん",
+  "meaning": "짧은 편지·문자",
+  "level": "N1",
+  "example": "彼に短信を送り、到着時刻だけ伝えた。",
+  "exampleReading": "かれにたんしんをおくり、とうちゃくじこくだけつたえた。",
+  "exampleMeaning": "그에게 짧은 문자를 보내 도착 시각만 전했다."
  }
 ]
