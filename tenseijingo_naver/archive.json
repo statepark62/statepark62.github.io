@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-07-30",
+    "no": 23,
+    "topic_ja": "モールと震災",
+    "topic_ko": "쇼핑몰과 재해",
+    "url": "https://www.asahi.com/articles/DA3S16516025.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '도시와 소비', '재난과 공공성'. 소비 공간이 위기 시 공동체의 기반으로 변모하는 아이러니를 통해 일상의 장소가 갖는 사회적 의미를 성찰하게 하므로.",
+    "pattern": "名詞＋そのものだ"
+  },
+  {
     "date": "2026-07-29",
     "no": 22,
     "topic_ja": "大丈夫ですか",

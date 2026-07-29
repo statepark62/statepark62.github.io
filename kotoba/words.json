@@ -3391,5 +3391,75 @@
   "example": "彼に短信を送り、到着時刻だけ伝えた。",
   "exampleReading": "かれにたんしんをおくり、とうちゃくじこくだけつたえた。",
   "exampleMeaning": "그에게 짧은 문자를 보내 도착 시각만 전했다."
+ },
+ {
+  "id": "news93",
+  "word": "倒壊",
+  "reading": "とうかい",
+  "meaning": "붕괴, 무너짐",
+  "level": "N2",
+  "example": "地震の影響で古い建物が倒壊した。",
+  "exampleReading": "じしんのえいきょうでふるいたてものがとうかいした。",
+  "exampleMeaning": "지진의 영향으로 오래된 건물이 붕괴했다."
+ },
+ {
+  "id": "news94",
+  "word": "重点的",
+  "reading": "じゅうてんてき",
+  "meaning": "중점적으로, 집중적으로",
+  "level": "N2",
+  "example": "政府は被災地の復旧に重点的に取り組む方針だ。",
+  "exampleReading": "せいふはひさいちのふっきゅうにじゅうてんてきにとりくむほうしんだ。",
+  "exampleMeaning": "정부는 재해 지역 복구에 중점적으로 임할 방침이다."
+ },
+ {
+  "id": "tj76",
+  "word": "震度",
+  "reading": "しんど",
+  "meaning": "진도(지진의 세기)",
+  "level": "N2",
+  "example": "震度7では立っていられない。",
+  "exampleReading": "しんどななではたっていられない。",
+  "exampleMeaning": "진도 7에서는 서 있기 어렵다."
+ },
+ {
+  "id": "tj77",
+  "word": "捜索",
+  "reading": "そうさく",
+  "meaning": "수색",
+  "level": "N2",
+  "example": "警察は行方不明者を捜索している。",
+  "exampleReading": "けいさつはゆくえふめいしゃをそうさくしている。",
+  "exampleMeaning": "경찰은 실종자를 수색하고 있다."
+ },
+ {
+  "id": "tj78",
+  "word": "拠点",
+  "reading": "きょてん",
+  "meaning": "거점",
+  "level": "N2",
+  "example": "この駅は地域交通の拠点だ。",
+  "exampleReading": "このえきはちいきこうつうのきょてんだ。",
+  "exampleMeaning": "이 역은 지역 교통의 거점이다."
+ },
+ {
+  "id": "tj79",
+  "word": "賑わう",
+  "reading": "にぎわう",
+  "meaning": "붐비다, 번화하다",
+  "level": "N2",
+  "example": "週末の商店街は観光客で賑わう。",
+  "exampleReading": "しゅうまつのしょうてんがいはかんこうきゃくでにぎわう。",
+  "exampleMeaning": "주말의 상점가는 관광객으로 붐빈다."
+ },
+ {
+  "id": "tj80",
+  "word": "きらびやか",
+  "reading": "きらびやか",
+  "meaning": "화려하다",
+  "level": "N1",
+  "example": "舞台はきらびやかな衣装で彩られた。",
+  "exampleReading": "ぶたいはきらびやかないしょうでいろどられた。",
+  "exampleMeaning": "무대는 화려한 의상으로 꾸며졌다."
  }
 ]

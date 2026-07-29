@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-07-30 天声人語로 배우는 일본어 — 쇼핑몰과 재해</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第23回</span>
+      <span>2026-07-30</span>
+      <span>2026년 7월 30일 (목)</span>
+    </div>
+
+    <h1>モールと震災</h1>
+    <p class="topic-ko">쇼핑몰과 재해</p>
+
+    <div class="keyquote">
+      <div class="ja">「現代のパンテオン」</div>
+      <div class="ko">현대의 판테온 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">かつて『現代のパンテオン』と称されたショッピングモールが、いま何を意味する存在かを問いかけて始まる。</p><p class="ko">칼럼은 한때 &#x27;현대의 판테온&#x27;이라 불리던 쇼핑몰이 오늘날 어떤 성격을 띠는지 묻는 데서 출발한다.</p></div>
+      <div class="s-item"><p class="ja">華やかさや消費の拠点という側面が語られつつ、熊本のイオンモールでは震度7の地震を受けて捜索が続くと伝える。</p><p class="ko">화려함과 소비의 거점이라는 이미지가 강조되지만, 구마모토의 이온몰에서는 진도 7의 지진 이후 수색이 계속되고 있다고 전한다.</p></div>
+      <div class="s-item"><p class="ja">モールは娯楽にとどまらず、現代の『街』にも等しい役割を持ちうることを示唆している。</p><p class="ko">필자는 쇼핑몰이 단순한 유흥 공간을 넘어 현대 사회의 &#x27;도시&#x27;와도 같은 역할을 할 수 있음을 시사한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>震度<rt>しんど</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">진도(지진의 세기)</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">震度7では立っていられない。</span><br>진도 7에서는 서 있기 어렵다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>捜索<rt>そうさく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수색</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">警察は行方不明者を捜索している。</span><br>경찰은 실종자를 수색하고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>拠点<rt>きょてん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">거점</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">この駅は地域交通の拠点だ。</span><br>이 역은 지역 교통의 거점이다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>賑わう<rt>にぎわう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">붐비다, 번화하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">週末の商店街は観光客で賑わう。</span><br>주말의 상점가는 관광객으로 붐빈다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>きらびやか<rt>きらびやか</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">화려하다</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">舞台はきらびやかな衣装で彩られた。</span><br>무대는 화려한 의상으로 꾸며졌다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">名詞＋そのものだ</div>
+        <div class="pattern-ko">명사＋그 자체이다</div>
+        <p class="explain">명사에 바로 붙어 &#x27;그 자체&#x27;, &#x27;전형&#x27;이라는 강한 규정을 나타낸다. 비유가 아닌 정체성에 가까운 단정으로, 성격을 강조할 때 쓴다.</p>
+        <p class="ex"><span class="ja">彼の発言は脅しそのものだ。</span><br>그의 발언은 협박 그 자체이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 쇼핑몰을 신전의 은유로 불러내며 일상의 화려함을 전면에 배치한 뒤, 질문형 문장으로 독자의 시선을 천천히 이동시킨다. 나열된 형용 표현의 리듬이 기대감을 만들고, 곧바로 현실의 재난 현장으로 전환하면서 의미의 대비를 극대화한다. ‘거점’과 ‘도시’ 같은 단어 선택은 공간의 사회적 기능을 상기시키는 장치로 작동한다. 천성인어 특유의 짧은 문장과 전환 기호(▼)는 속도감과 논지 전개에 분명한 단락을 부여한다.</p>
+        <p>결국 글은 소비의 무대로서의 몰과, 위기 속 사회 인프라로서의 몰이 한 몸이라는 사실을 떠올리게 한다. 한국 독자에게도 대형 쇼핑몰이 지역 공동체의 생활권을 지탱하는 풍경은 낯설지 않다. 재난 보도와 일상 문화 비평을 한 화면에 포갠 점이 흥미롭고, 공간의 공공성을 묻는 질문은 국경을 넘어 유효하다. 재해가 드러내는 ‘도시 그 자체’로서의 기능을 통해 소비 사회의 그림자를 성찰하게 만든다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 쇼핑몰의 화려한 이미지와 재해 속 사회적 기능을 대비해 현대의 &#x27;도시&#x27;를 다시 보게 하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본의 대형 쇼핑몰은 쇼핑뿐 아니라 식당, 영화관, 병원, 문화 행사까지 품으며 주말 나들이의 중심지 역할을 한다.</p>
+        <p>이온몰(イオンモール)은 전국적인 체인을 가진 기업으로, 지방 도시에서도 생활 편의와 지역 경제에 큰 비중을 차지한다.</p>
+        <p>일본의 진도(震度) 체계는 체감 진동의 강도를 나타내며, 7은 최상급으로 매우 심각한 피해가 발생할 수 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>화려함의 나열에서 재난의 현실로 급전환하는 대비 구조를 통해 주제의 깊이를 확보한다.</p>
+        <p><span class="n">二</span>질문형 종결(〜だろうか)을 반복해 단정 대신 사유의 공간을 마련한다.</p>
+        <p><span class="n">三</span>구체적 지명과 고유명사를 제시해 추상적 논평을 현장감 있게 접지한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">モールは娯楽であり、非常時には街の支えにもなる。</span>
+      <span class="ko">몰은 오락 공간이지만, 비상시에는 도시를 지탱하는 역할도 한다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-07-30) — <a href="https://www.asahi.com/articles/DA3S16516025.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-07-30.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
