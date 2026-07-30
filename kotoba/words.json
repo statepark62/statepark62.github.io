@@ -3461,5 +3461,115 @@
   "example": "舞台はきらびやかな衣装で彩られた。",
   "exampleReading": "ぶたいはきらびやかないしょうでいろどられた。",
   "exampleMeaning": "무대는 화려한 의상으로 꾸며졌다."
+ },
+ {
+  "id": "news95",
+  "word": "復旧",
+  "reading": "ふっきゅう",
+  "meaning": "복구",
+  "level": "N2",
+  "example": "台風で止まった電気は3日後に復旧した。",
+  "exampleReading": "たいふうで とまった でんきは みっかごに ふっきゅうした。",
+  "exampleMeaning": "태풍으로 끊긴 전기는 3일 후에 복구되었다."
+ },
+ {
+  "id": "news96",
+  "word": "不正",
+  "reading": "ふせい",
+  "meaning": "부정(부정행위)",
+  "level": "N2",
+  "example": "会社の不正が発覚し、社長が謝罪した。",
+  "exampleReading": "かいしゃの ふせいが はっかくし、しゃちょうが しゃざいした。",
+  "exampleMeaning": "회사의 부정행위가 밝혀져 사장이 사과했다."
+ },
+ {
+  "id": "news97",
+  "word": "議論",
+  "reading": "ぎろん",
+  "meaning": "논의, 토론",
+  "level": "N3",
+  "example": "この問題については、まだ議論が続いている。",
+  "exampleReading": "この もんだいについては、まだ ぎろんが つづいている。",
+  "exampleMeaning": "이 문제에 대해서는 아직 논의가 계속되고 있다."
+ },
+ {
+  "id": "news98",
+  "word": "介入",
+  "reading": "かいにゅう",
+  "meaning": "개입",
+  "level": "N1",
+  "example": "政府は市場の混乱を防ぐために介入した。",
+  "exampleReading": "せいふは しじょうの こんらんを ふせぐために かいにゅうした。",
+  "exampleMeaning": "정부는 시장의 혼란을 막기 위해 개입했다."
+ },
+ {
+  "id": "news99",
+  "word": "敗退",
+  "reading": "はいたい",
+  "meaning": "패배하여 물러남, 탈락",
+  "level": "N1",
+  "example": "日本代表は準決勝で敗退した。",
+  "exampleReading": "にほんだいひょうは じゅんけっしょうで はいたいした。",
+  "exampleMeaning": "일본 대표팀은 준결승에서 패배하여 탈락했다."
+ },
+ {
+  "id": "news100",
+  "word": "表明",
+  "reading": "ひょうめい",
+  "meaning": "표명, (공식적으로) 밝힘",
+  "level": "N2",
+  "example": "首相は新政策への支持を表明した。",
+  "exampleReading": "しゅしょうは しんせいさくへの しじを ひょうめいした。",
+  "exampleMeaning": "총리는 새 정책에 대한 지지를 표명했다."
+ },
+ {
+  "id": "tj81",
+  "word": "不公平",
+  "reading": "ふこうへい",
+  "meaning": "불공평, 불공정",
+  "level": "N2",
+  "example": "規則が不公平だと感じる学生もいる。",
+  "exampleReading": "きそくがふこうへいだとかんじるがくせいもいる。",
+  "exampleMeaning": "규칙이 불공평하다고 느끼는 학생도 있다."
+ },
+ {
+  "id": "tj82",
+  "word": "減税",
+  "reading": "げんぜい",
+  "meaning": "감세",
+  "level": "N2",
+  "example": "減税が家計を助けるとはいえ、効果は一様ではない。",
+  "exampleReading": "げんぜいがかけいをたすけるとはいえ、こうかはいちようではない。",
+  "exampleMeaning": "감세가 가계에 도움이 된다 해도, 효과는 일률적이지 않다."
+ },
+ {
+  "id": "tj83",
+  "word": "恩恵",
+  "reading": "おんけい",
+  "meaning": "은혜, 혜택",
+  "level": "N2",
+  "example": "新制度の恩恵を地方にも行き渡らせたい。",
+  "exampleReading": "しんせいどのおんけいをちほうにもいきわたらせたい。",
+  "exampleMeaning": "새 제도의 혜택을 지방에도 골고루 미치게 하고 싶다."
+ },
+ {
+  "id": "tj84",
+  "word": "置き換える",
+  "reading": "おきかえる",
+  "meaning": "치환하다, 바꿔 놓다",
+  "level": "N2",
+  "example": "比喩を別の言葉に置き換えて説明した。",
+  "exampleReading": "ひゆをべつのことばにおきかえてせつめいした。",
+  "exampleMeaning": "비유를 다른 말로 바꾸어 설명했다."
+ },
+ {
+  "id": "tj85",
+  "word": "格差",
+  "reading": "かくさ",
+  "meaning": "격차",
+  "level": "N1",
+  "example": "所得格差が議論の中心になった。",
+  "exampleReading": "しょとくかくさがぎろんのちゅうしんになった。",
+  "exampleMeaning": "소득 격차가 논의의 중심이 되었다."
  }
 ]
