@@ -3571,5 +3571,75 @@
   "example": "所得格差が議論の中心になった。",
   "exampleReading": "しょとくかくさがぎろんのちゅうしんになった。",
   "exampleMeaning": "소득 격차가 논의의 중심이 되었다."
+ },
+ {
+  "id": "news101",
+  "word": "避難",
+  "reading": "ひなん",
+  "meaning": "피난",
+  "level": "N3",
+  "example": "地震の後、多くの住民が避難所に避難した。",
+  "exampleReading": "じしんのあと、おおくのじゅうみんがひなんじょにひなんした。",
+  "exampleMeaning": "지진 후 많은 주민들이 대피소로 피난했다."
+ },
+ {
+  "id": "news102",
+  "word": "合流",
+  "reading": "ごうりゅう",
+  "meaning": "합류",
+  "level": "N2",
+  "example": "二つの政党が合流して新しい党を作った。",
+  "exampleReading": "ふたつのせいとうがごうりゅうしてあたらしいとうをつくった。",
+  "exampleMeaning": "두 정당이 합류하여 새로운 당을 만들었다."
+ },
+ {
+  "id": "tj86",
+  "word": "被災",
+  "reading": "ひさい",
+  "meaning": "재해를 입음, 피해",
+  "level": "N2",
+  "example": "多くの住民が被災した地域を支援する。",
+  "exampleReading": "おおくのじゅうみんがひさいしたちいきをしえんする。",
+  "exampleMeaning": "많은 주민이 피해를 입은 지역을 지원한다."
+ },
+ {
+  "id": "tj87",
+  "word": "押し寄せる",
+  "reading": "おしよせる",
+  "meaning": "몰려오다, 들이닥치다",
+  "level": "N2",
+  "example": "避難所に人々が押し寄せた。",
+  "exampleReading": "ひなんじょにひとびとがおしよせた。",
+  "exampleMeaning": "대피소에 사람들이 몰려들었다."
+ },
+ {
+  "id": "tj88",
+  "word": "買い出し",
+  "reading": "かいだし",
+  "meaning": "식료·물자 사러 나감",
+  "level": "N2",
+  "example": "朝早く市場へ買い出しに行く。",
+  "exampleReading": "あさはやくいちばへかいだしにいく。",
+  "exampleMeaning": "아침 일찍 시장에 장을 보러 간다."
+ },
+ {
+  "id": "tj89",
+  "word": "郊外",
+  "reading": "こうがい",
+  "meaning": "교외",
+  "level": "N3",
+  "example": "週末は郊外を歩いて気分転換する。",
+  "exampleReading": "しゅうまつはこうがいをあるいてきぶんてんかんする。",
+  "exampleMeaning": "주말에는 교외를 걸으며 기분 전환을 한다."
+ },
+ {
+  "id": "tj90",
+  "word": "焼け野原",
+  "reading": "やけのはら",
+  "meaning": "불탄 벌판, 잿더미가 된 터",
+  "level": "N1",
+  "example": "戦後の街は焼け野原だった。",
+  "exampleReading": "せんごのまちはやけのはらだった。",
+  "exampleMeaning": "전후의 도시는 잿더미가 된 터였다."
  }
 ]
