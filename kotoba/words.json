@@ -3641,5 +3641,105 @@
   "example": "戦後の街は焼け野原だった。",
   "exampleReading": "せんごのまちはやけのはらだった。",
   "exampleMeaning": "전후의 도시는 잿더미가 된 터였다."
+ },
+ {
+  "id": "news103",
+  "word": "避難所",
+  "reading": "ひなんじょ",
+  "meaning": "대피소, 피난소",
+  "level": "N2",
+  "example": "地震のあと、多くの住民が避難所で夜を過ごした。",
+  "exampleReading": "じしんのあと、おおくのじゅうみんがひなんじょでよるをすごした。",
+  "exampleMeaning": "지진 후 많은 주민들이 대피소에서 밤을 보냈다."
+ },
+ {
+  "id": "news104",
+  "word": "断水",
+  "reading": "だんすい",
+  "meaning": "단수",
+  "level": "N2",
+  "example": "地震の影響で市内の一部地域が断水した。",
+  "exampleReading": "じしんのえいきょうでしないのいちぶちいきがだんすいした。",
+  "exampleMeaning": "지진의 영향으로 시내 일부 지역이 단수되었다."
+ },
+ {
+  "id": "news105",
+  "word": "協調",
+  "reading": "きょうちょう",
+  "meaning": "협조, 협력",
+  "level": "N2",
+  "example": "各国が協調して経済問題に対応することが求められている。",
+  "exampleReading": "かっこくがきょうちょうしてけいざいもんだいにたいおうすることがもとめられている。",
+  "exampleMeaning": "각국이 협조하여 경제 문제에 대응하는 것이 요구되고 있다."
+ },
+ {
+  "id": "news106",
+  "word": "快勝",
+  "reading": "かいしょう",
+  "meaning": "쾌승, 압도적인 승리",
+  "level": "N2",
+  "example": "昨夜の試合でチームは強豪相手に快勝した。",
+  "exampleReading": "さくやのしあいでちーむはきょうごうあいてにかいしょうした。",
+  "exampleMeaning": "어젯밤 경기에서 팀은 강호를 상대로 쾌승했다."
+ },
+ {
+  "id": "news107",
+  "word": "首位",
+  "reading": "しゅい",
+  "meaning": "선두, 1위",
+  "level": "N2",
+  "example": "そのチームは連勝を重ねてリーグ首位に立った。",
+  "exampleReading": "そのちーむはれんしょうをかさねてりーぐしゅいにたった。",
+  "exampleMeaning": "그 팀은 연승을 거듭하여 리그 선두에 올랐다."
+ },
+ {
+  "id": "tj91",
+  "word": "パワハラ",
+  "reading": "ぱわはら",
+  "meaning": "직장 내 괴롭힘(권력형 가해)",
+  "level": "N2",
+  "example": "上司のパワハラが原因で退職した。",
+  "exampleReading": "じょうしのぱわはらがげんいんでたいしょくした。",
+  "exampleMeaning": "상사의 파워하라가 원인이 되어 퇴직했다."
+ },
+ {
+  "id": "tj92",
+  "word": "認定",
+  "reading": "にんてい",
+  "meaning": "인정, 인증",
+  "level": "N2",
+  "example": "調査の結果、違反と認定された。",
+  "exampleReading": "ちょうさのけっか、いはんとにんていされた。",
+  "exampleMeaning": "조사 결과, 위반으로 인정되었다."
+ },
+ {
+  "id": "tj93",
+  "word": "第三者",
+  "reading": "だいさんしゃ",
+  "meaning": "제3자",
+  "level": "N2",
+  "example": "第三者の立場で公平に評価する。",
+  "exampleReading": "だいさんしゃのたちばでこうへいにひょうかする。",
+  "exampleMeaning": "제3자의 입장에서 공정하게 평가한다."
+ },
+ {
+  "id": "tj94",
+  "word": "奉仕",
+  "reading": "ほうし",
+  "meaning": "봉사",
+  "level": "N2",
+  "example": "利益より奉仕を重んじる団体だ。",
+  "exampleReading": "りえきよりほうしをおもんじるだんたいだ。",
+  "exampleMeaning": "이익보다 봉사를 중시하는 단체이다."
+ },
+ {
+  "id": "tj95",
+  "word": "公僕",
+  "reading": "こうぼく",
+  "meaning": "공복, 국민에 봉사하는 공무원",
+  "level": "N1",
+  "example": "公僕として市民の声に耳を傾けるべきだ。",
+  "exampleReading": "こうぼくとしてしみんのこえにみみをかたむけるべきだ。",
+  "exampleMeaning": "공복으로서 시민의 목소리에 귀를 기울여야 한다."
  }
 ]
