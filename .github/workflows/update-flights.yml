@@ -1,0 +1,32 @@
+name: Update flight data
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'   # 5분마다 실행 (GitHub 사정에 따라 몇 분 지연될 수 있음)
+  workflow_dispatch:         # Actions 탭에서 수동 실행 버튼도 사용 가능
+
+permissions:
+  contents: write
+
+jobs:
+  update-flights:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: OpenSky에서 항공기 데이터 가져오기
+        # 여기는 브라우저가 아니라 GitHub의 서버가 호출하는 것이므로 CORS 제한이 적용되지 않음.
+        # bbox는 한국을 중심으로 동아시아~일부 대양주까지 넓게 잡음 (필요하면 좌표 조정)
+        run: |
+          curl -s --fail \
+            "https://opensky-network.org/api/states/all?lamin=15&lomin=95&lamax=55&lomax=150" \
+            -o flights.json || echo '{"time":0,"states":[]}' > flights.json
+
+      - name: 변경사항 커밋 및 푸시
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add flights.json
+          git diff --quiet --cached || git commit -m "flights.json 갱신 $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
