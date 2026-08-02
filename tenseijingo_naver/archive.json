@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-03",
+    "no": 27,
+    "topic_ja": "避難所の壁",
+    "topic_ko": "대피소의 벽",
+    "url": "https://www.asahi.com/articles/DA3S16518516.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘대피와 공공성’, ‘노약자 배려’, ‘메이와쿠의 문화’ — 재난 시 공공 시스템이 약자를 어떻게 포용할지, 문화적 습속이 어떤 장벽이 되는지를 압축적으로 드러내므로.",
+    "pattern": "〜たび（に）"
+  },
+  {
     "date": "2026-08-02",
     "no": 26,
     "topic_ja": "公僕とパワハラ",
