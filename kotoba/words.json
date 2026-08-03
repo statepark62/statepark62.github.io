@@ -3821,5 +3821,45 @@
   "example": "大声は周りに迷惑をかける。",
   "exampleReading": "おおごえはまわりにめいわくをかける。",
   "exampleMeaning": "큰 목소리는 주변에 민폐를 끼친다."
+ },
+ {
+  "id": "news111",
+  "word": "ゆかり",
+  "reading": "ゆかり",
+  "meaning": "인연, 연고",
+  "level": "N2",
+  "example": "この寺は有名な武将にゆかりのある場所だ。",
+  "exampleReading": "このてらはゆうめいなぶしょうにゆかりのあるばしょだ。",
+  "exampleMeaning": "이 절은 유명한 무장과 인연이 있는 장소이다."
+ },
+ {
+  "id": "news112",
+  "word": "加担",
+  "reading": "かたん",
+  "meaning": "가담, 조력함(주로 부정적 의미)",
+  "level": "N1",
+  "example": "その企業は不正取引に加担していたと報じられた。",
+  "exampleReading": "そのきぎょうはふせいとりひきにかたんしていたとほうじられた。",
+  "exampleMeaning": "그 기업이 부정 거래에 가담했다고 보도되었다."
+ },
+ {
+  "id": "news113",
+  "word": "辞さず",
+  "reading": "じさず",
+  "meaning": "마다하지 않음, 불사함",
+  "level": "N1",
+  "example": "政府は必要ならば追加の措置も辞さない構えだ。",
+  "exampleReading": "せいふはひつようならばついかのそちもじさないかまえだ。",
+  "exampleMeaning": "정부는 필요하다면 추가 조치도 불사할 태세이다."
+ },
+ {
+  "id": "news114",
+  "word": "閣議決定",
+  "reading": "かくぎけってい",
+  "meaning": "각의 결정 (내각 회의에서 결정함)",
+  "level": "N1",
+  "example": "新しい経済対策が閣議決定された。",
+  "exampleReading": "あたらしいけいざいたいさくがかくぎけっていされた。",
+  "exampleMeaning": "새로운 경제 대책이 각의에서 결정되었다."
  }
 ]
