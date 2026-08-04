@@ -462,17 +462,53 @@ function dateRange(start,end){
 }
 function uid(){ return Math.random().toString(36).slice(2,9); }
 
+async function tryAutoConnectGoogle(){
+  if(!GOOGLE_ENABLED) return false;
+  try{
+    await ensureGis();
+    return await new Promise(resolve=>{
+      let settled = false;
+      const tc = google.accounts.oauth2.initTokenClient({
+        client_id: GOOGLE_CLIENT_ID,
+        scope: 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file',
+        callback: async (resp)=>{
+          if(settled) return; settled = true;
+          if(resp.error){ resolve(false); return; }
+          googleAccessToken = resp.access_token;
+          googleSignedIn = true;
+          tokenClient = tc;
+          try{ await ensureSpreadsheet(); resolve(true); }
+          catch(e){ googleSignedIn=false; resolve(false); }
+        }
+      });
+      tc.requestAccessToken({prompt:''}); // 조용히 시도: 이미 동의했으면 팝업 없이, 아니면 그냥 실패
+      setTimeout(()=>{ if(!settled){ settled=true; resolve(false); } }, 4000);
+    });
+  }catch(e){ return false; }
+}
+
 async function loadState(){
   state.trips = (await safeGet('trips-list')) || [];
   const active = await safeGet('active-trip');
-  if(active && state.trips.find(t=>t.id===active)){
-    state.activeTripId = active;
-    state.trip = await safeGet('trip:'+active);
-  } else if(state.trips.length){
-    state.activeTripId = state.trips[0].id;
-    state.trip = await safeGet('trip:'+state.activeTripId);
-  } else {
-    state.activeTripId = null; state.trip = null;
+  let candidates = [];
+  if(active) candidates.push(active);
+  candidates = candidates.concat(state.trips.map(t=>t.id).filter(id=>id!==active));
+  state.trip = null; state.activeTripId = null;
+  let cleaned = false;
+  for(const id of candidates){
+    const data = await safeGet('trip:'+id);
+    if(data){
+      state.activeTripId = id; state.trip = data; break;
+    } else if(state.trips.find(t=>t.id===id)){
+      state.trips = state.trips.filter(t=>t.id!==id);
+      cleaned = true;
+    }
+  }
+  if(cleaned){
+    await safeSet('trips-list', state.trips);
+  }
+  if(state.activeTripId){
+    await safeSet('active-trip', state.activeTripId);
   }
   if(state.trip){
     const todayStr = fmtDate(new Date());
@@ -481,6 +517,7 @@ async function loadState(){
 }
 
 async function init(){
+  await tryAutoConnectGoogle();
   await loadState();
   render();
   checkMorningPopup();
