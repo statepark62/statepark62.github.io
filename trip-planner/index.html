@@ -1,1 +1,1000 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>지금 여기 · 여행 전광판</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  .pdf-hint{font-size:11px;color:var(--ink-soft);margin-top:10px;line-height:1.6;}
+  :root{
+    --navy:#12172A;
+    --flap-bg:#0D1017;
+    --flap-amber:#FFB238;
+    --flap-amber-dim:#6b4d15;
+    --paper:#FAF7F1;
+    --panel:#FFFFFF;
+    --ice:#E7EEF5;
+    --line-blue:#3E6AA8;
+    --coral:#E1572C;
+    --ink:#1C2230;
+    --ink-soft:#5B6474;
+    --border:#DFE3EA;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans KR',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Space Mono',monospace;}
+  #app{max-width:760px;margin:0 auto;padding:20px 16px 60px;}
 
+  /* header */
+  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+  .trip-title{font-size:22px;font-weight:900;letter-spacing:-0.02em;margin:0 0 2px;}
+  .trip-dates{font-size:13px;color:var(--ink-soft);}
+  .trip-dates .mono{color:var(--line-blue);font-weight:700;}
+  .btn{
+    border:none;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:700;
+    cursor:pointer;font-family:inherit;transition:transform .08s ease, opacity .15s ease;
+  }
+  .btn:active{transform:scale(0.96);}
+  .btn-primary{background:var(--coral);color:#fff;}
+  .btn-ghost{background:var(--ice);color:var(--navy);}
+  .btn-line{background:transparent;border:1.5px solid var(--border);color:var(--ink-soft);}
+  .btn-sm{padding:5px 10px;font-size:12px;border-radius:8px;}
+  .topbar-actions{display:flex;gap:8px;flex-wrap:wrap;}
+
+  /* live board */
+  .board{
+    background:var(--flap-bg);
+    border-radius:var(--radius);
+    padding:22px 20px;
+    margin-bottom:20px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 14px 30px -14px rgba(13,16,23,0.55);
+  }
+  .board::before{
+    content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(180deg, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px);
+    pointer-events:none;
+  }
+  .board-clock{
+    font-size:34px;font-weight:700;color:var(--flap-amber);letter-spacing:0.04em;
+    display:flex;align-items:baseline;gap:10px;
+  }
+  .board-date{font-size:12px;color:#8b93a5;letter-spacing:0.08em;text-transform:uppercase;}
+  .board-rows{margin-top:14px;display:flex;flex-direction:column;gap:10px;}
+  .board-row{display:flex;align-items:baseline;gap:12px;}
+  .board-tag{
+    font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--flap-amber-dim);
+    background:rgba(255,178,56,0.08);border:1px solid rgba(255,178,56,0.25);
+    padding:2px 7px;border-radius:5px;min-width:44px;text-align:center;flex-shrink:0;
+  }
+  .board-row.now .board-tag{color:#0D1017;background:var(--flap-amber);border-color:var(--flap-amber);}
+  .board-time{font-size:15px;color:#8b93a5;flex-shrink:0;min-width:78px;}
+  .board-row.now .board-time{color:var(--flap-amber);}
+  .board-activity{font-size:16px;font-weight:700;color:#EDEFF3;}
+  .board-row.now .board-activity{color:#fff;font-size:18px;}
+  .board-loc{font-size:12px;color:#7C8496;margin-left:6px;}
+  .board-empty{color:#8b93a5;font-size:14px;line-height:1.6;margin-top:10px;}
+
+  /* day tabs */
+  .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;}
+  .tab{
+    flex-shrink:0;border:1.5px solid var(--border);background:var(--panel);
+    border-radius:10px;padding:8px 13px;cursor:pointer;text-align:center;min-width:64px;
+  }
+  .tab .tab-d{font-size:11px;color:var(--ink-soft);}
+  .tab .tab-n{font-size:14px;font-weight:700;font-family:'Space Mono',monospace;}
+  .tab.active{background:var(--navy);border-color:var(--navy);}
+  .tab.active .tab-d,.tab.active .tab-n{color:#fff;}
+  .tab.today{border-color:var(--coral);}
+  .tab.today .tab-n{color:var(--coral);}
+  .tab.active.today .tab-n{color:var(--flap-amber);}
+
+  /* timeline */
+  .timeline{display:flex;flex-direction:column;gap:8px;}
+  .block{
+    background:var(--panel);border:1px solid var(--border);border-radius:12px;
+    padding:12px 14px;display:flex;gap:12px;align-items:flex-start;
+  }
+  .block-time{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--line-blue);min-width:48px;padding-top:2px;}
+  .block-body{flex:1;}
+  .block-title{font-size:14.5px;font-weight:700;}
+  .block-meta{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .block-note{font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.5;}
+  .block-actions{display:flex;gap:5px;flex-shrink:0;}
+  .icon-btn{
+    border:none;background:var(--ice);border-radius:7px;width:26px;height:26px;
+    cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;color:var(--ink-soft);
+  }
+  .empty-day{color:var(--ink-soft);font-size:13px;text-align:center;padding:26px 10px;border:1.5px dashed var(--border);border-radius:12px;}
+  .add-block-btn{
+    width:100%;padding:11px;border-radius:12px;border:1.5px dashed var(--line-blue);
+    background:transparent;color:var(--line-blue);font-weight:700;font-size:13px;cursor:pointer;margin-top:8px;
+  }
+
+  /* forms / modal */
+  .overlay{
+    position:fixed;inset:0;background:rgba(18,23,42,0.55);display:flex;align-items:flex-end;
+    justify-content:center;z-index:50;padding:0;
+  }
+  @media (min-width:640px){.overlay{align-items:center;padding:20px;}}
+  .sheet{
+    background:#fff;width:100%;max-width:480px;border-radius:18px 18px 0 0;padding:20px;
+    max-height:88vh;overflow-y:auto;
+  }
+  @media (min-width:640px){.sheet{border-radius:16px;}}
+  .sheet h3{margin:0 0 14px;font-size:17px;}
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:12px;color:var(--ink-soft);margin-bottom:5px;font-weight:700;}
+  .field input,.field textarea{
+    width:100%;border:1.5px solid var(--border);border-radius:9px;padding:9px 11px;
+    font-size:14px;font-family:inherit;background:var(--paper);
+  }
+  .field textarea{resize:vertical;min-height:52px;}
+  .row2{display:flex;gap:10px;}
+  .row2 .field{flex:1;}
+  .sheet-actions{display:flex;gap:8px;margin-top:16px;}
+  .sheet-actions .btn{flex:1;}
+
+  .morning-list{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+  .morning-item{display:flex;gap:10px;font-size:13.5px;padding:8px 10px;background:var(--ice);border-radius:9px;}
+  .morning-item .mono{font-weight:700;color:var(--line-blue);min-width:44px;}
+
+  .notif-banner{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:var(--ice);border-radius:10px;padding:9px 12px;margin-bottom:14px;font-size:12.5px;color:var(--ink-soft);
+  }
+  .setup-empty{text-align:center;padding:50px 16px;}
+  .setup-empty h2{font-size:19px;margin-bottom:6px;}
+  .setup-empty p{color:var(--ink-soft);font-size:13.5px;margin-bottom:18px;line-height:1.6;}
+  .toast{
+    position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+    background:var(--navy);color:#fff;padding:10px 18px;border-radius:20px;font-size:13px;
+    z-index:80;opacity:0;transition:opacity .25s ease;pointer-events:none;
+  }
+  .toast.show{opacity:1;}
+
+  /* print export */
+  .print-sheet{display:none;}
+  @media print{
+    body{background:#fff;}
+    #app,.toast,.overlay{display:none !important;}
+    .print-sheet{display:block;color:#111;font-family:'Noto Sans KR',sans-serif;}
+    .print-sheet h1{font-size:20px;margin:0 0 2px;}
+    .print-sheet .print-dates{font-size:12px;color:#555;margin-bottom:18px;}
+    .print-day{margin-bottom:16px;page-break-inside:avoid;}
+    .print-day h2{font-size:14px;border-bottom:1.5px solid #111;padding-bottom:4px;margin-bottom:6px;}
+    .print-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+    .print-table td{vertical-align:top;padding:4px 6px;border-bottom:1px solid #ddd;}
+    .print-time{width:80px;font-family:'Space Mono',monospace;font-weight:700;white-space:nowrap;}
+    .print-item-title{font-weight:700;}
+    .print-loc{font-weight:400;color:#555;}
+    .print-note{font-size:11.5px;color:#555;margin-top:2px;}
+    .print-empty{color:#888;}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="print-sheet" id="printSheet"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---- Google Sheets 연동 설정 ----
+   1) https://console.cloud.google.com 에서 새 프로젝트 생성
+   2) "API 및 서비스 > 라이브러리"에서 Google Sheets API, Google Drive API 사용 설정
+   3) "OAuth 동의 화면" 설정 (외부/테스트 사용자에 본인 이메일 추가)
+   4) "사용자 인증 정보 > OAuth 클라이언트 ID 만들기 > 웹 애플리케이션"
+   5) "승인된 자바스크립트 원본"에 배포 주소 추가 (예: https://statepark62.github.io)
+   6) 발급받은 클라이언트 ID를 아래에 붙여넣기 — 이 값은 공개되어도 안전합니다(비밀키 아님)
+*/
+const GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com';
+const GOOGLE_ENABLED = GOOGLE_CLIENT_ID.indexOf('REPLACE_WITH') === -1;
+const SPREADSHEET_TITLE = '지금여기_여행일정_데이터';
+let tokenClient = null, googleAccessToken = null, googleSignedIn = false, spreadsheetId = null;
+let memoryStore = {}; // window.storage와 구글 로그인 둘 다 없을 때의 임시(새로고침시 소실) 저장소
+let userAnthropicKey = null; // GitHub 등 외부 배포 시 사용자가 직접 입력하는 API 키(세션 동안만 메모리 유지)
+// PDF 자동 인식은 개발자 전용 기능입니다. 주소 뒤에 ?dev=1 을 붙였을 때만 관련 버튼이 보입니다.
+// 예: https://statepark62.github.io/trip-planner/?dev=1
+const DEV_MODE = new URLSearchParams(location.search).get('dev') === '1';
+
+const $ = sel => document.querySelector(sel);
+const app = $('#app');
+const pad = n => String(n).padStart(2,'0');
+const fmtDate = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const dayLabel = ['일','월','화','수','목','금','토'];
+
+let state = {
+  trips: [],        // [{id,title,startDate,endDate}]
+  activeTripId: null,
+  trip: null,        // full loaded trip object
+  selectedDate: null,
+  notifPermission: (typeof Notification !== 'undefined') ? Notification.permission : 'unsupported',
+  notifiedIds: new Set(),
+  morningModal: null // date string if showing
+};
+
+/* ---- Google Sheets 저장소 ---- */
+function loadScript(src){
+  return new Promise((resolve,reject)=>{
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = ()=>reject(new Error('load fail: '+src));
+    document.head.appendChild(s);
+  });
+}
+async function ensureGis(){
+  if(window.google && window.google.accounts) return;
+  await loadScript('https://accounts.google.com/gsi/client');
+}
+function connectGoogle(){
+  if(!GOOGLE_ENABLED){ openGoogleSetupInfo(); return; }
+  ensureGis().then(()=>{
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: GOOGLE_CLIENT_ID,
+      scope: 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file',
+      callback: async (resp)=>{
+        if(resp.error){ showToast('구글 로그인에 실패했어요'); return; }
+        googleAccessToken = resp.access_token;
+        googleSignedIn = true;
+        showToast('연결됐어요. 시트를 준비하는 중…');
+        try{
+          await ensureSpreadsheet();
+          await migrateAndReload();
+          showToast('Google Sheets에 연결됐어요');
+        }catch(e){
+          console.error(e); googleSignedIn=false;
+          showToast('구글 시트 연결 중 오류가 발생했어요');
+        }
+        render();
+      }
+    });
+    tokenClient.requestAccessToken();
+  }).catch(()=>showToast('구글 로그인 스크립트를 불러오지 못했어요'));
+}
+async function gApi(url, opts={}){
+  const resp = await fetch(url, {
+    ...opts,
+    headers:{ 'Authorization':'Bearer '+googleAccessToken, 'Content-Type':'application/json', ...(opts.headers||{}) }
+  });
+  if(!resp.ok){ const t = await resp.text(); throw new Error('Google API 오류: '+t); }
+  return resp.json();
+}
+async function ensureSpreadsheet(){
+  const q = encodeURIComponent(`name='${SPREADSHEET_TITLE}' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false`);
+  const list = await gApi(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`);
+  if(list.files && list.files.length){
+    spreadsheetId = list.files[0].id;
+  } else {
+    const created = await gApi('https://sheets.googleapis.com/v4/spreadsheets', {
+      method:'POST',
+      body: JSON.stringify({properties:{title:SPREADSHEET_TITLE}, sheets:[{properties:{title:'kv'}}]})
+    });
+    spreadsheetId = created.spreadsheetId;
+    await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/kv!A1:B1?valueInputOption=RAW`, {
+      method:'PUT', body: JSON.stringify({values:[['key','value']]})
+    });
+  }
+}
+async function sheetsReadAll(){
+  const resp = await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/kv!A2:B100000`);
+  const rows = resp.values || [];
+  const map = {};
+  rows.forEach(r=>{ if(r[0]!==undefined) map[r[0]] = r[1]; });
+  return map;
+}
+async function sheetsGet(key){
+  const map = await sheetsReadAll();
+  return map[key]!==undefined ? JSON.parse(map[key]) : null;
+}
+async function sheetsSet(key, val){
+  const resp = await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/kv!A2:A100000`);
+  const rows = resp.values || [];
+  const idx = rows.findIndex(r=>r[0]===key);
+  const valueStr = JSON.stringify(val);
+  if(idx===-1){
+    await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/kv!A:B:append?valueInputOption=RAW`, {
+      method:'POST', body: JSON.stringify({values:[[key,valueStr]]})
+    });
+  } else {
+    const row = idx+2;
+    await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/kv!B${row}?valueInputOption=RAW`, {
+      method:'PUT', body: JSON.stringify({values:[[valueStr]]})
+    });
+  }
+}
+async function migrateAndReload(){
+  // 처음 연결 시, 이 화면(창)에 이미 있던 데이터를 한 번만 시트로 옮겨줍니다.
+  try{
+    const existing = await sheetsGet('trips-list');
+    if((!existing || !existing.length) && (window.storage || Object.keys(memoryStore).length)){
+      const localTrips = window.storage
+        ? (await (async()=>{ try{const r=await window.storage.get('trips-list',false); return r?JSON.parse(r.value):null;}catch(e){return null;} })())
+        : memoryStore['trips-list'];
+      if(localTrips && localTrips.length){
+        await sheetsSet('trips-list', localTrips);
+        for(const t of localTrips){
+          let tripData = null;
+          if(window.storage){ try{const r=await window.storage.get('trip:'+t.id,false); tripData = r?JSON.parse(r.value):null;}catch(e){} }
+          else tripData = memoryStore['trip:'+t.id];
+          if(tripData) await sheetsSet('trip:'+t.id, tripData);
+        }
+        const activeId = window.storage
+          ? (await (async()=>{ try{const r=await window.storage.get('active-trip',false); return r?JSON.parse(r.value):null;}catch(e){return null;} })())
+          : memoryStore['active-trip'];
+        if(activeId) await sheetsSet('active-trip', activeId);
+      }
+    }
+  }catch(e){ console.error('migration skipped', e); }
+  await loadState();
+}
+function openGoogleSetupInfo(){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>Google Sheets 연결 설정 방법</h3>
+    <ol style="font-size:13px;line-height:1.9;color:var(--ink-soft);padding-left:18px;">
+      <li><a href="https://console.cloud.google.com" target="_blank">Google Cloud Console</a>에서 새 프로젝트를 만듭니다.</li>
+      <li>"API 및 서비스 &gt; 라이브러리"에서 <b>Google Sheets API</b>, <b>Google Drive API</b>를 사용 설정합니다.</li>
+      <li>"OAuth 동의 화면"을 설정합니다 (외부 선택, 테스트 사용자에 본인 이메일 추가).</li>
+      <li>"사용자 인증 정보 &gt; OAuth 클라이언트 ID 만들기 &gt; 웹 애플리케이션"을 선택합니다.</li>
+      <li>"승인된 자바스크립트 원본"에 이 페이지를 올릴 주소(예: https://statepark62.github.io)를 추가합니다.</li>
+      <li>발급된 클라이언트 ID를 코드 상단 <span class="mono">GOOGLE_CLIENT_ID</span> 값에 붙여넣고 다시 배포합니다.</li>
+    </ol>
+    <div class="sheet-actions"><button class="btn btn-primary" id="gsi_close">닫기</button></div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#gsi_close').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+}
+function renderGoogleStatus(){
+  if(googleSignedIn){
+    return `<div class="notif-banner"><span>📊 이 기기의 Google Sheets에 저장되고 있어요.</span></div>`;
+  }
+  return `<div class="notif-banner">
+    <span>${GOOGLE_ENABLED?'Google 계정에 연결하면 내 Sheets에 자동 저장되고, 다른 기기에서도 이어볼 수 있어요.':'GitHub 배포판에서 Sheets 저장을 쓰려면 먼저 설정이 필요해요.'}</span>
+    <button class="btn btn-sm btn-ghost" id="googleConnectBtn">${GOOGLE_ENABLED?'Google 연결':'설정 방법 보기'}</button>
+  </div>`;
+}
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+async function safeGet(key){
+  try{
+    if(googleSignedIn) return await sheetsGet(key);
+    if(window.storage){ const r = await window.storage.get(key,false); return r ? JSON.parse(r.value) : null; }
+    return memoryStore[key] !== undefined ? memoryStore[key] : null;
+  }catch(e){ console.error(e); return null; }
+}
+async function safeSet(key,val){
+  try{
+    if(googleSignedIn){ await sheetsSet(key,val); return; }
+    if(window.storage){ await window.storage.set(key, JSON.stringify(val), false); return; }
+    memoryStore[key]=val;
+  }catch(e){ console.error('storage set failed', e); showToast('저장 중 문제가 발생했어요'); }
+}
+
+function dateRange(start,end){
+  const out=[]; let d=new Date(start+'T00:00:00'); const e=new Date(end+'T00:00:00');
+  while(d<=e){ out.push(fmtDate(d)); d.setDate(d.getDate()+1); }
+  return out;
+}
+function uid(){ return Math.random().toString(36).slice(2,9); }
+
+async function loadState(){
+  state.trips = (await safeGet('trips-list')) || [];
+  const active = await safeGet('active-trip');
+  if(active && state.trips.find(t=>t.id===active)){
+    state.activeTripId = active;
+    state.trip = await safeGet('trip:'+active);
+  } else if(state.trips.length){
+    state.activeTripId = state.trips[0].id;
+    state.trip = await safeGet('trip:'+state.activeTripId);
+  } else {
+    state.activeTripId = null; state.trip = null;
+  }
+  if(state.trip){
+    const todayStr = fmtDate(new Date());
+    state.selectedDate = state.trip.days[todayStr] !== undefined ? todayStr : Object.keys(state.trip.days)[0];
+  }
+}
+
+async function init(){
+  await loadState();
+  render();
+  checkMorningPopup();
+  setInterval(tick, 1000);
+  setInterval(checkUpcomingNotifications, 20000);
+}
+
+function currentActivityInfo(){
+  if(!state.trip) return null;
+  const now = new Date();
+  const todayStr = fmtDate(now);
+  const start = state.trip.startDate, end = state.trip.endDate;
+  if(todayStr < start){
+    const diff = Math.ceil((new Date(start+'T00:00:00') - new Date(todayStr+'T00:00:00'))/86400000);
+    return {phase:'before', diff};
+  }
+  if(todayStr > end){
+    return {phase:'after'};
+  }
+  const blocks = (state.trip.days[todayStr]||[]).slice().sort((a,b)=>a.time.localeCompare(b.time));
+  if(!blocks.length) return {phase:'noplan', date:todayStr};
+  const nowHM = pad(now.getHours())+':'+pad(now.getMinutes());
+  let current=null, next=null;
+  for(let i=0;i<blocks.length;i++){
+    if(blocks[i].time<=nowHM){ current = blocks[i]; next = blocks[i+1]||null; }
+  }
+  if(!current){ // before first block today
+    return {phase:'waiting', next: blocks[0]};
+  }
+  return {phase:'active', current, next};
+}
+
+function renderBoard(){
+  const info = currentActivityInfo();
+  const now = new Date();
+  const clock = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  const dateStr = `${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())} (${dayLabel[now.getDay()]})`;
+
+  let body = '';
+  if(!info){
+    body = `<div class="board-empty">여행을 먼저 만들어주세요.</div>`;
+  } else if(info.phase==='before'){
+    body = `<div class="board-empty">여행 시작까지 <span class="mono" style="color:var(--flap-amber)">D-${info.diff}</span> · ${state.trip.title}</div>`;
+  } else if(info.phase==='after'){
+    body = `<div class="board-empty">여행이 종료되었습니다. 좋은 기억 되셨길 바라요.</div>`;
+  } else if(info.phase==='noplan'){
+    body = `<div class="board-empty">오늘(${info.date}) 등록된 일정이 없어요. 아래에서 추가해보세요.</div>`;
+  } else if(info.phase==='waiting'){
+    body = `<div class="board-empty">여행 당일, 첫 일정 전이에요.</div>
+      <div class="board-rows"><div class="board-row">
+        <span class="board-tag">다음</span>
+        <span class="board-time mono">${info.next.time}</span>
+        <span class="board-activity">${escapeHtml(info.next.title)}${info.next.location?`<span class="board-loc">@ ${escapeHtml(info.next.location)}</span>`:''}</span>
+      </div></div>`;
+  } else if(info.phase==='active'){
+    body = `<div class="board-rows">
+      <div class="board-row now">
+        <span class="board-tag">지금</span>
+        <span class="board-time mono">${info.current.time}${info.current.endTime?'–'+info.current.endTime:''}</span>
+        <span class="board-activity">${escapeHtml(info.current.title)}${info.current.location?`<span class="board-loc">@ ${escapeHtml(info.current.location)}</span>`:''}</span>
+      </div>
+      ${info.next?`<div class="board-row">
+        <span class="board-tag">다음</span>
+        <span class="board-time mono">${info.next.time}</span>
+        <span class="board-activity">${escapeHtml(info.next.title)}${info.next.location?`<span class="board-loc">@ ${escapeHtml(info.next.location)}</span>`:''}</span>
+      </div>`:`<div class="board-row"><span class="board-tag">다음</span><span class="board-activity" style="color:#7C8496">오늘 일정 끝</span></div>`}
+    </div>`;
+  }
+
+  return `<div class="board">
+    <div class="board-date">${dateStr}</div>
+    <div class="board-clock mono">${clock}</div>
+    ${body}
+  </div>`;
+}
+
+function tick(){
+  const clockEl = document.querySelector('.board-clock');
+  if(clockEl){
+    const now = new Date();
+    clockEl.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  }
+  // re-render board fully once a minute to update current/next
+  if(new Date().getSeconds()===0) renderBoardOnly();
+  checkMorningPopup();
+}
+function renderBoardOnly(){
+  const old = document.querySelector('.board');
+  if(old) old.outerHTML = renderBoard();
+}
+
+function escapeHtml(s){
+  return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderTabs(){
+  if(!state.trip) return '';
+  const todayStr = fmtDate(new Date());
+  const dates = Object.keys(state.trip.days).sort();
+  return `<div class="tabs">${dates.map(d=>{
+    const dt = new Date(d+'T00:00:00');
+    const isToday = d===todayStr;
+    const active = d===state.selectedDate;
+    return `<div class="tab ${active?'active':''} ${isToday?'today':''}" data-date="${d}">
+      <div class="tab-d">${dayLabel[dt.getDay()]}요일${isToday?' · 오늘':''}</div>
+      <div class="tab-n mono">${pad(dt.getMonth()+1)}/${pad(dt.getDate())}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function renderTimeline(){
+  if(!state.trip || !state.selectedDate) return '';
+  const blocks = (state.trip.days[state.selectedDate]||[]).slice().sort((a,b)=>a.time.localeCompare(b.time));
+  const list = blocks.length ? blocks.map(b=>`
+    <div class="block">
+      <div class="block-time mono">${b.time}</div>
+      <div class="block-body">
+        <div class="block-title">${escapeHtml(b.title)}${b.location?` <span style="font-weight:400;color:var(--ink-soft);font-size:12px;">· ${escapeHtml(b.location)}</span>`:''}</div>
+        ${b.endTime?`<div class="block-meta">~${b.endTime}</div>`:''}
+        ${b.note?`<div class="block-note">${escapeHtml(b.note)}</div>`:''}
+      </div>
+      <div class="block-actions">
+        <button class="icon-btn" data-edit="${b.id}" title="수정">✎</button>
+        <button class="icon-btn" data-del="${b.id}" title="삭제">✕</button>
+      </div>
+    </div>
+  `).join('') : `<div class="empty-day">이 날짜엔 아직 일정이 없어요.</div>`;
+
+  return `<div class="timeline">${list}</div>
+    <button class="add-block-btn" id="addBlockBtn">+ 일정 추가</button>`;
+}
+
+function renderNotifBanner(){
+  if(state.notifPermission==='unsupported') return '';
+  if(state.notifPermission==='granted') return `<div class="notif-banner"><span>🔔 브라우저 알림이 켜져 있어요. 이 탭을 열어두면 일정 10분 전 알려드려요.</span></div>`;
+  return `<div class="notif-banner"><span>일정 시작 전에 알림을 받으려면 이 탭을 켜두고 알림을 허용해주세요.</span><button class="btn btn-sm btn-ghost" id="enableNotif">알림 켜기</button></div>`;
+}
+
+function render(){
+  if(!state.trip){
+    app.innerHTML = `
+      ${renderGoogleStatus()}
+      <div class="setup-empty">
+        <h2>지금 여기 · 여행 전광판</h2>
+        <p>날짜·시간별 여행 계획을 입력해두면,<br>지금 무엇을 하기로 했는지 실시간으로 보여드려요.</p>
+        <button class="btn btn-primary" id="newTripBtn">+ 새 여행 만들기</button>
+        ${DEV_MODE?`<button class="btn btn-line" id="pdfImportBtnEmpty" style="margin-left:8px;">PDF로 가져오기</button>
+        <div class="pdf-hint">여행사·항공사에서 받은 일정표 PDF를 올리면<br>날짜·시간·장소를 자동으로 읽어와요.</div>`:''}
+      </div>`;
+    $('#newTripBtn').onclick = ()=>openTripForm();
+    const pib = $('#pdfImportBtnEmpty'); if(pib) pib.onclick = ()=>triggerPdfPick();
+    const gcb = $('#googleConnectBtn'); if(gcb) gcb.onclick = ()=>connectGoogle();
+    return;
+  }
+  app.innerHTML = `
+    <div class="topbar">
+      <div>
+        <div class="trip-title">${escapeHtml(state.trip.title)}</div>
+        <div class="trip-dates"><span class="mono">${state.trip.startDate}</span> → <span class="mono">${state.trip.endDate}</span></div>
+      </div>
+      <div class="topbar-actions">
+        ${state.trips.length>1?`<select id="tripSwitch" class="btn btn-line btn-sm">${state.trips.map(t=>`<option value="${t.id}" ${t.id===state.activeTripId?'selected':''}>${escapeHtml(t.title)}</option>`).join('')}</select>`:''}
+        <button class="btn btn-line btn-sm" id="newTripBtn2">+ 새 여행</button>
+        ${DEV_MODE?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 가져오기</button>
+        <button class="btn btn-line btn-sm" id="apiKeyBtn">API 키 설정</button>`:''}
+        <button class="btn btn-line btn-sm" id="exportPdfBtn">PDF로 내보내기</button>
+      </div>
+    </div>
+    ${renderGoogleStatus()}
+    ${renderNotifBanner()}
+    ${renderBoard()}
+    ${renderTabs()}
+    ${renderTimeline()}
+  `;
+  bindEvents();
+}
+
+function bindEvents(){
+  const nt = $('#newTripBtn2'); if(nt) nt.onclick = ()=>openTripForm();
+  const pi2 = $('#pdfImportBtn2'); if(pi2) pi2.onclick = ()=>triggerPdfPick();
+  const ex = $('#exportPdfBtn'); if(ex) ex.onclick = ()=>exportPdf();
+  const ak = $('#apiKeyBtn'); if(ak) ak.onclick = ()=>openApiKeyModal();
+  const sw = $('#tripSwitch'); if(sw) sw.onchange = async e=>{
+    state.activeTripId = e.target.value;
+    await safeSet('active-trip', state.activeTripId);
+    state.trip = await safeGet('trip:'+state.activeTripId);
+    const todayStr = fmtDate(new Date());
+    state.selectedDate = state.trip.days[todayStr]!==undefined ? todayStr : Object.keys(state.trip.days)[0];
+    render();
+  };
+  const en = $('#enableNotif'); if(en) en.onclick = requestNotifPermission;
+  const gcb2 = $('#googleConnectBtn'); if(gcb2) gcb2.onclick = ()=>connectGoogle();
+  document.querySelectorAll('.tab').forEach(el=>{
+    el.onclick = ()=>{ state.selectedDate = el.dataset.date; render(); };
+  });
+  const addBtn = $('#addBlockBtn'); if(addBtn) addBtn.onclick = ()=>openBlockForm();
+  document.querySelectorAll('[data-edit]').forEach(el=>{
+    el.onclick = ()=>openBlockForm(el.dataset.edit);
+  });
+  document.querySelectorAll('[data-del]').forEach(el=>{
+    el.onclick = ()=>deleteBlock(el.dataset.del);
+  });
+}
+
+/* ---- trip create ---- */
+function openTripForm(){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>새 여행 만들기</h3>
+    <div class="field"><label>여행 이름</label><input id="f_title" placeholder="예: 삿포로·오타루 여행"></div>
+    <div class="row2">
+      <div class="field"><label>시작일</label><input id="f_start" type="date"></div>
+      <div class="field"><label>종료일</label><input id="f_end" type="date"></div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="f_cancel">취소</button>
+      <button class="btn btn-primary" id="f_save">만들기</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#f_cancel').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+  $('#f_save').onclick = async ()=>{
+    const title = $('#f_title').value.trim();
+    const s = $('#f_start').value, e = $('#f_end').value;
+    if(!title||!s||!e||s>e){ showToast('이름과 날짜를 올바르게 입력해주세요'); return; }
+    const id = uid();
+    const days = {}; dateRange(s,e).forEach(d=>days[d]=[]);
+    const trip = {title,startDate:s,endDate:e,days,morningChecked:[]};
+    state.trips.push({id,title,startDate:s,endDate:e});
+    await safeSet('trips-list', state.trips);
+    await safeSet('trip:'+id, trip);
+    await safeSet('active-trip', id);
+    state.activeTripId = id; state.trip = trip;
+    const todayStr = fmtDate(new Date());
+    state.selectedDate = days[todayStr]!==undefined ? todayStr : Object.keys(days)[0];
+    overlay.remove();
+    render();
+    showToast('여행이 만들어졌어요');
+  };
+}
+
+/* ---- block create/edit ---- */
+function openBlockForm(blockId){
+  const editing = blockId ? (state.trip.days[state.selectedDate]||[]).find(b=>b.id===blockId) : null;
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>${editing?'일정 수정':'일정 추가'} · ${state.selectedDate}</h3>
+    <div class="row2">
+      <div class="field"><label>시작 시간</label><input id="b_time" type="time" value="${editing?editing.time:''}"></div>
+      <div class="field"><label>종료 시간(선택)</label><input id="b_end" type="time" value="${editing&&editing.endTime?editing.endTime:''}"></div>
+    </div>
+    <div class="field"><label>할 일</label><input id="b_title" placeholder="예: 오타루 운하 산책" value="${editing?escapeHtml(editing.title):''}"></div>
+    <div class="field"><label>장소(선택)</label><input id="b_loc" placeholder="예: 오타루" value="${editing&&editing.location?escapeHtml(editing.location):''}"></div>
+    <div class="field"><label>메모(선택)</label><textarea id="b_note" placeholder="준비물, 예약번호 등">${editing&&editing.note?escapeHtml(editing.note):''}</textarea></div>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="b_cancel">취소</button>
+      <button class="btn btn-primary" id="b_save">${editing?'저장':'추가'}</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#b_cancel').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+  $('#b_save').onclick = async ()=>{
+    const time = $('#b_time').value, title = $('#b_title').value.trim();
+    if(!time||!title){ showToast('시간과 할 일을 입력해주세요'); return; }
+    const data = {
+      id: editing?editing.id:uid(),
+      time, endTime: $('#b_end').value||null,
+      title, location: $('#b_loc').value.trim(), note: $('#b_note').value.trim()
+    };
+    const arr = state.trip.days[state.selectedDate]||[];
+    if(editing){
+      const idx = arr.findIndex(b=>b.id===editing.id);
+      arr[idx]=data;
+    } else {
+      arr.push(data);
+    }
+    state.trip.days[state.selectedDate]=arr;
+    await safeSet('trip:'+state.activeTripId, state.trip);
+    overlay.remove();
+    render();
+  };
+}
+
+async function deleteBlock(id){
+  const arr = (state.trip.days[state.selectedDate]||[]).filter(b=>b.id!==id);
+  state.trip.days[state.selectedDate]=arr;
+  await safeSet('trip:'+state.activeTripId, state.trip);
+  render();
+}
+
+/* ---- morning check-in ---- */
+async function checkMorningPopup(){
+  if(!state.trip) return;
+  const todayStr = fmtDate(new Date());
+  if(todayStr < state.trip.startDate || todayStr > state.trip.endDate) return;
+  const blocks = state.trip.days[todayStr]||[];
+  if(!blocks.length) return;
+  if((state.trip.morningChecked||[]).includes(todayStr)) return;
+  if(document.getElementById('morningOverlay')) return; // already showing
+  openMorningModal(todayStr, blocks);
+}
+
+function openMorningModal(dateStr, blocks){
+  const overlay = document.createElement('div');
+  overlay.id='morningOverlay';
+  overlay.className='overlay';
+  const sorted = blocks.slice().sort((a,b)=>a.time.localeCompare(b.time));
+  overlay.innerHTML = `<div class="sheet">
+    <h3>오늘의 일정 · ${dateStr}</h3>
+    <div class="morning-list">${sorted.map(b=>`
+      <div class="morning-item"><span class="mono">${b.time}</span><span>${escapeHtml(b.title)}${b.location?` · ${escapeHtml(b.location)}`:''}</span></div>
+    `).join('')}</div>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" id="m_edit">계획 수정하기</button>
+      <button class="btn btn-primary" id="m_ok">이대로 진행할게요</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  const closeAndMark = async ()=>{
+    state.trip.morningChecked = state.trip.morningChecked||[];
+    if(!state.trip.morningChecked.includes(dateStr)) state.trip.morningChecked.push(dateStr);
+    await safeSet('trip:'+state.activeTripId, state.trip);
+    overlay.remove();
+  };
+  $('#m_ok').onclick = closeAndMark;
+  $('#m_edit').onclick = async ()=>{
+    await closeAndMark();
+    state.selectedDate = dateStr;
+    render();
+    document.getElementById('addBlockBtn')?.scrollIntoView({behavior:'smooth', block:'center'});
+  };
+}
+
+/* ---- notifications ---- */
+async function requestNotifPermission(){
+  if(typeof Notification==='undefined'){ showToast('이 브라우저는 알림을 지원하지 않아요'); return; }
+  const perm = await Notification.requestPermission();
+  state.notifPermission = perm;
+  render();
+  if(perm==='granted') showToast('알림이 켜졌어요. 이 탭을 열어두세요.');
+}
+
+function checkUpcomingNotifications(){
+  if(!state.trip || state.notifPermission!=='granted') return;
+  const todayStr = fmtDate(new Date());
+  const blocks = state.trip.days[todayStr]||[];
+  const now = new Date();
+  blocks.forEach(b=>{
+    if(state.notifiedIds.has(b.id)) return;
+    const [h,m] = b.time.split(':').map(Number);
+    const blockTime = new Date(now); blockTime.setHours(h,m,0,0);
+    const diffMin = (blockTime - now)/60000;
+    if(diffMin<=10 && diffMin>=0){
+      new Notification('곧 시작할 일정', {body:`${b.time} ${b.title}${b.location?' · '+b.location:''}`});
+      state.notifiedIds.add(b.id);
+    }
+  });
+}
+
+/* ---- PDF import ---- */
+function ensurePdfJs(){
+  return new Promise((resolve,reject)=>{
+    if(window.pdfjsLib){ resolve(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = ()=>{
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      resolve();
+    };
+    s.onerror = ()=>reject(new Error('pdf.js 로드 실패'));
+    document.head.appendChild(s);
+  });
+}
+
+function triggerPdfPick(){
+  let input = document.getElementById('hiddenPdfInput');
+  if(!input){
+    input = document.createElement('input');
+    input.type='file'; input.accept='application/pdf'; input.id='hiddenPdfInput'; input.style.display='none';
+    document.body.appendChild(input);
+  }
+  input.value='';
+  input.onchange = e=>{
+    const file = e.target.files[0];
+    if(file) handlePdfFile(file);
+  };
+  input.click();
+}
+
+async function extractPdfText(file){
+  await ensurePdfJs();
+  const buf = await file.arrayBuffer();
+  const pdf = await window.pdfjsLib.getDocument({data:buf}).promise;
+  let text = '';
+  const maxPages = Math.min(pdf.numPages, 25);
+  for(let i=1;i<=maxPages;i++){
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map(it=>it.str).join(' ') + '\n';
+  }
+  return text.trim();
+}
+
+function openPdfProgressModal(){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet"><h3>PDF 분석 중…</h3><p style="color:var(--ink-soft);font-size:13.5px;line-height:1.6;">일정표에서 날짜·시간·장소를 읽어오고 있어요. 잠시만 기다려주세요.</p></div>`;
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+async function callClaudeExtract(text){
+  const todayStr = fmtDate(new Date());
+  const truncated = text.slice(0, 12000);
+  const system = `당신은 여행 일정표 텍스트에서 정보를 추출해 JSON으로만 응답하는 도구입니다.
+설명, 인사말, 코드블록 표시(백틱) 없이 순수 JSON 객체 하나만 출력하세요.
+스키마:
+{"title": string, "startDate": "YYYY-MM-DD", "endDate": "YYYY-MM-DD",
+ "items": [{"date":"YYYY-MM-DD","time":"HH:MM","endTime":"HH:MM 또는 null","title":string,"location":string,"note":string}]}
+규칙:
+- 연도가 텍스트에 없으면 오늘 날짜(${todayStr}) 기준 가장 가까운 미래 연도를 사용하세요.
+- 시간이 명시되지 않은 항목은 하루 흐름상 자연스러운 시각을 24시간제로 추정해 채우세요.
+- location, note 정보가 없으면 빈 문자열로 두세요.
+- items는 날짜, 시간 순으로 정렬하세요.`;
+
+  const headers = {'Content-Type':'application/json'};
+  if(userAnthropicKey){
+    // GitHub 등 외부 배포 시: 본인 키로 브라우저에서 직접 호출
+    headers['x-api-key'] = userAnthropicKey;
+    headers['anthropic-version'] = '2023-06-01';
+    headers['anthropic-dangerous-direct-browser-access'] = 'true';
+  }
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers,
+    body: JSON.stringify({
+      model:'claude-sonnet-4-6',
+      max_tokens:1000,
+      system,
+      messages:[{role:'user', content:`다음은 여행 일정표에서 추출한 텍스트입니다:\n\n${truncated}`}]
+    })
+  });
+  const data = await resp.json();
+  const textBlocks = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+  const cleaned = textBlocks.replace(/```json|```/g,'').trim();
+  const parsed = JSON.parse(cleaned);
+  if(!parsed.title || !parsed.startDate || !parsed.endDate || !Array.isArray(parsed.items)){
+    throw new Error('형식이 올바르지 않습니다');
+  }
+  return parsed;
+}
+
+function openApiKeyModal(){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>Anthropic API 키 설정</h3>
+    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.6;">GitHub 등 외부에 배포했다면, PDF 자동 인식을 쓰기 위해 본인의 Anthropic API 키가 필요해요. 이 키는 저장되지 않고 <b>현재 탭이 열려있는 동안에만</b> 메모리에 유지돼요.</p>
+    <div class="field"><label>API 키</label><input id="k_input" type="password" placeholder="sk-ant-..." value="${userAnthropicKey||''}"></div>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="k_cancel">취소</button>
+      <button class="btn btn-primary" id="k_save">저장</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#k_cancel').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+  $('#k_save').onclick = ()=>{
+    userAnthropicKey = $('#k_input').value.trim() || null;
+    overlay.remove();
+    showToast(userAnthropicKey ? 'API 키가 설정됐어요(이 세션 동안만)' : 'API 키를 비웠어요');
+  };
+}
+
+async function handlePdfFile(file){
+  const overlay = openPdfProgressModal();
+  try{
+    const text = await extractPdfText(file);
+    if(!text || text.length < 20){
+      overlay.remove();
+      showToast('PDF에서 텍스트를 읽지 못했어요. 스캔본이라면 직접 입력해주세요.');
+      return;
+    }
+    const parsed = await callClaudeExtract(text);
+    overlay.remove();
+    openImportPreview(parsed);
+  }catch(err){
+    console.error(err);
+    overlay.remove();
+    showToast('PDF 분석 중 오류가 발생했어요. 다시 시도해주세요.');
+  }
+}
+
+function openImportPreview(parsed){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  const dayCounts = {};
+  parsed.items.forEach(it=>{ dayCounts[it.date]=(dayCounts[it.date]||0)+1; });
+  const days = Object.keys(dayCounts).sort();
+  overlay.innerHTML = `<div class="sheet">
+    <h3>가져온 일정 확인</h3>
+    <div class="field"><label>여행 이름</label><input id="p_title" value="${escapeHtml(parsed.title)}"></div>
+    <div class="row2">
+      <div class="field"><label>시작일</label><input id="p_start" type="date" value="${parsed.startDate}"></div>
+      <div class="field"><label>종료일</label><input id="p_end" type="date" value="${parsed.endDate}"></div>
+    </div>
+    <div class="morning-list">${days.map(d=>`<div class="morning-item"><span class="mono">${d}</span><span>일정 ${dayCounts[d]}개</span></div>`).join('')}</div>
+    <p style="font-size:12px;color:var(--ink-soft);">총 ${parsed.items.length}개 일정을 불러왔어요. 저장 후에도 언제든 수정할 수 있어요.</p>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="p_cancel">취소</button>
+      <button class="btn btn-primary" id="p_save">이 일정으로 만들기</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#p_cancel').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+  $('#p_save').onclick = async ()=>{
+    const title = $('#p_title').value.trim() || parsed.title;
+    let start = $('#p_start').value || parsed.startDate;
+    let end = $('#p_end').value || parsed.endDate;
+    const allDates = [start, end, ...parsed.items.map(i=>i.date)].sort();
+    start = allDates[0]; end = allDates[allDates.length-1];
+    const id = uid();
+    const days = {}; dateRange(start,end).forEach(d=>days[d]=[]);
+    parsed.items.forEach(it=>{
+      if(!days[it.date]) days[it.date]=[];
+      days[it.date].push({id:uid(), time:it.time||'09:00', endTime:it.endTime||null, title:it.title||'일정', location:it.location||'', note:it.note||''});
+    });
+    const trip = {title, startDate:start, endDate:end, days, morningChecked:[]};
+    state.trips.push({id,title,startDate:start,endDate:end});
+    await safeSet('trips-list', state.trips);
+    await safeSet('trip:'+id, trip);
+    await safeSet('active-trip', id);
+    state.activeTripId = id; state.trip = trip;
+    const todayStr = fmtDate(new Date());
+    state.selectedDate = days[todayStr]!==undefined ? todayStr : Object.keys(days)[0];
+    overlay.remove();
+    render();
+    showToast('PDF 일정을 불러왔어요');
+  };
+}
+
+/* ---- PDF export (print to PDF) ---- */
+function buildPrintable(){
+  if(!state.trip) return;
+  const t = state.trip;
+  const dates = Object.keys(t.days).sort();
+  const daysHtml = dates.map(d=>{
+    const dt = new Date(d+'T00:00:00');
+    const blocks = (t.days[d]||[]).slice().sort((a,b)=>a.time.localeCompare(b.time));
+    const rows = blocks.length ? blocks.map(b=>`
+      <tr>
+        <td class="print-time">${b.time}${b.endTime?'–'+b.endTime:''}</td>
+        <td>
+          <div class="print-item-title">${escapeHtml(b.title)}${b.location?` <span class="print-loc">· ${escapeHtml(b.location)}</span>`:''}</div>
+          ${b.note?`<div class="print-note">${escapeHtml(b.note)}</div>`:''}
+        </td>
+      </tr>`).join('') : `<tr><td colspan="2" class="print-empty">일정 없음</td></tr>`;
+    return `<div class="print-day">
+      <h2>${d} · ${dayLabel[dt.getDay()]}요일</h2>
+      <table class="print-table">${rows}</table>
+    </div>`;
+  }).join('');
+  document.getElementById('printSheet').innerHTML = `
+    <h1>${escapeHtml(t.title)}</h1>
+    <div class="print-dates">${t.startDate} ~ ${t.endDate} · 내보낸 시각 ${new Date().toLocaleString('ko-KR')}</div>
+    ${daysHtml}
+  `;
+}
+
+function exportPdf(){
+  if(!state.trip){ showToast('내보낼 여행이 없어요'); return; }
+  buildPrintable();
+  const prevTitle = document.title;
+  document.title = state.trip.title + ' 여행 일정';
+  window.print();
+  document.title = prevTitle;
+}
+
+init();
+</script>
+</body>
+</html>
