@@ -695,8 +695,8 @@ function render(){
         <div class="pdf-hint">여행사·항공사에서 받은 일정표 PDF·사진을 올리면<br>날짜·시간·장소를 자동으로 읽어와요.</div>`:''}
       </div>`;
     $('#newTripBtn').onclick = ()=>openTripForm();
-    const pib = $('#pdfImportBtnEmpty'); if(pib) pib.onclick = ()=>triggerPdfPick();
-    const phib = $('#photoImportBtnEmpty'); if(phib) phib.onclick = ()=>triggerPhotoPick();
+    const pib = $('#pdfImportBtnEmpty'); if(pib) pib.onclick = ()=>triggerPdfPick('new');
+    const phib = $('#photoImportBtnEmpty'); if(phib) phib.onclick = ()=>triggerPhotoPick('new');
     const gcb = $('#googleConnectBtn'); if(gcb) gcb.onclick = ()=>connectGoogle();
     return;
   }
@@ -710,8 +710,8 @@ function render(){
         ${state.trips.length>1?`<select id="tripSwitch" class="btn btn-line btn-sm">${state.trips.map(t=>`<option value="${t.id}" ${t.id===state.activeTripId?'selected':''}>${escapeHtml(t.title)}</option>`).join('')}</select>`:''}
         <button class="btn btn-line btn-sm" id="deleteTripBtn" title="현재 여행 삭제">이 여행 삭제</button>
         <button class="btn btn-line btn-sm" id="newTripBtn2">+ 새 여행</button>
-        ${isDevMode()?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 가져오기</button>
-        <button class="btn btn-line btn-sm" id="photoImportBtn2">사진으로 가져오기</button>`:''}
+        ${isDevMode()?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 추가</button>
+        <button class="btn btn-line btn-sm" id="photoImportBtn2">사진으로 추가</button>`:''}
         <button class="btn btn-line btn-sm" id="exportPdfBtn">PDF로 내보내기</button>
       </div>
     </div>
@@ -726,8 +726,8 @@ function render(){
 
 function bindEvents(){
   const nt = $('#newTripBtn2'); if(nt) nt.onclick = ()=>openTripForm();
-  const pi2 = $('#pdfImportBtn2'); if(pi2) pi2.onclick = ()=>triggerPdfPick();
-  const phi2 = $('#photoImportBtn2'); if(phi2) phi2.onclick = ()=>triggerPhotoPick();
+  const pi2 = $('#pdfImportBtn2'); if(pi2) pi2.onclick = ()=>triggerPdfPick('merge');
+  const phi2 = $('#photoImportBtn2'); if(phi2) phi2.onclick = ()=>triggerPhotoPick('merge');
   const ex = $('#exportPdfBtn'); if(ex) ex.onclick = ()=>exportPdf();
   const ak = $('#apiKeyBtn'); if(ak) ak.onclick = ()=>openApiKeyModal();
   const dtb = $('#deleteTripBtn'); if(dtb) dtb.onclick = ()=>deleteCurrentTrip();
@@ -943,7 +943,7 @@ function ensurePdfJs(){
   });
 }
 
-function triggerPdfPick(){
+function triggerPdfPick(mode){
   let input = document.getElementById('hiddenPdfInput');
   if(!input){
     input = document.createElement('input');
@@ -953,7 +953,7 @@ function triggerPdfPick(){
   input.value='';
   input.onchange = e=>{
     const file = e.target.files[0];
-    if(file) handlePdfFile(file);
+    if(file) handlePdfFile(file, mode);
   };
   input.click();
 }
@@ -1079,7 +1079,7 @@ function openApiKeyModal(){
   };
 }
 
-async function handlePdfFile(file){
+async function handlePdfFile(file, mode){
   const overlay = openPdfProgressModal();
   try{
     const text = await extractPdfText(file);
@@ -1098,7 +1098,7 @@ async function handlePdfFile(file){
       return;
     }
     overlay.remove();
-    openImportPreview(parsed);
+    openImportPreview(parsed, mode);
   }catch(err){
     console.error(err);
     overlay.remove();
@@ -1119,12 +1119,57 @@ function openImportErrorModal(title, detail){
   overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
 }
 
-function openImportPreview(parsed){
+async function mergeIntoCurrentTrip(parsed){
+  const trip = state.trip;
+  const allDates = [trip.startDate, trip.endDate, ...parsed.items.map(i=>i.date)].sort();
+  const newStart = allDates[0], newEnd = allDates[allDates.length-1];
+  if(newStart!==trip.startDate || newEnd!==trip.endDate){
+    dateRange(newStart,newEnd).forEach(d=>{ if(!trip.days[d]) trip.days[d]=[]; });
+    trip.startDate = newStart; trip.endDate = newEnd;
+  }
+  parsed.items.forEach(it=>{
+    if(!trip.days[it.date]) trip.days[it.date]=[];
+    trip.days[it.date].push({id:uid(), time:it.time||'09:00', endTime:it.endTime||null, title:it.title||'일정', location:it.location||'', note:it.note||''});
+  });
+  await safeSet('trip:'+state.activeTripId, trip);
+  const idx = state.trips.findIndex(t=>t.id===state.activeTripId);
+  if(idx!==-1){
+    state.trips[idx].startDate = trip.startDate; state.trips[idx].endDate = trip.endDate;
+    await safeSet('trips-list', state.trips);
+  }
+}
+
+function openImportPreview(parsed, mode){
   const overlay = document.createElement('div');
   overlay.className='overlay';
   const dayCounts = {};
   parsed.items.forEach(it=>{ dayCounts[it.date]=(dayCounts[it.date]||0)+1; });
   const days = Object.keys(dayCounts).sort();
+
+  if(mode==='merge' && state.trip){
+    overlay.innerHTML = `<div class="sheet">
+      <h3>"${escapeHtml(state.trip.title)}"에 추가</h3>
+      <div class="morning-list">${days.map(d=>`<div class="morning-item"><span class="mono">${d}</span><span>일정 ${dayCounts[d]}개 추가</span></div>`).join('')}</div>
+      <p style="font-size:12px;color:var(--ink-soft);">총 ${parsed.items.length}개 일정이 현재 여행에 날짜·시간순으로 합쳐집니다.</p>
+      <div class="sheet-actions">
+        <button class="btn btn-line" id="p_cancel">취소</button>
+        <button class="btn btn-primary" id="p_save">기존 여행에 추가</button>
+      </div>
+    </div>`;
+    document.body.appendChild(overlay);
+    $('#p_cancel').onclick = ()=>overlay.remove();
+    overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+    $('#p_save').onclick = async ()=>{
+      await mergeIntoCurrentTrip(parsed);
+      overlay.remove();
+      const todayStr = fmtDate(new Date());
+      if(state.trip.days[todayStr]!==undefined) state.selectedDate = todayStr;
+      render();
+      showToast('일정이 추가됐어요');
+    };
+    return;
+  }
+
   overlay.innerHTML = `<div class="sheet">
     <h3>가져온 일정 확인</h3>
     <div class="field"><label>여행 이름</label><input id="p_title" value="${escapeHtml(parsed.title)}"></div>
@@ -1242,7 +1287,7 @@ async function deleteCurrentTrip(){
   };
 }
 
-function triggerPhotoPick(){
+function triggerPhotoPick(mode){
   let input = document.getElementById('hiddenPhotoInput');
   if(!input){
     input = document.createElement('input');
@@ -1252,12 +1297,12 @@ function triggerPhotoPick(){
   input.value='';
   input.onchange = e=>{
     const file = e.target.files[0];
-    if(file) handlePhotoFile(file);
+    if(file) handlePhotoFile(file, mode);
   };
   input.click();
 }
 
-async function handlePhotoFile(file){
+async function handlePhotoFile(file, mode){
   const overlay = openPdfProgressModal();
   try{
     const parsed = await callClaudeExtractFromImage(file);
@@ -1266,7 +1311,7 @@ async function handlePhotoFile(file){
       openImportErrorModal('세부 일정을 찾지 못했어요.', `날짜(${parsed.startDate} ~ ${parsed.endDate})는 인식했지만, 시간대별 개별 일정은 찾지 못했어요. 더 선명한 사진으로 다시 시도해주세요.`);
       return;
     }
-    openImportPreview(parsed);
+    openImportPreview(parsed, mode);
   }catch(err){
     console.error(err);
     overlay.remove();
