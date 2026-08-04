@@ -235,34 +235,48 @@ function loadScript(src){
     document.head.appendChild(s);
   });
 }
-async function ensureGis(){
-  if(window.google && window.google.accounts) return;
-  await loadScript('https://accounts.google.com/gsi/client');
+const GOOGLE_REDIRECT_URI = location.origin + location.pathname;
+const GOOGLE_SCOPE = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file';
+function ls_get(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
+function ls_set(key,val){ try{ localStorage.setItem(key,val); }catch(e){} }
+function ls_trySet(key,val){ try{ localStorage.setItem(key,val); return true; }catch(e){ return false; } }
+let _lsAvailable = null;
+function localStorageAvailable(){
+  if(_lsAvailable!==null) return _lsAvailable;
+  try{ const k='__lstest__'; localStorage.setItem(k,'1'); localStorage.removeItem(k); _lsAvailable = true; }
+  catch(e){ _lsAvailable = false; }
+  return _lsAvailable;
+}
+function buildGoogleAuthUrl(prompt){
+  const params = new URLSearchParams({
+    client_id: GOOGLE_CLIENT_ID,
+    redirect_uri: GOOGLE_REDIRECT_URI,
+    response_type: 'token',
+    scope: GOOGLE_SCOPE,
+    include_granted_scopes: 'true'
+  });
+  if(prompt) params.set('prompt', prompt);
+  return 'https://accounts.google.com/o/oauth2/v2/auth?' + params.toString();
 }
 function connectGoogle(){
   if(!GOOGLE_ENABLED){ openGoogleSetupInfo(); return; }
-  ensureGis().then(()=>{
-    tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: GOOGLE_CLIENT_ID,
-      scope: 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file',
-      callback: async (resp)=>{
-        if(resp.error){ showToast('구글 로그인에 실패했어요'); return; }
-        googleAccessToken = resp.access_token;
-        googleSignedIn = true;
-        showToast('연결됐어요. 시트를 준비하는 중…');
-        try{
-          await ensureSpreadsheet();
-          await migrateAndReload();
-          showToast('Google Sheets에 연결됐어요');
-        }catch(e){
-          console.error(e); googleSignedIn=false;
-          showToast('구글 시트 연결 중 오류가 발생했어요');
-        }
-        render();
-      }
-    });
-    tokenClient.requestAccessToken();
-  }).catch(()=>showToast('구글 로그인 스크립트를 불러오지 못했어요'));
+  // 팝업 대신 페이지 자체가 구글로 이동했다 돌아오는 방식 — 팝업 차단의 영향을 받지 않음
+  location.href = buildGoogleAuthUrl(null);
+}
+function consumeGoogleRedirectToken(){
+  if(location.hash.indexOf('access_token=')===-1 && location.hash.indexOf('error=')===-1) return false;
+  const params = new URLSearchParams(location.hash.slice(1));
+  const token = params.get('access_token');
+  const error = params.get('error');
+  history.replaceState(null, '', location.pathname + location.search);
+  if(token){
+    googleAccessToken = token;
+    googleSignedIn = true;
+    ls_set('trip_google_connected','1');
+    return true;
+  }
+  if(error){ console.log('Google 재연결 실패(정상 폴백):', error); }
+  return false;
 }
 async function gApi(url, opts={}){
   const resp = await fetch(url, {
@@ -372,25 +386,25 @@ async function deleteTripSheetTab(tripId){
     }
   }catch(e){ console.error('delete tab failed', e); }
 }
+async function readPriorLocal(key){
+  if(window.storage){ try{ const r = await window.storage.get(key,false); return r?JSON.parse(r.value):null; }catch(e){ return null; } }
+  const local = ls_get('tripdata:'+key);
+  if(local!==null) return JSON.parse(local);
+  return memoryStore[key]!==undefined ? memoryStore[key] : null;
+}
 async function migrateAndReload(){
-  // 처음 연결 시, 이 화면(창)에 이미 있던 데이터를 한 번만 시트로 옮겨줍니다.
+  // 처음 연결 시, 이 브라우저(또는 이 창)에 이미 있던 데이터를 한 번만 시트로 옮겨줍니다.
   try{
     const existing = await sheetsGet('trips-list');
-    if((!existing || !existing.length) && (window.storage || Object.keys(memoryStore).length)){
-      const localTrips = window.storage
-        ? (await (async()=>{ try{const r=await window.storage.get('trips-list',false); return r?JSON.parse(r.value):null;}catch(e){return null;} })())
-        : memoryStore['trips-list'];
+    if(!existing || !existing.length){
+      const localTrips = await readPriorLocal('trips-list');
       if(localTrips && localTrips.length){
         await sheetsSet('trips-list', localTrips);
         for(const t of localTrips){
-          let tripData = null;
-          if(window.storage){ try{const r=await window.storage.get('trip:'+t.id,false); tripData = r?JSON.parse(r.value):null;}catch(e){} }
-          else tripData = memoryStore['trip:'+t.id];
+          const tripData = await readPriorLocal('trip:'+t.id);
           if(tripData) await sheetsSet('trip:'+t.id, tripData);
         }
-        const activeId = window.storage
-          ? (await (async()=>{ try{const r=await window.storage.get('active-trip',false); return r?JSON.parse(r.value):null;}catch(e){return null;} })())
-          : memoryStore['active-trip'];
+        const activeId = await readPriorLocal('active-trip');
         if(activeId) await sheetsSet('active-trip', activeId);
       }
     }
@@ -420,6 +434,12 @@ function renderGoogleStatus(){
   if(googleSignedIn){
     return `<div class="notif-banner"><span>📊 이 기기의 Google Sheets에 저장되고 있어요.</span></div>`;
   }
+  if(localStorageAvailable()){
+    return `<div class="notif-banner">
+      <span>💾 이 브라우저에 저장되고 있어요(다른 기기와는 동기화 안 돼요). Google에 연결하면 기기 간 동기화도 가능해요.</span>
+      <button class="btn btn-sm btn-ghost" id="googleConnectBtn">${GOOGLE_ENABLED?'Google 연결':'설정 방법 보기'}</button>
+    </div>`;
+  }
   return `<div class="notif-banner">
     <span>${GOOGLE_ENABLED?'Google 계정에 연결하면 내 Sheets에 자동 저장되고, 다른 기기에서도 이어볼 수 있어요.':'GitHub 배포판에서 Sheets 저장을 쓰려면 먼저 설정이 필요해요.'}</span>
     <button class="btn btn-sm btn-ghost" id="googleConnectBtn">${GOOGLE_ENABLED?'Google 연결':'설정 방법 보기'}</button>
@@ -436,6 +456,8 @@ async function safeGet(key){
   try{
     if(googleSignedIn) return await sheetsGet(key);
     if(window.storage){ const r = await window.storage.get(key,false); return r ? JSON.parse(r.value) : null; }
+    const local = ls_get('tripdata:'+key);
+    if(local!==null) return JSON.parse(local);
     return memoryStore[key] !== undefined ? memoryStore[key] : null;
   }catch(e){ console.error(e); return null; }
 }
@@ -451,6 +473,7 @@ async function safeSet(key,val){
       return;
     }
     if(window.storage){ await window.storage.set(key, JSON.stringify(val), false); return; }
+    if(ls_trySet('tripdata:'+key, JSON.stringify(val))) return;
     memoryStore[key]=val;
   }catch(e){ console.error('storage set failed', e); showToast('저장 중 문제가 발생했어요'); }
 }
@@ -461,31 +484,6 @@ function dateRange(start,end){
   return out;
 }
 function uid(){ return Math.random().toString(36).slice(2,9); }
-
-async function tryAutoConnectGoogle(){
-  if(!GOOGLE_ENABLED) return false;
-  try{
-    await ensureGis();
-    return await new Promise(resolve=>{
-      let settled = false;
-      const tc = google.accounts.oauth2.initTokenClient({
-        client_id: GOOGLE_CLIENT_ID,
-        scope: 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file',
-        callback: async (resp)=>{
-          if(settled) return; settled = true;
-          if(resp.error){ resolve(false); return; }
-          googleAccessToken = resp.access_token;
-          googleSignedIn = true;
-          tokenClient = tc;
-          try{ await ensureSpreadsheet(); resolve(true); }
-          catch(e){ googleSignedIn=false; resolve(false); }
-        }
-      });
-      tc.requestAccessToken({prompt:''}); // 조용히 시도: 이미 동의했으면 팝업 없이, 아니면 그냥 실패
-      setTimeout(()=>{ if(!settled){ settled=true; resolve(false); } }, 4000);
-    });
-  }catch(e){ return false; }
-}
 
 async function loadState(){
   state.trips = (await safeGet('trips-list')) || [];
@@ -517,8 +515,17 @@ async function loadState(){
 }
 
 async function init(){
-  await tryAutoConnectGoogle();
-  await loadState();
+  const gotToken = consumeGoogleRedirectToken();
+  if(gotToken){
+    try{ await ensureSpreadsheet(); await migrateAndReload(); }
+    catch(e){ console.error(e); googleSignedIn = false; await loadState(); }
+  } else if(GOOGLE_ENABLED && ls_get('trip_google_connected')==='1'){
+    // 이전에 연결한 적이 있으면: 페이지가 구글로 조용히 이동했다 바로 돌아옵니다(팝업 아님, 차단 안 됨)
+    location.href = buildGoogleAuthUrl('none');
+    return;
+  } else {
+    await loadState();
+  }
   render();
   checkMorningPopup();
   setInterval(tick, 1000);
