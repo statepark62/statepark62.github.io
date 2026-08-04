@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-04",
+    "no": 28,
+    "topic_ja": "かき氷の力",
+    "topic_ko": "빙수의 힘",
+    "url": "https://www.asahi.com/articles/DA3S16519619.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '재해와 위로', '여름의 기억'. 작은 음식이 집단적 상처 속에서 수행하는 정서적 역할을 포착하고, 계절감이 메시지의 보편성을 강화한다.",
+    "pattern": "〜気がする"
+  },
+  {
     "date": "2026-08-03",
     "no": 27,
     "topic_ja": "避難所の壁",

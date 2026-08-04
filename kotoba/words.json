@@ -3861,5 +3861,55 @@
   "example": "新しい経済対策が閣議決定された。",
   "exampleReading": "あたらしいけいざいたいさくがかくぎけっていされた。",
   "exampleMeaning": "새로운 경제 대책이 각의에서 결정되었다."
+ },
+ {
+  "id": "tj101",
+  "word": "被災地",
+  "reading": "ひさいち",
+  "meaning": "재해 지역, 피해 지역",
+  "level": "N2",
+  "example": "被災地を支えるために多くのボランティアが集まった。",
+  "exampleReading": "ひさいちをささえるためにおおくのぼらんてぃあがあつまった。",
+  "exampleMeaning": "피해 지역을 돕기 위해 많은 자원봉사자가 모였다."
+ },
+ {
+  "id": "tj102",
+  "word": "避難所",
+  "reading": "ひなんじょ",
+  "meaning": "대피소",
+  "level": "N2",
+  "example": "避難所では子ども向けの遊び場が用意された。",
+  "exampleReading": "ひなんじょではこどもむけのあそびばがよういされた。",
+  "exampleMeaning": "대피소에서는 아이들을 위한 놀이 공간이 마련되었다."
+ },
+ {
+  "id": "tj103",
+  "word": "日差し",
+  "reading": "ひざし",
+  "meaning": "햇볕, 햇살",
+  "level": "N3",
+  "example": "強い日差しを避けて木陰で休む。",
+  "exampleReading": "つよいひざしをさけてこかげでやすむ。",
+  "exampleMeaning": "강한 햇볕을 피해서 나무 그늘에서 쉰다."
+ },
+ {
+  "id": "tj104",
+  "word": "溶ける",
+  "reading": "とける",
+  "meaning": "녹다",
+  "level": "N4",
+  "example": "氷が溶ける前に写真を撮った。",
+  "exampleReading": "こおりがとけるまえにしゃしんをとった。",
+  "exampleMeaning": "얼음이 녹기 전에 사진을 찍었다."
+ },
+ {
+  "id": "tj105",
+  "word": "氷旗",
+  "reading": "こおりばた",
+  "meaning": "빙수 가게에 거는 '얼음' 깃발",
+  "level": "N1",
+  "example": "店先に氷旗がはためいている。",
+  "exampleReading": "みせさきにこおりばたがはためいている。",
+  "exampleMeaning": "가게 앞에 '얼음' 깃발이 펄럭이고 있다."
  }
 ]
