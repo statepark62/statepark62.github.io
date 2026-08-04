@@ -575,6 +575,7 @@ function render(){
       </div>
       <div class="topbar-actions">
         ${state.trips.length>1?`<select id="tripSwitch" class="btn btn-line btn-sm">${state.trips.map(t=>`<option value="${t.id}" ${t.id===state.activeTripId?'selected':''}>${escapeHtml(t.title)}</option>`).join('')}</select>`:''}
+        <button class="btn btn-line btn-sm" id="deleteTripBtn" title="현재 여행 삭제">이 여행 삭제</button>
         <button class="btn btn-line btn-sm" id="newTripBtn2">+ 새 여행</button>
         ${DEV_MODE?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 가져오기</button>
         <button class="btn btn-line btn-sm" id="apiKeyBtn">API 키 설정</button>`:''}
@@ -595,6 +596,7 @@ function bindEvents(){
   const pi2 = $('#pdfImportBtn2'); if(pi2) pi2.onclick = ()=>triggerPdfPick();
   const ex = $('#exportPdfBtn'); if(ex) ex.onclick = ()=>exportPdf();
   const ak = $('#apiKeyBtn'); if(ak) ak.onclick = ()=>openApiKeyModal();
+  const dtb = $('#deleteTripBtn'); if(dtb) dtb.onclick = ()=>deleteCurrentTrip();
   const sw = $('#tripSwitch'); if(sw) sw.onchange = async e=>{
     state.activeTripId = e.target.value;
     await safeSet('active-trip', state.activeTripId);
@@ -912,6 +914,14 @@ async function handlePdfFile(file){
       return;
     }
     const parsed = await callClaudeExtract(text);
+    if(!parsed.items || parsed.items.length===0){
+      overlay.remove();
+      openImportErrorModal(
+        '세부 일정을 찾지 못했어요.',
+        `날짜(${parsed.startDate} ~ ${parsed.endDate})는 인식했지만, 시간대별 개별 일정은 찾지 못했어요. 표나 이미지 형태의 일정표는 자동 인식이 어려울 수 있어요.\n\n실제로 읽힌 텍스트 일부:\n"${text.slice(0,400).replace(/\s+/g,' ')}"`
+      );
+      return;
+    }
     overlay.remove();
     openImportPreview(parsed);
   }catch(err){
@@ -926,7 +936,7 @@ function openImportErrorModal(title, detail){
   overlay.className='overlay';
   overlay.innerHTML = `<div class="sheet">
     <h3>${escapeHtml(title)}</h3>
-    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">${escapeHtml(detail)}</p>
+    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;white-space:pre-wrap;">${escapeHtml(detail)}</p>
     <div class="sheet-actions"><button class="btn btn-primary" id="err_close">확인</button></div>
   </div>`;
   document.body.appendChild(overlay);
@@ -1018,6 +1028,43 @@ function exportPdf(){
   document.title = state.trip.title + ' 여행 일정';
   window.print();
   document.title = prevTitle;
+}
+
+async function deleteCurrentTrip(){
+  if(!state.trip) return;
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>이 여행을 삭제할까요?</h3>
+    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">"${escapeHtml(state.trip.title)}" 여행과 안의 모든 일정이 삭제됩니다. 되돌릴 수 없어요.</p>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="dt_cancel">취소</button>
+      <button class="btn btn-primary" id="dt_confirm" style="background:var(--coral);">삭제</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#dt_cancel').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+  $('#dt_confirm').onclick = async ()=>{
+    const id = state.activeTripId;
+    state.trips = state.trips.filter(t=>t.id!==id);
+    await safeSet('trips-list', state.trips);
+    await safeSet('trip:'+id, null);
+    if(state.trips.length){
+      state.activeTripId = state.trips[0].id;
+      state.trip = await safeGet('trip:'+state.activeTripId);
+    } else {
+      state.activeTripId = null; state.trip = null;
+    }
+    await safeSet('active-trip', state.activeTripId);
+    if(state.trip){
+      const todayStr = fmtDate(new Date());
+      state.selectedDate = state.trip.days[todayStr]!==undefined ? todayStr : Object.keys(state.trip.days)[0];
+    }
+    overlay.remove();
+    render();
+    showToast('여행이 삭제됐어요');
+  };
 }
 
 init();
