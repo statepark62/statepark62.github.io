@@ -3911,5 +3911,65 @@
   "example": "店先に氷旗がはためいている。",
   "exampleReading": "みせさきにこおりばたがはためいている。",
   "exampleMeaning": "가게 앞에 '얼음' 깃발이 펄럭이고 있다."
+ },
+ {
+  "id": "news115",
+  "word": "全焼",
+  "reading": "ぜんしょう",
+  "meaning": "전부 불타 없어짐, 전소",
+  "level": "N1",
+  "example": "火事でアパートが全焼し、住民は避難所に移りました。",
+  "exampleReading": "かじでアパートがぜんしょうし、じゅうみんはひなんじょにうつりました。",
+  "exampleMeaning": "화재로 아파트가 전부 소실되어 주민들은 대피소로 이동했습니다."
+ },
+ {
+  "id": "tj106",
+  "word": "おびえる",
+  "reading": "おびえる",
+  "meaning": "두려워하다, 겁먹다",
+  "level": "N2",
+  "example": "子どもは雷におびえて泣いた。",
+  "exampleReading": "こどもはかみなりにおびえてないた。",
+  "exampleMeaning": "아이는 천둥을 무서워하며 울었다."
+ },
+ {
+  "id": "tj107",
+  "word": "しがみつく",
+  "reading": "しがみつく",
+  "meaning": "매달리다, 집착하다",
+  "level": "N2",
+  "example": "彼は希望にしがみついて前に進んだ。",
+  "exampleReading": "かれはきぼうにしがみついてまえにすすんだ。",
+  "exampleMeaning": "그는 희망에 매달려 앞으로 나아갔다."
+ },
+ {
+  "id": "tj108",
+  "word": "引き揚げる",
+  "reading": "ひきあげる",
+  "meaning": "철수하다, 귀환하다",
+  "level": "N1",
+  "example": "部隊は夜明けに引き揚げる。",
+  "exampleReading": "ぶたいはよあけにひきあげる。",
+  "exampleMeaning": "부대는 새벽에 철수한다."
+ },
+ {
+  "id": "tj109",
+  "word": "窮乏",
+  "reading": "きゅうぼう",
+  "meaning": "궁핍, 빈곤",
+  "level": "N1",
+  "example": "戦後の窮乏を祖父は語った。",
+  "exampleReading": "せんごのきゅうぼうをそふはかたった。",
+  "exampleMeaning": "할아버지는 전후의 궁핍을 이야기했다."
+ },
+ {
+  "id": "tj110",
+  "word": "モンペ",
+  "reading": "もんぺ",
+  "meaning": "몽페(여성용 작업 바지)",
+  "level": "N1",
+  "example": "祖母は畑でモンペをはいていた。",
+  "exampleReading": "そぼははたけでもんぺをはいていた。",
+  "exampleMeaning": "할머니는 밭에서 몽페를 입고 있었다."
  }
 ]
