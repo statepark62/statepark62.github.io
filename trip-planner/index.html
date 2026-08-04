@@ -862,7 +862,7 @@ async function callClaudeExtract(text){
     method:'POST',
     headers,
     body: JSON.stringify({
-      model:'claude-sonnet-4-6',
+      model:'claude-sonnet-5',
       max_tokens:4096,
       system,
       messages:[{role:'user', content:`다음은 여행 일정표에서 추출한 텍스트입니다:\n\n${truncated}`}]
