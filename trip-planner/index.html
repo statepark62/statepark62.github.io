@@ -580,8 +580,7 @@ function render(){
         ${state.trips.length>1?`<select id="tripSwitch" class="btn btn-line btn-sm">${state.trips.map(t=>`<option value="${t.id}" ${t.id===state.activeTripId?'selected':''}>${escapeHtml(t.title)}</option>`).join('')}</select>`:''}
         <button class="btn btn-line btn-sm" id="deleteTripBtn" title="현재 여행 삭제">이 여행 삭제</button>
         <button class="btn btn-line btn-sm" id="newTripBtn2">+ 새 여행</button>
-        ${DEV_MODE?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 가져오기</button>
-        <button class="btn btn-line btn-sm" id="apiKeyBtn">API 키 설정</button>`:''}
+        ${DEV_MODE?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 가져오기</button>`:''}
         <button class="btn btn-line btn-sm" id="exportPdfBtn">PDF로 내보내기</button>
       </div>
     </div>
