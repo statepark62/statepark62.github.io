@@ -239,6 +239,7 @@ let state = {
   activeTripId: null,
   trip: null,        // full loaded trip object
   selectedDate: null,
+  viewingPastTrip: false, // 사용자가 '지난 여행 목록'에서 직접 골라서 볼 때만 true
   notifPermission: (typeof Notification !== 'undefined') ? Notification.permission : 'unsupported',
   notifiedIds: new Set(),
   morningModal: null // date string if showing
@@ -682,8 +683,45 @@ function renderNotifBanner(){
   return `<div class="notif-banner"><span>일정 시작 전에 알림을 받으려면 이 탭을 켜두고 알림을 허용해주세요.</span><button class="btn btn-sm btn-ghost" id="enableNotif">알림 켜기</button></div>`;
 }
 
+function openPastTripsModal(){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  const sorted = state.trips.slice().sort((a,b)=> b.startDate.localeCompare(a.startDate));
+  overlay.innerHTML = `<div class="sheet">
+    <h3>지난 여행 목록</h3>
+    <div class="morning-list">${sorted.map(t=>`
+      <div class="morning-item" data-trip="${t.id}" style="cursor:pointer;justify-content:space-between;">
+        <span>${escapeHtml(t.title)}</span>
+        <span class="mono" style="font-size:11px;">${t.startDate} ~ ${t.endDate}</span>
+      </div>
+    `).join('')}</div>
+    <div class="sheet-actions"><button class="btn btn-line" id="pt_close">닫기</button></div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#pt_close').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+  overlay.querySelectorAll('[data-trip]').forEach(el=>{
+    el.onclick = async ()=>{
+      const id = el.dataset.trip;
+      const data = await safeGet('trip:'+id);
+      if(!data){ showToast('이 여행 데이터를 찾을 수 없어요'); return; }
+      state.activeTripId = id;
+      state.trip = data;
+      state.viewingPastTrip = true;
+      const todayStr = fmtDate(new Date());
+      state.selectedDate = data.days[todayStr]!==undefined ? todayStr : Object.keys(data.days)[0];
+      await safeSet('active-trip', id);
+      overlay.remove();
+      render();
+    };
+  });
+}
+
+function tripHasEnded(trip){
+  return fmtDate(new Date()) > trip.endDate;
+}
 function render(){
-  if(!state.trip){
+  if(!state.trip || (tripHasEnded(state.trip) && !state.viewingPastTrip)){
     app.innerHTML = `
       ${renderGoogleStatus()}
       <div class="setup-empty">
@@ -693,10 +731,12 @@ function render(){
         ${isDevMode()?`<button class="btn btn-line" id="pdfImportBtnEmpty" style="margin-left:8px;">PDF로 가져오기</button>
         <button class="btn btn-line" id="photoImportBtnEmpty" style="margin-left:8px;">사진으로 가져오기</button>
         <div class="pdf-hint">여행사·항공사에서 받은 일정표 PDF·사진을 올리면<br>날짜·시간·장소를 자동으로 읽어와요.</div>`:''}
+        ${state.trips.length?`<div style="margin-top:16px;"><button class="btn btn-line btn-sm" id="pastTripsBtn">지난 여행 목록 보기</button></div>`:''}
       </div>`;
     $('#newTripBtn').onclick = ()=>openTripForm();
     const pib = $('#pdfImportBtnEmpty'); if(pib) pib.onclick = ()=>triggerPdfPick('new');
     const phib = $('#photoImportBtnEmpty'); if(phib) phib.onclick = ()=>triggerPhotoPick('new');
+    const ptb = $('#pastTripsBtn'); if(ptb) ptb.onclick = ()=>openPastTripsModal();
     const gcb = $('#googleConnectBtn'); if(gcb) gcb.onclick = ()=>connectGoogle();
     return;
   }
@@ -747,6 +787,7 @@ function bindEvents(){
     } else {
       state.activeTripId = newId;
       state.trip = newTrip;
+      state.viewingPastTrip = true;
     }
     await safeSet('active-trip', state.activeTripId);
     if(state.trip){
