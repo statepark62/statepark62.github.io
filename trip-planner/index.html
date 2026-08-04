@@ -854,15 +854,26 @@ async function callClaudeExtract(text){
     headers,
     body: JSON.stringify({
       model:'claude-sonnet-4-6',
-      max_tokens:1000,
+      max_tokens:4096,
       system,
       messages:[{role:'user', content:`다음은 여행 일정표에서 추출한 텍스트입니다:\n\n${truncated}`}]
     })
   });
   const data = await resp.json();
+  if(!resp.ok){
+    const msg = (data && data.error && data.error.message) ? data.error.message : ('HTTP '+resp.status);
+    throw new Error('API 오류: '+msg);
+  }
   const textBlocks = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
   const cleaned = textBlocks.replace(/```json|```/g,'').trim();
-  const parsed = JSON.parse(cleaned);
+  let parsed;
+  try{
+    parsed = JSON.parse(cleaned);
+  }catch(e){
+    console.error('JSON 파싱 실패, 원본 응답:', textBlocks);
+    const truncatedHint = data.stop_reason==='max_tokens' ? ' (응답이 길이 제한에 걸려 중간에 잘렸을 수 있어요)' : '';
+    throw new Error('응답을 이해하지 못했어요'+truncatedHint);
+  }
   if(!parsed.title || !parsed.startDate || !parsed.endDate || !Array.isArray(parsed.items)){
     throw new Error('형식이 올바르지 않습니다');
   }
@@ -897,7 +908,7 @@ async function handlePdfFile(file){
     const text = await extractPdfText(file);
     if(!text || text.length < 20){
       overlay.remove();
-      showToast('PDF에서 텍스트를 읽지 못했어요. 스캔본이라면 직접 입력해주세요.');
+      openImportErrorModal('PDF에서 텍스트를 읽지 못했어요.', '스캔한 이미지 PDF일 가능성이 높아요. 이 경우 텍스트 레이어가 없어서 자동으로 읽을 수 없으니, 직접 입력해주세요.');
       return;
     }
     const parsed = await callClaudeExtract(text);
@@ -906,8 +917,21 @@ async function handlePdfFile(file){
   }catch(err){
     console.error(err);
     overlay.remove();
-    showToast('PDF 분석 중 오류가 발생했어요. 다시 시도해주세요.');
+    openImportErrorModal('PDF 분석 중 오류가 발생했어요.', err.message || String(err));
   }
+}
+
+function openImportErrorModal(title, detail){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>${escapeHtml(title)}</h3>
+    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">${escapeHtml(detail)}</p>
+    <div class="sheet-actions"><button class="btn btn-primary" id="err_close">확인</button></div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#err_close').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
 }
 
 function openImportPreview(parsed){
