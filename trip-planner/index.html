@@ -315,6 +315,63 @@ async function sheetsSet(key, val){
     });
   }
 }
+function sanitizeTabName(title, tripId){
+  let name = (title||'여행').replace(/[\[\]\*\?\/\\:']/g,'').trim();
+  if(!name) name = '여행';
+  name = name.slice(0, 80);
+  return `${name}_${tripId}`;
+}
+async function ensureTabForTrip(tripId, desiredName){
+  const meta = await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets.properties`);
+  const found = (meta.sheets||[]).find(s=>s.properties.title.endsWith('_'+tripId));
+  if(found){
+    if(found.properties.title!==desiredName){
+      await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`, {
+        method:'POST', body: JSON.stringify({requests:[{updateSheetProperties:{properties:{sheetId:found.properties.sheetId, title:desiredName}, fields:'title'}}]})
+      });
+    }
+    return desiredName;
+  }
+  await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`, {
+    method:'POST', body: JSON.stringify({requests:[{addSheet:{properties:{title:desiredName}}}]})
+  });
+  return desiredName;
+}
+async function syncTripSheetTab(tripId, trip){
+  try{
+    const tabName = sanitizeTabName(trip.title, tripId);
+    await ensureTabForTrip(tripId, tabName);
+    const quoted = `'${tabName.replace(/'/g,"''")}'`;
+    await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(quoted)}!A1:Z100000:clear`, { method:'POST', body: JSON.stringify({}) });
+    const dates = Object.keys(trip.days).sort();
+    const rows = [['날짜','요일','시작시간','종료시간','할 일','장소','메모']];
+    dates.forEach(d=>{
+      const dt = new Date(d+'T00:00:00');
+      const blocks = (trip.days[d]||[]).slice().sort((a,b)=>a.time.localeCompare(b.time));
+      if(!blocks.length){
+        rows.push([d, dayLabel[dt.getDay()]+'요일', '', '', '(일정 없음)', '', '']);
+      } else {
+        blocks.forEach(b=>{
+          rows.push([d, dayLabel[dt.getDay()]+'요일', b.time, b.endTime||'', b.title, b.location||'', b.note||'']);
+        });
+      }
+    });
+    await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(quoted)}!A1?valueInputOption=RAW`, {
+      method:'PUT', body: JSON.stringify({values: rows})
+    });
+  }catch(e){ console.error('sheet tab sync failed', e); }
+}
+async function deleteTripSheetTab(tripId){
+  try{
+    const meta = await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets.properties`);
+    const found = (meta.sheets||[]).find(s=>s.properties.title.endsWith('_'+tripId));
+    if(found){
+      await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`, {
+        method:'POST', body: JSON.stringify({requests:[{deleteSheet:{sheetId: found.properties.sheetId}}]})
+      });
+    }
+  }catch(e){ console.error('delete tab failed', e); }
+}
 async function migrateAndReload(){
   // 처음 연결 시, 이 화면(창)에 이미 있던 데이터를 한 번만 시트로 옮겨줍니다.
   try{
@@ -384,7 +441,15 @@ async function safeGet(key){
 }
 async function safeSet(key,val){
   try{
-    if(googleSignedIn){ await sheetsSet(key,val); return; }
+    if(googleSignedIn){
+      await sheetsSet(key,val);
+      if(key.indexOf('trip:')===0){
+        const tripId = key.slice(5);
+        if(val) await syncTripSheetTab(tripId, val);
+        else await deleteTripSheetTab(tripId);
+      }
+      return;
+    }
     if(window.storage){ await window.storage.set(key, JSON.stringify(val), false); return; }
     memoryStore[key]=val;
   }catch(e){ console.error('storage set failed', e); showToast('저장 중 문제가 발생했어요'); }
