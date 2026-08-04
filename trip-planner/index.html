@@ -253,7 +253,8 @@ function buildGoogleAuthUrl(prompt){
     redirect_uri: GOOGLE_REDIRECT_URI,
     response_type: 'token',
     scope: GOOGLE_SCOPE,
-    include_granted_scopes: 'true'
+    include_granted_scopes: 'true',
+    state: location.search || ''
   });
   if(prompt) params.set('prompt', prompt);
   return 'https://accounts.google.com/o/oauth2/v2/auth?' + params.toString();
@@ -268,7 +269,8 @@ function consumeGoogleRedirectToken(){
   const params = new URLSearchParams(location.hash.slice(1));
   const token = params.get('access_token');
   const error = params.get('error');
-  history.replaceState(null, '', location.pathname + location.search);
+  const restoredSearch = params.get('state') || location.search; // ?dev=1 등 원래 쿼리스트링 복원
+  history.replaceState(null, '', location.pathname + restoredSearch);
   if(token){
     googleAccessToken = token;
     googleSignedIn = true;
