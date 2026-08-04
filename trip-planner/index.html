@@ -665,11 +665,27 @@ function bindEvents(){
   const ak = $('#apiKeyBtn'); if(ak) ak.onclick = ()=>openApiKeyModal();
   const dtb = $('#deleteTripBtn'); if(dtb) dtb.onclick = ()=>deleteCurrentTrip();
   const sw = $('#tripSwitch'); if(sw) sw.onchange = async e=>{
-    state.activeTripId = e.target.value;
+    const newId = e.target.value;
+    let newTrip = await safeGet('trip:'+newId);
+    if(!newTrip){
+      state.trips = state.trips.filter(t=>t.id!==newId);
+      await safeSet('trips-list', state.trips);
+      showToast('데이터가 없는 여행이라 목록에서 정리했어요');
+      if(state.trips.length){
+        state.activeTripId = state.trips[0].id;
+        state.trip = await safeGet('trip:'+state.activeTripId);
+      } else {
+        state.activeTripId = null; state.trip = null;
+      }
+    } else {
+      state.activeTripId = newId;
+      state.trip = newTrip;
+    }
     await safeSet('active-trip', state.activeTripId);
-    state.trip = await safeGet('trip:'+state.activeTripId);
-    const todayStr = fmtDate(new Date());
-    state.selectedDate = state.trip.days[todayStr]!==undefined ? todayStr : Object.keys(state.trip.days)[0];
+    if(state.trip){
+      const todayStr = fmtDate(new Date());
+      state.selectedDate = state.trip.days[todayStr]!==undefined ? todayStr : Object.keys(state.trip.days)[0];
+    }
     render();
   };
   const en = $('#enableNotif'); if(en) en.onclick = requestNotifPermission;
