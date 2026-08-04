@@ -222,7 +222,11 @@ function _devFlagPresent(){
   return false;
 }
 if(_devFlagPresent()){ try{ localStorage.setItem('trip_dev_mode','1'); }catch(e){} }
-const DEV_MODE = _devFlagPresent() || (()=>{ try{ return localStorage.getItem('trip_dev_mode')==='1'; }catch(e){ return false; } })();
+function isDevMode(){
+  if(_devFlagPresent()) return true;
+  try{ if(localStorage.getItem('trip_dev_mode')==='1') return true; }catch(e){}
+  return false;
+}
 
 const $ = sel => document.querySelector(sel);
 const app = $('#app');
@@ -686,7 +690,7 @@ function render(){
         <h2>지금 여기 · 여행 전광판</h2>
         <p>날짜·시간별 여행 계획을 입력해두면,<br>지금 무엇을 하기로 했는지 실시간으로 보여드려요.</p>
         <button class="btn btn-primary" id="newTripBtn">+ 새 여행 만들기</button>
-        ${DEV_MODE?`<button class="btn btn-line" id="pdfImportBtnEmpty" style="margin-left:8px;">PDF로 가져오기</button>
+        ${isDevMode()?`<button class="btn btn-line" id="pdfImportBtnEmpty" style="margin-left:8px;">PDF로 가져오기</button>
         <button class="btn btn-line" id="photoImportBtnEmpty" style="margin-left:8px;">사진으로 가져오기</button>
         <div class="pdf-hint">여행사·항공사에서 받은 일정표 PDF·사진을 올리면<br>날짜·시간·장소를 자동으로 읽어와요.</div>`:''}
       </div>`;
@@ -706,7 +710,7 @@ function render(){
         ${state.trips.length>1?`<select id="tripSwitch" class="btn btn-line btn-sm">${state.trips.map(t=>`<option value="${t.id}" ${t.id===state.activeTripId?'selected':''}>${escapeHtml(t.title)}</option>`).join('')}</select>`:''}
         <button class="btn btn-line btn-sm" id="deleteTripBtn" title="현재 여행 삭제">이 여행 삭제</button>
         <button class="btn btn-line btn-sm" id="newTripBtn2">+ 새 여행</button>
-        ${DEV_MODE?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 가져오기</button>
+        ${isDevMode()?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 가져오기</button>
         <button class="btn btn-line btn-sm" id="photoImportBtn2">사진으로 가져오기</button>`:''}
         <button class="btn btn-line btn-sm" id="exportPdfBtn">PDF로 내보내기</button>
       </div>
