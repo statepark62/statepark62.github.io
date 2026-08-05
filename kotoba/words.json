@@ -3971,5 +3971,105 @@
   "example": "祖母は畑でモンペをはいていた。",
   "exampleReading": "そぼははたけでもんぺをはいていた。",
   "exampleMeaning": "할머니는 밭에서 몽페를 입고 있었다."
+ },
+ {
+  "id": "news116",
+  "word": "廃絶",
+  "reading": "はいぜつ",
+  "meaning": "폐지, 완전히 없앰(주로 핵무기 등에 사용)",
+  "level": "N1",
+  "example": "広島は毎年、核兵器の廃絶を世界に訴えている。",
+  "exampleReading": "ひろしまはまいとし、かくへいきのはいぜつをせかいにうったえている。",
+  "exampleMeaning": "히로시마는 매년 핵무기 폐지를 세계에 호소하고 있다."
+ },
+ {
+  "id": "news117",
+  "word": "訴える",
+  "reading": "うったえる",
+  "meaning": "호소하다, 주장하다",
+  "level": "N2",
+  "example": "被害者たちは政府に対策を訴えた。",
+  "exampleReading": "ひがいしゃたちはせいふにたいさくをうったえた。",
+  "exampleMeaning": "피해자들은 정부에 대책을 호소했다."
+ },
+ {
+  "id": "news118",
+  "word": "抱負",
+  "reading": "ほうふ",
+  "meaning": "포부, 앞으로의 다짐",
+  "level": "N1",
+  "example": "彼女は新年度に向けて抱負を語った。",
+  "exampleReading": "かのじょはしんねんどにむけてほうふをかたった。",
+  "exampleMeaning": "그녀는 새 학년도를 앞두고 포부를 밝혔다."
+ },
+ {
+  "id": "news119",
+  "word": "防ぐ",
+  "reading": "ふせぐ",
+  "meaning": "막다, 방지하다",
+  "level": "N3",
+  "example": "避難所では感染症を防ぐための対策が必要だ。",
+  "exampleReading": "ひなんじょではかんせんしょうをふせぐためのたいさくがひつようだ。",
+  "exampleMeaning": "대피소에서는 감염병을 막기 위한 대책이 필요하다."
+ },
+ {
+  "id": "news120",
+  "word": "負担",
+  "reading": "ふたん",
+  "meaning": "부담",
+  "level": "N3",
+  "example": "医療費の負担が増えることに不満の声が上がっている。",
+  "exampleReading": "いりょうひのふたんがふえることにふまんのこえがあがっている。",
+  "exampleMeaning": "의료비 부담이 늘어나는 것에 불만의 목소리가 나오고 있다."
+ },
+ {
+  "id": "tj111",
+  "word": "文通",
+  "reading": "ぶんつう",
+  "meaning": "편지로 교류함, 펜팔",
+  "level": "N2",
+  "example": "高校時代、海外の友人と文通を続けていた。",
+  "exampleReading": "こうこうじだい、かいがいのゆうじんとぶんつうをつづけていた。",
+  "exampleMeaning": "고등학교 시절, 해외 친구와 펜팔을 계속했다."
+ },
+ {
+  "id": "tj112",
+  "word": "お見舞い",
+  "reading": "おみまい",
+  "meaning": "병문안, 위문",
+  "level": "N3",
+  "example": "週末に祖母のお見舞いに行く。",
+  "exampleReading": "しゅうまつにそぼのおみまいにいく。",
+  "exampleMeaning": "주말에 할머니 병문안을 간다."
+ },
+ {
+  "id": "tj113",
+  "word": "包み紙",
+  "reading": "つつみがみ",
+  "meaning": "포장지",
+  "level": "N2",
+  "example": "ケーキの包み紙をメモ用に取っておく。",
+  "exampleReading": "けーきのつつみがみをめもようにとっておく。",
+  "exampleMeaning": "케이크 포장지를 메모용으로 남겨 둔다."
+ },
+ {
+  "id": "tj114",
+  "word": "あだ名",
+  "reading": "あだな",
+  "meaning": "별명",
+  "level": "N2",
+  "example": "彼は走るのが速くて『チーター』というあだ名がついた。",
+  "exampleReading": "かれははしるのがはやくて『ちーたー』というあだながついた。",
+  "exampleMeaning": "그는 달리기가 빨라서 ‘치타’라는 별명이 붙었다."
+ },
+ {
+  "id": "tj115",
+  "word": "足が速い",
+  "reading": "あしがはやい",
+  "meaning": "발이 빠르다, 달리기가 빠르다",
+  "level": "N3",
+  "example": "彼女はクラスでいちばん足が速い。",
+  "exampleReading": "かのじょはくらすでいちばんあしがはやい。",
+  "exampleMeaning": "그녀는 반에서 가장 달리기가 빠르다."
  }
 ]
