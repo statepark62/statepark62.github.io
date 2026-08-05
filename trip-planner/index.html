@@ -510,6 +510,13 @@ function dateRange(start,end){
 }
 function uid(){ return Math.random().toString(36).slice(2,9); }
 
+async function refreshData(){
+  showToast('새로고침 중…');
+  await loadState();
+  render();
+  showToast('새로고침 완료');
+}
+
 async function loadState(){
   state.trips = (await safeGet('trips-list')) || [];
   const active = await safeGet('active-trip');
@@ -736,12 +743,14 @@ function render(){
         ${isDevMode()?`<button class="btn btn-line" id="pdfImportBtnEmpty" style="margin-left:8px;">PDF로 가져오기</button>
         <button class="btn btn-line" id="photoImportBtnEmpty" style="margin-left:8px;">사진으로 가져오기</button>
         <div class="pdf-hint">여행사·항공사에서 받은 일정표 PDF·사진을 올리면<br>날짜·시간·장소를 자동으로 읽어와요.</div>`:''}
-        ${state.trips.length?`<div style="margin-top:16px;"><button class="btn btn-line btn-sm" id="pastTripsBtn">지난 여행 목록 보기</button></div>`:''}
+        ${state.trips.length?`<div style="margin-top:16px;"><button class="btn btn-line btn-sm" id="pastTripsBtn">지난 여행 목록 보기</button>
+        <button class="btn btn-line btn-sm" id="refreshBtnEmpty" title="새로고침" style="margin-left:8px;">↻ 새로고침</button></div>`:''}
       </div>`;
     $('#newTripBtn').onclick = ()=>openTripForm();
     const pib = $('#pdfImportBtnEmpty'); if(pib) pib.onclick = ()=>triggerPdfPick('new');
     const phib = $('#photoImportBtnEmpty'); if(phib) phib.onclick = ()=>triggerPhotoPick('new');
     const ptb = $('#pastTripsBtn'); if(ptb) ptb.onclick = ()=>openPastTripsModal();
+    const rfbe = $('#refreshBtnEmpty'); if(rfbe) rfbe.onclick = ()=>refreshData();
     const gcb = $('#googleConnectBtn'); if(gcb) gcb.onclick = ()=>connectGoogle();
     return;
   }
@@ -758,6 +767,7 @@ function render(){
         ${isDevMode()?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 추가</button>
         <button class="btn btn-line btn-sm" id="photoImportBtn2">사진으로 추가</button>`:''}
         <button class="btn btn-line btn-sm" id="exportPdfBtn">PDF로 내보내기</button>
+        <button class="btn btn-line btn-sm" id="refreshBtn" title="새로고침">↻ 새로고침</button>
       </div>
     </div>
     ${renderGoogleStatus()}
@@ -774,6 +784,7 @@ function bindEvents(){
   const pi2 = $('#pdfImportBtn2'); if(pi2) pi2.onclick = ()=>triggerPdfPick('merge');
   const phi2 = $('#photoImportBtn2'); if(phi2) phi2.onclick = ()=>triggerPhotoPick('merge');
   const ex = $('#exportPdfBtn'); if(ex) ex.onclick = ()=>exportPdf();
+  const rfb = $('#refreshBtn'); if(rfb) rfb.onclick = ()=>refreshData();
   const ak = $('#apiKeyBtn'); if(ak) ak.onclick = ()=>openApiKeyModal();
   const dtb = $('#deleteTripBtn'); if(dtb) dtb.onclick = ()=>deleteCurrentTrip();
   const sw = $('#tripSwitch'); if(sw) sw.onchange = async e=>{
