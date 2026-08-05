@@ -644,13 +644,6 @@ function renderBoardOnly(){
 function escapeHtml(s){
   return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-function formatNote(s){
-  let out = escapeHtml(s);
-  out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  out = out.replace(/_(.+?)_/g, '<em>$1</em>');
-  out = out.replace(/\{c:(#[0-9a-fA-F]{6})\}(.+?)\{\/c\}/g, '<span style="color:$1">$2</span>');
-  return out;
-}
 
 function renderTabs(){
   if(!state.trip) return '';
@@ -676,7 +669,7 @@ function renderTimeline(){
       <div class="block-body">
         <div class="block-title">${escapeHtml(b.title)}${b.location?` <span style="font-weight:400;color:var(--ink-soft);font-size:12px;">· ${escapeHtml(b.location)}</span>`:''}</div>
         ${b.endTime?`<div class="block-meta">~${b.endTime}</div>`:''}
-        ${b.note?`<div class="block-note" style="${b.noteColor?`color:${b.noteColor};`:''}">${formatNote(b.note)}</div>`:''}
+        ${b.note?`<div class="block-note">${escapeHtml(b.note)}</div>`:''}
       </div>
       <div class="block-actions">
         <button class="icon-btn" data-edit="${b.id}" title="수정">✎</button>
@@ -876,14 +869,7 @@ function openBlockForm(blockId){
     <div class="field"><label>장소(선택)</label><input id="b_loc" placeholder="예: 오타루" value="${editing&&editing.location?escapeHtml(editing.location):''}"></div>
     <div class="field">
       <label>메모(선택)</label>
-      <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px;flex-wrap:wrap;">
-        <button type="button" id="b_bold" style="width:auto;padding:0 12px;height:28px;font-weight:800;border:1.5px solid var(--border);border-radius:7px;background:var(--ice);cursor:pointer;">B</button>
-        <button type="button" id="b_italic" style="width:auto;padding:0 12px;height:28px;font-style:italic;border:1.5px solid var(--border);border-radius:7px;background:var(--ice);cursor:pointer;">I</button>
-        <input id="b_color" type="color" value="#1C2230" title="선택한 글자 색" style="width:30px;height:28px;padding:1px;cursor:pointer;border-radius:6px;border:1.5px solid var(--border);">
-        <span style="font-size:10.5px;color:var(--ink-soft);">글자를 선택하고 눌러주세요</span>
-      </div>
       <textarea id="b_note" placeholder="준비물, 예약번호 등">${editing&&editing.note?escapeHtml(editing.note):''}</textarea>
-      <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;">선택한 부분에만 서식이 적용돼요</div>
     </div>
     <div class="sheet-actions">
       <button class="btn btn-line" id="b_cancel">취소</button>
@@ -895,26 +881,6 @@ function openBlockForm(blockId){
   const autoGrow = ()=>{ noteEl.style.height='auto'; noteEl.style.height=(noteEl.scrollHeight+2)+'px'; };
   autoGrow();
   noteEl.addEventListener('input', autoGrow);
-  let lastNoteSelection = {start:0,end:0};
-  const trackSel = ()=>{ lastNoteSelection = {start:noteEl.selectionStart, end:noteEl.selectionEnd}; };
-  noteEl.addEventListener('select', trackSel);
-  noteEl.addEventListener('keyup', trackSel);
-  noteEl.addEventListener('mouseup', trackSel);
-  function wrapNoteSelection(before, after){
-    const {start,end} = lastNoteSelection;
-    if(start===end){ showToast('먼저 메모에서 글자를 선택해주세요'); return; }
-    const value = noteEl.value;
-    const selected = value.slice(start,end);
-    noteEl.value = value.slice(0,start) + before + selected + after + value.slice(end);
-    noteEl.focus();
-    noteEl.selectionStart = start + before.length;
-    noteEl.selectionEnd = start + before.length + selected.length;
-    lastNoteSelection = {start:noteEl.selectionStart, end:noteEl.selectionEnd};
-    autoGrow();
-  }
-  $('#b_bold').onclick = ()=>wrapNoteSelection('**','**');
-  $('#b_italic').onclick = ()=>wrapNoteSelection('_','_');
-  $('#b_color').onchange = (e)=>wrapNoteSelection(`{c:${e.target.value}}`, '{/c}');
   $('#b_cancel').onclick = ()=>overlay.remove();
   overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
   $('#b_save').onclick = async ()=>{
@@ -923,8 +889,7 @@ function openBlockForm(blockId){
     const data = {
       id: editing?editing.id:uid(),
       time, endTime: $('#b_end').value||null,
-      title, location: $('#b_loc').value.trim(), note: $('#b_note').value.trim(),
-      noteColor: (editing && editing.noteColor) ? editing.noteColor : undefined
+      title, location: $('#b_loc').value.trim(), note: $('#b_note').value.trim()
     };
     const arr = state.trip.days[state.selectedDate]||[];
     if(editing){
@@ -1315,7 +1280,7 @@ function buildPrintable(){
         <td class="print-time">${b.time}${b.endTime?'–'+b.endTime:''}</td>
         <td>
           <div class="print-item-title">${escapeHtml(b.title)}${b.location?` <span class="print-loc">· ${escapeHtml(b.location)}</span>`:''}</div>
-          ${b.note?`<div class="print-note" style="${b.noteColor?`color:${b.noteColor};`:''}">${formatNote(b.note)}</div>`:''}
+          ${b.note?`<div class="print-note">${escapeHtml(b.note)}</div>`:''}
         </td>
       </tr>`).join('') : `<tr><td colspan="2" class="print-empty">일정 없음</td></tr>`;
     return `<div class="print-day">
