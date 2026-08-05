@@ -1035,6 +1035,7 @@ const EXTRACT_SYSTEM_PROMPT = (todayStr)=>`당신은 여행 일정표(텍스트 
 - 연도가 원본에 없으면 오늘 날짜(${todayStr}) 기준 가장 가까운 미래 연도를 사용하세요.
 - 시간이 명시되지 않은 항목은 하루 흐름상 자연스러운 시각을 24시간제로 추정해 채우세요.
 - location, note 정보가 없으면 빈 문자열로 두세요.
+- note 안에 서로 다른 정보(예: 교통편 안내, 준비물, 요금, 환승 방법 등)가 여러 개 섞여 있으면, 항목마다 줄바꿈(\\n)으로 구분해서 읽기 쉽게 정리하세요. 한 문장짜리 짧은 메모는 그대로 한 줄로 두세요.
 - items는 날짜, 시간 순으로 정렬하세요.`;
 
 async function callClaudeForItinerary(userContent){
