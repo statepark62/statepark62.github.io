@@ -644,6 +644,12 @@ function renderBoardOnly(){
 function escapeHtml(s){
   return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+function formatNote(s){
+  let out = escapeHtml(s);
+  out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  out = out.replace(/_(.+?)_/g, '<em>$1</em>');
+  return out;
+}
 
 function renderTabs(){
   if(!state.trip) return '';
@@ -669,7 +675,7 @@ function renderTimeline(){
       <div class="block-body">
         <div class="block-title">${escapeHtml(b.title)}${b.location?` <span style="font-weight:400;color:var(--ink-soft);font-size:12px;">· ${escapeHtml(b.location)}</span>`:''}</div>
         ${b.endTime?`<div class="block-meta">~${b.endTime}</div>`:''}
-        ${b.note?`<div class="block-note">${escapeHtml(b.note)}</div>`:''}
+        ${b.note?`<div class="block-note" style="${b.noteColor?`color:${b.noteColor};`:''}">${formatNote(b.note)}</div>`:''}
       </div>
       <div class="block-actions">
         <button class="icon-btn" data-edit="${b.id}" title="수정">✎</button>
@@ -867,7 +873,13 @@ function openBlockForm(blockId){
     </div>
     <div class="field"><label>할 일</label><input id="b_title" placeholder="예: 오타루 운하 산책" value="${editing?escapeHtml(editing.title):''}"></div>
     <div class="field"><label>장소(선택)</label><input id="b_loc" placeholder="예: 오타루" value="${editing&&editing.location?escapeHtml(editing.location):''}"></div>
-    <div class="field"><label>메모(선택)</label><textarea id="b_note" placeholder="준비물, 예약번호 등">${editing&&editing.note?escapeHtml(editing.note):''}</textarea></div>
+    <div class="field"><label>메모(선택)</label><textarea id="b_note" placeholder="준비물, 예약번호 등">${editing&&editing.note?escapeHtml(editing.note):''}</textarea>
+      <div style="font-size:11px;color:var(--ink-soft);margin-top:4px;">**굵게** · _기울임_ 으로 강조할 수 있어요</div>
+    </div>
+    <div class="field">
+      <label>메모 글자색</label>
+      <input id="b_notecolor" type="color" value="${editing&&editing.noteColor?editing.noteColor:'#1C2230'}" style="width:56px;height:32px;padding:2px;cursor:pointer;">
+    </div>
     <div class="sheet-actions">
       <button class="btn btn-line" id="b_cancel">취소</button>
       <button class="btn btn-primary" id="b_save">${editing?'저장':'추가'}</button>
@@ -882,7 +894,8 @@ function openBlockForm(blockId){
     const data = {
       id: editing?editing.id:uid(),
       time, endTime: $('#b_end').value||null,
-      title, location: $('#b_loc').value.trim(), note: $('#b_note').value.trim()
+      title, location: $('#b_loc').value.trim(), note: $('#b_note').value.trim(),
+      noteColor: $('#b_notecolor').value
     };
     const arr = state.trip.days[state.selectedDate]||[];
     if(editing){
@@ -1273,7 +1286,7 @@ function buildPrintable(){
         <td class="print-time">${b.time}${b.endTime?'–'+b.endTime:''}</td>
         <td>
           <div class="print-item-title">${escapeHtml(b.title)}${b.location?` <span class="print-loc">· ${escapeHtml(b.location)}</span>`:''}</div>
-          ${b.note?`<div class="print-note">${escapeHtml(b.note)}</div>`:''}
+          ${b.note?`<div class="print-note" style="${b.noteColor?`color:${b.noteColor};`:''}">${formatNote(b.note)}</div>`:''}
         </td>
       </tr>`).join('') : `<tr><td colspan="2" class="print-empty">일정 없음</td></tr>`;
     return `<div class="print-day">
