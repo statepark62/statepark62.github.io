@@ -1,6 +1,6 @@
 {
   "name": "지금 여기 · 여행 전광판",
-  "short_name": "지금 여기",
+  "short_name": "여행 전광판",
   "description": "날짜·시간별 여행 계획을 실시간으로 보여주는 여행 전광판",
   "start_url": "./",
   "scope": "./",
