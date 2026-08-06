@@ -314,9 +314,52 @@ def update_index(entry):
         for r in records
     )
     idx_tpl = (HERE / "index_template.html").read_text(encoding="utf-8")
-    idx = idx_tpl.replace("<!--INDEX_ITEMS-->", items)
-    idx = idx.replace("{{COUNT}}", str(len(records)))
-    (OUT_DIR / "index.html").write_text(idx, encoding="utf-8")
+    
+    # 페이지네이션: records를 역순으로 정렬하고 페이지별로 나누기
+    records_rev = list(reversed(records))
+    total_records = len(records_rev)
+    total_pages = (total_records + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE
+    
+    for page_num in range(1, total_pages + 1):
+        # 이 페이지의 기록 범위
+        start_idx = (page_num - 1) * ITEMS_PER_PAGE
+        end_idx = min(page_num * ITEMS_PER_PAGE, total_records)
+        page_records = records_rev[start_idx:end_idx]
+        
+        # 이 페이지의 아이템 HTML 생성
+        page_items = "".join(
+            INDEX_ITEM.format(
+                fname=f"{r['date']}.html", no=r["no"], date=r["date"],
+                topic_ja=esc(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
+            )
+            for r in page_records
+        )
+        
+        # 페이지 타이틀에 페이지 번호 추가
+        idx = idx_tpl.replace("<!--INDEX_ITEMS-->", page_items)
+        idx = idx.replace("{{COUNT}}", str(len(records)))
+        
+        # 페이지네이션 네비게이션 생성
+        nav_html = f'<div style="text-align: center; margin: 40px 0 20px; font-size: 14px; color: #999;">'
+        
+        if page_num > 1:
+            prev_link = "index.html" if page_num == 2 else f"page-{page_num-1}.html"
+            nav_html += f'<a href="{prev_link}" style="margin: 0 15px; color: var(--shu); text-decoration: none; font-weight: 600;">◀ 이전</a>'
+        
+        nav_html += f'<span style="margin: 0 15px;">{page_num} / {total_pages}</span>'
+        
+        if page_num < total_pages:
+            nav_html += f'<a href="page-{page_num+1}.html" style="margin: 0 15px; color: var(--shu); text-decoration: none; font-weight: 600;">다음 ▶</a>'
+        
+        nav_html += '</div>'
+        
+        # 푸터 바로 위에 네비게이션 삽입
+        idx = idx.replace("</footer>", nav_html + "\n</footer>", 1)
+        
+        # 파일 저장
+        fname = "index.html" if page_num == 1 else f"page-{page_num}.html"
+        (OUT_DIR / fname).write_text(idx, encoding="utf-8")
+        print(f"  [{page_num}/{total_pages}] {fname} 생성")
 
 
 # ══════════════════════════════════════════════════════════
