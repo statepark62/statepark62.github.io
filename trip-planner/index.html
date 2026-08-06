@@ -627,6 +627,10 @@ function renderBoardOnly(){
 function escapeHtml(s){
   return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+function linkifyNote(s){
+  const escaped = escapeHtml(s);
+  return escaped.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener" style="color:var(--line-blue);text-decoration:underline;word-break:break-all;">$1</a>');
+}
 
 function renderTabs(){
   if(!state.trip) return '';
@@ -652,7 +656,7 @@ function renderTimeline(){
       <div class="block-body">
         <div class="block-title">${escapeHtml(b.title)}${b.location?` <span style="font-weight:400;color:var(--ink-soft);font-size:12px;">· ${escapeHtml(b.location)}</span>`:''}</div>
         ${b.endTime?`<div class="block-meta">~${b.endTime}</div>`:''}
-        ${b.note?`<div class="block-note">${escapeHtml(b.note)}</div>`:''}
+        ${b.note?`<div class="block-note">${linkifyNote(b.note)}</div>`:''}
       </div>
       <div class="block-actions">
         <button class="icon-btn" data-edit="${b.id}" title="수정">✎</button>
@@ -990,7 +994,7 @@ function buildPrintable(){
         <td class="print-time">${b.time}${b.endTime?'–'+b.endTime:''}</td>
         <td>
           <div class="print-item-title">${escapeHtml(b.title)}${b.location?` <span class="print-loc">· ${escapeHtml(b.location)}</span>`:''}</div>
-          ${b.note?`<div class="print-note">${escapeHtml(b.note)}</div>`:''}
+          ${b.note?`<div class="print-note">${linkifyNote(b.note)}</div>`:''}
         </td>
       </tr>`).join('') : `<tr><td colspan="2" class="print-empty">일정 없음</td></tr>`;
     return `<div class="print-day">
