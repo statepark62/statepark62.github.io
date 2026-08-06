@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="지금 여기">
 <meta name="theme-color" content="#12172A">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -1053,6 +1054,12 @@ async function deleteCurrentTrip(){
     render();
     showToast('여행이 삭제됐어요');
   };
+}
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('service-worker.js').catch(e=>console.log('SW 등록 실패(무시 가능):', e));
+  });
 }
 
 init();
