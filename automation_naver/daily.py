@@ -33,6 +33,8 @@ from pathlib import Path
 # ──────────────────────────────────────────────────────────
 HERE = Path(__file__).resolve().parent          # automation/
 ROOT = HERE.parent                              # 저장소 루트
+ITEMS_PER_PAGE = 10  # 한 페이지당 아이템 수
+
 OUT_DIR = ROOT / "tenseijingo_naver"   # 테스트용 출력 폴더                  # 공개 페이지 폴더
 ARCHIVE = OUT_DIR / "archive.json"              # 목록 생성용 누적 데이터
 START_DATE = date(2026, 7, 8)                   # 第1回 날짜 (회차 계산 기준)
