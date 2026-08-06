@@ -208,30 +208,6 @@ const GOOGLE_ENABLED = GOOGLE_CLIENT_ID.indexOf('REPLACE_WITH') === -1;
 const SPREADSHEET_TITLE = '지금여기_여행일정_데이터';
 let tokenClient = null, googleAccessToken = null, googleSignedIn = false, spreadsheetId = null;
 let memoryStore = {}; // window.storage와 구글 로그인 둘 다 없을 때의 임시(새로고침시 소실) 저장소
-let userAnthropicKey = null; // GitHub 등 외부 배포 시 사용자가 직접 입력하는 API 키(세션 동안만 메모리 유지)
-// PDF 자동 인식을 위한 Cloudflare Worker 프록시 주소. 설정되어 있으면 이 주소로 요청하고,
-// (REPLACE 문자열이 남아있으면) 설정 전이라는 뜻이라 기존 "API 키 직접 입력" 방식으로 대체 동작합니다.
-const CLAUDE_PROXY_URL = 'https://royal-rice-4501.statepark62.workers.dev';
-// PDF 자동 인식은 개발자 전용 기능입니다. 주소 뒤에 ?dev=1 을 붙였을 때만 관련 버튼이 보입니다.
-// 예: https://statepark62.github.io/trip-planner/?dev=1
-function _devFlagPresent(){
-  if(new URLSearchParams(location.search).get('dev')==='1') return true;
-  // 구글 재연결 왕복 중에는 ?dev=1이 아직 주소창에 복원되기 전, 해시의 state 안에 실려있을 수 있음
-  if(location.hash && location.hash.indexOf('state=')!==-1){
-    try{
-      const hp = new URLSearchParams(location.hash.slice(1));
-      const st = hp.get('state') || '';
-      if(new URLSearchParams(st).get('dev')==='1') return true;
-    }catch(e){}
-  }
-  return false;
-}
-if(_devFlagPresent()){ try{ localStorage.setItem('trip_dev_mode','1'); }catch(e){} }
-function isDevMode(){
-  if(_devFlagPresent()) return true;
-  try{ if(localStorage.getItem('trip_dev_mode')==='1') return true; }catch(e){}
-  return false;
-}
 
 const $ = sel => document.querySelector(sel);
 const app = $('#app');
@@ -740,15 +716,10 @@ function render(){
         <h2>지금 여기 · 여행 전광판</h2>
         <p>날짜·시간별 여행 계획을 입력해두면,<br>지금 무엇을 하기로 했는지 실시간으로 보여드려요.</p>
         <button class="btn btn-primary" id="newTripBtn">+ 새 여행 만들기</button>
-        ${isDevMode()?`<button class="btn btn-line" id="pdfImportBtnEmpty" style="margin-left:8px;">PDF로 가져오기</button>
-        <button class="btn btn-line" id="photoImportBtnEmpty" style="margin-left:8px;">사진으로 가져오기</button>
-        <div class="pdf-hint">여행사·항공사에서 받은 일정표 PDF·사진을 올리면<br>날짜·시간·장소를 자동으로 읽어와요.</div>`:''}
         ${state.trips.length?`<div style="margin-top:16px;"><button class="btn btn-line btn-sm" id="pastTripsBtn">지난 여행 목록 보기</button>
         <button class="btn btn-line btn-sm" id="refreshBtnEmpty" title="새로고침" style="margin-left:8px;">↻ 새로고침</button></div>`:''}
       </div>`;
     $('#newTripBtn').onclick = ()=>openTripForm();
-    const pib = $('#pdfImportBtnEmpty'); if(pib) pib.onclick = ()=>triggerPdfPick('new');
-    const phib = $('#photoImportBtnEmpty'); if(phib) phib.onclick = ()=>triggerPhotoPick('new');
     const ptb = $('#pastTripsBtn'); if(ptb) ptb.onclick = ()=>openPastTripsModal();
     const rfbe = $('#refreshBtnEmpty'); if(rfbe) rfbe.onclick = ()=>refreshData();
     const gcb = $('#googleConnectBtn'); if(gcb) gcb.onclick = ()=>connectGoogle();
@@ -764,8 +735,6 @@ function render(){
         ${state.trips.length>1?`<select id="tripSwitch" class="btn btn-line btn-sm">${state.trips.map(t=>`<option value="${t.id}" ${t.id===state.activeTripId?'selected':''}>${escapeHtml(t.title)}</option>`).join('')}</select>`:''}
         <button class="btn btn-line btn-sm" id="deleteTripBtn" title="현재 여행 삭제">이 여행 삭제</button>
         <button class="btn btn-line btn-sm" id="newTripBtn2">+ 새 여행</button>
-        ${isDevMode()?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 추가</button>
-        <button class="btn btn-line btn-sm" id="photoImportBtn2">사진으로 추가</button>`:''}
         <button class="btn btn-line btn-sm" id="exportPdfBtn">PDF로 내보내기</button>
         <button class="btn btn-line btn-sm" id="refreshBtn" title="새로고침">↻ 새로고침</button>
       </div>
@@ -781,11 +750,8 @@ function render(){
 
 function bindEvents(){
   const nt = $('#newTripBtn2'); if(nt) nt.onclick = ()=>openTripForm();
-  const pi2 = $('#pdfImportBtn2'); if(pi2) pi2.onclick = ()=>triggerPdfPick('merge');
-  const phi2 = $('#photoImportBtn2'); if(phi2) phi2.onclick = ()=>triggerPhotoPick('merge');
   const ex = $('#exportPdfBtn'); if(ex) ex.onclick = ()=>exportPdf();
   const rfb = $('#refreshBtn'); if(rfb) rfb.onclick = ()=>refreshData();
-  const ak = $('#apiKeyBtn'); if(ak) ak.onclick = ()=>openApiKeyModal();
   const dtb = $('#deleteTripBtn'); if(dtb) dtb.onclick = ()=>deleteCurrentTrip();
   const sw = $('#tripSwitch'); if(sw) sw.onchange = async e=>{
     const newId = e.target.value;
@@ -1011,292 +977,6 @@ function checkUpcomingNotifications(){
   });
 }
 
-/* ---- PDF import ---- */
-function ensurePdfJs(){
-  return new Promise((resolve,reject)=>{
-    if(window.pdfjsLib){ resolve(); return; }
-    const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-    s.onload = ()=>{
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      resolve();
-    };
-    s.onerror = ()=>reject(new Error('pdf.js 로드 실패'));
-    document.head.appendChild(s);
-  });
-}
-
-function triggerPdfPick(mode){
-  let input = document.getElementById('hiddenPdfInput');
-  if(!input){
-    input = document.createElement('input');
-    input.type='file'; input.accept='application/pdf'; input.id='hiddenPdfInput'; input.style.display='none';
-    document.body.appendChild(input);
-  }
-  input.value='';
-  input.onchange = e=>{
-    const file = e.target.files[0];
-    if(file) handlePdfFile(file, mode);
-  };
-  input.click();
-}
-
-async function extractPdfText(file){
-  await ensurePdfJs();
-  const buf = await file.arrayBuffer();
-  const pdf = await window.pdfjsLib.getDocument({data:buf}).promise;
-  let text = '';
-  const maxPages = Math.min(pdf.numPages, 25);
-  for(let i=1;i<=maxPages;i++){
-    const page = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    text += content.items.map(it=>it.str).join(' ') + '\n';
-  }
-  return text.trim();
-}
-
-function openPdfProgressModal(){
-  const overlay = document.createElement('div');
-  overlay.className='overlay';
-  overlay.innerHTML = `<div class="sheet"><h3>PDF 분석 중…</h3><p style="color:var(--ink-soft);font-size:13.5px;line-height:1.6;">일정표에서 날짜·시간·장소를 읽어오고 있어요. 잠시만 기다려주세요.</p></div>`;
-  document.body.appendChild(overlay);
-  return overlay;
-}
-
-const EXTRACT_SYSTEM_PROMPT = (todayStr)=>`당신은 여행 일정표(텍스트 또는 이미지)에서 정보를 추출해 JSON으로만 응답하는 도구입니다.
-설명, 인사말, 코드블록 표시(백틱) 없이 순수 JSON 객체 하나만 출력하세요.
-스키마:
-{"title": string, "startDate": "YYYY-MM-DD", "endDate": "YYYY-MM-DD",
- "items": [{"date":"YYYY-MM-DD","time":"HH:MM","endTime":"HH:MM 또는 null","title":string,"location":string,"note":string}]}
-규칙:
-- 연도가 원본에 없으면 오늘 날짜(${todayStr}) 기준 가장 가까운 미래 연도를 사용하세요.
-- 시간이 명시되지 않은 항목은 하루 흐름상 자연스러운 시각을 24시간제로 추정해 채우세요.
-- location, note 정보가 없으면 빈 문자열로 두세요.
-- note 안에 서로 다른 정보(예: 교통편 안내, 준비물, 요금, 환승 방법 등)가 여러 개 섞여 있으면, 항목마다 줄바꿈(\\n)으로 구분해서 읽기 쉽게 정리하세요. 한 문장짜리 짧은 메모는 그대로 한 줄로 두세요.
-- items는 날짜, 시간 순으로 정렬하세요.`;
-
-async function callClaudeForItinerary(userContent){
-  const todayStr = fmtDate(new Date());
-  const system = EXTRACT_SYSTEM_PROMPT(todayStr);
-  const headers = {'Content-Type':'application/json'};
-  let endpoint = 'https://api.anthropic.com/v1/messages';
-  if(CLAUDE_PROXY_URL && CLAUDE_PROXY_URL.indexOf('REPLACE')===-1){
-    endpoint = CLAUDE_PROXY_URL;
-  } else if(userAnthropicKey){
-    headers['x-api-key'] = userAnthropicKey;
-    headers['anthropic-version'] = '2023-06-01';
-    headers['anthropic-dangerous-direct-browser-access'] = 'true';
-  }
-  const resp = await fetch(endpoint, {
-    method:'POST',
-    headers,
-    body: JSON.stringify({
-      model:'claude-sonnet-5',
-      max_tokens:4096,
-      system,
-      messages:[{role:'user', content:userContent}]
-    })
-  });
-  const data = await resp.json();
-  if(!resp.ok){
-    const msg = (data && data.error && data.error.message) ? data.error.message : ('HTTP '+resp.status);
-    throw new Error('API 오류: '+msg);
-  }
-  const textBlocks = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
-  const cleaned = textBlocks.replace(/```json|```/g,'').trim();
-  let parsed;
-  try{
-    parsed = JSON.parse(cleaned);
-  }catch(e){
-    console.error('JSON 파싱 실패, 원본 응답:', textBlocks);
-    const truncatedHint = data.stop_reason==='max_tokens' ? ' (응답이 길이 제한에 걸려 중간에 잘렸을 수 있어요)' : '';
-    throw new Error('응답을 이해하지 못했어요'+truncatedHint);
-  }
-  if(!parsed.title || !parsed.startDate || !parsed.endDate || !Array.isArray(parsed.items)){
-    throw new Error('형식이 올바르지 않습니다');
-  }
-  return parsed;
-}
-
-async function callClaudeExtract(text){
-  const truncated = text.slice(0, 12000);
-  return callClaudeForItinerary(`다음은 여행 일정표에서 추출한 텍스트입니다:\n\n${truncated}`);
-}
-
-async function readFileAsBase64(file){
-  return new Promise((resolve,reject)=>{
-    const reader = new FileReader();
-    reader.onload = ()=> resolve(String(reader.result).split(',')[1]);
-    reader.onerror = ()=> reject(new Error('파일을 읽지 못했어요'));
-    reader.readAsDataURL(file);
-  });
-}
-
-async function callClaudeExtractFromImage(file){
-  const base64 = await readFileAsBase64(file);
-  const mediaType = file.type || 'image/jpeg';
-  return callClaudeForItinerary([
-    { type:'image', source:{ type:'base64', media_type: mediaType, data: base64 } },
-    { type:'text', text:'위 이미지는 여행 일정표(캡처·사진)입니다. 여기서 정보를 추출하세요.' }
-  ]);
-}
-
-function openApiKeyModal(){
-  const overlay = document.createElement('div');
-  overlay.className='overlay';
-  overlay.innerHTML = `<div class="sheet">
-    <h3>Anthropic API 키 설정</h3>
-    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.6;">GitHub 등 외부에 배포했다면, PDF 자동 인식을 쓰기 위해 본인의 Anthropic API 키가 필요해요. 이 키는 저장되지 않고 <b>현재 탭이 열려있는 동안에만</b> 메모리에 유지돼요.</p>
-    <div class="field"><label>API 키</label><input id="k_input" type="password" placeholder="sk-ant-..." value="${userAnthropicKey||''}"></div>
-    <div class="sheet-actions">
-      <button class="btn btn-line" id="k_cancel">취소</button>
-      <button class="btn btn-primary" id="k_save">저장</button>
-    </div>
-  </div>`;
-  document.body.appendChild(overlay);
-  $('#k_cancel').onclick = ()=>overlay.remove();
-  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
-  $('#k_save').onclick = ()=>{
-    userAnthropicKey = $('#k_input').value.trim() || null;
-    overlay.remove();
-    showToast(userAnthropicKey ? 'API 키가 설정됐어요(이 세션 동안만)' : 'API 키를 비웠어요');
-  };
-}
-
-async function handlePdfFile(file, mode){
-  const overlay = openPdfProgressModal();
-  try{
-    const text = await extractPdfText(file);
-    if(!text || text.length < 20){
-      overlay.remove();
-      openImportErrorModal('PDF에서 텍스트를 읽지 못했어요.', '스캔한 이미지 PDF일 가능성이 높아요. 이 경우 텍스트 레이어가 없어서 자동으로 읽을 수 없으니, 직접 입력해주세요.');
-      return;
-    }
-    const parsed = await callClaudeExtract(text);
-    if(!parsed.items || parsed.items.length===0){
-      overlay.remove();
-      openImportErrorModal(
-        '세부 일정을 찾지 못했어요.',
-        `날짜(${parsed.startDate} ~ ${parsed.endDate})는 인식했지만, 시간대별 개별 일정은 찾지 못했어요. 표나 이미지 형태의 일정표는 자동 인식이 어려울 수 있어요.\n\n실제로 읽힌 텍스트 일부:\n"${text.slice(0,400).replace(/\s+/g,' ')}"`
-      );
-      return;
-    }
-    overlay.remove();
-    openImportPreview(parsed, mode);
-  }catch(err){
-    console.error(err);
-    overlay.remove();
-    openImportErrorModal('PDF 분석 중 오류가 발생했어요.', err.message || String(err));
-  }
-}
-
-function openImportErrorModal(title, detail){
-  const overlay = document.createElement('div');
-  overlay.className='overlay';
-  overlay.innerHTML = `<div class="sheet">
-    <h3>${escapeHtml(title)}</h3>
-    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;white-space:pre-wrap;">${escapeHtml(detail)}</p>
-    <div class="sheet-actions"><button class="btn btn-primary" id="err_close">확인</button></div>
-  </div>`;
-  document.body.appendChild(overlay);
-  $('#err_close').onclick = ()=>overlay.remove();
-  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
-}
-
-async function mergeIntoCurrentTrip(parsed){
-  const trip = state.trip;
-  const allDates = [trip.startDate, trip.endDate, ...parsed.items.map(i=>i.date)].sort();
-  const newStart = allDates[0], newEnd = allDates[allDates.length-1];
-  if(newStart!==trip.startDate || newEnd!==trip.endDate){
-    dateRange(newStart,newEnd).forEach(d=>{ if(!trip.days[d]) trip.days[d]=[]; });
-    trip.startDate = newStart; trip.endDate = newEnd;
-  }
-  parsed.items.forEach(it=>{
-    if(!trip.days[it.date]) trip.days[it.date]=[];
-    trip.days[it.date].push({id:uid(), time:it.time||'09:00', endTime:it.endTime||null, title:it.title||'일정', location:it.location||'', note:it.note||''});
-  });
-  await safeSet('trip:'+state.activeTripId, trip);
-  const idx = state.trips.findIndex(t=>t.id===state.activeTripId);
-  if(idx!==-1){
-    state.trips[idx].startDate = trip.startDate; state.trips[idx].endDate = trip.endDate;
-    await safeSet('trips-list', state.trips);
-  }
-}
-
-function openImportPreview(parsed, mode){
-  const overlay = document.createElement('div');
-  overlay.className='overlay';
-  const dayCounts = {};
-  parsed.items.forEach(it=>{ dayCounts[it.date]=(dayCounts[it.date]||0)+1; });
-  const days = Object.keys(dayCounts).sort();
-
-  if(mode==='merge' && state.trip){
-    overlay.innerHTML = `<div class="sheet">
-      <h3>"${escapeHtml(state.trip.title)}"에 추가</h3>
-      <div class="morning-list">${days.map(d=>`<div class="morning-item"><span class="mono">${d}</span><span>일정 ${dayCounts[d]}개 추가</span></div>`).join('')}</div>
-      <p style="font-size:12px;color:var(--ink-soft);">총 ${parsed.items.length}개 일정이 현재 여행에 날짜·시간순으로 합쳐집니다.</p>
-      <div class="sheet-actions">
-        <button class="btn btn-line" id="p_cancel">취소</button>
-        <button class="btn btn-primary" id="p_save">기존 여행에 추가</button>
-      </div>
-    </div>`;
-    document.body.appendChild(overlay);
-    $('#p_cancel').onclick = ()=>overlay.remove();
-    overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
-    $('#p_save').onclick = async ()=>{
-      await mergeIntoCurrentTrip(parsed);
-      overlay.remove();
-      const todayStr = fmtDate(new Date());
-      if(state.trip.days[todayStr]!==undefined) state.selectedDate = todayStr;
-      render();
-      showToast('일정이 추가됐어요');
-    };
-    return;
-  }
-
-  overlay.innerHTML = `<div class="sheet">
-    <h3>가져온 일정 확인</h3>
-    <div class="field"><label>여행 이름</label><input id="p_title" value="${escapeHtml(parsed.title)}"></div>
-    <div class="row2">
-      <div class="field"><label>시작일</label><input id="p_start" type="date" value="${parsed.startDate}"></div>
-      <div class="field"><label>종료일</label><input id="p_end" type="date" value="${parsed.endDate}"></div>
-    </div>
-    <div class="morning-list">${days.map(d=>`<div class="morning-item"><span class="mono">${d}</span><span>일정 ${dayCounts[d]}개</span></div>`).join('')}</div>
-    <p style="font-size:12px;color:var(--ink-soft);">총 ${parsed.items.length}개 일정을 불러왔어요. 저장 후에도 언제든 수정할 수 있어요.</p>
-    <div class="sheet-actions">
-      <button class="btn btn-line" id="p_cancel">취소</button>
-      <button class="btn btn-primary" id="p_save">이 일정으로 만들기</button>
-    </div>
-  </div>`;
-  document.body.appendChild(overlay);
-  $('#p_cancel').onclick = ()=>overlay.remove();
-  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
-  $('#p_save').onclick = async ()=>{
-    const title = $('#p_title').value.trim() || parsed.title;
-    let start = $('#p_start').value || parsed.startDate;
-    let end = $('#p_end').value || parsed.endDate;
-    const allDates = [start, end, ...parsed.items.map(i=>i.date)].sort();
-    start = allDates[0]; end = allDates[allDates.length-1];
-    const id = uid();
-    const days = {}; dateRange(start,end).forEach(d=>days[d]=[]);
-    parsed.items.forEach(it=>{
-      if(!days[it.date]) days[it.date]=[];
-      days[it.date].push({id:uid(), time:it.time||'09:00', endTime:it.endTime||null, title:it.title||'일정', location:it.location||'', note:it.note||''});
-    });
-    const trip = {title, startDate:start, endDate:end, days, morningChecked:[]};
-    state.trips.push({id,title,startDate:start,endDate:end});
-    await safeSet('trips-list', state.trips);
-    await safeSet('trip:'+id, trip);
-    await safeSet('active-trip', id);
-    state.activeTripId = id; state.trip = trip;
-    const todayStr = fmtDate(new Date());
-    state.selectedDate = days[todayStr]!==undefined ? todayStr : Object.keys(days)[0];
-    overlay.remove();
-    render();
-    showToast('PDF 일정을 불러왔어요');
-  };
-}
-
 /* ---- PDF export (print to PDF) ---- */
 function buildPrintable(){
   if(!state.trip) return;
@@ -1369,38 +1049,6 @@ async function deleteCurrentTrip(){
     render();
     showToast('여행이 삭제됐어요');
   };
-}
-
-function triggerPhotoPick(mode){
-  let input = document.getElementById('hiddenPhotoInput');
-  if(!input){
-    input = document.createElement('input');
-    input.type='file'; input.accept='image/*'; input.id='hiddenPhotoInput'; input.style.display='none';
-    document.body.appendChild(input);
-  }
-  input.value='';
-  input.onchange = e=>{
-    const file = e.target.files[0];
-    if(file) handlePhotoFile(file, mode);
-  };
-  input.click();
-}
-
-async function handlePhotoFile(file, mode){
-  const overlay = openPdfProgressModal();
-  try{
-    const parsed = await callClaudeExtractFromImage(file);
-    overlay.remove();
-    if(!parsed.items || parsed.items.length===0){
-      openImportErrorModal('세부 일정을 찾지 못했어요.', `날짜(${parsed.startDate} ~ ${parsed.endDate})는 인식했지만, 시간대별 개별 일정은 찾지 못했어요. 더 선명한 사진으로 다시 시도해주세요.`);
-      return;
-    }
-    openImportPreview(parsed, mode);
-  }catch(err){
-    console.error(err);
-    overlay.remove();
-    openImportErrorModal('사진 분석 중 오류가 발생했어요.', err.message || String(err));
-  }
 }
 
 init();
