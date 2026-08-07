@@ -4261,5 +4261,55 @@
   "example": "人口は年々減少している。",
   "exampleReading": "じんこうはねんねんげんしょうしている。",
   "exampleMeaning": "인구는 매년 감소하고 있다."
+ },
+ {
+  "id": "tj126",
+  "word": "不時着",
+  "reading": "ふじちゃく",
+  "meaning": "비상착륙",
+  "level": "N2",
+  "example": "パイロットは畑に不時着した。",
+  "exampleReading": "ぱいろっとははたけにふじちゃくした。",
+  "exampleMeaning": "파일럿은 밭에 비상착륙했다."
+ },
+ {
+  "id": "tj127",
+  "word": "砂漠",
+  "reading": "さばく",
+  "meaning": "사막",
+  "level": "N3",
+  "example": "砂漠の夜は思いのほか冷える。",
+  "exampleReading": "さばくのよるはおもいのほかひえる。",
+  "exampleMeaning": "사막의 밤은 예상외로 춥다."
+ },
+ {
+  "id": "tj128",
+  "word": "井戸",
+  "reading": "いど",
+  "meaning": "우물",
+  "level": "N3",
+  "example": "村の井戸をみんなで守っている。",
+  "exampleReading": "むらのいどをみんなでまもっている。",
+  "exampleMeaning": "마을 우물은 모두가 함께 지킨다."
+ },
+ {
+  "id": "tj129",
+  "word": "名作",
+  "reading": "めいさく",
+  "meaning": "명작",
+  "level": "N2",
+  "example": "その映画は今も名作として語り継がれる。",
+  "exampleReading": "そのえいがはいまもめいさくとしてかたりつがれる。",
+  "exampleMeaning": "그 영화는 지금도 명작으로 전해진다."
+ },
+ {
+  "id": "tj130",
+  "word": "隠す",
+  "reading": "かくす",
+  "meaning": "숨기다",
+  "level": "N3",
+  "example": "手紙を本の間に隠した。",
+  "exampleReading": "てがみをほんのあいだにかくした。",
+  "exampleMeaning": "편지를 책 사이에 숨겼다."
  }
 ]

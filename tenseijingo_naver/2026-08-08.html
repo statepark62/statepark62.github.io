@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-08 天声人語로 배우는 일본어 — 사막과 우물</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第32回</span>
+      <span>2026-08-08</span>
+      <span>2026년 8월 8일 (토)</span>
+    </div>
+
+    <h1>砂漠と井戸</h1>
+    <p class="topic-ko">사막과 우물</p>
+
+    <div class="keyquote">
+      <div class="ja">「砂漠が美しいのは」</div>
+      <div class="ko">사막이 아름다운 것은 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">コラムは『星の王子さま』の場面を引き、サハラでの不時着と少年との出会いから書き起こす。</p><p class="ko">칼럼은 ‘어린 왕자’의 사하라 불시착과 소년의 만남을 떠올리며 문을 연다.</p></div>
+      <div class="s-item"><p class="ja">砂漠の美しさを「隠れた井戸」にたとえる台詞に触れ、絶え間ないニュースの洪水の中で出来事がすぐ昔話のように感じられると述べる。</p><p class="ko">소년이 사막의 아름다움을 숨은 우물의 존재에 비유한 대사가 언급되고, 끝없이 쏟아지는 새 소식 탓에 어떤 일들이 벌써 오래전 일처럼 느껴진다고 말한다.</p></div>
+      <div class="s-item"><p class="ja">表層のざわめきの下にある価値を探ろうという示唆を残し、読者を考えへ誘う。</p><p class="ko">글쓰이는 표면의 소음 아래 감춰진 가치를 찾아보자는 암시를 남기며 독자를 사유로 이끈다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>不時着<rt>ふじちゃく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">비상착륙</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">パイロットは畑に不時着した。</span><br>파일럿은 밭에 비상착륙했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>砂漠<rt>さばく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">사막</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">砂漠の夜は思いのほか冷える。</span><br>사막의 밤은 예상외로 춥다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>井戸<rt>いど</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">우물</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">村の井戸をみんなで守っている。</span><br>마을 우물은 모두가 함께 지킨다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>名作<rt>めいさく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">명작</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">その映画は今も名作として語り継がれる。</span><br>그 영화는 지금도 명작으로 전해진다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>隠す<rt>かくす</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">숨기다</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">手紙を本の間に隠した。</span><br>편지를 책 사이에 숨겼다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">名詞＋となる</div>
+        <div class="pattern-ko">~이/가 되다, ~로 접어들다</div>
+        <p class="explain">‘名詞＋となる’는 특정 시점이나 상태에 도달함을 격식 있게 나타낸다. 연수·기념 표현과 함께 쓰이면 “~년이 되다/맞다”처럼 공적인 어조를 띤다.</p>
+        <p class="ex"><span class="ja">この町は来年で市制百年となる。</span><br>이 도시는 내년에 시제 100년을 맞는다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 고전 문학의 한 장면을 프롤로그로 소환해 현재의 화두로 매끄럽게 접속한다. 사막과 우물이라는 감각적 이미지가 도입부의 긴장을 잡아주고, 짧은 인용이 정서적 여운을 남긴다. 이어서 ‘새 뉴스의 연속’이라는 관찰로 전환하며, 독자의 일상적 체감과 작품의 세계를 교차시킨다. 천성인어 특유의 농축된 문장과 비유 중심 전개가, 짧은 분량 안에서도 생각의 여백을 만든다.</p>
+        <p>이 글이 남기는 메시지는 표면의 속보에 휩쓸리기보다 숨은 의미를 더듬자는 요청으로 읽힌다. 한국 독자에게도 ‘우물’의 은유는 정보 과잉 시대의 집중과 기억을 환기하는 상징으로 다가온다. 특정 사건을 바로 지시하지 않으면서도, 독자가 각자의 ‘오래전’을 떠올리게 만드는 열린 구조가 흥미롭다. 고전을 현재형의 대화로 불러오는 편집 감각이 공감과 사유를 동시에 끌어낸다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 고전의 이미지를 빌려 뉴스의 홍수 속에서 숨은 가치를 찾아보자고 권하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>『어린 왕자』는 앙투안 드 생텍쥐페리의 작품으로, 일본에서도 세대를 넘어 읽히는 고전으로 통한다. 내이토 아로(内藤濯〈あろう〉)의 번역은 대표본으로 널리 알려져 있다.</p>
+        <p>아사히신문의 칼럼 ‘천성인어’는 일상·문학·시사를 짧게 엮는 형식으로 알려져 있다. 학교 수업이나 일본어 학습 자료로 활용되곤 한다.</p>
+        <p>디지털 시대에는 속보가 끊임없이 업데이트되며 ‘뉴스 피로’가 화제가 되곤 한다. 글은 이러한 환경 속에서 잊힌 가치와 기억을 돌아보자는 문제의식을 비춘다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>고전의 한 문장을 ‘이미지-주제’의 관문으로 삼아 현재 이슈로 전개하라.</p>
+        <p><span class="n">二</span>인용 이후에는 일상 관찰로 각도를 전환해 독자 경험과 연결하라.</p>
+        <p><span class="n">三</span>결말은 직접 규정하지 않고 암시로 남겨 독자 스스로 빈칸을 채우게 하라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">渇いた日々こそ、心の井戸を探したい。</span>
+      <span class="ko">메마른 날들일수록 마음의 우물을 찾고 싶다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-08) — <a href="https://www.asahi.com/articles/DA3S16522837.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-08.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
