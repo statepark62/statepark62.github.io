@@ -317,14 +317,14 @@ def update_index(entry):
     
     # 페이지네이션: records를 역순으로 정렬하고 페이지별로 나누기
     records_sorted = sorted(records, key=lambda r: r["date"], reverse=True)  # 최신부터
-    total_records = len(records_rev)
+    total_records = len(records_sorted)
     total_pages = (total_records + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE
     
     for page_num in range(1, total_pages + 1):
         # 이 페이지의 기록 범위
         start_idx = (page_num - 1) * ITEMS_PER_PAGE
         end_idx = min(page_num * ITEMS_PER_PAGE, total_records)
-        page_records = records_rev[start_idx:end_idx]
+        page_records = records_sorted[start_idx:end_idx]
         
         # 이 페이지의 아이템 HTML 생성
         page_items = "".join(
