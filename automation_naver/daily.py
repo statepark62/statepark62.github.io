@@ -316,7 +316,7 @@ def update_index(entry):
     idx_tpl = (HERE / "index_template.html").read_text(encoding="utf-8")
     
     # 페이지네이션: records를 역순으로 정렬하고 페이지별로 나누기
-    records_rev = list(reversed(records))
+    records_sorted = sorted(records, key=lambda r: r["date"], reverse=True)  # 최신부터
     total_records = len(records_rev)
     total_pages = (total_records + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE
     
