@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-07 天声人語로 배우는 일본어 — 총리의 재난 영상</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第31回</span>
+      <span>2026-08-07</span>
+      <span>2026년 8월 7일 (금)</span>
+    </div>
+
+    <h1>首相の災害動画</h1>
+    <p class="topic-ko">총리의 재난 영상</p>
+
+    <div class="keyquote">
+      <div class="ja">「これは何を伝えたいのか？」</div>
+      <div class="ko">이것은 무엇을 전하려는가? <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">コラムは、防災服の首相が自衛隊ヘリに乗り、上空から被災地を見やり合掌する場面を導入に置く。</p><p class="ko">칼럼은 방재복 차림의 총리가 자위대 헬기에 올라 상공에서 피해 지역을 바라보고 합장하는 장면을 서두에 배치한다.</p></div>
+      <div class="s-item"><p class="ja">つづいて筆者は「何を伝えたいのか」と問い、3日に行われた高市首相の熊本地震の被災地訪問と、1分53秒の編集映像に触れる。</p><p class="ko">이어 필자는 ‘무엇을 전하려는가’라는 의문을 제기하며, 3일에 이뤄진 다카이치 총리의 구마모토 지진 피해지 방문과 1분 53초짜리 편집 영상을 언급한다.</p></div>
+      <div class="s-item"><p class="ja">全体として、災害現場をめぐる政治的な演出とメッセージの方向性を省察的に問い直す流れとなる。</p><p class="ko">글의 톤은 재난 현장을 둘러싼 정치적 연출과 메시지의 방향성을 성찰적으로 묻는 쪽으로 기운다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>防災服<rt>ぼうさいふく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">방재복</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">防災服を用意しておくべきだ。</span><br>방재복을 미리 준비해 두어야 한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>自衛隊<rt>じえいたい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">자위대</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">自衛隊の救助が続いている。</span><br>자위대의 구조 활동이 이어지고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>被災地<rt>ひさいち</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">피해 지역</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">被災地に物資を送る。</span><br>피해 지역에 물자를 보낸다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>乗り込む<rt>のりこむ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">올라타다; (안으로) 들어가다</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">彼は急いでバスに乗り込んだ。</span><br>그는 서둘러 버스에 올라탔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>締めくくる<rt>しめくくる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">마무리하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">会議は拍手で締めくくられた。</span><br>회의는 박수로 마무리되었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜のか</div>
+        <div class="pattern-ko">~인지(를) (묻다/생각하다)</div>
+        <p class="explain">의문을 내포하거나 화자의 당혹·확인을 드러낼 때 쓰는 표현이다. 직접 질문뿐 아니라, 문장 중간에서 ‘무엇인지/왜인지’처럼 간접 의문을 만들 때도 쓰인다.</p>
+        <p class="ex"><span class="ja">この映像は何を示すのか、受け手によって解釈が分かれる。</span><br>이 영상이 무엇을 보여 주는지, 받아들이는 사람에 따라 해석이 갈린다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 글은 카메라가 담은 동작의 연쇄를 한 컷씩 묘사한 뒤, 곧장 질문으로 전환하는 방식으로 독자의 시선을 붙잡는다. 방재복, 헬기, 상공 시점, 합장이라는 상징적 장면을 나열하고, 마지막에 피해자의 감사 발화가 덧붙는 구조를 제시한다. 그 직후 “무엇을 전하려는가”라는 자문을 통해 감상과 판단을 보류시키며, 영상의 연출 의도를 독자가 함께 해부하도록 유도한다. 천성인어 특유의 간결한 묘사와 반문형 전환이 효과적으로 결합되어 있다.</p>
+        <p>칼럼은 특정 정치인을 정면으로 논박하기보다, 편집된 1분 53초 영상이라는 매체의 형식과 메시지 사이의 간극을 비평적으로 드러낸다. 일본 정치에서 재난 대응의 ‘보여주기’가 갖는 관행성을 암시하면서, 그 상징들이 실제로 무엇을 말하게 되는지 묻는다. 한국 독자에게도 이는 낯설지 않은 주제이며, 재난 보도와 정치 홍보의 경계가 흐려질 때 생기는 불편함을 환기한다. 결과적으로 글은 장면의 의미를 독자 스스로 재구성하게 만드는, 성찰 유도형 칼럼의 전형을 보여 준다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 총리의 재난 현장 방문 영상을 매개로 정치적 메시지의 의도와 연출을 되묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본에서는 총리가 재난 현장을 찾을 때 방재복을 착용하고 자위대 헬기로 시찰하는 장면이 관례처럼 보도된다.</p>
+        <p>구마모토 지진은 2016년에 발생했으며, 이후에도 추모와 복구 관련 방문이 이어져 왔다고 알려져 있다.</p>
+        <p>정치 커뮤니케이션에서 짧은 동영상은 인상과 메시지를 압축 전달하는 수단으로 널리 쓰이며, 편집 방식이 수용자의 해석에 큰 영향을 준다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>상징적 장면을 연속으로 제시한 뒤 반문으로 전환해 독자의 비판적 독해를 유도한다.</p>
+        <p><span class="n">二</span>구체적 수치와 시간(1분 53초)을 명시해 현장감을 높인다.</p>
+        <p><span class="n">三</span>인물의 발화를 직접 평가하지 않고, 구성과 편집이라는 형식에 초점을 맞춰 의미를 추적한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">映像は事実だけでなく、意図も映し出す。</span>
+      <span class="ko">영상은 사실만이 아니라 의도도 비춘다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-07) — <a href="https://www.asahi.com/articles/DA3S16521975.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-07.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

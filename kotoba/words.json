@@ -4071,5 +4071,115 @@
   "example": "彼女はクラスでいちばん足が速い。",
   "exampleReading": "かのじょはくらすでいちばんあしがはやい。",
   "exampleMeaning": "그녀는 반에서 가장 달리기가 빠르다."
+ },
+ {
+  "id": "news121",
+  "word": "市場介入",
+  "reading": "しじょうかいにゅう",
+  "meaning": "시장 개입 (환율 등에 정부/중앙은행이 개입하는 것)",
+  "level": "N1",
+  "example": "政府は円安を抑えるため市場介入を行った。",
+  "exampleReading": "せいふはえんやすをおさえるためしじょうかいにゅうをおこなった。",
+  "exampleMeaning": "정부는 엔화 약세를 억제하기 위해 시장에 개입했다."
+ },
+ {
+  "id": "news122",
+  "word": "逮捕",
+  "reading": "たいほ",
+  "meaning": "체포",
+  "level": "N2",
+  "example": "警察は詐欺の疑いで男を逮捕した。",
+  "exampleReading": "けいさつはさぎのうたがいでおとこをたいほした。",
+  "exampleMeaning": "경찰은 사기 혐의로 남성을 체포했다."
+ },
+ {
+  "id": "news123",
+  "word": "便乗",
+  "reading": "びんじょう",
+  "meaning": "편승, (다른 상황을) 악용함",
+  "level": "N1",
+  "example": "災害に便乗した詐欺が増えているので注意が必要だ。",
+  "exampleReading": "さいがいにびんじょうしたさぎがふえているのでちゅういがひつようだ。",
+  "exampleMeaning": "재난에 편승한 사기가 늘고 있어 주의가 필요하다."
+ },
+ {
+  "id": "news124",
+  "word": "開幕",
+  "reading": "かいまく",
+  "meaning": "개막 (시즌, 행사 등의 시작)",
+  "level": "N2",
+  "example": "今夜、新シーズンが開幕する。",
+  "exampleReading": "こんや、しんシーズンがかいまくする。",
+  "exampleMeaning": "오늘 밤 새 시즌이 개막한다."
+ },
+ {
+  "id": "news125",
+  "word": "消費支出",
+  "reading": "しょうひししゅつ",
+  "meaning": "소비 지출",
+  "level": "N1",
+  "example": "実質消費支出は7か月連続で減少している。",
+  "exampleReading": "じっしつしょうひししゅつは7かげつれんぞくでげんしょうしている。",
+  "exampleMeaning": "실질 소비 지출은 7개월 연속 감소하고 있다."
+ },
+ {
+  "id": "news126",
+  "word": "新体制",
+  "reading": "しんたいせい",
+  "meaning": "새로운 체제",
+  "level": "N2",
+  "example": "党は新体制発足に伴い、党名を変更した。",
+  "exampleReading": "とうはしんたいせいはっそくにともない、とうめいをへんこうした。",
+  "exampleMeaning": "당은 새로운 체제 발족에 따라 당명을 변경했다."
+ },
+ {
+  "id": "tj116",
+  "word": "防災服",
+  "reading": "ぼうさいふく",
+  "meaning": "방재복",
+  "level": "N2",
+  "example": "防災服を用意しておくべきだ。",
+  "exampleReading": "ぼうさいふくをよういしておくべきだ。",
+  "exampleMeaning": "방재복을 미리 준비해 두어야 한다."
+ },
+ {
+  "id": "tj117",
+  "word": "自衛隊",
+  "reading": "じえいたい",
+  "meaning": "자위대",
+  "level": "N2",
+  "example": "自衛隊の救助が続いている。",
+  "exampleReading": "じえいたいのきゅうじょがつづいている。",
+  "exampleMeaning": "자위대의 구조 활동이 이어지고 있다."
+ },
+ {
+  "id": "tj118",
+  "word": "被災地",
+  "reading": "ひさいち",
+  "meaning": "피해 지역",
+  "level": "N2",
+  "example": "被災地に物資を送る。",
+  "exampleReading": "ひさいちにぶっしをおくる。",
+  "exampleMeaning": "피해 지역에 물자를 보낸다."
+ },
+ {
+  "id": "tj119",
+  "word": "乗り込む",
+  "reading": "のりこむ",
+  "meaning": "올라타다; (안으로) 들어가다",
+  "level": "N3",
+  "example": "彼は急いでバスに乗り込んだ。",
+  "exampleReading": "かれはいそいでばすにのりこんだ。",
+  "exampleMeaning": "그는 서둘러 버스에 올라탔다."
+ },
+ {
+  "id": "tj120",
+  "word": "締めくくる",
+  "reading": "しめくくる",
+  "meaning": "마무리하다",
+  "level": "N2",
+  "example": "会議は拍手で締めくくられた。",
+  "exampleReading": "かいぎははくしゅでしめくくられた。",
+  "exampleMeaning": "회의는 박수로 마무리되었다."
  }
 ]
