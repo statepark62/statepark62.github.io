@@ -4181,5 +4181,85 @@
   "example": "会議は拍手で締めくくられた。",
   "exampleReading": "かいぎははくしゅでしめくくられた。",
   "exampleMeaning": "회의는 박수로 마무리되었다."
+ },
+ {
+  "id": "tj121",
+  "word": "被災地",
+  "reading": "ひさいち",
+  "meaning": "피해 지역",
+  "level": "N2",
+  "example": "被災地では仮設住宅の建設が急がれている。",
+  "exampleReading": "ひさいちではかせつじゅうたくのけんせつがいそがれている。",
+  "exampleMeaning": "피해 지역에서는 임시 주택 건설이 시급하다."
+ },
+ {
+  "id": "tj122",
+  "word": "映像",
+  "reading": "えいぞう",
+  "meaning": "영상",
+  "level": "N3",
+  "example": "映像と言葉の組み合わせが印象を左右する。",
+  "exampleReading": "えいぞうとことばのくみあわせがいんしょうをさゆうする。",
+  "exampleMeaning": "영상과 말의 조합이 인상을 좌우한다."
+ },
+ {
+  "id": "tj123",
+  "word": "乗り込む",
+  "reading": "のりこむ",
+  "meaning": "올라타다, (안으로) 들어가다",
+  "level": "N2",
+  "example": "記者たちは取材のためにバスに乗り込んだ。",
+  "exampleReading": "きしゃたちはしゅざいのためにばすにのりこんだ。",
+  "exampleMeaning": "기자들은 취재를 위해 버스에 올라탔다."
+ },
+ {
+  "id": "tj124",
+  "word": "手を合わせる",
+  "reading": "てをあわせる",
+  "meaning": "두 손을 모으다, 합장하다",
+  "level": "N3",
+  "example": "彼は慰霊碑の前で静かに手を合わせた。",
+  "exampleReading": "かれはいれいひのまえでしずかにてをあわせた。",
+  "exampleMeaning": "그는 위령비 앞에서 조용히 두 손을 모았다."
+ },
+ {
+  "id": "tj125",
+  "word": "締めくくる",
+  "reading": "しめくくる",
+  "meaning": "마무리짓다, 끝맺다",
+  "level": "N1",
+  "example": "監督は短い挨拶で式を締めくくった。",
+  "exampleReading": "かんとくはみじかいあいさつでしきをしめくくった。",
+  "exampleMeaning": "감독은 짧은 인사로 식을 마무리지었다."
+ },
+ {
+  "id": "news127",
+  "word": "大幅",
+  "reading": "おおはば",
+  "meaning": "대폭, 큰 폭",
+  "level": "N2",
+  "example": "今年の売上は前年より大幅に減少した。",
+  "exampleReading": "こんねんのうりあげはぜんねんよりおおはばにげんしょうした。",
+  "exampleMeaning": "올해 매출은 전년보다 대폭 감소했다."
+ },
+ {
+  "id": "news128",
+  "word": "詐欺",
+  "reading": "さぎ",
+  "meaning": "사기",
+  "level": "N2",
+  "example": "最近、高齢者を狙った詐欺事件が多発している。",
+  "exampleReading": "さいきん、こうれいしゃをねらったさぎじけんがたはつしている。",
+  "exampleMeaning": "최근 노인을 노린 사기 사건이 자주 발생하고 있다."
+ },
+ {
+  "id": "news129",
+  "word": "減少",
+  "reading": "げんしょう",
+  "meaning": "감소",
+  "level": "N3",
+  "example": "人口は年々減少している。",
+  "exampleReading": "じんこうはねんねんげんしょうしている。",
+  "exampleMeaning": "인구는 매년 감소하고 있다."
  }
 ]
