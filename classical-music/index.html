@@ -1,1 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>클래식 음악 찾기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine:#3D1B24;
+    --wine-deep:#2A1119;
+    --parchment:#F1E9D8;
+    --parchment-soft:#E8DDC6;
+    --gold:#B08D4F;
+    --ink:#231C17;
+    --sage:#6E7A5E;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'EB Garamond', serif;
+    min-height:100vh;
+  }
+  .staff-header{
+    background:var(--wine);
+    color:var(--parchment);
+    padding:48px 24px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .staff-lines{
+    position:absolute;
+    top:0; left:0; right:0; bottom:0;
+    background-image:repeating-linear-gradient(
+      to bottom,
+      transparent 0px, transparent 27px,
+      rgba(241,233,216,0.08) 27px, rgba(241,233,216,0.08) 28px
+    );
+    pointer-events:none;
+  }
+  .header-inner{position:relative; max-width:900px; margin:0 auto; text-align:center;}
+  .eyebrow{
+    font-family:'EB Garamond', serif;
+    font-style:italic;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    font-size:13px;
+    color:var(--gold);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:44px;
+    margin:0 0 8px;
+    letter-spacing:0.01em;
+  }
+  .subtitle{
+    font-size:17px;
+    color:var(--parchment-soft);
+    font-style:italic;
+    margin:0;
+  }
 
+  .controls{
+    max-width:900px;
+    margin:-24px auto 0;
+    padding:0 24px;
+    position:relative;
+    z-index:2;
+  }
+  .tabbar{
+    display:flex;
+    gap:2px;
+    background:var(--gold);
+    border-radius:10px;
+    padding:2px;
+    box-shadow:0 8px 24px rgba(42,17,25,0.25);
+  }
+  .tab{
+    flex:1;
+    text-align:center;
+    padding:14px 8px;
+    background:var(--parchment);
+    border:none;
+    font-family:'EB Garamond', serif;
+    font-size:16px;
+    letter-spacing:0.03em;
+    cursor:pointer;
+    color:var(--wine-deep);
+    transition:background .15s ease, color .15s ease;
+  }
+  .tab:first-child{border-radius:8px 0 0 8px;}
+  .tab:last-child{border-radius:0 8px 8px 0;}
+  .tab.active{
+    background:var(--wine);
+    color:var(--parchment);
+    font-weight:600;
+  }
+
+  .filter-row{
+    max-width:900px;
+    margin:20px auto 0;
+    padding:0 24px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    padding:7px 16px;
+    border-radius:999px;
+    border:1px solid var(--wine);
+    background:transparent;
+    color:var(--wine);
+    font-family:'EB Garamond', serif;
+    font-size:15px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .chip.selected{
+    background:var(--wine);
+    color:var(--parchment);
+  }
+
+  .search-row{
+    max-width:900px;
+    margin:16px auto 0;
+    padding:0 24px;
+  }
+  .search-row input{
+    width:100%;
+    padding:12px 16px;
+    font-family:'EB Garamond', serif;
+    font-size:16px;
+    border:1px solid var(--gold);
+    border-radius:8px;
+    background:#fff;
+    color:var(--ink);
+  }
+  .search-row input:focus{
+    outline:2px solid var(--sage);
+    outline-offset:1px;
+  }
+
+  main{
+    max-width:900px;
+    margin:0 auto;
+    padding:28px 24px 80px;
+  }
+  .era-label{
+    font-family:'Cormorant Garamond', serif;
+    font-size:22px;
+    font-weight:600;
+    color:var(--wine);
+    margin:28px 0 12px;
+    padding-bottom:6px;
+    border-bottom:1.5px solid var(--gold);
+  }
+  .era-label:first-child{margin-top:0;}
+
+  .piece-list{
+    display:flex;
+    flex-direction:column;
+  }
+  .piece{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px 4px;
+    border-bottom:1px dotted rgba(35,28,23,0.25);
+    cursor:pointer;
+    background:transparent;
+    border-left:none; border-right:none; border-top:none;
+    text-align:left;
+    width:100%;
+    font-family:'EB Garamond', serif;
+    transition:background .15s ease;
+  }
+  .piece:hover{background:var(--parchment-soft);}
+  .piece-info{display:flex; flex-direction:column; gap:2px;}
+  .piece-title{font-size:18px; color:var(--ink);}
+  .piece-meta{font-size:14px; color:var(--sage); font-style:italic;}
+  .play-icon{
+    flex-shrink:0;
+    width:34px; height:34px;
+    border-radius:50%;
+    background:var(--wine);
+    color:var(--parchment);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+  }
+
+  .empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--sage);
+    font-style:italic;
+    font-size:17px;
+  }
+
+  .player-wrap{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 24px 8px;
+  }
+  .player-inner{
+    background:var(--wine);
+    border-radius:12px;
+    padding:16px;
+    box-shadow:0 8px 24px rgba(42,17,25,0.25);
+  }
+  .player-label{
+    color:var(--parchment);
+    font-family:'Cormorant Garamond', serif;
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:10px;
+    padding-left:2px;
+  }
+  .player-frame{
+    position:relative;
+    width:100%;
+    padding-top:56.25%;
+    border-radius:8px;
+    overflow:hidden;
+    background:#000;
+  }
+  .player-frame iframe{
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    border:0;
+  }
+  .player-fallback{
+    margin-top:10px;
+    padding-left:2px;
+    font-size:14px;
+    color:var(--parchment-soft);
+    font-style:italic;
+  }
+  .player-fallback a{
+    color:var(--gold);
+    font-style:normal;
+    text-decoration:underline;
+  }
+
+  footer{
+    text-align:center;
+    padding:24px;
+    color:var(--sage);
+    font-size:13px;
+    font-style:italic;
+  }
+
+  @media (max-width:600px){
+    h1{font-size:32px;}
+    .tab{font-size:14px; padding:12px 4px;}
+    .piece-title{font-size:16px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="staff-header">
+  <div class="staff-lines"></div>
+  <div class="header-inner">
+    <div class="eyebrow">Listen · Discover · Enjoy</div>
+    <h1>클래식 음악 찾기</h1>
+    <p class="subtitle">국가·시대·장르로 골라 듣고, 클릭 한 번에 유튜브로</p>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="tabbar" role="tablist">
+    <button class="tab active" data-mode="era">시대별</button>
+    <button class="tab" data-mode="country">국가별</button>
+    <button class="tab" data-mode="genre">장르별</button>
+  </div>
+</div>
+
+<div class="filter-row" id="filterRow"></div>
+
+<div class="search-row">
+  <input type="text" id="searchBox" placeholder="작곡가나 곡명으로 직접 검색... (예: 쇼팽, 교향곡)">
+</div>
+
+<main id="mainArea"></main>
+
+<div class="player-wrap" id="playerWrap" style="display:none;">
+  <div class="player-inner">
+    <div class="player-label" id="playerLabel"></div>
+    <div class="player-frame">
+      <iframe id="playerFrame" src="" title="유튜브 재생" frameborder="0"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+    <div class="player-fallback">
+      재생이 보이지 않나요? <a id="fallbackLink" href="#" target="_blank" rel="noopener">이 창에서 바로 열어 듣기 →</a>
+    </div>
+  </div>
+</div>
+
+<footer>곡을 클릭하면 아래에 유튜브 검색 결과가 바로 재생됩니다.</footer>
+
+<script>
+const pieces = [
+  {title:"골드베르크 변주곡", composer:"바흐", era:"바로크", country:"독일", genre:"독주곡", id:"Cwas_7H5KUs"},
+  {title:"브란덴부르크 협주곡 3번", composer:"바흐", era:"바로크", country:"독일", genre:"협주곡", id:"QLj_gMBqHX8"},
+  {title:"무반주 첼로 모음곡 1번 - 프렐류드", composer:"바흐", era:"바로크", country:"독일", genre:"독주곡", id:"1prweT95Mo0"},
+  {title:"사계 - 봄", composer:"비발디", era:"바로크", country:"이탈리아", genre:"협주곡", id:"qm8FVsKrPHo"},
+  {title:"메시아 - 할렐루야", composer:"헨델", era:"바로크", country:"영국", genre:"성악·합창곡", id:"usfiAsWR4qU"},
+  {title:"수상음악", composer:"헨델", era:"바로크", country:"영국", genre:"관현악곡", id:"EVAB2z1RPu4"},
+  {title:"교향곡 94번 '놀람'", composer:"하이든", era:"고전주의", country:"오스트리아", genre:"교향곡", id:"b9Umjnwvn4g"},
+  {title:"현악4중주 '황제'", composer:"하이든", era:"고전주의", country:"오스트리아", genre:"실내악", id:"qHTDkUOYKI4"},
+  {title:"교향곡 40번", composer:"모차르트", era:"고전주의", country:"오스트리아", genre:"교향곡", id:"oDPLYE5PWW0"},
+  {title:"레퀴엠 - 라크리모사", composer:"모차르트", era:"고전주의", country:"오스트리아", genre:"성악·합창곡", id:"W_kSfXbmwS4"},
+  {title:"마술피리 - 밤의 여왕 아리아", composer:"모차르트", era:"고전주의", country:"오스트리아", genre:"오페라", id:"YuBeBjqKSGQ"},
+  {title:"교향곡 5번 '운명'", composer:"베토벤", era:"고전주의", country:"독일", genre:"교향곡", id:"P08rkJ5Ugf0"},
+  {title:"녹턴 Op.9 No.2", composer:"쇼팽", era:"낭만주의", country:"폴란드", genre:"독주곡", id:"c2beUDDsgws"},
+  {title:"백조의 호수 - 정경(테마)", composer:"차이콥스키", era:"낭만주의", country:"러시아", genre:"관현악곡", id:"9cNQFB0TDfY"},
+  {title:"신세계 교향곡 2악장 '라르고'", composer:"드보르자크", era:"낭만주의", country:"체코", genre:"교향곡", id:"ASlch7R1Zvo"},
+  {title:"라 트라비아타 - 축배의 노래", composer:"베르디", era:"낭만주의", country:"이탈리아", genre:"오페라", id:"8z_g2vRuX8E"},
+  {title:"카르멘 - 하바네라", composer:"비제", era:"낭만주의", country:"프랑스", genre:"오페라", id:"px36njyCnVM"},
+  {title:"달빛", composer:"드뷔시", era:"근현대", country:"프랑스", genre:"독주곡", id:"-Bxpm0EmOMU"},
+  {title:"볼레로", composer:"라벨", era:"근현대", country:"프랑스", genre:"관현악곡", id:"4LLylhgR3uM"},
+  {title:"핀란디아", composer:"시벨리우스", era:"근현대", country:"핀란드", genre:"관현악곡", id:"L6P3cIJHWjw"},
+  {title:"랩소디 인 블루", composer:"거슈윈", era:"근현대", country:"미국", genre:"협주곡", id:"v4EBV9IEx5A"},
+];
+
+const eraOrder = ["바로크","고전주의","낭만주의","근현대"];
+const countryOrder = ["독일","오스트리아","이탈리아","프랑스","영국","폴란드","러시아","체코","핀란드","미국"];
+const genreOrder = ["교향곡","협주곡","오페라","실내악","독주곡","관현악곡","성악·합창곡"];
+
+let mode = "era";
+let selectedFilter = null;
+let searchTerm = "";
+
+function getGroups(){
+  if(mode==="era") return eraOrder;
+  if(mode==="country") return [...new Set(pieces.map(p=>p.country))].sort((a,b)=>countryOrder.indexOf(a)-countryOrder.indexOf(b));
+  return genreOrder;
+}
+
+function renderFilters(){
+  const row = document.getElementById('filterRow');
+  const groups = getGroups();
+  row.innerHTML = '';
+  const allChip = document.createElement('button');
+  allChip.className = 'chip' + (selectedFilter===null ? ' selected' : '');
+  allChip.textContent = '전체';
+  allChip.onclick = () => { selectedFilter = null; render(); };
+  row.appendChild(allChip);
+  groups.forEach(g=>{
+    const chip = document.createElement('button');
+    chip.className = 'chip' + (selectedFilter===g ? ' selected' : '');
+    chip.textContent = g;
+    chip.onclick = () => { selectedFilter = g; render(); };
+    row.appendChild(chip);
+  });
+}
+
+function keyFor(p){
+  if(mode==="era") return p.era;
+  if(mode==="country") return p.country;
+  return p.genre;
+}
+
+function metaFor(p){
+  if(mode==="era") return `${p.composer} · ${p.country}`;
+  if(mode==="country") return `${p.composer} · ${p.era}`;
+  return `${p.composer} · ${p.country} / ${p.era}`;
+}
+
+function render(){
+  renderFilters();
+  const main = document.getElementById('mainArea');
+  main.innerHTML = '';
+
+  let filtered = pieces.filter(p=>{
+    if(selectedFilter && keyFor(p)!==selectedFilter) return false;
+    if(searchTerm){
+      const s = searchTerm.toLowerCase();
+      return p.title.toLowerCase().includes(s) || p.composer.toLowerCase().includes(s);
+    }
+    return true;
+  });
+
+  if(filtered.length===0){
+    main.innerHTML = '<div class="empty">검색 결과가 없습니다. 다른 키워드로 찾아보세요.</div>';
+    return;
+  }
+
+  const order = mode==="era" ? eraOrder : (mode==="genre" ? genreOrder : countryOrder);
+  const groupsPresent = [...new Set(filtered.map(keyFor))].sort((a,b)=>order.indexOf(a)-order.indexOf(b));
+
+  groupsPresent.forEach(group=>{
+    const label = document.createElement('div');
+    label.className = 'era-label';
+    label.textContent = group;
+    main.appendChild(label);
+
+    const list = document.createElement('div');
+    list.className = 'piece-list';
+    filtered.filter(p=>keyFor(p)===group).forEach(p=>{
+      const btn = document.createElement('button');
+      btn.className = 'piece';
+      btn.innerHTML = `
+        <div class="piece-info">
+          <div class="piece-title">${p.composer} — ${p.title}</div>
+          <div class="piece-meta">${metaFor(p)}</div>
+        </div>
+        <div class="play-icon">▶</div>
+      `;
+      btn.onclick = () => playPiece(p);
+      list.appendChild(btn);
+    });
+    main.appendChild(list);
+  });
+}
+
+function playPiece(p){
+  const wrap = document.getElementById('playerWrap');
+  const frame = document.getElementById('playerFrame');
+  const label = document.getElementById('playerLabel');
+  const fallback = document.getElementById('fallbackLink');
+  frame.src = 'https://www.youtube.com/embed/' + p.id + '?autoplay=1';
+  fallback.href = 'https://www.youtube.com/watch?v=' + p.id;
+  label.textContent = `${p.composer} — ${p.title}`;
+  wrap.style.display = 'block';
+  wrap.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.onclick = () => {
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    mode = tab.dataset.mode;
+    selectedFilter = null;
+    render();
+  };
+});
+
+document.getElementById('searchBox').addEventListener('input', (e)=>{
+  searchTerm = e.target.value.trim();
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
