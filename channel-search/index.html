@@ -331,6 +331,7 @@
     <thead>
       <tr>
         <th>시간</th>
+        <th>채널</th>
         <th>방송사</th>
         <th>프로그램</th>
       </tr>
@@ -370,7 +371,7 @@
   // ── 실데이터 연결 지점 ─────────────────────────────────────────
   // 배포된 Apps Script 웹앱 URL을 여기에 넣으면 예시 데이터 대신 실데이터를 불러옵니다.
   // 예: const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbxUih3maOGYWWN1mIcSZbM97KtQxP6lc1po18ldaMVXFvw7zhKhNayI3LeODSKac3F_HQ/exec";
+  const GAS_URL = "";
   // ────────────────────────────────────────────────────────────
 
   const SAMPLE_DATA = [
@@ -490,14 +491,25 @@
     return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
   }
 
+  function getChannelNumber(broadcaster){
+    if(!allRows || !allRows.length) return '';
+    // KT 기준을 우선으로, 없으면 아무 통신사 값이나 사용
+    const kt = allRows.find(r => r['방송사'] === broadcaster && r['통신사_SO명'] === 'KT');
+    if(kt) return kt['채널번호'];
+    const any = allRows.find(r => r['방송사'] === broadcaster);
+    return any ? any['채널번호'] : '';
+  }
+
   function renderPrograms(rows){
     const tbody = document.getElementById('progRows');
     tbody.innerHTML = '';
     document.getElementById('progEmptyMsg').style.display = rows.length ? 'none' : 'block';
     rows.forEach(r=>{
       const tr = document.createElement('tr');
+      const ch = getChannelNumber(r['방송사']);
       tr.innerHTML = `
         <td class="prog-time">${escapeHtml(r['시작시간']||'')}${r['종료시간'] ? '–'+escapeHtml(r['종료시간']) : ''}</td>
+        <td class="ch">${escapeHtml(ch || '-')}</td>
         <td><span class="pill">${escapeHtml(r['방송사']||'')}</span></td>
         <td>${escapeHtml(r['프로그램명']||'')}</td>
       `;
@@ -550,8 +562,7 @@
     });
   });
 
-  loadData();
-  initProgramsPanel();
+  loadData().then(initProgramsPanel);
 </script>
 </body>
 </html>
