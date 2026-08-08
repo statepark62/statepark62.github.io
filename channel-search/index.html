@@ -142,6 +142,51 @@
     line-height:1.7;
   }
 
+  .regional-links{
+    margin-top:32px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+  }
+  .regional-links h2{
+    font-size:15px;
+    margin:0 0 4px;
+  }
+  .regional-links .sub{
+    color:var(--muted);
+    font-size:12px;
+    margin:0 0 14px;
+  }
+  .link-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:8px;
+  }
+  .link-grid a{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    padding:10px 12px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    text-decoration:none;
+    color:var(--text);
+    font-weight:600;
+    font-size:13px;
+    transition:border-color .15s;
+  }
+  .link-grid a:hover{
+    border-color:var(--signal);
+  }
+  .link-grid a span{
+    color:var(--muted);
+    font-weight:400;
+    font-size:11px;
+  }
+  @media (max-width:480px){
+    .link-grid{grid-template-columns:repeat(2, 1fr);}
+  }
+
   footer{
     margin-top:28px;
     font-size:12px;
@@ -218,6 +263,22 @@
   </table>
   <div class="empty" id="emptyMsg" style="display:none;">조건에 맞는 채널 정보가 없습니다.</div>
 
+  <section class="regional-links">
+    <h2>지역민방 편성표 바로가기</h2>
+    <p class="sub">자동 편성표는 지상파 5개까지만 제공됩니다. 지역민방 9곳은 각 방송사 홈페이지에서 직접 확인하세요.</p>
+    <div class="link-grid">
+      <a href="https://www.knn.co.kr/schedule" target="_blank" rel="noopener">KNN <span>부산·경남</span></a>
+      <a href="https://www.tbc.co.kr/schedule" target="_blank" rel="noopener">TBC <span>대구·경북</span></a>
+      <a href="https://www.ikbc.co.kr/schedule/tv" target="_blank" rel="noopener">kbc <span>광주·전남</span></a>
+      <a href="https://www.tjb.co.kr/mobile0501" target="_blank" rel="noopener">TJB <span>대전·세종·충남</span></a>
+      <a href="http://www.ubc.co.kr/" target="_blank" rel="noopener">ubc <span>울산</span></a>
+      <a href="https://www.g1tv.co.kr/" target="_blank" rel="noopener">G1방송 <span>강원</span></a>
+      <a href="https://www.cjb.co.kr/" target="_blank" rel="noopener">CJB <span>충북</span></a>
+      <a href="https://www.jtv.co.kr/" target="_blank" rel="noopener">JTV <span>전북</span></a>
+      <a href="https://www.jibs.co.kr/" target="_blank" rel="noopener">JIBS <span>제주</span></a>
+    </div>
+  </section>
+
   <footer>
     이 화면은 현재 <strong>예시 데이터</strong>로 동작합니다. 실제 조사 데이터가 Google Sheets에 채워지면,
     아래 <code>GAS_URL</code> 값을 배포된 Apps Script 웹앱 주소로 바꿔 실데이터를 불러올 수 있습니다.<br>
@@ -229,7 +290,7 @@
   // ── 실데이터 연결 지점 ─────────────────────────────────────────
   // 배포된 Apps Script 웹앱 URL을 여기에 넣으면 예시 데이터 대신 실데이터를 불러옵니다.
   // 예: const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbw8BsT44td5f758EeqUkNQ2ECGHTqPeo0TedCfj4HmjnL7ydAfFmNhNtiz0PoQHPgX80g/exec";
+  const GAS_URL = "";
   // ────────────────────────────────────────────────────────────
 
   const SAMPLE_DATA = [
