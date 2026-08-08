@@ -433,7 +433,7 @@
   // ── 실데이터 연결 지점 ─────────────────────────────────────────
   // 배포된 Apps Script 웹앱 URL을 여기에 넣으면 예시 데이터 대신 실데이터를 불러옵니다.
   // 예: const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbxUXd7RzJtCkRg6qCaRfYsBjQ9GQP-ih0ETgADE4h9v9QnPf8M4m1IoBOW2hI1B24-Lyw/exec";
+  const GAS_URL = "";
   // ────────────────────────────────────────────────────────────
 
   const SAMPLE_DATA = [
@@ -562,6 +562,13 @@
     return any ? any['채널번호'] : '';
   }
 
+  function padTime(t){
+    if(!t) return t;
+    const m = t.match(/^(\d{1,2}):(\d{2})$/);
+    if(!m) return t;
+    return m[1].padStart(2,'0') + ':' + m[2];
+  }
+
   function isNowWithin(start, end, isToday){
     if(!isToday || !start) return false;
     const now = new Date();
@@ -582,8 +589,8 @@
     rows.forEach(r=>{
       const tr = document.createElement('tr');
       const ch = getChannelNumber(r['방송사']);
-      const start = r['시작시간'] || '';
-      const end = r['종료시간'] || '';
+      const start = padTime(r['시작시간'] || '');
+      const end = padTime(r['종료시간'] || '');
       // 종료시간이 시작시간보다 이르면 자정을 넘겨 다음날로 이어지는 방송
       const crossesMidnight = end && start && end < start;
       const timeLabel = start + (end ? '–' + end + (crossesMidnight ? '<span class="next-day">(다음날)</span>' : '') : '');
