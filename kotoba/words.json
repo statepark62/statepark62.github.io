@@ -4311,5 +4311,105 @@
   "example": "手紙を本の間に隠した。",
   "exampleReading": "てがみをほんのあいだにかくした。",
   "exampleMeaning": "편지를 책 사이에 숨겼다."
+ },
+ {
+  "id": "news130",
+  "word": "延期",
+  "reading": "えんき",
+  "meaning": "연기",
+  "level": "N3",
+  "example": "悪天候のため、ロケットの打ち上げが延期された。",
+  "exampleReading": "あくてんこうのため、ロケットのうちあげがえんきされた。",
+  "exampleMeaning": "악천후 때문에 로켓 발사가 연기되었다."
+ },
+ {
+  "id": "news131",
+  "word": "倒産",
+  "reading": "とうさん",
+  "meaning": "도산, 파산",
+  "level": "N2",
+  "example": "原材料費の高騰で多くの中小企業が倒産に追い込まれた。",
+  "exampleReading": "げんざいりょうひのこうとうでおおくのちゅうしょうきぎょうがとうさんにおいこまれた。",
+  "exampleMeaning": "원자재비 급등으로 많은 중소기업이 도산에 몰렸다."
+ },
+ {
+  "id": "news132",
+  "word": "廃業",
+  "reading": "はいぎょう",
+  "meaning": "폐업",
+  "level": "N1",
+  "example": "後継者不足を理由に廃業する店が増えている。",
+  "exampleReading": "こうけいしゃぶそくをりゆうにはいぎょうするみせがふえている。",
+  "exampleMeaning": "후계자 부족을 이유로 폐업하는 가게가 늘고 있다."
+ },
+ {
+  "id": "news133",
+  "word": "要請",
+  "reading": "ようせい",
+  "meaning": "요청",
+  "level": "N2",
+  "example": "政府は事業者に対策強化を要請した。",
+  "exampleReading": "せいふはじぎょうしゃにたいさくきょうかをようせいした。",
+  "exampleMeaning": "정부는 사업자에게 대책 강화를 요청했다."
+ },
+ {
+  "id": "news134",
+  "word": "混雑",
+  "reading": "こんざつ",
+  "meaning": "혼잡",
+  "level": "N3",
+  "example": "お盆休みは高速道路の混雑がピークに達する。",
+  "exampleReading": "おぼんやすみはこうそくどうろのこんざつがピークにたっする。",
+  "exampleMeaning": "오봉 연휴에는 고속도로 혼잡이 절정에 달한다."
+ },
+ {
+  "id": "tj131",
+  "word": "平和教育",
+  "reading": "へいわきょういく",
+  "meaning": "평화교육",
+  "level": "N1",
+  "example": "平和教育は地域の実情に根ざすべきだ。",
+  "exampleReading": "へいわきょういくはちいきのじつじょうにねざすべきだ。",
+  "exampleMeaning": "평화교육은 지역의 현실에 뿌리내려야 한다."
+ },
+ {
+  "id": "tj132",
+  "word": "被爆者",
+  "reading": "ひばくしゃ",
+  "meaning": "피폭자",
+  "level": "N1",
+  "example": "被爆者の証言を記録する。",
+  "exampleReading": "ひばくしゃのしょうげんをきろくする。",
+  "exampleMeaning": "피폭자의 증언을 기록한다."
+ },
+ {
+  "id": "tj133",
+  "word": "振り返る",
+  "reading": "ふりかえる",
+  "meaning": "되돌아보다, 돌아보며 생각하다",
+  "level": "N2",
+  "example": "年末に一年を振り返る習慣がある。",
+  "exampleReading": "ねんまつにいちねんをふりかえるしゅうかんがある。",
+  "exampleMeaning": "연말에 한 해를 되돌아보는 습관이 있다."
+ },
+ {
+  "id": "tj134",
+  "word": "信念",
+  "reading": "しんねん",
+  "meaning": "신념",
+  "level": "N2",
+  "example": "彼は教育に関する信念を貫いた。",
+  "exampleReading": "かれはきょういくにかんするしんねんをつらぬいた。",
+  "exampleMeaning": "그는 교육에 관한 신념을 관철했다."
+ },
+ {
+  "id": "tj135",
+  "word": "小学校教諭",
+  "reading": "しょうがっこうきょうゆ",
+  "meaning": "초등학교 교사(교유)",
+  "level": "N1",
+  "example": "小学校教諭として三十年勤めた。",
+  "exampleReading": "しょうがっこうきょうゆとしてさんじゅうねんつとめた。",
+  "exampleMeaning": "초등학교 교사로 30년 근무했다."
  }
 ]
