@@ -213,6 +213,26 @@
     font-size:11px;
     color:var(--muted);
   }
+  tbody tr.on-air{
+    background:rgba(242,167,27,0.10);
+    box-shadow:inset 3px 0 0 var(--signal);
+  }
+  tbody tr.on-air:hover{
+    background:rgba(242,167,27,0.14);
+  }
+  .on-air-tag{
+    display:inline-block;
+    margin-left:8px;
+    font-size:10px;
+    font-family:var(--mono);
+    color:var(--bg);
+    background:var(--signal);
+    padding:1px 6px;
+    border-radius:100px;
+    font-weight:700;
+    letter-spacing:.03em;
+    vertical-align:middle;
+  }
   .regional-links h2{
     font-size:15px;
     margin:0 0 4px;
@@ -413,7 +433,7 @@
   // ── 실데이터 연결 지점 ─────────────────────────────────────────
   // 배포된 Apps Script 웹앱 URL을 여기에 넣으면 예시 데이터 대신 실데이터를 불러옵니다.
   // 예: const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbxUXd7RzJtCkRg6qCaRfYsBjQ9GQP-ih0ETgADE4h9v9QnPf8M4m1IoBOW2hI1B24-Lyw/exec";
+  const GAS_URL = "";
   // ────────────────────────────────────────────────────────────
 
   const SAMPLE_DATA = [
@@ -542,10 +562,23 @@
     return any ? any['채널번호'] : '';
   }
 
+  function isNowWithin(start, end, isToday){
+    if(!isToday || !start) return false;
+    const now = new Date();
+    const nowStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    if(!end) return false;
+    if(end < start){
+      // 자정을 넘기는 프로그램: [시작, 24:00) 또는 [00:00, 종료)
+      return nowStr >= start || nowStr < end;
+    }
+    return nowStr >= start && nowStr < end;
+  }
+
   function renderPrograms(rows){
     const tbody = document.getElementById('progRows');
     tbody.innerHTML = '';
     document.getElementById('progEmptyMsg').style.display = rows.length ? 'none' : 'block';
+    const isToday = document.getElementById('progDate').value === todayStr();
     rows.forEach(r=>{
       const tr = document.createElement('tr');
       const ch = getChannelNumber(r['방송사']);
@@ -554,11 +587,14 @@
       // 종료시간이 시작시간보다 이르면 자정을 넘겨 다음날로 이어지는 방송
       const crossesMidnight = end && start && end < start;
       const timeLabel = start + (end ? '–' + end + (crossesMidnight ? '<span class="next-day">(다음날)</span>' : '') : '');
+      if(isNowWithin(start, end, isToday)){
+        tr.classList.add('on-air');
+      }
       tr.innerHTML = `
         <td class="prog-time">${timeLabel}</td>
         <td class="ch">${escapeHtml(ch || '-')}</td>
         <td><span class="pill">${escapeHtml(r['방송사']||'')}</span></td>
-        <td>${escapeHtml(r['프로그램명']||'')}</td>
+        <td>${escapeHtml(r['프로그램명']||'')}${isNowWithin(start, end, isToday) ? '<span class="on-air-tag">방송중</span>' : ''}</td>
       `;
       tbody.appendChild(tr);
     });
