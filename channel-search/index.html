@@ -177,6 +177,14 @@
     font-weight:600;
     white-space:nowrap;
   }
+  .prog-time .next-day{
+    display:inline-block;
+    margin-left:6px;
+    font-family:inherit;
+    font-weight:400;
+    font-size:11px;
+    color:var(--muted);
+  }
   .regional-links h2{
     font-size:15px;
     margin:0 0 4px;
@@ -371,7 +379,7 @@
   // ── 실데이터 연결 지점 ─────────────────────────────────────────
   // 배포된 Apps Script 웹앱 URL을 여기에 넣으면 예시 데이터 대신 실데이터를 불러옵니다.
   // 예: const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbxUih3maOGYWWN1mIcSZbM97KtQxP6lc1po18ldaMVXFvw7zhKhNayI3LeODSKac3F_HQ/exec";
+  const GAS_URL = "";
   // ────────────────────────────────────────────────────────────
 
   const SAMPLE_DATA = [
@@ -507,8 +515,13 @@
     rows.forEach(r=>{
       const tr = document.createElement('tr');
       const ch = getChannelNumber(r['방송사']);
+      const start = r['시작시간'] || '';
+      const end = r['종료시간'] || '';
+      // 종료시간이 시작시간보다 이르면 자정을 넘겨 다음날로 이어지는 방송
+      const crossesMidnight = end && start && end < start;
+      const timeLabel = start + (end ? '–' + end + (crossesMidnight ? '<span class="next-day">(다음날)</span>' : '') : '');
       tr.innerHTML = `
-        <td class="prog-time">${escapeHtml(r['시작시간']||'')}${r['종료시간'] ? '–'+escapeHtml(r['종료시간']) : ''}</td>
+        <td class="prog-time">${timeLabel}</td>
         <td class="ch">${escapeHtml(ch || '-')}</td>
         <td><span class="pill">${escapeHtml(r['방송사']||'')}</span></td>
         <td>${escapeHtml(r['프로그램명']||'')}</td>
