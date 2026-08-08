@@ -1,1 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>채널 다이얼 — 지역·통신사별 TV 채널 검색</title>
+<style>
+  :root{
+    --bg:#12181f;
+    --panel:#1b232d;
+    --line:#2a3540;
+    --text:#eef1f4;
+    --muted:#8b98a5;
+    --signal:#f2a71b;
+    --signal-dim:#7a5a1c;
+    --mono:'IBM Plex Mono','SF Mono',Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:28px 20px 60px;}
 
+  header{margin-bottom:28px;}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.14em;
+    color:var(--signal);
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h1{
+    font-size:26px;
+    margin:0 0 6px;
+    letter-spacing:-.01em;
+  }
+  .sub{color:var(--muted);font-size:14px;line-height:1.6;margin:0;}
+
+  .dial{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin:22px 0 24px;
+    padding:14px 16px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+  }
+  .dial-num{
+    font-family:var(--mono);
+    font-size:34px;
+    font-weight:600;
+    color:var(--signal);
+    min-width:64px;
+    text-align:center;
+  }
+  .dial-label{font-size:12px;color:var(--muted);}
+
+  .filters{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field label{font-size:11px;color:var(--muted);letter-spacing:.04em;}
+  select, input[type=text]{
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:10px 12px;
+    border-radius:8px;
+    font-size:14px;
+    font-family:inherit;
+    outline:none;
+  }
+  select:focus, input:focus{border-color:var(--signal);}
+  .field.wide{grid-column:1 / -1;}
+
+  .status-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:10px;
+    font-family:var(--mono);
+  }
+  .status-row .badge{
+    color:var(--signal-dim);
+  }
+  .status-row .badge.live{color:var(--signal);}
+
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  thead th{
+    text-align:left;
+    font-size:11px;
+    color:var(--muted);
+    font-weight:500;
+    letter-spacing:.05em;
+    padding:8px 10px;
+    border-bottom:1px solid var(--line);
+  }
+  tbody td{
+    padding:12px 10px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  tbody tr:hover{background:rgba(242,167,27,0.05);}
+  .ch{
+    font-family:var(--mono);
+    font-size:16px;
+    color:var(--signal);
+    font-weight:600;
+  }
+  .bname{font-weight:600;}
+  .bfull{color:var(--muted);font-size:12px;margin-top:2px;}
+  .pill{
+    display:inline-block;
+    font-size:11px;
+    padding:2px 8px;
+    border-radius:100px;
+    border:1px solid var(--line);
+    color:var(--muted);
+  }
+
+  .empty{
+    padding:40px 10px;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+  }
+
+  footer{
+    margin-top:28px;
+    font-size:12px;
+    color:var(--muted);
+    line-height:1.7;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
+  code{
+    font-family:var(--mono);
+    background:var(--panel);
+    padding:1px 5px;
+    border-radius:4px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Channel Dial</div>
+    <h1>지역·통신사별 TV 채널 검색</h1>
+    <p class="sub">권역, 통신사(IPTV), 케이블 SO 조합으로 방송사 채널번호를 찾습니다.</p>
+  </header>
+
+  <div class="dial">
+    <div class="dial-num" id="dialNum">--</div>
+    <div class="dial-label">선택한 조건에 맞는 결과 수</div>
+  </div>
+
+  <div class="filters">
+    <div class="field">
+      <label for="region">권역</label>
+      <select id="region">
+        <option value="">전체</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="platform">플랫폼</label>
+      <select id="platform">
+        <option value="">전체</option>
+        <option value="지상파">지상파</option>
+        <option value="IPTV">IPTV</option>
+        <option value="케이블">케이블</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="provider">통신사 / SO</label>
+      <select id="provider">
+        <option value="">전체</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="broadcaster">방송사명 검색</label>
+      <input type="text" id="broadcaster" placeholder="예: TBC, KNN">
+    </div>
+  </div>
+
+  <div class="status-row">
+    <span id="statusText">예시 데이터 표시 중</span>
+    <span class="badge" id="statusBadge">SAMPLE DATA</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>방송사</th>
+        <th>권역</th>
+        <th>플랫폼</th>
+        <th>통신사 / SO</th>
+        <th>채널</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="empty" id="emptyMsg" style="display:none;">조건에 맞는 채널 정보가 없습니다.</div>
+
+  <footer>
+    이 화면은 현재 <strong>예시 데이터</strong>로 동작합니다. 실제 조사 데이터가 Google Sheets에 채워지면,
+    아래 <code>GAS_URL</code> 값을 배포된 Apps Script 웹앱 주소로 바꿔 실데이터를 불러올 수 있습니다.<br>
+    백엔드: <code>Code.gs</code> (Sheets upsert + 검색 API, 매월 1일 자동 갱신 트리거 포함)
+  </footer>
+</div>
+
+<script>
+  // ── 실데이터 연결 지점 ─────────────────────────────────────────
+  // 배포된 Apps Script 웹앱 URL을 여기에 넣으면 예시 데이터 대신 실데이터를 불러옵니다.
+  // 예: const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec";
+  const GAS_URL = "";
+  // ────────────────────────────────────────────────────────────
+
+  const SAMPLE_DATA = [
+    { '방송사':'KNN', '방송사전체명':'부산경남방송', '권역':'부산/경남', '플랫폼구분':'IPTV', '통신사_SO명':'KT', '채널번호':'6' },
+    { '방송사':'KNN', '방송사전체명':'부산경남방송', '권역':'부산/경남', '플랫폼구분':'IPTV', '통신사_SO명':'SK', '채널번호':'6' },
+    { '방송사':'TBC', '방송사전체명':'대구경북방송', '권역':'대구/경북', '플랫폼구분':'IPTV', '통신사_SO명':'KT', '채널번호':'5' },
+    { '방송사':'TBC', '방송사전체명':'대구경북방송', '권역':'대구/경북', '플랫폼구분':'IPTV', '통신사_SO명':'LG U+', '채널번호':'5' },
+    { '방송사':'KBC', '방송사전체명':'광주방송', '권역':'광주/전남', '플랫폼구분':'IPTV', '통신사_SO명':'KT', '채널번호':'7' },
+    { '방송사':'TJB', '방송사전체명':'대전방송', '권역':'대전/충남', '플랫폼구분':'IPTV', '통신사_SO명':'SK', '채널번호':'5' },
+    { '방송사':'JIBS', '방송사전체명':'제주방송', '권역':'제주', '플랫폼구분':'IPTV', '통신사_SO명':'KT', '채널번호':'8' },
+  ];
+
+  let allRows = [];
+
+  function uniqueSorted(arr){
+    return [...new Set(arr)].filter(Boolean).sort();
+  }
+
+  function populateSelect(id, values){
+    const sel = document.getElementById(id);
+    values.forEach(v=>{
+      const opt = document.createElement('option');
+      opt.value = v; opt.textContent = v;
+      sel.appendChild(opt);
+    });
+  }
+
+  function render(){
+    const region = document.getElementById('region').value;
+    const platform = document.getElementById('platform').value;
+    const provider = document.getElementById('provider').value;
+    const bname = document.getElementById('broadcaster').value.trim().toLowerCase();
+
+    const filtered = allRows.filter(r=>{
+      if(region && r['권역'] !== region) return false;
+      if(platform && r['플랫폼구분'] !== platform) return false;
+      if(provider && r['통신사_SO명'] !== provider) return false;
+      if(bname && !(String(r['방송사']).toLowerCase().includes(bname) ||
+                     String(r['방송사전체명']||'').toLowerCase().includes(bname))) return false;
+      return true;
+    });
+
+    document.getElementById('dialNum').textContent =
+      String(filtered.length).padStart(2,'0');
+
+    const tbody = document.getElementById('rows');
+    tbody.innerHTML = '';
+    document.getElementById('emptyMsg').style.display = filtered.length ? 'none' : 'block';
+
+    filtered.forEach(r=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="bname">${escapeHtml(r['방송사'])}</div>
+          <div class="bfull">${escapeHtml(r['방송사전체명']||'')}</div>
+        </td>
+        <td>${escapeHtml(r['권역']||'')}</td>
+        <td><span class="pill">${escapeHtml(r['플랫폼구분']||'')}</span></td>
+        <td>${escapeHtml(r['통신사_SO명']||'')}</td>
+        <td class="ch">${escapeHtml(r['채널번호']||'')}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  function initFilters(){
+    populateSelect('region', uniqueSorted(allRows.map(r=>r['권역'])));
+    populateSelect('provider', uniqueSorted(allRows.map(r=>r['통신사_SO명'])));
+    ['region','platform','provider'].forEach(id=>{
+      document.getElementById(id).addEventListener('change', render);
+    });
+    document.getElementById('broadcaster').addEventListener('input', render);
+  }
+
+  async function loadData(){
+    if(!GAS_URL){
+      allRows = SAMPLE_DATA;
+      initFilters();
+      render();
+      return;
+    }
+    try{
+      document.getElementById('statusText').textContent = '실데이터 불러오는 중…';
+      const res = await fetch(GAS_URL + '?action=search');
+      const data = await res.json();
+      allRows = data.results || [];
+      document.getElementById('statusText').textContent = '실데이터 연동됨';
+      document.getElementById('statusBadge').textContent = 'LIVE';
+      document.getElementById('statusBadge').classList.add('live');
+    }catch(err){
+      console.error(err);
+      allRows = SAMPLE_DATA;
+      document.getElementById('statusText').textContent = '실데이터 연결 실패 — 예시 데이터 표시';
+    }
+    initFilters();
+    render();
+  }
+
+  loadData();
+</script>
+</body>
+</html>
