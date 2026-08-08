@@ -96,6 +96,34 @@
     margin-bottom:10px;
     font-family:var(--mono);
   }
+  .status-row .status-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .refresh-btn{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--muted);
+    font-family:inherit;
+    font-size:11px;
+    padding:4px 9px;
+    border-radius:100px;
+    cursor:pointer;
+    transition:border-color .15s, color .15s;
+  }
+  .refresh-btn:hover{
+    border-color:var(--signal);
+    color:var(--signal);
+  }
+  .refresh-btn.spinning{
+    animation:spin-fade 0.8s ease-in-out;
+  }
+  @keyframes spin-fade{
+    0%{opacity:.4;}
+    50%{opacity:1;}
+    100%{opacity:.4;}
+  }
   .status-row .badge{
     color:var(--signal-dim);
   }
@@ -291,7 +319,10 @@
 
   <div class="status-row">
     <span id="statusText">예시 데이터 표시 중</span>
-    <span class="badge" id="statusBadge">SAMPLE DATA</span>
+    <span class="status-right">
+      <button class="refresh-btn" id="refreshChannels" title="새로고침">⟳ 새로고침</button>
+      <span class="badge" id="statusBadge">SAMPLE DATA</span>
+    </span>
   </div>
 
   <table>
@@ -332,7 +363,10 @@
 
   <div class="status-row">
     <span id="progStatusText">예시 데이터 표시 중</span>
-    <span class="badge" id="progStatusBadge">SAMPLE DATA</span>
+    <span class="status-right">
+      <button class="refresh-btn" id="refreshPrograms" title="새로고침">⟳ 새로고침</button>
+      <span class="badge" id="progStatusBadge">SAMPLE DATA</span>
+    </span>
   </div>
 
   <table>
@@ -379,7 +413,7 @@
   // ── 실데이터 연결 지점 ─────────────────────────────────────────
   // 배포된 Apps Script 웹앱 URL을 여기에 넣으면 예시 데이터 대신 실데이터를 불러옵니다.
   // 예: const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbxUih3maOGYWWN1mIcSZbM97KtQxP6lc1po18ldaMVXFvw7zhKhNayI3LeODSKac3F_HQ/exec";
+  const GAS_URL = "";
   // ────────────────────────────────────────────────────────────
 
   const SAMPLE_DATA = [
@@ -573,6 +607,21 @@
       btn.classList.add('active');
       document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
     });
+  });
+
+  // ── 새로고침 버튼 ────────────────────────────────────────────
+  function spinBtn(btn){
+    btn.classList.remove('spinning');
+    void btn.offsetWidth; // 리플로우 강제 — 연속 클릭 시 애니메이션 재시작
+    btn.classList.add('spinning');
+  }
+  document.getElementById('refreshChannels').addEventListener('click', ()=>{
+    spinBtn(document.getElementById('refreshChannels'));
+    loadData();
+  });
+  document.getElementById('refreshPrograms').addEventListener('click', ()=>{
+    spinBtn(document.getElementById('refreshPrograms'));
+    loadPrograms();
   });
 
   loadData().then(initProgramsPanel);
