@@ -74,7 +74,7 @@
   }
   .field{display:flex;flex-direction:column;gap:6px;}
   .field label{font-size:11px;color:var(--muted);letter-spacing:.04em;}
-  select, input[type=text]{
+  select, input[type=text], input[type=date]{
     background:var(--panel);
     border:1px solid var(--line);
     color:var(--text);
@@ -147,6 +147,36 @@
     padding-top:24px;
     border-top:1px solid var(--line);
   }
+  .tabs{
+    display:flex;
+    gap:6px;
+    margin-bottom:20px;
+  }
+  .tab-btn{
+    flex:1;
+    padding:10px 14px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    color:var(--muted);
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .tab-btn.active{
+    color:var(--signal);
+    border-color:var(--signal);
+    background:rgba(242,167,27,0.08);
+  }
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .prog-time{
+    font-family:var(--mono);
+    color:var(--signal);
+    font-weight:600;
+    white-space:nowrap;
+  }
   .regional-links h2{
     font-size:15px;
     margin:0 0 4px;
@@ -211,6 +241,13 @@
     <p class="sub">권역, 통신사(IPTV), 케이블 SO 조합으로 방송사 채널번호를 찾습니다.</p>
   </header>
 
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="channels">채널번호 검색</button>
+    <button class="tab-btn" data-tab="programs">오늘의 편성표</button>
+  </div>
+
+  <div id="panel-channels" class="panel active">
+
   <div class="dial">
     <div class="dial-num" id="dialNum">--</div>
     <div class="dial-label">선택한 조건에 맞는 결과 수</div>
@@ -263,6 +300,49 @@
   </table>
   <div class="empty" id="emptyMsg" style="display:none;">조건에 맞는 채널 정보가 없습니다.</div>
 
+  </div>
+
+  <div id="panel-programs" class="panel">
+
+  <div class="filters">
+    <div class="field">
+      <label for="progBroadcaster">방송사</label>
+      <select id="progBroadcaster">
+        <option value="">전체 (지상파 5개)</option>
+        <option value="KBS1">KBS1</option>
+        <option value="KBS2">KBS2</option>
+        <option value="MBC">MBC</option>
+        <option value="SBS">SBS</option>
+        <option value="EBS1">EBS1</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="progDate">날짜</label>
+      <input type="date" id="progDate">
+    </div>
+  </div>
+
+  <div class="status-row">
+    <span id="progStatusText">예시 데이터 표시 중</span>
+    <span class="badge" id="progStatusBadge">SAMPLE DATA</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>시간</th>
+        <th>방송사</th>
+        <th>프로그램</th>
+      </tr>
+    </thead>
+    <tbody id="progRows"></tbody>
+  </table>
+  <div class="empty" id="progEmptyMsg" style="display:none;">해당 날짜·방송사의 편성 정보가 없습니다.</div>
+
+  <p class="sub" style="margin-top:14px;">지역민방 9곳 편성표는 자동 검색을 지원하지 않습니다 — 아래 링크에서 직접 확인하세요.</p>
+
+  </div>
+
   <section class="regional-links">
     <h2>지역민방 편성표 바로가기</h2>
     <p class="sub">자동 편성표는 지상파 5개까지만 제공됩니다. 지역민방 9곳은 각 방송사 홈페이지에서 직접 확인하세요.</p>
@@ -290,7 +370,7 @@
   // ── 실데이터 연결 지점 ─────────────────────────────────────────
   // 배포된 Apps Script 웹앱 URL을 여기에 넣으면 예시 데이터 대신 실데이터를 불러옵니다.
   // 예: const GAS_URL = "https://script.google.com/macros/s/AKfycb.../exec";
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbw8BsT44td5f758EeqUkNQ2ECGHTqPeo0TedCfj4HmjnL7ydAfFmNhNtiz0PoQHPgX80g/exec";
+  const GAS_URL = "";
   // ────────────────────────────────────────────────────────────
 
   const SAMPLE_DATA = [
@@ -395,7 +475,83 @@
     render();
   }
 
+  // ── 편성표(오늘의 편성표) ──────────────────────────────────────
+  const SAMPLE_PROGRAMS = [
+    { '방송사':'KBS1', '시작시간':'19:00', '종료시간':'19:30', '프로그램명':'KBS 뉴스 7' },
+    { '방송사':'KBS2', '시작시간':'20:00', '종료시간':'21:00', '프로그램명':'2TV 저녁 예능(예시)' },
+    { '방송사':'MBC', '시작시간':'19:30', '종료시간':'20:00', '프로그램명':'MBC 뉴스데스크(예시)' },
+    { '방송사':'SBS', '시작시간':'19:00', '종료시간':'19:30', '프로그램명':'SBS 8 뉴스(예시)' },
+    { '방송사':'EBS1', '시작시간':'20:00', '종료시간':'21:00', '프로그램명':'다큐프라임(예시)' },
+  ];
+
+  function todayStr(){
+    const d = new Date();
+    const p = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+  }
+
+  function renderPrograms(rows){
+    const tbody = document.getElementById('progRows');
+    tbody.innerHTML = '';
+    document.getElementById('progEmptyMsg').style.display = rows.length ? 'none' : 'block';
+    rows.forEach(r=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="prog-time">${escapeHtml(r['시작시간']||'')}${r['종료시간'] ? '–'+escapeHtml(r['종료시간']) : ''}</td>
+        <td><span class="pill">${escapeHtml(r['방송사']||'')}</span></td>
+        <td>${escapeHtml(r['프로그램명']||'')}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  async function loadPrograms(){
+    const broadcaster = document.getElementById('progBroadcaster').value;
+    const date = document.getElementById('progDate').value || todayStr();
+
+    if(!GAS_URL){
+      const filtered = SAMPLE_PROGRAMS.filter(r => !broadcaster || r['방송사'] === broadcaster);
+      renderPrograms(filtered);
+      return;
+    }
+
+    try{
+      document.getElementById('progStatusText').textContent = '편성표 불러오는 중…';
+      const params = new URLSearchParams({ action:'programs', date });
+      if(broadcaster) params.set('broadcaster', broadcaster);
+      const res = await fetch(GAS_URL + '?' + params.toString());
+      const data = await res.json();
+      renderPrograms(data.results || []);
+      document.getElementById('progStatusText').textContent = '실데이터 연동됨';
+      document.getElementById('progStatusBadge').textContent = 'LIVE';
+      document.getElementById('progStatusBadge').classList.add('live');
+    }catch(err){
+      console.error(err);
+      const filtered = SAMPLE_PROGRAMS.filter(r => !broadcaster || r['방송사'] === broadcaster);
+      renderPrograms(filtered);
+      document.getElementById('progStatusText').textContent = '실데이터 연결 실패 — 예시 데이터 표시';
+    }
+  }
+
+  function initProgramsPanel(){
+    document.getElementById('progDate').value = todayStr();
+    document.getElementById('progBroadcaster').addEventListener('change', loadPrograms);
+    document.getElementById('progDate').addEventListener('change', loadPrograms);
+    loadPrograms();
+  }
+
+  // ── 탭 전환 ──────────────────────────────────────────────────
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
   loadData();
+  initProgramsPanel();
 </script>
 </body>
 </html>
