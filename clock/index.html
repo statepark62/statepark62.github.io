@@ -150,35 +150,41 @@
     position: relative;
     width: 54px; height: 84px;
     flex-shrink: 0;
-    border-radius: 6px;
-    background: var(--face-shadow);
-    perspective: 260px;
+    perspective: 300px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02);
+    border-radius: 6px;
   }
-  .flip .half{
-    position:absolute; left:0; right:0; height:42px; overflow:hidden;
+  .flip-inner{
+    position: relative;
+    width: 100%; height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 380ms cubic-bezier(.45,.05,.55,.95);
+  }
+  .flip.flipping .flip-inner{ transform: rotateX(-180deg); }
+  .face{
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    border-radius: 6px;
     background: var(--face);
+    display: flex; align-items: center; justify-content: center;
   }
-  .flip .half span{
-    position:absolute; left:0; right:0; top:0; height:84px;
-    display:flex; align-items:center; justify-content:center;
+  .face span{
     color: var(--numeral);
     font-family: var(--font-display);
-    font-weight:600; font-size: 52px;
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1;
     font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum";
   }
-  .flip .top, .flip .leaf-front{ top:0; border-radius:6px 6px 0 0; }
-  .flip .bottom, .flip .leaf-back{ bottom:0; border-radius:0 0 6px 6px; }
-  .flip .bottom span, .flip .leaf-back span{ top: -42px; }
-  .flip .top{ z-index:1; }
-  .flip .bottom{ z-index:1; box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset; }
-  .flip .top::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:2px; background: var(--crease); z-index: 1; }
-  .flip .leaf-front, .flip .leaf-back{ z-index:3; backface-visibility:hidden; transform-origin:50% 100%; }
-  .flip .leaf-back{ z-index:2; transform-origin:50% 0%; transform: rotateX(90deg); }
-  .flip .leaf-front{ transform: rotateX(0deg); }
-  .flip.flipping .leaf-front{ transition: transform 300ms cubic-bezier(.37,0,.63,1); transform: rotateX(-90deg); }
-  .flip.flipping .leaf-back{ transition: transform 300ms cubic-bezier(.37,0,.63,1) 300ms; transform: rotateX(0deg); }
+  .face-front{ transform: rotateX(0deg); z-index: 2; }
+  .face-back{ transform: rotateX(180deg); }
+  .flip::after{
+    content:'';
+    position:absolute; left:0; right:0; top:50%;
+    height:2px; margin-top:-1px;
+    background: var(--crease);
+    z-index: 3; pointer-events: none;
+  }
 
   /* ================= ANALOG ================= */
   .analog-face{ width: 220px; height: 220px; }
@@ -239,9 +245,7 @@
     .clock{ padding: 22px 18px 20px; }
     .display{ max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .flip{ width: 40px; height: 64px; }
-    .flip .half{ height:32px; }
-    .flip .half span{ height:64px; font-size: 38px; }
-    .flip .bottom span, .flip .leaf-back span{ top: -32px; }
+    .face span{ font-size: 38px; }
     .colon{ height:64px; gap:8px; }
     .analog-face{ width: 180px; height: 180px; }
     .minimal-time{ font-size: 44px; }
@@ -252,7 +256,7 @@
   <div class="desk">
     <div class="clock">
       <div class="brandrow">
-        <span class="brand">Desk Clock · Study</span>
+        <span class="brand">탁상시계</span>
         <button class="modebtn" id="modeBtn" type="button" aria-label="12/24시간 전환">24H</button>
       </div>
 
@@ -349,11 +353,11 @@
     const wrap = document.createElement('div');
     wrap.className = 'flip';
     wrap.innerHTML = `
-      <div class="half top"><span>0</span></div>
-      <div class="half bottom"><span>0</span></div>
-      <div class="half leaf-front"><span>0</span></div>
-      <div class="half leaf-back"><span>0</span></div>`;
-    flipDigits[id] = { el: wrap, value: null };
+      <div class="flip-inner">
+        <div class="face face-front"><span>0</span></div>
+        <div class="face face-back"><span>0</span></div>
+      </div>`;
+    flipDigits[id] = { el: wrap, value: null, animating: false };
     return wrap;
   }
   function flipGroup(prefix){
@@ -381,24 +385,45 @@
     const wasFirst = d.value === null;
     d.value = val;
     const el = d.el;
-    const topSpan = el.querySelector('.top span');
-    const bottomSpan = el.querySelector('.bottom span');
-    const frontSpan = el.querySelector('.leaf-front span');
-    const backSpan = el.querySelector('.leaf-back span');
+    const inner = el.querySelector('.flip-inner');
+    const frontSpan = el.querySelector('.face-front span');
+    const backSpan = el.querySelector('.face-back span');
+
     if (wasFirst){
-      topSpan.textContent = val; bottomSpan.textContent = val;
-      frontSpan.textContent = val; backSpan.textContent = val;
+      frontSpan.textContent = val;
+      backSpan.textContent = val;
       return;
     }
-    const prevTop = topSpan.textContent;
-    frontSpan.textContent = prevTop;
-    backSpan.textContent = val;
-    topSpan.textContent = val;
-    el.classList.remove('flipping');
+
+    // If a previous flip is still finishing, snap it to its end state first.
+    if (d.animating){
+      inner.style.transition = 'none';
+      inner.style.transform = 'rotateX(0deg)';
+      frontSpan.textContent = backSpan.textContent;
+      el.classList.remove('flipping');
+      void inner.offsetWidth;
+      inner.style.transition = '';
+      d.animating = false;
+    }
+
+    backSpan.textContent = val; // new value pre-loaded on the back face
+    d.animating = true;
+    // force reflow so the animation restarts cleanly
     void el.offsetWidth;
     el.classList.add('flipping');
-    window.setTimeout(() => { bottomSpan.textContent = val; }, 300);
-    window.setTimeout(() => { el.classList.remove('flipping'); }, 620);
+
+    const onEnd = (e) => {
+      if (e.target !== inner) return;
+      inner.removeEventListener('transitionend', onEnd);
+      frontSpan.textContent = val; // front now matches back
+      el.classList.remove('flipping');
+      inner.style.transition = 'none';
+      inner.style.transform = 'rotateX(0deg)';
+      void inner.offsetWidth;
+      inner.style.transition = '';
+      d.animating = false;
+    };
+    inner.addEventListener('transitionend', onEnd);
   }
 
   /* ---------- ANALOG setup ---------- */
