@@ -52,7 +52,26 @@ GPT-5를 호출할 OpenAI API 키를 발급받습니다.
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | 2번에서 받은 JSON 파일 전체 내용 (그대로 붙여넣기) |
 | `OPENAI_API_KEY` | 3번에서 발급받은 키 |
 
-## 사용법
+## 첫 화면 (GitHub Pages 대시보드)
+
+`site/index.html`이 쌓인 표현을 보여주는 첫 화면입니다. 검색과 카드 목록이 있고,
+매주 자동으로 갱신된 시트 내용을 그대로 반영합니다.
+
+**연결 방법**
+1. Google Sheets에서 `expressions` 탭을 엽니다.
+2. 파일 → 공유 → 웹에 게시 → 이 시트만 게시할 탭을 `expressions`로 선택,
+   형식을 **쉼표로 구분된 값(.csv)**으로 선택 → 게시.
+3. 발행된 CSV URL을 복사해서, `site/index.html` 안의
+   `CONFIG.SHEET_CSV_URL`에 붙여넣습니다.
+4. GitHub 저장소 Settings → Pages → Source를 `main` 브랜치의 `/site` 폴더로
+   설정하면, `https://<사용자명>.github.io/YouTubeJapannes/`로 접속할 수
+   있습니다.
+
+시트를 "웹에 게시"하면 링크를 아는 사람은 누구나 그 탭의 내용을 볼 수
+있습니다. 개인 학습 표현이라 공개돼도 문제없는 내용인지 한 번 확인하시고
+진행해주세요.
+
+
 
 ### 로컬에서 URL 하나 처리 + 목록에 등록
 ```bash
@@ -108,6 +127,7 @@ extract_expressions.py   # GPT-5로 생활 표현 추출
 sheets_client.py         # Google Sheets 읽기/쓰기 (sources/expressions/processed_videos)
 run_single_url.py        # URL 하나 즉시 처리 + 목록(sources)에 등록
 run_saved_sources.py     # 등록된 목록 전체를 한 번에 갱신 (주간 자동 실행 대상)
+site/index.html          # GitHub Pages 첫 화면 (표현 목록 대시보드)
 .github/workflows/       # GitHub Actions: 주간 자동 실행 + 수동 URL 실행
 ```
 
