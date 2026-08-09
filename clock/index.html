@@ -12,10 +12,10 @@
     --face: #141311;
     --face-shadow: #050503;
     --numeral: #ede8de;
-    --numeral-dim: #7c766a;
+    --numeral-dim: #b7af9f;
     --amber: #e8952e;
     --amber-dim: rgba(232,149,46,0.14);
-    --label: #8a8377;
+    --label: #d6cfc0;
     --crease: rgba(0,0,0,0.55);
   }
 
@@ -69,15 +69,15 @@
     padding: 0 2px;
   }
   .brand{
-    font-size: clamp(10px, 1.7vmin, 20px);
-    letter-spacing: 0.22em;
+    font-size: clamp(13px, 2.1vmin, 24px);
+    letter-spacing: 0.18em;
     color: var(--label);
     text-transform: uppercase;
   }
   .modebtn{
     font-family: var(--font-mono);
-    font-size: clamp(10px, 1.5vmin, 18px);
-    letter-spacing: 0.12em;
+    font-size: clamp(12px, 1.8vmin, 20px);
+    letter-spacing: 0.1em;
     color: var(--label);
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
@@ -89,6 +89,139 @@
   .modebtn:hover{ color: var(--numeral); border-color: rgba(255,255,255,0.18); }
   .modebtn:focus-visible{ outline: 2px solid var(--amber); outline-offset: 2px; }
   .modebtn[hidden]{ display:none; }
+
+  .headerbtns{ display:flex; align-items:center; gap: clamp(6px, 1vmin, 12px); }
+
+  .iconbtn{
+    display:flex; align-items:center; justify-content:center;
+    width: clamp(28px, 3.6vmin, 42px); height: clamp(28px, 3.6vmin, 42px);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    color: var(--label);
+    cursor: pointer;
+    padding: 0;
+  }
+  .iconbtn svg{
+    width: clamp(14px, 1.9vmin, 20px); height: clamp(14px, 1.9vmin, 20px);
+    stroke: currentColor; fill: none;
+    stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .iconbtn:hover{ color: var(--numeral); border-color: rgba(255,255,255,0.18); }
+  .iconbtn:focus-visible{ outline: 2px solid var(--amber); outline-offset: 2px; }
+  .iconbtn.active{ color: var(--amber); border-color: rgba(232,149,46,0.35); background: var(--amber-dim); }
+
+  #soundBtn .icon-off{ display:none; }
+  #soundBtn.muted .icon-on{ display:none; }
+  #soundBtn.muted .icon-off{ display:block; }
+
+  .alarm-panel[hidden]{ display: none; }
+  .alarm-panel{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: clamp(8px, 1.2vmin, 14px);
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: clamp(8px, 1.3vmin, 16px);
+    margin-bottom: clamp(10px, 1.8vmin, 20px);
+  }
+  .alarm-time-input{
+    font-family: var(--font-mono);
+    font-size: clamp(13px, 1.9vmin, 20px);
+    color: var(--numeral);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: clamp(4px,0.7vmin,8px) clamp(6px,1vmin,10px);
+    color-scheme: dark;
+  }
+  .alarm-set-btn, .alarm-off-btn{
+    font-family: var(--font-mono);
+    font-size: clamp(11px, 1.6vmin, 16px);
+    letter-spacing: 0.04em;
+    color: var(--case);
+    background: var(--amber);
+    border: none;
+    border-radius: 4px;
+    padding: clamp(6px,1vmin,10px) clamp(10px,1.6vmin,16px);
+    cursor: pointer;
+  }
+  .alarm-off-btn{
+    color: var(--label);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .alarm-set-btn:hover{ filter: brightness(1.08); }
+  .alarm-off-btn:hover{ color: var(--numeral); border-color: rgba(255,255,255,0.2); }
+  .alarm-status{
+    font-size: clamp(11px, 1.5vmin, 15px);
+    color: var(--label);
+    letter-spacing: 0.03em;
+  }
+
+  .alarm-ringing[hidden]{ display: none; }
+  .alarm-ringing{
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8,7,6,0.88);
+    backdrop-filter: blur(3px);
+  }
+  .ringing-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(10px, 2vmin, 22px);
+    padding: clamp(28px, 5vmin, 60px) clamp(24px, 6vmin, 70px);
+    background: linear-gradient(160deg, var(--case-edge) 0%, var(--case) 14%, var(--case) 86%, var(--case-edge-2) 100%);
+    border-radius: clamp(16px, 2.4vmin, 30px);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+    text-align: center;
+  }
+  .ringing-bell{
+    width: clamp(48px, 8vmin, 96px); height: clamp(48px, 8vmin, 96px);
+    stroke: var(--amber); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+    animation: ring-shake 0.6s ease-in-out infinite;
+  }
+  @keyframes ring-shake{
+    0%, 100% { transform: rotate(0deg); }
+    20% { transform: rotate(-14deg); }
+    40% { transform: rotate(11deg); }
+    60% { transform: rotate(-8deg); }
+    80% { transform: rotate(5deg); }
+  }
+  @media (prefers-reduced-motion: reduce){ .ringing-bell{ animation: none; } }
+  .ringing-time{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(36px, 7vmin, 90px);
+    color: var(--numeral);
+  }
+  .ringing-actions{ display:flex; gap: clamp(8px,1.6vmin,16px); flex-wrap: wrap; justify-content:center; }
+  .ringing-actions button{
+    font-family: var(--font-mono);
+    font-size: clamp(12px, 1.7vmin, 17px);
+    letter-spacing: 0.04em;
+    border-radius: 6px;
+    padding: clamp(10px,1.6vmin,16px) clamp(16px,2.4vmin,24px);
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.05);
+    color: var(--numeral);
+  }
+  #stopAlarmBtn{
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #1c1408;
+    font-weight: 700;
+  }
+  #stopAlarmBtn:hover{ filter: brightness(1.08); }
+  #snoozeBtn:hover{ color: var(--numeral); border-color: rgba(255,255,255,0.24); }
 
   /* style switcher */
   .switcher{
@@ -109,7 +242,7 @@
     justify-content: center;
     gap: clamp(3px, 0.6vmin, 7px);
     font-family: var(--font-mono);
-    font-size: clamp(9px, 1.3vmin, 15px);
+    font-size: clamp(11px, 1.65vmin, 18px);
     letter-spacing: 0.02em;
     white-space: nowrap;
     text-transform: uppercase;
@@ -127,9 +260,9 @@
     max-width: 100%;
   }
   .switcher svg{
-    width: clamp(14px, 2.2vmin, 28px); height: clamp(14px, 2.2vmin, 28px); flex-shrink: 0;
+    width: clamp(16px, 2.4vmin, 30px); height: clamp(16px, 2.4vmin, 30px); flex-shrink: 0;
     stroke: currentColor; fill: none;
-    stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
   }
   .switcher button:hover{ color: var(--numeral); }
   .switcher button.active{
@@ -236,8 +369,8 @@
 
   /* ================= shared bottom row ================= */
   .daterow{ display:flex; justify-content:center; align-items:center; gap: clamp(8px,1.4vmin,18px); margin-top: clamp(12px, 2.2vmin, 28px); flex-wrap: wrap; }
-  .datebadge{ font-size: clamp(10px, 1.6vmin, 19px); letter-spacing: 0.14em; color: var(--label); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: clamp(4px,0.8vmin,9px) clamp(8px,1.4vmin,16px); }
-  .ampm{ font-size: clamp(10px, 1.6vmin, 19px); letter-spacing: 0.14em; color: var(--amber); background: rgba(232,149,46,0.08); border: 1px solid rgba(232,149,46,0.25); border-radius: 4px; padding: clamp(4px,0.8vmin,9px) clamp(8px,1.4vmin,16px); }
+  .datebadge{ font-size: clamp(12px, 1.9vmin, 22px); letter-spacing: 0.12em; color: var(--label); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: clamp(4px,0.8vmin,9px) clamp(8px,1.4vmin,16px); }
+  .ampm{ font-size: clamp(12px, 1.9vmin, 22px); letter-spacing: 0.12em; color: var(--amber); background: rgba(232,149,46,0.08); border: 1px solid rgba(232,149,46,0.25); border-radius: 4px; padding: clamp(4px,0.8vmin,9px) clamp(8px,1.4vmin,16px); }
 
 
   .row-break{ display: none; }
@@ -283,7 +416,34 @@
     <div class="clock">
       <div class="brandrow">
         <span class="brand">탁상시계</span>
-        <button class="modebtn" id="modeBtn" type="button" aria-label="12/24시간 전환">24H</button>
+        <div class="headerbtns">
+          <button class="iconbtn" id="soundBtn" type="button" aria-label="시계 소리 켜기/끄기" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="icon-on">
+              <path d="M4 9v6h4l5 5V4L8 9H4z"/>
+              <path d="M16 8.5c1.2 1 1.2 6 0 7"/>
+              <path d="M18.5 6.5c2 2 2 9 0 11"/>
+            </svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="icon-off">
+              <path d="M4 9v6h4l5 5V4L8 9H4z"/>
+              <path d="M16 9l5 6"/>
+              <path d="M21 9l-5 6"/>
+            </svg>
+          </button>
+          <button class="iconbtn" id="alarmBtn" type="button" aria-label="알람 설정" aria-pressed="false" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 8a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6"/>
+              <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+            </svg>
+          </button>
+          <button class="modebtn" id="modeBtn" type="button" aria-label="12/24시간 전환">24H</button>
+        </div>
+      </div>
+
+      <div class="alarm-panel" id="alarmPanel" hidden>
+        <input type="time" id="alarmTimeInput" class="alarm-time-input" />
+        <button type="button" class="alarm-set-btn" id="alarmSetBtn">알람 설정</button>
+        <button type="button" class="alarm-off-btn" id="alarmOffBtn" hidden>알람 끄기</button>
+        <span class="alarm-status" id="alarmStatus">알람이 꺼져 있습니다</span>
       </div>
 
       <div class="switcher" role="tablist" aria-label="시계 스타일 선택">
@@ -356,6 +516,20 @@
       <div class="daterow">
         <span class="datebadge" id="dateBadge">-</span>
         <span class="ampm" id="ampmBadge" style="display:none;">AM</span>
+      </div>
+
+      <div class="alarm-ringing" id="alarmRinging" hidden>
+        <div class="ringing-box">
+          <svg viewBox="0 0 24 24" class="ringing-bell" aria-hidden="true">
+            <path d="M18 8a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6"/>
+            <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+          </svg>
+          <div class="ringing-time" id="ringingTime">00:00</div>
+          <div class="ringing-actions">
+            <button type="button" id="snoozeBtn">5분 후 다시 알림</button>
+            <button type="button" id="stopAlarmBtn">알람 중지</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -546,9 +720,160 @@
   /* ---------- MINIMAL setup ---------- */
   const minimalTime = document.getElementById('minimalTime');
 
+  /* ---------- SOUND (tick + alarm) ---------- */
+  let audioCtx = null;
+  let soundOn = false;
+  function ensureAudio(){
+    if (!audioCtx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) audioCtx = new AC();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+  function playTick(){
+    if (!soundOn) return;
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'square';
+    osc.frequency.value = 1500;
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.035, ctx.currentTime + 0.002);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.05);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.06);
+  }
+
+  const soundBtn = document.getElementById('soundBtn');
+  soundBtn.classList.add('muted');
+  soundBtn.addEventListener('click', () => {
+    ensureAudio();
+    soundOn = !soundOn;
+    soundBtn.classList.toggle('muted', !soundOn);
+    soundBtn.classList.toggle('active', soundOn);
+    soundBtn.setAttribute('aria-pressed', String(soundOn));
+    if (soundOn) playTick();
+  });
+
+  /* ---------- ALARM ---------- */
+  const alarmBtn = document.getElementById('alarmBtn');
+  const alarmPanel = document.getElementById('alarmPanel');
+  const alarmTimeInput = document.getElementById('alarmTimeInput');
+  const alarmSetBtn = document.getElementById('alarmSetBtn');
+  const alarmOffBtn = document.getElementById('alarmOffBtn');
+  const alarmStatus = document.getElementById('alarmStatus');
+  const alarmRinging = document.getElementById('alarmRinging');
+  const ringingTime = document.getElementById('ringingTime');
+  const snoozeBtn = document.getElementById('snoozeBtn');
+  const stopAlarmBtn = document.getElementById('stopAlarmBtn');
+
+  let alarmEnabled = false;
+  let alarmHour = null;
+  let alarmMinute = null;
+  let isRinging = false;
+  let snoozeUntil = null;
+  let ringingSoundTimer = null;
+  let lastTriggerKey = null;
+
+  alarmBtn.addEventListener('click', () => {
+    const willShow = alarmPanel.hidden;
+    alarmPanel.hidden = !willShow;
+    alarmBtn.setAttribute('aria-expanded', String(willShow));
+  });
+
+  alarmSetBtn.addEventListener('click', () => {
+    ensureAudio();
+    const val = alarmTimeInput.value;
+    if (!val){
+      alarmStatus.textContent = '시간을 먼저 선택해주세요';
+      return;
+    }
+    const [hh, mm] = val.split(':').map(Number);
+    alarmHour = hh;
+    alarmMinute = mm;
+    alarmEnabled = true;
+    lastTriggerKey = null;
+    snoozeUntil = null;
+    alarmStatus.textContent = `매일 ${pad(hh)}:${pad(mm)}에 알람이 울립니다`;
+    alarmOffBtn.hidden = false;
+    alarmBtn.classList.add('active');
+  });
+
+  alarmOffBtn.addEventListener('click', () => {
+    alarmEnabled = false;
+    snoozeUntil = null;
+    alarmStatus.textContent = '알람이 꺼져 있습니다';
+    alarmOffBtn.hidden = true;
+    alarmBtn.classList.remove('active');
+  });
+
+  function playAlarmBeep(){
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.22, ctx.currentTime + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.38);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.4);
+  }
+
+  function startRinging(){
+    isRinging = true;
+    alarmRinging.hidden = false;
+    playAlarmBeep();
+    ringingSoundTimer = setInterval(playAlarmBeep, 650);
+  }
+
+  function stopRinging(){
+    isRinging = false;
+    alarmRinging.hidden = true;
+    if (ringingSoundTimer){ clearInterval(ringingSoundTimer); ringingSoundTimer = null; }
+  }
+
+  stopAlarmBtn.addEventListener('click', stopRinging);
+
+  snoozeBtn.addEventListener('click', () => {
+    stopRinging();
+    snoozeUntil = Date.now() + 5 * 60 * 1000;
+    alarmStatus.textContent = '5분 후 다시 알림이 울립니다';
+  });
+
+  function checkAlarm(now, h24, m, s){
+    if (isRinging) return;
+    if (snoozeUntil !== null){
+      if (Date.now() >= snoozeUntil){
+        snoozeUntil = null;
+        ringingTime.textContent = `${pad(h24)}:${pad(m)}`;
+        startRinging();
+      }
+      return;
+    }
+    if (!alarmEnabled) return;
+    const key = `${h24}:${m}`;
+    if (h24 === alarmHour && m === alarmMinute){
+      if (lastTriggerKey !== key){
+        lastTriggerKey = key;
+        ringingTime.textContent = `${pad(h24)}:${pad(m)}`;
+        startRinging();
+      }
+    } else {
+      lastTriggerKey = null;
+    }
+  }
+
   function pad(n){ return n.toString().padStart(2, '0'); }
 
-  function tick(){
+  function tick(fromInterval){
     const now = new Date();
     let h = now.getHours();
     const m = now.getMinutes();
@@ -589,6 +914,9 @@
 
     const days = ['일','월','화','수','목','금','토'];
     dateBadge.textContent = `${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())} (${days[now.getDay()]})`;
+
+    if (fromInterval) playTick();
+    checkAlarm(now, h24forAnalog, m, s);
   }
 
   modeBtn.addEventListener('click', () => {
@@ -609,7 +937,7 @@
     tick();
   });
 
-  tick();
-  setInterval(tick, 1000);
+  tick(false);
+  setInterval(() => tick(true), 1000);
 })();
 </script>
