@@ -395,7 +395,7 @@
       // If a previous flip on this digit hasn't finished, snap it first.
       if (d.animating){
         inner.style.transition = 'none';
-        inner.style.transform = 'rotateX(0deg)';
+        inner.style.transform = '';
         frontSpan.textContent = backSpan.textContent;
         el.classList.remove('flipping');
         void inner.offsetWidth;
@@ -419,18 +419,27 @@
       item.d.animating = true;
       item.el.classList.add('flipping');
 
-      const onEnd = (e) => {
-        if (e.target !== item.inner) return;
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
         item.inner.removeEventListener('transitionend', onEnd);
         item.frontSpan.textContent = item.val;
         item.el.classList.remove('flipping');
         item.inner.style.transition = 'none';
-        item.inner.style.transform = 'rotateX(0deg)';
+        item.inner.style.transform = '';
         void item.inner.offsetWidth;
         item.inner.style.transition = '';
         item.d.animating = false;
       };
+      const onEnd = (e) => {
+        if (e.target !== item.inner) return;
+        finish();
+      };
       item.inner.addEventListener('transitionend', onEnd);
+      // Safety net: if transitionend never fires (e.g. tab hidden mid-flip),
+      // force-finish so this digit can never get stuck again.
+      window.setTimeout(finish, 700);
     });
   }
 
