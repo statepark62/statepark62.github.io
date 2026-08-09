@@ -557,7 +557,7 @@
      예: https://docs.google.com/spreadsheets/d/e/2PACX-xxxx/pub?gid=0&single=true&output=csv
      ============================================================ */
   const CONFIG = {
-    SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTKI9y3MHoMW8kXyzU__mCTQqPQJ6Lisy1nhmZCCQ3hmHAC7BdI7Fy6jVyS9eHS-EYb5lav7vZdu8-T/pub?gid=1099575050&single=true&output=csv" // ← 여기에 발행된 CSV URL을 붙여넣으세요
+    SHEET_CSV_URL: "" // ← 여기에 발행된 CSV URL을 붙여넣으세요
   };
 
   /* GitHub Actions를 호출할 저장소 정보 — repo 이름이 바뀌면 여기도 수정 */
@@ -568,7 +568,8 @@
     ref: "main"
   };
 
-  const HERO_SAMPLES = [
+  // 초기 표시용 기본값 — 실제 시트 데이터가 로드되면 아래에서 교체됨
+  let HERO_SAMPLES = [
     { jp: "地味に助かる", ko: "은근히 도움 되네" },
     { jp: "それな", ko: "그니까(완전 공감)" },
     { jp: "なんか違くない?", ko: "뭔가 좀 아니지 않아?" },
@@ -647,6 +648,15 @@
     });
   }
 
+  function updateHeroFromRows(rows){
+    // 예문이 너무 길면 타이핑 애니메이션이 부담스러우니 짧은 것 위주로 고른다
+    const candidates = rows.filter(r => r.expression && r.expression.length <= 14 && r.meaning_ko);
+    if(candidates.length < 2) return; // 데이터가 너무 적으면 기본 예시 유지
+
+    const shuffled = [...candidates].sort(() => Math.random() - 0.5);
+    HERO_SAMPLES = shuffled.slice(0, 6).map(r => ({ jp: r.expression, ko: r.meaning_ko }));
+  }
+
   function loadData(){
     if(!CONFIG.SHEET_CSV_URL){
       document.getElementById("count-badge").textContent = "시트 미연결";
@@ -660,6 +670,7 @@
         const rows = (results.data || []).filter(r => r.expression).reverse();
         renderCards(rows);
         attachSearch(rows);
+        updateHeroFromRows(rows);
       },
       error: () => {
         document.getElementById("grid").innerHTML = `<div class="state-box">
