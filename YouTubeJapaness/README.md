@@ -45,13 +45,29 @@ Google Sheets에 쌓아주는 파이프라인입니다.
 GPT-5를 호출할 OpenAI API 키를 발급받습니다.
 
 ### 4. GitHub Secrets 등록
-저장소 Settings → Secrets and variables → Actions 에서 아래 3개를 등록:
+저장소 Settings → Secrets and variables → Actions 에서 아래 4개를 등록:
 
 | Secret 이름 | 값 |
 |---|---|
 | `BSJ_SHEET_ID` | 1번에서 확인한 시트 ID |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | 2번에서 받은 JSON 파일 전체 내용 (그대로 붙여넣기) |
 | `OPENAI_API_KEY` | 3번에서 발급받은 키 |
+| `YTDLP_COOKIES` | 아래 "YouTube 쿠키 준비" 참고 |
+
+### 5. YouTube 쿠키 준비 (필수)
+GitHub Actions 서버의 IP로 유튜브에 접속하면, 유튜브가 봇으로 의심해
+"Sign in to confirm you're not a bot" 오류를 내며 자막을 막는 경우가 있습니다.
+이를 우회하려면 로그인된 브라우저의 쿠키를 함께 전달해야 합니다.
+
+1. 크롬에 **"Get cookies.txt LOCALLY"** 같은 확장 프로그램을 설치합니다.
+2. 유튜브에 로그인한 상태로 youtube.com에 접속합니다.
+3. 확장 프로그램으로 현재 사이트의 쿠키를 Netscape 형식(cookies.txt)으로
+   내보냅니다(Export).
+4. 그 파일을 열어 전체 내용을 복사해, GitHub Secrets에 `YTDLP_COOKIES`
+   라는 이름으로 등록합니다.
+
+쿠키는 시간이 지나면 만료될 수 있습니다. 나중에 다시 봇 확인 오류가 나면,
+같은 방법으로 쿠키를 새로 내보내 `YTDLP_COOKIES` 값을 갱신해주세요.
 
 ## 첫 화면 (statepark62.github.io/YouTubeJapaness/)
 

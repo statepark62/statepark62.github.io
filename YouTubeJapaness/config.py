@@ -35,3 +35,7 @@ EXTRACTION_MODEL = "gpt-5"
 
 # --- 로컬 작업 디렉토리 ---
 WORK_DIR = os.environ.get("BSJ_WORK_DIR", "./_work")
+
+# --- yt-dlp 쿠키 (YouTube 봇 확인 우회용) ---
+# 값이 있으면 yt-dlp 호출 시 --cookies <경로>를 붙인다.
+YTDLP_COOKIES_PATH = os.environ.get("YTDLP_COOKIES_PATH", "")

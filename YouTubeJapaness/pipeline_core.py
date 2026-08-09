@@ -12,10 +12,18 @@ import extract_expressions
 import sheets_client
 
 
+def _cookie_args() -> list[str]:
+    """설정된 쿠키 파일이 있으면 yt-dlp용 --cookies 인자를 반환한다."""
+    if config.YTDLP_COOKIES_PATH and Path(config.YTDLP_COOKIES_PATH).exists():
+        return ["--cookies", config.YTDLP_COOKIES_PATH]
+    return []
+
+
 def resolve_videos(url: str, limit: int) -> list[dict]:
     """입력 URL이 단일 영상인지 채널/재생목록인지 판별해 영상 목록을 반환."""
     cmd = [
         "yt-dlp",
+        *_cookie_args(),
         "--flat-playlist",
         "--playlist-end", str(limit),
         "-J",
@@ -52,6 +60,7 @@ def download_auto_caption(video_id: str, out_dir: Path) -> Path | None:
     out_tmpl = str(out_dir / f"{video_id}.%(ext)s")
     cmd = [
         "yt-dlp",
+        *_cookie_args(),
         "--skip-download",
         "--write-auto-sub",
         "--sub-lang", "ja",
