@@ -19,11 +19,18 @@ def _cookie_args() -> list[str]:
     return []
 
 
+def _client_args() -> list[str]:
+    """GitHub Actions 서버에 JS 런타임이 없어 생기는 n-challenge 오류를
+    피하기 위해, JS 챌린지가 필요 없는 android 클라이언트로 접속한다."""
+    return ["--extractor-args", "youtube:player_client=android"]
+
+
 def resolve_videos(url: str, limit: int) -> list[dict]:
     """입력 URL이 단일 영상인지 채널/재생목록인지 판별해 영상 목록을 반환."""
     cmd = [
         "yt-dlp",
         *_cookie_args(),
+        *_client_args(),
         "--flat-playlist",
         "--playlist-end", str(limit),
         "-J",
@@ -61,6 +68,7 @@ def download_auto_caption(video_id: str, out_dir: Path) -> Path | None:
     cmd = [
         "yt-dlp",
         *_cookie_args(),
+        *_client_args(),
         "--skip-download",
         "--write-auto-sub",
         "--sub-lang", "ja",
