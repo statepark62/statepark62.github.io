@@ -4411,5 +4411,55 @@
   "example": "小学校教諭として三十年勤めた。",
   "exampleReading": "しょうがっこうきょうゆとしてさんじゅうねんつとめた。",
   "exampleMeaning": "초등학교 교사로 30년 근무했다."
+ },
+ {
+  "id": "tj136",
+  "word": "親となる",
+  "reading": "おやとなる",
+  "meaning": "참된(사회적) 부모가 되다",
+  "level": "N2",
+  "example": "父はようやく親となる覚悟を決めた。",
+  "exampleReading": "ちちはようやくおやとなるかくごをきめた。",
+  "exampleMeaning": "아버지는 마침내 부모가 될 각오를 굳혔다."
+ },
+ {
+  "id": "tj137",
+  "word": "親になる",
+  "reading": "おやになる",
+  "meaning": "부모가 되다(상태의 변화)",
+  "level": "N3",
+  "example": "彼は来春、親になる予定だ。",
+  "exampleReading": "かれはらいしゅん、おやになるよていだ。",
+  "exampleMeaning": "그는 내년 봄에 부모가 될 예정이다."
+ },
+ {
+  "id": "tj138",
+  "word": "叱る",
+  "reading": "しかる",
+  "meaning": "꾸짖다, 야단치다",
+  "level": "N3",
+  "example": "親は時に厳しく叱るべきだ。",
+  "exampleReading": "おやはときにきびしくしかるべきだ。",
+  "exampleMeaning": "부모는 때로 엄하게 꾸짖어야 한다."
+ },
+ {
+  "id": "tj139",
+  "word": "劇作家",
+  "reading": "げきさっか",
+  "meaning": "극작가",
+  "level": "N2",
+  "example": "劇作家は言葉で舞台をつくる。",
+  "exampleReading": "げきさっかはことばでぶたいをつくる。",
+  "exampleMeaning": "극작가는 말로 무대를 만든다."
+ },
+ {
+  "id": "tj140",
+  "word": "岡っ引き",
+  "reading": "おかっぴき",
+  "meaning": "에도 시대의 민간 포졸",
+  "level": "N1",
+  "example": "時代劇で岡っ引きが犯人を追う。",
+  "exampleReading": "じだいげきでおかっぴきがはんにんをおう。",
+  "exampleMeaning": "시대극에서 오캇피키가 범인을 쫓는다."
  }
 ]
