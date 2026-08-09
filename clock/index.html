@@ -192,13 +192,15 @@
 
   /* ================= LED ================= */
   .led-panel{
+    --seg-w: clamp(24px, min(11vmin, 6.2vw, 8vh), 150px);
     background: #060504;
     border-radius: clamp(8px, 1.4vmin, 16px);
     padding: clamp(14px, 2.6vmin, 34px) clamp(12px, 2.2vmin, 28px);
-    display:flex; align-items:center; justify-content:center; gap: clamp(6px, 1.2vmin, 16px);
+    display:flex; align-items:center; justify-content:center; flex-wrap: wrap;
+    gap: calc(var(--seg-w) * 0.2);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), inset 0 8px 20px rgba(0,0,0,0.6);
   }
-  .seg-digit{ position:relative; width: clamp(24px, min(11vmin, 6.2vw, 8vh), 150px); aspect-ratio: 30/54; margin: 0 clamp(1px,0.3vmin,4px); }
+  .seg-digit{ position:relative; width: var(--seg-w); aspect-ratio: 30/54; margin: 0 calc(var(--seg-w) * 0.067); flex-shrink: 0; }
   .seg{
     position:absolute;
     background: #2a1608;
@@ -214,8 +216,8 @@
   .seg-b{ top:5.5%; right:0; }
   .seg-e{ bottom:5.5%; left:0; }
   .seg-c{ bottom:5.5%; right:0; }
-  .led-colon{ display:flex; flex-direction:column; gap: clamp(6px,1.2vmin,16px); justify-content:center; height: clamp(43px,10vmin,162px); }
-  .led-colon i{ width: clamp(5px,1vmin,12px); height: clamp(5px,1vmin,12px); background: var(--amber); box-shadow: 0 0 6px 1px rgba(232,149,46,0.7); animation: blink 2s steps(1,end) infinite; }
+  .led-colon{ display:flex; flex-direction:column; gap: calc(var(--seg-w) * 0.13); justify-content:center; height: calc(var(--seg-w) * 54 / 30); flex-shrink: 0; }
+  .led-colon i{ width: calc(var(--seg-w) * 0.17); height: calc(var(--seg-w) * 0.17); background: var(--amber); box-shadow: 0 0 6px 1px rgba(232,149,46,0.7); animation: blink 2s steps(1,end) infinite; }
 
   /* ================= MINIMAL ================= */
   .minimal{
@@ -258,6 +260,21 @@
       row-gap: calc(var(--flip-w) * 0.32);
     }
     .row-break{ display: block; flex-basis: 100%; height: 0; }
+
+    .analog-face{
+      width: clamp(160px, min(80vw, 42vh, 90vmin), 900px);
+      height: clamp(160px, min(80vw, 42vh, 90vmin), 900px);
+    }
+
+    .led-panel{
+      --seg-w: clamp(24px, min(15vw, 6.5vh, 24vmin), 220px);
+      width: calc(var(--seg-w) * 5.6);
+      row-gap: calc(var(--seg-w) * 0.5);
+    }
+
+    .minimal-time{
+      font-size: clamp(38px, min(30vw, 17vh, 40vmin), 460px);
+    }
   }
 </style>
 
@@ -513,6 +530,7 @@
   ledPanel.appendChild(ledGroup('h'));
   ledPanel.appendChild(colonDots('led-colon'));
   ledPanel.appendChild(ledGroup('m'));
+  ledPanel.appendChild(rowBreak());
   ledPanel.appendChild(colonDots('led-colon'));
   ledPanel.appendChild(ledGroup('s'));
 
