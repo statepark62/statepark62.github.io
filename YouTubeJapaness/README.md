@@ -1,6 +1,7 @@
 # 생활 일본어 표현 자동 추출 파이프라인
 
-> GitHub 저장소 이름: **YouTubeJapannes**
+> 위치: **statepark62/statepark62.github.io** 저장소의 `/YouTubeJapaness/` 폴더
+> (별도 저장소가 아니라, 기존 GitHub Pages 저장소 안의 하위 폴더입니다)
 
 유튜브 URL(영상 또는 채널)에서 일본어 자동생성 자막을 가져와,
 교과서에 잘 안 나오는 생활 회화 표현을 자동으로 뽑아
@@ -52,20 +53,33 @@ GPT-5를 호출할 OpenAI API 키를 발급받습니다.
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | 2번에서 받은 JSON 파일 전체 내용 (그대로 붙여넣기) |
 | `OPENAI_API_KEY` | 3번에서 발급받은 키 |
 
-## 첫 화면 (GitHub Pages 대시보드)
+## 첫 화면 (statepark62.github.io/YouTubeJapaness/)
 
-`site/index.html`이 쌓인 표현을 보여주는 첫 화면입니다. 검색과 카드 목록이 있고,
+`index.html`이 쌓인 표현을 보여주는 첫 화면입니다. 검색과 카드 목록이 있고,
 매주 자동으로 갱신된 시트 내용을 그대로 반영합니다.
+
+이 프로젝트는 별도 저장소가 아니라, 기존에 쓰고 계신
+**statepark62/statepark62.github.io** 저장소 안의 `/YouTubeJapaness/` 폴더로
+들어갑니다. 그 저장소가 이미 GitHub Pages로 서비스되고 있으므로,
+**별도의 Pages 설정 없이** 이 폴더를 push하기만 하면
+`https://statepark62.github.io/YouTubeJapaness/`에서 바로 열립니다.
 
 **연결 방법**
 1. Google Sheets에서 `expressions` 탭을 엽니다.
-2. 파일 → 공유 → 웹에 게시 → 이 시트만 게시할 탭을 `expressions`로 선택,
+2. 파일 → 공유 → 웹에 게시 → 게시할 탭을 `expressions`로 선택,
    형식을 **쉼표로 구분된 값(.csv)**으로 선택 → 게시.
-3. 발행된 CSV URL을 복사해서, `site/index.html` 안의
+3. 발행된 CSV URL을 복사해서, `index.html` 안의
    `CONFIG.SHEET_CSV_URL`에 붙여넣습니다.
-4. GitHub 저장소 Settings → Pages → Source를 `main` 브랜치의 `/site` 폴더로
-   설정하면, `https://<사용자명>.github.io/YouTubeJapannes/`로 접속할 수
-   있습니다.
+4. `statepark62.github.io` 저장소의 `/YouTubeJapaness/` 폴더에 이 프로젝트의
+   파일 전체(백엔드 스크립트 + `index.html` + `.github/workflows/`)를
+   그대로 push합니다.
+
+**주의**: `.github/workflows/` 폴더는 저장소 **루트**에 있어야 GitHub Actions가
+인식합니다. `statepark62.github.io` 저장소 루트에 이미 다른 프로젝트의
+워크플로가 있다면, 이번 워크플로 파일들(`weekly-YouTubeJapaness.yml`,
+`manual-url-extract.yml`)만 그 루트의 `.github/workflows/`에 함께 넣고,
+나머지 파일(스크립트, `index.html`)만 `/YouTubeJapaness/` 폴더 안에 넣으시면
+됩니다.
 
 시트를 "웹에 게시"하면 링크를 아는 사람은 누구나 그 탭의 내용을 볼 수
 있습니다. 개인 학습 표현이라 공개돼도 문제없는 내용인지 한 번 확인하시고
@@ -127,12 +141,12 @@ extract_expressions.py   # GPT-5로 생활 표현 추출
 sheets_client.py         # Google Sheets 읽기/쓰기 (sources/expressions/processed_videos)
 run_single_url.py        # URL 하나 즉시 처리 + 목록(sources)에 등록
 run_saved_sources.py     # 등록된 목록 전체를 한 번에 갱신 (주간 자동 실행 대상)
-site/index.html          # GitHub Pages 첫 화면 (표현 목록 대시보드)
-.github/workflows/       # GitHub Actions: 주간 자동 실행 + 수동 URL 실행
+index.html               # 첫 화면 (표현 목록 대시보드) — statepark62.github.io/YouTubeJapaness/ 에서 열림
+.github/workflows/       # GitHub Actions: 주간 자동 실행 + 수동 URL 실행 (저장소 루트에 위치해야 함)
 ```
 
 ## 다음에 조정할 만한 것들
-- 실행 주기: 현재 주 1회 → 매일로 바꾸려면 `weekly-YouTubeJapannes.yml`의 cron 값만 수정
+- 실행 주기: 현재 주 1회 → 매일로 바꾸려면 `weekly-YouTubeJapaness.yml`의 cron 값만 수정
 - 추출 개수(대본당 최대 8개): `extract_expressions.py`의 프롬프트에서 조정
 - 소스별로 다른 처리 개수(`limit`)를 두고 싶으면, `sources` 탭에서 해당 행의
   `limit` 값을 직접 수정하면 다음 실행부터 반영됩니다.
