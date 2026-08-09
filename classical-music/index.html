@@ -571,6 +571,7 @@ document.getElementById('refreshBtn').addEventListener('click', () => {
 
 document.getElementById('topBtn').addEventListener('click', () => {
   window.scrollTo({top:0, behavior:'smooth'});
+  setTimeout(() => { location.reload(); }, 400);
 });
 
 render();
