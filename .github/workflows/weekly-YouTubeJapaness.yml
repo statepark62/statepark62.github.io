@@ -24,6 +24,11 @@ jobs:
       - name: 의존성 설치
         run: pip install -r requirements.txt
 
+      - name: Deno 설치 (yt-dlp의 JS 챌린지 해결용)
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
       - name: yt-dlp 쿠키 파일 생성
         run: echo "${{ secrets.YTDLP_COOKIES }}" > cookies.txt
 
