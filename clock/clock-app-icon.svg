@@ -1,0 +1,45 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="case" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a3632"/>
+      <stop offset="12%" stop-color="#201e1c"/>
+      <stop offset="88%" stop-color="#201e1c"/>
+      <stop offset="100%" stop-color="#14120f"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f2a94c"/>
+      <stop offset="100%" stop-color="#e8952e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- app icon background -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#case)"/>
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
+
+  <!-- desk shadow -->
+  <ellipse cx="256" cy="404" rx="150" ry="18" fill="rgba(0,0,0,0.45)"/>
+
+  <!-- flip cards: hour -->
+  <g>
+    <rect x="108" y="176" width="112" height="160" rx="14" fill="#050503"/>
+    <rect x="112" y="180" width="104" height="74" rx="10" fill="#141311"/>
+    <rect x="112" y="258" width="104" height="74" rx="10" fill="#141311"/>
+    <rect x="112" y="250" width="104" height="8" fill="rgba(0,0,0,0.55)"/>
+    <text x="164" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="86" fill="#ede8de">1</text>
+    <text x="164" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="86" fill="#ede8de">2</text>
+  </g>
+
+  <!-- colon dots -->
+  <circle cx="256" cy="228" r="9" fill="url(#glow)"/>
+  <circle cx="256" cy="284" r="9" fill="url(#glow)"/>
+
+  <!-- flip cards: minute -->
+  <g>
+    <rect x="292" y="176" width="112" height="160" rx="14" fill="#050503"/>
+    <rect x="296" y="180" width="104" height="74" rx="10" fill="#141311"/>
+    <rect x="296" y="258" width="104" height="74" rx="10" fill="#141311"/>
+    <rect x="296" y="250" width="104" height="8" fill="rgba(0,0,0,0.55)"/>
+    <text x="348" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="86" fill="#ede8de">0</text>
+    <text x="348" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="86" fill="#ede8de">0</text>
+  </g>
+</svg>
