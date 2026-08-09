@@ -92,8 +92,11 @@
   /* ---------- 자막 히어로 ---------- */
   .screen{
     max-width: 960px;
-    margin: 8px auto 56px;
+    margin: 8px auto 24px;
     padding: 0 24px;
+    position: sticky;
+    top: 12px;
+    z-index: 30;
   }
 
   .screen-frame{
@@ -103,6 +106,7 @@
     border-radius: 6px;
     padding: 46px 32px 40px;
     overflow: hidden;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.45);
   }
 
   .screen-frame::before{
@@ -558,7 +562,7 @@
      예: https://docs.google.com/spreadsheets/d/e/2PACX-xxxx/pub?gid=0&single=true&output=csv
      ============================================================ */
   const CONFIG = {
-    SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTKI9y3MHoMW8kXyzU__mCTQqPQJ6Lisy1nhmZCCQ3hmHAC7BdI7Fy6jVyS9eHS-EYb5lav7vZdu8-T/pub?gid=1099575050&single=true&output=csv" // ← 여기에 발행된 CSV URL을 붙여넣으세요
+    SHEET_CSV_URL: "" // ← 여기에 발행된 CSV URL을 붙여넣으세요
   };
 
   /* GitHub Actions를 호출할 저장소 정보 — repo 이름이 바뀌면 여기도 수정 */
@@ -569,8 +573,8 @@
     ref: "main"
   };
 
-  // 초기 안내 문구 — 카드를 클릭하면 실제 표현으로 교체됨
-  const HERO_IDLE = { jp: "", ko: "아래 카드를 클릭하면 여기에 표시됩니다" };
+  // 데이터가 로드되기 전까지 잠깐 보여줄 문구 (로드되면 최신 표현으로 교체됨)
+  const HERO_LOADING = { jp: "", ko: "최신 표현 불러오는 중…" };
   let heroTyper = null; // 진행 중인 타이핑 interval (중복 클릭 시 취소용)
 
   function showInHero(sample){
@@ -601,7 +605,7 @@
   }
 
   function initHero(){
-    showInHero(HERO_IDLE);
+    showInHero(HERO_LOADING);
   }
 
   function escapeHtml(str){
@@ -664,6 +668,7 @@
   function loadData(){
     if(!CONFIG.SHEET_CSV_URL){
       document.getElementById("count-badge").textContent = "시트 미연결";
+      showInHero({ jp: "", ko: "시트가 아직 연결되지 않았습니다" });
       return;
     }
     Papa.parse(CONFIG.SHEET_CSV_URL, {
@@ -674,6 +679,13 @@
         const rows = (results.data || []).filter(r => r.expression).reverse();
         renderCards(rows);
         attachSearch(rows);
+
+        // 가장 최근에 추가된 표현(맨 앞 항목)을 자막 화면에 자동으로 띄운다
+        if(rows.length){
+          showInHero({ jp: rows[0].expression, ko: rows[0].meaning_ko });
+        } else {
+          showInHero({ jp: "", ko: "아직 쌓인 표현이 없습니다" });
+        }
       },
       error: () => {
         document.getElementById("grid").innerHTML = `<div class="state-box">
@@ -681,6 +693,7 @@
           CSV 발행 URL이 올바른지 확인해주세요.
         </div>`;
         document.getElementById("count-badge").textContent = "오류";
+        showInHero({ jp: "", ko: "불러오는 데 실패했습니다" });
       }
     });
   }
