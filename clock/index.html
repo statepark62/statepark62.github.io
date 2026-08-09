@@ -38,7 +38,8 @@
     background: linear-gradient(160deg, var(--case-edge) 0%, var(--case) 12%, var(--case) 88%, var(--case-edge-2) 100%);
     border-radius: 18px;
     padding: 26px 34px 24px;
-    width: 360px;
+    width: fit-content;
+    max-width: 92vw;
     box-shadow:
       0 2px 0 rgba(255,255,255,0.04) inset,
       0 -6px 12px rgba(0,0,0,0.4) inset,
@@ -138,9 +139,9 @@
   .view.active{ display:flex; flex-direction:column; align-items:center; }
 
   /* ================= FLIP ================= */
-  .display{ display:flex; align-items:center; justify-content:center; gap: 8px; }
-  .group{ display:flex; gap: 5px; }
-  .colon{ display:flex; flex-direction:column; justify-content:center; gap: 12px; padding: 0 1px; height: 84px; }
+  .display{ display:flex; align-items:center; justify-content:center; gap: 8px; flex-shrink: 0; }
+  .group{ display:flex; gap: 5px; flex-shrink: 0; }
+  .colon{ display:flex; flex-direction:column; justify-content:center; gap: 12px; padding: 0 1px; height: 84px; flex-shrink: 0; }
   .colon i{ width:6px; height:6px; border-radius:50%; background: var(--amber); box-shadow: 0 0 7px 1px rgba(232,149,46,0.55); animation: blink 2s steps(1,end) infinite; }
   @media (prefers-reduced-motion: reduce){ .colon i, .led-colon i{ animation:none; } }
   @keyframes blink{ 0%,49%{opacity:1;} 50%,100%{opacity:0.18;} }
@@ -148,6 +149,7 @@
   .flip{
     position: relative;
     width: 54px; height: 84px;
+    flex-shrink: 0;
     border-radius: 6px;
     background: var(--face-shadow);
     perspective: 260px;
@@ -234,7 +236,8 @@
 
 
   @media (max-width: 420px){
-    .clock{ width: 92vw; padding: 22px 18px 20px; }
+    .clock{ padding: 22px 18px 20px; }
+    .display{ max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     .flip{ width: 40px; height: 64px; }
     .flip .half{ height:32px; }
     .flip .half span{ height:64px; font-size: 38px; }
