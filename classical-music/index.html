@@ -47,6 +47,25 @@
     pointer-events:none;
   }
   .header-inner{position:relative; max-width:900px; margin:0 auto; text-align:center;}
+  .refresh-btn{
+    position:absolute;
+    top:20px;
+    right:24px;
+    z-index:3;
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1px solid rgba(241,233,216,0.4);
+    background:rgba(241,233,216,0.08);
+    color:var(--parchment);
+    font-size:19px;
+    line-height:1;
+    cursor:pointer;
+    transition:background .15s ease, transform .3s ease;
+  }
+  .refresh-btn:hover{
+    background:rgba(241,233,216,0.18);
+    transform:rotate(90deg);
+  }
   .eyebrow{
     font-family:'EB Garamond', serif;
     font-style:italic;
@@ -246,6 +265,23 @@
     font-style:italic;
     margin-right:6px;
   }
+  .top-btn{
+    display:block;
+    margin:0 0 12px auto;
+    padding:6px 14px;
+    border-radius:999px;
+    border:1px solid var(--gold);
+    background:transparent;
+    color:var(--gold);
+    font-family:'EB Garamond', serif;
+    font-size:13px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .top-btn:hover{
+    background:var(--gold);
+    color:var(--wine-deep);
+  }
   .player-frame{
     position:relative;
     width:100%;
@@ -292,6 +328,7 @@
 
 <div class="staff-header">
   <div class="staff-lines"></div>
+  <button class="refresh-btn" id="refreshBtn" title="새로고침" aria-label="새로고침">⟳</button>
   <div class="header-inner">
     <div class="eyebrow">Listen · Discover · Enjoy</div>
     <h1>클래식 음악 찾기</h1>
@@ -322,6 +359,7 @@
       <p><span class="info-tag">작곡가</span><span id="playerComposerInfo"></span></p>
       <p><span class="info-tag">이 곡은</span><span id="playerPieceInfo"></span></p>
     </div>
+    <button class="top-btn" id="topBtn">▲ 맨 위로 가기</button>
     <div class="player-frame">
       <iframe id="playerFrame" src="" title="유튜브 재생" frameborder="0"
         referrerpolicy="strict-origin-when-cross-origin"
@@ -525,6 +563,14 @@ document.querySelectorAll('.tab').forEach(tab=>{
 document.getElementById('searchBox').addEventListener('input', (e)=>{
   searchTerm = e.target.value.trim();
   render();
+});
+
+document.getElementById('refreshBtn').addEventListener('click', () => {
+  location.reload();
+});
+
+document.getElementById('topBtn').addEventListener('click', () => {
+  window.scrollTo({top:0, behavior:'smooth'});
 });
 
 render();
