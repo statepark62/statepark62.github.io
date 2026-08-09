@@ -19,11 +19,18 @@ def _cookie_args() -> list[str]:
     return []
 
 
+def _remote_components_args() -> list[str]:
+    """유튜브의 n-challenge를 풀기 위해 yt-dlp가 GitHub에서 받아오는
+    JS 솔버 스크립트(ejs) 다운로드를 명시적으로 허용한다."""
+    return ["--remote-components", "ejs:github"]
+
+
 def resolve_videos(url: str, limit: int) -> list[dict]:
     """입력 URL이 단일 영상인지 채널/재생목록인지 판별해 영상 목록을 반환."""
     cmd = [
         "yt-dlp",
         *_cookie_args(),
+        *_remote_components_args(),
         "--flat-playlist",
         "--playlist-end", str(limit),
         "-J",
@@ -61,6 +68,7 @@ def download_auto_caption(video_id: str, out_dir: Path) -> Path | None:
     cmd = [
         "yt-dlp",
         *_cookie_args(),
+        *_remote_components_args(),
         "--skip-download",
         "--write-auto-sub",
         "--sub-lang", "ja",
