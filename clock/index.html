@@ -23,24 +23,26 @@
 
   .flipclock-root{
     width: 100%;
-    min-height: 520px;
+    min-height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
     background: radial-gradient(ellipse at 50% 20%, #2a2622 0%, #0e0d0b 75%);
     font-family: var(--font-mono);
-    padding: 40px 16px;
+    padding: clamp(16px, 3vmin, 48px);
+    overflow: auto;
   }
 
   .desk{ perspective: 1400px; }
 
   .clock{
+    --flip-w: clamp(38px, min(25vmin, 13.5vw, 18vh), 340px);
     position: relative;
     background: linear-gradient(160deg, var(--case-edge) 0%, var(--case) 12%, var(--case) 88%, var(--case-edge-2) 100%);
-    border-radius: 18px;
-    padding: 26px 34px 24px;
+    border-radius: clamp(14px, 2.4vmin, 30px);
+    padding: clamp(18px, 3.4vmin, 52px) clamp(20px, 4.4vmin, 68px) clamp(16px, 3vmin, 48px);
     width: fit-content;
-    max-width: 92vw;
+    max-width: 96vw;
     box-shadow:
       0 2px 0 rgba(255,255,255,0.04) inset,
       0 -6px 12px rgba(0,0,0,0.4) inset,
@@ -63,24 +65,24 @@
     display:flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 12px;
+    margin-bottom: clamp(10px, 1.8vmin, 22px);
     padding: 0 2px;
   }
   .brand{
-    font-size: 10px;
+    font-size: clamp(10px, 1.7vmin, 20px);
     letter-spacing: 0.22em;
     color: var(--label);
     text-transform: uppercase;
   }
   .modebtn{
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: clamp(10px, 1.5vmin, 18px);
     letter-spacing: 0.12em;
     color: var(--label);
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 4px;
-    padding: 4px 8px;
+    padding: clamp(4px,0.7vmin,8px) clamp(8px,1.2vmin,14px);
     cursor: pointer;
     text-transform: uppercase;
   }
@@ -91,12 +93,12 @@
   /* style switcher */
   .switcher{
     display:flex;
-    gap: 4px;
+    gap: clamp(3px, 0.5vmin, 6px);
     background: rgba(0,0,0,0.35);
     border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 8px;
-    padding: 3px;
-    margin-bottom: 20px;
+    border-radius: clamp(6px, 1vmin, 12px);
+    padding: clamp(3px, 0.5vmin, 6px);
+    margin-bottom: clamp(14px, 2.4vmin, 30px);
   }
   .switcher button{
     flex: 1;
@@ -105,9 +107,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    gap: clamp(3px, 0.6vmin, 7px);
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: clamp(9px, 1.3vmin, 15px);
     letter-spacing: 0.02em;
     white-space: nowrap;
     text-transform: uppercase;
@@ -115,7 +117,7 @@
     background: transparent;
     border: none;
     border-radius: 5px;
-    padding: 7px 2px 6px;
+    padding: clamp(6px,1vmin,12px) clamp(2px,0.6vmin,8px) clamp(5px,0.9vmin,10px);
     cursor: pointer;
     transition: background 150ms, color 150ms;
   }
@@ -125,7 +127,7 @@
     max-width: 100%;
   }
   .switcher svg{
-    width: 15px; height: 15px; flex-shrink: 0;
+    width: clamp(14px, 2.2vmin, 28px); height: clamp(14px, 2.2vmin, 28px); flex-shrink: 0;
     stroke: currentColor; fill: none;
     stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
   }
@@ -140,20 +142,21 @@
   .view.active{ display:flex; flex-direction:column; align-items:center; }
 
   /* ================= FLIP ================= */
-  .display{ display:flex; align-items:center; justify-content:center; gap: 8px; flex-shrink: 0; }
-  .group{ display:flex; gap: 5px; flex-shrink: 0; }
-  .colon{ display:flex; flex-direction:column; justify-content:center; gap: 12px; padding: 0 1px; height: 84px; flex-shrink: 0; }
-  .colon i{ width:6px; height:6px; border-radius:50%; background: var(--amber); box-shadow: 0 0 7px 1px rgba(232,149,46,0.55); animation: blink 2s steps(1,end) infinite; }
+  .display{ display:flex; align-items:center; justify-content:center; gap: calc(var(--flip-w) * 0.15); flex-shrink: 0; }
+  .group{ display:flex; gap: calc(var(--flip-w) * 0.09); flex-shrink: 0; }
+  .colon{ display:flex; flex-direction:column; justify-content:center; gap: calc(var(--flip-w) * 0.22); padding: 0 1px; height: calc(var(--flip-w) * 84 / 54); flex-shrink: 0; }
+  .colon i{ width: calc(var(--flip-w) * 0.11); height: calc(var(--flip-w) * 0.11); border-radius:50%; background: var(--amber); box-shadow: 0 0 7px 1px rgba(232,149,46,0.55); animation: blink 2s steps(1,end) infinite; }
   @media (prefers-reduced-motion: reduce){ .colon i, .led-colon i{ animation:none; } }
   @keyframes blink{ 0%,49%{opacity:1;} 50%,100%{opacity:0.18;} }
 
   .flip{
     position: relative;
-    width: 54px; height: 84px;
+    width: var(--flip-w);
+    aspect-ratio: 54 / 84;
     flex-shrink: 0;
     perspective: 300px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02);
-    border-radius: 6px;
+    border-radius: calc(var(--flip-w) * 0.11);
   }
   .flip-inner{
     position: relative;
@@ -165,7 +168,7 @@
   .face{
     position: absolute; inset: 0;
     backface-visibility: hidden;
-    border-radius: 6px;
+    border-radius: calc(var(--flip-w) * 0.11);
     background: var(--face);
     display: flex; align-items: center; justify-content: center;
   }
@@ -173,7 +176,7 @@
     color: var(--numeral);
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: 52px;
+    font-size: calc(var(--flip-w) * 0.96);
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
@@ -181,7 +184,7 @@
   .face-back{ transform: rotateX(180deg); }
 
   /* ================= ANALOG ================= */
-  .analog-face{ width: 220px; height: 220px; }
+  .analog-face{ width: clamp(160px, min(48vmin, 26vw, 34vh), 620px); height: clamp(160px, min(48vmin, 26vw, 34vh), 620px); }
   .analog-tick{ stroke: var(--numeral-dim); stroke-width: 1.5; }
   .analog-tick.major{ stroke: var(--label); stroke-width: 2.5; }
   .analog-hand{ stroke-linecap: round; transform-origin: 100px 100px; }
@@ -190,59 +193,71 @@
   /* ================= LED ================= */
   .led-panel{
     background: #060504;
-    border-radius: 8px;
-    padding: 18px 16px;
-    display:flex; align-items:center; justify-content:center; gap: 8px;
+    border-radius: clamp(8px, 1.4vmin, 16px);
+    padding: clamp(14px, 2.6vmin, 34px) clamp(12px, 2.2vmin, 28px);
+    display:flex; align-items:center; justify-content:center; gap: clamp(6px, 1.2vmin, 16px);
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), inset 0 8px 20px rgba(0,0,0,0.6);
   }
-  .seg-digit{ position:relative; width: 30px; height: 54px; margin: 0 2px; }
+  .seg-digit{ position:relative; width: clamp(24px, min(11vmin, 6.2vw, 8vh), 150px); aspect-ratio: 30/54; margin: 0 clamp(1px,0.3vmin,4px); }
   .seg{
     position:absolute;
     background: #2a1608;
     transition: background 120ms, box-shadow 120ms;
   }
   .seg.on{ background: var(--amber); box-shadow: 0 0 6px 1px rgba(232,149,46,0.75); }
-  .seg-a, .seg-d, .seg-g{ left:4px; width:22px; height:5px; clip-path: polygon(14% 0,86% 0,100% 50%,86% 100%,14% 100%,0 50%); }
+  .seg-a, .seg-d, .seg-g{ left:13%; width:74%; height:9%; clip-path: polygon(14% 0,86% 0,100% 50%,86% 100%,14% 100%,0 50%); }
   .seg-a{ top:0; }
-  .seg-g{ top:24.5px; }
+  .seg-g{ top:45.5%; }
   .seg-d{ bottom:0; }
-  .seg-b, .seg-c, .seg-e, .seg-f{ width:5px; height:22px; clip-path: polygon(0 14%,50% 0,100% 14%,100% 86%,50% 100%,0 86%); }
-  .seg-f{ top:3px; left:0; }
-  .seg-b{ top:3px; right:0; }
-  .seg-e{ bottom:3px; left:0; }
-  .seg-c{ bottom:3px; right:0; }
-  .led-colon{ display:flex; flex-direction:column; gap:10px; justify-content:center; height:54px; }
-  .led-colon i{ width:6px; height:6px; background: var(--amber); box-shadow: 0 0 6px 1px rgba(232,149,46,0.7); animation: blink 2s steps(1,end) infinite; }
+  .seg-b, .seg-c, .seg-e, .seg-f{ width:16.7%; height:41%; clip-path: polygon(0 14%,50% 0,100% 14%,100% 86%,50% 100%,0 86%); }
+  .seg-f{ top:5.5%; left:0; }
+  .seg-b{ top:5.5%; right:0; }
+  .seg-e{ bottom:5.5%; left:0; }
+  .seg-c{ bottom:5.5%; right:0; }
+  .led-colon{ display:flex; flex-direction:column; gap: clamp(6px,1.2vmin,16px); justify-content:center; height: clamp(43px,10vmin,162px); }
+  .led-colon i{ width: clamp(5px,1vmin,12px); height: clamp(5px,1vmin,12px); background: var(--amber); box-shadow: 0 0 6px 1px rgba(232,149,46,0.7); animation: blink 2s steps(1,end) infinite; }
 
   /* ================= MINIMAL ================= */
   .minimal{
-    display:flex; flex-direction:column; align-items:center; gap: 6px;
-    padding: 18px 0 8px;
+    display:flex; flex-direction:column; align-items:center; gap: clamp(4px,0.8vmin,10px);
+    padding: clamp(12px,2vmin,28px) 0 clamp(6px,1vmin,14px);
   }
   .minimal-time{
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: 58px;
+    font-size: clamp(38px, min(21vmin, 12vw, 16vh), 340px);
     letter-spacing: 0.04em;
     color: var(--numeral);
     line-height: 1;
   }
-  .minimal-time span.sec{ font-size: 22px; color: var(--numeral-dim); margin-left: 6px; vertical-align: super; }
+  .minimal-time span.sec{ font-size: 0.4em; color: var(--numeral-dim); margin-left: 0.12em; vertical-align: super; }
 
   /* ================= shared bottom row ================= */
-  .daterow{ display:flex; justify-content:center; align-items:center; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-  .datebadge{ font-size: 11px; letter-spacing: 0.14em; color: var(--label); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 5px 10px; }
-  .ampm{ font-size: 11px; letter-spacing: 0.14em; color: var(--amber); background: rgba(232,149,46,0.08); border: 1px solid rgba(232,149,46,0.25); border-radius: 4px; padding: 5px 10px; }
+  .daterow{ display:flex; justify-content:center; align-items:center; gap: clamp(8px,1.4vmin,18px); margin-top: clamp(12px, 2.2vmin, 28px); flex-wrap: wrap; }
+  .datebadge{ font-size: clamp(10px, 1.6vmin, 19px); letter-spacing: 0.14em; color: var(--label); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: clamp(4px,0.8vmin,9px) clamp(8px,1.4vmin,16px); }
+  .ampm{ font-size: clamp(10px, 1.6vmin, 19px); letter-spacing: 0.14em; color: var(--amber); background: rgba(232,149,46,0.08); border: 1px solid rgba(232,149,46,0.25); border-radius: 4px; padding: clamp(4px,0.8vmin,9px) clamp(8px,1.4vmin,16px); }
 
+
+  .row-break{ display: none; }
 
   @media (max-width: 420px){
-    .clock{ padding: 22px 18px 20px; }
     .display{ max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .flip{ width: 40px; height: 64px; }
-    .face span{ font-size: 38px; }
-    .colon{ height:64px; gap:8px; }
-    .analog-face{ width: 180px; height: 180px; }
-    .minimal-time{ font-size: 44px; }
+  }
+
+  /* Portrait / tall screens: wrap HH:MM and :SS onto two rows and use a
+     much larger card size, since each row now only needs to fit half the
+     digits — this is what lets the clock actually fill a tall screen
+     instead of sitting as a thin strip with big top/bottom margins. */
+  @media (max-aspect-ratio: 1/1){
+    .clock{
+      --flip-w: clamp(38px, min(26vw, 10.5vh, 30vmin), 380px);
+    }
+    .display{
+      flex-wrap: wrap;
+      width: calc(var(--flip-w) * 4.85);
+      row-gap: calc(var(--flip-w) * 0.32);
+    }
+    .row-break{ display: block; flex-basis: 100%; height: 0; }
   }
 </style>
 
@@ -367,9 +382,16 @@
     c.innerHTML = '<i></i><i></i>';
     return c;
   }
+  function rowBreak(){
+    const b = document.createElement('div');
+    b.className = 'row-break';
+    b.setAttribute('aria-hidden', 'true');
+    return b;
+  }
   display.appendChild(flipGroup('h'));
   display.appendChild(colonDots());
   display.appendChild(flipGroup('m'));
+  display.appendChild(rowBreak());
   display.appendChild(colonDots());
   display.appendChild(flipGroup('s'));
 
