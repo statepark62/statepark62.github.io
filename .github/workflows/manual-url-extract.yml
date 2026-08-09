@@ -41,11 +41,15 @@ jobs:
       - name: 의존성 설치
         run: pip install -r requirements.txt
 
+      - name: yt-dlp 쿠키 파일 생성
+        run: echo "${{ secrets.YTDLP_COOKIES }}" > cookies.txt
+
       - name: 지정 URL 처리
         env:
           BSJ_SHEET_ID: ${{ secrets.BSJ_SHEET_ID }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          YTDLP_COOKIES_PATH: cookies.txt
         run: |
           FORCE_FLAG=""
           if [ "${{ inputs.force }}" = "true" ]; then
