@@ -140,7 +140,7 @@
   }
 
   .caption-line{
-    min-height: 96px;
+    min-height: 130px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -176,6 +176,18 @@
   }
 
   .caption-ko.show{ opacity: 1; color: var(--amber); }
+
+  .caption-example{
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(247,243,233,0.55);
+    padding-top: 2px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .caption-example.show{ opacity: 1; }
 
   /* ---------- 검색/컨트롤 ---------- */
   .controls{
@@ -489,6 +501,7 @@
     <div class="caption-line">
       <div class="caption-jp" id="hero-jp"><span class="cursor"></span></div>
       <div class="caption-ko" id="hero-ko"></div>
+      <div class="caption-example" id="hero-example"></div>
     </div>
   </div>
 </div>
@@ -562,7 +575,7 @@
      예: https://docs.google.com/spreadsheets/d/e/2PACX-xxxx/pub?gid=0&single=true&output=csv
      ============================================================ */
   const CONFIG = {
-    SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTKI9y3MHoMW8kXyzU__mCTQqPQJ6Lisy1nhmZCCQ3hmHAC7BdI7Fy6jVyS9eHS-EYb5lav7vZdu8-T/pub?gid=1099575050&single=true&output=csv" // ← 여기에 발행된 CSV URL을 붙여넣으세요
+    SHEET_CSV_URL: "" // ← 여기에 발행된 CSV URL을 붙여넣으세요
   };
 
   /* GitHub Actions를 호출할 저장소 정보 — repo 이름이 바뀌면 여기도 수정 */
@@ -580,16 +593,19 @@
   function showInHero(sample){
     const jpEl = document.getElementById("hero-jp");
     const koEl = document.getElementById("hero-ko");
+    const exEl = document.getElementById("hero-example");
 
     if(heroTyper) clearInterval(heroTyper);
 
     let charIdx = 0;
     koEl.classList.remove("show");
+    exEl.classList.remove("show");
     koEl.textContent = sample.ko ? "→ " + sample.ko : "";
+    exEl.textContent = sample.example ? "“" + sample.example + "”" : "";
     jpEl.innerHTML = '<span class="cursor"></span>';
 
     if(!sample.jp){
-      setTimeout(() => koEl.classList.add("show"), 150);
+      setTimeout(() => { koEl.classList.add("show"); exEl.classList.add("show"); }, 150);
       return;
     }
 
@@ -600,6 +616,7 @@
         clearInterval(heroTyper);
         heroTyper = null;
         setTimeout(() => koEl.classList.add("show"), 250);
+        setTimeout(() => exEl.classList.add("show"), 450);
       }
     }, 90);
   }
@@ -650,7 +667,7 @@
       card.addEventListener("click", (e) => {
         if(e.target.closest(".card-source")) return; // 출처 링크 클릭은 새 탭으로만 이동
         const row = rows[Number(card.dataset.idx)];
-        if(row) showInHero({ jp: row.expression, ko: row.meaning_ko });
+        if(row) showInHero({ jp: row.expression, ko: row.meaning_ko, example: row.example_sentence });
       });
     });
   }
@@ -682,7 +699,7 @@
 
         // 가장 최근에 추가된 표현(맨 앞 항목)을 자막 화면에 자동으로 띄운다
         if(rows.length){
-          showInHero({ jp: rows[0].expression, ko: rows[0].meaning_ko });
+          showInHero({ jp: rows[0].expression, ko: rows[0].meaning_ko, example: rows[0].example_sentence });
         } else {
           showInHero({ jp: "", ko: "아직 쌓인 표현이 없습니다" });
         }
