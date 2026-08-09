@@ -1,0 +1,43 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="case" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#413b35"/>
+      <stop offset="16%" stop-color="#211f1c"/>
+      <stop offset="84%" stop-color="#211f1c"/>
+      <stop offset="100%" stop-color="#100f0e"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6b869"/>
+      <stop offset="100%" stop-color="#e8952e"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.12)"/>
+      <stop offset="38%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#case)"/>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#sheen)"/>
+
+  <!-- hour card -->
+  <g>
+    <rect x="140" y="272" width="304" height="480" rx="36" fill="#040403"/>
+    <rect x="152" y="284" width="280" height="222" rx="26" fill="#181614"/>
+    <rect x="152" y="518" width="280" height="222" rx="26" fill="#181614"/>
+    <text x="292" y="462" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="252" fill="#f3eee4">1</text>
+    <text x="292" y="696" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="252" fill="#f3eee4">2</text>
+  </g>
+
+  <!-- colon -->
+  <circle cx="512" cy="462" r="24" fill="url(#glow)"/>
+  <circle cx="512" cy="562" r="24" fill="url(#glow)"/>
+
+  <!-- minute card -->
+  <g>
+    <rect x="580" y="272" width="304" height="480" rx="36" fill="#040403"/>
+    <rect x="592" y="284" width="280" height="222" rx="26" fill="#181614"/>
+    <rect x="592" y="518" width="280" height="222" rx="26" fill="#181614"/>
+    <text x="732" y="462" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="252" fill="#f3eee4">0</text>
+    <text x="732" y="696" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="252" fill="#f3eee4">0</text>
+  </g>
+</svg>
