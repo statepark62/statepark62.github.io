@@ -21,7 +21,11 @@ def resolve_videos(url: str, limit: int) -> list[dict]:
         "-J",
         url,
     ]
-    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        print("=== yt-dlp 오류 (resolve_videos) ===")
+        print(result.stderr)
+        raise RuntimeError(f"yt-dlp가 실패했습니다 (exit {result.returncode}). 위 stderr 내용을 확인하세요.")
     data = json.loads(result.stdout)
 
     if "entries" not in data:
@@ -55,7 +59,10 @@ def download_auto_caption(video_id: str, out_dir: Path) -> Path | None:
         "-o", out_tmpl,
         f"https://www.youtube.com/watch?v={video_id}",
     ]
-    subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        print(f"=== yt-dlp 자막 다운로드 실패 ({video_id}) ===")
+        print(result.stderr)
     vtt_path = out_dir / f"{video_id}.ja.vtt"
     return vtt_path if vtt_path.exists() else None
 
