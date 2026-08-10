@@ -4471,5 +4471,55 @@
   "example": "有名人になりすまして広告を出す詐欺が増えている。",
   "exampleReading": "ゆうめいじんになりすましてこうこくをだすさぎがふえている。",
   "exampleMeaning": "유명인을 사칭하여 광고를 내는 사기가 늘고 있다."
+ },
+ {
+  "id": "tj141",
+  "word": "引きこもる",
+  "reading": "ひきこもる",
+  "meaning": "은둔하다, 틀어박혀 지내다",
+  "level": "N2",
+  "example": "兄は大学を辞めてから家に引きこもっていた。",
+  "exampleReading": "あにはだいがくをやめてからいえにひきこもっていた。",
+  "exampleMeaning": "형은 대학을 그만두고 집에 틀어박혀 있었다."
+ },
+ {
+  "id": "tj142",
+  "word": "相談員",
+  "reading": "そうだんいん",
+  "meaning": "상담원",
+  "level": "N2",
+  "example": "夜間の相談員は交代で電話を受ける。",
+  "exampleReading": "やかんのそうだんいんはこうたいででんわをうける。",
+  "exampleMeaning": "야간 상담원은 교대로 전화를 받는다."
+ },
+ {
+  "id": "tj143",
+  "word": "募集",
+  "reading": "ぼしゅう",
+  "meaning": "모집",
+  "level": "N3",
+  "example": "市はボランティアを広く募集している。",
+  "exampleReading": "しはぼらんてぃあをひろくぼしゅうしている。",
+  "exampleMeaning": "도시는 자원봉사자를 폭넓게 모집하고 있다."
+ },
+ {
+  "id": "tj144",
+  "word": "研修",
+  "reading": "けんしゅう",
+  "meaning": "연수, 트레이닝",
+  "level": "N2",
+  "example": "新任職員は一週間の研修に参加する。",
+  "exampleReading": "しんにんしょくいんはいっしゅうかんのけんしゅうにさんかする。",
+  "exampleMeaning": "신임 직원은 1주일간의 연수에 참가한다."
+ },
+ {
+  "id": "tj145",
+  "word": "中退",
+  "reading": "ちゅうたい",
+  "meaning": "중퇴",
+  "level": "N2",
+  "example": "事情があって高校を中退した。",
+  "exampleReading": "じじょうがあってこうこうをちゅうたいした。",
+  "exampleMeaning": "사정이 있어 고등학교를 중퇴했다."
  }
 ]

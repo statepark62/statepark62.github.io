@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-11 天声人語로 배우는 일본어 — 생명의 전화로</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第35回</span>
+      <span>2026-08-11</span>
+      <span>2026년 8월 11일 (화)</span>
+    </div>
+
+    <h1>いのちの電話へ</h1>
+    <p class="topic-ko">생명의 전화로</p>
+
+    <div class="keyquote">
+      <div class="ja">「いのちの電話」</div>
+      <div class="ko">생명의 전화 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">東京に暮らす五十代の女性が、息子の高校中退とひきこもりに直面して途方に暮れる場面から物語が始まる。</p><p class="ko">도쿄에 사는 50대 여성이 아들의 고교 중퇴와 은둔으로 깊은 막막함을 겪는 장면에서 칼럼이 시작된다.</p></div>
+      <div class="s-item"><p class="ja">彼女は新聞で「いのちの電話」の相談員募集を見つけ、研修を受けて関われば自分にも変化が生まれるのではと考える筋立てが示される。</p><p class="ko">그녀는 신문에서 ‘생명의 전화’ 상담원 모집을 발견하고, 연수를 거쳐 참여하면 스스로도 변화를 만들 수 있지 않을까 생각한다는 흐름이 제시된다.</p></div>
+      <div class="s-item"><p class="ja">他者を支える選択が自己の立て直しにもつながるのではないかという問題意識が、静かに投げかけられているようだ.</p><p class="ko">타인을 돕는 선택이 자기 회복으로 이어질 수 있다는 문제의식이 조용히 던져지는 글로 보인다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>引きこもる<rt>ひきこもる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">은둔하다, 틀어박혀 지내다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">兄は大学を辞めてから家に引きこもっていた。</span><br>형은 대학을 그만두고 집에 틀어박혀 있었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>相談員<rt>そうだんいん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">상담원</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">夜間の相談員は交代で電話を受ける。</span><br>야간 상담원은 교대로 전화를 받는다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>募集<rt>ぼしゅう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">모집</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">市はボランティアを広く募集している。</span><br>도시는 자원봉사자를 폭넓게 모집하고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>研修<rt>けんしゅう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">연수, 트레이닝</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">新任職員は一週間の研修に参加する。</span><br>신임 직원은 1주일간의 연수에 참가한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>中退<rt>ちゅうたい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">중퇴</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">事情があって高校を中退した。</span><br>사정이 있어 고등학교를 중퇴했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜ことにしよう</div>
+        <div class="pattern-ko">~하기로 하자</div>
+        <p class="explain">화자가 스스로의 결심을 가볍게 선언하거나, 상대에게 제안을 부드럽게 던질 때 쓰는 표현이다. 확정적으로 결론을 내리는 〜ことにする보다 여지를 남기며 공감대를 조성하는 느낌이 있다.</p>
+        <p class="ex"><span class="ja">詳しい話は明日にすることにしよう。</span><br>자세한 이야기는 내일로 하기로 하자.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 한 가족의 곤경을 무대 중앙에 세운 뒤, 익명 처리된 ‘A씨’라는 지시어로 독자를 안전한 거리로 이끈다. 짧은 문장과 반복(“어쩌면 좋을까”)을 사용해 불안의 리듬을 그대로 전이시키는 천성인어 특유의 호흡이 살아 있다. 이어지는 전환에서 신문 지면의 ‘모집’ 광고가 새로운 실마리로 등장하며, 사적 고통이 공적 네트워크와 만나는 접점이 제시된다. 이야기와 정보가 자연스럽게 맞물려, 독자가 스스로 다음 단락을 궁금해하도록 설계되어 있다.</p>
+        <p>칼럼이 제기하는 함의는 ‘돌봄의 방향’에 있다. 도움을 받는 자리에서 돕는 자리로의 이동이 자기 회복의 경로가 될 수 있다는 생각은 일본과 한국 모두에서 공명을 낳는다. 특히 ‘생명의 전화’라는 구체적 기관명이 주는 현실감은, 제도가 개인의 막막함을 어떻게 지지할 수 있는지 상상하도록 돕는다. 한국 독자에게도 자원봉사가 개인의 삶을 바꾸는 계기가 될 수 있다는 점이 흥미롭게 읽힌다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 가족의 상처에서 출발해, 타인 돌봄이 자기 회복으로 이어질 수 있음을 조심스럽게 비춰 보는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>‘생명의 전화(いのちの電話)’는 정서적 위기를 겪는 사람들의 상담 전화를 받는 민간 네트워크로 알려져 있으며, 비밀보장과 상담원 연수가 중요하게 취급된다.</p>
+        <p>일본의 ‘히키코모리(引きこもり)’ 문제는 오래된 사회적 과제로, 가족이 적절한 지원 창구를 찾기 어려운 경우가 많다고 여겨진다.</p>
+        <p>신문 지면의 공익 광고나 모집 공고는 시민이 지역의 상담·자원봉사 활동에 접근하는 관문으로 기능하는 경우가 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>개인의 고통을 세밀한 장면으로 포착한 뒤, 사회 제도와 자연스럽게 접속시키는 ‘작은 이야기→큰 맥락’ 전개를 배울 만하다.</p>
+        <p><span class="n">二</span>반복과 단문으로 정서의 질감을 독자에게 체감시키는 리듬 만들기가 효과적이다.</p>
+        <p><span class="n">三</span>익명 지칭과 기관명을 병치해 사생활을 보호하면서도 사실성을 높이는 균형감이 돋보인다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">だれかの声に耳を澄ますと、自分の不安もほどけていく。</span>
+      <span class="ko">누군가의 목소리에 귀 기울이면, 내 불안도 서서히 풀려 간다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-11) — <a href="https://www.asahi.com/articles/DA3S16524222.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-11.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
