@@ -4521,5 +4521,15 @@
   "example": "事情があって高校を中退した。",
   "exampleReading": "じじょうがあってこうこうをちゅうたいした。",
   "exampleMeaning": "사정이 있어 고등학교를 중퇴했다."
+ },
+ {
+  "id": "news136",
+  "word": "一致",
+  "reading": "いっち",
+  "meaning": "일치, 합의",
+  "level": "N2",
+  "example": "両国は経済協力の推進で一致した。",
+  "exampleReading": "りょうこくはけいざいきょうりょくのすいしんでいっちした。",
+  "exampleMeaning": "양국은 경제협력 추진에 합의했다."
  }
 ]
