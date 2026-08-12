@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-13 天声人語로 배우는 일본어 — 폭염과 기후 조작</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第37回</span>
+      <span>2026-08-13</span>
+      <span>2026년 8월 13일 (목)</span>
+    </div>
+
+    <h1>猛暑と気候操作</h1>
+    <p class="topic-ko">폭염과 기후 조작</p>
+
+    <div class="keyquote">
+      <div class="ja">「気候を操作する」</div>
+      <div class="ko">기후를 조작하다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">地震の傷が残る熊本を容赦ない猛暑が襲い、熊本市では40.3度という記録的高温が観測された。</p><p class="ko">지진으로 깊은 상처를 입은 구마모토가 폭염에 다시 타격을 받았고, 구마모토시에서는 40.3도의 최고 기온이 관측되었다.</p></div>
+      <div class="s-item"><p class="ja">重なる災難への痛みとともに、天気だけは思いどおりにならないという諦めがよぎる。</p><p class="ko">재난이 겹치는 현실에 대한 아픔과 함께, 날씨만은 어찌할 수 없다는 체념이 스친다.</p></div>
+      <div class="s-item"><p class="ja">そこへ東大の杉山昌広教授が、人間はすでに気候を調整する技術を持つと述べ、コラムは気候工学の可能性と課題へ向かうようだ.</p><p class="ko">그때 도쿄대 스기야마 마사히로 교수가 인간이 이미 기후를 조절할 기술을 갖고 있다고 말하며, 칼럼은 기후공학의 가능성과 문제로 시선을 옮기는 듯하다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>猛暑<rt>もうしょ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">극심한 더위, 폭염</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">今年の猛暑は長引いている。</span><br>올해 폭염은 길어지고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>観測史上最高<rt>かんそくしじょうさいこう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">관측 사상 최고</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">気温が観測史上最高を更新した。</span><br>기온이 관측 사상 최고를 경신했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>胸が痛む<rt>むねがいたむ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">마음이 아프다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">被災地の映像を見るたび胸が痛む。</span><br>피해 지역 영상을 볼 때마다 마음이 아프다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>気候操作<rt>きこうそうさ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">기후 조작</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">気候操作の是非を巡って議論が続く。</span><br>기후 조작의 당위성을 두고 논쟁이 이어진다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>涼しくなる<rt>すずしくなる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">선선해지다</span><span class="level">N4</span>
+            <p class="ex"><span class="ja">日が沈むと少し涼しくなる。</span><br>해가 지면 조금 선선해진다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">名詞＋ばかりは</div>
+        <div class="pattern-ko">~만은</div>
+        <p class="explain">특정 항목을 예외로 삼아 ‘그것만은 어쩔 수 없다/예외다’라는 의미를 나타낸다. 흔히 부정적인 평가나 불가능을 말할 때 쓰이며, 화자의 체념이나 한계를 드러낸다.</p>
+        <p class="ex"><span class="ja">天気ばかりは人の力では変えられない。</span><br>날씨만은 인간의 힘으로 바꿀 수 없다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>칼럼은 재난의 상흔이 남은 구마모토에 다시금 폭염이 덮쳤다는 구체적 장면으로 시작해 독자의 공감과 긴장을 끌어올린다. ‘왜 이렇게 겹치나’라는 자문은 일상의 감정선을 따라가되, 사회적 문제로 자연스럽게 확장되는 통로가 된다. 이어 ‘날씨만은 어찌할 수 없다’는 상투적 체념을 살짝 호출해 두고, 전문가의 발언을 배치하여 서늘한 전환점을 만든다. 이처럼 천성인어 특유의 ‘정서에서 논점으로’의 피벗이 간결한 문장과 여백을 통해 효과적으로 구현된다.</p>
+        <p>이 칼럼이 던지는 의미는, 체감되는 폭염이라는 가까운 고통에서 출발해 ‘기후를 인위적으로 다룰 수 있는가’라는 거대한 윤리·정책의 문제로 사유를 확장시키는 데 있다. 한국 독자에게도 흥미로운 지점은, 재난의 중첩과 이상고온이 더 이상 남의 일이 아니라는 동시대성, 그리고 기후공학이 약속과 위험을 동시에 안고 있다는 균형 감각이다. 단정적 결론을 서두르지 않고, 의문과 망설임을 독자에게 남기는 서술은 생각할 시간을 선물한다. 결과적으로 현상 보도와 가치 판단의 간격을 적절히 유지하면서, 공적 토론의 문턱을 낮추는 글쓰기이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 재난과 폭염의 겹침을 계기로 기후를 인위적으로 다룰 수 있는가를 조심스레 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>2016년 구마모토 지진은 규슈 지역에 큰 피해를 남겼고, 그 후유는 장기적으로 이어졌다. 최근 일본의 여름은 장기 폭염과 열섬 현상으로 체감 부담이 더욱 커졌다.</p>
+        <p>일본 언론에서 ‘관측 사상 최고’는 기상 데이터의 신기록을 말하며, 40도 안팎의 수치는 기후변화 논의와 강하게 연결된다. 이러한 기록은 전력 수급, 보건, 재난 대응과 직결되는 사회 이슈다.</p>
+        <p>‘기후공학(ジオエンジニアリング)’은 태양복사 관리나 대기 중 에어로졸 주입 등으로 기후를 인위적으로 조정하려는 접근을 가리킨다. 효과와 부작용, 거버넌스 문제가 커서 국제적으로도 신중론이 강하며, 칼럼도 이 논점을 겨냥하는 것으로 보인다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>가까운 체험(더위)에서 시작해 보편적 의제(기후공학)로 자연스럽게 확대하는 서사 피벗을 활용한다.</p>
+        <p><span class="n">二</span>체념적 상투구(날씨는 어쩔 수 없다)를 호출한 뒤 그것을 뒤집는 정보(전문가 발언)를 배치해 독서 흐름에 파문을 만든다.</p>
+        <p><span class="n">三</span>정답 제시보다 질문을 남겨 독자 판단의 여지를 보장하는 문장 운용을 배운다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">天気ばかりは思いどおりにならないが、向き合い方は選べる。</span>
+      <span class="ko">날씨만은 뜻대로 되지 않지만, 마주하는 방식은 선택할 수 있다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-13) — <a href="https://www.asahi.com/articles/DA3S16525348.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-13.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

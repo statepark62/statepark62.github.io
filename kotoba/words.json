@@ -4531,5 +4531,55 @@
   "example": "両国は経済協力の推進で一致した。",
   "exampleReading": "りょうこくはけいざいきょうりょくのすいしんでいっちした。",
   "exampleMeaning": "양국은 경제협력 추진에 합의했다."
+ },
+ {
+  "id": "tj146",
+  "word": "猛暑",
+  "reading": "もうしょ",
+  "meaning": "극심한 더위, 폭염",
+  "level": "N2",
+  "example": "今年の猛暑は長引いている。",
+  "exampleReading": "ことしのもうしょはながびいている。",
+  "exampleMeaning": "올해 폭염은 길어지고 있다."
+ },
+ {
+  "id": "tj147",
+  "word": "観測史上最高",
+  "reading": "かんそくしじょうさいこう",
+  "meaning": "관측 사상 최고",
+  "level": "N1",
+  "example": "気温が観測史上最高を更新した。",
+  "exampleReading": "きおんがかんそくしじょうさいこうをこうしんした。",
+  "exampleMeaning": "기온이 관측 사상 최고를 경신했다."
+ },
+ {
+  "id": "tj148",
+  "word": "胸が痛む",
+  "reading": "むねがいたむ",
+  "meaning": "마음이 아프다",
+  "level": "N2",
+  "example": "被災地の映像を見るたび胸が痛む。",
+  "exampleReading": "ひさいちのえいぞうをみるたびむねがいたむ。",
+  "exampleMeaning": "피해 지역 영상을 볼 때마다 마음이 아프다."
+ },
+ {
+  "id": "tj149",
+  "word": "気候操作",
+  "reading": "きこうそうさ",
+  "meaning": "기후 조작",
+  "level": "N1",
+  "example": "気候操作の是非を巡って議論が続く。",
+  "exampleReading": "きこうそうさのぜひをめぐってぎろんがつづく。",
+  "exampleMeaning": "기후 조작의 당위성을 두고 논쟁이 이어진다."
+ },
+ {
+  "id": "tj150",
+  "word": "涼しくなる",
+  "reading": "すずしくなる",
+  "meaning": "선선해지다",
+  "level": "N4",
+  "example": "日が沈むと少し涼しくなる。",
+  "exampleReading": "ひがしずむとすこしすずしくなる。",
+  "exampleMeaning": "해가 지면 조금 선선해진다."
  }
 ]
