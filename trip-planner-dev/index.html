@@ -261,6 +261,11 @@ function loadScript(src){
 const GOOGLE_REDIRECT_URI = location.origin + location.pathname;
 const GOOGLE_SCOPE = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file';
 function ls_get(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
+function isStandaloneApp(){
+  try{
+    return (window.navigator.standalone === true) || window.matchMedia('(display-mode: standalone)').matches;
+  }catch(e){ return false; }
+}
 function ls_set(key,val){ try{ localStorage.setItem(key,val); }catch(e){} }
 function ls_trySet(key,val){ try{ localStorage.setItem(key,val); return true; }catch(e){ return false; } }
 let _lsAvailable = null;
@@ -551,7 +556,7 @@ async function init(){
   if(gotToken){
     try{ await ensureSpreadsheet(); await migrateAndReload(); }
     catch(e){ console.error(e); googleSignedIn = false; await loadState(); }
-  } else if(GOOGLE_ENABLED && ls_get('trip_google_connected')==='1'){
+  } else if(GOOGLE_ENABLED && ls_get('trip_google_connected')==='1' && !isStandaloneApp()){
     // 이전에 연결한 적이 있으면: 페이지가 구글로 조용히 이동했다 바로 돌아옵니다(팝업 아님, 차단 안 됨)
     location.href = buildGoogleAuthUrl('none');
     return;
