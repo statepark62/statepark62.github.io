@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-14",
+    "no": 38,
+    "topic_ja": "ＡＩと青",
+    "topic_ko": "AI와 파랑",
+    "url": "https://www.asahi.com/articles/DA3S16526080.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘AI와 취향’, ‘색채와 문화’, ‘데이터의 수렴’ — AI의 답변이 특정 색으로 모이는 현상을 통해 개인적 취향과 문화·알고리즘의 상호작용을 성찰하므로 이 범주에 잘 맞는다.",
+    "pattern": "動詞たら、〜"
+  },
+  {
     "date": "2026-08-13",
     "no": 37,
     "topic_ja": "猛暑と気候操作",
