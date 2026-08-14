@@ -4641,5 +4641,55 @@
   "example": "迷ったが、やはり最初の案で行こう。",
   "exampleReading": "まよったが、やはりさいしょのあんでいこう。",
   "exampleMeaning": "망설였지만 역시 처음 안으로 가자."
+ },
+ {
+  "id": "tj156",
+  "word": "訪ねる",
+  "reading": "たずねる",
+  "meaning": "방문하다, 찾아가다",
+  "level": "N3",
+  "example": "先輩を研究室に訪ねる。",
+  "exampleReading": "せんぱいをけんきゅうしつにたずねる。",
+  "exampleMeaning": "선배를 연구실로 찾아간다."
+ },
+ {
+  "id": "tj157",
+  "word": "戦争体験",
+  "reading": "せんそうたいけん",
+  "meaning": "전쟁 체험",
+  "level": "N2",
+  "example": "祖父の戦争体験を記録に残す。",
+  "exampleReading": "そふのせんそうたいけんをきろくにのこす。",
+  "exampleMeaning": "할아버지의 전쟁 체험을 기록으로 남긴다."
+ },
+ {
+  "id": "tj158",
+  "word": "入学間もない",
+  "reading": "にゅうがくまもない",
+  "meaning": "입학한 지 얼마 안 된",
+  "level": "N2",
+  "example": "入学間もない私はまだ友だちが少ない。",
+  "exampleReading": "にゅうがくまもないわたしはまだともだちがすくない。",
+  "exampleMeaning": "입학한 지 얼마 안 된 나는 아직 친구가 적다."
+ },
+ {
+  "id": "tj159",
+  "word": "飽き飽き",
+  "reading": "あきあき",
+  "meaning": "지긋지긋함, 진절머리",
+  "level": "N1",
+  "example": "同じ話に飽き飽きしている。",
+  "exampleReading": "おなじはなしにあきあきしている。",
+  "exampleMeaning": "같은 이야기에 질려 있다."
+ },
+ {
+  "id": "tj160",
+  "word": "気乗りせず",
+  "reading": "きのりせず",
+  "meaning": "내키지 않아",
+  "level": "N1",
+  "example": "気乗りせず、会議の発言を控えた。",
+  "exampleReading": "きのりせず、かいぎのはつげんをひかえた。",
+  "exampleMeaning": "마음이 내키지 않아 회의에서 발언을 삼갔다."
  }
 ]

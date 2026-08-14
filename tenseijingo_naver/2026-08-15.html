@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-15 天声人語로 배우는 일본어 — 선배에게 듣는 전쟁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第39回</span>
+      <span>2026-08-15</span>
+      <span>2026년 8월 15일 (토)</span>
+    </div>
+
+    <h1>先輩に聞く戦争</h1>
+    <p class="topic-ko">선배에게 듣는 전쟁</p>
+
+    <div class="keyquote">
+      <div class="ja">「戦争体験を聞きにいく」</div>
+      <div class="ko">전쟁 체험을 들으러 간다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">1998年、慶応大では、入学したばかりの19〜20歳の学生が年長の先輩に戦争の記憶を尋ねる授業が行われた。</p><p class="ko">1998년 게이오대에서는 입학한 지 얼마 되지 않은 스무 살 안팎의 학생들이 선배들의 전쟁 체험을 듣는 수업이 있었다.</p></div>
+      <div class="s-item"><p class="ja">学生たちは「面倒だ」「戦争の話にはうんざり」などと本音を書きつつも、気が進まないまま緊張して、89人が先輩のもとを訪れた。</p><p class="ko">학생들은 ‘귀찮다’, ‘전쟁 이야기는 지겹다’ 같은 솔직한 마음을 적었지만, 마음이 내키지 않고 긴장한 채로 89명이 선배들을 찾아갔다.</p></div>
+      <div class="s-item"><p class="ja">コラムは世代の隔たりや無関心を背景に、生の証言に向き合うことが何をもたらすのかを読者に考えさせる。</p><p class="ko">칼럼은 세대 간 거리와 무심함을 배경으로, 직접 듣는 행위가 어떤 변화를 낳을지 독자에게 생각해 보라고 권한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>訪ねる<rt>たずねる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">방문하다, 찾아가다</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">先輩を研究室に訪ねる。</span><br>선배를 연구실로 찾아간다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>戦争体験<rt>せんそうたいけん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">전쟁 체험</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">祖父の戦争体験を記録に残す。</span><br>할아버지의 전쟁 체험을 기록으로 남긴다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>入学間もない<rt>にゅうがくまもない</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">입학한 지 얼마 안 된</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">入学間もない私はまだ友だちが少ない。</span><br>입학한 지 얼마 안 된 나는 아직 친구가 적다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>飽き飽き<rt>あきあき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">지긋지긋함, 진절머리</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">同じ話に飽き飽きしている。</span><br>같은 이야기에 질려 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>気乗りせず<rt>きのりせず</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">내키지 않아</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">気乗りせず、会議の発言を控えた。</span><br>마음이 내키지 않아 회의에서 발언을 삼갔다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜たまま</div>
+        <div class="pattern-ko">~한 채(로)</div>
+        <p class="explain">어떤 상태가 변하지 않은 채로 다음 행위나 상황이 이어짐을 나타낸다. 무심코 그대로 둔 느낌이나 부주의의 뉘앙스를 띨 때도 있다. 동사 과거형이나 상태를 나타내는 표현과 함께 쓰인다.</p>
+        <p class="ex"><span class="ja">マスクをしたまま話すと、声がこもる。</span><br>마스크를 쓴 채로 말하면 목소리가 먹먹해진다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 특정 수업의 장면을 도입부에 배치하고, 학생들의 솔직한 반감을 간단한 표현으로 제시해 독자를 곧장 현장으로 끌어들인다. 숫자(89명)와 연령(19~20세) 같은 구체 정보는 사실감을 높이고, 괄호 속 책 제목 소개는 취재의 근거를 암시한다. 감정선은 ‘내키지 않음’과 ‘긴장’이라는 상반된 심리로 잡아, 만남 직전의 공기를 촘촘히 포착한다. 천성인어 특유의 간결한 문장과 여백 많은 전개가 이후의 전개를 기대하게 만드는 효과를 낸다.</p>
+        <p>칼럼이 남기는 물음은 단순하다: 무심한 젊은 세대가 직접 증언을 들을 때 무엇이 달라지는가. 전쟁의 기억을 ‘듣는 일’ 자체가 교육이자 사회적 실천이라는 함의를 조용히 드러낸다. 한국 독자에게도 구술 기록 수업이라는 형식은 낯익으면서, 세대 간 간극을 다루는 방식이 흥미롭게 다가온다. 감정의 강요 대신 경험의 접촉면을 보여 주며, 독자 스스로 의미를 확장하도록 유도한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 젊은 세대의 냉담함과 전쟁 증언의 무게가 만나는 수업의 순간을 포착한 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>게이오대(慶応大)는 일본을 대표하는 사립 명문대로, 학생 자율성과 실천 중심 수업이 강점으로 거론된다.</p>
+        <p>1990년대 후반은 전후 세대가 70~80대가 되던 시기여서, 학교나 지자체에서 전쟁 증언을 채록하려는 시도가 늘어났다는 보도가 있었다.</p>
+        <p>천성인어(天声人語)는 아사히신문 1면 칼럼으로, 소소한 사실에서 보편적 물음을 끌어내는 짧은 글쓰기로 유명하다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 장면(인물·연령·숫자)과 간명한 인용을 앞에 두어 독자의 몰입을 빠르게 확보한다.</p>
+        <p><span class="n">二</span>인물의 복합적 심리(내키지 않음과 긴장)를 병치해 긴장감을 형성한다.</p>
+        <p><span class="n">三</span>판단을 서두르지 않고 질문을 남겨 독자의 사유를 유도한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">記憶は語られてこそ、次の世代に渡せる。</span>
+      <span class="ko">기억은 말해질 때 비로소 다음 세대에 건넬 수 있다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-15) — <a href="https://www.asahi.com/articles/DA3S16526705.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-15.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
