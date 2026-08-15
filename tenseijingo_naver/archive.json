@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-16",
+    "no": 40,
+    "topic_ja": "靖国と記憶",
+    "topic_ko": "야스쿠니와 기억",
+    "url": "https://www.asahi.com/articles/DA3S16527354.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어 제안: ‘기억과 추모’, ‘상징과 권력’. 애도의 형식이 정치적 상징과 만날 때의 긴장을 탐색하며, 언어 선택이 역사 인식에 미치는 영향을 짚기 때문이다.",
+    "pattern": "動ます形＋始める"
+  },
+  {
     "date": "2026-08-15",
     "no": 39,
     "topic_ja": "先輩に聞く戦争",

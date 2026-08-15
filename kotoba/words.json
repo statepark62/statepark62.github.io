@@ -4691,5 +4691,55 @@
   "example": "気乗りせず、会議の発言を控えた。",
   "exampleReading": "きのりせず、かいぎのはつげんをひかえた。",
   "exampleMeaning": "마음이 내키지 않아 회의에서 발언을 삼갔다."
+ },
+ {
+  "id": "tj161",
+  "word": "黙祷",
+  "reading": "もくとう",
+  "meaning": "묵념",
+  "level": "N2",
+  "example": "正午に黙祷を捧げた。",
+  "exampleReading": "しょうごにもくとうをささげた。",
+  "exampleMeaning": "정오에 묵념을 바쳤다."
+ },
+ {
+  "id": "tj162",
+  "word": "追悼式",
+  "reading": "ついとうしき",
+  "meaning": "추도식",
+  "level": "N1",
+  "example": "市民会館で追悼式が行われた。",
+  "exampleReading": "しみんかいかんでついとうしきがおこなわれた。",
+  "exampleMeaning": "시민회관에서 추도식이 열렸다."
+ },
+ {
+  "id": "tj163",
+  "word": "境内",
+  "reading": "けいだい",
+  "meaning": "경내",
+  "level": "N1",
+  "example": "境内の静けさが心に染みた。",
+  "exampleReading": "けいだいのしずけさがこころにしみた。",
+  "exampleMeaning": "경내의 고요함이 마음에 스며들었다."
+ },
+ {
+  "id": "tj164",
+  "word": "英霊",
+  "reading": "えいれい",
+  "meaning": "영령",
+  "level": "N1",
+  "example": "英霊に花を手向けた。",
+  "exampleReading": "えいれいにはなをたむけた。",
+  "exampleMeaning": "영령에게 꽃을 바쳤다."
+ },
+ {
+  "id": "tj165",
+  "word": "駆り立てる",
+  "reading": "かりたてる",
+  "meaning": "몰아세우다, 부추기다",
+  "level": "N1",
+  "example": "不安が彼を行動へ駆り立てた。",
+  "exampleReading": "ふあんがかれをこうどうへかりたてた。",
+  "exampleMeaning": "불안이 그를 행동으로 내몰았다."
  }
 ]
