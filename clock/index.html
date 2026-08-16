@@ -36,7 +36,7 @@
   .desk{ perspective: 1400px; }
 
   .clock{
-    --flip-w: clamp(38px, min(25vmin, 13.5vw, 18vh), 340px);
+    --flip-w: clamp(40px, min(30vmin, 13vw, 18vh), 420px);
     position: relative;
     background: linear-gradient(160deg, var(--case-edge) 0%, var(--case) 12%, var(--case) 88%, var(--case-edge-2) 100%);
     border-radius: clamp(14px, 2.4vmin, 30px);
@@ -223,63 +223,12 @@
   #stopAlarmBtn:hover{ filter: brightness(1.08); }
   #snoozeBtn:hover{ color: var(--numeral); border-color: rgba(255,255,255,0.24); }
 
-  /* style switcher */
-  .switcher{
-    display:flex;
-    gap: clamp(3px, 0.5vmin, 6px);
-    background: rgba(0,0,0,0.35);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: clamp(6px, 1vmin, 12px);
-    padding: clamp(3px, 0.5vmin, 6px);
-    margin-bottom: clamp(14px, 2.4vmin, 30px);
-  }
-  .switcher button{
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(3px, 0.6vmin, 7px);
-    font-family: var(--font-mono);
-    font-size: clamp(11px, 1.65vmin, 18px);
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-    text-transform: uppercase;
-    color: var(--label);
-    background: transparent;
-    border: none;
-    border-radius: 5px;
-    padding: clamp(6px,1vmin,12px) clamp(2px,0.6vmin,8px) clamp(5px,0.9vmin,10px);
-    cursor: pointer;
-    transition: background 150ms, color 150ms;
-  }
-  .switcher button span{
-    overflow: hidden;
-    text-overflow: clip;
-    max-width: 100%;
-  }
-  .switcher svg{
-    width: clamp(16px, 2.4vmin, 30px); height: clamp(16px, 2.4vmin, 30px); flex-shrink: 0;
-    stroke: currentColor; fill: none;
-    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-  }
-  .switcher button:hover{ color: var(--numeral); }
-  .switcher button.active{
-    background: var(--amber-dim);
-    color: var(--amber);
-  }
-  .switcher button:focus-visible{ outline: 2px solid var(--amber); outline-offset: 1px; }
-
-  .view{ display:none; }
-  .view.active{ display:flex; flex-direction:column; align-items:center; }
-
   /* ================= FLIP ================= */
   .display{ display:flex; align-items:center; justify-content:center; gap: calc(var(--flip-w) * 0.15); flex-shrink: 0; }
   .group{ display:flex; gap: calc(var(--flip-w) * 0.09); flex-shrink: 0; }
   .colon{ display:flex; flex-direction:column; justify-content:center; gap: calc(var(--flip-w) * 0.22); padding: 0 1px; height: calc(var(--flip-w) * 84 / 54); flex-shrink: 0; }
   .colon i{ width: calc(var(--flip-w) * 0.11); height: calc(var(--flip-w) * 0.11); border-radius:50%; background: var(--amber); box-shadow: 0 0 7px 1px rgba(232,149,46,0.55); animation: blink 2s steps(1,end) infinite; }
-  @media (prefers-reduced-motion: reduce){ .colon i, .led-colon i{ animation:none; } }
+  @media (prefers-reduced-motion: reduce){ .colon i{ animation:none; } }
   @keyframes blink{ 0%,49%{opacity:1;} 50%,100%{opacity:0.18;} }
 
   .flip{
@@ -316,57 +265,6 @@
   .face-front{ transform: rotateX(0deg); z-index: 2; }
   .face-back{ transform: rotateX(180deg); }
 
-  /* ================= ANALOG ================= */
-  .analog-face{ width: clamp(160px, min(48vmin, 26vw, 34vh), 620px); height: clamp(160px, min(48vmin, 26vw, 34vh), 620px); }
-  .analog-tick{ stroke: var(--numeral-dim); stroke-width: 1.5; }
-  .analog-tick.major{ stroke: var(--label); stroke-width: 2.5; }
-  .analog-hand{ stroke-linecap: round; transform-origin: 100px 100px; }
-  .analog-hub{ fill: var(--amber); }
-
-  /* ================= LED ================= */
-  .led-panel{
-    --seg-w: clamp(24px, min(11vmin, 6.2vw, 8vh), 150px);
-    background: #060504;
-    border-radius: clamp(8px, 1.4vmin, 16px);
-    padding: clamp(14px, 2.6vmin, 34px) clamp(12px, 2.2vmin, 28px);
-    display:flex; align-items:center; justify-content:center; flex-wrap: wrap;
-    gap: calc(var(--seg-w) * 0.2);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), inset 0 8px 20px rgba(0,0,0,0.6);
-  }
-  .seg-digit{ position:relative; width: var(--seg-w); aspect-ratio: 30/54; margin: 0 calc(var(--seg-w) * 0.067); flex-shrink: 0; }
-  .seg{
-    position:absolute;
-    background: #2a1608;
-    transition: background 120ms, box-shadow 120ms;
-  }
-  .seg.on{ background: var(--amber); box-shadow: 0 0 6px 1px rgba(232,149,46,0.75); }
-  .seg-a, .seg-d, .seg-g{ left:13%; width:74%; height:9%; clip-path: polygon(14% 0,86% 0,100% 50%,86% 100%,14% 100%,0 50%); }
-  .seg-a{ top:0; }
-  .seg-g{ top:45.5%; }
-  .seg-d{ bottom:0; }
-  .seg-b, .seg-c, .seg-e, .seg-f{ width:16.7%; height:41%; clip-path: polygon(0 14%,50% 0,100% 14%,100% 86%,50% 100%,0 86%); }
-  .seg-f{ top:5.5%; left:0; }
-  .seg-b{ top:5.5%; right:0; }
-  .seg-e{ bottom:5.5%; left:0; }
-  .seg-c{ bottom:5.5%; right:0; }
-  .led-colon{ display:flex; flex-direction:column; gap: calc(var(--seg-w) * 0.13); justify-content:center; height: calc(var(--seg-w) * 54 / 30); flex-shrink: 0; }
-  .led-colon i{ width: calc(var(--seg-w) * 0.17); height: calc(var(--seg-w) * 0.17); background: var(--amber); box-shadow: 0 0 6px 1px rgba(232,149,46,0.7); animation: blink 2s steps(1,end) infinite; }
-
-  /* ================= MINIMAL ================= */
-  .minimal{
-    display:flex; flex-direction:column; align-items:center; gap: clamp(4px,0.8vmin,10px);
-    padding: clamp(12px,2vmin,28px) 0 clamp(6px,1vmin,14px);
-  }
-  .minimal-time{
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(38px, min(21vmin, 12vw, 16vh), 340px);
-    letter-spacing: 0.04em;
-    color: var(--numeral);
-    line-height: 1;
-  }
-  .minimal-time span.sec{ font-size: 0.4em; color: var(--numeral-dim); margin-left: 0.12em; vertical-align: super; }
-
   /* ================= shared bottom row ================= */
   .daterow{ display:flex; justify-content:center; align-items:center; gap: clamp(8px,1.4vmin,18px); margin-top: clamp(12px, 2.2vmin, 28px); flex-wrap: wrap; }
   .datebadge{ font-size: clamp(12px, 1.9vmin, 22px); letter-spacing: 0.12em; color: var(--label); background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: clamp(4px,0.8vmin,9px) clamp(8px,1.4vmin,16px); }
@@ -385,7 +283,7 @@
      instead of sitting as a thin strip with big top/bottom margins. */
   @media (max-aspect-ratio: 1/1){
     .clock{
-      --flip-w: clamp(38px, min(26vw, 10.5vh, 30vmin), 380px);
+      --flip-w: clamp(40px, min(30vw, 12vh, 34vmin), 440px);
     }
     .display{
       flex-wrap: wrap;
@@ -393,21 +291,6 @@
       row-gap: calc(var(--flip-w) * 0.32);
     }
     .row-break{ display: block; flex-basis: 100%; height: 0; }
-
-    .analog-face{
-      width: clamp(160px, min(80vw, 42vh, 90vmin), 900px);
-      height: clamp(160px, min(80vw, 42vh, 90vmin), 900px);
-    }
-
-    .led-panel{
-      --seg-w: clamp(24px, min(15vw, 6.5vh, 24vmin), 220px);
-      width: calc(var(--seg-w) * 5.6);
-      row-gap: calc(var(--seg-w) * 0.5);
-    }
-
-    .minimal-time{
-      font-size: clamp(38px, min(30vw, 17vh, 40vmin), 460px);
-    }
   }
 </style>
 
@@ -446,72 +329,7 @@
         <span class="alarm-status" id="alarmStatus">알람이 꺼져 있습니다</span>
       </div>
 
-      <div class="switcher" role="tablist" aria-label="시계 스타일 선택">
-        <button type="button" class="active" data-view="flip">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="4" y="4" width="16" height="16" rx="2"/>
-            <path d="M4 12h16"/>
-            <path d="M15 4l5 5"/>
-          </svg>
-          <span>플립</span>
-        </button>
-        <button type="button" data-view="analog">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="8.5"/>
-            <path d="M12 12l0 -5"/>
-            <path d="M12 12l3.5 2"/>
-          </svg>
-          <span>아날로그</span>
-        </button>
-        <button type="button" data-view="led">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="6" width="18" height="12" rx="2"/>
-            <path d="M7 9v6"/>
-            <path d="M10 9v6"/>
-            <path d="M14 9v6"/>
-            <path d="M17 9v6"/>
-          </svg>
-          <span>LED</span>
-        </button>
-        <button type="button" data-view="minimal">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 9h9"/>
-            <path d="M4 15h5"/>
-            <circle cx="18" cy="9" r="1" fill="currentColor" stroke="none"/>
-            <circle cx="18" cy="15" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-          <span>미니멀</span>
-        </button>
-      </div>
-
-      <!-- FLIP -->
-      <div class="view active" id="view-flip">
-        <div class="display" id="display"></div>
-      </div>
-
-      <!-- ANALOG -->
-      <div class="view" id="view-analog">
-        <svg class="analog-face" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="96" fill="var(--face)" stroke="rgba(255,255,255,0.06)" stroke-width="2"/>
-          <g id="ticks"></g>
-          <line id="hourHand" class="analog-hand" x1="100" y1="100" x2="100" y2="58" stroke="var(--numeral)" stroke-width="5"/>
-          <line id="minHand" class="analog-hand" x1="100" y1="100" x2="100" y2="34" stroke="var(--numeral)" stroke-width="3.5"/>
-          <line id="secHand" class="analog-hand" x1="100" y1="112" x2="100" y2="26" stroke="var(--amber)" stroke-width="1.5"/>
-          <circle class="analog-hub" cx="100" cy="100" r="4.5"/>
-        </svg>
-      </div>
-
-      <!-- LED -->
-      <div class="view" id="view-led">
-        <div class="led-panel" id="ledPanel"></div>
-      </div>
-
-      <!-- MINIMAL -->
-      <div class="view" id="view-minimal">
-        <div class="minimal">
-          <div class="minimal-time" id="minimalTime">00:00<span class="sec">00</span></div>
-        </div>
-      </div>
+      <div class="display" id="display"></div>
 
       <div class="daterow">
         <span class="datebadge" id="dateBadge">-</span>
@@ -541,11 +359,8 @@
   const dateBadge = document.getElementById('dateBadge');
   const ampmBadge = document.getElementById('ampmBadge');
   const modeBtn = document.getElementById('modeBtn');
-  const switcher = document.querySelector('.switcher');
-  const views = { flip: document.getElementById('view-flip'), analog: document.getElementById('view-analog'), led: document.getElementById('view-led'), minimal: document.getElementById('view-minimal') };
 
   let is24 = true;
-  let currentView = 'flip';
 
   /* ---------- FLIP setup ---------- */
   const flipDigits = {};
@@ -655,70 +470,6 @@
       window.setTimeout(finish, 700);
     });
   }
-
-  /* ---------- ANALOG setup ---------- */
-  const ticksG = document.getElementById('ticks');
-  for (let i = 0; i < 60; i++){
-    const angle = (i / 60) * 360;
-    const major = i % 5 === 0;
-    const r1 = major ? 82 : 88;
-    const r2 = 94;
-    const rad = (angle - 90) * Math.PI / 180;
-    const x1 = 100 + r1 * Math.cos(rad), y1 = 100 + r1 * Math.sin(rad);
-    const x2 = 100 + r2 * Math.cos(rad), y2 = 100 + r2 * Math.sin(rad);
-    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1', x1); line.setAttribute('y1', y1);
-    line.setAttribute('x2', x2); line.setAttribute('y2', y2);
-    line.setAttribute('class', 'analog-tick' + (major ? ' major' : ''));
-    ticksG.appendChild(line);
-  }
-  const hourHand = document.getElementById('hourHand');
-  const minHand = document.getElementById('minHand');
-  const secHand = document.getElementById('secHand');
-
-  /* ---------- LED setup ---------- */
-  const SEG_MAP = {
-    '0':'abcdef','1':'bc','2':'abged','3':'abgcd','4':'fgbc',
-    '5':'afgcd','6':'afgecd','7':'abc','8':'abcdefg','9':'abcdfg'
-  };
-  const ledPanel = document.getElementById('ledPanel');
-  const ledDigits = {};
-  function makeSegDigit(id){
-    const d = document.createElement('div');
-    d.className = 'seg-digit';
-    'abcdefg'.split('').forEach(seg => {
-      const s = document.createElement('div');
-      s.className = 'seg seg-' + seg;
-      d.appendChild(s);
-      ledDigits[id + seg] = s;
-    });
-    return d;
-  }
-  function ledGroup(prefix){
-    const g = document.createElement('div');
-    g.style.display = 'flex';
-    g.appendChild(makeSegDigit(prefix + '0'));
-    g.appendChild(makeSegDigit(prefix + '1'));
-    return g;
-  }
-  ledPanel.appendChild(ledGroup('h'));
-  ledPanel.appendChild(colonDots('led-colon'));
-  ledPanel.appendChild(ledGroup('m'));
-  ledPanel.appendChild(rowBreak());
-  ledPanel.appendChild(colonDots('led-colon'));
-  ledPanel.appendChild(ledGroup('s'));
-
-  function setLedDigit(id, val){
-    const lit = SEG_MAP[val] || '';
-    'abcdefg'.split('').forEach(seg => {
-      const el = ledDigits[id + seg];
-      if (!el) return;
-      el.classList.toggle('on', lit.indexOf(seg) !== -1);
-    });
-  }
-
-  /* ---------- MINIMAL setup ---------- */
-  const minimalTime = document.getElementById('minimalTime');
 
   /* ---------- SOUND (tick + alarm) ---------- */
   let audioCtx = null;
@@ -879,7 +630,7 @@
     const m = now.getMinutes();
     const s = now.getSeconds();
     const ampm = h >= 12 ? 'PM' : 'AM';
-    let h24forAnalog = h;
+    const h24 = h;
 
     if (!is24){
       ampmBadge.style.display = 'inline-block';
@@ -891,49 +642,23 @@
 
     const hh = pad(h), mm = pad(m), ss = pad(s);
 
-    if (currentView === 'flip'){
-      updateFlipDigits([
-        ['h0', hh[0]], ['h1', hh[1]],
-        ['m0', mm[0]], ['m1', mm[1]],
-        ['s0', ss[0]], ['s1', ss[1]]
-      ]);
-    } else if (currentView === 'led'){
-      setLedDigit('h0', hh[0]); setLedDigit('h1', hh[1]);
-      setLedDigit('m0', mm[0]); setLedDigit('m1', mm[1]);
-      setLedDigit('s0', ss[0]); setLedDigit('s1', ss[1]);
-    } else if (currentView === 'minimal'){
-      minimalTime.innerHTML = `${hh}:${mm}<span class="sec">${ss}</span>`;
-    } else if (currentView === 'analog'){
-      const secDeg = s * 6;
-      const minDeg = m * 6 + s * 0.1;
-      const hourDeg = (h24forAnalog % 12) * 30 + m * 0.5;
-      secHand.style.transform = `rotate(${secDeg}deg)`;
-      minHand.style.transform = `rotate(${minDeg}deg)`;
-      hourHand.style.transform = `rotate(${hourDeg}deg)`;
-    }
+    updateFlipDigits([
+      ['h0', hh[0]], ['h1', hh[1]],
+      ['m0', mm[0]], ['m1', mm[1]],
+      ['s0', ss[0]], ['s1', ss[1]]
+    ]);
 
     const days = ['일','월','화','수','목','금','토'];
     dateBadge.textContent = `${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())} (${days[now.getDay()]})`;
 
     if (fromInterval) playTick();
-    checkAlarm(now, h24forAnalog, m, s);
+    checkAlarm(now, h24, m, s);
   }
 
   modeBtn.addEventListener('click', () => {
     is24 = !is24;
     modeBtn.textContent = is24 ? '24H' : '12H';
     for (const k in flipDigits) flipDigits[k].value = null;
-    tick();
-  });
-
-  switcher.addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-view]');
-    if (!btn) return;
-    currentView = btn.dataset.view;
-    switcher.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
-    Object.keys(views).forEach(k => views[k].classList.toggle('active', k === currentView));
-    modeBtn.hidden = (currentView === 'analog');
-    if (currentView === 'flip') for (const k in flipDigits) flipDigits[k].value = null;
     tick();
   });
 
