@@ -115,6 +115,43 @@
   #soundBtn.muted .icon-on{ display:none; }
   #soundBtn.muted .icon-off{ display:block; }
 
+  .volume-slider{
+    -webkit-appearance: none;
+    appearance: none;
+    width: clamp(48px, 7vmin, 100px);
+    height: clamp(3px, 0.5vmin, 5px);
+    border-radius: 3px;
+    background: rgba(255,255,255,0.12);
+    outline: none;
+    cursor: pointer;
+    margin: 0 clamp(2px, 0.5vmin, 6px);
+  }
+  .volume-slider::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    width: clamp(12px, 1.7vmin, 18px);
+    height: clamp(12px, 1.7vmin, 18px);
+    border-radius: 50%;
+    background: var(--amber);
+    border: 2px solid #17140f;
+    cursor: pointer;
+  }
+  .volume-slider::-moz-range-thumb{
+    width: clamp(12px, 1.7vmin, 18px);
+    height: clamp(12px, 1.7vmin, 18px);
+    border-radius: 50%;
+    background: var(--amber);
+    border: 2px solid #17140f;
+    cursor: pointer;
+  }
+  .volume-slider::-moz-range-track{
+    height: clamp(3px, 0.5vmin, 5px);
+    border-radius: 3px;
+    background: rgba(255,255,255,0.12);
+  }
+  .volume-slider:focus-visible{ outline: 2px solid var(--amber); outline-offset: 3px; }
+  .volume-slider.disabled-look{ opacity: 0.4; }
+
   .alarm-panel[hidden]{ display: none; }
   .alarm-panel{
     display: flex;
@@ -312,6 +349,7 @@
               <path d="M21 9l-5 6"/>
             </svg>
           </button>
+          <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="55" aria-label="소리 크기" />
           <button class="iconbtn" id="alarmBtn" type="button" aria-label="알람 설정" aria-pressed="false" aria-expanded="false">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18 8a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6"/>
@@ -474,6 +512,7 @@
   /* ---------- SOUND (tick + alarm) ---------- */
   let audioCtx = null;
   let soundOn = false;
+  let volume = 0.55;
   function ensureAudio(){
     if (!audioCtx){
       const AC = window.AudioContext || window.webkitAudioContext;
@@ -483,7 +522,7 @@
     return audioCtx;
   }
   function playTick(){
-    if (!soundOn) return;
+    if (!soundOn || volume <= 0) return;
     const ctx = ensureAudio();
     if (!ctx) return;
     const osc = ctx.createOscillator();
@@ -491,7 +530,7 @@
     osc.type = 'square';
     osc.frequency.value = 1500;
     gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.035, ctx.currentTime + 0.002);
+    gain.gain.linearRampToValueAtTime(0.3 * volume, ctx.currentTime + 0.002);
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.05);
     osc.connect(gain);
     gain.connect(ctx.destination);
@@ -500,6 +539,8 @@
   }
 
   const soundBtn = document.getElementById('soundBtn');
+  const volumeSlider = document.getElementById('volumeSlider');
+  volumeSlider.value = String(Math.round(volume * 100));
   soundBtn.classList.add('muted');
   soundBtn.addEventListener('click', () => {
     ensureAudio();
@@ -509,6 +550,18 @@
     soundBtn.setAttribute('aria-pressed', String(soundOn));
     if (soundOn) playTick();
   });
+
+  volumeSlider.addEventListener('input', () => {
+    volume = Number(volumeSlider.value) / 100;
+    if (!soundOn){
+      ensureAudio();
+      soundOn = true;
+      soundBtn.classList.remove('muted');
+      soundBtn.classList.add('active');
+      soundBtn.setAttribute('aria-pressed', 'true');
+    }
+  });
+  volumeSlider.addEventListener('change', () => { playTick(); });
 
   /* ---------- ALARM ---------- */
   const alarmBtn = document.getElementById('alarmBtn');
@@ -565,12 +618,13 @@
   function playAlarmBeep(){
     const ctx = ensureAudio();
     if (!ctx) return;
+    const alarmVolume = Math.max(volume, 0.5);
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    osc.type = 'sine';
+    osc.type = 'square';
     osc.frequency.value = 880;
     gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.22, ctx.currentTime + 0.02);
+    gain.gain.linearRampToValueAtTime(0.55 * alarmVolume, ctx.currentTime + 0.02);
     gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.38);
     osc.connect(gain);
     gain.connect(ctx.destination);
