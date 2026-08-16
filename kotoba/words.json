@@ -4741,5 +4741,155 @@
   "example": "不安が彼を行動へ駆り立てた。",
   "exampleReading": "ふあんがかれをこうどうへかりたてた。",
   "exampleMeaning": "불안이 그를 행동으로 내몰았다."
+ },
+ {
+  "id": "news138",
+  "word": "政府",
+  "reading": "せいふ",
+  "meaning": "정부",
+  "level": "N3",
+  "example": "政府は来月から新しい税制を導入する予定だ。",
+  "exampleReading": "せいふはらいげつからあたらしいぜいせいをどうにゅうするよていだ。",
+  "exampleMeaning": "정부는 다음 달부터 새로운 세제를 도입할 예정이다."
+ },
+ {
+  "id": "news139",
+  "word": "対策",
+  "reading": "たいさく",
+  "meaning": "대책",
+  "level": "N2",
+  "example": "台風による被害を防ぐため、自治体はさまざまな対策を講じている。",
+  "exampleReading": "たいふうによるひがいをふせぐため、じちたいはさまざまなたいさくをこうじている。",
+  "exampleMeaning": "태풍으로 인한 피해를 막기 위해 지자체는 다양한 대책을 마련하고 있다."
+ },
+ {
+  "id": "news140",
+  "word": "発表",
+  "reading": "はっぴょう",
+  "meaning": "발표",
+  "level": "N3",
+  "example": "新しい製品の発表会には多くの記者が集まった。",
+  "exampleReading": "あたらしいせいひんのはっぴょうかいにはおおくのきしゃがあつまった。",
+  "exampleMeaning": "새로운 제품 발표회에는 많은 기자가 모였다."
+ },
+ {
+  "id": "news141",
+  "word": "増加",
+  "reading": "ぞうか",
+  "meaning": "증가",
+  "level": "N2",
+  "example": "高齢者人口の増加により、医療費が年々上昇している。",
+  "exampleReading": "こうれいしゃじんこうのぞうかにより、いりょうひがねんねんじょうしょうしている。",
+  "exampleMeaning": "고령자 인구 증가로 인해 의료비가 매년 상승하고 있다."
+ },
+ {
+  "id": "news142",
+  "word": "事件",
+  "reading": "じけん",
+  "meaning": "사건",
+  "level": "N3",
+  "example": "昨夜、都内で発生した事件について警察が捜査を進めている。",
+  "exampleReading": "さくや、とないではっせいしたじけんについてけいさつがそうさをすすめている。",
+  "exampleMeaning": "어젯밤 도내에서 발생한 사건에 대해 경찰이 수사를 진행하고 있다."
+ },
+ {
+  "id": "news143",
+  "word": "見直す",
+  "reading": "みなおす",
+  "meaning": "재검토하다, 다시 살펴보다",
+  "level": "N2",
+  "example": "政府は新しい政策を見直すことにした。",
+  "exampleReading": "せいふはあたらしいせいさくをみなおすことにした。",
+  "exampleMeaning": "정부는 새로운 정책을 재검토하기로 했다."
+ },
+ {
+  "id": "news144",
+  "word": "与党",
+  "reading": "よとう",
+  "meaning": "여당",
+  "level": "N2",
+  "example": "与党は新しい法案の成立を目指している。",
+  "exampleReading": "よとうはあたらしいほうあんのせいりつをめざしている。",
+  "exampleMeaning": "여당은 새로운 법안 성립을 목표로 하고 있다."
+ },
+ {
+  "id": "news145",
+  "word": "改正",
+  "reading": "かいせい",
+  "meaning": "개정",
+  "level": "N2",
+  "example": "来年から労働法が改正される予定だ。",
+  "exampleReading": "らいねんからろうどうほうがかいせいされるよていだ。",
+  "exampleMeaning": "내년부터 노동법이 개정될 예정이다."
+ },
+ {
+  "id": "news146",
+  "word": "見直し",
+  "reading": "みなおし",
+  "meaning": "재검토, 재고",
+  "level": "N2",
+  "example": "政府は税制の見直しを進める方針だ。",
+  "exampleReading": "せいふはぜいせいのみなおしをすすめるほうしんだ。",
+  "exampleMeaning": "정부는 세제 재검토를 추진할 방침이다."
+ },
+ {
+  "id": "news147",
+  "word": "賠償",
+  "reading": "ばいしょう",
+  "meaning": "배상",
+  "level": "N1",
+  "example": "被害者は企業に対して損害賠償を求めた。",
+  "exampleReading": "ひがいしゃはきぎょうにたいしてそんがいばいしょうをもとめた。",
+  "exampleMeaning": "피해자는 기업에 대해 손해 배상을 요구했다."
+ },
+ {
+  "id": "tj166",
+  "word": "遥拝",
+  "reading": "ようはい",
+  "meaning": "먼 곳을 향해 절함, 요배",
+  "level": "N1",
+  "example": "人々は祖国の方向に向かって遥拝した。",
+  "exampleReading": "ひとびとはそこくのほうこうにむかってようはいした。",
+  "exampleMeaning": "사람들은 조국의 방향을 향해 요배했다."
+ },
+ {
+  "id": "tj167",
+  "word": "宮城遥拝",
+  "reading": "きゅうじょうようはい",
+  "meaning": "황거를 향한 요배",
+  "level": "N1",
+  "example": "当時は宮城遥拝が日課だったという。",
+  "exampleReading": "とうじはきゅうじょうようはいがにっかだったという。",
+  "exampleMeaning": "당시에는 궁성 요배가 일과였다고 한다."
+ },
+ {
+  "id": "tj168",
+  "word": "皇居",
+  "reading": "こうきょ",
+  "meaning": "일본 천황의 거처, 황거",
+  "level": "N1",
+  "example": "皇居の方向を地図で確かめた。",
+  "exampleReading": "こうきょのほうこうをちずでたしかめた。",
+  "exampleMeaning": "황거의 방향을 지도로 확인했다."
+ },
+ {
+  "id": "tj169",
+  "word": "移民",
+  "reading": "いみん",
+  "meaning": "이민, 이주민",
+  "level": "N2",
+  "example": "多くの移民が新天地を目指した。",
+  "exampleReading": "おおくのいみんがしんてんちをめざした。",
+  "exampleMeaning": "많은 이민이 신천지를 향해 나아갔다."
+ },
+ {
+  "id": "tj170",
+  "word": "祖国",
+  "reading": "そこく",
+  "meaning": "조국",
+  "level": "N2",
+  "example": "祖国に戻りたいと願う人もいた。",
+  "exampleReading": "そこくにもどりたいとねがうひともいた。",
+  "exampleMeaning": "조국으로 돌아가고 싶다고 바라는 사람도 있었다."
  }
 ]
