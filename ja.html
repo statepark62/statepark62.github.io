@@ -394,7 +394,7 @@ html{scroll-behavior:smooth}
     <span>© 2026 Sangtae PARK</span>
     <a href="mailto:stpark@kongju.ac.kr">stpark@kongju.ac.kr</a>
     <a href="tel:+821028088275">+82-10-2808-8275</a>
-        <span id="visitWrap" style="opacity:.85">👁 訪問者数 <b id="visitCount">····</b></span>
+        <span id="visitWrap" style="opacity:.85">👁 本日 <b id="visitToday">··</b> / 累計 <b id="visitTotal">····</b></span>
   </footer>
 </div>
 
@@ -458,14 +458,16 @@ const SEASONS = {
 
 /* ⑧ ───── 방문자 수 (방명록과 같은 Apps Script 사용) ───── */
 (async function () {
-  const el = document.getElementById("visitCount");
-  if (!el) return;
+  const elToday = document.getElementById("visitToday");
+  const elTotal = document.getElementById("visitTotal");
+  if (!elToday || !elTotal) return;
   try {
     const mode = localStorage.getItem("visit_counted") ? "read" : "hit";
     const res = await fetch(gbForm.action + "?mode=" + mode);
     const data = await res.json();
     localStorage.setItem("visit_counted", "1");
-    el.textContent = Number(data.count).toLocaleString();
+    elToday.textContent = Number(data.today).toLocaleString();
+    elTotal.textContent = Number(data.total).toLocaleString();
   } catch (e) {
     document.getElementById("visitWrap").style.display = "none";
   }
