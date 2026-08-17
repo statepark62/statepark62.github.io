@@ -204,8 +204,9 @@
   </div>
 
   <div class="security-note">
-    입력하신 암호는 서버나 기기 어디에도 저장되지 않습니다. 모든 메모는 이 암호로 파생된 키를 이용해
-    브라우저 안에서 AES‑GCM 방식으로 암호화된 뒤 저장되며, 암호를 모르면 저장된 내용을 복호화할 수 없습니다.
+    입력하신 암호는 서버나 시트 어디에도 저장되지 않습니다. 모든 메모는 이 암호로 파생된 키를 이용해
+    이 브라우저 안에서 AES‑GCM 방식으로 암호화된 뒤 Google Sheets로 전송·저장되며, 시트에는 암호화된
+    문자열만 남습니다. 암호를 모르면 저장된 내용을 복호화할 수 없습니다.
   </div>
 </div>
 
@@ -291,41 +292,48 @@
   }
 
   // ---------- Storage helpers ----------
-  // localStorage 기반 저장소 (이 브라우저/이 기기에만 저장됨)
-  const STORAGE_PREFIX = "inkmemo:";
+  // Google Apps Script(Google Sheets 백엔드)를 통한 저장소
+  // 아래 두 값을 배포 후 반드시 채워주세요.
+  const API_URL = "여기에_배포된_웹앱_URL을_붙여넣으세요"; // 예: https://script.google.com/macros/s/AKfycb.../exec
+  const API_TOKEN = "여기에_Apps_Script의_SECRET_TOKEN과_동일한_값을_입력하세요";
+
   let lastStorageError = null;
 
-  function storageSupported(){
-    try{
-      const testKey = STORAGE_PREFIX + "__test__";
-      localStorage.setItem(testKey, "1");
-      localStorage.removeItem(testKey);
-      return true;
-    }catch(e){
-      lastStorageError = e;
-      return false;
-    }
-  }
   async function storeGet(key){
     try{
-      const v = localStorage.getItem(STORAGE_PREFIX + key);
-      return v;
+      const url = API_URL + "?action=get&key=" + encodeURIComponent(key) + "&token=" + encodeURIComponent(API_TOKEN);
+      const res = await fetch(url);
+      const data = await res.json();
+      if(!data.success){ lastStorageError = new Error(data.error || "unauthorized"); return null; }
+      return data.value || null;
     }catch(e){ lastStorageError = e; return null; }
   }
   async function storeSet(key, value){
     try{
-      localStorage.setItem(STORAGE_PREFIX + key, value);
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" }, // CORS 사전 요청(preflight) 회피용
+        body: JSON.stringify({ action: "set", key, value, token: API_TOKEN })
+      });
+      const data = await res.json();
+      if(!data.success){ lastStorageError = new Error(data.error || "write failed"); return false; }
       return true;
     }catch(e){ lastStorageError = e; return false; }
   }
   async function storeDelete(key){
-    try{ localStorage.removeItem(STORAGE_PREFIX + key); }catch(e){ lastStorageError = e; }
+    try{
+      await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ action: "delete", key, token: API_TOKEN })
+      });
+    }catch(e){ lastStorageError = e; }
   }
   function storageErrorMessage(){
     const e = lastStorageError;
-    if(!e) return "저장 공간에 접근할 수 없습니다. 잠시 후 다시 시도해주세요.";
-    if(e.name === "QuotaExceededError") return "저장 공간이 가득 찼습니다. 브라우저 저장 공간을 정리해주세요.";
-    return "저장 공간에 접근할 수 없습니다. Safari 설정 → 고급 → '모든 쿠키 차단'이 켜져 있지 않은지, 시크릿 모드가 아닌지 확인해주세요. (" + e.name + ")";
+    if(!e) return "저장소에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.";
+    if(e.message === "unauthorized") return "저장소 인증에 실패했습니다. index.html의 API_TOKEN이 Apps Script의 SECRET_TOKEN과 정확히 일치하는지 확인해주세요.";
+    return "저장소 연결에 실패했습니다. 인터넷 연결 상태와 index.html의 API_URL 값을 확인해주세요. (" + (e.message || e.name || "") + ")";
   }
 
   // ---------- State ----------
@@ -358,11 +366,12 @@
 
   // ---------- Boot ----------
   async function boot(){
-    if(!storageSupported()){
+    lastStorageError = null;
+    const salt = await storeGet("security-salt");
+    if(salt === null && lastStorageError){
       lockSubtitle.textContent = storageErrorMessage();
       return;
     }
-    const salt = await storeGet("security-salt");
     if(!salt){
       lockSubtitle.textContent = "처음 오셨네요. 암호를 설정해주세요.";
       setupForm.style.display = "flex";
