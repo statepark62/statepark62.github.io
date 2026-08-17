@@ -46,7 +46,7 @@
   #lockScreen{
     min-height: 100vh;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding: 24px; text-align:center;
+    padding: calc(24px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom)); text-align:center;
   }
   .lock-icon{ width:56px; height:56px; margin-bottom:20px; position:relative; }
   .lock-icon svg{ width:100%; height:100%; }
@@ -98,7 +98,8 @@
   }
 
   /* ---------- Main App ---------- */
-  #app{ display:none; max-width: 640px; margin: 0 auto; padding: 20px 16px 80px; }
+  #app{ display:none; max-width: 640px; margin: 0 auto;
+    padding: calc(20px + env(safe-area-inset-top)) 16px calc(80px + env(safe-area-inset-bottom)); }
   header.top{
     display:flex; align-items:center; justify-content:space-between;
     margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #33333B;
