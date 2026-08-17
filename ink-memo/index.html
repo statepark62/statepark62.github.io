@@ -157,6 +157,12 @@
   .memo-actions{ display:flex; gap:10px; }
   .memo-actions span{ cursor:pointer; }
   .memo-actions span:hover{ color: var(--text-on-paper); }
+  .edit-textarea{
+    width: 100%; background: rgba(0,0,0,0.05); border: 1px solid var(--paper-shadow);
+    border-radius: var(--radius); padding: 8px; color: var(--text-on-paper);
+    font-family: inherit; font-size: 16px; line-height: 1.55; resize: vertical; min-height: 60px;
+  }
+  .edit-textarea:focus{ outline: none; border-color: var(--teal); }
 
   .empty-state{ text-align:center; padding: 60px 20px; color: var(--text-on-ink-dim); }
   .empty-state .serif{ font-size: 16px; margin-bottom: 8px; color: var(--text-on-ink); }
@@ -294,8 +300,8 @@
   // ---------- Storage helpers ----------
   // Google Apps Script(Google Sheets 백엔드)를 통한 저장소
   // 아래 두 값을 배포 후 반드시 채워주세요.
-  const API_URL = "https://script.google.com/macros/s/AKfycbx97cdKaL_al6KhjZD9jdayt_Ng2n92t3BPZ6-dmWtEBh7V2LPNLaKFBrUUW7S28UZV/exec"; // 예: https://script.google.com/macros/s/AKfycb.../exec
-  const API_TOKEN = "ehdgoanfrhkqorentksdlakfmrhekfgehfhr";
+  const API_URL = "여기에_배포된_웹앱_URL을_붙여넣으세요"; // 예: https://script.google.com/macros/s/AKfycb.../exec
+  const API_TOKEN = "여기에_Apps_Script의_SECRET_TOKEN과_동일한_값을_입력하세요";
 
   let lastStorageError = null;
 
@@ -481,6 +487,35 @@
     render();
   }
 
+  let editingId = null;
+
+  function startEdit(id){
+    editingId = id;
+    render();
+  }
+
+  function cancelEdit(){
+    editingId = null;
+    render();
+  }
+
+  async function saveEdit(id){
+    const textarea = document.querySelector('[data-edit-textarea="' + id + '"]');
+    const newText = textarea.value.trim();
+    if(!newText){ showToast("내용을 입력해주세요."); return; }
+    const m = memos.find(m => m.id === id);
+    if(m){
+      m.text = newText;
+      m.tags = extractTags(newText);
+      m.editedAt = new Date().toISOString();
+    }
+    editingId = null;
+    const ok = await persistMemos();
+    if(!ok){ showToast("저장에 실패했습니다. 다시 시도해주세요."); return; }
+    render();
+    showToast("수정되었습니다");
+  }
+
   el("searchInput").addEventListener("input", render);
 
   // ---------- Rendering ----------
@@ -561,17 +596,40 @@
   function memoCard(m){
     const card = document.createElement("div");
     card.className = "memo-card" + (m.pinned ? " pinned" : "");
+
+    if(editingId === m.id){
+      card.innerHTML = `
+        <textarea class="edit-textarea" data-edit-textarea="${m.id}">${escapeHtml(m.text)}</textarea>
+        <div class="memo-meta">
+          <span class="mono" style="color:var(--text-on-paper-dim);">#태그 처럼 쓰면 자동 인식됩니다</span>
+          <div class="memo-actions">
+            <span data-action="cancel-edit">취소</span>
+            <span data-action="save-edit" style="color:var(--teal); font-weight:500;">저장</span>
+          </div>
+        </div>
+      `;
+      const ta = card.querySelector('textarea');
+      card.querySelector('[data-action="cancel-edit"]').addEventListener("click", cancelEdit);
+      card.querySelector('[data-action="save-edit"]').addEventListener("click", () => saveEdit(m.id));
+      // 자동 포커스 및 커서를 끝으로
+      setTimeout(() => { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }, 0);
+      return card;
+    }
+
     const tagsHtml = m.tags.map(t => `<span class="memo-tag">#${escapeHtml(t)}</span>`).join(" ");
+    const editedNote = m.editedAt ? ` · 수정됨` : "";
     card.innerHTML = `
       <div class="memo-text">${escapeHtml(m.text)}</div>
       <div class="memo-meta">
-        <div class="memo-tags">${tagsHtml}<span class="mono">${fmtTime(m.createdAt)}</span></div>
+        <div class="memo-tags">${tagsHtml}<span class="mono">${fmtTime(m.createdAt)}${editedNote}</span></div>
         <div class="memo-actions">
+          <span data-action="edit">수정</span>
           <span data-action="pin">${m.pinned ? "고정 해제" : "고정"}</span>
           <span data-action="delete">삭제</span>
         </div>
       </div>
     `;
+    card.querySelector('[data-action="edit"]').addEventListener("click", () => startEdit(m.id));
     card.querySelector('[data-action="pin"]').addEventListener("click", () => togglePin(m.id));
     card.querySelector('[data-action="delete"]').addEventListener("click", () => deleteMemo(m.id));
     return card;
