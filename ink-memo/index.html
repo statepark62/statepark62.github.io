@@ -9,6 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="잉크메모">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Pretendard-Regular&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
@@ -291,20 +292,39 @@
   // ---------- Storage helpers ----------
   // localStorage 기반 저장소 (이 브라우저/이 기기에만 저장됨)
   const STORAGE_PREFIX = "inkmemo:";
+  let lastStorageError = null;
+
+  function storageSupported(){
+    try{
+      const testKey = STORAGE_PREFIX + "__test__";
+      localStorage.setItem(testKey, "1");
+      localStorage.removeItem(testKey);
+      return true;
+    }catch(e){
+      lastStorageError = e;
+      return false;
+    }
+  }
   async function storeGet(key){
     try{
       const v = localStorage.getItem(STORAGE_PREFIX + key);
       return v;
-    }catch(e){ return null; }
+    }catch(e){ lastStorageError = e; return null; }
   }
   async function storeSet(key, value){
     try{
       localStorage.setItem(STORAGE_PREFIX + key, value);
       return true;
-    }catch(e){ return false; }
+    }catch(e){ lastStorageError = e; return false; }
   }
   async function storeDelete(key){
-    try{ localStorage.removeItem(STORAGE_PREFIX + key); }catch(e){}
+    try{ localStorage.removeItem(STORAGE_PREFIX + key); }catch(e){ lastStorageError = e; }
+  }
+  function storageErrorMessage(){
+    const e = lastStorageError;
+    if(!e) return "저장 공간에 접근할 수 없습니다. 잠시 후 다시 시도해주세요.";
+    if(e.name === "QuotaExceededError") return "저장 공간이 가득 찼습니다. 브라우저 저장 공간을 정리해주세요.";
+    return "저장 공간에 접근할 수 없습니다. Safari 설정 → 고급 → '모든 쿠키 차단'이 켜져 있지 않은지, 시크릿 모드가 아닌지 확인해주세요. (" + e.name + ")";
   }
 
   // ---------- State ----------
@@ -337,6 +357,10 @@
 
   // ---------- Boot ----------
   async function boot(){
+    if(!storageSupported()){
+      lockSubtitle.textContent = storageErrorMessage();
+      return;
+    }
     const salt = await storeGet("security-salt");
     if(!salt){
       lockSubtitle.textContent = "처음 오셨네요. 암호를 설정해주세요.";
@@ -360,7 +384,7 @@
     memos = [];
     const okMemo = await persistMemos();
     if(!okSalt || !okMemo){
-      errEl.textContent = "저장 공간에 접근할 수 없습니다. 잠시 후 다시 시도해주세요.";
+      errEl.textContent = storageErrorMessage();
       return;
     }
     unlockSuccess();
