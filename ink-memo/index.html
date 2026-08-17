@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>잉크메모</title>
+<!-- 아이폰 홈 화면에 추가했을 때 앱처럼 보이게 하는 설정 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="잉크메모">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Pretendard-Regular&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+  :root{
+    --ink: #1B1B1F;
+    --ink-2: #24242B;
+    --paper: #F2ECDD;
+    --paper-shadow: #DFD6BC;
+    --teal: #2F6F62;
+    --teal-light: #4C8F80;
+    --gold: #C9A24B;
+    --text-on-ink: #ECE7DA;
+    --text-on-ink-dim: #A7A296;
+    --text-on-paper: #2A2620;
+    --text-on-paper-dim: #6B6455;
+    --danger: #A6483A;
+    --radius: 3px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background: var(--ink);
+    color: var(--text-on-ink);
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(47,111,98,0.08), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(201,162,75,0.06), transparent 40%);
+  }
+  .serif{ font-family: 'Noto Serif KR', serif; }
+  .mono{ font-family: 'IBM Plex Mono', monospace; }
+
+  /* ---------- Lock Screen ---------- */
+  #lockScreen{
+    min-height: 100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding: 24px; text-align:center;
+  }
+  .lock-icon{ width:56px; height:56px; margin-bottom:20px; position:relative; }
+  .lock-icon svg{ width:100%; height:100%; }
+  .lock-icon .shackle{ transform-origin: 28px 24px; transition: transform 0.5s cubic-bezier(.4,0,.2,1); }
+  .lock-icon.open .shackle{ transform: translateY(-6px) rotate(-18deg); }
+  .app-title{ font-size: 28px; letter-spacing: 0.5px; margin-bottom: 6px; color: var(--text-on-ink); }
+  .app-subtitle{ font-size: 13px; color: var(--text-on-ink-dim); margin-bottom: 32px; }
+  .lock-form{ width: 100%; max-width: 320px; display:flex; flex-direction:column; gap: 12px; }
+  input[type="password"], input[type="text"], textarea{
+    background: var(--ink-2);
+    border: 1px solid #3A3A42;
+    color: var(--text-on-ink);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="password"]:focus, input[type="text"]:focus, textarea:focus{
+    border-color: var(--teal-light);
+  }
+  .btn{
+    background: var(--teal);
+    color: #F2ECDD;
+    border: none;
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn:hover{ background: var(--teal-light); }
+  .btn:active{ transform: scale(0.98); }
+  .btn-ghost{
+    background: transparent;
+    color: var(--text-on-ink-dim);
+    border: 1px solid #3A3A42;
+  }
+  .btn-ghost:hover{ color: var(--text-on-ink); border-color: var(--text-on-ink-dim); }
+  .btn-danger{ background: var(--danger); color: #F2ECDD; }
+  .lock-error{ color: #E08A7D; font-size: 12.5px; min-height: 16px; }
+  .lock-toggle{ font-size: 12.5px; color: var(--text-on-ink-dim); cursor:pointer; text-decoration: underline; margin-top: 8px; }
+  .security-note{
+    margin-top: 28px; max-width: 320px; font-size: 11.5px; line-height: 1.6;
+    color: var(--text-on-ink-dim); border-top: 1px solid #3A3A42; padding-top: 16px;
+  }
+
+  /* ---------- Main App ---------- */
+  #app{ display:none; max-width: 640px; margin: 0 auto; padding: 20px 16px 80px; }
+  header.top{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #33333B;
+  }
+  header.top h1{ font-size: 19px; color: var(--text-on-ink); }
+  header.top .top-actions{ display:flex; gap:8px; }
+  .icon-btn{
+    background: none; border: 1px solid #3A3A42; color: var(--text-on-ink-dim);
+    border-radius: var(--radius); padding: 7px 10px; font-size: 12px; cursor:pointer; font-family: inherit;
+  }
+  .icon-btn:hover{ color: var(--text-on-ink); border-color: var(--text-on-ink-dim); }
+
+  .composer{
+    background: var(--paper); color: var(--text-on-paper); border-radius: var(--radius);
+    padding: 14px; margin-bottom: 20px; box-shadow: 0 3px 0 var(--paper-shadow);
+  }
+  .composer textarea{
+    width:100%; background: transparent; border: none; color: var(--text-on-paper);
+    resize: vertical; min-height: 54px; font-size: 14.5px; line-height: 1.55;
+  }
+  .composer textarea:focus{ outline:none; }
+  .composer-footer{ display:flex; justify-content:space-between; align-items:center; margin-top: 8px; }
+  .composer-hint{ font-size: 11px; color: var(--text-on-paper-dim); }
+  .composer .btn{ padding: 8px 14px; font-size: 13px; }
+
+  .search-row{ display:flex; gap:8px; margin-bottom: 12px; }
+  .search-row input{ flex:1; }
+
+  .tag-bar{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 18px; }
+  .tag-chip{
+    font-size: 11.5px; padding: 5px 10px; border-radius: 20px; cursor:pointer;
+    border: 1px solid #3A3A42; color: var(--text-on-ink-dim); background: transparent;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .tag-chip.active{ background: var(--teal); border-color: var(--teal); color:#F2ECDD; }
+
+  .date-group{ margin-bottom: 22px; }
+  .date-label{
+    font-size: 11.5px; color: var(--gold); letter-spacing: 1px; margin-bottom: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .memo-card{
+    background: var(--paper); color: var(--text-on-paper); border-radius: var(--radius);
+    padding: 14px; margin-bottom: 10px; box-shadow: 0 2px 0 var(--paper-shadow);
+    position: relative;
+  }
+  .memo-card.pinned{ box-shadow: 0 2px 0 var(--gold); }
+  .memo-text{ font-size: 14.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+  .memo-meta{
+    display:flex; justify-content:space-between; align-items:center; margin-top: 10px;
+    font-size: 11px; color: var(--text-on-paper-dim);
+  }
+  .memo-tags{ display:flex; gap:6px; flex-wrap:wrap; }
+  .memo-tag{ font-family: 'IBM Plex Mono', monospace; color: var(--teal); }
+  .memo-actions{ display:flex; gap:10px; }
+  .memo-actions span{ cursor:pointer; }
+  .memo-actions span:hover{ color: var(--text-on-paper); }
+
+  .empty-state{ text-align:center; padding: 60px 20px; color: var(--text-on-ink-dim); }
+  .empty-state .serif{ font-size: 16px; margin-bottom: 8px; color: var(--text-on-ink); }
+  .empty-state p{ font-size: 13px; line-height: 1.6; }
+
+  .toast{
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--ink-2); border: 1px solid #3A3A42; color: var(--text-on-ink);
+    padding: 10px 16px; border-radius: var(--radius); font-size: 13px; opacity:0;
+    transition: opacity 0.3s; pointer-events:none; z-index: 100;
+  }
+  .toast.show{ opacity: 1; }
+
+  ::selection{ background: var(--gold); color: var(--ink); }
+  @media (max-width: 420px){ .app-title{ font-size: 24px; } }
+</style>
+</head>
+<body>
+
+<div id="lockScreen">
+  <div class="lock-icon" id="lockIcon">
+    <svg viewBox="0 0 56 56" fill="none">
+      <rect x="10" y="24" width="36" height="26" rx="3" fill="#2F6F62"/>
+      <path class="shackle" d="M18 24V18C18 11.373 22.925 6 28 6C33.075 6 38 11.373 38 18V24"
+        stroke="#C9A24B" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <circle cx="28" cy="35" r="3.2" fill="#F2ECDD"/>
+      <rect x="26.5" y="35" width="3" height="8" fill="#F2ECDD"/>
+    </svg>
+  </div>
+  <div class="app-title serif" id="lockTitle">잉크메모</div>
+  <div class="app-subtitle" id="lockSubtitle">불러오는 중...</div>
+
+  <div class="lock-form" id="setupForm" style="display:none;">
+    <input type="password" id="setupPass1" placeholder="새 암호 설정 (4자 이상)">
+    <input type="password" id="setupPass2" placeholder="암호 확인">
+    <button class="btn" id="setupBtn">암호 설정하고 시작하기</button>
+    <div class="lock-error" id="setupError"></div>
+  </div>
+
+  <div class="lock-form" id="unlockForm" style="display:none;">
+    <input type="password" id="unlockPass" placeholder="암호 입력">
+    <button class="btn" id="unlockBtn">잠금 해제</button>
+    <div class="lock-error" id="unlockError"></div>
+    <div class="lock-toggle" id="resetToggle">암호를 잊으셨나요? (모든 메모 초기화)</div>
+  </div>
+
+  <div class="security-note">
+    입력하신 암호는 서버나 기기 어디에도 저장되지 않습니다. 모든 메모는 이 암호로 파생된 키를 이용해
+    브라우저 안에서 AES‑GCM 방식으로 암호화된 뒤 저장되며, 암호를 모르면 저장된 내용을 복호화할 수 없습니다.
+  </div>
+</div>
+
+<div id="app">
+  <header class="top">
+    <h1 class="serif">잉크메모</h1>
+    <div class="top-actions">
+      <button class="icon-btn" id="exportBtn">내보내기</button>
+      <button class="icon-btn" id="lockBtn">잠그기</button>
+    </div>
+  </header>
+
+  <div class="composer">
+    <textarea id="composerInput" placeholder="메모를 입력하세요. #태그 처럼 쓰면 자동으로 태그가 됩니다."></textarea>
+    <div class="composer-footer">
+      <span class="composer-hint">Ctrl/Cmd + Enter로 저장</span>
+      <button class="btn" id="saveBtn">저장</button>
+    </div>
+  </div>
+
+  <div class="search-row">
+    <input type="text" id="searchInput" placeholder="검색 (내용, 태그)...">
+  </div>
+  <div class="tag-bar" id="tagBar"></div>
+
+  <div id="memoList"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="serif">아직 메모가 없습니다</div>
+    <p>위 입력창에 첫 메모를 남겨보세요.<br>#태그를 쓰면 나중에 태그별로 모아볼 수 있어요.</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------- Crypto helpers ----------
+  // iOS 15.3 이하 Safari는 crypto.randomUUID가 없을 수 있어 대체 함수 준비
+  function makeId(){
+    if(crypto.randomUUID) return crypto.randomUUID();
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+      const r = Math.random()*16|0, v = c === "x" ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
+  }
+
+  function bytesToB64(bytes){
+    let bin = ""; bytes.forEach(b => bin += String.fromCharCode(b));
+    return btoa(bin);
+  }
+  function b64ToBytes(b64){
+    const bin = atob(b64);
+    return new Uint8Array([...bin].map(c => c.charCodeAt(0)));
+  }
+  async function deriveKey(passphrase, saltB64){
+    const salt = b64ToBytes(saltB64);
+    const enc = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey(
+      "raw", enc.encode(passphrase), "PBKDF2", false, ["deriveKey"]
+    );
+    return crypto.subtle.deriveKey(
+      { name: "PBKDF2", salt, iterations: 250000, hash: "SHA-256" },
+      keyMaterial,
+      { name: "AES-GCM", length: 256 },
+      false,
+      ["encrypt", "decrypt"]
+    );
+  }
+  async function encryptText(key, plaintext){
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const enc = new TextEncoder();
+    const ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, enc.encode(plaintext));
+    return bytesToB64(iv) + ":" + bytesToB64(new Uint8Array(ct));
+  }
+  async function decryptText(key, blob){
+    const [ivB64, ctB64] = blob.split(":");
+    const iv = b64ToBytes(ivB64);
+    const ct = b64ToBytes(ctB64);
+    const plainBuf = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ct);
+    return new TextDecoder().decode(plainBuf);
+  }
+
+  // ---------- Storage helpers ----------
+  // localStorage 기반 저장소 (이 브라우저/이 기기에만 저장됨)
+  const STORAGE_PREFIX = "inkmemo:";
+  async function storeGet(key){
+    try{
+      const v = localStorage.getItem(STORAGE_PREFIX + key);
+      return v;
+    }catch(e){ return null; }
+  }
+  async function storeSet(key, value){
+    try{
+      localStorage.setItem(STORAGE_PREFIX + key, value);
+      return true;
+    }catch(e){ return false; }
+  }
+  async function storeDelete(key){
+    try{ localStorage.removeItem(STORAGE_PREFIX + key); }catch(e){}
+  }
+
+  // ---------- State ----------
+  let cryptoKey = null;
+  let memos = []; // decrypted, in-memory only
+  let activeTag = null;
+
+  const el = id => document.getElementById(id);
+  const lockScreen = el("lockScreen"), app = el("app");
+  const lockIcon = el("lockIcon"), lockSubtitle = el("lockSubtitle");
+  const setupForm = el("setupForm"), unlockForm = el("unlockForm");
+
+  function showToast(msg){
+    const t = el("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 1800);
+  }
+
+  function extractTags(text){
+    const matches = text.match(/#[^\s#]+/g) || [];
+    return [...new Set(matches.map(t => t.slice(1)))];
+  }
+
+  async function persistMemos(){
+    const json = JSON.stringify(memos);
+    const blob = await encryptText(cryptoKey, json);
+    await storeSet("memos-blob", blob);
+  }
+
+  // ---------- Boot ----------
+  async function boot(){
+    const salt = await storeGet("security-salt");
+    if(!salt){
+      lockSubtitle.textContent = "처음 오셨네요. 암호를 설정해주세요.";
+      setupForm.style.display = "flex";
+    }else{
+      lockSubtitle.textContent = "암호를 입력해 잠금을 해제하세요.";
+      unlockForm.style.display = "flex";
+    }
+  }
+
+  el("setupBtn").addEventListener("click", async () => {
+    const p1 = el("setupPass1").value, p2 = el("setupPass2").value;
+    const errEl = el("setupError");
+    errEl.textContent = "";
+    if(p1.length < 4){ errEl.textContent = "암호는 4자 이상이어야 합니다."; return; }
+    if(p1 !== p2){ errEl.textContent = "암호가 일치하지 않습니다."; return; }
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const saltB64 = bytesToB64(salt);
+    cryptoKey = await deriveKey(p1, saltB64);
+    const okSalt = await storeSet("security-salt", saltB64);
+    memos = [];
+    const okMemo = await persistMemos();
+    if(!okSalt || !okMemo){
+      errEl.textContent = "저장 공간에 접근할 수 없습니다. 잠시 후 다시 시도해주세요.";
+      return;
+    }
+    unlockSuccess();
+  });
+
+  el("unlockBtn").addEventListener("click", attemptUnlock);
+  el("unlockPass").addEventListener("keydown", e => { if(e.key === "Enter") attemptUnlock(); });
+
+  async function attemptUnlock(){
+    const pass = el("unlockPass").value;
+    const errEl = el("unlockError");
+    errEl.textContent = "";
+    const saltB64 = await storeGet("security-salt");
+    if(!saltB64){ errEl.textContent = "설정 정보를 찾을 수 없습니다."; return; }
+    const key = await deriveKey(pass, saltB64);
+    const blob = await storeGet("memos-blob");
+    try{
+      const json = blob ? await decryptText(key, blob) : "[]";
+      memos = JSON.parse(json);
+      cryptoKey = key;
+      unlockSuccess();
+    }catch(e){
+      errEl.textContent = "암호가 올바르지 않습니다.";
+    }
+  }
+
+  el("resetToggle").addEventListener("click", async () => {
+    if(!confirm("정말 초기화할까요? 저장된 모든 메모가 삭제되며 복구할 수 없습니다.")) return;
+    await storeDelete("security-salt");
+    await storeDelete("memos-blob");
+    location.reload();
+  });
+
+  function unlockSuccess(){
+    lockIcon.classList.add("open");
+    setTimeout(() => {
+      lockScreen.style.display = "none";
+      app.style.display = "block";
+      render();
+    }, 350);
+  }
+
+  el("lockBtn").addEventListener("click", () => {
+    cryptoKey = null;
+    memos = [];
+    location.reload();
+  });
+
+  // ---------- Composer ----------
+  el("saveBtn").addEventListener("click", saveMemo);
+  el("composerInput").addEventListener("keydown", e => {
+    if((e.ctrlKey || e.metaKey) && e.key === "Enter") saveMemo();
+  });
+
+  async function saveMemo(){
+    const input = el("composerInput");
+    const text = input.value.trim();
+    if(!text) return;
+    memos.unshift({
+      id: makeId(),
+      text,
+      tags: extractTags(text),
+      pinned: false,
+      createdAt: new Date().toISOString()
+    });
+    input.value = "";
+    const ok = await persistMemos();
+    if(!ok){ showToast("저장에 실패했습니다. 다시 시도해주세요."); return; }
+    render();
+    showToast("저장되었습니다");
+  }
+
+  async function togglePin(id){
+    const m = memos.find(m => m.id === id);
+    if(m) m.pinned = !m.pinned;
+    await persistMemos();
+    render();
+  }
+
+  async function deleteMemo(id){
+    if(!confirm("이 메모를 삭제할까요?")) return;
+    memos = memos.filter(m => m.id !== id);
+    await persistMemos();
+    render();
+  }
+
+  el("searchInput").addEventListener("input", render);
+
+  // ---------- Rendering ----------
+  function allTags(){
+    const s = new Set();
+    memos.forEach(m => m.tags.forEach(t => s.add(t)));
+    return [...s].sort();
+  }
+
+  function renderTagBar(){
+    const bar = el("tagBar");
+    const tags = allTags();
+    bar.innerHTML = "";
+    tags.forEach(tag => {
+      const chip = document.createElement("button");
+      chip.className = "tag-chip" + (activeTag === tag ? " active" : "");
+      chip.textContent = "#" + tag;
+      chip.addEventListener("click", () => {
+        activeTag = (activeTag === tag) ? null : tag;
+        render();
+      });
+      bar.appendChild(chip);
+    });
+  }
+
+  function fmtDateLabel(iso){
+    const d = new Date(iso);
+    const y = d.getFullYear(), m = d.getMonth()+1, day = d.getDate();
+    const days = ["일","월","화","수","목","금","토"];
+    return `${y}.${String(m).padStart(2,"0")}.${String(day).padStart(2,"0")} (${days[d.getDay()]})`;
+  }
+  function fmtTime(iso){
+    const d = new Date(iso);
+    return String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+  }
+
+  function render(){
+    renderTagBar();
+    const q = el("searchInput").value.trim().toLowerCase();
+
+    let filtered = memos.filter(m => {
+      if(activeTag && !m.tags.includes(activeTag)) return false;
+      if(q && !m.text.toLowerCase().includes(q) && !m.tags.some(t => t.toLowerCase().includes(q))) return false;
+      return true;
+    });
+
+    const pinned = filtered.filter(m => m.pinned);
+    const rest = filtered.filter(m => !m.pinned);
+
+    const groups = {};
+    rest.forEach(m => {
+      const key = m.createdAt.slice(0,10);
+      (groups[key] = groups[key] || []).push(m);
+    });
+
+    const list = el("memoList");
+    list.innerHTML = "";
+
+    if(pinned.length){
+      const g = document.createElement("div");
+      g.className = "date-group";
+      g.innerHTML = `<div class="date-label">📌 고정됨</div>`;
+      pinned.forEach(m => g.appendChild(memoCard(m)));
+      list.appendChild(g);
+    }
+
+    Object.keys(groups).sort((a,b) => b.localeCompare(a)).forEach(dateKey => {
+      const g = document.createElement("div");
+      g.className = "date-group";
+      g.innerHTML = `<div class="date-label">${fmtDateLabel(groups[dateKey][0].createdAt)}</div>`;
+      groups[dateKey].forEach(m => g.appendChild(memoCard(m)));
+      list.appendChild(g);
+    });
+
+    el("emptyState").style.display = (memos.length === 0) ? "block" : "none";
+  }
+
+  function memoCard(m){
+    const card = document.createElement("div");
+    card.className = "memo-card" + (m.pinned ? " pinned" : "");
+    const tagsHtml = m.tags.map(t => `<span class="memo-tag">#${escapeHtml(t)}</span>`).join(" ");
+    card.innerHTML = `
+      <div class="memo-text">${escapeHtml(m.text)}</div>
+      <div class="memo-meta">
+        <div class="memo-tags">${tagsHtml}<span class="mono">${fmtTime(m.createdAt)}</span></div>
+        <div class="memo-actions">
+          <span data-action="pin">${m.pinned ? "고정 해제" : "고정"}</span>
+          <span data-action="delete">삭제</span>
+        </div>
+      </div>
+    `;
+    card.querySelector('[data-action="pin"]').addEventListener("click", () => togglePin(m.id));
+    card.querySelector('[data-action="delete"]').addEventListener("click", () => deleteMemo(m.id));
+    return card;
+  }
+
+  function escapeHtml(str){
+    const d = document.createElement("div");
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // ---------- Export ----------
+  el("exportBtn").addEventListener("click", () => {
+    const data = JSON.stringify(memos, null, 2);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "memo-backup-" + new Date().toISOString().slice(0,10) + ".json";
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("내보내기 완료 (평문 파일이니 보관에 주의하세요)");
+  });
+
+  boot();
+})();
+</script>
+</body>
+</html>
