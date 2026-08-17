@@ -1,5 +1,0 @@
-yt-dlp>=2024.1.0
-webvtt-py>=0.4.6
-gspread>=6.0.0
-google-auth>=2.25.0
-openai>=1.30.0
