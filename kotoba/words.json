@@ -4961,5 +4961,95 @@
   "example": "限定商品の転売で利益を得る業者が問題になっている。",
   "exampleReading": "げんていしょうひんのてんばいでりえきをえるぎょうしゃがもんだいになっている。",
   "exampleMeaning": "한정 상품 전매로 이익을 얻는 업자가 문제가 되고 있다."
+ },
+ {
+  "id": "news155",
+  "word": "救助",
+  "reading": "きゅうじょ",
+  "meaning": "구조",
+  "level": "N2",
+  "example": "遭難者は無事に救助された。",
+  "exampleReading": "そうなんしゃはぶじにきゅうじょされた。",
+  "exampleMeaning": "조난자는 무사히 구조되었다."
+ },
+ {
+  "id": "news156",
+  "word": "装う",
+  "reading": "よそおう",
+  "meaning": "가장하다, ~인 척하다",
+  "level": "N1",
+  "example": "彼は警察官を装って家に侵入した。",
+  "exampleReading": "かれはけいさつかんをよそおっていえにしんにゅうした。",
+  "exampleMeaning": "그는 경찰관인 척하며 집에 침입했다."
+ },
+ {
+  "id": "news157",
+  "word": "側近",
+  "reading": "そっきん",
+  "meaning": "측근",
+  "level": "N1",
+  "example": "大統領の側近が不正に関与していたことが分かった。",
+  "exampleReading": "だいとうりょうのそっきんがふせいにかんよしていたことがわかった。",
+  "exampleMeaning": "대통령의 측근이 부정에 관여했다는 것이 밝혀졌다."
+ },
+ {
+  "id": "news158",
+  "word": "不安定",
+  "reading": "ふあんてい",
+  "meaning": "불안정",
+  "level": "N3",
+  "example": "大気の状態が不安定で、突然雨が降ることがある。",
+  "exampleReading": "たいきのじょうたいがふあんていで、とつぜんあめがふることがある。",
+  "exampleMeaning": "대기 상태가 불안정해서 갑자기 비가 내리는 경우가 있다."
+ },
+ {
+  "id": "tj171",
+  "word": "劣悪",
+  "reading": "れつあく",
+  "meaning": "열악하다",
+  "level": "N1",
+  "example": "劣悪な労働環境を改めるべきだ。",
+  "exampleReading": "れつあくなろうどうかんきょうをあらためるべきだ。",
+  "exampleMeaning": "열악한 노동 환경을 개선해야 한다."
+ },
+ {
+  "id": "tj172",
+  "word": "誇示する",
+  "reading": "こじする",
+  "meaning": "과시하다",
+  "level": "N1",
+  "example": "政府は海上での存在感を誇示した。",
+  "exampleReading": "せいふはかいじょうでのそんざいかんをこじした。",
+  "exampleMeaning": "정부는 해상에서의 존재감을 과시했다."
+ },
+ {
+  "id": "tj173",
+  "word": "原子力空母",
+  "reading": "げんしりょくくうぼ",
+  "meaning": "원자력 항공모함",
+  "level": "N2",
+  "example": "原子力空母は長期の航行が可能だとされる。",
+  "exampleReading": "げんしりょくくうぼはちょうきのこうこうがかのうだとされる。",
+  "exampleMeaning": "원자력 항공모함은 장기 항행이 가능하다고 여겨진다."
+ },
+ {
+  "id": "tj174",
+  "word": "艦内",
+  "reading": "かんない",
+  "meaning": "함내, 선내",
+  "level": "N2",
+  "example": "艦内の温度管理が課題だ。",
+  "exampleReading": "かんないのおんどかんりがかだいだ。",
+  "exampleMeaning": "함내 온도 관리가 과제다."
+ },
+ {
+  "id": "tj175",
+  "word": "要塞",
+  "reading": "ようさい",
+  "meaning": "요새",
+  "level": "N2",
+  "example": "山頂に古い要塞が残っている。",
+  "exampleReading": "さんちょうにふるいようさいがのこっている。",
+  "exampleMeaning": "산꼭대기에 오래된 요새가 남아 있다."
  }
 ]
