@@ -182,6 +182,8 @@ sheets_client.py         # Google Sheets 읽기/쓰기 (sources/expressions/proc
 run_single_url.py        # URL 하나 즉시 처리 + 목록(sources)에 등록
 run_saved_sources.py     # 등록된 목록 전체를 한 번에 갱신 (주간 자동 실행 대상)
 index.html               # 첫 화면 (표현 목록 대시보드) — statepark62.github.io/YouTubeJapaness/ 에서 열림
+favicon.ico / favicon-*.png / apple-touch-icon.png / icon-*.png  # 브라우저 탭·즐겨찾기·홈 화면 아이콘
+site.webmanifest         # 모바일 홈 화면에 추가할 때 쓰이는 아이콘/이름 설정
 .github/workflows/       # GitHub Actions: 주간 자동 실행 + 수동 URL 실행 (저장소 루트에 위치해야 함)
 ```
 
