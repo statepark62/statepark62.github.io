@@ -5051,5 +5051,95 @@
   "example": "山頂に古い要塞が残っている。",
   "exampleReading": "さんちょうにふるいようさいがのこっている。",
   "exampleMeaning": "산꼭대기에 오래된 요새가 남아 있다."
+ },
+ {
+  "id": "news159",
+  "word": "検知",
+  "reading": "けんち",
+  "meaning": "감지, 검지",
+  "level": "N2",
+  "example": "警報器が煙を検知して鳴った。",
+  "exampleReading": "けいほうきがけむりをけんちしてなった。",
+  "exampleMeaning": "경보기가 연기를 감지하여 울렸다."
+ },
+ {
+  "id": "news160",
+  "word": "導入",
+  "reading": "どうにゅう",
+  "meaning": "도입",
+  "level": "N2",
+  "example": "会社は新しいシステムを導入することにした。",
+  "exampleReading": "かいしゃはあたらしいしすてむをどうにゅうすることにした。",
+  "exampleMeaning": "회사는 새로운 시스템을 도입하기로 했다."
+ },
+ {
+  "id": "news161",
+  "word": "危惧",
+  "reading": "きぐ",
+  "meaning": "우려, 걱정",
+  "level": "N1",
+  "example": "環境破壊が進むことが危惧されている。",
+  "exampleReading": "かんきょうはかいがすすむことがきぐされている。",
+  "exampleMeaning": "환경 파괴가 진행되는 것이 우려되고 있다."
+ },
+ {
+  "id": "news162",
+  "word": "動向",
+  "reading": "どうこう",
+  "meaning": "동향, 움직임",
+  "level": "N1",
+  "example": "市場の動向を注意深く見守る必要がある。",
+  "exampleReading": "しじょうのどうこうをちゅういぶかくみまもるひつようがある。",
+  "exampleMeaning": "시장의 동향을 주의 깊게 지켜볼 필요가 있다."
+ },
+ {
+  "id": "tj176",
+  "word": "東日本大震災",
+  "reading": "ひがしにほんだいしんさい",
+  "meaning": "동일본대지진(2011년 대규모 지진·쓰나미)",
+  "level": "N2",
+  "example": "東日本大震災の記憶を語り継ぐ。",
+  "exampleReading": "ひがしにほんだいしんさいのきおくをかたりつぐ。",
+  "exampleMeaning": "동일본대지진의 기억을 전승한다."
+ },
+ {
+  "id": "tj177",
+  "word": "貼り紙",
+  "reading": "はりがみ",
+  "meaning": "붙임쪽지, 공지",
+  "level": "N3",
+  "example": "入口に休業の貼り紙があった。",
+  "exampleReading": "いりぐちにきゅうぎょうのはりがみがあった。",
+  "exampleMeaning": "입구에 휴업 안내 쪽지가 붙어 있었다."
+ },
+ {
+  "id": "tj178",
+  "word": "最新号",
+  "reading": "さいしんごう",
+  "meaning": "최신호",
+  "level": "N2",
+  "example": "雑誌の最新号はすぐ売り切れた。",
+  "exampleReading": "ざっしのさいしんごうはすぐうりきれた。",
+  "exampleMeaning": "잡지 최신호는 금세 매진되었다."
+ },
+ {
+  "id": "tj179",
+  "word": "立ち読み",
+  "reading": "たちよみ",
+  "meaning": "서서 읽기",
+  "level": "N2",
+  "example": "駅の売店で少しだけ立ち読みした。",
+  "exampleReading": "えきのばいてんですこしだけたちよみした。",
+  "exampleMeaning": "역 매점에서 잠깐 서서 읽었다."
+ },
+ {
+  "id": "tj180",
+  "word": "届かない",
+  "reading": "とどかない",
+  "meaning": "도착하지 않다, 닿지 않다",
+  "level": "N3",
+  "example": "手紙がまだ相手に届かない。",
+  "exampleReading": "てがみがまだあいてにとどかない。",
+  "exampleMeaning": "편지가 아직 상대에게 닿지 않았다."
  }
 ]

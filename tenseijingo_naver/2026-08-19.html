@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-19 天声人語로 배우는 일본어 — 한 권의 점프</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:14px 20px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第43回</span>
+      <span>2026-08-19</span>
+      <span>2026년 8월 19일 (수)</span>
+    </div>
+
+    <h1>一冊のジャンプ</h1>
+    <p class="topic-ko">한 권의 점프</p>
+
+    <div class="keyquote">
+      <div class="ja">「立ち読み」</div>
+      <div class="ko">서서 읽기 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">大震災から十日ほどのころ、仙台の書店で雑誌の最新号が届かない現実が描かれる。</p><p class="ko">대지진이 일어난 지 열흘가량 지난 시점, 센다이의 서점에서 잡지 최신호가 더는 들어오지 않는 현실이 드러난다.</p></div>
+      <div class="s-item"><p class="ja">その中で「週刊少年ジャンプ」を一冊だけ読めるという貼り紙が掲げられ、記者はその出来事を記事にしたという。</p><p class="ko">그런 가운데 ‘주간 소년 점프’를 한 권만 읽을 수 있다는 쪽지가 붙었고, 기자는 이 일을 기사로 전했다고 한다.</p></div>
+      <div class="s-item"><p class="ja">百人余りの子どもが代わる代わる立ち読みした一冊が、被災下の小さな慰めとして心に残る。</p><p class="ko">백여 명의 아이들이 돌아가며 서서 읽은 한 권이 재난 속 작은 위로였다는 인상이 남는다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>東日本大震災<rt>ひがしにほんだいしんさい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">동일본대지진(2011년 대규모 지진·쓰나미)</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">東日本大震災の記憶を語り継ぐ。</span><br>동일본대지진의 기억을 전승한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>貼り紙<rt>はりがみ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">붙임쪽지, 공지</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">入口に休業の貼り紙があった。</span><br>입구에 휴업 안내 쪽지가 붙어 있었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>最新号<rt>さいしんごう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">최신호</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">雑誌の最新号はすぐ売り切れた。</span><br>잡지 최신호는 금세 매진되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>立ち読み<rt>たちよみ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">서서 읽기</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">駅の売店で少しだけ立ち読みした。</span><br>역 매점에서 잠깐 서서 읽었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>届かない<rt>とどかない</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">도착하지 않다, 닿지 않다</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">手紙がまだ相手に届かない。</span><br>편지가 아직 상대에게 닿지 않았다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜に気づく</div>
+        <div class="pattern-ko">~을/를 알아차리다, 눈치채다</div>
+        <p class="explain">어떤 사실이나 변화, 실수 등을 뒤늦게 인식할 때 쓰는 표현이다. 명사에는 助詞「に」를, 문장에는「こと／の＋に気づく」형으로 이어 쓴다. 과거형(気づいた)으로 경험적 깨달음을 담담하게 전할 때 자주 쓴다.</p>
+        <p class="ex"><span class="ja">小さな貼り紙に気づいて、足を止めた。</span><br>작은 붙임쪽지를 알아차리고 발걸음을 멈췄다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 거대한 재난을 직접 설명하기보다, 서점 앞의 쪽지와 잡지 한 권이라는 디테일을 전면에 배치해 장면을 열어 간다. 희소성과 공유의 분위기를 한 컷처럼 포착함으로써, 독자가 현장을 생생하게 상상하게 한다. ‘아이 백여 명’ 같은 구체적 수치는 감정 과잉 없이 울림을 키우는 장치로 기능한다. 천성인어 특유의 간결한 관찰과 전환이 돋보이며, 단문 리듬이 긴박했던 시간을 고요하게 되짚는다.</p>
+        <p>이 글이 남기는 의미는 ‘일상의 회복’이 거창한 프로젝트가 아니라 작은 읽기 행위에서 시작된다는 통찰이다. 재난 속에서 한 권을 함께 읽는 장면은 공동체의 결을 조용히 드러내며, 매체가 제공하는 위무의 힘을 상기시킨다. 한국 독자에게도 서점의 ‘서서 읽기’ 문화나 만화 잡지의 보편성은 친숙해 이해의 접점을 넓힌다. 무엇보다, 결핍의 순간에 나눔이 자연스레 생겨나는 사회적 반응을 섬세하게 보여 주는 점이 흥미롭다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 재난 직후 한 권의 만화잡지가 아이들에게 건넨 일상의 숨결을 포착하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>동일본대지진은 2011년 3월 일본 동북 지역에 큰 피해를 준 대규모 지진·쓰나미로, 장기간의 생활 혼란과 물류 차질을 초래했다.</p>
+        <p>일본 서점에서는 구매 전 잠깐 읽어보는 ‘서서 읽기(立ち読み)’ 관행이 오랫동안 형성되어 왔으며, 매장에 따라 허용 범위가 다르다.</p>
+        <p>‘주간 소년 점프’는 아동·청소년층에 널리 읽히는 만화 잡지로, 주간 발행 리듬이 독자들의 생활 리듬과 맞물리는 문화적 영향력이 크다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>거대한 주제를 작은 사물 하나로 응축해 보여 주는 미시적 프레이밍을 활용하라.</p>
+        <p><span class="n">二</span>숫자와 고유명사를 전략적으로 배치해 현장감을 높여라.</p>
+        <p><span class="n">三</span>정서의 결론을 강요하지 말고, 여백을 남겨 독자 스스로 의미를 완성하게 하라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">足りないときほど、分け合う心が強くなる。</span>
+      <span class="ko">부족할수록 나누는 마음이 강해진다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-19) — <a href="https://www.asahi.com/articles/DA3S16528993.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-19.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
