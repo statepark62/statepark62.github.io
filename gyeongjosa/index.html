@@ -153,7 +153,8 @@
   var SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email';
 
   var LOCAL_KEY = 'gyeongjosabi_local_entries';
-  var TOKEN_KEY_PREFIX = 'gyeongjosabi_token_';
+  var SESSION_KEY = 'gyeongjosabi_session';   // { accessToken, expiresAt, email }
+  var MODE_KEY = 'gyeongjosabi_mode';         // 'cloud' | 'local' — 새로고침 시 화면 복원용
   var SHEET_META_PREFIX = 'gyeongjosabi_sheetmeta_';
 
   var accessToken = null;
@@ -163,6 +164,7 @@
   var recentOpen = false;
   var allItems = [];   // 현재 탭의 전체 데이터 (필터는 이 배열에서 클라이언트 측으로 처리)
   var tokenClient = null;
+  var silentMode = false;   // 자동 갱신 중인지 여부
 
   var situationOptions = {
     '축의금': ['자혼', '여혼', '본인'],
@@ -186,12 +188,41 @@
     localStorage.setItem(LOCAL_KEY, JSON.stringify(entries));
   }
 
+  // ===== 세션 저장/복원 =====
+  function saveSession(token, expiresInSec, email) {
+    try {
+      localStorage.setItem(SESSION_KEY, JSON.stringify({
+        accessToken: token,
+        expiresAt: Date.now() + (Number(expiresInSec || 3600) - 60) * 1000,  // 만료 1분 전까지만 유효로 간주
+        email: email
+      }));
+      localStorage.setItem(MODE_KEY, 'cloud');
+    } catch (e) {}
+  }
+
+  function loadSession() {
+    try {
+      var s = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+      if (!s || !s.accessToken || !s.expiresAt) return null;
+      if (Date.now() >= s.expiresAt) return null;   // 만료됨
+      return s;
+    } catch (e) { return null; }
+  }
+
+  function clearSession() {
+    try {
+      localStorage.removeItem(SESSION_KEY);
+      localStorage.removeItem(MODE_KEY);
+    } catch (e) {}
+  }
+
   // ===== 시작 =====
   window.onload = function () {
     google.accounts.oauth2 && initTokenClient();
 
     document.getElementById('googleLoginBtn').addEventListener('click', doLogin);
     document.getElementById('skipLoginBtn').addEventListener('click', function () {
+      try { localStorage.setItem(MODE_KEY, 'local'); } catch (e) {}
       document.getElementById('loginCard').classList.add('hidden');
       document.getElementById('appArea').classList.remove('hidden');
       showLocalMode();
@@ -206,7 +237,45 @@
     var rangeSel = document.getElementById('rangeSelect');
     rangeSel.addEventListener('change', applyFilter);
     rangeSel.addEventListener('input', applyFilter);
+
+    restoreSession();
   };
+
+  // 새로고침 시 이전 상태를 그대로 복원한다
+  function restoreSession() {
+    var session = loadSession();
+    if (session) {
+      accessToken = session.accessToken;
+      userEmail = session.email;
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('appArea').classList.remove('hidden');
+      setupSheetAndShow();
+      return;
+    }
+
+    var mode = null;
+    try { mode = localStorage.getItem(MODE_KEY); } catch (e) {}
+
+    if (mode === 'cloud') {
+      // 로그인은 되어 있었지만 토큰이 만료됨 → 화면을 띄운 뒤 조용히 갱신 시도
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('appArea').classList.remove('hidden');
+      document.getElementById('userStatusText').textContent = '로그인 정보를 갱신하는 중...';
+      silentRefresh();
+    } else if (mode === 'local') {
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('appArea').classList.remove('hidden');
+      showLocalMode();
+    }
+    // mode가 없으면 첫 방문이므로 로그인 화면을 그대로 보여준다
+  }
+
+  // 사용자 조작 없이 토큰만 다시 받아온다 (실패하면 로그인 화면으로)
+  function silentRefresh() {
+    if (!tokenClient) { initTokenClient(); }
+    silentMode = true;
+    tokenClient.requestAccessToken({ prompt: 'none' });
+  }
 
   function initTokenClient() {
     tokenClient = google.accounts.oauth2.initTokenClient({
@@ -222,14 +291,28 @@
   }
 
   function onTokenResponse(resp) {
-    if (resp.error) { alert('로그인에 실패했습니다: ' + resp.error); return; }
+    if (resp.error) {
+      if (silentMode) {
+        // 조용한 갱신 실패 → 로그인 화면으로 되돌린다
+        silentMode = false;
+        clearSession();
+        document.getElementById('loginCard').classList.remove('hidden');
+        document.getElementById('appArea').classList.add('hidden');
+        return;
+      }
+      alert('로그인에 실패했습니다: ' + resp.error);
+      return;
+    }
+    silentMode = false;
     accessToken = resp.access_token;
+
     fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
       headers: { Authorization: 'Bearer ' + accessToken }
     })
       .then(function (r) { return r.json(); })
       .then(function (info) {
         userEmail = info.email;
+        saveSession(accessToken, resp.expires_in, userEmail);
         document.getElementById('loginCard').classList.add('hidden');
         document.getElementById('appArea').classList.remove('hidden');
         setupSheetAndShow();
@@ -241,6 +324,7 @@
     accessToken = null;
     userEmail = null;
     sheetMeta = null;
+    clearSession();
     document.getElementById('loginCard').classList.remove('hidden');
     document.getElementById('appArea').classList.add('hidden');
   }
@@ -262,6 +346,16 @@
   // ===== 시트 준비 (없으면 자동 생성) =====
   // 시트 준비: 드라이브에서 기존 "경조사비" 시트를 먼저 찾고, 없을 때만 새로 만든다.
   // (기기마다 따로 만들어지는 것을 막기 위해 localStorage가 아니라 드라이브를 기준으로 삼는다)
+  // 사용 중 토큰이 만료된 경우 처리
+  function handleAuthExpired() {
+    clearSession();
+    accessToken = null;
+    sheetMeta = null;
+    alert('로그인 시간이 만료되었습니다. 다시 로그인해 주세요.');
+    document.getElementById('loginCard').classList.remove('hidden');
+    document.getElementById('appArea').classList.add('hidden');
+  }
+
   function setupSheetAndShow() {
     document.getElementById('userStatusText').textContent = '내 시트를 확인하는 중...';
     document.getElementById('appArea').classList.remove('hidden');
@@ -282,7 +376,12 @@
         showCloudMode();
       })
       .catch(function (err) {
-        alert('시트 준비 중 오류: ' + (err.message || err));
+        var m = String(err && err.message || err);
+        if (m.indexOf('401') >= 0 || m.indexOf('UNAUTHENTICATED') >= 0 || m.indexOf('Invalid Credentials') >= 0) {
+          handleAuthExpired();
+          return;
+        }
+        alert('시트 준비 중 오류: ' + m);
       });
   }
 
@@ -389,6 +488,10 @@
       })
         .then(function (r) { return r.json(); })
         .then(function (data) {
+          if (data.error && (data.error.code === 401 || data.error.status === 'UNAUTHENTICATED')) {
+            handleAuthExpired();
+            return;
+          }
           var rows = data.values || [];
           var items = [];
           rows.forEach(function (r, idx) {
