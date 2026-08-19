@@ -61,7 +61,17 @@
   .toggle-btn { display: block; width: 100%; margin: 0 0 8px; padding: 10px; background: #fff; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; color: #333; cursor: pointer; }
   .recent { display: none; }
   .filter-row { margin-bottom: 8px; }
-  .filter-row select { width: 100%; }
+  .filter-row select {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px;
+    font-size: 16px;      /* 16px 미만이면 아이폰에서 탭 시 화면이 확대됨 */
+    background-color: #fff;
+  }
   .filter-summary { font-size: 13px; color: #888; margin: 0 4px 8px; }
   .summary { display: flex; gap: 10px; margin-bottom: 14px; }
   .summary .box { flex: 1; background: #fff; border-radius: 12px; padding: 14px; text-align: center; }
@@ -140,7 +150,7 @@
 <script>
   // 여행 앱과 같은 Google Cloud 프로젝트의 Client ID
   var GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com';
-  var SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/userinfo.email';
+  var SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email';
 
   var LOCAL_KEY = 'gyeongjosabi_local_entries';
   var TOKEN_KEY_PREFIX = 'gyeongjosabi_token_';
@@ -192,7 +202,10 @@
     document.getElementById('tabBu').addEventListener('click', function () { selectTab('부의금'); });
     document.getElementById('saveBtn').addEventListener('click', submitEntry);
     document.getElementById('toggleBtn').addEventListener('click', toggleRecent);
-    document.getElementById('rangeSelect').addEventListener('change', applyFilter);
+    document.getElementById('toggleBtn').style.touchAction = 'manipulation';
+    var rangeSel = document.getElementById('rangeSelect');
+    rangeSel.addEventListener('change', applyFilter);
+    rangeSel.addEventListener('input', applyFilter);
   };
 
   function initTokenClient() {
@@ -247,51 +260,97 @@
   }
 
   // ===== 시트 준비 (없으면 자동 생성) =====
+  // 시트 준비: 드라이브에서 기존 "경조사비" 시트를 먼저 찾고, 없을 때만 새로 만든다.
+  // (기기마다 따로 만들어지는 것을 막기 위해 localStorage가 아니라 드라이브를 기준으로 삼는다)
   function setupSheetAndShow() {
-    var metaKey = SHEET_META_PREFIX + userEmail;
-    var saved = localStorage.getItem(metaKey);
-    if (saved) {
-      sheetMeta = JSON.parse(saved);
-      showCloudMode();
-      return;
-    }
-    document.getElementById('userStatusText').textContent = '내 시트를 준비하는 중...';
+    document.getElementById('userStatusText').textContent = '내 시트를 확인하는 중...';
     document.getElementById('appArea').classList.remove('hidden');
 
-    fetch('https://sheets.googleapis.com/v4/spreadsheets', {
+    var q = encodeURIComponent("mimeType='application/vnd.google-apps.spreadsheet' and name='경조사비' and trashed=false");
+    fetch('https://www.googleapis.com/drive/v3/files?q=' + q + '&fields=files(id,name)&orderBy=createdTime', {
+      headers: { Authorization: 'Bearer ' + accessToken }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.files && res.files.length) {
+          return useExistingSheet(res.files[0].id);
+        }
+        return createNewSheet();
+      })
+      .then(function () {
+        localStorage.setItem(SHEET_META_PREFIX + userEmail, JSON.stringify(sheetMeta));
+        showCloudMode();
+      })
+      .catch(function (err) {
+        alert('시트 준비 중 오류: ' + (err.message || err));
+      });
+  }
+
+  // 이미 있는 시트를 열어 탭 정보를 읽고, 없는 탭은 만들어 준다
+  function useExistingSheet(spreadsheetId) {
+    return fetch('https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '?fields=sheets.properties', {
+      headers: { Authorization: 'Bearer ' + accessToken }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.error) throw new Error(data.error.message);
+        var sheetIds = {};
+        (data.sheets || []).forEach(function (s) { sheetIds[s.properties.title] = s.properties.sheetId; });
+
+        var missing = ['축의금', '부의금'].filter(function (t) { return !(t in sheetIds); });
+        if (!missing.length) {
+          sheetMeta = { spreadsheetId: spreadsheetId, sheetIds: sheetIds };
+          return;
+        }
+        // 빠진 탭이 있으면 추가한 뒤 헤더까지 넣어준다
+        return fetch('https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + ':batchUpdate', {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            requests: missing.map(function (t) { return { addSheet: { properties: { title: t } } }; })
+          })
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            (res.replies || []).forEach(function (rep) {
+              if (rep.addSheet) sheetIds[rep.addSheet.properties.title] = rep.addSheet.properties.sheetId;
+            });
+            sheetMeta = { spreadsheetId: spreadsheetId, sheetIds: sheetIds };
+            return writeHeaders(spreadsheetId, missing);
+          });
+      });
+  }
+
+  // 새 시트를 만들고 두 탭에 헤더를 넣는다
+  function createNewSheet() {
+    document.getElementById('userStatusText').textContent = '내 시트를 만드는 중...';
+    return fetch('https://sheets.googleapis.com/v4/spreadsheets', {
       method: 'POST',
       headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         properties: { title: '경조사비' },
-        sheets: [
-          { properties: { title: '축의금' } },
-          { properties: { title: '부의금' } }
-        ]
+        sheets: [{ properties: { title: '축의금' } }, { properties: { title: '부의금' } }]
       })
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
+        if (data.error) throw new Error(data.error.message);
         var sheetIds = {};
         data.sheets.forEach(function (s) { sheetIds[s.properties.title] = s.properties.sheetId; });
         sheetMeta = { spreadsheetId: data.spreadsheetId, sheetIds: sheetIds };
-
-        var header = { values: [['이름', '상황', '금액', '날짜', '비고']] };
-        return Promise.all([
-          fetch('https://sheets.googleapis.com/v4/spreadsheets/' + data.spreadsheetId + '/values/축의금!A1:E1?valueInputOption=RAW', {
-            method: 'PUT', headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' }, body: JSON.stringify(header)
-          }),
-          fetch('https://sheets.googleapis.com/v4/spreadsheets/' + data.spreadsheetId + '/values/부의금!A1:E1?valueInputOption=RAW', {
-            method: 'PUT', headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' }, body: JSON.stringify(header)
-          })
-        ]);
-      })
-      .then(function () {
-        localStorage.setItem(metaKey, JSON.stringify(sheetMeta));
-        showCloudMode();
-      })
-      .catch(function (err) {
-        alert('시트 생성 중 오류: ' + err.message);
+        return writeHeaders(data.spreadsheetId, ['축의금', '부의금']);
       });
+  }
+
+  function writeHeaders(spreadsheetId, titles) {
+    var header = { values: [['이름', '상황', '금액', '날짜', '비고']] };
+    return Promise.all(titles.map(function (t) {
+      return fetch('https://sheets.googleapis.com/v4/spreadsheets/' + spreadsheetId + '/values/' + encodeURIComponent(t) + '!A1:E1?valueInputOption=RAW', {
+        method: 'PUT',
+        headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+        body: JSON.stringify(header)
+      });
+    }));
   }
 
   // ===== 탭 전환 =====
