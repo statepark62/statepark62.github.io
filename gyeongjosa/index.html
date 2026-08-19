@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>경조사비 입력</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2d6cdf">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    background: #f2f2f2; margin: 0; padding: 20px 16px 60px; color: #1a1a1a;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; }
+  h1 { font-size: 24px; text-align: center; margin: 6px 0 20px; }
+
+  .login-card { background: #fff; border-radius: 16px; padding: 32px 24px; text-align: center; margin-top: 30px; }
+  .login-card p { font-size: 16px; color: #555; margin-bottom: 24px; line-height: 1.6; }
+  .google-btn {
+    display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px;
+    border: 1px solid #ddd; border-radius: 24px; background: #fff; font-size: 15px;
+    font-weight: 600; cursor: pointer; color: #444;
+  }
+  .google-btn img { width: 18px; height: 18px; }
+  .local-note { font-size: 13px; color: #999; margin-top: 18px; line-height: 1.6; }
+
+  .user-bar {
+    display: flex; align-items: center; justify-content: space-between; background: #fff;
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 14px; font-size: 14px; color: #555;
+  }
+  .user-bar .status { font-size: 12px; padding: 3px 8px; border-radius: 10px; }
+  .user-bar .status.cloud { background: #e3f2e3; color: #1a7f34; }
+  .user-bar .status.local { background: #fff3cd; color: #9a7d00; }
+  .user-bar button { border: none; background: none; color: #2d6cdf; font-size: 13px; cursor: pointer; font-weight: 600; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab { flex: 1; text-align: center; padding: 14px 0; border-radius: 12px; border: 2px solid #ddd; background: #fff; font-size: 17px; font-weight: 700; cursor: pointer; }
+  .tab.active.gyeong { background: #fff2b8; border-color: #e8c400; }
+  .tab.active.bu { background: #dcdcdc; border-color: #888; }
+
+  .card { background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  label { display: block; font-size: 14px; font-weight: 600; color: #555; margin: 14px 0 6px; }
+  label:first-of-type { margin-top: 0; }
+  input, select {
+    width: 100%; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 10px;
+    height: 48px; -webkit-appearance: none; appearance: none; background: #fff;
+  }
+  .save-btn {
+    width: 100%; padding: 16px; margin-top: 22px; background: #2d6cdf; color: #fff;
+    border: none; border-radius: 12px; font-size: 18px; font-weight: 700; cursor: pointer;
+  }
+  .save-btn:disabled { background: #a9c2ec; }
+  .msg { text-align: center; margin-top: 12px; font-size: 15px; min-height: 20px; font-weight: 600; }
+  .msg.ok { color: #197a34; }
+  .msg.err { color: #c0392b; }
+
+  .toggle-btn { display: block; width: 100%; margin: 0 0 8px; padding: 10px; background: #fff; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; color: #333; cursor: pointer; }
+  .recent { display: none; }
+  .summary { display: flex; gap: 10px; margin-bottom: 14px; }
+  .summary .box { flex: 1; background: #fff; border-radius: 12px; padding: 14px; text-align: center; }
+  .summary .box .n { font-size: 19px; font-weight: 700; }
+  .summary .box .l { font-size: 13px; color: #666; margin-top: 3px; }
+
+  .item { background: #fff; border-radius: 10px; padding: 12px 14px; margin-bottom: 6px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .item .name { flex: 1.2; }
+  .item .date { flex: 1; text-align: center; color: #999; font-size: 12px; }
+  .item .amount { flex: 1; text-align: right; }
+  .item .del { color: #c0392b; font-size: 12px; border: none; background: none; padding: 4px; cursor: pointer; }
+  .empty { text-align: center; color: #999; font-size: 15px; padding: 24px 0; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>경조사비 입력</h1>
+
+  <div class="login-card" id="loginCard">
+    <p>Google 계정으로 로그인하면<br>자동으로 내 구글시트에 저장됩니다.<br>로그인 없이도 바로 써볼 수 있어요 (이 기기에만 저장).</p>
+    <button class="google-btn" id="googleLoginBtn">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
+      Google 계정으로 로그인
+    </button>
+    <div class="local-note">로그인하지 않고 계속하면 <b>이 기기에서만</b> 데이터가 유지됩니다.</div>
+    <button class="google-btn" id="skipLoginBtn" style="margin-top:12px; border-color:#eee; color:#999;">로그인 없이 계속하기</button>
+  </div>
+
+  <div id="appArea" class="hidden">
+    <div class="user-bar">
+      <span id="userStatusText">이 기기에만 저장 중</span>
+      <span>
+        <button id="loginFromLocalBtn" class="hidden">Google로 로그인</button>
+        <button id="logoutBtn" class="hidden">로그아웃</button>
+      </span>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active gyeong" id="tabGyeong">축의금</div>
+      <div class="tab bu" id="tabBu">부의금</div>
+    </div>
+
+    <div class="card">
+      <label>이름</label>
+      <input type="text" id="name" placeholder="예: 홍길동">
+      <label>상황</label>
+      <input type="text" id="situation" list="situationList" placeholder="예: 자혼">
+      <datalist id="situationList"></datalist>
+      <label>금액</label>
+      <input type="number" id="amount" placeholder="예: 100000" inputmode="numeric">
+      <label>날짜</label>
+      <input type="date" id="date">
+      <label>비고</label>
+      <input type="text" id="note" placeholder="예: 리베라호텔 (선택)">
+      <button class="save-btn" id="saveBtn">저장</button>
+      <div class="msg" id="msg"></div>
+    </div>
+
+    <div class="summary">
+      <div class="box"><div class="n" id="sumCount">0건</div><div class="l" id="sumLabel">총 건수</div></div>
+      <div class="box"><div class="n" id="sumAmount">0원</div><div class="l">합계 금액</div></div>
+    </div>
+
+    <button class="toggle-btn" id="toggleBtn">지금까지 입력한 내역 보기</button>
+    <div class="recent" id="recentSection">
+      <div id="list"><div class="empty">불러오는 중...</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 여행 앱과 같은 Google Cloud 프로젝트의 Client ID
+  var GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com';
+  var SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/userinfo.email';
+
+  var LOCAL_KEY = 'gyeongjosabi_local_entries';
+  var TOKEN_KEY_PREFIX = 'gyeongjosabi_token_';
+  var SHEET_META_PREFIX = 'gyeongjosabi_sheetmeta_';
+
+  var accessToken = null;
+  var userEmail = null;
+  var sheetMeta = null; // { spreadsheetId, sheetIds: {축의금: n, 부의금: n} }
+  var currentSheet = '축의금';
+  var recentOpen = false;
+  var tokenClient = null;
+
+  var situationOptions = {
+    '축의금': ['자혼', '여혼', '본인'],
+    '부의금': ['부친상', '모친상', '장인상', '장모상', '본인상', '부인상', '남편상', '조부상', '조모상']
+  };
+
+  function fmtMoney(n) { return Number(n || 0).toLocaleString() + '원'; }
+
+  // ===== 로컬(비로그인) 저장 =====
+  function loadLocal() {
+    try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function saveLocal(entries) {
+    localStorage.setItem(LOCAL_KEY, JSON.stringify(entries));
+  }
+
+  // ===== 시작 =====
+  window.onload = function () {
+    google.accounts.oauth2 && initTokenClient();
+
+    document.getElementById('googleLoginBtn').addEventListener('click', doLogin);
+    document.getElementById('skipLoginBtn').addEventListener('click', function () {
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('appArea').classList.remove('hidden');
+      showLocalMode();
+    });
+    document.getElementById('loginFromLocalBtn').addEventListener('click', doLogin);
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+    document.getElementById('tabGyeong').addEventListener('click', function () { selectTab('축의금'); });
+    document.getElementById('tabBu').addEventListener('click', function () { selectTab('부의금'); });
+    document.getElementById('saveBtn').addEventListener('click', submitEntry);
+    document.getElementById('toggleBtn').addEventListener('click', toggleRecent);
+  };
+
+  function initTokenClient() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: GOOGLE_CLIENT_ID,
+      scope: SCOPES,
+      callback: onTokenResponse
+    });
+  }
+
+  function doLogin() {
+    if (!tokenClient) { initTokenClient(); }
+    tokenClient.requestAccessToken({ prompt: '' });
+  }
+
+  function onTokenResponse(resp) {
+    if (resp.error) { alert('로그인에 실패했습니다: ' + resp.error); return; }
+    accessToken = resp.access_token;
+    fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: 'Bearer ' + accessToken }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (info) {
+        userEmail = info.email;
+        document.getElementById('loginCard').classList.add('hidden');
+        document.getElementById('appArea').classList.remove('hidden');
+        setupSheetAndShow();
+      });
+  }
+
+  function logout() {
+    if (accessToken) { google.accounts.oauth2.revoke(accessToken, function () {}); }
+    accessToken = null;
+    userEmail = null;
+    sheetMeta = null;
+    document.getElementById('loginCard').classList.remove('hidden');
+    document.getElementById('appArea').classList.add('hidden');
+  }
+
+  function showLocalMode() {
+    document.getElementById('userStatusText').textContent = '이 기기에만 저장 중 (로그인 안 함)';
+    document.getElementById('loginFromLocalBtn').classList.remove('hidden');
+    document.getElementById('logoutBtn').classList.add('hidden');
+    selectTab('축의금');
+  }
+
+  function showCloudMode() {
+    document.getElementById('userStatusText').textContent = userEmail + ' 님의 구글시트에 저장 중';
+    document.getElementById('loginFromLocalBtn').classList.add('hidden');
+    document.getElementById('logoutBtn').classList.remove('hidden');
+    selectTab('축의금');
+  }
+
+  // ===== 시트 준비 (없으면 자동 생성) =====
+  function setupSheetAndShow() {
+    var metaKey = SHEET_META_PREFIX + userEmail;
+    var saved = localStorage.getItem(metaKey);
+    if (saved) {
+      sheetMeta = JSON.parse(saved);
+      showCloudMode();
+      return;
+    }
+    document.getElementById('userStatusText').textContent = '내 시트를 준비하는 중...';
+    document.getElementById('appArea').classList.remove('hidden');
+
+    fetch('https://sheets.googleapis.com/v4/spreadsheets', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        properties: { title: '경조사비' },
+        sheets: [
+          { properties: { title: '축의금' } },
+          { properties: { title: '부의금' } }
+        ]
+      })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var sheetIds = {};
+        data.sheets.forEach(function (s) { sheetIds[s.properties.title] = s.properties.sheetId; });
+        sheetMeta = { spreadsheetId: data.spreadsheetId, sheetIds: sheetIds };
+
+        var header = { values: [['이름', '상황', '금액', '날짜', '비고']] };
+        return Promise.all([
+          fetch('https://sheets.googleapis.com/v4/spreadsheets/' + data.spreadsheetId + '/values/축의금!A1:E1?valueInputOption=RAW', {
+            method: 'PUT', headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' }, body: JSON.stringify(header)
+          }),
+          fetch('https://sheets.googleapis.com/v4/spreadsheets/' + data.spreadsheetId + '/values/부의금!A1:E1?valueInputOption=RAW', {
+            method: 'PUT', headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' }, body: JSON.stringify(header)
+          })
+        ]);
+      })
+      .then(function () {
+        localStorage.setItem(metaKey, JSON.stringify(sheetMeta));
+        showCloudMode();
+      })
+      .catch(function (err) {
+        alert('시트 생성 중 오류: ' + err.message);
+      });
+  }
+
+  // ===== 탭 전환 =====
+  function selectTab(sheet) {
+    currentSheet = sheet;
+    document.getElementById('tabGyeong').classList.toggle('active', sheet === '축의금');
+    document.getElementById('tabBu').classList.toggle('active', sheet === '부의금');
+    var list = document.getElementById('situationList');
+    list.innerHTML = '';
+    situationOptions[sheet].forEach(function (opt) {
+      var o = document.createElement('option'); o.value = opt; list.appendChild(o);
+    });
+    if (recentOpen) loadAndRenderList();
+    else renderSummaryOnly();
+  }
+
+  function toggleRecent() {
+    recentOpen = !recentOpen;
+    var section = document.getElementById('recentSection');
+    var btn = document.getElementById('toggleBtn');
+    if (recentOpen) {
+      section.style.display = 'block';
+      btn.textContent = '내역 닫기';
+      loadAndRenderList();
+    } else {
+      section.style.display = 'none';
+      btn.textContent = '지금까지 입력한 내역 보기';
+    }
+  }
+
+  // ===== 데이터 읽기 =====
+  function fetchEntries(callback) {
+    if (sheetMeta) {
+      fetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetMeta.spreadsheetId + '/values/' + encodeURIComponent(currentSheet) + '!A2:E1000', {
+        headers: { Authorization: 'Bearer ' + accessToken }
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var rows = data.values || [];
+          var items = [];
+          rows.forEach(function (r, idx) {
+            if (!r[0]) return;
+            items.push({ row: idx + 2, name: r[0], situation: r[1] || '', amount: Number(r[2]) || 0, date: r[3] || '', note: r[4] || '' });
+          });
+          callback(items);
+        })
+        .catch(function (err) { callback(null, err); });
+    } else {
+      var all = loadLocal();
+      callback(all.filter(function (e) { return e.type === currentSheet; }));
+    }
+  }
+
+  function renderSummaryOnly() {
+    fetchEntries(function (items, err) {
+      if (err) return;
+      updateSummary(items);
+    });
+  }
+
+  function loadAndRenderList() {
+    var listEl = document.getElementById('list');
+    listEl.innerHTML = '<div class="empty">불러오는 중...</div>';
+    fetchEntries(function (items, err) {
+      if (err) { listEl.innerHTML = '<div class="empty">오류: ' + err.message + '</div>'; return; }
+      updateSummary(items);
+      renderList(items);
+    });
+  }
+
+  function updateSummary(items) {
+    var total = items.reduce(function (s, e) { return s + (Number(e.amount) || 0); }, 0);
+    document.getElementById('sumCount').textContent = items.length + '건';
+    document.getElementById('sumLabel').textContent = currentSheet + ' 총 건수';
+    document.getElementById('sumAmount').textContent = fmtMoney(total);
+  }
+
+  function renderList(items) {
+    var listEl = document.getElementById('list');
+    if (!items.length) { listEl.innerHTML = '<div class="empty">아직 입력한 내역이 없습니다.</div>'; return; }
+    var sorted = items.slice().sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
+    listEl.innerHTML = '';
+    sorted.forEach(function (e) {
+      var div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML =
+        '<span class="name">' + e.name + (e.situation ? ' (' + e.situation + ')' : '') + '</span>' +
+        '<span class="date">' + (e.date || '') + '</span>' +
+        '<span class="amount">' + fmtMoney(e.amount) + '</span>' +
+        '<button class="del">삭제</button>';
+      div.querySelector('.del').addEventListener('click', function () { removeEntry(e); });
+      listEl.appendChild(div);
+    });
+  }
+
+  // ===== 삭제 =====
+  function removeEntry(entry) {
+    if (sheetMeta) {
+      var sheetId = sheetMeta.sheetIds[currentSheet];
+      fetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetMeta.spreadsheetId + ':batchUpdate', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requests: [{
+            deleteDimension: {
+              range: { sheetId: sheetId, dimension: 'ROWS', startIndex: entry.row - 1, endIndex: entry.row }
+            }
+          }]
+        })
+      })
+        .then(function () { loadAndRenderList(); })
+        .catch(function (err) { alert('삭제 실패: ' + err.message); });
+    } else {
+      var all = loadLocal();
+      all = all.filter(function (e) { return e.id !== entry.id; });
+      saveLocal(all);
+      loadAndRenderList();
+    }
+  }
+
+  // ===== 저장 =====
+  function submitEntry() {
+    var name = document.getElementById('name').value.trim();
+    var situation = document.getElementById('situation').value.trim();
+    var amount = document.getElementById('amount').value;
+    var date = document.getElementById('date').value;
+    var note = document.getElementById('note').value.trim();
+    var msg = document.getElementById('msg');
+    var btn = document.getElementById('saveBtn');
+
+    if (!name || !amount) {
+      msg.textContent = '이름과 금액을 입력해 주세요.';
+      msg.className = 'msg err';
+      return;
+    }
+
+    btn.disabled = true;
+    msg.textContent = '저장 중...';
+    msg.className = 'msg';
+
+    function afterSave() {
+      msg.textContent = '저장했습니다.';
+      msg.className = 'msg ok';
+      btn.disabled = false;
+      document.getElementById('name').value = '';
+      document.getElementById('situation').value = '';
+      document.getElementById('amount').value = '';
+      document.getElementById('note').value = '';
+      document.getElementById('date').value = '';
+      if (recentOpen) loadAndRenderList(); else renderSummaryOnly();
+    }
+
+    if (sheetMeta) {
+      fetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetMeta.spreadsheetId + '/values/' + encodeURIComponent(currentSheet) + '!A:E:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ values: [[name, situation, Number(amount), date, note]] })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (res.error) throw new Error(res.error.message);
+          afterSave();
+        })
+        .catch(function (err) {
+          msg.textContent = '오류: ' + err.message;
+          msg.className = 'msg err';
+          btn.disabled = false;
+        });
+    } else {
+      var all = loadLocal();
+      all.push({ id: Date.now(), type: currentSheet, name: name, situation: situation, amount: Number(amount), date: date, note: note });
+      saveLocal(all);
+      afterSave();
+    }
+  }
+</script>
+</body>
+</html>
