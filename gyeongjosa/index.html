@@ -60,6 +60,9 @@
 
   .toggle-btn { display: block; width: 100%; margin: 0 0 8px; padding: 10px; background: #fff; border: 1px solid #ccc; border-radius: 10px; font-size: 14px; color: #333; cursor: pointer; }
   .recent { display: none; }
+  .filter-row { margin-bottom: 8px; }
+  .filter-row select { width: 100%; }
+  .filter-summary { font-size: 13px; color: #888; margin: 0 4px 8px; }
   .summary { display: flex; gap: 10px; margin-bottom: 14px; }
   .summary .box { flex: 1; background: #fff; border-radius: 12px; padding: 14px; text-align: center; }
   .summary .box .n { font-size: 19px; font-weight: 700; }
@@ -125,6 +128,10 @@
 
     <button class="toggle-btn" id="toggleBtn">지금까지 입력한 내역 보기</button>
     <div class="recent" id="recentSection">
+      <div class="filter-row">
+        <select id="rangeSelect"></select>
+      </div>
+      <div class="filter-summary" id="filterSummary"></div>
       <div id="list"><div class="empty">불러오는 중...</div></div>
     </div>
   </div>
@@ -144,6 +151,7 @@
   var sheetMeta = null; // { spreadsheetId, sheetIds: {축의금: n, 부의금: n} }
   var currentSheet = '축의금';
   var recentOpen = false;
+  var allItems = [];   // 현재 탭의 전체 데이터 (필터는 이 배열에서 클라이언트 측으로 처리)
   var tokenClient = null;
 
   var situationOptions = {
@@ -152,6 +160,13 @@
   };
 
   function fmtMoney(n) { return Number(n || 0).toLocaleString() + '원'; }
+
+  // 금액 셀은 '₩100,000'처럼 통화 서식이 걸린 문자열로 올 수 있으므로 숫자만 뽑아낸다
+  function parseAmount(v) {
+    if (typeof v === 'number') return v;
+    var n = Number(String(v == null ? '' : v).replace(/[^0-9.-]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
 
   // ===== 로컬(비로그인) 저장 =====
   function loadLocal() {
@@ -177,6 +192,7 @@
     document.getElementById('tabBu').addEventListener('click', function () { selectTab('부의금'); });
     document.getElementById('saveBtn').addEventListener('click', submitEntry);
     document.getElementById('toggleBtn').addEventListener('click', toggleRecent);
+    document.getElementById('rangeSelect').addEventListener('change', applyFilter);
   };
 
   function initTokenClient() {
@@ -318,7 +334,7 @@
           var items = [];
           rows.forEach(function (r, idx) {
             if (!r[0]) return;
-            items.push({ row: idx + 2, name: r[0], situation: r[1] || '', amount: Number(r[2]) || 0, date: r[3] || '', note: r[4] || '' });
+            items.push({ row: idx + 2, name: r[0], situation: r[1] || '', amount: parseAmount(r[2]), date: r[3] || '', note: r[4] || '' });
           });
           callback(items);
         })
@@ -341,9 +357,68 @@
     listEl.innerHTML = '<div class="empty">불러오는 중...</div>';
     fetchEntries(function (items, err) {
       if (err) { listEl.innerHTML = '<div class="empty">오류: ' + err.message + '</div>'; return; }
-      updateSummary(items);
-      renderList(items);
+      updateSummary(items);          // 요약은 항상 전체 기준
+      allItems = items;
+      buildRangeOptions(items);
+      applyFilter();
     });
+  }
+
+  // 날짜에서 연도만 추출
+  function yearOf(dateStr) {
+    var m = String(dateStr || '').match(/^(\d{4})/);
+    return m ? m[1] : null;
+  }
+
+  // 연도 목록을 만들어 드롭다운을 구성한다 (선택값은 최대한 유지)
+  function buildRangeOptions(items) {
+    var sel = document.getElementById('rangeSelect');
+    var prev = sel.value;
+
+    var years = {};
+    items.forEach(function (e) { var y = yearOf(e.date); if (y) years[y] = true; });
+    var yearList = Object.keys(years).sort(function (a, b) { return b - a; });
+
+    sel.innerHTML = '';
+    [['recent', '최근 5건'], ['all', '전체']].forEach(function (pair) {
+      var o = document.createElement('option');
+      o.value = pair[0]; o.textContent = pair[1];
+      sel.appendChild(o);
+    });
+    yearList.forEach(function (y) {
+      var o = document.createElement('option');
+      o.value = y; o.textContent = y + '년';
+      sel.appendChild(o);
+    });
+
+    // 이전 선택이 아직 유효하면 유지, 아니면 기본값(최근 5건)
+    if (prev && Array.prototype.some.call(sel.options, function (o) { return o.value === prev; })) {
+      sel.value = prev;
+    } else {
+      sel.value = 'recent';
+    }
+  }
+
+  // 선택된 범위에 맞춰 목록만 다시 그린다 (추가 통신 없음)
+  function applyFilter() {
+    var value = document.getElementById('rangeSelect').value || 'recent';
+    var sorted = allItems.slice().sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
+
+    var filtered, label;
+    if (value === 'recent') {
+      filtered = sorted.slice(0, 5);
+      label = '최근 ' + filtered.length + '건';
+    } else if (value === 'all') {
+      filtered = sorted;
+      label = '전체 ' + filtered.length + '건';
+    } else {
+      filtered = sorted.filter(function (e) { return yearOf(e.date) === value; });
+      label = value + '년 ' + filtered.length + '건';
+    }
+
+    var sum = filtered.reduce(function (s, e) { return s + (Number(e.amount) || 0); }, 0);
+    document.getElementById('filterSummary').textContent = label + ' · ' + fmtMoney(sum);
+    renderList(filtered);
   }
 
   function updateSummary(items) {
@@ -356,9 +431,8 @@
   function renderList(items) {
     var listEl = document.getElementById('list');
     if (!items.length) { listEl.innerHTML = '<div class="empty">아직 입력한 내역이 없습니다.</div>'; return; }
-    var sorted = items.slice().sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
     listEl.innerHTML = '';
-    sorted.forEach(function (e) {
+    items.forEach(function (e) {
       var div = document.createElement('div');
       div.className = 'item';
       div.innerHTML =
