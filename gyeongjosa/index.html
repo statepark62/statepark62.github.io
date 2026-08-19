@@ -164,7 +164,8 @@
   var recentOpen = false;
   var allItems = [];   // 현재 탭의 전체 데이터 (필터는 이 배열에서 클라이언트 측으로 처리)
   var tokenClient = null;
-  var silentMode = false;   // 자동 갱신 중인지 여부
+  var silentMode = false;      // 자동 갱신 중인지 여부
+  var consentRetried = false;  // 권한 부족으로 동의 화면을 이미 한 번 띄웠는지
 
   var situationOptions = {
     '축의금': ['자혼', '여혼', '본인'],
@@ -189,12 +190,13 @@
   }
 
   // ===== 세션 저장/복원 =====
-  function saveSession(token, expiresInSec, email) {
+  function saveSession(token, expiresInSec, email, scope) {
     try {
       localStorage.setItem(SESSION_KEY, JSON.stringify({
         accessToken: token,
         expiresAt: Date.now() + (Number(expiresInSec || 3600) - 60) * 1000,  // 만료 1분 전까지만 유효로 간주
-        email: email
+        email: email,
+        scope: scope || ''
       }));
       localStorage.setItem(MODE_KEY, 'cloud');
     } catch (e) {}
@@ -205,6 +207,8 @@
       var s = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
       if (!s || !s.accessToken || !s.expiresAt) return null;
       if (Date.now() >= s.expiresAt) return null;   // 만료됨
+      // 예전 버전에서 저장된, 드라이브 권한이 없는 토큰은 버린다
+      if (!s.scope || s.scope.indexOf('drive.file') < 0) return null;
       return s;
     } catch (e) { return null; }
   }
@@ -304,6 +308,19 @@
       return;
     }
     silentMode = false;
+
+    // 필요한 권한이 모두 승인되지 않았으면(예: 나중에 추가된 권한) 동의 화면을 다시 띄운다
+    var granted = resp.scope || '';
+    if (granted.indexOf('drive.file') < 0 || granted.indexOf('spreadsheets') < 0) {
+      if (!consentRetried) {
+        consentRetried = true;
+        tokenClient.requestAccessToken({ prompt: 'consent' });
+        return;
+      }
+      alert('앱이 시트를 사용하려면 구글 드라이브·스프레드시트 권한이 모두 필요합니다. 권한 화면에서 모두 체크하고 허용해 주세요.');
+      return;
+    }
+    consentRetried = false;
     accessToken = resp.access_token;
 
     fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
@@ -312,7 +329,7 @@
       .then(function (r) { return r.json(); })
       .then(function (info) {
         userEmail = info.email;
-        saveSession(accessToken, resp.expires_in, userEmail);
+        saveSession(accessToken, resp.expires_in, userEmail, resp.scope);
         document.getElementById('loginCard').classList.add('hidden');
         document.getElementById('appArea').classList.remove('hidden');
         setupSheetAndShow();
@@ -379,6 +396,16 @@
         var m = String(err && err.message || err);
         if (m.indexOf('401') >= 0 || m.indexOf('UNAUTHENTICATED') >= 0 || m.indexOf('Invalid Credentials') >= 0) {
           handleAuthExpired();
+          return;
+        }
+        if (m.indexOf('insufficient authentication scopes') >= 0 || m.indexOf('PERMISSION_DENIED') >= 0) {
+          // 권한이 모자란 토큰 → 세션을 버리고 동의 화면부터 다시 받는다
+          clearSession();
+          accessToken = null;
+          sheetMeta = null;
+          consentRetried = true;
+          if (!tokenClient) { initTokenClient(); }
+          tokenClient.requestAccessToken({ prompt: 'consent' });
           return;
         }
         alert('시트 준비 중 오류: ' + m);
