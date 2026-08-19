@@ -138,7 +138,7 @@
 
 <script>
   // ↓↓↓ 배포 후 반드시 아래 두 값을 채우세요 ↓↓↓
-  var API_URL = 'https://script.google.com/macros/s/AKfycbyTf1wKMKhH5bxws1z14n-pHwau2cImFxiZJiZOKbJZXZqTAZchXp1Xkv9aln7CfvUN/exec';
+  var API_URL = 'https://script.google.com/macros/s/여기에_배포_ID를_넣으세요/exec';
   var GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com';
 
   var TOKEN_KEY = 'gyeongjosabi_google_idtoken';
@@ -199,10 +199,10 @@
     loadEntries();
   }
 
-  function authFailed() {
+  function authFailed(res) {
     document.getElementById('msg').textContent = '';
-    logout();
-    alert('로그인이 만료되었습니다. 다시 로그인해 주세요.');
+    var debugText = res && res.debug ? JSON.stringify(res.debug, null, 2) : '(진단 정보 없음)';
+    alert('로그인 검증 실패. 아래 내용을 캡처해서 보내주세요:\n\n' + debugText);
   }
 
   function loadEntries() {
@@ -212,7 +212,7 @@
     fetch(API_URL + '?action=entries&sheet=' + encodeURIComponent(currentSheet) + '&year=all&idToken=' + encodeURIComponent(idToken))
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        if (res.authError) { authFailed(); return; }
+        if (res.authError) { authFailed(res); return; }
         if (!res.success) throw new Error(res.error);
         renderList(res.items);
       })
@@ -254,7 +254,7 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        if (res.authError) { authFailed(); return; }
+        if (res.authError) { authFailed(res); return; }
         if (!res.success) throw new Error(res.error);
         loadEntries();
       })
@@ -289,7 +289,7 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        if (res.authError) { authFailed(); return; }
+        if (res.authError) { authFailed(res); return; }
         if (!res.success) throw new Error(res.error);
         msg.textContent = '저장했습니다.';
         msg.className = 'msg ok';
