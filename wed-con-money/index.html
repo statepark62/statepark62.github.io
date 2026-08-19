@@ -1,331 +1,289 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>경조사비 입력</title>
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
-<meta name="theme-color" content="#2d6cdf">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<style>
-  * { box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
-    background: #f2f2f2;
-    margin: 0;
-    padding: 20px 16px 60px;
-    color: #1a1a1a;
-  }
-  .wrap { max-width: 480px; margin: 0 auto; }
-  h1 { font-size: 26px; text-align: center; margin: 6px 0 24px; }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>경조사비 입력</title>
 
-  .login-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 40px 24px;
-    text-align: center;
-    margin-top: 40px;
-  }
-  .login-card p { font-size: 18px; color: #555; margin-bottom: 28px; line-height: 1.6; }
-  #googleBtnContainer { display: flex; justify-content: center; }
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d6cdf">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="경조사비">
 
-  .user-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #fff;
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    font-size: 15px;
-    color: #555;
-  }
-  .user-bar button {
-    border: none;
-    background: none;
-    color: #c0392b;
-    font-size: 14px;
-    cursor: pointer;
-  }
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 16px;
+      color: #222;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 480px;
+      margin: 0 auto 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    h1 { font-size: 18px; margin: 0 0 16px; text-align: center; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .tab {
+      flex: 1; text-align: center; padding: 10px; border-radius: 8px;
+      border: 1px solid #ccc; cursor: pointer; background: #fafafa; font-weight: 600;
+    }
+    .tab.active.gyeong { background: #fff3cd; border-color: #e6c200; }
+    .tab.active.bu { background: #e2e3e5; border-color: #888; }
+    label { display: block; font-size: 13px; color: #555; margin: 12px 0 4px; }
+    input, select {
+      width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px;
+      font-size: 16px; height: 42px; -webkit-appearance: none; appearance: none;
+    }
+    input[type="date"] { line-height: 20px; }
+    button.submit {
+      width: 100%; padding: 13px; margin-top: 20px; background: #2d6cdf; color: #fff;
+      border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;
+    }
+    button.submit:disabled { background: #9db6e8; }
+    .msg { text-align: center; margin-top: 12px; font-size: 14px; min-height: 18px; }
+    .msg.ok { color: #1a7f37; }
+    .msg.err { color: #c0392b; }
 
-  .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-  .tab {
-    flex: 1; text-align: center; padding: 18px 0; border-radius: 14px;
-    border: 2px solid #ddd; background: #fff; font-size: 20px; font-weight: 700; cursor: pointer;
-  }
-  .tab.active.gyeong { background: #fff2b8; border-color: #e8c400; }
-  .tab.active.bu { background: #dcdcdc; border-color: #888; }
-
-  .card { background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px; }
-  label { display: block; font-size: 18px; font-weight: 700; margin: 16px 0 8px; }
-  label:first-of-type { margin-top: 0; }
-  input, select {
-    width: 100%; padding: 14px; font-size: 20px; border: 2px solid #ccc; border-radius: 12px;
-    height: 58px; -webkit-appearance: none; appearance: none; background: #fff;
-  }
-  .save-btn {
-    width: 100%; padding: 20px; margin-top: 24px; background: #2d6cdf; color: #fff;
-    border: none; border-radius: 14px; font-size: 22px; font-weight: 700; cursor: pointer;
-  }
-  .save-btn:disabled { background: #a9c2ec; }
-  .msg { text-align: center; margin-top: 14px; font-size: 18px; min-height: 24px; font-weight: 700; }
-  .msg.ok { color: #197a34; }
-  .msg.err { color: #c0392b; }
-
-  .summary { display: flex; gap: 10px; margin-bottom: 16px; }
-  .summary .box { flex: 1; background: #fff; border-radius: 14px; padding: 16px; text-align: center; }
-  .summary .box .n { font-size: 22px; font-weight: 700; }
-  .summary .box .l { font-size: 15px; color: #666; margin-top: 4px; }
-
-  .list-title { font-size: 19px; font-weight: 700; margin: 4px 0 10px; }
-  .item { background: #fff; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; font-size: 17px; }
-  .item .top { display: flex; justify-content: space-between; font-weight: 700; }
-  .item .bottom { display: flex; justify-content: space-between; color: #777; font-size: 14px; margin-top: 4px; }
-  .item .del { color: #c0392b; font-size: 14px; border: none; background: none; padding: 4px 0; cursor: pointer; }
-  .empty { text-align: center; color: #999; font-size: 17px; padding: 30px 0; }
-  .loading { text-align: center; color: #999; font-size: 17px; padding: 30px 0; }
-  .hidden { display: none !important; }
-</style>
+    .toggle-btn {
+      display: block; width: 100%; max-width: 480px; margin: 0 auto 8px; padding: 10px;
+      background: #fff; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; color: #333; cursor: pointer;
+    }
+    .recent { max-width: 480px; margin: 0 auto; display: none; }
+    .year-filter { display: flex; gap: 8px; margin-bottom: 10px; }
+    .year-filter select { flex: 1; }
+    .year-filter button {
+      padding: 0 16px; border: none; border-radius: 8px; background: #444; color: #fff;
+      font-size: 14px; cursor: pointer;
+    }
+    .recent-summary { font-size: 12px; color: #888; margin: 0 4px 8px; }
+    .recent-item {
+      background: #fff; border-radius: 8px; padding: 10px 14px; margin-bottom: 6px;
+      font-size: 13px; display: flex; align-items: center; gap: 8px;
+    }
+    .recent-item .name { flex: 1; text-align: left; }
+    .recent-item .date { flex: 1; text-align: center; color: #999; font-size: 12px; }
+    .recent-item .amount { flex: 1; text-align: right; }
+    .empty { text-align: center; color: #999; font-size: 13px; padding: 12px; }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>경조사비 입력</h1>
-
-  <div class="login-card" id="loginCard">
-    <p>구글 계정으로 로그인하면<br>바로 사용할 수 있습니다.</p>
-    <div id="googleBtnContainer"></div>
-  </div>
-
-  <div id="appArea" class="hidden">
-    <div class="user-bar">
-      <span id="userEmail"></span>
-      <button id="logoutBtn">로그아웃</button>
-    </div>
+  <div class="card">
+    <h1>경조사비 입력</h1>
 
     <div class="tabs">
-      <div class="tab active gyeong" id="tabGyeong">축의금</div>
-      <div class="tab bu" id="tabBu">부의금</div>
+      <div class="tab active gyeong" id="tabGyeong" onclick="selectSheet('축의금')">축의금</div>
+      <div class="tab bu" id="tabBu" onclick="selectSheet('부의금')">부의금</div>
     </div>
 
-    <div class="card">
-      <label>이름</label>
-      <input type="text" id="name" placeholder="예: 홍길동">
+    <label>이름</label>
+    <input type="text" id="name" placeholder="예: 홍길동교수">
 
-      <label>상황</label>
-      <input type="text" id="situation" list="situationList" placeholder="예: 자혼">
-      <datalist id="situationList"></datalist>
+    <label>상황</label>
+    <input type="text" id="situation" list="situationList" placeholder="예: 자혼 / 부친상">
+    <datalist id="situationList"></datalist>
 
-      <label>금액</label>
-      <input type="number" id="amount" placeholder="예: 100000" inputmode="numeric">
+    <label>금액</label>
+    <input type="number" id="amount" placeholder="예: 100000" inputmode="numeric">
 
-      <label>날짜</label>
-      <input type="date" id="date">
+    <label>날짜</label>
+    <input type="date" id="date">
 
-      <button class="save-btn" id="saveBtn">저장</button>
-      <div class="msg" id="msg"></div>
-    </div>
+    <label>비고</label>
+    <input type="text" id="note" placeholder="예: 리베라호텔 (선택)">
 
-    <div class="summary">
-      <div class="box"><div class="n" id="sumCount">0건</div><div class="l" id="sumLabel">이번 종류 총 건수</div></div>
-      <div class="box"><div class="n" id="sumAmount">0원</div><div class="l">합계 금액</div></div>
-    </div>
-
-    <div class="list-title">지금까지 입력한 내역</div>
-    <div id="list"><div class="loading">불러오는 중...</div></div>
+    <button class="submit" id="submitBtn" onclick="submitEntry()">저장</button>
+    <div class="msg" id="msg"></div>
   </div>
-</div>
 
-<script>
-  // ↓↓↓ 배포 후 반드시 아래 두 값을 채우세요 ↓↓↓
-  var API_URL = 'https://script.google.com/macros/s/AKfycbzVhNMqY4hCctx9GgCacTaYjL7IfTy3uxjhflDcu68PifYXcaOsvm3OjtGMX3YrIEFs/exec';
-  var GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com';
+  <button class="toggle-btn" id="toggleBtn" onclick="toggleRecent()">최근 입력 내역 보기</button>
 
-  var TOKEN_KEY = 'gyeongjosabi_google_idtoken';
-  var EMAIL_KEY = 'gyeongjosabi_google_email';
-  var idToken = localStorage.getItem(TOKEN_KEY) || '';
-  var userEmail = localStorage.getItem(EMAIL_KEY) || '';
+  <div class="recent" id="recentSection">
+    <div class="year-filter">
+      <select id="yearSelect"></select>
+      <button onclick="loadEntries()">조회</button>
+    </div>
+    <div class="recent-summary" id="recentSummary"></div>
+    <div id="recentList"></div>
+  </div>
 
-  var currentSheet = '축의금';
-  var recentLoaded = false;
+  <script>
+    // 이 앱은 교수님 개인 전용입니다. 아래 주소를 실제 배포한 Apps Script URL로 바꿔주세요.
+    var API_URL = 'https://script.google.com/macros/s/여기에_배포_ID를_넣으세요/exec';
 
-  var situationOptions = {
-    '축의금': ['자혼', '여혼', '본인'],
-    '부의금': ['부친상', '모친상', '장인상', '장모상', '본인상', '부인상', '남편상', '조부상', '조모상']
-  };
+    var currentSheet = '축의금';
+    var recentOpen = false;
+    var situationOptions = {
+      '축의금': ['자혼', '여혼', '본인'],
+      '부의금': ['부친상', '모친상', '장인상', '장모상', '빙부상', '빙모상', '시부상', '시모상', '부인상', '남편상', '본인상', '조부상', '조모상', '동생상']
+    };
 
-  function fmtMoney(n) { return Number(n || 0).toLocaleString() + '원'; }
-
-  function showApp() {
-    document.getElementById('loginCard').classList.add('hidden');
-    document.getElementById('appArea').classList.remove('hidden');
-    document.getElementById('userEmail').textContent = userEmail;
-    selectTab('축의금');
-  }
-
-  function showLogin() {
-    document.getElementById('loginCard').classList.remove('hidden');
-    document.getElementById('appArea').classList.add('hidden');
-  }
-
-  function handleCredentialResponse(response) {
-    idToken = response.credential;
-    var payload = JSON.parse(atob(idToken.split('.')[1]));
-    userEmail = payload.email;
-    localStorage.setItem(TOKEN_KEY, idToken);
-    localStorage.setItem(EMAIL_KEY, userEmail);
-    showApp();
-  }
-
-  function logout() {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(EMAIL_KEY);
-    idToken = '';
-    userEmail = '';
-    showLogin();
-  }
-
-  function selectTab(sheet) {
-    currentSheet = sheet;
-    document.getElementById('tabGyeong').classList.toggle('active', sheet === '축의금');
-    document.getElementById('tabBu').classList.toggle('active', sheet === '부의금');
-    var list = document.getElementById('situationList');
-    list.innerHTML = '';
-    situationOptions[sheet].forEach(function (opt) {
-      var o = document.createElement('option');
-      o.value = opt;
-      list.appendChild(o);
-    });
-    loadEntries();
-  }
-
-  function authFailed(res) {
-    document.getElementById('msg').textContent = '';
-    var debugText = res && res.debug ? JSON.stringify(res.debug, null, 2) : '(진단 정보 없음)';
-    alert('로그인 검증 실패. 아래 내용을 캡처해서 보내주세요:\n\n' + debugText);
-  }
-
-  function loadEntries() {
-    var listEl = document.getElementById('list');
-    listEl.innerHTML = '<div class="loading">불러오는 중...</div>';
-
-    fetch(API_URL + '?action=entries&sheet=' + encodeURIComponent(currentSheet) + '&year=all&idToken=' + encodeURIComponent(idToken))
-      .then(function (r) { return r.json(); })
-      .then(function (res) {
-        if (res.authError) { authFailed(res); return; }
-        if (!res.success) throw new Error(res.error);
-        renderList(res.items);
-      })
-      .catch(function (err) {
-        listEl.innerHTML = '<div class="empty">오류: ' + err.message + '</div>';
+    function selectSheet(sheet) {
+      currentSheet = sheet;
+      document.getElementById('tabGyeong').classList.toggle('active', sheet === '축의금');
+      document.getElementById('tabBu').classList.toggle('active', sheet === '부의금');
+      var list = document.getElementById('situationList');
+      list.innerHTML = '';
+      situationOptions[sheet].forEach(function (opt) {
+        var o = document.createElement('option');
+        o.value = opt;
+        list.appendChild(o);
       });
-  }
-
-  function renderList(items) {
-    var totalAmount = items.reduce(function (sum, e) { return sum + (Number(e.amount) || 0); }, 0);
-    document.getElementById('sumCount').textContent = items.length + '건';
-    document.getElementById('sumLabel').textContent = currentSheet + ' 총 건수';
-    document.getElementById('sumAmount').textContent = fmtMoney(totalAmount);
-
-    var listEl = document.getElementById('list');
-    if (!items.length) {
-      listEl.innerHTML = '<div class="empty">아직 입력한 내역이 없습니다.</div>';
-      return;
-    }
-    listEl.innerHTML = '';
-    items.forEach(function (e) {
-      var div = document.createElement('div');
-      div.className = 'item';
-      div.innerHTML =
-        '<div class="top"><span>' + e.name + (e.situation ? ' (' + e.situation + ')' : '') + '</span><span>' + fmtMoney(e.amount) + '</span></div>' +
-        '<div class="bottom"><span>' + (e.date || '') + '</span><button class="del" data-row="' + e.row + '">삭제</button></div>';
-      listEl.appendChild(div);
-    });
-    Array.prototype.forEach.call(listEl.querySelectorAll('.del'), function (btn) {
-      btn.addEventListener('click', function () { removeEntry(Number(btn.getAttribute('data-row'))); });
-    });
-  }
-
-  function removeEntry(row) {
-    fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'delete', idToken: idToken, sheetName: currentSheet, row: row })
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (res) {
-        if (res.authError) { authFailed(res); return; }
-        if (!res.success) throw new Error(res.error);
-        loadEntries();
-      })
-      .catch(function (err) { alert('삭제 실패: ' + err.message); });
-  }
-
-  function submitEntry() {
-    var name = document.getElementById('name').value.trim();
-    var situation = document.getElementById('situation').value.trim();
-    var amount = document.getElementById('amount').value;
-    var date = document.getElementById('date').value;
-    var msg = document.getElementById('msg');
-    var btn = document.getElementById('saveBtn');
-
-    if (!name || !amount) {
-      msg.textContent = '이름과 금액을 입력해 주세요.';
-      msg.className = 'msg err';
-      return;
+      if (recentOpen) {
+        recentOpen = false;
+        document.getElementById('recentSection').style.display = 'none';
+        document.getElementById('toggleBtn').textContent = '최근 입력 내역 보기';
+      }
     }
 
-    btn.disabled = true;
-    msg.textContent = '저장 중...';
-    msg.className = 'msg';
-
-    fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'add', idToken: idToken, sheetName: currentSheet,
-        name: name, situation: situation, amount: amount, date: date, note: ''
-      })
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (res) {
-        if (res.authError) { authFailed(res); return; }
-        if (!res.success) throw new Error(res.error);
-        msg.textContent = '저장했습니다.';
-        msg.className = 'msg ok';
-        document.getElementById('name').value = '';
-        document.getElementById('situation').value = '';
-        document.getElementById('amount').value = '';
+    function toggleRecent() {
+      recentOpen = !recentOpen;
+      var section = document.getElementById('recentSection');
+      var btn = document.getElementById('toggleBtn');
+      if (recentOpen) {
+        section.style.display = 'block';
+        btn.textContent = '최근 입력 내역 닫기';
+        loadYears();
         loadEntries();
-      })
-      .catch(function (err) {
-        msg.textContent = '오류: ' + err.message;
+      } else {
+        section.style.display = 'none';
+        btn.textContent = '최근 입력 내역 보기';
+      }
+    }
+
+    function loadYears() {
+      fetch(API_URL + '?action=years&sheet=' + encodeURIComponent(currentSheet))
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res.success) throw new Error(res.error);
+          var sel = document.getElementById('yearSelect');
+          sel.innerHTML = '';
+          var optRecent = document.createElement('option');
+          optRecent.value = 'recent';
+          optRecent.textContent = '최근 5건';
+          sel.appendChild(optRecent);
+
+          var optAll = document.createElement('option');
+          optAll.value = 'all';
+          optAll.textContent = '전체';
+          sel.appendChild(optAll);
+
+          res.years.forEach(function (y) {
+            var o = document.createElement('option');
+            o.value = y;
+            o.textContent = y + '년';
+            sel.appendChild(o);
+          });
+        })
+        .catch(function (err) { console.error(err); });
+    }
+
+    function loadEntries() {
+      var sel = document.getElementById('yearSelect');
+      var value = sel.value || 'recent';
+      var listEl = document.getElementById('recentList');
+      listEl.innerHTML = '<div class="empty">불러오는 중...</div>';
+
+      fetch(API_URL + '?action=entries&sheet=' + encodeURIComponent(currentSheet) + '&year=' + encodeURIComponent(value))
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res.success) throw new Error(res.error);
+          var label = value === 'recent' ? '최근 ' + res.items.length + '건'
+                     : value === 'all' ? '전체 ' + res.items.length + '건'
+                     : value + '년 ' + res.items.length + '건';
+          renderEntries(res.items, label);
+        })
+        .catch(function (err) {
+          listEl.innerHTML = '<div class="empty">오류: ' + err.message + '</div>';
+        });
+    }
+
+    function renderEntries(items, summaryText) {
+      var listEl = document.getElementById('recentList');
+      var summaryEl = document.getElementById('recentSummary');
+      summaryEl.textContent = summaryText;
+
+      if (!items.length) {
+        listEl.innerHTML = '<div class="empty">해당 항목이 없습니다.</div>';
+        return;
+      }
+      listEl.innerHTML = '';
+      items.forEach(function (it) {
+        var div = document.createElement('div');
+        div.className = 'recent-item';
+        var amountText = it.amount ? Number(it.amount).toLocaleString() + '원' : '';
+        div.innerHTML =
+          '<span class="name">' + it.name + (it.situation ? ' (' + it.situation + ')' : '') + '</span>' +
+          '<span class="date">' + (it.date || '') + '</span>' +
+          '<span class="amount">' + amountText + '</span>';
+        listEl.appendChild(div);
+      });
+    }
+
+    function submitEntry() {
+      var name = document.getElementById('name').value.trim();
+      var situation = document.getElementById('situation').value.trim();
+      var amount = document.getElementById('amount').value;
+      var date = document.getElementById('date').value;
+      var note = document.getElementById('note').value.trim();
+      var msg = document.getElementById('msg');
+      var btn = document.getElementById('submitBtn');
+
+      if (!name || !amount) {
+        msg.textContent = '이름과 금액은 필수입니다.';
         msg.className = 'msg err';
+        return;
+      }
+
+      btn.disabled = true;
+      msg.textContent = '저장 중...';
+      msg.className = 'msg';
+
+      fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'add',
+          sheetName: currentSheet,
+          name: name,
+          situation: situation,
+          amount: amount,
+          date: date,
+          note: note
+        })
       })
-      .finally(function () { btn.disabled = false; });
-  }
-
-  document.getElementById('tabGyeong').addEventListener('click', function () { selectTab('축의금'); });
-  document.getElementById('tabBu').addEventListener('click', function () { selectTab('부의금'); });
-  document.getElementById('saveBtn').addEventListener('click', submitEntry);
-  document.getElementById('logoutBtn').addEventListener('click', logout);
-
-  window.onload = function () {
-    google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: handleCredentialResponse
-    });
-    google.accounts.id.renderButton(
-      document.getElementById('googleBtnContainer'),
-      { theme: 'filled_blue', size: 'large', text: 'signin_with', shape: 'pill' }
-    );
-
-    if (idToken && userEmail) {
-      showApp();
-    } else {
-      showLogin();
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res.success) throw new Error(res.error);
+          msg.textContent = '저장되었습니다.';
+          msg.className = 'msg ok';
+          btn.disabled = false;
+          document.getElementById('name').value = '';
+          document.getElementById('situation').value = '';
+          document.getElementById('amount').value = '';
+          document.getElementById('note').value = '';
+          if (recentOpen) {
+            loadYears();
+            loadEntries();
+          }
+        })
+        .catch(function (err) {
+          msg.textContent = '오류: ' + err.message;
+          msg.className = 'msg err';
+          btn.disabled = false;
+        });
     }
-  };
-</script>
+
+    selectSheet('축의금');
+  </script>
 </body>
 </html>
