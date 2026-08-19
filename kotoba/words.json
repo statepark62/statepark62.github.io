@@ -5141,5 +5141,115 @@
   "example": "手紙がまだ相手に届かない。",
   "exampleReading": "てがみがまだあいてにとどかない。",
   "exampleMeaning": "편지가 아직 상대에게 닿지 않았다."
+ },
+ {
+  "id": "news163",
+  "word": "暴行",
+  "reading": "ぼうこう",
+  "meaning": "폭행",
+  "level": "N2",
+  "example": "彼は電車内で暴行事件を起こした。",
+  "exampleReading": "かれはでんしゃないでぼうこうじけんをおこした。",
+  "exampleMeaning": "그는 전철 안에서 폭행 사건을 일으켰다."
+ },
+ {
+  "id": "news164",
+  "word": "洗浄",
+  "reading": "せんじょう",
+  "meaning": "세척",
+  "level": "N1",
+  "example": "傷口を清潔な水で洗浄してください。",
+  "exampleReading": "きずぐちをせいけつなみずでせんじょうしてください。",
+  "exampleMeaning": "상처 부위를 깨끗한 물로 세척해 주세요."
+ },
+ {
+  "id": "news165",
+  "word": "踏切",
+  "reading": "ふみきり",
+  "meaning": "철도 건널목",
+  "level": "N3",
+  "example": "踏切の遮断機が下りたら、絶対に渡ってはいけない。",
+  "exampleReading": "ふみきりのしゃだんきがおりたら、ぜったいにわたってはいけない。",
+  "exampleMeaning": "건널목 차단기가 내려오면 절대 건너서는 안 된다."
+ },
+ {
+  "id": "news166",
+  "word": "激励",
+  "reading": "げきれい",
+  "meaning": "격려",
+  "level": "N1",
+  "example": "コーチは選手たちを激励した。",
+  "exampleReading": "コーチはせんしゅたちをげきれいした。",
+  "exampleMeaning": "코치는 선수들을 격려했다."
+ },
+ {
+  "id": "news167",
+  "word": "衝突",
+  "reading": "しょうとつ",
+  "meaning": "충돌",
+  "level": "N2",
+  "example": "交差点で二台の車が衝突した。",
+  "exampleReading": "こうさてんでにだいのくるまがしょうとつした。",
+  "exampleMeaning": "교차로에서 두 대의 차가 충돌했다."
+ },
+ {
+  "id": "news168",
+  "word": "衰弱",
+  "reading": "すいじゃく",
+  "meaning": "쇠약",
+  "level": "N1",
+  "example": "長い闘病生活で彼の体は衰弱していた。",
+  "exampleReading": "ながいとうびょうせいかつでかれのからだはすいじゃくしていた。",
+  "exampleMeaning": "긴 투병 생활로 그의 몸은 쇠약해져 있었다."
+ },
+ {
+  "id": "tj181",
+  "word": "司法試験",
+  "reading": "しほうしけん",
+  "meaning": "사법시험",
+  "level": "N1",
+  "example": "彼は司法試験に合格した。",
+  "exampleReading": "かれはしほうしけんにごうかくした。",
+  "exampleMeaning": "그는 사법시험에 합격했다."
+ },
+ {
+  "id": "tj182",
+  "word": "検事",
+  "reading": "けんじ",
+  "meaning": "검사",
+  "level": "N2",
+  "example": "検事として事実を丁寧に検証する。",
+  "exampleReading": "けんじとしてじじつをていねいにけんしょうする。",
+  "exampleMeaning": "검사로서 사실을 꼼꼼히 검증한다."
+ },
+ {
+  "id": "tj183",
+  "word": "起訴",
+  "reading": "きそ",
+  "meaning": "기소",
+  "level": "N2",
+  "example": "証拠がそろい、被疑者は起訴された。",
+  "exampleReading": "しょうこがそろい、ひぎしゃはきそされた。",
+  "exampleMeaning": "증거가 갖춰져 피의자가 기소되었다."
+ },
+ {
+  "id": "tj184",
+  "word": "意に反する",
+  "reading": "いにはんする",
+  "meaning": "뜻에 어긋나다",
+  "level": "N1",
+  "example": "意に反する命令には慎重に異議を唱える。",
+  "exampleReading": "いにはんするめいれいにはしんちょうにいぎをとなえる。",
+  "exampleMeaning": "뜻에 어긋나는 명령에는 신중하게 이의를 제기한다."
+ },
+ {
+  "id": "tj185",
+  "word": "法学部",
+  "reading": "ほうがくぶ",
+  "meaning": "법학부",
+  "level": "N3",
+  "example": "私は法学部で刑法を学んだ。",
+  "exampleReading": "わたしはほうがくぶでけいほうをまなんだ。",
+  "exampleMeaning": "나는 법학부에서 형법을 배웠다."
  }
 ]
