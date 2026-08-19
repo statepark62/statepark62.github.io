@@ -309,7 +309,7 @@
   // ===== 데이터 읽기 =====
   function fetchEntries(callback) {
     if (sheetMeta) {
-      fetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetMeta.spreadsheetId + '/values/' + encodeURIComponent(currentSheet) + '!A2:E1000', {
+      fetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetMeta.spreadsheetId + '/values/' + encodeURIComponent(currentSheet) + '!A2:E', {
         headers: { Authorization: 'Bearer ' + accessToken }
       })
         .then(function (r) { return r.json(); })
