@@ -140,10 +140,37 @@
     .recent-item .date { flex: 1; text-align: center; color: #999; font-size: 12px; }
     .recent-item .amount { flex: 1; text-align: right; }
     .empty { text-align: center; color: #999; font-size: 13px; padding: 12px; }
+    ol.setup-steps { font-size: 13px; color: #444; padding-left: 20px; line-height: 1.9; margin: 12px 0; }
+    ol.setup-steps a { color: #2d6cdf; font-weight: 600; }
+    .setup-note { font-size: 13px; color: #666; line-height: 1.6; margin: 0; }
+    .settings-link {
+      display: block;
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      margin: 16px auto 0;
+      max-width: 480px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div class="card" id="setupCard" style="display:none;">
+    <h1>처음 사용 설정</h1>
+    <p class="setup-note">이 앱은 사용자마다 <b>자기 소유의 구글 시트</b>에 연결해서 씁니다. 아래 순서대로 한 번만 준비하면 됩니다.</p>
+    <ol class="setup-steps">
+      <li><a href="https://docs.google.com/spreadsheets/d/1IbxYNgLS6OUKbDlHQh1_dEpLwgjJUDoaY-olM2gilSw/copy" target="_blank">이 링크</a>를 눌러 내 구글 드라이브에 시트 사본 만들기</li>
+      <li>사본 시트에서 <b>확장 프로그램 → Apps Script</b> 열기</li>
+      <li><b>배포 → 새 배포</b> (유형: 웹 앱 / 실행 계정: 나 / 액세스: 전체)</li>
+      <li>배포 후 나오는 주소(<code>.../exec</code>)를 아래에 붙여넣기</li>
+    </ol>
+    <label>내 API 주소</label>
+    <input type="text" id="apiUrlInput" placeholder="https://script.google.com/macros/s/xxx/exec">
+    <button class="submit" onclick="saveApiUrl()">저장하고 시작하기</button>
+    <div class="msg" id="setupMsg"></div>
+  </div>
+
+  <div class="card" id="mainCard" style="display:none;">
     <h1>경조사비 입력</h1>
 
     <div class="tabs">
@@ -171,7 +198,7 @@
     <div class="msg" id="msg"></div>
   </div>
 
-  <button class="toggle-btn" id="toggleBtn" onclick="toggleRecent()">최근 입력 내역 보기</button>
+  <button class="toggle-btn" id="toggleBtn" onclick="toggleRecent()" style="display:none;">최근 입력 내역 보기</button>
 
   <div class="recent" id="recentSection">
     <div class="year-filter">
@@ -182,9 +209,40 @@
     <div id="recentList"></div>
   </div>
 
+  <div class="settings-link" id="settingsLink" onclick="changeApiUrl()" style="display:none;">⚙ 연결된 API 주소 변경</div>
+
   <script>
-    // ↓↓↓ Apps Script 배포 후 나온 웹 앱 URL로 반드시 교체하세요 (.../exec 로 끝나는 주소) ↓↓↓
-    var API_URL = 'https://script.google.com/macros/s/AKfycbzVhNMqY4hCctx9GgCacTaYjL7IfTy3uxjhflDcu68PifYXcaOsvm3OjtGMX3YrIEFs/exec';
+    var STORAGE_KEY = 'gyeongjosabi_api_url';
+    var API_URL = localStorage.getItem(STORAGE_KEY) || '';
+
+    function initScreen() {
+      var hasUrl = !!API_URL;
+      document.getElementById('setupCard').style.display = hasUrl ? 'none' : 'block';
+      document.getElementById('mainCard').style.display = hasUrl ? 'block' : 'none';
+      document.getElementById('toggleBtn').style.display = hasUrl ? 'block' : 'none';
+      document.getElementById('settingsLink').style.display = hasUrl ? 'block' : 'none';
+    }
+
+    function saveApiUrl() {
+      var val = document.getElementById('apiUrlInput').value.trim();
+      var msg = document.getElementById('setupMsg');
+      if (!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(val)) {
+        msg.textContent = "올바른 Apps Script 웹앱 주소가 아닙니다 ('.../exec'로 끝나야 합니다).";
+        msg.className = 'msg err';
+        return;
+      }
+      localStorage.setItem(STORAGE_KEY, val);
+      API_URL = val;
+      msg.textContent = '';
+      initScreen();
+    }
+
+    function changeApiUrl() {
+      if (!confirm('연결된 API 주소를 지우고 다시 설정할까요?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      API_URL = '';
+      initScreen();
+    }
 
     var currentSheet = '축의금';
     var recentOpen = false;
@@ -350,6 +408,7 @@
     }
 
     selectSheet('축의금');
+    initScreen();
   </script>
 </body>
 </html>
