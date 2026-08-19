@@ -166,6 +166,7 @@
   var tokenClient = null;
   var silentMode = false;      // 자동 갱신 중인지 여부
   var consentRetried = false;  // 권한 부족으로 동의 화면을 이미 한 번 띄웠는지
+  var silentTimer = null;      // 조용한 갱신 타임아웃
 
   var situationOptions = {
     '축의금': ['자혼', '여혼', '본인'],
@@ -278,15 +279,33 @@
   function silentRefresh() {
     if (!tokenClient) { initTokenClient(); }
     silentMode = true;
-    tokenClient.requestAccessToken({ prompt: 'none' });
+    // 8초 안에 응답이 없으면 조용한 갱신을 포기하고 로그인 화면을 보여준다
+    silentTimer = setTimeout(failSilentRefresh, 8000);
+    try {
+      tokenClient.requestAccessToken({ prompt: 'none' });
+    } catch (e) {
+      failSilentRefresh();
+    }
   }
 
   function initTokenClient() {
     tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: GOOGLE_CLIENT_ID,
       scope: SCOPES,
-      callback: onTokenResponse
+      callback: onTokenResponse,
+      error_callback: function () { failSilentRefresh(); }
     });
+  }
+
+  // 자동 갱신이 실패하거나 응답이 없을 때 로그인 화면으로 되돌린다
+  function failSilentRefresh() {
+    if (silentTimer) { clearTimeout(silentTimer); silentTimer = null; }
+    if (!silentMode) return;
+    silentMode = false;
+    clearSession();
+    accessToken = null;
+    document.getElementById('loginCard').classList.remove('hidden');
+    document.getElementById('appArea').classList.add('hidden');
   }
 
   function doLogin() {
@@ -295,6 +314,7 @@
   }
 
   function onTokenResponse(resp) {
+    if (silentTimer) { clearTimeout(silentTimer); silentTimer = null; }
     if (resp.error) {
       if (silentMode) {
         // 조용한 갱신 실패 → 로그인 화면으로 되돌린다
