@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Pretendard-Regular&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   :root{
     --ink: #1B1B1F;
@@ -43,7 +44,7 @@
   .mono{ font-family: 'IBM Plex Mono', monospace; }
 
   /* ---------- Lock Screen ---------- */
-  #lockScreen{
+  #lockScreen, #loginScreen{
     min-height: 100vh;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     padding: calc(24px + env(safe-area-inset-top)) 24px calc(24px + env(safe-area-inset-bottom)); text-align:center;
@@ -182,7 +183,30 @@
 </head>
 <body>
 
-<div id="lockScreen">
+<div id="loginScreen">
+  <div class="lock-icon">
+    <svg viewBox="0 0 56 56" fill="none">
+      <rect x="10" y="24" width="36" height="26" rx="3" fill="#2F6F62"/>
+      <path d="M18 24V18C18 11.373 22.925 6 28 6C33.075 6 38 11.373 38 18V24"
+        stroke="#C9A24B" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <circle cx="28" cy="35" r="3.2" fill="#F2ECDD"/>
+      <rect x="26.5" y="35" width="3" height="8" fill="#F2ECDD"/>
+    </svg>
+  </div>
+  <div class="app-title serif">잉크메모</div>
+  <div class="app-subtitle" id="loginSubtitle">Google 계정으로 로그인해서 시작하세요.</div>
+  <div class="lock-form">
+    <button class="btn" id="loginBtn">Google 계정으로 로그인</button>
+    <div class="lock-error" id="loginError"></div>
+  </div>
+  <div class="security-note">
+    로그인하시면 교수님 소유의 Google Drive 안에 "잉크메모 데이터"라는 스프레드시트가 자동으로 생성되고,
+    이후 메모는 그 시트에만 저장됩니다. 개발자를 포함해 다른 누구도 이 시트에 접근할 수 없습니다.
+    로그인 화면 다음에 나오는 암호는 이 시트 안의 내용을 한 번 더 잠그는 별도의 보호 장치입니다.
+  </div>
+</div>
+
+<div id="lockScreen" style="display:none;">
   <div class="lock-icon" id="lockIcon">
     <svg viewBox="0 0 56 56" fill="none">
       <rect x="10" y="24" width="36" height="26" rx="3" fill="#2F6F62"/>
@@ -297,49 +321,124 @@
     return new TextDecoder().decode(plainBuf);
   }
 
-  // ---------- Storage helpers ----------
-  // Google Apps Script(Google Sheets 백엔드)를 통한 저장소
-  // 아래 두 값을 배포 후 반드시 채워주세요.
-  const API_URL = "https://script.google.com/macros/s/AKfycbx97cdKaL_al6KhjZD9jdayt_Ng2n92t3BPZ6-dmWtEBh7V2LPNLaKFBrUUW7S28UZV/exec"; // 예: https://script.google.com/macros/s/AKfycb.../exec
-  const API_TOKEN = "ehdgoanfrhkqorentksdlakfmrhekfgehfhr";
+  // ---------- Google 로그인 & Sheets API 저장소 ----------
+  // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
+  const CLIENT_ID = "여기에_OAuth_클라이언트_ID를_입력하세요.apps.googleusercontent.com";
+  const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
+  const POINTER_FILENAME = "inkmemo-pointer.json";
+  const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
 
+  let accessToken = null;
+  let spreadsheetId = null;
   let lastStorageError = null;
+  let tokenClient = null;
+
+  function gapiFetch(url, opts = {}){
+    opts.headers = Object.assign(
+      { "Authorization": "Bearer " + accessToken, "Content-Type": "application/json" },
+      opts.headers || {}
+    );
+    return fetch(url, opts);
+  }
+
+  function initTokenClient(){
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: async (resp) => {
+        if(resp.error){
+          el("loginError").textContent = "로그인에 실패했습니다. (" + resp.error + ")";
+          return;
+        }
+        accessToken = resp.access_token;
+        el("loginSubtitle").textContent = "메모 저장소를 찾는 중...";
+        const ok = await ensureSpreadsheet();
+        if(!ok){
+          el("loginError").textContent = storageErrorMessage();
+          return;
+        }
+        el("loginScreen").style.display = "none";
+        el("lockScreen").style.display = "flex";
+        boot();
+      }
+    });
+  }
+
+  // 사용자의 appDataFolder(숨겨진 앱 전용 공간)에서 이 사용자의 스프레드시트를 가리키는
+  // 포인터 파일을 찾고, 없으면 새 스프레드시트를 만들어 포인터를 남긴다.
+  async function ensureSpreadsheet(){
+    try{
+      const listUrl = "https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q="
+        + encodeURIComponent(`name='${POINTER_FILENAME}'`) + "&fields=files(id,name)";
+      const listRes = await gapiFetch(listUrl);
+      const listData = await listRes.json();
+      if(!listRes.ok) throw new Error(listData.error?.message || "drive list failed");
+
+      if(listData.files && listData.files.length > 0){
+        const fileId = listData.files[0].id;
+        const contentRes = await gapiFetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`);
+        const pointer = await contentRes.json();
+        spreadsheetId = pointer.spreadsheetId;
+        return true;
+      }
+
+      // 없으면 새로 생성
+      const createRes = await gapiFetch("https://sheets.googleapis.com/v4/spreadsheets", {
+        method: "POST",
+        body: JSON.stringify({ properties: { title: "잉크메모 데이터" } })
+      });
+      const createData = await createRes.json();
+      if(!createRes.ok) throw new Error(createData.error?.message || "spreadsheet create failed");
+      spreadsheetId = createData.spreadsheetId;
+
+      await gapiFetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Sheet1!A1:B2?valueInputOption=RAW`, {
+        method: "PUT",
+        body: JSON.stringify({ values: [["security-salt",""],["memos-blob",""]] })
+      });
+
+      const pointerCreateRes = await gapiFetch("https://www.googleapis.com/drive/v3/files", {
+        method: "POST",
+        body: JSON.stringify({ name: POINTER_FILENAME, parents: ["appDataFolder"] })
+      });
+      const pointerCreated = await pointerCreateRes.json();
+      if(!pointerCreateRes.ok) throw new Error(pointerCreated.error?.message || "pointer create failed");
+      await gapiFetch(`https://www.googleapis.com/upload/drive/v3/files/${pointerCreated.id}?uploadType=media`, {
+        method: "PATCH",
+        body: JSON.stringify({ spreadsheetId })
+      });
+      return true;
+    }catch(e){ lastStorageError = e; return false; }
+  }
 
   async function storeGet(key){
     try{
-      const url = API_URL + "?action=get&key=" + encodeURIComponent(key) + "&token=" + encodeURIComponent(API_TOKEN);
-      const res = await fetch(url);
+      const row = KEY_ROW[key];
+      const res = await gapiFetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Sheet1!B${row}`);
       const data = await res.json();
-      if(!data.success){ lastStorageError = new Error(data.error || "unauthorized"); return null; }
-      return data.value || null;
+      if(!res.ok){ lastStorageError = new Error(data.error?.message || "read failed"); return null; }
+      const v = (data.values && data.values[0] && data.values[0][0]) || "";
+      return v === "" ? null : v;
     }catch(e){ lastStorageError = e; return null; }
   }
   async function storeSet(key, value){
     try{
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" }, // CORS 사전 요청(preflight) 회피용
-        body: JSON.stringify({ action: "set", key, value, token: API_TOKEN })
-      });
+      const row = KEY_ROW[key];
+      const res = await gapiFetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/Sheet1!A${row}:B${row}?valueInputOption=RAW`,
+        { method: "PUT", body: JSON.stringify({ values: [[key, value]] }) }
+      );
       const data = await res.json();
-      if(!data.success){ lastStorageError = new Error(data.error || "write failed"); return false; }
+      if(!res.ok){ lastStorageError = new Error(data.error?.message || "write failed"); return false; }
       return true;
     }catch(e){ lastStorageError = e; return false; }
   }
   async function storeDelete(key){
-    try{
-      await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ action: "delete", key, token: API_TOKEN })
-      });
-    }catch(e){ lastStorageError = e; }
+    return storeSet(key, "");
   }
   function storageErrorMessage(){
     const e = lastStorageError;
     if(!e) return "저장소에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.";
-    if(e.message === "unauthorized") return "저장소 인증에 실패했습니다. index.html의 API_TOKEN이 Apps Script의 SECRET_TOKEN과 정확히 일치하는지 확인해주세요.";
-    return "저장소 연결에 실패했습니다. 인터넷 연결 상태와 index.html의 API_URL 값을 확인해주세요. (" + (e.message || e.name || "") + ")";
+    return "저장소 연결에 실패했습니다. 인터넷 연결 상태를 확인해주세요. (" + (e.message || e.name || "") + ")";
   }
 
   // ---------- State ----------
@@ -666,7 +765,15 @@
     showToast("내보내기 완료 (평문 파일이니 보관에 주의하세요)");
   });
 
-  boot();
+  el("loginBtn").addEventListener("click", () => {
+    if(!window.google || !google.accounts){
+      el("loginError").textContent = "Google 로그인 스크립트를 아직 불러오는 중입니다. 잠시 후 다시 눌러주세요.";
+      return;
+    }
+    if(!tokenClient) initTokenClient();
+    el("loginError").textContent = "";
+    tokenClient.requestAccessToken();
+  });
 })();
 </script>
 </body>
