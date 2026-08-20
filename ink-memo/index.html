@@ -323,7 +323,7 @@
 
   // ---------- Google 로그인 & Sheets API 저장소 ----------
   // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
-  const CLIENT_ID = "736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com";
+  const CLIENT_ID = "여기에_OAuth_클라이언트_ID를_입력하세요.apps.googleusercontent.com";
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
@@ -454,6 +454,7 @@
   let cryptoKey = null;
   let memos = []; // decrypted, in-memory only
   let activeTag = null;
+  let editingId = null;
 
   const el = id => document.getElementById(id);
   const lockScreen = el("lockScreen"), app = el("app");
@@ -552,9 +553,28 @@
   }
 
   el("lockBtn").addEventListener("click", () => {
+    // 암호화 키와 복호화된 메모만 메모리에서 제거 — 구글 로그인 세션은 유지
     cryptoKey = null;
     memos = [];
-    location.reload();
+    editingId = null;
+    activeTag = null;
+
+    // 화면 초기화
+    el("memoList").innerHTML = "";
+    el("tagBar").innerHTML = "";
+    el("searchInput").value = "";
+    el("composerInput").value = "";
+    app.style.display = "none";
+
+    // 잠금 화면으로 복귀
+    el("unlockPass").value = "";
+    el("unlockError").textContent = "";
+    setupForm.style.display = "none";
+    unlockForm.style.display = "flex";
+    lockIcon.classList.remove("open");
+    lockSubtitle.textContent = "암호를 입력해 잠금을 해제하세요.";
+    lockScreen.style.display = "flex";
+    setTimeout(() => el("unlockPass").focus(), 100);
   });
 
   // ---------- Composer ----------
@@ -601,8 +621,6 @@
     await persistMemos();
     render();
   }
-
-  let editingId = null;
 
   function startEdit(id){
     editingId = id;
