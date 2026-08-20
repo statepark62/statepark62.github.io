@@ -106,7 +106,7 @@
     margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #33333B;
   }
   header.top h1{ font-size: 19px; color: var(--text-on-ink); }
-  header.top .top-actions{ display:flex; gap:8px; }
+  header.top .top-actions{ display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
   .icon-btn{
     background: none; border: 1px solid #3A3A42; color: var(--text-on-ink-dim);
     border-radius: var(--radius); padding: 7px 10px; font-size: 12px; cursor:pointer; font-family: inherit;
@@ -203,7 +203,6 @@
     로그인하시면 본인 소유의 Google Drive 안에 "잉크메모 데이터"라는 스프레드시트가 자동으로 생성되고,
     이후 메모는 그 시트에만 저장됩니다. 개발자를 포함해 다른 누구도 이 시트에 접근할 수 없습니다.
     로그인 화면 다음에 나오는 암호는 이 시트 안의 내용을 한 번 더 잠그는 별도의 보호 장치입니다.
-
   </div>
 </div>
 
@@ -246,6 +245,8 @@
     <h1 class="serif">잉크메모</h1>
     <div class="top-actions">
       <button class="icon-btn" id="exportBtn">내보내기</button>
+      <button class="icon-btn" id="importBtn">불러오기</button>
+      <input type="file" id="importFile" accept="application/json,.json" style="display:none;">
       <button class="icon-btn" id="lockBtn">잠그기</button>
     </div>
   </header>
@@ -324,7 +325,7 @@
 
   // ---------- Google 로그인 & Sheets API 저장소 ----------
   // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
-  const CLIENT_ID = "736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com";
+  const CLIENT_ID = "여기에_OAuth_클라이언트_ID를_입력하세요.apps.googleusercontent.com";
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
@@ -791,6 +792,68 @@
     a.click();
     URL.revokeObjectURL(url);
     showToast("내보내기 완료 (평문 파일이니 보관에 주의하세요)");
+  });
+
+  // ---------- Import ----------
+  el("importBtn").addEventListener("click", () => el("importFile").click());
+
+  el("importFile").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    e.target.value = ""; // 같은 파일을 다시 선택해도 동작하도록 초기화
+
+    let parsed;
+    try{
+      const text = await file.text();
+      parsed = JSON.parse(text);
+    }catch(err){
+      showToast("파일을 읽을 수 없습니다. JSON 백업 파일이 맞는지 확인해주세요.");
+      return;
+    }
+
+    if(!Array.isArray(parsed)){
+      showToast("잉크메모 백업 파일 형식이 아닙니다.");
+      return;
+    }
+
+    // 유효한 메모만 걸러내고, 빠진 항목은 기본값으로 보정
+    const valid = parsed
+      .filter(m => m && typeof m.text === "string" && m.text.trim())
+      .map(m => ({
+        id: (typeof m.id === "string" && m.id) ? m.id : makeId(),
+        text: m.text,
+        tags: Array.isArray(m.tags) ? m.tags : extractTags(m.text),
+        pinned: !!m.pinned,
+        createdAt: (typeof m.createdAt === "string" && m.createdAt) ? m.createdAt : new Date().toISOString(),
+        editedAt: m.editedAt
+      }));
+
+    if(valid.length === 0){
+      showToast("불러올 메모가 없습니다.");
+      return;
+    }
+
+    const existingIds = new Set(memos.map(m => m.id));
+    const toAdd = valid.filter(m => !existingIds.has(m.id));
+    const skipped = valid.length - toAdd.length;
+
+    if(toAdd.length === 0){
+      showToast(`이미 모두 있는 메모입니다 (${skipped}개 건너뜀)`);
+      return;
+    }
+
+    const msg = `메모 ${toAdd.length}개를 불러옵니다.`
+      + (skipped > 0 ? ` (중복 ${skipped}개는 제외)` : "")
+      + `\n기존 메모는 그대로 유지됩니다. 진행할까요?`;
+    if(!confirm(msg)) return;
+
+    memos = memos.concat(toAdd);
+    memos.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+
+    const ok = await persistMemos();
+    if(!ok){ showToast("저장에 실패했습니다. 다시 시도해주세요."); return; }
+    render();
+    showToast(`${toAdd.length}개를 불러왔습니다`);
   });
 
   el("loginBtn").addEventListener("click", () => {
