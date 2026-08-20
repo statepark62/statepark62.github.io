@@ -5251,5 +5251,135 @@
   "example": "私は法学部で刑法を学んだ。",
   "exampleReading": "わたしはほうがくぶでけいほうをまなんだ。",
   "exampleMeaning": "나는 법학부에서 형법을 배웠다."
+ },
+ {
+  "id": "news169",
+  "word": "困惑",
+  "reading": "こんわく",
+  "meaning": "곤혹, 당혹함",
+  "level": "N2",
+  "example": "彼女の突然の質問に、彼は困惑を隠せなかった。",
+  "exampleReading": "かのじょのとつぜんのしつもんに、かれはこんわくをかくせなかった。",
+  "exampleMeaning": "그녀의 갑작스러운 질문에 그는 당혹감을 감추지 못했다."
+ },
+ {
+  "id": "news170",
+  "word": "仄めかす",
+  "reading": "ほのめかす",
+  "meaning": "암시하다, 넌지시 비치다",
+  "level": "N1",
+  "example": "彼は会社を辞めることを仄めかしていた。",
+  "exampleReading": "かれはかいしゃをやめることをほのめかしていた。",
+  "exampleMeaning": "그는 회사를 그만두는 것을 암시하고 있었다."
+ },
+ {
+  "id": "news171",
+  "word": "不祥事",
+  "reading": "ふしょうじ",
+  "meaning": "불상사, 스캔들",
+  "level": "N1",
+  "example": "企業の不祥事が発覚し、株価が急落した。",
+  "exampleReading": "きぎょうのふしょうじがはっかくし、かぶかがきゅうらくした。",
+  "exampleMeaning": "기업의 불상사가 발각되어 주가가 급락했다."
+ },
+ {
+  "id": "news172",
+  "word": "厳戒態勢",
+  "reading": "げんかいたいせい",
+  "meaning": "삼엄한 경계 태세",
+  "level": "N1",
+  "example": "要人の来日に備えて、空港は厳戒態勢が敷かれた。",
+  "exampleReading": "ようじんのらいにちにそなえて、くうこうはげんかいたいせいがしかれた。",
+  "exampleMeaning": "요인의 방일에 대비해 공항은 삼엄한 경계 태세가 갖춰졌다."
+ },
+ {
+  "id": "news173",
+  "word": "快挙",
+  "reading": "かいきょ",
+  "meaning": "쾌거, 훌륭한 업적",
+  "level": "N1",
+  "example": "若手選手が世界大会で優勝するという快挙を成し遂げた。",
+  "exampleReading": "わかてせんしゅがせかいたいかいでゆうしょうするというかいきょをなしとげた。",
+  "exampleMeaning": "젊은 선수가 세계대회에서 우승하는 쾌거를 이루었다."
+ },
+ {
+  "id": "news174",
+  "word": "確執",
+  "reading": "かくしつ",
+  "meaning": "알력, 갈등, 불화",
+  "level": "N1",
+  "example": "兄弟間の確執が長年続いている。",
+  "exampleReading": "きょうだいかんのかくしつがながねんつづいている。",
+  "exampleMeaning": "형제간의 갈등이 오랫동안 계속되고 있다."
+ },
+ {
+  "id": "news175",
+  "word": "混入",
+  "reading": "こんにゅう",
+  "meaning": "혼입, 섞여 들어감",
+  "level": "N2",
+  "example": "製品に異物が混入していたことが判明した。",
+  "exampleReading": "せいひんにいぶつがこんにゅうしていたことがはんめいした。",
+  "exampleMeaning": "제품에 이물질이 혼입되어 있었던 것이 판명되었다."
+ },
+ {
+  "id": "news176",
+  "word": "逃走",
+  "reading": "とうそう",
+  "meaning": "도주, 도망",
+  "level": "N2",
+  "example": "犯人は警察の追跡を振り切って逃走した。",
+  "exampleReading": "はんにんはけいさつのついせきをふりきってとうそうした。",
+  "exampleMeaning": "범인은 경찰의 추적을 뿌리치고 도주했다."
+ },
+ {
+  "id": "tj186",
+  "word": "刺される",
+  "reading": "さされる",
+  "meaning": "물리다, 쏘이다",
+  "level": "N3",
+  "example": "昨夜、蚊に刺されて眠れなかった。",
+  "exampleReading": "さくや、かにさされてねむれなかった。",
+  "exampleMeaning": "어젯밤 모기에 물려 잠을 이루지 못했다."
+ },
+ {
+  "id": "tj187",
+  "word": "かゆみ",
+  "reading": "かゆみ",
+  "meaning": "가려움",
+  "level": "N3",
+  "example": "薬を塗ると、かゆみが徐々に引いた。",
+  "exampleReading": "くすりをぬると、かゆみがじょじょにひいた。",
+  "exampleMeaning": "약을 바르자 가려움이 서서히 가라앉았다."
+ },
+ {
+  "id": "tj188",
+  "word": "ふくらはぎ",
+  "reading": "ふくらはぎ",
+  "meaning": "종아리",
+  "level": "N2",
+  "example": "ふくらはぎを刺されて、歩くたびに気になる。",
+  "exampleReading": "ふくらはぎをさされて、あるくたびにきになる。",
+  "exampleMeaning": "종아리를 물려서 걸을 때마다 거슬린다."
+ },
+ {
+  "id": "tj189",
+  "word": "効き目",
+  "reading": "ききめ",
+  "meaning": "효능, 효과",
+  "level": "N2",
+  "example": "この薬は冷たい感触だが、効き目は長い。",
+  "exampleReading": "このくすりはつめたいかんしょくだが、ききめはながい。",
+  "exampleMeaning": "이 약은 차가운 느낌이지만 효과는 오래 간다."
+ },
+ {
+  "id": "tj190",
+  "word": "十字",
+  "reading": "じゅうじ",
+  "meaning": "십자, 십자표",
+  "level": "N2",
+  "example": "子どもはかゆい所に十字の跡をつけた。",
+  "exampleReading": "こどもはかゆいところにじゅうじのあとをつけた。",
+  "exampleMeaning": "아이는 가려운 곳에 십자 모양의 자국을 냈다."
  }
 ]
