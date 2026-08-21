@@ -21,6 +21,10 @@
     --mono:'JetBrains Mono',monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
   html{scroll-behavior:smooth}
   @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
   body{
@@ -70,16 +74,16 @@
   .meta .no{color:var(--shu);font-weight:600}
   h1{
     font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
-    line-height:1.35;margin:26px 0 6px;letter-spacing:1px;
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
   }
   .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
 
   /* 핵심 구절 인용 */
   .keyquote{
-    margin-bottom:40px;padding:14px 20px;
+    margin-bottom:40px;padding:22px 20px 14px;
     border-left:3px solid var(--shu);background:var(--card);
   }
-  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px}
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
   .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
   .keyquote .src{font-size:12px;color:var(--ink-soft)}
 
@@ -126,6 +130,7 @@
   }
   .grammar .pattern{
     font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
   }
   .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
   .grammar .explain{font-size:15.5px;margin-bottom:12px}

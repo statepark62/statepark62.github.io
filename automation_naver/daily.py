@@ -81,6 +81,24 @@ def esc(s):
     return html.escape(str(s), quote=True)
 
 
+def esc_ruby(s):
+    """일반 HTML은 이스케이프하되, AI가 삽입한 <ruby><rt> 후리가나 태그만
+    복원한다. AI 응답에 다른 태그나 스크립트가 섞여도 안전하게 무력화된다.
+    태그 짝이 맞지 않으면(AI 실수 등) 페이지 전체가 깨지지 않도록
+    ruby 태그를 걷어내고 일반 텍스트로 안전하게 되돌린다."""
+    out = html.escape(str(s), quote=True)
+    for tag in ("ruby", "/ruby", "rt", "/rt"):
+        out = out.replace(f"&lt;{tag}&gt;", f"<{tag}>")
+    if (out.count("<ruby>") != out.count("</ruby>")
+            or out.count("<rt>") != out.count("</rt>")
+            or out.count("<ruby>") != out.count("<rt>")):
+        # 짝이 안 맞으면 ruby/rt 태그를 전부 걷어내 순수 텍스트로 되돌린다
+        # (내용은 남기고 태그만 제거 — 페이지가 깨지지 않도록 안전 우선).
+        for tag in ("<ruby>", "</ruby>", "<rt>", "</rt>"):
+            out = out.replace(tag, "")
+    return out
+
+
 # ══════════════════════════════════════════════════════════
 # 1단계: 크롤링
 # ══════════════════════════════════════════════════════════
@@ -249,17 +267,17 @@ def render_page(data, today, source_url, has_card=False):
         "{{DATE_ISO}}": today.isoformat(),
         "{{DATE_KO}}": date_ko,
         "{{ISSUE_NO}}": str(issue_no),
-        "{{TOPIC_JA}}": esc(data["topic_ja"]),
+        "{{TOPIC_JA}}": esc_ruby(data["topic_ja"]),
         "{{TOPIC_KO}}": esc(data["topic_ko"]),
 
-        "{{GRAMMAR_PATTERN}}": esc(data["grammar"]["pattern"]),
+        "{{GRAMMAR_PATTERN}}": esc_ruby(data["grammar"]["pattern"]),
         "{{GRAMMAR_PATTERN_KO}}": esc(data["grammar"]["pattern_ko"]),
         "{{GRAMMAR_EXPLAIN}}": esc(data["grammar"]["explanation_ko"]),
-        "{{GRAMMAR_EX_JA}}": esc(data["grammar"]["example_ja"]),
+        "{{GRAMMAR_EX_JA}}": esc_ruby(data["grammar"]["example_ja"]),
         "{{GRAMMAR_EX_KO}}": esc(data["grammar"]["example_ko"]),
-        "{{TODAY_JA}}": esc(data["today_line"]["ja"]),
+        "{{TODAY_JA}}": esc_ruby(data["today_line"]["ja"]),
         "{{TODAY_KO}}": esc(data["today_line"]["ko"]),
-        "{{KEY_QUOTE_JA}}": esc(data["key_quote"]["ja"]),
+        "{{KEY_QUOTE_JA}}": esc_ruby(data["key_quote"]["ja"]),
         "{{KEY_QUOTE_KO}}": esc(data["key_quote"]["ko"]),
         "{{COMMENT_1}}": esc(data["commentary_ko"][0]),
         "{{COMMENT_2}}": esc(data["commentary_ko"][1]),
@@ -272,7 +290,7 @@ def render_page(data, today, source_url, has_card=False):
     s_ja = data.get("summary_ja", [""] * 3)
     s_ko = data["summary_ko"]
     tpl = tpl.replace("<!--SUMMARY_ITEMS-->", "\n".join(
-        f'      <div class="s-item"><p class="ja">{esc(j)}</p><p class="ko">{esc(k)}</p></div>'
+        f'      <div class="s-item"><p class="ja">{esc_ruby(j)}</p><p class="ko">{esc(k)}</p></div>'
         for j, k in zip(s_ja, s_ko)))
 
     tpl = tpl.replace("<!--BG_PARAS-->", "\n".join(
@@ -287,7 +305,7 @@ def render_page(data, today, source_url, has_card=False):
         VOCAB_ITEM.format(
             word=esc(v["word"]), reading=esc(v["reading"]),
             meaning=esc(v["meaning_ko"]), level=esc(v.get("level", "-")),
-            ex_ja=esc(v["example_ja"]), ex_ko=esc(v["example_ko"]),
+            ex_ja=esc_ruby(v["example_ja"]), ex_ko=esc(v["example_ko"]),
         )
         for v in data["vocab"][:5]
     )

@@ -17,6 +17,20 @@ def esc(s):
     return html.escape(str(s), quote=True)
 
 
+def esc_ruby(s):
+    """daily.py의 esc_ruby와 동일한 규칙: <ruby><rt> 후리가나 태그만 복원하고
+    나머지는 이스케이프. 태그 짝이 안 맞으면 안전하게 일반 텍스트로 되돌린다."""
+    out = html.escape(str(s), quote=True)
+    for tag in ("ruby", "/ruby", "rt", "/rt"):
+        out = out.replace(f"&lt;{tag}&gt;", f"<{tag}>")
+    if (out.count("<ruby>") != out.count("</ruby>")
+            or out.count("<rt>") != out.count("</rt>")
+            or out.count("<ruby>") != out.count("<rt>")):
+        for tag in ("<ruby>", "</ruby>", "<rt>", "</rt>"):
+            out = out.replace(tag, "")
+    return out
+
+
 def qr_svg(url, module=6):
     sys.path.insert(0, str(HERE))
     from card import qr_matrix
@@ -40,16 +54,16 @@ def build_html(data, today, issue_no):
     tokens = {
         "{{ISSUE_NO}}": str(issue_no),
         "{{DATE_KO}}": date_ko,
-        "{{TOPIC_JA}}": esc(data["topic_ja"]),
+        "{{TOPIC_JA}}": esc_ruby(data["topic_ja"]),
         "{{TOPIC_KO}}": esc(data["topic_ko"]),
-        "{{KEY_QUOTE_JA}}": esc(data["key_quote"]["ja"]),
+        "{{KEY_QUOTE_JA}}": esc_ruby(data["key_quote"]["ja"]),
         "{{KEY_QUOTE_KO}}": esc(data["key_quote"]["ko"]),
-        "{{GRAMMAR_PATTERN}}": esc(data["grammar"]["pattern"]),
+        "{{GRAMMAR_PATTERN}}": esc_ruby(data["grammar"]["pattern"]),
         "{{GRAMMAR_PATTERN_KO}}": esc(data["grammar"]["pattern_ko"]),
         "{{GRAMMAR_EXPLAIN}}": esc(data["grammar"]["explanation_ko"]),
-        "{{GRAMMAR_EX_JA}}": esc(data["grammar"]["example_ja"]),
+        "{{GRAMMAR_EX_JA}}": esc_ruby(data["grammar"]["example_ja"]),
         "{{GRAMMAR_EX_KO}}": esc(data["grammar"]["example_ko"]),
-        "{{TODAY_JA}}": esc(data["today_line"]["ja"]),
+        "{{TODAY_JA}}": esc_ruby(data["today_line"]["ja"]),
         "{{TODAY_KO}}": esc(data["today_line"]["ko"]),
     }
     for k, v in tokens.items():

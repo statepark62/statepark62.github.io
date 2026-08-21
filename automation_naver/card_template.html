@@ -12,6 +12,8 @@
     --serif:'Noto Serif CJK JP','Noto Serif CJK KR',serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  ruby{ruby-position:over}
+  rt{font-family:var(--sans);font-size:0.45em;font-weight:500;color:var(--soft);user-select:none}
   body{width:1080px;background:var(--paper);font-family:var(--sans);color:var(--ink);line-height:1.6}
   .wrap{padding:44px 48px 36px}
 
@@ -21,10 +23,10 @@
   .h-title small{font-size:32px;font-weight:700}
   .h-meta{text-align:right;color:var(--soft);font-size:22px;padding-top:10px}
   .h-meta .no{color:var(--red);font-weight:700}
-  .topic{margin-top:14px}
-  .topic .ja{font-family:var(--serif);font-size:44px;font-weight:800;line-height:1.35}
+  .topic{margin-top:22px}
+  .topic .ja{font-family:var(--serif);font-size:44px;font-weight:800;line-height:1.7}
   .topic .ko{font-size:24px;color:var(--soft);margin-top:4px}
-  .kq{margin-top:12px;font-size:22px;color:var(--red);font-weight:700}
+  .kq{margin-top:16px;font-size:22px;color:var(--red);font-weight:700;line-height:1.9}
   .kq .t{font-family:var(--serif)}
   .kq .k{color:var(--soft);font-weight:400;font-size:19px}
 
@@ -51,9 +53,10 @@
              border-radius:5px;padding:0 7px;margin-left:8px;vertical-align:3px}
   .vocab .m{font-size:20px;color:var(--soft)}
 
-  .gram .p{font-family:var(--serif);font-size:29px;font-weight:800;color:var(--red)}
+  .gram .p{font-family:var(--serif);font-size:29px;font-weight:800;color:var(--red);
+           line-height:1.8;padding-top:6px}
   .gram .pk{font-size:20px;color:var(--soft);margin-bottom:8px}
-  .gram .e{font-size:20px;margin-top:8px}
+  .gram .e{font-size:20px;margin-top:8px;line-height:1.8}
   .gram .e .ja{font-family:var(--serif);font-weight:700}
 
   .list li{list-style:none;position:relative;padding-left:22px;font-size:20px;margin-bottom:9px}
@@ -63,7 +66,7 @@
 
   .quote{background:linear-gradient(135deg,#F6F2E9,#FBF8F1);border:1.5px solid #E3DAC5;
          border-radius:14px;padding:26px 30px;text-align:center}
-  .quote .ja{font-family:var(--serif);font-size:30px;font-weight:800;line-height:1.6}
+  .quote .ja{font-family:var(--serif);font-size:30px;font-weight:800;line-height:1.9;padding-top:4px}
   .quote .ko{font-size:20px;color:var(--soft);margin-top:10px}
   .quote .lbl{color:var(--red);font-size:20px;font-weight:800;margin-bottom:10px}
 

@@ -22,6 +22,21 @@
 4. 일본어 표기: 신문 표기 그대로(한자 포함), reading은 히라가나로.
 5. 개수 준수: summary_ja 3문장, summary_ko 3문장(서로 1:1 대응), vocab 5개, commentary_ko 2문단,
    background_ko 3항목, writing_points_ko 3항목.
+6. 후리가나 규칙 (매우 중요): 아래 나열된 필드의 일본어 문자열에는 한자가 포함된
+   단어·구마다 반드시 <ruby>한자<rt>よみ</rt></ruby> 형식의 HTML 태그를 그 자리에
+   직접 삽입하세요. 즉 문자열 자체가 이미 후리가나 마크업을 포함해야 합니다.
+   - 대상 필드: topic_ja, key_quote.ja, summary_ja[], grammar.pattern,
+     grammar.example_ja, today_line.ja, vocab[].example_ja
+   - 예: "彼は<ruby>約束<rt>やくそく</rt></ruby>を<ruby>忘<rt>わす</rt></ruby>れた。"
+   - 한자가 이어지는 한 단어(숙어·복합어)는 통째로 하나의 <ruby>...<rt>...</rt></ruby>로
+     묶으세요 (한 글자씩 쪼개지 마세요). 오쿠리가나(送り仮名, 한자 뒤 히라가나)는
+     ruby 밖에 그대로 두세요. 예: 動く → <ruby>動<rt>うご</rt></ruby>く (○),
+     <ruby>動く<rt>うごく</rt></ruby> (✕).
+   - 히라가나·가타카나·구두점만 있는 부분에는 ruby 태그를 달지 마세요.
+   - 예외: vocab[].word 필드는 절대 ruby 태그를 넣지 말고 순수 한자/일본어
+     텍스트만 쓰세요 (표시 시스템이 word와 reading을 별도로 조합합니다).
+   - example_reading 필드는 지금처럼 순수 히라가나 문자열로만 작성하세요
+     (ruby 태그 없이, 단어장 저장용).
 6. 원문에 없는 사실을 지어내지 마세요. 확인 불가한 내용은
    "~로 보인다" 같은 신중한 표현을 쓰세요.
 7. [원문]에 제목이 포함되어 있으면 topic_ja는 그 제목을 그대로 사용하고,
@@ -30,10 +45,10 @@
 ## 출력 JSON 스키마
 
 {
-  "topic_ja": "칼럼 제목 (원문 제목이 있으면 그대로, 없으면 10자 내외로 작성)",
+  "topic_ja": "칼럼 제목, 한자 부분은 <ruby>한자<rt>よみ</rt></ruby>로 표기 (원문 제목이 있으면 그대로, 없으면 10자 내외로 작성)",
   "topic_ko": "위 제목의 한국어 대응",
   "key_quote": {
-    "ja": "원문에서 뽑은 15자 이내의 핵심 구절 하나 (문장 전체 금지)",
+    "ja": "원문에서 뽑은 15자 이내의 핵심 구절 하나, 한자는 <ruby>...<rt>...</rt></ruby> 표기 (문장 전체 금지)",
     "ko": "그 구절의 한국어 번역"
   },
   "summary_ko": [
@@ -42,9 +57,9 @@
     "요약 3문장 — 한국어 (필자의 시각이나 여운)"
   ],
   "summary_ja": [
-    "summary_ko[0]과 같은 내용을 당신이 새로 쓴 일본어 문장 (원문 문장 재사용 절대 금지)",
-    "summary_ko[1]에 대응하는 새 일본어 문장",
-    "summary_ko[2]에 대응하는 새 일본어 문장"
+    "summary_ko[0]과 같은 내용을 당신이 새로 쓴 일본어 문장, 한자는 <ruby>한자<rt>よみ</rt></ruby>로 표기 (원문 문장 재사용 절대 금지)",
+    "summary_ko[1]에 대응하는 새 일본어 문장 (마찬가지로 ruby 표기)",
+    "summary_ko[2]에 대응하는 새 일본어 문장 (마찬가지로 ruby 표기)"
   ],
   "vocab": [
     {
@@ -52,19 +67,20 @@
       "reading": "にぎりしめる",
       "meaning_ko": "꽉 움켜쥐다",
       "level": "N2",
-      "example_ja": "子どもは母の手を握りしめた。",
+      "example_ja": "<ruby>子<rt>こ</rt></ruby>どもは<ruby>母<rt>はは</rt></ruby>の<ruby>手<rt>て</rt></ruby>を<ruby>握<rt>にぎ</rt></ruby>りしめた。",
       "example_reading": "こどもははははのてをにぎりしめた。",
       "example_ko": "아이는 엄마의 손을 꽉 움켜쥐었다."
     }
-    // 이런 형식으로 총 5개. 단어 또는 8자 이내의 짧은 구만.
-    // example_reading은 example_ja 전체를 히라가나로 읽은 것.
+    // 이런 형식으로 총 5개. word는 ruby 태그 없이 순수 한자/일본어만 (단어 또는 8자 이내의 짧은 구).
+    // example_ja에는 위 규칙대로 <ruby> 태그를 삽입.
+    // example_reading은 ruby 태그 없이, example_ja 전체를 히라가나로 읽은 순수 문자열 (단어장 저장용).
     // level은 JLPT 기준 추정(N1~N5). 학습 가치가 높은 순서로 선정.
   ],
   "grammar": {
-    "pattern": "[원문]에 실제로 사용된 문형·문법 표현 중 학습 가치가 높은 것 하나 (아래 '최근 다룬 문형'과 겹치지 않게. 스키마의 다른 예시 값을 베끼지 말 것)",
+    "pattern": "[원문]에 실제로 사용된 문형·문법 표현 중 학습 가치가 높은 것 하나, 한자 부분은 <ruby>...<rt>...</rt></ruby> 표기 (아래 '최근 다룬 문형'과 겹치지 않게. 스키마의 다른 예시 값을 베끼지 말 것)",
     "pattern_ko": "그 문형의 한국어 대응 표현",
     "explanation_ko": "문형의 의미와 뉘앙스, 어떤 상황에서 쓰는지 2~3문장 설명",
-    "example_ja": "당신이 새로 작성한 예문",
+    "example_ja": "당신이 새로 작성한 예문, 한자는 <ruby>한자<rt>よみ</rt></ruby>로 표기",
     "example_ko": "위 예문의 한국어 번역"
   },
   "commentary_ko": [
@@ -84,7 +100,7 @@
   ],
   "publish_memo_ko": "이 칼럼을 책의 장(章)으로 분류한다면 어울릴 주제어 2~3개와 그 이유를 담은 짧은 메모 (예: '아이의 마음', '첫 도전의 감정' — 반세기를 건너는 보편적 감정을 다루므로)",
   "today_line": {
-    "ja": "오늘의 주제와 관련해 당신이 새로 작성한, 학습자가 외울 만한 일본어 한 문장 (원문 인용 금지)",
+    "ja": "오늘의 주제와 관련해 당신이 새로 작성한, 학습자가 외울 만한 일본어 한 문장, 한자는 <ruby>한자<rt>よみ</rt></ruby>로 표기 (원문 인용 금지)",
     "ko": "위 문장의 한국어 번역"
   }
 }
@@ -102,3 +118,8 @@
 출력 직전에 스스로 점검하세요: summary_ko, commentary_ko, background_ko,
 writing_points_ko, one_line_ko가 한국어 문장인가? 일본어로 작성했다면
 반드시 한국어로 다시 작성한 뒤 출력하세요.
+추가 점검: topic_ja, key_quote.ja, summary_ja[], grammar.pattern,
+grammar.example_ja, today_line.ja, vocab[].example_ja의 모든 한자에
+<ruby><rt> 태그가 빠짐없이 붙어 있는가? vocab[].word에는 ruby 태그가
+전혀 없는 순수 텍스트인가? 태그 짝(<ruby>...<rt>...</rt></ruby>)이
+정확히 열리고 닫혔는가?
