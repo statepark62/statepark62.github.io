@@ -1,0 +1,43 @@
+# 이 파일은 예시입니다.
+# 기존 天声人語 워크플로(.github/workflows/*.yml) 안의
+# "기존 결과 생성" 스텝 뒤에, 아래 "Threads에 게시" 스텝만 추가하시면 됩니다.
+#
+# 전제 조건:
+#   1) 저장소 Settings > Secrets and variables > Actions 에
+#      THREADS_ACCESS_TOKEN, THREADS_USER_ID 두 개를 등록해두어야 합니다.
+#   2) threads_publish.py, tenseijingo_to_threads.py 두 파일을
+#      저장소 안(예: scripts/threads/ 폴더)에 함께 커밋해두어야 합니다.
+#   3) requests 패키지가 필요합니다 (requirements.txt에 추가).
+
+name: 天声人語 자동 게시 (Threads 포함 예시)
+
+on:
+  schedule:
+    - cron: "0 22 * * *"  # 매일 UTC 22시(한국시간 오전 7시) 실행 - 기존 스케줄에 맞춰 조정
+  workflow_dispatch: {}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 패키지 설치
+        run: pip install requests
+
+      # --- 기존 天声人語 스크래핑/생성/Naver카페 게시 스텝은 여기에 그대로 유지 ---
+      # - name: 天声人語 스크래핑 및 콘텐츠 생성
+      #   run: python scripts/tenseijingo_naver.py
+      #   (이 스텝이 결과를 today_result.json 같은 파일로 저장한다고 가정)
+
+      - name: Threads에 요약 게시
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+        working-directory: scripts/threads
+        run: python tenseijingo_to_threads.py --json ../../today_result.json
