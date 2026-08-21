@@ -5381,5 +5381,125 @@
   "example": "子どもはかゆい所に十字の跡をつけた。",
   "exampleReading": "こどもはかゆいところにじゅうじのあとをつけた。",
   "exampleMeaning": "아이는 가려운 곳에 십자 모양의 자국을 냈다."
+ },
+ {
+  "id": "news177",
+  "word": "不信任決議案",
+  "reading": "ふしんにんけつぎあん",
+  "meaning": "불신임 결의안",
+  "level": "N1",
+  "example": "野党は内閣に対する不信任決議案を提出した。",
+  "exampleReading": "やとうはないかくにたいするふしんにんけつぎあんをていしゅつした。",
+  "exampleMeaning": "야당은 내각에 대한 불신임 결의안을 제출했다."
+ },
+ {
+  "id": "news178",
+  "word": "難色を示す",
+  "reading": "なんしょくをしめす",
+  "meaning": "난색을 표하다, 반대의 뜻을 보이다",
+  "level": "N1",
+  "example": "会社側はその提案に難色を示した。",
+  "exampleReading": "かいしゃがわはそのていあんになんしょくをしめした。",
+  "exampleMeaning": "회사 측은 그 제안에 난색을 표했다."
+ },
+ {
+  "id": "news179",
+  "word": "遺族",
+  "reading": "いぞく",
+  "meaning": "유족",
+  "level": "N2",
+  "example": "事故の遺族が記者会見で心境を語った。",
+  "exampleReading": "じこのいぞくがきしゃかいけんでしんきょうをかたった。",
+  "exampleMeaning": "사고 유족이 기자회견에서 심경을 밝혔다."
+ },
+ {
+  "id": "news180",
+  "word": "辞退",
+  "reading": "じたい",
+  "meaning": "사퇴, 사양",
+  "level": "N2",
+  "example": "彼は出場を辞退することになった。",
+  "exampleReading": "かれはしゅつじょうをじたいすることになった。",
+  "exampleMeaning": "그는 출전을 사퇴하게 되었다."
+ },
+ {
+  "id": "news181",
+  "word": "執行",
+  "reading": "しっこう",
+  "meaning": "집행",
+  "level": "N2",
+  "example": "死刑執行の是非をめぐって議論が続いている。",
+  "exampleReading": "しけいしっこうのぜひをめぐってぎろんがつづいている。",
+  "exampleMeaning": "사형 집행의 옳고 그름을 둘러싸고 논의가 계속되고 있다."
+ },
+ {
+  "id": "news182",
+  "word": "廃止論",
+  "reading": "はいしろん",
+  "meaning": "폐지론",
+  "level": "N1",
+  "example": "死刑廃止論には賛否両論がある。",
+  "exampleReading": "しけいはいしろんにはさんぴりょうろんがある。",
+  "exampleMeaning": "사형 폐지론에는 찬반양론이 있다."
+ },
+ {
+  "id": "news183",
+  "word": "遭難",
+  "reading": "そうなん",
+  "meaning": "조난",
+  "level": "N2",
+  "example": "登山中に遭難する人が毎年後を絶たない。",
+  "exampleReading": "とざんちゅうにそうなんするひとがまいとしあとをたたない。",
+  "exampleMeaning": "등산 중에 조난당하는 사람이 매년 끊이지 않는다."
+ },
+ {
+  "id": "tj191",
+  "word": "大粒",
+  "reading": "おおつぶ",
+  "meaning": "굵은 알갱이(빗방울)",
+  "level": "N2",
+  "example": "大粒の雨が窓をたたく。",
+  "exampleReading": "おおつぶのあめがまどをたたく。",
+  "exampleMeaning": "굵은 빗방울이 창문을 두드린다."
+ },
+ {
+  "id": "tj192",
+  "word": "駆け込む",
+  "reading": "かけこむ",
+  "meaning": "달려들어가다, 급히 들어가다",
+  "level": "N2",
+  "example": "終電に間に合うよう駅へ駆け込む。",
+  "exampleReading": "しゅうでんにまにあうようえきへかけこむ。",
+  "exampleMeaning": "막차를 놓치지 않으려고 역으로 뛰어들어간다."
+ },
+ {
+  "id": "tj193",
+  "word": "氷原",
+  "reading": "ひょうげん",
+  "meaning": "빙원, 얼음 평원",
+  "level": "N1",
+  "example": "白い氷原が地平線まで続く。",
+  "exampleReading": "しろいひょうげんがちへいせんまでつづく。",
+  "exampleMeaning": "하얀 빙원이 지평선까지 이어진다."
+ },
+ {
+  "id": "tj194",
+  "word": "没後",
+  "reading": "ぼつご",
+  "meaning": "사후",
+  "level": "N2",
+  "example": "作家の没後に日記が公開された。",
+  "exampleReading": "さっかのぼつごににっきがこうかいされた。",
+  "exampleMeaning": "작가 사후에 일기가 공개되었다."
+ },
+ {
+  "id": "tj195",
+  "word": "見覚え",
+  "reading": "みおぼえ",
+  "meaning": "본 기억, 낯익음",
+  "level": "N2",
+  "example": "見覚えのある顔に思わず立ち止まる。",
+  "exampleReading": "みおぼえのあるかおにおもわずたちどまる。",
+  "exampleMeaning": "낯익은 얼굴에 무심코 걸음을 멈춘다."
  }
 ]
