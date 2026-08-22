@@ -99,6 +99,14 @@ def esc_ruby(s):
     return out
 
 
+def strip_ruby(s):
+    """HTML이 아닌 순수 텍스트 컨텍스트(네이버 카페 본문, 콘솔 로그 등)용.
+    <ruby>漢字<rt>よみ</rt></ruby> → 漢字 만 남기고 읽기·태그를 모두 제거한다."""
+    out = re.sub(r"<rt>.*?</rt>", "", str(s))
+    out = re.sub(r"</?ruby>", "", out)
+    return out
+
+
 # ══════════════════════════════════════════════════════════
 # 1단계: 크롤링
 # ══════════════════════════════════════════════════════════
@@ -327,7 +335,7 @@ def update_index(entry):
     items = "\n".join(
         INDEX_ITEM.format(
             fname=f"{r['date']}.html", no=r["no"], date=r["date"],
-            topic_ja=esc(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
+            topic_ja=esc_ruby(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
         )
         for r in records
     )
@@ -348,7 +356,7 @@ def update_index(entry):
         page_items = "".join(
             INDEX_ITEM.format(
                 fname=f"{r['date']}.html", no=r["no"], date=r["date"],
-                topic_ja=esc(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
+                topic_ja=esc_ruby(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
             )
             for r in page_records
         )
@@ -396,7 +404,7 @@ def send_words_to_gas(data):
         v.get("reading", ""),
         v.get("meaning_ko", ""),
         v.get("level", "N3"),
-        v.get("example_ja", ""),
+        strip_ruby(v.get("example_ja", "")),
         v.get("example_reading", ""),
         v.get("example_ko", ""),
     ] for v in data.get("vocab", [])[:5]]
@@ -467,7 +475,7 @@ def main():
             raise RuntimeError(
                 "AI가 한국어 필드를 반복해서 일본어로 작성했습니다. "
                 "모델 변경(PROVIDER/모델명) 또는 프롬프트 점검이 필요합니다.")
-        print(f"      완료: {data['topic_ja']} / {data['topic_ko']}")
+        print(f"      완료: {strip_ruby(data['topic_ja'])} / {data['topic_ko']}")
 
     print("[3/6] 학습 카드 이미지 생성 중...")
     issue_no_pre = (today - START_DATE).days + 1
@@ -508,7 +516,7 @@ def main():
                 page_url = f"https://statepark62.github.io/tenseijingo_naver/{today.isoformat()}.html"
                 subject = f"천성인어 {today.year}년 {today.month}월 {today.day}일자"
                 content = (
-                    f"{data['topic_ja']}\n{data['topic_ko']}\n\n"
+                    f"{strip_ruby(data['topic_ja'])}\n{data['topic_ko']}\n\n"
                     f"{data['one_line_ko']}\n\n"
                     f"오늘의 학습 페이지 (요약·단어·문형·해설):\n{page_url}\n\n"
                     f"전체 목록: https://statepark62.github.io/tenseijingo_naver/"
