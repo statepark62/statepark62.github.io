@@ -1,0 +1,45 @@
+# tenseijingo_naver 저장소의 .github/workflows/ 아래에 이 파일을 추가하세요.
+# (파일명 예: threads-token-refresh.yml)
+#
+# 매주 한 번씩 Threads 액세스 토큰을 갱신하고,
+# 새 토큰을 자동으로 THREADS_ACCESS_TOKEN Secret에 덮어씁니다.
+#
+# 사전 준비:
+#   1) GitHub Personal Access Token(PAT) 발급
+#      - GitHub 우측 상단 프로필 → Settings → Developer settings
+#        → Fine-grained tokens → Generate new token
+#      - Repository access: 이 저장소만 선택
+#      - Permissions: "Secrets" 항목을 Read and write로 설정
+#      - 만료기간은 넉넉히(예: 1년) 설정 — 이 PAT 자체가 만료되면
+#        갱신 자동화가 멈추니, 캘린더에 만료일을 따로 기록해두는 걸 권장
+#   2) 발급받은 PAT를 저장소 Secrets에 GH_PAT 라는 이름으로 등록
+#      (Settings > Secrets and variables > Actions > New repository secret)
+
+name: Threads 토큰 자동 갱신
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"  # 매주 월요일 UTC 3시(한국시간 정오) 실행
+  workflow_dispatch: {}   # 필요시 수동 실행도 가능
+
+jobs:
+  refresh-token:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 패키지 설치
+        run: pip install requests pynacl
+
+      - name: Threads 토큰 갱신 및 Secret 업데이트
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_REPOSITORY: ${{ github.repository }}
+        working-directory: tenseijingo_naver/scripts/threads
+        run: python refresh_threads_token.py
