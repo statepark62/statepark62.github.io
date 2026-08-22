@@ -150,7 +150,7 @@
 <script>
   // 여행 앱과 같은 Google Cloud 프로젝트의 Client ID
   var GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com';
-  var SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email';
+  var SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.email';
 
   var LOCAL_KEY = 'gyeongjosabi_local_entries';
   var SESSION_KEY = 'gyeongjosabi_session';   // { accessToken, expiresAt, email }
@@ -209,7 +209,7 @@
       if (!s || !s.accessToken || !s.expiresAt) return null;
       if (Date.now() >= s.expiresAt) return null;   // 만료됨
       // 예전 버전에서 저장된, 드라이브 권한이 없는 토큰은 버린다
-      if (!s.scope || s.scope.indexOf('drive.file') < 0) return null;
+      if (!s.scope || s.scope.indexOf('drive.file') < 0 || s.scope.indexOf('drive.appdata') < 0) return null;
       return s;
     } catch (e) { return null; }
   }
@@ -331,7 +331,7 @@
 
     // 필요한 권한이 모두 승인되지 않았으면(예: 나중에 추가된 권한) 동의 화면을 다시 띄운다
     var granted = resp.scope || '';
-    if (granted.indexOf('drive.file') < 0 || granted.indexOf('spreadsheets') < 0) {
+    if (granted.indexOf('drive.file') < 0 || granted.indexOf('spreadsheets') < 0 || granted.indexOf('drive.appdata') < 0) {
       if (!consentRetried) {
         consentRetried = true;
         tokenClient.requestAccessToken({ prompt: 'consent' });
@@ -381,32 +381,37 @@
   }
 
   // ===== 시트 준비 (없으면 자동 생성) =====
-  // 시트 준비: 드라이브에서 기존 "경조사비" 시트를 먼저 찾고, 없을 때만 새로 만든다.
-  // (기기마다 따로 만들어지는 것을 막기 위해 localStorage가 아니라 드라이브를 기준으로 삼는다)
-  // 사용 중 토큰이 만료된 경우 처리
-  function handleAuthExpired() {
-    clearSession();
-    accessToken = null;
-    sheetMeta = null;
-    alert('로그인 시간이 만료되었습니다. 다시 로그인해 주세요.');
-    document.getElementById('loginCard').classList.remove('hidden');
-    document.getElementById('appArea').classList.add('hidden');
-  }
+  // 시트 준비 순서:
+  //  1) 구글 계정의 앱 전용 저장소(appDataFolder)에 기록해둔 시트 ID를 찾는다 → 기기가 달라도 항상 같은 시트
+  //  2) 없으면 드라이브에서 이름으로 검색한다 (이전 버전에서 만든 시트 흡수)
+  //  3) 그래도 없으면 새로 만든다
+  var CONFIG_FILENAME = 'gyeongjosabi-config.json';
 
   function setupSheetAndShow() {
     document.getElementById('userStatusText').textContent = '내 시트를 확인하는 중...';
     document.getElementById('appArea').classList.remove('hidden');
 
-    var q = encodeURIComponent("mimeType='application/vnd.google-apps.spreadsheet' and name='경조사비' and trashed=false");
-    fetch('https://www.googleapis.com/drive/v3/files?q=' + q + '&fields=files(id,name)&orderBy=createdTime', {
-      headers: { Authorization: 'Bearer ' + accessToken }
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (res) {
-        if (res.files && res.files.length) {
-          return useExistingSheet(res.files[0].id);
+    findConfigFile()
+      .then(function (configFileId) {
+        if (!configFileId) return null;
+        return readConfigFile(configFileId).then(function (cfg) {
+          return cfg && cfg.spreadsheetId ? { id: cfg.spreadsheetId, configFileId: configFileId } : { id: null, configFileId: configFileId };
+        });
+      })
+      .then(function (found) {
+        var configFileId = found ? found.configFileId : null;
+
+        // 1) 저장된 ID가 있으면 그 시트가 아직 살아있는지 확인하고 사용
+        if (found && found.id) {
+          return useExistingSheet(found.id)
+            .then(function () { return configFileId; })
+            .catch(function () { return searchOrCreate().then(function () { return configFileId; }); });
         }
-        return createNewSheet();
+        // 2) 저장된 ID가 없으면 이름으로 찾거나 새로 만든다
+        return searchOrCreate().then(function () { return configFileId; });
+      })
+      .then(function (configFileId) {
+        return saveConfigFile(configFileId, { spreadsheetId: sheetMeta.spreadsheetId });
       })
       .then(function () {
         localStorage.setItem(SHEET_META_PREFIX + userEmail, JSON.stringify(sheetMeta));
@@ -419,7 +424,6 @@
           return;
         }
         if (m.indexOf('insufficient authentication scopes') >= 0 || m.indexOf('PERMISSION_DENIED') >= 0) {
-          // 권한이 모자란 토큰 → 세션을 버리고 동의 화면부터 다시 받는다
           clearSession();
           accessToken = null;
           sheetMeta = null;
@@ -430,6 +434,72 @@
         }
         alert('시트 준비 중 오류: ' + m);
       });
+  }
+
+  // 이름으로 시트를 찾고, 없으면 새로 만든다. 여러 개면 가장 먼저 만든 것을 쓴다.
+  function searchOrCreate() {
+    var q = encodeURIComponent("mimeType='application/vnd.google-apps.spreadsheet' and name contains '경조사비' and trashed=false");
+    return fetch('https://www.googleapis.com/drive/v3/files?q=' + q + '&fields=files(id,name,createdTime)&orderBy=createdTime', {
+      headers: { Authorization: 'Bearer ' + accessToken }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.error) throw new Error(res.error.message);
+        if (res.files && res.files.length) {
+          return useExistingSheet(res.files[0].id);
+        }
+        return createNewSheet();
+      });
+  }
+
+  // ===== 앱 전용 설정 파일 (구글 계정에 저장, 사용자 눈에는 보이지 않음) =====
+
+  function findConfigFile() {
+    var q = encodeURIComponent("name='" + CONFIG_FILENAME + "'");
+    return fetch('https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=' + q + '&fields=files(id)', {
+      headers: { Authorization: 'Bearer ' + accessToken }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.error) throw new Error(res.error.message);
+        return (res.files && res.files.length) ? res.files[0].id : null;
+      });
+  }
+
+  function readConfigFile(fileId) {
+    return fetch('https://www.googleapis.com/drive/v3/files/' + fileId + '?alt=media', {
+      headers: { Authorization: 'Bearer ' + accessToken }
+    })
+      .then(function (r) { return r.json(); })
+      .catch(function () { return null; });
+  }
+
+  function saveConfigFile(existingFileId, config) {
+    var body = JSON.stringify(config);
+    if (existingFileId) {
+      return fetch('https://www.googleapis.com/upload/drive/v3/files/' + existingFileId + '?uploadType=media', {
+        method: 'PATCH',
+        headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json' },
+        body: body
+      });
+    }
+    // 새로 만들 때는 메타데이터와 본문을 함께 보내는 multipart 업로드를 쓴다
+    var boundary = 'gjsb' + Date.now();
+    var metadata = { name: CONFIG_FILENAME, parents: ['appDataFolder'] };
+    var multipart =
+      '--' + boundary + '\r\n' +
+      'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+      JSON.stringify(metadata) + '\r\n' +
+      '--' + boundary + '\r\n' +
+      'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+      body + '\r\n' +
+      '--' + boundary + '--';
+
+    return fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'multipart/related; boundary=' + boundary },
+      body: multipart
+    });
   }
 
   // 이미 있는 시트를 열어 탭 정보를 읽고, 없는 탭은 만들어 준다
@@ -458,6 +528,7 @@
         })
           .then(function (r) { return r.json(); })
           .then(function (res) {
+            if (res.error) throw new Error(res.error.message);
             (res.replies || []).forEach(function (rep) {
               if (rep.addSheet) sheetIds[rep.addSheet.properties.title] = rep.addSheet.properties.sheetId;
             });
