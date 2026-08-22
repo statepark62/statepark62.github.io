@@ -5691,5 +5691,115 @@
   "example": "食べ物の放置は野生動物を引き寄せる誘因になる。",
   "exampleReading": "たべもののほうちはやせいどうぶつをひきよせるゆういんになる。",
   "exampleMeaning": "음식물 방치는 야생동물을 끌어들이는 유인이 된다."
+ },
+ {
+  "id": "news203",
+  "word": "酸欠",
+  "reading": "さんけつ",
+  "meaning": "산소 결핍",
+  "level": "N1",
+  "example": "密閉された空間で作業する際は酸欠に注意する必要がある。",
+  "exampleReading": "みっぺいされたくうかんでさぎょうするさいはさんけつにちゅういするひつようがある。",
+  "exampleMeaning": "밀폐된 공간에서 작업할 때는 산소 결핍에 주의해야 한다."
+ },
+ {
+  "id": "news204",
+  "word": "苦言",
+  "reading": "くげん",
+  "meaning": "쓴소리, 충고",
+  "level": "N1",
+  "example": "上司は部下の態度に苦言を呈した。",
+  "exampleReading": "じょうしはぶかのたいどにくげんをていした。",
+  "exampleMeaning": "상사는 부하의 태도에 쓴소리를 했다."
+ },
+ {
+  "id": "news205",
+  "word": "落雷",
+  "reading": "らくらい",
+  "meaning": "낙뢰, 벼락이 떨어짐",
+  "level": "N1",
+  "example": "昨夜の落雷で停電が発生した。",
+  "exampleReading": "さくやのらくらいでていでんがはっせいした。",
+  "exampleMeaning": "어젯밤 낙뢰로 정전이 발생했다."
+ },
+ {
+  "id": "news206",
+  "word": "容疑",
+  "reading": "ようぎ",
+  "meaning": "혐의",
+  "level": "N1",
+  "example": "彼は殺人の容疑で逮捕された。",
+  "exampleReading": "かれはさつじんのようぎでたいほされた。",
+  "exampleMeaning": "그는 살인 혐의로 체포되었다."
+ },
+ {
+  "id": "news207",
+  "word": "湿気",
+  "reading": "しっけ",
+  "meaning": "습기",
+  "level": "N3",
+  "example": "梅雨の時期は湿気が多くて不快だ。",
+  "exampleReading": "つゆのじきはしっけがおおくてふかいだ。",
+  "exampleMeaning": "장마철에는 습기가 많아서 불쾌하다."
+ },
+ {
+  "id": "news208",
+  "word": "標高",
+  "reading": "ひょうこう",
+  "meaning": "표고, 해발 고도",
+  "level": "N2",
+  "example": "この山の標高は3000メートルを超える。",
+  "exampleReading": "このやまのひょうこうはさんぜんめーとるをこえる。",
+  "exampleMeaning": "이 산의 표고는 3000미터를 넘는다."
+ },
+ {
+  "id": "tj196",
+  "word": "豪雨",
+  "reading": "ごうう",
+  "meaning": "폭우, 집중호우",
+  "level": "N2",
+  "example": "<ruby>昨夜<rt>さくや</rt></ruby>の<ruby>豪雨<rt>ごうう</rt></ruby>で<ruby>川<rt>かわ</rt></ruby>が<ruby>増水<rt>ぞうすい</rt></ruby>した。",
+  "exampleReading": "さくやのごううでかわがぞうすいした。",
+  "exampleMeaning": "어젯밤의 폭우로 강이 불어났다."
+ },
+ {
+  "id": "tj197",
+  "word": "雨脚",
+  "reading": "あまあし",
+  "meaning": "빗발, 빗줄기",
+  "level": "N1",
+  "example": "<ruby>雨脚<rt>あまあし</rt></ruby>が<ruby>次第<rt>しだい</rt></ruby>に<ruby>強<rt>つよ</rt></ruby>まってきた。",
+  "exampleReading": "あまあしがしだいにつよまってきた。",
+  "exampleMeaning": "빗발이 점차 거세졌다."
+ },
+ {
+  "id": "tj198",
+  "word": "車載カメラ",
+  "reading": "しゃさいかめら",
+  "meaning": "차량용 카메라, 블랙박스",
+  "level": "N2",
+  "example": "<ruby>車載<rt>しゃさい</rt></ruby>カメラが<ruby>当時<rt>とうじ</rt></ruby>の<ruby>状況<rt>じょうきょう</rt></ruby>を<ruby>記録<rt>きろく</rt></ruby>した。",
+  "exampleReading": "しゃさいかめらがとうじのじょうきょうをきろくした。",
+  "exampleMeaning": "차량용 카메라가 당시의 상황을 기록했다."
+ },
+ {
+  "id": "tj199",
+  "word": "表現",
+  "reading": "ひょうげん",
+  "meaning": "표현",
+  "level": "N3",
+  "example": "<ruby>的確<rt>てきかく</rt></ruby>な<ruby>表現<rt>ひょうげん</rt></ruby>で<ruby>状況<rt>じょうきょう</rt></ruby>を<ruby>伝<rt>つた</rt></ruby>える。",
+  "exampleReading": "てきかくなひょうげんでじょうきょうをつたえる。",
+  "exampleMeaning": "정확한 표현으로 상황을 전한다."
+ },
+ {
+  "id": "tj200",
+  "word": "叩きつける",
+  "reading": "たたきつける",
+  "meaning": "세게 내리치다, 내리꽂다",
+  "level": "N1",
+  "example": "<ruby>強風<rt>きょうふう</rt></ruby>が<ruby>窓<rt>まど</rt></ruby>に<ruby>雨<rt>あめ</rt></ruby>を<ruby>叩<rt>たた</rt></ruby>きつけた。",
+  "exampleReading": "きょうふうがまどにあめをたたきつけた。",
+  "exampleMeaning": "강풍이 창문에 비를 내리쳤다."
  }
 ]

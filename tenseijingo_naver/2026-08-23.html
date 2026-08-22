@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-23 天声人語로 배우는 일본어 — 호우와 표현</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第47回</span>
+      <span>2026-08-23</span>
+      <span>2026년 8월 23일 (일)</span>
+    </div>
+
+    <h1><ruby>豪雨<rt>ごうう</rt></ruby>と<ruby>表現<rt>ひょうげん</rt></ruby></h1>
+    <p class="topic-ko">호우와 표현</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>銀箭<rt>ぎんせん</rt></ruby>」</div>
+      <div class="ko">은빛 화살 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">この<ruby>稿<rt>こう</rt></ruby>は、<ruby>強<rt>つよ</rt></ruby>い<ruby>雨<rt>あめ</rt></ruby>を<ruby>言<rt>い</rt></ruby>い<ruby>表<rt>あらわ</rt></ruby>す「<ruby>銀箭<rt>ぎんせん</rt></ruby>」という<ruby>語<rt>ご</rt></ruby>を<ruby>手<rt>て</rt></ruby>がかりに、<ruby>近年<rt>きんねん</rt></ruby>の<ruby>豪雨<rt>ごうう</rt></ruby>を<ruby>言葉<rt>ことば</rt></ruby>の<ruby>側<rt>がわ</rt></ruby>からとらえようとする。</p><p class="ko">칼럼은 강한 비를 가리키는 ‘銀箭’이라는 옛 표현을 상기시키며 최근의 호우를 말의 영역에서 포착해 보려 한다.</p></div>
+      <div class="s-item"><p class="ja">だが、<ruby>千葉県<rt>ちばけん</rt></ruby>を<ruby>襲<rt>おそ</rt></ruby>った<ruby>豪雨<rt>ごうう</rt></ruby>はそうした<ruby>繊細<rt>せんさい</rt></ruby>な<ruby>表現<rt>ひょうげん</rt></ruby>では<ruby>捉<rt>とら</rt></ruby>え<ruby>切<rt>き</rt></ruby>れないとして、<ruby>車載<rt>しゃさい</rt></ruby>カメラの<ruby>映像<rt>えいぞう</rt></ruby>に<ruby>映<rt>うつ</rt></ruby>る<ruby>前方<rt>ぜんぽう</rt></ruby>の<ruby>窓<rt>まど</rt></ruby>を<ruby>激<rt>はげ</rt></ruby>しく<ruby>打<rt>う</rt></ruby>つ<ruby>雨<rt>あめ</rt></ruby>を<ruby>描<rt>えが</rt></ruby>く。</p><p class="ko">그러나 치바현을 덮친 폭우는 그런 섬세한 언어로는 담기 어렵다고 지적하고, 차량 영상 속 앞유리를 사정없이 두드리는 빗발을 묘사한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>終盤<rt>しゅうばん</rt></ruby>では、<ruby>市役所<rt>しやくしょ</rt></ruby>の<ruby>駐車場<rt>ちゅうしゃじょう</rt></ruby>に<ruby>関<rt>かん</rt></ruby>する「<ruby>約<rt>やく</rt></ruby>１８０<ruby>台<rt>だい</rt></ruby>」という<ruby>数<rt>すう</rt></ruby>にふれて、<ruby>被害<rt>ひがい</rt></ruby>の<ruby>現実<rt>げんじつ</rt></ruby>を<ruby>考<rt>かんが</rt></ruby>えさせる。</p><p class="ko">말미에는 시청 주차장의 ‘약 180대’라는 숫자를 언급하며 피해의 현실을 떠올리게 하고, 언어와 현실의 간극을 성찰하게 만든다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>豪雨<rt>ごうう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">폭우, 집중호우</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>昨夜<rt>さくや</rt></ruby>の<ruby>豪雨<rt>ごうう</rt></ruby>で<ruby>川<rt>かわ</rt></ruby>が<ruby>増水<rt>ぞうすい</rt></ruby>した。</span><br>어젯밤의 폭우로 강이 불어났다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>雨脚<rt>あまあし</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">빗발, 빗줄기</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>雨脚<rt>あまあし</rt></ruby>が<ruby>次第<rt>しだい</rt></ruby>に<ruby>強<rt>つよ</rt></ruby>まってきた。</span><br>빗발이 점차 거세졌다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>車載カメラ<rt>しゃさいかめら</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">차량용 카메라, 블랙박스</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>車載<rt>しゃさい</rt></ruby>カメラが<ruby>当時<rt>とうじ</rt></ruby>の<ruby>状況<rt>じょうきょう</rt></ruby>を<ruby>記録<rt>きろく</rt></ruby>した。</span><br>차량용 카메라가 당시의 상황을 기록했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>表現<rt>ひょうげん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">표현</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>的確<rt>てきかく</rt></ruby>な<ruby>表現<rt>ひょうげん</rt></ruby>で<ruby>状況<rt>じょうきょう</rt></ruby>を<ruby>伝<rt>つた</rt></ruby>える。</span><br>정확한 표현으로 상황을 전한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>叩きつける<rt>たたきつける</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">세게 내리치다, 내리꽂다</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>強風<rt>きょうふう</rt></ruby>が<ruby>窓<rt>まど</rt></ruby>に<ruby>雨<rt>あめ</rt></ruby>を<ruby>叩<rt>たた</rt></ruby>きつけた。</span><br>강풍이 창문에 비를 내리쳤다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">名詞＋に<ruby>見立<rt>みた</rt></ruby>てる</div>
+        <div class="pattern-ko">~에 비유하다, ~에 견주다</div>
+        <p class="explain">어떤 대상을 다른 사물로 빗대어 설명할 때 쓰인다. 문어체·구어체 모두에서 자연스럽고, 서정적이거나 수사적인 뉘앙스를 만든다.</p>
+        <p class="ex"><span class="ja"><ruby>光<rt>ひかり</rt></ruby>を<ruby>矢<rt>や</rt></ruby>に<ruby>見立<rt>みた</rt></ruby>てて、<ruby>激<rt>はげ</rt></ruby>しい<ruby>雨<rt>あめ</rt></ruby>を<ruby>描写<rt>びょうしゃ</rt></ruby>した。</span><br>빛을 화살에 비유해 거센 비를 묘사했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 한자어 비유 ‘銀箭’이라는 낱말에서 출발해 현실의 호우를 언어로 가두려는 시도를 보여 준다. 고전적 어휘의 섬세함을 먼저 제시한 뒤, 치바의 사나운 비를 구체적 장면(앞유리를 때리는 빗발)으로 전환해 대비 효과를 만든다. ‘말’과 ‘영상’이 교차하며 독자는 체감 강도를 즉시 떠올리게 된다. 이어 숫자의 단서(약 180대)를 던져, 정서에서 사실로, 다시 성찰로 시선을 끌어당기는 천성인어 특유의 전개가 드러난다.</p>
+        <p>이 칼럼이 남기는 질문은 ‘재난을 어떻게 말할 것인가’이다. 한국 독자에게도 대규모 호우는 익숙한 재난이며, 표현이 현실을 충분히 담지 못하는 순간의 난감함은 공유된다. 은유로 시작해 기록 영상과 수치로 마감하는 구성은 감성과 증거의 균형을 제시한다. 언어의 한계를 드러내되, 그 빈틈이 경계와 대비(備え)로 이어져야 한다는 메시지가 은근하게 배어 있다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 고전적 비유와 현장의 기록을 대비시켜 재난을 말하는 언어의 한계와 책임을 성찰하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본의 칼럼 ‘천성인어(天声人語)’는 시사 사건을 짧은 분량의 산문으로 풀며, 고사·문학·어휘를 연결해 사유의 여지를 남기는 구성이 특징이다.</p>
+        <p>일본은 장마·태풍 시기에 국지성 호우가 잦아졌고, 기후 변화와 함께 ‘기록적’ 강수 표현이 빈발한다. 이에 대응한 재난 기록과 시민 안전 담론도 함께 강화되는 추세다.</p>
+        <p>한자 비유는 일본 문학과 신문 칼럼에서 여전히 미학적 효과를 위해 사용된다. 동시에 차량용 카메라 등 디지털 기록은 체감 재난의 실재성을 즉각적으로 전달한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>섬세한 비유로 문을 열고, 즉물적 장면과 수치로 전환해 감정과 사실을 교차시킨다.</p>
+        <p><span class="n">二</span>단어 하나를 매개로 시대적 현실까지 확장해 맥락을 구축한다.</p>
+        <p><span class="n">三</span>마지막에 독자의 사유를 남기는 여백(의문·성찰)을 의도적으로 마련한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>言葉<rt>ことば</rt></ruby>が<ruby>追<rt>お</rt></ruby>いつかないほどの<ruby>雨<rt>あめ</rt></ruby>に、<ruby>私<rt>わたし</rt></ruby>たちは<ruby>備<rt>そな</rt></ruby>えを<ruby>考<rt>かんが</rt></ruby>える。</span>
+      <span class="ko">말이 따라가지 못하는 비 앞에서 우리는 대비를 생각한다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-23) — <a href="https://www.asahi.com/articles/DA3S16531730.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-23.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

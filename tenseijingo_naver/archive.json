@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-23",
+    "no": 47,
+    "topic_ja": "<ruby>豪雨<rt>ごうう</rt></ruby>と<ruby>表現<rt>ひょうげん</rt></ruby>",
+    "topic_ko": "호우와 표현",
+    "url": "https://www.asahi.com/articles/DA3S16531730.html?iref=pc_rensai_long_61_article",
+    "memo": "‘재난의 언어’, ‘기록과 기억’, ‘대비와 성찰’ — 비유에서 기록으로 이어지는 구성으로 재난을 말하는 방식과 그 이후의 태도를 사유하게 하므로 이 주제어가 적절하다.",
+    "pattern": "名詞＋に<ruby>見立<rt>みた</rt></ruby>てる"
+  },
+  {
     "date": "2026-08-22",
     "no": 46,
     "topic_ja": "雨と写真展",
