@@ -106,23 +106,36 @@ def update_github_secret(repo: str, gh_pat: str, secret_name: str, secret_value:
         )
 
 
+def _parse_repo_list(raw: str) -> list:
+    """쉼표로 구분된 저장소 목록 문자열을 리스트로 변환합니다."""
+    return [r.strip() for r in raw.split(",") if r.strip()]
+
+
 def main():
     current_token = os.environ.get("THREADS_ACCESS_TOKEN")
     gh_pat = os.environ.get("GH_PAT")
-    repo = os.environ.get("GH_REPOSITORY") or os.environ.get("GITHUB_REPOSITORY")
+
+    # GH_REPOSITORIES: 여러 저장소를 쉼표로 구분해서 지정 (예: "a/b,a/c")
+    # 지정하지 않으면 GH_REPOSITORY 또는 GitHub Actions 기본 변수 하나만 사용
+    repos_raw = os.environ.get("GH_REPOSITORIES")
+    single_repo = os.environ.get("GH_REPOSITORY") or os.environ.get("GITHUB_REPOSITORY")
+    repos = _parse_repo_list(repos_raw) if repos_raw else ([single_repo] if single_repo else [])
 
     missing = [
         name
         for name, value in [
             ("THREADS_ACCESS_TOKEN", current_token),
             ("GH_PAT", gh_pat),
-            ("GH_REPOSITORY / GITHUB_REPOSITORY", repo),
         ]
         if not value
     ]
+    if not repos:
+        missing.append("GH_REPOSITORIES 또는 GH_REPOSITORY/GITHUB_REPOSITORY")
     if missing:
         print(f"❌ 다음 환경변수가 설정되어 있지 않습니다: {', '.join(missing)}")
         sys.exit(1)
+
+    print(f"대상 저장소 ({len(repos)}개): {', '.join(repos)}")
 
     print("1) Threads 토큰 갱신 시도 중...")
     try:
@@ -140,13 +153,20 @@ def main():
     print(f"   갱신 성공. 새 토큰의 남은 유효기간: 약 {expires_in_days}일")
 
     print("2) GitHub Secret 업데이트 중...")
-    try:
-        update_github_secret(repo, gh_pat, "THREADS_ACCESS_TOKEN", new_token)
-    except TokenRefreshError as e:
-        print(f"❌ {e}")
+    failed_repos = []
+    for repo in repos:
+        try:
+            update_github_secret(repo, gh_pat, "THREADS_ACCESS_TOKEN", new_token)
+            print(f"   ✅ {repo} — THREADS_ACCESS_TOKEN 갱신 완료")
+        except TokenRefreshError as e:
+            print(f"   ❌ {repo} — 갱신 실패: {e}")
+            failed_repos.append(repo)
+
+    if failed_repos:
+        print(f"❌ 일부 저장소에서 갱신 실패: {', '.join(failed_repos)}")
         sys.exit(1)
 
-    print("✅ THREADS_ACCESS_TOKEN Secret이 새 토큰으로 갱신되었습니다.")
+    print("✅ 모든 저장소의 THREADS_ACCESS_TOKEN Secret이 새 토큰으로 갱신되었습니다.")
 
 
 if __name__ == "__main__":
