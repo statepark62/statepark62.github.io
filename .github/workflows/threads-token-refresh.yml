@@ -36,10 +36,12 @@ jobs:
       - name: 패키지 설치
         run: pip install requests pynacl
 
-      - name: Threads 토큰 갱신 및 Secret 업데이트
+      - name: Threads 토큰 갱신 및 Secret 업데이트 (여러 저장소 동시)
         env:
           THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
           GH_PAT: ${{ secrets.GH_PAT }}
-          GH_REPOSITORY: ${{ github.repository }}
+          # 이 토큰(pusan6279 계정)을 사용하는 모든 저장소를 쉼표로 나열합니다.
+          # 저장소를 더 추가할 때는 이 줄에만 이어서 적으면 됩니다.
+          GH_REPOSITORIES: "statepark62/statepark62.github.io,statepark62/japan_news"
         working-directory: tenseijingo_naver/scripts/threads
         run: python refresh_threads_token.py
