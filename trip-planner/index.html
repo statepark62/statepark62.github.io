@@ -206,6 +206,9 @@
    6) 발급받은 클라이언트 ID를 아래에 붙여넣기 — 이 값은 공개되어도 안전합니다(비밀키 아님)
 */
 const GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com';
+// 실시간 공유 보기(로그인 없이 읽기 전용)를 위한 공개 API 키. Google Cloud Console > 사용자 인증 정보 > + 만들기 > API 키 에서 발급.
+// 반드시 "API 제한"을 Google Sheets API로, "애플리케이션 제한"을 HTTP 리퍼러(예: https://statepark62.github.io/*)로 제한해서 사용하세요.
+const GOOGLE_API_KEY = 'AIzaSyAQ1TpGJV2DQN07xt4vK4ilDvYRr69AH6o';
 const GOOGLE_ENABLED = GOOGLE_CLIENT_ID.indexOf('REPLACE_WITH') === -1;
 const SPREADSHEET_TITLE = '지금여기_여행일정_데이터';
 let tokenClient = null, googleAccessToken = null, googleSignedIn = false, spreadsheetId = null;
@@ -223,6 +226,9 @@ let state = {
   trip: null,        // full loaded trip object
   selectedDate: null,
   viewingPastTrip: false, // 사용자가 '지난 여행 목록'에서 직접 골라서 볼 때만 true
+  shareMode: false,       // 읽기 전용 공유 보기 화면인지
+  shareSpreadsheetId: null,
+  shareError: null,
   notifPermission: (typeof Notification !== 'undefined') ? Notification.permission : 'unsupported',
   notifiedIds: new Set(),
   morningModal: null // date string if showing
@@ -529,7 +535,106 @@ async function loadState(){
   }
 }
 
+/* ---- 실시간 공유 보기 (읽기 전용, 로그인 불필요) ---- */
+async function publicReadAllKv(spreadsheetId){
+  const resp = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/kv!A2:B100000?key=${GOOGLE_API_KEY}`);
+  if(!resp.ok){ const t = await resp.text(); throw new Error(t); }
+  const data = await resp.json();
+  const rows = data.values || [];
+  const map = {};
+  rows.forEach(r=>{ if(r[0]!==undefined) map[r[0]]=r[1]; });
+  return map;
+}
+async function loadShareData(){
+  try{
+    const kv = await publicReadAllKv(state.shareSpreadsheetId);
+    const activeId = kv['active-trip'] ? JSON.parse(kv['active-trip']) : null;
+    state.trip = (activeId && kv['trip:'+activeId]) ? JSON.parse(kv['trip:'+activeId]) : null;
+    if(state.trip){
+      const todayStr = fmtDate(new Date());
+      state.selectedDate = state.trip.days[todayStr]!==undefined ? todayStr : Object.keys(state.trip.days)[0];
+    }
+    state.shareError = null;
+  }catch(e){
+    console.error(e);
+    state.shareError = '일정을 불러오지 못했어요. 공유 링크가 올바른지, API 키 설정이 되어 있는지 확인해주세요.';
+  }
+}
+function renderShareView(){
+  if(state.shareError){
+    app.innerHTML = `<div class="setup-empty"><h2>공유 일정을 불러올 수 없어요</h2><p>${escapeHtml(state.shareError)}</p></div>`;
+    return;
+  }
+  if(!state.trip){
+    app.innerHTML = `<div class="setup-empty"><h2>아직 등록된 일정이 없어요</h2><p>여행 작성자가 일정을 등록하면 여기에 실시간으로 표시됩니다.</p></div>`;
+    return;
+  }
+  app.innerHTML = `
+    <div class="topbar">
+      <div>
+        <div class="trip-title">${escapeHtml(state.trip.title)}</div>
+        <div class="trip-dates"><span class="mono">${state.trip.startDate}</span> → <span class="mono">${state.trip.endDate}</span></div>
+      </div>
+    </div>
+    <div class="notif-banner"><span>👀 실시간 공유 보기(읽기 전용) · 약 30초마다 자동 새로고침돼요.</span></div>
+    ${renderBoard()}
+    ${renderTabs()}
+    ${renderTimeline()}
+  `;
+  document.querySelectorAll('.tabs .tab').forEach(el=>{
+    el.onclick = ()=>{ state.selectedDate = el.dataset.date; renderShareView(); };
+  });
+}
+async function initShareView(spreadsheetId){
+  state.shareMode = true;
+  state.shareSpreadsheetId = spreadsheetId;
+  await loadShareData();
+  renderShareView();
+  setInterval(tick, 1000);
+  setInterval(async ()=>{ await loadShareData(); renderShareView(); }, 30000);
+}
+async function createShareLink(){
+  if(!googleSignedIn || !state.trip){ showToast('먼저 Google에 연결하고 여행을 열어주세요'); return; }
+  if(!GOOGLE_API_KEY || GOOGLE_API_KEY.indexOf('REPLACE')!==-1){
+    showToast('공유 보기 기능이 아직 설정되지 않았어요(API 키 필요)');
+    return;
+  }
+  try{
+    await gApi(`https://www.googleapis.com/drive/v3/files/${spreadsheetId}/permissions`, {
+      method:'POST', body: JSON.stringify({role:'reader', type:'anyone'})
+    });
+  }catch(e){ console.error(e); showToast('공유 권한 설정 중 오류가 발생했어요'); return; }
+  const url = `${location.origin}${location.pathname}?share=${spreadsheetId}`;
+  openShareLinkModal(url);
+}
+function openShareLinkModal(url){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>실시간 공유 링크</h3>
+    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.7;">이 링크를 열면 로그인 없이 지금 여행 일정을 실시간(읽기 전용)으로 볼 수 있어요. 이 여행에 연결된 구글 시트가 "링크가 있는 모든 사용자 - 뷰어"로 공개됩니다.</p>
+    <div class="field"><input id="share_url" value="${url}" readonly></div>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="share_close">닫기</button>
+      <button class="btn btn-primary" id="share_copy">링크 복사</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#share_close').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+  $('#share_copy').onclick = ()=>{
+    const input = $('#share_url');
+    input.select();
+    navigator.clipboard && navigator.clipboard.writeText(url).then(()=>showToast('복사됐어요')).catch(()=>{ document.execCommand('copy'); showToast('복사됐어요'); });
+  };
+}
+
 async function init(){
+  const shareId = new URLSearchParams(location.search).get('share');
+  if(shareId){
+    await initShareView(shareId);
+    return;
+  }
   const gotToken = consumeGoogleRedirectToken();
   if(gotToken){
     try{ await ensureSpreadsheet(); await migrateAndReload(); }
@@ -665,15 +770,15 @@ function renderTimeline(){
         ${b.endTime?`<div class="block-meta">~${b.endTime}</div>`:''}
         ${b.note?`<div class="block-note">${linkifyNote(b.note)}</div>`:''}
       </div>
-      <div class="block-actions">
+      ${state.shareMode?'':`<div class="block-actions">
         <button class="icon-btn" data-edit="${b.id}" title="수정">✎</button>
         <button class="icon-btn" data-del="${b.id}" title="삭제">✕</button>
-      </div>
+      </div>`}
     </div>
   `).join('') : `<div class="empty-day">이 날짜엔 아직 일정이 없어요.</div>`;
 
   return `<div class="timeline">${list}</div>
-    <button class="add-block-btn" id="addBlockBtn">+ 일정 추가</button>`;
+    ${state.shareMode?'':`<button class="add-block-btn" id="addBlockBtn">+ 일정 추가</button>`}`;
 }
 
 function renderNotifBanner(){
@@ -748,6 +853,7 @@ function render(){
         <button class="btn btn-line btn-sm" id="newTripBtn2">+ 새 여행</button>
         <button class="btn btn-line btn-sm" id="exportPdfBtn">PDF로 내보내기</button>
         <button class="btn btn-line btn-sm" id="refreshBtn" title="새로고침">↻ 새로고침</button>
+        ${googleSignedIn?`<button class="btn btn-line btn-sm" id="shareLinkBtn">일행에게 공유</button>`:''}
       </div>
     </div>
     ${renderGoogleStatus()}
@@ -763,6 +869,7 @@ function bindEvents(){
   const nt = $('#newTripBtn2'); if(nt) nt.onclick = ()=>openTripForm();
   const ex = $('#exportPdfBtn'); if(ex) ex.onclick = ()=>exportPdf();
   const rfb = $('#refreshBtn'); if(rfb) rfb.onclick = ()=>refreshData();
+  const slb = $('#shareLinkBtn'); if(slb) slb.onclick = ()=>createShareLink();
   const dtb = $('#deleteTripBtn'); if(dtb) dtb.onclick = ()=>deleteCurrentTrip();
   const sw = $('#tripSwitch'); if(sw) sw.onchange = async e=>{
     const newId = e.target.value;
