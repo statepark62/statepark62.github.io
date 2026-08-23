@@ -5801,5 +5801,115 @@
   "example": "<ruby>強風<rt>きょうふう</rt></ruby>が<ruby>窓<rt>まど</rt></ruby>に<ruby>雨<rt>あめ</rt></ruby>を<ruby>叩<rt>たた</rt></ruby>きつけた。",
   "exampleReading": "きょうふうがまどにあめをたたきつけた。",
   "exampleMeaning": "강풍이 창문에 비를 내리쳤다."
+ },
+ {
+  "id": "news209",
+  "word": "盗撮",
+  "reading": "とうさつ",
+  "meaning": "몰래카메라 촬영, 도촬",
+  "level": "N1",
+  "example": "駅のトイレで盗撮の疑いがある男が逮捕された。",
+  "exampleReading": "えきのといれでとうさつのうたがいがあるおとこがたいほされた。",
+  "exampleMeaning": "역 화장실에서 도촬 혐의가 있는 남자가 체포되었다."
+ },
+ {
+  "id": "news210",
+  "word": "ひき逃げ",
+  "reading": "ひきにげ",
+  "meaning": "뺑소니",
+  "level": "N2",
+  "example": "夜道でひき逃げ事件が発生し、警察が犯人を捜している。",
+  "exampleReading": "よみちでひきにげじけんがはっせいし、けいさつがはんにんをさがしている。",
+  "exampleMeaning": "밤길에서 뺑소니 사건이 발생하여 경찰이 범인을 찾고 있다."
+ },
+ {
+  "id": "news211",
+  "word": "接近",
+  "reading": "せっきん",
+  "meaning": "접근",
+  "level": "N2",
+  "example": "台風が急速に接近しているため、外出を控えてください。",
+  "exampleReading": "たいふうがきゅうそくにせっきんしているため、がいしゅつをひかえてください。",
+  "exampleMeaning": "태풍이 급속히 접근하고 있으니 외출을 삼가 주세요."
+ },
+ {
+  "id": "news212",
+  "word": "放置",
+  "reading": "ほうち",
+  "meaning": "방치",
+  "level": "N3",
+  "example": "子どもを一人で長時間放置するのは危険だ。",
+  "exampleReading": "こどもをひとりでちょうじかんほうちするのはきけんだ。",
+  "exampleMeaning": "아이를 혼자 오랫동안 방치하는 것은 위험하다."
+ },
+ {
+  "id": "news213",
+  "word": "危機管理",
+  "reading": "ききかんり",
+  "meaning": "위기 관리",
+  "level": "N1",
+  "example": "企業には万一の事態に備えた危機管理が求められる。",
+  "exampleReading": "きぎょうにはまんいちのじたいにそなえたききかんりがもとめられる。",
+  "exampleMeaning": "기업에는 만일의 사태에 대비한 위기 관리가 요구된다."
+ },
+ {
+  "id": "news214",
+  "word": "勢力",
+  "reading": "せいりょく",
+  "meaning": "세력",
+  "level": "N2",
+  "example": "台風は強い勢力を維持したまま北上している。",
+  "exampleReading": "たいふうはつよいせいりょくをいじしたままほくじょうしている。",
+  "exampleMeaning": "태풍은 강한 세력을 유지한 채 북상하고 있다."
+ },
+ {
+  "id": "tj201",
+  "word": "読書感想文",
+  "reading": "どくしょかんそうぶん",
+  "meaning": "독서 감상문",
+  "level": "N2",
+  "example": "読書感想文を明日までに書き上げる。",
+  "exampleReading": "どくしょかんそうぶんをあしたまでにかきあげる。",
+  "exampleMeaning": "독서감상문을 내일까지 완성한다."
+ },
+ {
+  "id": "tj202",
+  "word": "見いだす",
+  "reading": "みいだす",
+  "meaning": "찾아내다, 발견하다",
+  "level": "N2",
+  "example": "資料を読み、解決策を見いだした。",
+  "exampleReading": "しりょうをよみかいけつさくをみいだした。",
+  "exampleMeaning": "자료를 읽고 해결책을 찾아냈다."
+ },
+ {
+  "id": "tj203",
+  "word": "二学期",
+  "reading": "にがっき",
+  "meaning": "2학기",
+  "level": "N3",
+  "example": "二学期は九月から始まる学校が多い。",
+  "exampleReading": "にがっきはくがつからはじまるがっこうがおおい。",
+  "exampleMeaning": "2학기는 9월부터 시작하는 학교가 많다."
+ },
+ {
+  "id": "tj204",
+  "word": "宿題",
+  "reading": "しゅくだい",
+  "meaning": "숙제",
+  "level": "N5",
+  "example": "宿題を早めに終わらせて、遊びに行こう。",
+  "exampleReading": "しゅくだいをはやめにおわらせてあそびにいこう。",
+  "exampleMeaning": "숙제를 일찍 끝내고 놀러 가자."
+ },
+ {
+  "id": "tj205",
+  "word": "目の敵",
+  "reading": "めのかたき",
+  "meaning": "눈엣가시로 여김",
+  "level": "N1",
+  "example": "彼は成績の良い人を目の敵にしている。",
+  "exampleReading": "かれはせいせきのよいひとをめのかたきにしている。",
+  "exampleMeaning": "그는 성적이 좋은 사람을 눈엣가시로 여긴다."
  }
 ]

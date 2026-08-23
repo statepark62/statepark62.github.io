@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-24",
+    "no": 48,
+    "topic_ja": "<ruby>読書感想文<rt>どくしょかんそうぶん</rt></ruby>の<ruby>夏<rt>なつ</rt></ruby>",
+    "topic_ko": "독서감상문의 여름",
+    "url": "https://www.asahi.com/articles/DA3S16531816.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '방학과 학습', '쓰기 교육', '사유의 발견' — 일상의 숙제를 통해 글쓰기의 본질과 자기 성찰의 가치를 환기시키므로, 교육·생활 양쪽 장에서 모두 어울린다.",
+    "pattern": "〜ようとしている"
+  },
+  {
     "date": "2026-08-23",
     "no": 47,
     "topic_ja": "<ruby>豪雨<rt>ごうう</rt></ruby>と<ruby>表現<rt>ひょうげん</rt></ruby>",
