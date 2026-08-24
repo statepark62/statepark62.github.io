@@ -54,7 +54,20 @@ jobs:
         id: kst_date
         run: echo "date=$(date -u -d '+9 hours' +%F)" >> "$GITHUB_OUTPUT"
 
+      - name: Threads 게시 여부 확인 (중복 방지)
+        id: check_posted
+        run: |
+          STATE_FILE="automation_naver/scripts/threads/last_posted_date.txt"
+          TODAY="${{ steps.kst_date.outputs.date }}"
+          if [ -f "$STATE_FILE" ] && [ "$(cat "$STATE_FILE")" = "$TODAY" ]; then
+            echo "오늘($TODAY)은 이미 Threads에 게시했습니다. 건너뜁니다."
+            echo "already_posted=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "already_posted=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Threads에 요약 게시
+        if: steps.check_posted.outputs.already_posted == 'false'
         env:
           THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
           THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
@@ -62,6 +75,8 @@ jobs:
           python automation_naver/scripts/threads/tenseijingo_to_threads.py \
             --html "tenseijingo_naver/${{ steps.kst_date.outputs.date }}.html" \
             --base-url "https://statepark62.github.io/tenseijingo_naver"
+          mkdir -p automation_naver/scripts/threads
+          echo "${{ steps.kst_date.outputs.date }}" > automation_naver/scripts/threads/last_posted_date.txt
 
       - name: PWA 단어 동기화 (시트 → kotoba/words.json)
         if: always()    # 새 글이 없는 날도 시트 수동 편집분을 반영
@@ -77,6 +92,7 @@ jobs:
           git config user.email "actions@github.com"
           git add tenseijingo_naver/
           git add kotoba/words.json
+          git add automation_naver/scripts/threads/last_posted_date.txt
           if git diff --cached --quiet; then
             echo "변경 사항 없음 — 커밋 생략"
           else
