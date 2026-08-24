@@ -92,7 +92,9 @@ jobs:
           git config user.email "actions@github.com"
           git add tenseijingo_naver/
           git add kotoba/words.json
-          git add automation_naver/scripts/threads/last_posted_date.txt
+          if [ -f automation_naver/scripts/threads/last_posted_date.txt ]; then
+            git add automation_naver/scripts/threads/last_posted_date.txt
+          fi
           if git diff --cached --quiet; then
             echo "변경 사항 없음 — 커밋 생략"
           else
