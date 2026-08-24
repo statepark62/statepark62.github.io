@@ -5911,5 +5911,105 @@
   "example": "彼は成績の良い人を目の敵にしている。",
   "exampleReading": "かれはせいせきのよいひとをめのかたきにしている。",
   "exampleMeaning": "그는 성적이 좋은 사람을 눈엣가시로 여긴다."
+ },
+ {
+  "id": "news215",
+  "word": "脱走",
+  "reading": "だっそう",
+  "meaning": "탈주, 탈출",
+  "level": "N2",
+  "example": "刑務所から囚人が脱走した。",
+  "exampleReading": "けいむしょからしゅうじんがだっそうした。",
+  "exampleMeaning": "교도소에서 죄수가 탈주했다."
+ },
+ {
+  "id": "news216",
+  "word": "確保",
+  "reading": "かくほ",
+  "meaning": "확보",
+  "level": "N2",
+  "example": "警察は容疑者の身柄を確保した。",
+  "exampleReading": "けいさつはようぎしゃのみがらをかくほした。",
+  "exampleMeaning": "경찰은 용의자의 신병을 확보했다."
+ },
+ {
+  "id": "news217",
+  "word": "直撃",
+  "reading": "ちょくげき",
+  "meaning": "직격, 정면으로 강타함",
+  "level": "N1",
+  "example": "台風が関東地方を直撃する見込みだ。",
+  "exampleReading": "たいふうがかんとうちほうをちょくげきするみこみだ。",
+  "exampleMeaning": "태풍이 간토 지방을 직격할 전망이다."
+ },
+ {
+  "id": "news218",
+  "word": "擁護",
+  "reading": "ようご",
+  "meaning": "옹호",
+  "level": "N1",
+  "example": "彼女は同僚から擁護された。",
+  "exampleReading": "かのじょはどうりょうからようごされた。",
+  "exampleMeaning": "그녀는 동료로부터 옹호받았다."
+ },
+ {
+  "id": "news219",
+  "word": "追い風",
+  "reading": "おいかぜ",
+  "meaning": "순풍, 유리한 상황",
+  "level": "N1",
+  "example": "円安は輸出企業にとって追い風となっている。",
+  "exampleReading": "えんやすはゆしゅつきぎょうにとっておいかぜとなっている。",
+  "exampleMeaning": "엔저는 수출 기업에게 순풍(호재)이 되고 있다."
+ },
+ {
+  "id": "tj206",
+  "word": "混雑",
+  "reading": "こんざつ",
+  "meaning": "혼잡",
+  "level": "N3",
+  "example": "連休の駅は混雑していた。",
+  "exampleReading": "れんきゅうのえきはこんざつしていた。",
+  "exampleMeaning": "연휴의 역은 혼잡했다."
+ },
+ {
+  "id": "tj207",
+  "word": "離着陸",
+  "reading": "りちゃくりく",
+  "meaning": "이착륙",
+  "level": "N2",
+  "example": "この空港では数分ごとに離着陸が続く。",
+  "exampleReading": "このくうこうではすうふんごとにりちゃくりくがつづく。",
+  "exampleMeaning": "이 공항에서는 몇 분 간격으로 이착륙이 이어진다."
+ },
+ {
+  "id": "tj208",
+  "word": "開港",
+  "reading": "かいこう",
+  "meaning": "개항(공항의 개장)",
+  "level": "N2",
+  "example": "市は新しい空港の開港を祝った。",
+  "exampleReading": "しはあたらしいくうこうのかいこうをいわった.",
+  "exampleMeaning": "시는 새로운 공항의 개항을 축하했다."
+ },
+ {
+  "id": "tj209",
+  "word": "滑走路",
+  "reading": "かっそうろ",
+  "meaning": "활주로",
+  "level": "N2",
+  "example": "滑走路の点検で便が遅延した。",
+  "exampleReading": "かっそうろのてんけんでびんがちえんした。",
+  "exampleMeaning": "활주로 점검으로 항공편이 지연되었다."
+ },
+ {
+  "id": "tj210",
+  "word": "世界有数",
+  "reading": "せかいゆうすう",
+  "meaning": "세계 유수",
+  "level": "N1",
+  "example": "都市は世界有数の観光地だ.",
+  "exampleReading": "としはせかいゆうすうのかんこうちだ。",
+  "exampleMeaning": "그 도시는 세계 유수의 관광지다."
  }
 ]

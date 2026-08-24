@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-25 天声人語로 배우는 일본어 — 하네다공항의 세월</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第49回</span>
+      <span>2026-08-25</span>
+      <span>2026년 8월 25일 (화)</span>
+    </div>
+
+    <h1><ruby>羽田空港<rt>はねだくうこう</rt></ruby>の<ruby>歳月<rt>さいげつ</rt></ruby></h1>
+    <p class="topic-ko">하네다공항의 세월</p>
+
+    <div class="keyquote">
+      <div class="ja">「２、３分に１本」</div>
+      <div class="ko">2~3분에 1대 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>空港<rt>くうこう</rt></ruby>の<ruby>混雑<rt>こんざつ</rt></ruby>で<ruby>早<rt>はや</rt></ruby>めの<ruby>到着<rt>とうちゃく</rt></ruby>をうながす<ruby>通知<rt>つうち</rt></ruby>をきっかけに、<ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>羽田空港<rt>はねだくうこう</rt></ruby>の<ruby>規模<rt>きぼ</rt></ruby>と<ruby>忙<rt>いそが</rt></ruby>しさを<ruby>思<rt>おも</rt></ruby>い<ruby>起<rt>お</rt></ruby>こす。</p><p class="ko">공항 혼잡으로 일찍 오라는 알림을 계기로, 필자는 하네다공항의 규모와 분주함을 떠올린다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>年間<rt>ねんかん</rt></ruby>の<ruby>約<rt>やく</rt></ruby>９１６０<ruby>万人<rt>まんにん</rt></ruby>と４９<ruby>万回<rt>まんかい</rt></ruby>という<ruby>数字<rt>すうじ</rt></ruby>、２〜３<ruby>分<rt>ふん</rt></ruby>ごとの<ruby>離着陸<rt>りちゃくりく</rt></ruby>が<ruby>示<rt>しめ</rt></ruby>され、<ruby>世界有数<rt>せかいゆうすう</rt></ruby>のハブであることが<ruby>浮<rt>う</rt></ruby>かび<ruby>上<rt>あ</rt></ruby>がる。</p><p class="ko">연간 약 9,160만 명과 49만 회라는 수치, 2~3분 간격의 이착륙이 소개되며 세계에서도 손꼽히는 허브임이 드러난다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>続<rt>つづ</rt></ruby>いて、１９３１<ruby>年<rt>ねん</rt></ruby>の<ruby>開港<rt>かいこう</rt></ruby>から９５<ruby>年<rt>ねん</rt></ruby>という「きょう」を<ruby>思<rt>おも</rt></ruby>い<ruby>出<rt>だ</rt></ruby>させ、<ruby>小<rt>ちい</rt></ruby>さな<ruby>滑走路<rt>かっそうろ</rt></ruby>から<ruby>始<rt>はじ</rt></ruby>まった<ruby>歴史<rt>れきし</rt></ruby>を<ruby>対比<rt>たいひ</rt></ruby>させる。</p><p class="ko">이어 1931년 개항 후 95년이 되는 ‘오늘’을 상기시키며, 작은 활주로에서 시작된 역사를 현재와 대비한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>混雑<rt>こんざつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">혼잡</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>連休<rt>れんきゅう</rt></ruby>の<ruby>駅<rt>えき</rt></ruby>は<ruby>混雑<rt>こんざつ</rt></ruby>していた。</span><br>연휴의 역은 혼잡했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>離着陸<rt>りちゃくりく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">이착륙</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>この<rt></rt></ruby><ruby>空港<rt>くうこう</rt></ruby>では<ruby>数分<rt>すうふん</rt></ruby>ごとに<ruby>離着陸<rt>りちゃくりく</rt></ruby>が<ruby>続<rt>つづ</rt></ruby>く。</span><br>이 공항에서는 몇 분 간격으로 이착륙이 이어진다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>開港<rt>かいこう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">개항(공항의 개장)</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>市<rt>し</rt></ruby>は<ruby>新<rt>あたら</rt></ruby>しい<ruby>空港<rt>くうこう</rt></ruby>の<ruby>開港<rt>かいこう</rt></ruby>を<ruby>祝<rt>いわ</rt></ruby>った。</span><br>시는 새로운 공항의 개항을 축하했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>滑走路<rt>かっそうろ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">활주로</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>滑走路<rt>かっそうろ</rt></ruby>の<ruby>点検<rt>てんけん</rt></ruby>で<ruby>便<rt>びん</rt></ruby>が<ruby>遅延<rt>ちえん</rt></ruby>した。</span><br>활주로 점검으로 항공편이 지연되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>世界有数<rt>せかいゆうすう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">세계 유수</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>都市<rt>とし</rt></ruby>は<ruby>世界有数<rt>せかいゆうすう</rt></ruby>の<ruby>観光地<rt>かんこうち</rt></ruby>だ.</span><br>그 도시는 세계 유수의 관광지다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜に<ruby>上<rt>のぼ</rt></ruby>る</div>
+        <div class="pattern-ko">~에 달하다</div>
+        <p class="explain">수량이 큰 규모에 이른다는 뜻으로, 공식 수치나 통계, 보도문에서 자주 쓰인다. 단정적이고 객관적인 뉘앙스를 준다는 점이 특징이다.</p>
+        <p class="ex"><span class="ja"><ruby>寄付<rt>きふ</rt></ruby>は１<ruby>億円<rt>おくえん</rt></ruby>に<ruby>上<rt>のぼ</rt></ruby>る。</span><br>기부금은 1억 엔에 달한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 독자가 체감하는 ‘혼잡 알림’이라는 생활 장면에서 출발해, 곧바로 수치와 빈도로 압박감을 형상화한다. 이어 세계적 순위라는 비교틀을 제시해 규모의 감각을 고정시키고, 마지막에 과거의 개항일을 소환해 시간의 깊이를 더한다. 현재의 분주함과 과거의 소박함을 나란히 놓는 대비가 천성인어 특유의 전개다. 짧은 단락 전환(▼)으로 호흡을 바꾸며 독자의 주의를 이끈다.</p>
+        <p>의미적으로는 인프라가 ‘커진 정도’를 넘어 ‘쌓인 시간’을 보게 만든다. 일본 독자에게는 익숙한 하네다가, 한국 독자에게는 김포·인천의 기억과도 겹쳐 읽히는 지점이 흥미롭다. 통계의 건조함을 역사적 기념일과 연결해 정서적 여운을 만드는 방식은 한국어 글쓰기에도 유용하다. 화려한 수사 없이 사실과 맥락만으로 공간의 성격을 드러낸 점이 인상적이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 통계와 기념일을 겹쳐 공항의 분주함과 세월의 무게를 함께 보여주는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>하네다공항은 도쿄 도심 접근성이 좋아 국내선 중심지로 자리 잡았고, 최근 국제선도 확대되며 재도약했다.</p>
+        <p>일본의 공항은 전후 복구와 고도성장, 국제화의 변곡점을 고스란히 반영해왔다.</p>
+        <p>활주로 길이와 발착 횟수 증가는 항공기 기술, 소음 규제, 주변 도시계획 등 복합 요인의 결과로 이해된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>생활적 단서(알림)를 도입부로 삼아 독자의 몰입을 돕는다.</p>
+        <p><span class="n">二</span>구체적 수치와 빈도 표현으로 규모감을 생생하게 만든다.</p>
+        <p><span class="n">三</span>현재와 기원을 맞대어 대비시키며 주제를 입체화한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>空港<rt>くうこう</rt></ruby>は<ruby>時間<rt>じかん</rt></ruby>の<ruby>流<rt>なが</rt></ruby>れを<ruby>映<rt>うつ</rt></ruby>す<ruby>鏡<rt>かがみ</rt></ruby>だ。</span>
+      <span class="ko">공항은 시간의 흐름을 비추는 거울이다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-25) — <a href="https://www.asahi.com/articles/DA3S16532897.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-25.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-25",
+    "no": 49,
+    "topic_ja": "<ruby>羽田空港<rt>はねだくうこう</rt></ruby>の<ruby>歳月<rt>さいげつ</rt></ruby>",
+    "topic_ko": "하네다공항의 세월",
+    "url": "https://www.asahi.com/articles/DA3S16532897.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '도시와 이동', '시간의 겹', '인프라의 기억' — 숫자 너머로 공항이 품은 시간성과 도시의 변화를 사유하게 하므로.",
+    "pattern": "〜に<ruby>上<rt>のぼ</rt></ruby>る"
+  },
+  {
     "date": "2026-08-24",
     "no": 48,
     "topic_ja": "<ruby>読書感想文<rt>どくしょかんそうぶん</rt></ruby>の<ruby>夏<rt>なつ</rt></ruby>",
