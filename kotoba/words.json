@@ -6011,5 +6011,45 @@
   "example": "都市は世界有数の観光地だ.",
   "exampleReading": "としはせかいゆうすうのかんこうちだ。",
   "exampleMeaning": "그 도시는 세계 유수의 관광지다."
+ },
+ {
+  "id": "news220",
+  "word": "拒否",
+  "reading": "きょひ",
+  "meaning": "거부",
+  "level": "N2",
+  "example": "彼はその提案を拒否した。",
+  "exampleReading": "かれはそのていあんをきょひした。",
+  "exampleMeaning": "그는 그 제안을 거부했다."
+ },
+ {
+  "id": "news221",
+  "word": "審査",
+  "reading": "しんさ",
+  "meaning": "심사",
+  "level": "N2",
+  "example": "入国審査には時間がかかることがある。",
+  "exampleReading": "にゅうこくしんさにはじかんがかかることがある。",
+  "exampleMeaning": "입국 심사에는 시간이 걸리는 경우가 있다."
+ },
+ {
+  "id": "news222",
+  "word": "入念",
+  "reading": "にゅうねん",
+  "meaning": "빈틈없음, 꼼꼼함, 치밀함",
+  "level": "N1",
+  "example": "彼らは犯行のために入念な準備をしていた。",
+  "exampleReading": "かれらははんこうのためににゅうねんなじゅんびをしていた。",
+  "exampleMeaning": "그들은 범행을 위해 치밀한 준비를 하고 있었다."
+ },
+ {
+  "id": "news223",
+  "word": "復活",
+  "reading": "ふっかつ",
+  "meaning": "부활, 재개",
+  "level": "N2",
+  "example": "そのドラマは十三年ぶりに復活する。",
+  "exampleReading": "そのドラマはじゅうさんねんぶりにふっかつする。",
+  "exampleMeaning": "그 드라마는 13년 만에 부활한다."
  }
 ]
