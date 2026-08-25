@@ -6051,5 +6051,55 @@
   "example": "そのドラマは十三年ぶりに復活する。",
   "exampleReading": "そのドラマはじゅうさんねんぶりにふっかつする。",
   "exampleMeaning": "그 드라마는 13년 만에 부활한다."
+ },
+ {
+  "id": "tj211",
+  "word": "取材",
+  "reading": "しゅざい",
+  "meaning": "취재",
+  "level": "N2",
+  "example": "彼は事故の現場を取材した。",
+  "exampleReading": "かれはじこのげんばをしゅざいした。",
+  "exampleMeaning": "그는 사고 현장을 취재했다."
+ },
+ {
+  "id": "tj212",
+  "word": "記録者",
+  "reading": "きろくしゃ",
+  "meaning": "기록자",
+  "level": "N2",
+  "example": "彼女は町の歴史の記録者として語り継いだ。",
+  "exampleReading": "かのじょはまちのれきしのきろくしゃとしてかたりついだ。",
+  "exampleMeaning": "그녀는 마을의 역사를 기록자로서 이어 전했다."
+ },
+ {
+  "id": "tj213",
+  "word": "戦地",
+  "reading": "せんち",
+  "meaning": "전장, 전선 지역",
+  "level": "N1",
+  "example": "戦地では水も情報も貴重だ。",
+  "exampleReading": "せんちではみずもじょうほうもきちょうだ。",
+  "exampleMeaning": "전장에서는 물도 정보도 귀하다."
+ },
+ {
+  "id": "tj214",
+  "word": "従軍",
+  "reading": "じゅうぐん",
+  "meaning": "종군",
+  "level": "N1",
+  "example": "記者は部隊に従軍して前線を記録した。",
+  "exampleReading": "きしゃはぶたいにじゅうぐんしてぜんせんをきろくした。",
+  "exampleMeaning": "기자는 부대에 종군하여 전선을 기록했다."
+ },
+ {
+  "id": "tj215",
+  "word": "訃報",
+  "reading": "ふほう",
+  "meaning": "부고",
+  "level": "N1",
+  "example": "訃報を受け、関係者は沈痛な面持ちを見せた。",
+  "exampleReading": "ふほうをうけ、かんけいしゃはちんつうなおももちをみせた。",
+  "exampleMeaning": "부고를 받고 관계자들은 침통한 표정을 지었다."
  }
 ]

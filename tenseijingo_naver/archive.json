@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-26",
+    "no": 50,
+    "topic_ja": "<ruby>戦場<rt>せんじょう</rt></ruby>を<ruby>撮<rt>と</rt></ruby>る<ruby>者<rt>もの</rt></ruby>",
+    "topic_ko": "전장을 찍는 사람",
+    "url": "https://www.asahi.com/articles/DA3S16533528.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘기록과 증언’, ‘전쟁의 기억’, ‘사진 저널리즘’ — 한 인물의 생애를 매개로 전장 보도의 윤리와 사회적 책임을 압축해 보여 주기 때문이다.",
+    "pattern": "<ruby>名詞<rt>めいし</rt></ruby>＋で<ruby>知<rt>し</rt></ruby>られる"
+  },
+  {
     "date": "2026-08-25",
     "no": 49,
     "topic_ja": "<ruby>羽田空港<rt>はねだくうこう</rt></ruby>の<ruby>歳月<rt>さいげつ</rt></ruby>",

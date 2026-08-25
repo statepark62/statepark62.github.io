@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-26 天声人語로 배우는 일본어 — 전장을 찍는 사람</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span class="no">第50回</span>
+      <span>2026-08-26</span>
+      <span>2026년 8월 26일 (수)</span>
+    </div>
+
+    <h1><ruby>戦場<rt>せんじょう</rt></ruby>を<ruby>撮<rt>と</rt></ruby>る<ruby>者<rt>もの</rt></ruby></h1>
+    <p class="topic-ko">전장을 찍는 사람</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>時代<rt>じだい</rt></ruby>の<ruby>記録者<rt>きろくしゃ</rt></ruby>」</div>
+      <div class="ko">시대의 기록자 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">この<ruby>欄<rt>らん</rt></ruby>は、ベトナム<ruby>戦争<rt>せんそう</rt></ruby>と<ruby>沖縄<rt>おきなわ</rt></ruby>の<ruby>取材<rt>しゅざい</rt></ruby>で<ruby>知<rt>し</rt></ruby>られる<ruby>報道<rt>ほうどう</rt></ruby><ruby>写真家<rt>しゃしんか</rt></ruby>・<ruby>石川<rt>いしかわ</rt></ruby><ruby>文洋<rt>ぶんよう</rt></ruby>さんの<ruby>訃報<rt>ふほう</rt></ruby>を<ruby>伝<rt>つた</rt></ruby>え、その<ruby>足跡<rt>そくせき</rt></ruby>を<ruby>振<rt>ふ</rt></ruby>り<ruby>返<rt>かえ</rt></ruby>る。</p><p class="ko">칼럼은 베트남전과 오키나와 취재로 알려진 보도사진가 이시카와 분요의 별세를 전하며, 그의 발자취를 되돌아본다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>著作<rt>ちょさく</rt></ruby>を<ruby>改<rt>あらた</rt></ruby>めてひもとき、<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>超<rt>こ</rt></ruby>えて<ruby>膨大<rt>ぼうだい</rt></ruby>な<ruby>文字<rt>もじ</rt></ruby><ruby>記録<rt>きろく</rt></ruby>を<ruby>残<rt>のこ</rt></ruby>したことを<ruby>強調<rt>きょうちょう</rt></ruby>し、<ruby>米軍<rt>べいぐん</rt></ruby>や<ruby>南<rt>みなみ</rt></ruby>ベトナム<ruby>軍<rt>ぐん</rt></ruby>に<ruby>従軍<rt>じゅうぐん</rt></ruby>し<ruby>四<rt>よ</rt></ruby><ruby>年<rt>ねん</rt></ruby>を<ruby>戦地<rt>せんち</rt></ruby>で<ruby>過<rt>す</rt></ruby>ごしたことを<ruby>想起<rt>そうき</rt></ruby>する。</p><p class="ko">필자는 그의 저작을 다시 넘기며 사진을 넘어 방대한 문자 기록을 남긴 점을 강조하고, 전장에서 미군과 남베트남군에 동행해 네 해를 보냈던 경력을 상기한다.</p></div>
+      <div class="s-item"><p class="ja">その<ruby>結果<rt>けっか</rt></ruby>、かれはただの<ruby>写真家<rt>しゃしんか</rt></ruby>ではなく、<ruby>時代<rt>じだい</rt></ruby>を<ruby>証言<rt>しょうげん</rt></ruby>した<ruby>記録者<rt>きろくしゃ</rt></ruby>だという<ruby>印象<rt>いんしょう</rt></ruby>で<ruby>結<rt>むす</rt></ruby>ばれる。</p><p class="ko">그는 결국 단순한 사진가를 넘어 시대를 증언한 기록자였다는 인상으로 글을 맺는다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>取材<rt>しゅざい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">취재</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>事故<rt>じこ</rt></ruby>の<ruby>現場<rt>げんば</rt></ruby>を<ruby>取材<rt>しゅざい</rt></ruby>した。</span><br>그는 사고 현장을 취재했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>記録者<rt>きろくしゃ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">기록자</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼女<rt>かのじょ</rt></ruby>は<ruby>町<rt>まち</rt></ruby>の<ruby>歴史<rt>れきし</rt></ruby>の<ruby>記録者<rt>きろくしゃ</rt></ruby>として<ruby>語<rt>かた</rt></ruby>り<ruby>継<rt>つ</rt></ruby>いだ。</span><br>그녀는 마을의 역사를 기록자로서 이어 전했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>戦地<rt>せんち</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">전장, 전선 지역</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>戦地<rt>せんち</rt></ruby>では<ruby>水<rt>みず</rt></ruby>も<ruby>情報<rt>じょうほう</rt></ruby>も<ruby>貴重<rt>きちょう</rt></ruby>だ。</span><br>전장에서는 물도 정보도 귀하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>従軍<rt>じゅうぐん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">종군</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>記者<rt>きしゃ</rt></ruby>は<ruby>部隊<rt>ぶたい</rt></ruby>に<ruby>従軍<rt>じゅうぐん</rt></ruby>して<ruby>前線<rt>ぜんせん</rt></ruby>を<ruby>記録<rt>きろく</rt></ruby>した。</span><br>기자는 부대에 종군하여 전선을 기록했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>訃報<rt>ふほう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">부고</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>訃報<rt>ふほう</rt></ruby>を<ruby>受<rt>う</rt></ruby>け、<ruby>関係者<rt>かんけいしゃ</rt></ruby>は<ruby>沈痛<rt>ちんつう</rt></ruby>な<ruby>面持<rt>おもも</rt></ruby>ちを<ruby>見<rt>み</rt></ruby>せた。</span><br>부고를 받고 관계자들은 침통한 표정을 지었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern"><ruby>名詞<rt>めいし</rt></ruby>＋で<ruby>知<rt>し</rt></ruby>られる</div>
+        <div class="pattern-ko">~으로 알려지다</div>
+        <p class="explain">어떤 인물·사물·장소가 특정 특징으로 널리 알려져 있음을 객관적으로 말할 때 쓴다. &#x27;Aで知られるB&#x27;처럼 앞의 정보가 뒤의 명사를 수식하는 구조로도 자주 쓰여 신문 기사체에 자주 등장한다.</p>
+        <p class="ex"><span class="ja">この<ruby>町<rt>まち</rt></ruby>は<ruby>桜<rt>さくら</rt></ruby>の<ruby>名所<rt>めいしょ</rt></ruby>で<ruby>知<rt>し</rt></ruby>られる。</span><br>이 마을은 벚꽃 명소로 알려져 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 한 인물의 부고에서 출발해 그의 현장성과 기록성을 압축적으로 부각한다. 대표 경력(베트남전·오키나와)과 작업 특성(사진을 넘어선 문자 기록)을 짧은 문장으로 병치해, 독자가 인물의 스케일을 즉시 파악하게 한다. 특히 ‘사진가라는 틀을 넘어’ 같은 표현은 역할의 확장을 강조하는 천성인어 특유의 대비법을 보여 준다. 문단 전환 기호를 통해 호흡을 끊고, 전장 체험의 구체적 시간(4년)을 제시해 사실감도 높인다.</p>
+        <p>그가 ‘시대의 기록자’였다는 결론은 개별 사진을 넘어 언론의 공적 책임을 환기한다. 한국 독자에게도 베트남전과 오키나와라는 키워드는 전쟁 기억과 미군 기지 문제를 연결하는 단서가 되어 읽힌다. 사진과 글의 이중 기록을 강조한 점은 오늘날 디지털 시대의 아카이브 윤리에도 닿는다. 결국 이 칼럼은 한 사람의 생애를 통해 ‘무엇을 남길 것인가’라는 보편적 질문을 조용히 던진다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 보도사진가의 부고를 통해 전장의 기록과 증언의 의미를 되새기는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본의 보도사진은 전후 오키나와·베트남전 보도를 통해 국제 이슈와 깊이 연결되었다. 사진가들은 군과 함께 이동하며 현장을 기록하는 ‘종군 취재’로 알려졌다.</p>
+        <p>오키나와는 미군 기지가 집중된 지역으로, 전후 일본 사회에서 안전보장과 지역 갈등을 상징하는 장소이다. 언론 보도는 이 문제의 지속성을 환기하는 역할을 해 왔다.</p>
+        <p>아사히신문의 ‘천성인어’는 시사 인물·사건을 소재로 짧게 사유를 확장하는 칼럼이다. 개인의 일화를 통해 사회적 맥락을 비추는 구조가 특징이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>부고를 ‘기록의 의미’로 확장해 주제의 보편성을 확보한다.</p>
+        <p><span class="n">二</span>구체적 수치와 현장 어휘를 최소한으로 제시해 사실성과 응축감을 동시에 살린다.</p>
+        <p><span class="n">三</span>‘~という枠を超えた’처럼 규정과 일탈을 대비시켜 인물의 스케일을 강조한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>写真<rt>しゃしん</rt></ruby>は<ruby>問<rt>と</rt></ruby>いを<ruby>残<rt>のこ</rt></ruby>し、<ruby>記録<rt>きろく</rt></ruby>は<ruby>時代<rt>じだい</rt></ruby>を<ruby>映<rt>うつ</rt></ruby>す。</span>
+      <span class="ko">사진은 물음을 남기고, 기록은 시대를 비춘다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-26) — <a href="https://www.asahi.com/articles/DA3S16533528.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-26.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
