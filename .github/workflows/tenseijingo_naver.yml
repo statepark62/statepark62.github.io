@@ -2,10 +2,10 @@ name: Tenseijingo Naver
 
 on:
   schedule:
-    - cron: '7 22 * * *'    # 한국 시간 07:07 (1차)
-    - cron: '7 23 * * *'    # 한국 시간 08:07 (예비 1)
-    - cron: '7 0 * * *'     # 한국 시간 09:07 (예비 2)
-    - cron: '7 2 * * *'     # 한국 시간 11:07 (예비 3)
+    - cron: '7 23 * * *'    # 한국 시간 08:07 (1차)
+    - cron: '7 0 * * *'     # 한국 시간 09:07 (예비 1)
+    - cron: '7 1 * * *'     # 한국 시간 10:07 (예비 2)
+    - cron: '7 3 * * *'     # 한국 시간 12:07 (예비 3)
   workflow_dispatch:
 
 permissions:
@@ -35,6 +35,7 @@ jobs:
           pip install beautifulsoup4
 
       - name: 페이지·카드 생성 및 카페 게시
+        id: generate
         env:
           PROVIDER: openai
           OPENAI_MODEL: gpt-5
@@ -79,14 +80,14 @@ jobs:
           echo "${{ steps.kst_date.outputs.date }}" > automation_naver/scripts/threads/last_posted_date.txt
 
       - name: PWA 단어 동기화 (시트 → kotoba/words.json)
-        if: always()    # 새 글이 없는 날도 시트 수동 편집분을 반영
+        if: ${{ !cancelled() && steps.generate.outcome == 'success' }}    # 새 글이 없는 날도 반영하되, 생성 자체가 실패했으면 건너뜀
         env:
           GAS_WORDS_URL: ${{ secrets.GAS_WORDS_URL }}
           GAS_WORDS_TOKEN: ${{ secrets.GAS_WORDS_TOKEN }}
         run: python automation_naver/sync_words.py
 
       - name: 커밋 및 푸시
-        if: always()
+        if: ${{ !cancelled() && steps.generate.outcome == 'success' }}    # Threads 실패는 봐주되, 생성 자체가 실패했으면 커밋하지 않음
         run: |
           git config user.name "tenseijingo-bot"
           git config user.email "actions@github.com"
