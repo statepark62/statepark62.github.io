@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-27",
+    "no": 51,
+    "topic_ja": "<ruby>親族<rt>しんぞく</rt></ruby>なき<ruby>時代<rt>じだい</rt></ruby>",
+    "topic_ko": "친족 없는 시대",
+    "url": "https://www.asahi.com/articles/DA3S16534227.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘1인 가구’, ‘돌봄의 공백’, ‘법적 절차’ — 가족 기반 안전망이 약해지는 현실에서 생애 말기의 행정·돌봄 문제를 사회적 과제로 부각하기 때문임.",
+    "pattern": "〜とは<ruby>限<rt>かぎ</rt></ruby>らない"
+  },
+  {
     "date": "2026-08-26",
     "no": 50,
     "topic_ja": "<ruby>戦場<rt>せんじょう</rt></ruby>を<ruby>撮<rt>と</rt></ruby>る<ruby>者<rt>もの</rt></ruby>",

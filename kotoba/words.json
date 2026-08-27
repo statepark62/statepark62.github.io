@@ -6101,5 +6101,55 @@
   "example": "訃報を受け、関係者は沈痛な面持ちを見せた。",
   "exampleReading": "ふほうをうけ、かんけいしゃはちんつうなおももちをみせた。",
   "exampleMeaning": "부고를 받고 관계자들은 침통한 표정을 지었다."
+ },
+ {
+  "id": "tj216",
+  "word": "手続き",
+  "reading": "てつづき",
+  "meaning": "절차",
+  "level": "N3",
+  "example": "入院の手続きに必要な書類をそろえる。",
+  "exampleReading": "にゅういんのてつづきにひつようなしょるいをそろえる",
+  "exampleMeaning": "입원 절차에 필요한 서류를 갖춘다."
+ },
+ {
+  "id": "tj217",
+  "word": "親族",
+  "reading": "しんぞく",
+  "meaning": "친족",
+  "level": "N2",
+  "example": "いざというときに頼れるのは親族だけとは限らない。",
+  "exampleReading": "いざというときにたよれるのはしんぞくだけとはかぎらない",
+  "exampleMeaning": "막상 때가 되면 의지할 수 있는 이가 친족뿐이라고는 단정할 수 없다."
+ },
+ {
+  "id": "tj218",
+  "word": "高齢化",
+  "reading": "こうれいか",
+  "meaning": "고령화",
+  "level": "N2",
+  "example": "地域の高齢化が進み、支援の仕組みが問われている。",
+  "exampleReading": "ちいきのこうれいかがすすみしえんのしくみがとわれている",
+  "exampleMeaning": "지역의 고령화가 진행되며 지원 체계가 도마에 오른다."
+ },
+ {
+  "id": "tj219",
+  "word": "身寄り",
+  "reading": "みより",
+  "meaning": "의지할 연고(친척)",
+  "level": "N1",
+  "example": "身寄りのない人の見守り体制が課題だ。",
+  "exampleReading": "みよりのないひとのみまもりたいせいがかだいだ",
+  "exampleMeaning": "연고가 없는 사람을 살피는 체계가 과제다."
+ },
+ {
+  "id": "tj220",
+  "word": "独居",
+  "reading": "どっきょ",
+  "meaning": "독거, 혼자 삶",
+  "level": "N1",
+  "example": "都心では独居高齢者が増えている。",
+  "exampleReading": "としんではどっきょこうれいしゃがふえている",
+  "exampleMeaning": "도심에서는 독거 고령자가 늘고 있다."
  }
 ]
