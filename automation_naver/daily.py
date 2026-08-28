@@ -70,7 +70,7 @@ VOCAB_ITEM = """        <div class="vocab-item">
 
 INDEX_ITEM = """      <li>
         <a href="{fname}">
-          <span class="d">第{no}回 · {date}</span>
+          <span class="d">{date}</span>
           <span class="t-ja">{topic_ja}</span>
           <span class="t-ko">{topic_ko}</span>
         </a>
@@ -334,7 +334,7 @@ def update_index(entry):
 
     items = "\n".join(
         INDEX_ITEM.format(
-            fname=f"{r['date']}.html", no=r["no"], date=r["date"],
+            fname=f"{r['date']}.html", date=r["date"],
             topic_ja=esc_ruby(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
         )
         for r in records
@@ -355,7 +355,7 @@ def update_index(entry):
         # 이 페이지의 아이템 HTML 생성
         page_items = "".join(
             INDEX_ITEM.format(
-                fname=f"{r['date']}.html", no=r["no"], date=r["date"],
+                fname=f"{r['date']}.html", date=r["date"],
                 topic_ja=esc_ruby(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
             )
             for r in page_records
