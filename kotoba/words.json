@@ -6201,5 +6201,125 @@
   "example": "工場の跡地に新しい商業施設が建設される予定だ。",
   "exampleReading": "こうじょうのあとちにあたらしいしょうぎょうしせつがけんせつされるよていだ。",
   "exampleMeaning": "공장 부지에 새로운 상업 시설이 건설될 예정이다."
+ },
+ {
+  "id": "news229",
+  "word": "明かす",
+  "reading": "あかす",
+  "meaning": "밝히다, 털어놓다",
+  "level": "N2",
+  "example": "彼女はインタビューで初めて自分の過去を明かした。",
+  "exampleReading": "かのじょはインタビューではじめてじぶんのかこをあかした。",
+  "exampleMeaning": "그녀는 인터뷰에서 처음으로 자신의 과거를 밝혔다."
+ },
+ {
+  "id": "news230",
+  "word": "疑い",
+  "reading": "うたがい",
+  "meaning": "의심, 혐의",
+  "level": "N2",
+  "example": "彼は詐欺の疑いで警察に逮捕された。",
+  "exampleReading": "かれはさぎのうたがいでけいさつにたいほされた。",
+  "exampleMeaning": "그는 사기 혐의로 경찰에 체포되었다."
+ },
+ {
+  "id": "news231",
+  "word": "認証",
+  "reading": "にんしょう",
+  "meaning": "인증",
+  "level": "N2",
+  "example": "このアプリはログイン時に二段階認証が必要だ。",
+  "exampleReading": "このアプリはログインじにだんかいにんしょうがひつようだ。",
+  "exampleMeaning": "이 앱은 로그인 시 2단계 인증이 필요하다."
+ },
+ {
+  "id": "news232",
+  "word": "跳ね上がる",
+  "reading": "はねあがる",
+  "meaning": "급등하다, 뛰어오르다",
+  "level": "N2",
+  "example": "円安の影響で輸入品の価格が跳ね上がった。",
+  "exampleReading": "えんやすのえいきょうでゆにゅうひんのかかくがはねあがった。",
+  "exampleMeaning": "엔저의 영향으로 수입품 가격이 급등했다."
+ },
+ {
+  "id": "news233",
+  "word": "終焉",
+  "reading": "しゅうえん",
+  "meaning": "종언, 종말",
+  "level": "N1",
+  "example": "長く続いたブームもついに終焉を迎えた。",
+  "exampleReading": "ながくつづいたブームもついにしゅうえんをむかえた。",
+  "exampleMeaning": "오래 지속된 붐도 마침내 종언을 맞이했다."
+ },
+ {
+  "id": "news234",
+  "word": "明暗",
+  "reading": "めいあん",
+  "meaning": "명암, 희비(성공과 실패)",
+  "level": "N1",
+  "example": "同じ業界でも企業によって明暗が分かれている。",
+  "exampleReading": "おなじぎょうかいでもきぎょうによってめいあんがわかれている。",
+  "exampleMeaning": "같은 업계라도 기업에 따라 희비가 갈리고 있다."
+ },
+ {
+  "id": "news235",
+  "word": "衝撃",
+  "reading": "しょうげき",
+  "meaning": "충격",
+  "level": "N2",
+  "example": "そのニュースは世界中に衝撃を与えた。",
+  "exampleReading": "そのニュースはせかいじゅうにしょうげきをあたえた。",
+  "exampleMeaning": "그 뉴스는 전 세계에 충격을 주었다."
+ },
+ {
+  "id": "tj221",
+  "word": "被災地",
+  "reading": "ひさいち",
+  "meaning": "재해 피해 지역",
+  "level": "N2",
+  "example": "被災地では支援の手がまだ足りない。",
+  "exampleReading": "ひさいちではしえんのてがまだたりない。",
+  "exampleMeaning": "피해 지역에서는 지원의 손길이 아직 부족하다."
+ },
+ {
+  "id": "tj222",
+  "word": "避難所",
+  "reading": "ひなんじょ",
+  "meaning": "대피소",
+  "level": "N2",
+  "example": "避難所での生活には配慮が必要だ。",
+  "exampleReading": "ひなんじょでのせいかつにははいりょがひつようだ。",
+  "exampleMeaning": "대피소 생활에는 배려가 필요하다."
+ },
+ {
+  "id": "tj223",
+  "word": "震度",
+  "reading": "しんど",
+  "meaning": "진도(일본식 진도 계급)",
+  "level": "N2",
+  "example": "震度の大きいゆれが観測された。",
+  "exampleReading": "しんどのおおきいゆれがかんそくされた。",
+  "exampleMeaning": "큰 진동이 관측되었다."
+ },
+ {
+  "id": "tj224",
+  "word": "修復",
+  "reading": "しゅうふく",
+  "meaning": "수복, 복구",
+  "level": "N2",
+  "example": "道路の修復が夜通しで進む。",
+  "exampleReading": "どうろのしゅうふくがよどおしですすむ。",
+  "exampleMeaning": "도로 복구가 밤새 진행된다."
+ },
+ {
+  "id": "tj225",
+  "word": "猛暑",
+  "reading": "もうしょ",
+  "meaning": "폭염",
+  "level": "N2",
+  "example": "猛暑が続き、体調を崩す人が増えた。",
+  "exampleReading": "もうしょがつづき、たいちょうをくずすひとがふえた。",
+  "exampleMeaning": "폭염이 이어져 몸 상태를 해치는 사람이 늘었다."
  }
 ]

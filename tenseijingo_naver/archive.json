@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-28",
+    "no": 52,
+    "topic_ja": "<ruby>猛暑<rt>もうしょ</rt></ruby>下の<ruby>地震<rt>じしん</rt></ruby>",
+    "topic_ko": "폭염 아래의 지진",
+    "url": "https://www.asahi.com/articles/DA3S16534892.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '폭염과 재난', '현장과 수치' — 감각적 풍경과 구체적 데이터가 맞물려 재난의 현재성을 입체적으로 드러내므로.",
+    "pattern": "動ます形＋<ruby>始<rt>はじ</rt></ruby>めている"
+  },
+  {
     "date": "2026-08-27",
     "no": 51,
     "topic_ja": "<ruby>親族<rt>しんぞく</rt></ruby>なき<ruby>時代<rt>じだい</rt></ruby>",
