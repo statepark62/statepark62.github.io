@@ -334,7 +334,8 @@ def build_calendar_html(records):
                 cells.append(
                     f'<a class="day has" href="{iso}.html">'
                     f'<span class="num">{d}</span>'
-                    f'<span class="ttl">{esc(r["topic_ko"])}</span>'
+                    f'<span class="ttl-ja">{esc_ruby(r["topic_ja"])}</span>'
+                    f'<span class="ttl-ko">{esc(r["topic_ko"])}</span>'
                     f'</a>'
                 )
             else:
