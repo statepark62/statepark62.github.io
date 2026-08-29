@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-29 天声人語로 배우는 일본어 — 사라진 저녁소나기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-08-29</span>
+      <span>2026년 8월 29일 (토)</span>
+    </div>
+
+    <h1><ruby>消<rt>き</rt></ruby>えた<ruby>夕立<rt>ゆうだち</rt></ruby></h1>
+    <p class="topic-ko">사라진 저녁소나기</p>
+
+    <div class="keyquote">
+      <div class="ja">「ゲリラ<ruby>豪雨<rt>ごうう</rt></ruby>」</div>
+      <div class="ko">게릴라 호우 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>幼少期<rt>ようしょうき</rt></ruby>に<ruby>祖母<rt>そぼ</rt></ruby>と<ruby>買<rt>か</rt></ruby>い<ruby>物<rt>もの</rt></ruby>に<ruby>出<rt>で</rt></ruby>て、<ruby>夕立<rt>ゆうだち</rt></ruby>を<ruby>避<rt>さ</rt></ruby>けた<ruby>夏<rt>なつ</rt></ruby>の<ruby>夕方<rt>ゆうがた</rt></ruby>を<ruby>回想<rt>かいそう</rt></ruby>する。</p><p class="ko">필자는 어린 시절 할머니와 장을 보러 갔다가 소나기를 피하던 여름 저녁의 기억을 떠올린다.</p></div>
+      <div class="s-item"><p class="ja">しかし<ruby>近年<rt>きんねん</rt></ruby>は「<ruby>夕立<rt>ゆうだち</rt></ruby>」という<ruby>言葉<rt>ことば</rt></ruby>があまり<ruby>使<rt>つか</rt></ruby>われず、「ゲリラ<ruby>豪雨<rt>ごうう</rt></ruby>」がその<ruby>座<rt>ざ</rt></ruby>を<ruby>占<rt>し</rt></ruby>めると<ruby>述<rt>の</rt></ruby>べる。</p><p class="ko">그러나 요즘은 ‘저녁소나기(夕立)’라는 말이 거의 쓰이지 않고, 대신 ‘게릴라 호우’가 자리를 차지했다고 지적한다.</p></div>
+      <div class="s-item"><p class="ja">かつての<ruby>風情<rt>ふぜい</rt></ruby>が<ruby>失<rt>うしな</rt></ruby>われ、<ruby>気候<rt>きこう</rt></ruby>と<ruby>言葉<rt>ことば</rt></ruby>の<ruby>変化<rt>へんか</rt></ruby>が<ruby>残<rt>のこ</rt></ruby>す<ruby>喪失感<rt>そうしつかん</rt></ruby>をしみじみと<ruby>伝<rt>つた</rt></ruby>える。</p><p class="ko">옛 정취가 사라진 자리에서, 변화한 기후와 언어가 남긴 상실감을 조용히 전한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>夕立<rt>ゆうだち</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">저녁 소나기</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>山<rt>やま</rt></ruby>の<ruby>向<rt>む</rt></ruby>こうで<ruby>夕立<rt>ゆうだち</rt></ruby>が<ruby>始<rt>はじ</rt></ruby>まった。</span><br>산 너머에서 저녁 소나기가 시작되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>雨宿り<rt>あまやどり</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">비를 피함</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>駅前<rt>えきまえ</rt></ruby>の<ruby>軒先<rt>のきさき</rt></ruby>で<ruby>雨宿<rt>あまやど</rt></ruby>りをした。</span><br>역 앞 처마 밑에서 비를 피했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>家路<rt>いえじ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">귀갓길</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>祭<rt>まつり</rt></ruby>のあと、<ruby>家路<rt>いえじ</rt></ruby>を<ruby>急<rt>いそ</rt></ruby>いだ。</span><br>축제가 끝난 뒤, 서둘러 집으로 향했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>風情<rt>ふぜい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">정취, 운치</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">ぬれた<ruby>石畳<rt>いしだたみ</rt></ruby>に<ruby>風情<rt>ふぜい</rt></ruby>が<ruby>漂<rt>ただよ</rt></ruby>う。</span><br>젖은 돌바닥에는 운치가 감돈다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>豪雨<rt>ごうう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">호우, 폭우</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>短時間<rt>たんじかん</rt></ruby>の<ruby>豪雨<rt>ごうう</rt></ruby>で<ruby>川<rt>かわ</rt></ruby>が<ruby>増水<rt>ぞうすい</rt></ruby>した。</span><br>짧은 시간의 호우로 강물이 불어났다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern"><ruby>名詞<rt>めいし</rt></ruby>＋どころか</div>
+        <div class="pattern-ko">명사+는커녕/은커녕</div>
+        <p class="explain">기대한 바와 정반대의 사실을 강조할 때 쓰는 표현이다. 뒤에는 뜻밖의 정도가 더 큰 내용이나 부정적인 결과가 이어지는 일이 많다. 회화와 문어 모두에서 자연스럽게 쓰인다.</p>
+        <p class="ex"><span class="ja"><ruby>節約<rt>せつやく</rt></ruby>どころか、<ruby>無駄<rt>むだ</rt></ruby><ruby>遣<rt>づか</rt></ruby>いが<ruby>増<rt>ふ</rt></ruby>えた。</span><br>절약은커녕, 낭비가 늘었다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 개인적 회상으로 문을 열어 감각적 장면을 촘촘히 쌓아 올린다. 반짝이는 젖은 거리와 서늘함 같은 촉각·시각 이미지는 독자를 한여름 저녁의 공기 속으로 끌어들인다. 그러고 나서 제목격 단어의 변화를 제시하며, 정서에서 개념으로 매끄럽게 전환한다. ‘정취’와 ‘게릴라’라는 어휘의 대비를 통해 풍경의 질감이 어떻게 달라졌는지를 독자가 스스로 체감하게 하는 것이 천성인어 특유의 방식이다.</p>
+        <p>남는 의미는 단순한 추억담이 아니라, 기후와 언어의 변화를 포착하는 시대 감각이다. 일본어의 ‘夕立’가 가진 계절어의 멋과, 위험을 강조하는 ‘게릴라 호우’ 사이의 간극은 사회 인식의 이동을 보여 준다. 한국 독자에게도 장맛비와 돌발호우의 체감 변화가 익숙하므로, 어휘의 변화가 생활 감각을 어떻게 바꾸는지 생각하게 만든다. 과학적 인과를 단정하진 않지만, 단어 선택만으로도 풍경과 감정의 프레임이 달라진다는 점을 섬세하게 드러낸다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 ‘저녁소나기’에서 ‘게릴라 호우’로 바뀐 말맛을 통해, 계절의 정취가 사라지는 감각을 조용히 비추는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>‘夕立(ゆうだち)’는 여름 늦은 오후에 적란운으로 인해 갑작스레 내리는 짧은 소나기를 가리키며, 일본 시가에서도 여름의 계절어로 자주 쓰인다.</p>
+        <p>‘게릴라 호우’는 국지적·단시간 집중호우를 가리키는 유행어로 2000년대 이후 언론에서 널리 퍼졌다. 원인으로 도시 열섬과 지구 온난화의 영향이 거론되지만, 단일 요인으로 단정하긴 어렵다고 여겨진다.</p>
+        <p>비를 피해 가게 처마 아래 서 있는 ‘雨宿り’는 쇼와 시대의 거리 풍경을 상징하는 장면으로 자주 회상된다. 우산 보급과 상업 공간의 변화로 이러한 광경도 예전보다 덜 보인다는 인상이 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>감각적 이미지로 독자를 장면 속에 먼저 앉힌 뒤 개념적 논지로 전환하라.</p>
+        <p><span class="n">二</span>단어 하나의 교체가 의미망 전체를 어떻게 바꾸는지 대비시켜 보여 주라.</p>
+        <p><span class="n">三</span>단정 대신 여운을 남기는 어조로 독자가 스스로 결론을 짓게 하라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>思<rt>おも</rt></ruby>い<ruby>出<rt>で</rt></ruby>の<ruby>夕立<rt>ゆうだち</rt></ruby>は<ruby>言葉<rt>ことば</rt></ruby>からも<ruby>姿<rt>すがた</rt></ruby>を<ruby>消<rt>き</rt></ruby>しつつある。</span>
+      <span class="ko">추억의 저녁소나기는 말 속에서도 사라져 가고 있다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-29) — <a href="https://www.asahi.com/articles/DA3S16535750.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-29.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

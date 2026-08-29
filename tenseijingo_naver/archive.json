@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-29",
+    "no": 53,
+    "topic_ja": "<ruby>消<rt>き</rt></ruby>えた<ruby>夕立<rt>ゆうだち</rt></ruby>",
+    "topic_ko": "사라진 저녁소나기",
+    "url": "https://www.asahi.com/articles/DA3S16535750.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘기후 변화’, ‘말의 변천’, ‘여름 풍경’ — 개인적 기억과 사회적 변화가 교차하며, 단어의 교체가 감각과 인식을 바꾸는 과정을 보여 주기 때문이다.",
+    "pattern": "<ruby>名詞<rt>めいし</rt></ruby>＋どころか"
+  },
+  {
     "date": "2026-08-28",
     "no": 52,
     "topic_ja": "<ruby>猛暑<rt>もうしょ</rt></ruby>下の<ruby>地震<rt>じしん</rt></ruby>",

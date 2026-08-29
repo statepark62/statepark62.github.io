@@ -6381,5 +6381,55 @@
   "example": "社長は経営責任を取り、辞意を表明した。",
   "exampleReading": "しゃちょうはけいえいせきにんをとり、じいをひょうめいした。",
   "exampleMeaning": "사장은 경영 책임을 지고 사의를 표명했다."
+ },
+ {
+  "id": "tj226",
+  "word": "夕立",
+  "reading": "ゆうだち",
+  "meaning": "저녁 소나기",
+  "level": "N2",
+  "example": "山の向こうで夕立が始まった。",
+  "exampleReading": "やまのむこうでゆうだちがはじまった",
+  "exampleMeaning": "산 너머에서 저녁 소나기가 시작되었다."
+ },
+ {
+  "id": "tj227",
+  "word": "雨宿り",
+  "reading": "あまやどり",
+  "meaning": "비를 피함",
+  "level": "N2",
+  "example": "駅前の軒先で雨宿りをした。",
+  "exampleReading": "えきまえののきさきであまやどりをした",
+  "exampleMeaning": "역 앞 처마 밑에서 비를 피했다."
+ },
+ {
+  "id": "tj228",
+  "word": "家路",
+  "reading": "いえじ",
+  "meaning": "귀갓길",
+  "level": "N2",
+  "example": "祭のあと、家路を急いだ。",
+  "exampleReading": "まつりのあといえじをいそいだ",
+  "exampleMeaning": "축제가 끝난 뒤, 서둘러 집으로 향했다."
+ },
+ {
+  "id": "tj229",
+  "word": "風情",
+  "reading": "ふぜい",
+  "meaning": "정취, 운치",
+  "level": "N1",
+  "example": "ぬれた石畳に風情が漂う。",
+  "exampleReading": "ぬれたいしだたみにふぜいがただよう",
+  "exampleMeaning": "젖은 돌바닥에는 운치가 감돈다."
+ },
+ {
+  "id": "tj230",
+  "word": "豪雨",
+  "reading": "ごうう",
+  "meaning": "호우, 폭우",
+  "level": "N2",
+  "example": "短時間の豪雨で川が増水した。",
+  "exampleReading": "たんじかんのごううでかわがぞうすいした",
+  "exampleMeaning": "짧은 시간의 호우로 강물이 불어났다."
  }
 ]
