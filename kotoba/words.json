@@ -6431,5 +6431,85 @@
   "example": "短時間の豪雨で川が増水した。",
   "exampleReading": "たんじかんのごううでかわがぞうすいした",
   "exampleMeaning": "짧은 시간의 호우로 강물이 불어났다."
+ },
+ {
+  "id": "news242",
+  "word": "検証",
+  "reading": "けんしょう",
+  "meaning": "검증",
+  "level": "N2",
+  "example": "新しい方法の効果を検証するために実験を行った。",
+  "exampleReading": "あたらしいほうほうのこうかをけんしょうするためにじっけんをおこなった。",
+  "exampleMeaning": "새로운 방법의 효과를 검증하기 위해 실험을 실시했다."
+ },
+ {
+  "id": "news243",
+  "word": "犯行",
+  "reading": "はんこう",
+  "meaning": "범행",
+  "level": "N2",
+  "example": "警察は犯行の動機を調べている。",
+  "exampleReading": "けいさつははんこうのどうきをしらべている。",
+  "exampleMeaning": "경찰은 범행의 동기를 조사하고 있다."
+ },
+ {
+  "id": "news244",
+  "word": "一部始終",
+  "reading": "いちぶしじゅう",
+  "meaning": "자초지종, 전말",
+  "level": "N1",
+  "example": "彼は事件の一部始終を詳しく説明した。",
+  "exampleReading": "かれはじけんのいちぶしじゅうをくわしくせつめいした。",
+  "exampleMeaning": "그는 사건의 자초지종을 자세히 설명했다."
+ },
+ {
+  "id": "news245",
+  "word": "引き下げ",
+  "reading": "ひきさげ",
+  "meaning": "인하, 낮춤",
+  "level": "N2",
+  "example": "政府は税金の引き下げを検討している。",
+  "exampleReading": "せいふはぜいきんのひきさげをけんとうしている。",
+  "exampleMeaning": "정부는 세금 인하를 검토하고 있다."
+ },
+ {
+  "id": "news246",
+  "word": "求刑",
+  "reading": "きゅうけい",
+  "meaning": "구형(검찰이 형을 구함)",
+  "level": "N1",
+  "example": "検察官は懲役五年を求刑した。",
+  "exampleReading": "けんさつかんはちょうえきごねんをきゅうけいした。",
+  "exampleMeaning": "검사는 징역 5년을 구형했다."
+ },
+ {
+  "id": "news247",
+  "word": "疑惑",
+  "reading": "ぎわく",
+  "meaning": "의혹",
+  "level": "N2",
+  "example": "その政治家は汚職の疑惑をかけられている。",
+  "exampleReading": "そのせいじかはおしょくのぎわくをかけられている。",
+  "exampleMeaning": "그 정치인은 부패 의혹을 받고 있다."
+ },
+ {
+  "id": "news248",
+  "word": "再燃",
+  "reading": "さいねん",
+  "meaning": "재연, 다시 불붙음",
+  "level": "N1",
+  "example": "二国間の対立が再燃する恐れがある。",
+  "exampleReading": "にこくかんのたいりつがさいねんするおそれがある。",
+  "exampleMeaning": "양국 간의 대립이 재연될 우려가 있다."
+ },
+ {
+  "id": "news249",
+  "word": "健気",
+  "reading": "けなげ",
+  "meaning": "기특함, 씩씩함",
+  "level": "N1",
+  "example": "小さな子供が健気に頑張っている姿に感動した。",
+  "exampleReading": "ちいさなこどもがけなげにがんばっているすがたにかんどうした。",
+  "exampleMeaning": "어린아이가 기특하게 노력하는 모습에 감동했다."
  }
 ]
