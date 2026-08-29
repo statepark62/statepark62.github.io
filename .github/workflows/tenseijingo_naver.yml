@@ -51,6 +51,9 @@ jobs:
           GAS_WORDS_TOKEN: ${{ secrets.GAS_WORDS_TOKEN }}
         run: python automation_naver/daily.py
 
+      - name: (임시) index.html 강제 재생성 — 템플릿만 바뀐 날 대비
+        run: python automation_naver/rebuild_index.py
+
       - name: 오늘 날짜(KST) 계산
         id: kst_date
         run: echo "date=$(date -u -d '+9 hours' +%F)" >> "$GITHUB_OUTPUT"
