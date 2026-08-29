@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>史 한국사 스터디</title>
+<meta name="description" content="언제 어디서나 공부하는 한국사능력검정시험 대비 앱">
+<meta name="theme-color" content="#1B2A4A">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <header class="title-plate">
+    <div class="brand">
+      <span class="glyph">史</span>
+      <div>
+        <h1>한국사 스터디</h1>
+        <div class="sub">언제 어디서나, 급수 취득까지</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span class="dday-chip" id="dday-chip">D-?</span>
+      <button class="gear-btn" id="gear-btn" aria-label="설정">⚙</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 문제풀이 -->
+    <section class="view active" id="view-quiz">
+      <div class="section-head">
+        <h2>기출 문제풀이</h2>
+        <select class="era-select" id="quiz-era"></select>
+      </div>
+      <div class="doc-card" id="quiz-card">
+        <div class="empty-state"><div class="glyph">史</div><p>불러오는 중...</p></div>
+      </div>
+    </section>
+
+    <!-- 암기카드 -->
+    <section class="view" id="view-flash">
+      <div class="section-head">
+        <h2>암기카드</h2>
+        <select class="era-select" id="flash-era"></select>
+      </div>
+      <div class="flash-wrap" id="flash-wrap"></div>
+    </section>
+
+    <!-- 오답노트 -->
+    <section class="view" id="view-wrong">
+      <div class="section-head">
+        <h2>오답노트</h2>
+      </div>
+      <div id="wrong-list"></div>
+    </section>
+
+    <!-- 통계 -->
+    <section class="view" id="view-stats">
+      <div class="section-head">
+        <h2>학습 통계</h2>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="num" id="stat-total">0</div><div class="label">누적 풀이 수</div></div>
+        <div class="stat-box"><div class="num" id="stat-accuracy">0%</div><div class="label">정답률</div></div>
+        <div class="stat-box"><div class="num" id="stat-streak">0</div><div class="label">연속 정답</div></div>
+        <div class="stat-box"><div class="num" id="stat-mastered">0</div><div class="label">완전 정복 문제</div></div>
+      </div>
+      <div class="doc-card">
+        <p class="q-text" style="font-size:14px; margin-bottom:14px;">시대별 정답률</p>
+        <div id="era-bars"></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button class="tab-btn active" data-view="quiz"><span class="ticon">問</span>문제풀이</button>
+    <button class="tab-btn" data-view="flash"><span class="ticon">帖</span>암기카드</button>
+    <button class="tab-btn" data-view="wrong"><span class="ticon">誤</span>오답노트</button>
+    <button class="tab-btn" data-view="stats"><span class="ticon">統</span>통계</button>
+  </nav>
+
+  <div class="seal-stamp" id="seal-stamp">認</div>
+  <div class="offline-badge" id="offline-badge">오프라인 모드 · 캐시된 문제로 학습 중</div>
+
+  <div class="sheet-overlay" id="sheet-overlay"></div>
+  <div class="sheet" id="settings-sheet">
+    <h3>설정</h3>
+    <div class="field">
+      <label for="set-examdate">시험 예정일</label>
+      <input type="date" id="set-examdate">
+    </div>
+    <div class="field">
+      <label for="set-level">목표 급수</label>
+      <select id="set-level">
+        <option>심화(1~3급)</option>
+        <option>기본(4~6급)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="set-dataurl">문제 데이터 URL (Google Apps Script 배포 주소 등)</label>
+      <input type="text" id="set-dataurl" placeholder="./data/questions.json">
+    </div>
+    <button class="close-sheet" id="sync-now" style="background:var(--jade); margin-bottom:8px;">지금 동기화</button>
+    <button class="close-sheet" id="save-settings">저장하고 닫기</button>
+    <div class="sync-status" id="sync-status"></div>
+  </div>
+
+</div>
+
+<script src="./js/db.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
