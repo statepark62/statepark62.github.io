@@ -1,0 +1,17 @@
+{
+  "name": "史 한국사 스터디",
+  "short_name": "한국사스터디",
+  "description": "언제 어디서나 공부하는 한국사능력검정시험 대비 앱",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F2E9D8",
+  "theme_color": "#1B2A4A",
+  "lang": "ko",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
