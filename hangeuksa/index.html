@@ -33,8 +33,15 @@
     <!-- 문제풀이 -->
     <section class="view active" id="view-quiz">
       <div class="section-head">
-        <h2>기출 문제풀이</h2>
-        <select class="era-select" id="quiz-era"></select>
+        <h2>문제풀이</h2>
+        <div class="filter-group">
+          <select class="era-select" id="quiz-era"></select>
+          <select class="era-select" id="quiz-source">
+            <option value="all">전체(기출+예상)</option>
+            <option value="기출">기출만</option>
+            <option value="예상">예상만</option>
+          </select>
+        </div>
       </div>
       <div class="doc-card" id="quiz-card">
         <div class="empty-state"><div class="glyph">史</div><p>불러오는 중...</p></div>

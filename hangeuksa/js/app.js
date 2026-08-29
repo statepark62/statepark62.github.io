@@ -8,7 +8,7 @@ let BANK = { questions: [], flashcards: [] };
 let RECORDS = {};     // qid -> {qid, correctCount, wrongCount, streak}
 let SETTINGS = { examDate: "", level: "심화(1~3급)", dataUrl: DEFAULT_DATA_URL, lastSync: "" };
 
-let quizState = { era: "all", current: null, answered: false };
+let quizState = { era: "all", source: "all", current: null, answered: false };
 let flashState = { era: "all", pool: [], idx: 0 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -122,6 +122,7 @@ function buildEraSelects() {
     el.innerHTML = eras.map((e, i) => `<option value="${e}">${labels[i]}</option>`).join("");
   });
   $("#quiz-era").addEventListener("change", (e) => { quizState.era = e.target.value; renderQuiz(); });
+  $("#quiz-source").addEventListener("change", (e) => { quizState.source = e.target.value; renderQuiz(); });
   $("#flash-era").addEventListener("change", (e) => { flashState.era = e.target.value; flashState.idx = 0; renderFlash(); });
 }
 
@@ -142,15 +143,19 @@ function weightedPick(pool) {
   return pool[pool.length - 1];
 }
 
-function getQuizPool(era) {
-  return era === "all" ? BANK.questions : BANK.questions.filter((q) => q.era === era);
+function getQuizPool(era, source) {
+  return BANK.questions.filter((q) => {
+    const eraOk = era === "all" || q.era === era;
+    const srcOk = !source || source === "all" || q.source === source;
+    return eraOk && srcOk;
+  });
 }
 
 function renderQuiz(forceQ) {
   const card = $("#quiz-card");
-  const pool = getQuizPool(quizState.era);
+  const pool = getQuizPool(quizState.era, quizState.source);
   if (!pool.length) {
-    card.innerHTML = `<div class="empty-state"><div class="glyph">史</div><p>문제 데이터를 불러오는 중입니다.<br>잠시 후 다시 시도해주세요.</p></div>`;
+    card.innerHTML = `<div class="empty-state"><div class="glyph">史</div><p>해당 조건의 문제가 없습니다.<br>필터를 바꿔보세요.</p></div>`;
     return;
   }
   const q = forceQ || weightedPick(pool);
@@ -161,6 +166,7 @@ function renderQuiz(forceQ) {
     <div class="tag-row">
       <span class="tag era">${q.era}</span>
       <span class="tag cat">${q.category}</span>
+      <span class="tag src-${q.source || "기출"}">${q.source || "기출"}</span>
     </div>
     <p class="q-text">${q.q}</p>
     <div class="choices">

@@ -137,6 +137,7 @@ main {
   justify-content: space-between;
   margin-bottom: 12px;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .section-head h2 {
@@ -145,16 +146,22 @@ main {
   margin: 0;
 }
 
+.filter-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 select.era-select {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
   color: var(--ink);
   background: var(--paper-card);
   border: 1.5px solid var(--line);
   border-radius: 20px;
-  padding: 6px 12px;
-  max-width: 130px;
+  padding: 6px 10px;
+  max-width: 128px;
 }
 
 /* ---------- 문서 카드 ---------- */
@@ -187,6 +194,8 @@ select.era-select {
 }
 .tag.era { background: var(--ink); color: var(--paper); }
 .tag.cat { background: var(--jade-soft); color: var(--jade); }
+.tag.src-기출 { background: rgba(201,162,39,0.18); color: #8a6d13; }
+.tag.src-예상 { background: rgba(178,58,46,0.12); color: var(--seal); }
 
 .q-text {
   font-family: var(--font-display);

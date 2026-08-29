@@ -3,7 +3,7 @@
    버전을 올리면(CACHE_NAME 변경) 새 배포분이 자동 반영됩니다.
    ============================================================ */
 
-const CACHE_NAME = "hangeuksa-v1";
+const CACHE_NAME = "hangeuksa-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
