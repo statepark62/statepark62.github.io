@@ -6561,5 +6561,35 @@
   "example": "彼女は若い頃から資産運用に興味を持っていた。",
   "exampleReading": "かのじょはわかいころからしさんうんようにきょうみをもっていた。",
   "exampleMeaning": "그녀는 젊은 시절부터 자산 운용에 관심을 가지고 있었다."
+ },
+ {
+  "id": "news255",
+  "word": "動員",
+  "reading": "どういん",
+  "meaning": "동원",
+  "level": "N1",
+  "example": "そのイベントは多くの人を動員した。",
+  "exampleReading": "そのいべんとはおおくのひとをどういんした。",
+  "exampleMeaning": "그 이벤트는 많은 사람을 동원했다."
+ },
+ {
+  "id": "news256",
+  "word": "晴れやか",
+  "reading": "はれやか",
+  "meaning": "밝고 상쾌한, 명랑한",
+  "level": "N2",
+  "example": "試験に合格した彼女は晴れやかな笑顔を見せた。",
+  "exampleReading": "しけんにごうかくしたかのじょははれやかなえがおをみせた。",
+  "exampleMeaning": "시험에 합격한 그녀는 밝은 미소를 보였다."
+ },
+ {
+  "id": "news257",
+  "word": "鮮やか",
+  "reading": "あざやか",
+  "meaning": "선명한, 뛰어난",
+  "level": "N2",
+  "example": "彼は鮮やかなシュートを決めて観客を沸かせた。",
+  "exampleReading": "かれはあざやかなシュートをきめてかんきゃくをわかせた。",
+  "exampleMeaning": "그는 멋진 슛을 성공시켜 관중을 열광시켰다."
  }
 ]

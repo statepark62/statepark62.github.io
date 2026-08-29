@@ -23,7 +23,7 @@
   }
   a{color:inherit;text-decoration:none}
   a:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
-  .frame{max-width:760px;margin:0 auto;padding:56px 24px 64px}
+  .frame{max-width:820px;margin:0 auto;padding:56px 24px 64px}
 
   header{display:flex;align-items:center;gap:18px;margin-bottom:8px}
   .seal{
@@ -34,26 +34,54 @@
   }
   h1{font-family:var(--ja);font-weight:800;font-size:clamp(26px,5vw,36px);letter-spacing:4px}
   .sub{font-size:14px;color:var(--ink-soft);margin-bottom:34px}
-  .sub .count{font-family:var(--mono);color:var(--shu)}
 
-  ul{list-style:none;border-top:2px solid var(--ink)}
-  li{border-bottom:1px dashed var(--line)}
-  li a{
-    display:grid;grid-template-columns:190px 1fr;gap:4px 20px;
-    padding:18px 6px;align-items:baseline;transition:background .15s;
+  .cal-month{margin-bottom:40px}
+  .cal-month h2{
+    font-family:var(--ja);font-weight:700;font-size:19px;letter-spacing:1px;
+    margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--ink);
   }
-  li a:hover{background:var(--card)}
-  .d{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft)}
-  .t-ja{font-family:var(--ja);font-weight:600;font-size:19px}
-  .t-ko{grid-column:2;font-size:13.5px;color:var(--ink-soft)}
+  .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:2px}
+  .cal-weekdays .wd{
+    font-family:var(--mono);font-size:11px;color:var(--ink-soft);
+    text-align:center;padding:4px 0;
+  }
+  .cal-weekdays .wd:first-child{color:var(--shu)}
+
+  .cal-grid{
+    display:grid;grid-template-columns:repeat(7,1fr);gap:1px;
+    background:var(--line);border:1px solid var(--line);
+  }
+  .day{
+    background:var(--paper);min-height:92px;padding:6px 6px 8px;
+    display:flex;flex-direction:column;gap:3px;
+  }
+  .day.pad{background:transparent}
+  .day .num{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+  a.day.has{transition:background .15s}
+  a.day.has{background:var(--card)}
+  a.day.has:hover{background:#F0E6D2}
+  a.day.has .num{color:var(--shu);font-weight:700}
+  .day .ttl-ja{
+    font-family:var(--ja);font-weight:600;font-size:11.5px;line-height:1.55;
+    color:var(--ink);
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .day .ttl-ja rt{font-size:.55em;color:var(--ink-soft);font-weight:500}
+  .day .ttl-ko{
+    font-size:9.5px;line-height:1.3;color:var(--ink-soft);
+    display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;
+  }
 
   footer{margin-top:40px;font-size:13px;color:var(--ink-soft);line-height:1.9;
     border-top:1px solid var(--line);padding-top:16px}
   footer a{color:var(--ai);text-decoration:underline}
 
   @media (max-width:560px){
-    li a{grid-template-columns:1fr}
-    .t-ko{grid-column:1}
+    .day{min-height:70px;padding:4px 4px 6px}
+    .day .ttl-ja{font-size:9.5px;line-height:1.5;-webkit-line-clamp:2}
+    .day .ttl-ko{font-size:8px;-webkit-line-clamp:1}
+    .day .num{font-size:10px}
+    .cal-month h2{font-size:16px}
   }
 </style>
   <link rel="manifest" href="manifest.json">
@@ -69,78 +97,26 @@
   <div style="text-align: right; margin: 15px 0;">
       <button onclick="location.reload()" style="padding: 8px 16px; background-color: var(--shu); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: 600;">새로고침 ↻</button>
     </div>
-  <p class="sub">아사히신문 칼럼으로 매일 배우는 일본어 · 총 <span class="count">49</span>회</p>
+  <p class="sub">아사히신문 칼럼으로 매일 배우는 일본어</p>
 
-  <ul>
-      <li>
-        <a href="2026-08-29.html">
-          <span class="d">2026-08-29</span>
-          <span class="t-ja"><ruby>消<rt>き</rt></ruby>えた<ruby>夕立<rt>ゆうだち</rt></ruby></span>
-          <span class="t-ko">사라진 저녁소나기</span>
-        </a>
-      </li>      <li>
-        <a href="2026-08-28.html">
-          <span class="d">2026-08-28</span>
-          <span class="t-ja"><ruby>猛暑<rt>もうしょ</rt></ruby>下の<ruby>地震<rt>じしん</rt></ruby></span>
-          <span class="t-ko">폭염 아래의 지진</span>
-        </a>
-      </li>      <li>
-        <a href="2026-08-27.html">
-          <span class="d">2026-08-27</span>
-          <span class="t-ja"><ruby>親族<rt>しんぞく</rt></ruby>なき<ruby>時代<rt>じだい</rt></ruby></span>
-          <span class="t-ko">친족 없는 시대</span>
-        </a>
-      </li>      <li>
-        <a href="2026-08-26.html">
-          <span class="d">2026-08-26</span>
-          <span class="t-ja"><ruby>戦場<rt>せんじょう</rt></ruby>を<ruby>撮<rt>と</rt></ruby>る<ruby>者<rt>もの</rt></ruby></span>
-          <span class="t-ko">전장을 찍는 사람</span>
-        </a>
-      </li>      <li>
-        <a href="2026-08-25.html">
-          <span class="d">2026-08-25</span>
-          <span class="t-ja"><ruby>羽田空港<rt>はねだくうこう</rt></ruby>の<ruby>歳月<rt>さいげつ</rt></ruby></span>
-          <span class="t-ko">하네다공항의 세월</span>
-        </a>
-      </li>      <li>
-        <a href="2026-08-24.html">
-          <span class="d">2026-08-24</span>
-          <span class="t-ja"><ruby>読書感想文<rt>どくしょかんそうぶん</rt></ruby>の<ruby>夏<rt>なつ</rt></ruby></span>
-          <span class="t-ko">독서감상문의 여름</span>
-        </a>
-      </li>      <li>
-        <a href="2026-08-23.html">
-          <span class="d">2026-08-23</span>
-          <span class="t-ja"><ruby>豪雨<rt>ごうう</rt></ruby>と<ruby>表現<rt>ひょうげん</rt></ruby></span>
-          <span class="t-ko">호우와 표현</span>
-        </a>
-      </li>      <li>
-        <a href="2026-08-22.html">
-          <span class="d">2026-08-22</span>
-          <span class="t-ja">雨と写真展</span>
-          <span class="t-ko">비와 사진전</span>
-        </a>
-      </li>      <li>
-        <a href="2026-08-21.html">
-          <span class="d">2026-08-21</span>
-          <span class="t-ja">夏のかゆみとムヒ</span>
-          <span class="t-ko">여름의 가려움과 무히</span>
-        </a>
-      </li>      <li>
-        <a href="2026-08-20.html">
-          <span class="d">2026-08-20</span>
-          <span class="t-ja">法と志の選択</span>
-          <span class="t-ko">법과 뜻의 선택</span>
-        </a>
-      </li>
-  </ul>
+  <div class="cal-wrap">
+    <section class="cal-month">
+      <h2>2026년 8월</h2>
+      <div class="cal-weekdays"><span class="wd">일</span><span class="wd">월</span><span class="wd">화</span><span class="wd">수</span><span class="wd">목</span><span class="wd">금</span><span class="wd">토</span></div>
+      <div class="cal-grid"><div class="day pad"></div><div class="day pad"></div><div class="day pad"></div><div class="day pad"></div><div class="day pad"></div><div class="day pad"></div><a class="day has" href="2026-08-01.html"><span class="num">1</span><span class="ttl">가나구리 시소와 관동대지진</span></a><a class="day has" href="2026-08-02.html"><span class="num">2</span><span class="ttl">공복과 파워하라</span></a><a class="day has" href="2026-08-03.html"><span class="num">3</span><span class="ttl">대피소의 벽</span></a><a class="day has" href="2026-08-04.html"><span class="num">4</span><span class="ttl">빙수의 힘</span></a><a class="day has" href="2026-08-05.html"><span class="num">5</span><span class="ttl">생활의 야구</span></a><a class="day has" href="2026-08-06.html"><span class="num">6</span><span class="ttl">약 포장지의 편지</span></a><a class="day has" href="2026-08-07.html"><span class="num">7</span><span class="ttl">총리의 재난 영상</span></a><a class="day has" href="2026-08-08.html"><span class="num">8</span><span class="ttl">사막과 우물</span></a><a class="day has" href="2026-08-09.html"><span class="num">9</span><span class="ttl">지금부터의 평화</span></a><a class="day has" href="2026-08-10.html"><span class="num">10</span><span class="ttl">부모, になる와 となる</span></a><a class="day has" href="2026-08-11.html"><span class="num">11</span><span class="ttl">생명의 전화로</span></a><div class="day"><span class="num">12</span></div><a class="day has" href="2026-08-13.html"><span class="num">13</span><span class="ttl">폭염과 기후 조작</span></a><a class="day has" href="2026-08-14.html"><span class="num">14</span><span class="ttl">AI와 파랑</span></a><a class="day has" href="2026-08-15.html"><span class="num">15</span><span class="ttl">선배에게 듣는 전쟁</span></a><a class="day has" href="2026-08-16.html"><span class="num">16</span><span class="ttl">야스쿠니와 기억</span></a><a class="day has" href="2026-08-17.html"><span class="num">17</span><span class="ttl">요배와 이민</span></a><a class="day has" href="2026-08-18.html"><span class="num">18</span><span class="ttl">바다의 요새, 지금</span></a><a class="day has" href="2026-08-19.html"><span class="num">19</span><span class="ttl">한 권의 점프</span></a><a class="day has" href="2026-08-20.html"><span class="num">20</span><span class="ttl">법과 뜻의 선택</span></a><a class="day has" href="2026-08-21.html"><span class="num">21</span><span class="ttl">여름의 가려움과 무히</span></a><a class="day has" href="2026-08-22.html"><span class="num">22</span><span class="ttl">비와 사진전</span></a><a class="day has" href="2026-08-23.html"><span class="num">23</span><span class="ttl">호우와 표현</span></a><a class="day has" href="2026-08-24.html"><span class="num">24</span><span class="ttl">독서감상문의 여름</span></a><a class="day has" href="2026-08-25.html"><span class="num">25</span><span class="ttl">하네다공항의 세월</span></a><a class="day has" href="2026-08-26.html"><span class="num">26</span><span class="ttl">전장을 찍는 사람</span></a><a class="day has" href="2026-08-27.html"><span class="num">27</span><span class="ttl">친족 없는 시대</span></a><a class="day has" href="2026-08-28.html"><span class="num">28</span><span class="ttl">폭염 아래의 지진</span></a><a class="day has" href="2026-08-29.html"><span class="num">29</span><span class="ttl">사라진 저녁소나기</span></a><div class="day"><span class="num">30</span></div><div class="day"><span class="num">31</span></div><div class="day pad"></div><div class="day pad"></div><div class="day pad"></div><div class="day pad"></div><div class="day pad"></div></div>
+    </section>
+    <section class="cal-month">
+      <h2>2026년 7월</h2>
+      <div class="cal-weekdays"><span class="wd">일</span><span class="wd">월</span><span class="wd">화</span><span class="wd">수</span><span class="wd">목</span><span class="wd">금</span><span class="wd">토</span></div>
+      <div class="cal-grid"><div class="day pad"></div><div class="day pad"></div><div class="day pad"></div><div class="day"><span class="num">1</span></div><div class="day"><span class="num">2</span></div><div class="day"><span class="num">3</span></div><div class="day"><span class="num">4</span></div><div class="day"><span class="num">5</span></div><div class="day"><span class="num">6</span></div><div class="day"><span class="num">7</span></div><div class="day"><span class="num">8</span></div><div class="day"><span class="num">9</span></div><a class="day has" href="2026-07-10.html"><span class="num">10</span><span class="ttl">오키나와 각력</span></a><a class="day has" href="2026-07-11.html"><span class="num">11</span><span class="ttl">노르만턴호 사건</span></a><a class="day has" href="2026-07-12.html"><span class="num">12</span><span class="ttl">교육과 생성 AI</span></a><div class="day"><span class="num">13</span></div><a class="day has" href="2026-07-14.html"><span class="num">14</span><span class="ttl">챔피언의 경의</span></a><a class="day has" href="2026-07-15.html"><span class="num">15</span><span class="ttl">체르노빌의 기억</span></a><a class="day has" href="2026-07-16.html"><span class="num">16</span><span class="ttl">관직 매매를 묻다</span></a><a class="day has" href="2026-07-17.html"><span class="num">17</span><span class="ttl">울트라맨과 직업</span></a><a class="day has" href="2026-07-18.html"><span class="num">18</span><span class="ttl">총리와 성별의 물음</span></a><a class="day has" href="2026-07-19.html"><span class="num">19</span><span class="ttl">티셔츠 단상</span></a><a class="day has" href="2026-07-20.html"><span class="num">20</span><span class="ttl">불상과 고문서</span></a><a class="day has" href="2026-07-21.html"><span class="num">21</span><span class="ttl">가자와 월드컵의 밤</span></a><a class="day has" href="2026-07-22.html"><span class="num">22</span><span class="ttl">삶아지는 혹서</span></a><a class="day has" href="2026-07-23.html"><span class="num">23</span><span class="ttl">검은 화면의 고백</span></a><a class="day has" href="2026-07-24.html"><span class="num">24</span><span class="ttl">산에서 말하는 가성비</span></a><a class="day has" href="2026-07-25.html"><span class="num">25</span><span class="ttl">시간을 넘는 소리</span></a><a class="day has" href="2026-07-26.html"><span class="num">26</span><span class="ttl">환각과 ‘고양이 마을’</span></a><a class="day has" href="2026-07-27.html"><span class="num">27</span><span class="ttl">주소의 카오스</span></a><a class="day has" href="2026-07-28.html"><span class="num">28</span><span class="ttl">이사오 군의 존재</span></a><a class="day has" href="2026-07-29.html"><span class="num">29</span><span class="ttl">괜찮습니까</span></a><a class="day has" href="2026-07-30.html"><span class="num">30</span><span class="ttl">쇼핑몰과 재해</span></a><a class="day has" href="2026-07-31.html"><span class="num">31</span><span class="ttl">비와 감세의 불공정</span></a><div class="day pad"></div></div>
+    </section>
+  </div>
 
   <footer>
     <p class="visit" id="visitline" style="display:none">지금까지 <span id="vcount" style="color:var(--shu);font-weight:700">0</span>명이 함께 공부했습니다.</p>
     <p>매일 아침 자동 발행됩니다. 요약·예문·해설은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
     <p><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페 「여행하며 일본어 공부하기」</a></p>
-  <div style="text-align: center; margin: 40px 0 20px; font-size: 14px; color: #999;"><span style="margin: 0 15px;">1 / 5</span><a href="page-2.html" style="margin: 0 15px; color: var(--shu); text-decoration: none; font-weight: 600;">다음 ▶</a></div>
-</footer>
+  </footer>
 </div>
 <script>
 (function(){
