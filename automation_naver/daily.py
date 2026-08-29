@@ -23,6 +23,7 @@ import os
 import re
 import sys
 import html
+import calendar
 from datetime import date, datetime, timezone, timedelta
 
 KST = timezone(timedelta(hours=9))  # 한국 표준시
@@ -33,7 +34,7 @@ from pathlib import Path
 # ──────────────────────────────────────────────────────────
 HERE = Path(__file__).resolve().parent          # automation/
 ROOT = HERE.parent                              # 저장소 루트
-ITEMS_PER_PAGE = 10  # 한 페이지당 아이템 수
+WEEKDAY_HEADER_KO = ["일", "월", "화", "수", "목", "금", "토"]  # 달력 요일 헤더
 
 OUT_DIR = ROOT / "tenseijingo_naver"   # 테스트용 출력 폴더                  # 공개 페이지 폴더
 ARCHIVE = OUT_DIR / "archive.json"              # 목록 생성용 누적 데이터
@@ -67,14 +68,6 @@ VOCAB_ITEM = """        <div class="vocab-item">
             <p class="ex"><span class="ja">{ex_ja}</span><br>{ex_ko}</p>
           </div>
         </div>"""
-
-INDEX_ITEM = """      <li>
-        <a href="{fname}">
-          <span class="d">{date}</span>
-          <span class="t-ja">{topic_ja}</span>
-          <span class="t-ko">{topic_ko}</span>
-        </a>
-      </li>"""
 
 
 def esc(s):
@@ -323,6 +316,44 @@ def render_page(data, today, source_url, has_card=False):
 # ══════════════════════════════════════════════════════════
 # 4단계: 목록(index.html) 갱신
 # ══════════════════════════════════════════════════════════
+def build_calendar_html(records):
+    """월별 달력 HTML 생성. 날짜 아래에 있으면 그 날의 한국어 제목을 표시."""
+    by_date = {r["date"]: r for r in records}
+    months = sorted({r["date"][:7] for r in records}, reverse=True)  # "YYYY-MM", 최신순
+    blocks = []
+    for ym in months:
+        year, month = int(ym[:4]), int(ym[5:7])
+        first_dow = (date(year, month, 1).weekday() + 1) % 7  # 일요일=0 기준
+        days_in_month = calendar.monthrange(year, month)[1]
+
+        cells = ['<div class="day pad"></div>' for _ in range(first_dow)]
+        for d in range(1, days_in_month + 1):
+            iso = f"{year:04d}-{month:02d}-{d:02d}"
+            r = by_date.get(iso)
+            if r:
+                cells.append(
+                    f'<a class="day has" href="{iso}.html">'
+                    f'<span class="num">{d}</span>'
+                    f'<span class="ttl">{esc(r["topic_ko"])}</span>'
+                    f'</a>'
+                )
+            else:
+                cells.append(f'<div class="day"><span class="num">{d}</span></div>')
+        rem = (first_dow + days_in_month) % 7
+        if rem:
+            cells.extend('<div class="day pad"></div>' for _ in range(7 - rem))
+
+        weekdays = "".join(f'<span class="wd">{w}</span>' for w in WEEKDAY_HEADER_KO)
+        blocks.append(
+            f'    <section class="cal-month">\n'
+            f'      <h2>{year}년 {month}월</h2>\n'
+            f'      <div class="cal-weekdays">{weekdays}</div>\n'
+            f'      <div class="cal-grid">{"".join(cells)}</div>\n'
+            f'    </section>'
+        )
+    return "\n".join(blocks)
+
+
 def update_index(entry):
     records = []
     if ARCHIVE.exists():
@@ -332,60 +363,11 @@ def update_index(entry):
     records.sort(key=lambda r: r["date"], reverse=True)
     ARCHIVE.write_text(json.dumps(records, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    items = "\n".join(
-        INDEX_ITEM.format(
-            fname=f"{r['date']}.html", date=r["date"],
-            topic_ja=esc_ruby(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
-        )
-        for r in records
-    )
     idx_tpl = (HERE / "index_template.html").read_text(encoding="utf-8")
-    
-    # 페이지네이션: records를 역순으로 정렬하고 페이지별로 나누기
-    records_sorted = sorted(records, key=lambda r: r["date"], reverse=True)  # 최신부터
-    total_records = len(records_sorted)
-    total_pages = (total_records + ITEMS_PER_PAGE - 1) // ITEMS_PER_PAGE
-    
-    for page_num in range(1, total_pages + 1):
-        # 이 페이지의 기록 범위
-        start_idx = (page_num - 1) * ITEMS_PER_PAGE
-        end_idx = min(page_num * ITEMS_PER_PAGE, total_records)
-        page_records = records_sorted[start_idx:end_idx]
-        
-        # 이 페이지의 아이템 HTML 생성
-        page_items = "".join(
-            INDEX_ITEM.format(
-                fname=f"{r['date']}.html", date=r["date"],
-                topic_ja=esc_ruby(r["topic_ja"]), topic_ko=esc(r["topic_ko"]),
-            )
-            for r in page_records
-        )
-        
-        # 페이지 타이틀에 페이지 번호 추가
-        idx = idx_tpl.replace("<!--INDEX_ITEMS-->", page_items)
-        idx = idx.replace("{{COUNT}}", str(len(records)))
-        
-        # 페이지네이션 네비게이션 생성
-        nav_html = f'<div style="text-align: center; margin: 40px 0 20px; font-size: 14px; color: #999;">'
-        
-        if page_num > 1:
-            prev_link = "index.html" if page_num == 2 else f"page-{page_num-1}.html"
-            nav_html += f'<a href="{prev_link}" style="margin: 0 15px; color: var(--shu); text-decoration: none; font-weight: 600;">◀ 이전</a>'
-        
-        nav_html += f'<span style="margin: 0 15px;">{page_num} / {total_pages}</span>'
-        
-        if page_num < total_pages:
-            nav_html += f'<a href="page-{page_num+1}.html" style="margin: 0 15px; color: var(--shu); text-decoration: none; font-weight: 600;">다음 ▶</a>'
-        
-        nav_html += '</div>'
-        
-        # 푸터 바로 위에 네비게이션 삽입
-        idx = idx.replace("</footer>", nav_html + "\n</footer>", 1)
-        
-        # 파일 저장
-        fname = "index.html" if page_num == 1 else f"page-{page_num}.html"
-        (OUT_DIR / fname).write_text(idx, encoding="utf-8")
-        print(f"  [{page_num}/{total_pages}] {fname} 생성")
+    idx = idx_tpl.replace("<!--CALENDAR-->", build_calendar_html(records))
+    idx = idx.replace("{{COUNT}}", str(len(records)))
+    (OUT_DIR / "index.html").write_text(idx, encoding="utf-8")
+    print("  [1/1] index.html 생성 (달력형)")
 
 
 # ══════════════════════════════════════════════════════════
