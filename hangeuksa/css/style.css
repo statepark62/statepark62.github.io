@@ -196,6 +196,8 @@ select.era-select {
 .tag.cat { background: var(--jade-soft); color: var(--jade); }
 .tag.src-기출 { background: rgba(201,162,39,0.18); color: #8a6d13; }
 .tag.src-예상 { background: rgba(178,58,46,0.12); color: var(--seal); }
+.tag.lvl-심화 { background: rgba(27,42,74,0.10); color: var(--ink-soft); }
+.tag.lvl-기본 { background: rgba(79,130,113,0.14); color: var(--jade); }
 
 .q-text {
   font-family: var(--font-display);

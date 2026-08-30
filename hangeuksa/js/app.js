@@ -8,7 +8,7 @@ let BANK = { questions: [], flashcards: [] };
 let RECORDS = {};     // qid -> {qid, correctCount, wrongCount, streak}
 let SETTINGS = { examDate: "", level: "심화(1~3급)", dataUrl: DEFAULT_DATA_URL, lastSync: "" };
 
-let quizState = { era: "all", source: "all", current: null, answered: false };
+let quizState = { era: "all", source: "all", level: "all", current: null, answered: false };
 let flashState = { era: "all", pool: [], idx: 0 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -123,6 +123,7 @@ function buildEraSelects() {
   });
   $("#quiz-era").addEventListener("change", (e) => { quizState.era = e.target.value; renderQuiz(); });
   $("#quiz-source").addEventListener("change", (e) => { quizState.source = e.target.value; renderQuiz(); });
+  $("#quiz-level").addEventListener("change", (e) => { quizState.level = e.target.value; renderQuiz(); });
   $("#flash-era").addEventListener("change", (e) => { flashState.era = e.target.value; flashState.idx = 0; renderFlash(); });
 }
 
@@ -143,17 +144,18 @@ function weightedPick(pool) {
   return pool[pool.length - 1];
 }
 
-function getQuizPool(era, source) {
+function getQuizPool(era, source, level) {
   return BANK.questions.filter((q) => {
     const eraOk = era === "all" || q.era === era;
     const srcOk = !source || source === "all" || q.source === source;
-    return eraOk && srcOk;
+    const lvlOk = !level || level === "all" || (q.level || "심화") === level;
+    return eraOk && srcOk && lvlOk;
   });
 }
 
 function renderQuiz(forceQ) {
   const card = $("#quiz-card");
-  const pool = getQuizPool(quizState.era, quizState.source);
+  const pool = getQuizPool(quizState.era, quizState.source, quizState.level);
   if (!pool.length) {
     card.innerHTML = `<div class="empty-state"><div class="glyph">史</div><p>해당 조건의 문제가 없습니다.<br>필터를 바꿔보세요.</p></div>`;
     return;
@@ -166,6 +168,7 @@ function renderQuiz(forceQ) {
     <div class="tag-row">
       <span class="tag era">${q.era}</span>
       <span class="tag cat">${q.category}</span>
+      <span class="tag lvl-${q.level || "심화"}">${q.level || "심화"}</span>
       <span class="tag src-${q.source || "기출"}">${q.source || "기출"}</span>
     </div>
     <p class="q-text">${q.q}</p>
