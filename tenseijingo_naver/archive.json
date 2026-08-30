@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-30",
+    "no": 54,
+    "topic_ja": "<ruby>反省<rt>はんせい</rt></ruby>なき<ruby>森<rt>もり</rt></ruby>",
+    "topic_ko": "반성이 없는 숲",
+    "url": "https://www.asahi.com/articles/DA3S16536401.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘사과의 문화’, ‘언어와 가치관’, ‘문화상대주의’ — 언어가 윤리 감각을 어떻게 규정하는지 탐색하며, 일본의 ‘반성’ 규범을 외부 사례로 비추어 재검토하기 때문이다.",
+    "pattern": "〜と<ruby>呼<rt>よ</rt></ruby>ばれる"
+  },
+  {
     "date": "2026-08-29",
     "no": 53,
     "topic_ja": "<ruby>消<rt>き</rt></ruby>えた<ruby>夕立<rt>ゆうだち</rt></ruby>",
