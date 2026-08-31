@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-08-31 天声人語로 배우는 일본어 — 어머니와 자폐증의 가을</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-08-31</span>
+      <span>2026년 8월 31일 (월)</span>
+    </div>
+
+    <h1><ruby>母<rt>はは</rt></ruby>と<ruby>自閉症<rt>じへいしょう</rt></ruby>の<ruby>秋<rt>あき</rt></ruby></h1>
+    <p class="topic-ko">어머니와 자폐증의 가을</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>心<rt>こころ</rt></ruby>に<ruby>決<rt>き</rt></ruby>めた」</div>
+      <div class="ko">마음에 다짐했다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">２０００<ruby>年<rt>ねん</rt></ruby>の<ruby>秋<rt>あき</rt></ruby>、<ruby>佐賀県<rt>さがけん</rt></ruby>で<ruby>生<rt>う</rt></ruby>まれた<ruby>楓子<rt>ふうこ</rt></ruby>さんを<ruby>軸<rt>じく</rt></ruby>に<ruby>物語<rt>ものがたり</rt></ruby>が<ruby>始<rt>はじ</rt></ruby>まる。</p><p class="ko">2000년 가을 사가현에서 태어난 소녀 후우코를 중심으로 이야기가 시작된다.</p></div>
+      <div class="s-item"><p class="ja">４<ruby>歳<rt>さい</rt></ruby>で<ruby>知的障害<rt>ちてきしょうがい</rt></ruby>をともなう<ruby>重<rt>おも</rt></ruby>い<ruby>自閉症<rt>じへいしょう</rt></ruby>と<ruby>診断<rt>しんだん</rt></ruby>され、<ruby>母<rt>はは</rt></ruby>の<ruby>庸子<rt>やすこ</rt></ruby>さんは、<ruby>暮<rt>く</rt></ruby>らしをできるだけ<ruby>楽<rt>たの</rt></ruby>しいものにすると<ruby>決意<rt>けつい</rt></ruby>した。</p><p class="ko">그녀는 네 살에 지적장애를 동반한 중증 자폐로 진단받았고, 어머니 야스코는 삶을 최대한 즐겁게 만들겠다고 다짐한다.</p></div>
+      <div class="s-item"><p class="ja">とりわけ<ruby>日暮<rt>ひぐ</rt></ruby>れどきに<ruby>不安<rt>ふあん</rt></ruby>が<ruby>高<rt>たか</rt></ruby>まり<ruby>泣<rt>な</rt></ruby>いてしまう<ruby>場面<rt>ばめん</rt></ruby>が<ruby>示<rt>しめ</rt></ruby>され、<ruby>家族<rt>かぞく</rt></ruby>の<ruby>向<rt>む</rt></ruby>きあいかたを<ruby>考<rt>かんが</rt></ruby>えさせる。</p><p class="ko">해질녘 불안이 커져 울음이 잦았다는 단서가 제시되며, 가족의 일상과 동행의 방식이 이어질 것으로 보인다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>自閉症<rt>じへいしょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">자폐증</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">わたしは<ruby>弟<rt>おとうと</rt></ruby>の<ruby>自閉症<rt>じへいしょう</rt></ruby>を<ruby>理解<rt>りかい</rt></ruby>したい。</span><br>나는 남동생의 자폐증을 이해하고 싶다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>診断<rt>しんだん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">진단</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>医師<rt>いし</rt></ruby>に<ruby>正式<rt>せいしき</rt></ruby>な<ruby>診断<rt>しんだん</rt></ruby>を<ruby>受<rt>う</rt></ruby>けた。</span><br>의사에게 정식 진단을 받았다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>日暮れ<rt>ひぐれ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">해 질 녘, 해거름</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>日暮<rt>ひぐ</rt></ruby>れに<ruby>街<rt>まち</rt></ruby>は<ruby>少<rt>すこ</rt></ruby>し<ruby>冷<rt>つめ</rt></ruby>たくなる。</span><br>해 질 무렵이면 거리는 조금 차가워진다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>不安<rt>ふあん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">불안</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>先<rt>さき</rt></ruby>が<ruby>見<rt>み</rt></ruby>えず<ruby>胸<rt>むね</rt></ruby>が<ruby>不安<rt>ふあん</rt></ruby>でいっぱいだ。</span><br>앞이 보이지 않아 가슴이 불안으로 가득하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>決意<rt>けつい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">결의, 다짐</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>母<rt>はは</rt></ruby>は<ruby>強<rt>つよ</rt></ruby>い<ruby>決意<rt>けつい</rt></ruby>で<ruby>支<rt>ささ</rt></ruby>えた。</span><br>어머니는 굳은 결의로 지탱했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜と<ruby>診断<rt>しんだん</rt></ruby>される</div>
+        <div class="pattern-ko">~라는 진단을 받다</div>
+        <p class="explain">전문가나 기관이 내린 판단을 객관적으로 전할 때 쓰며, 수동형이어서 주어의 의지와 무관한 결과임을 드러낸다. 병명이나 상태를 명시해 사실성을 높일 때 자주 사용한다.</p>
+        <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>医師<rt>いし</rt></ruby>に<ruby>軽度<rt>けいど</rt></ruby>のうつと<ruby>診断<rt>しんだん</rt></ruby>された。</span><br>그는 의사에게 경도의 우울증이라는 진단을 받았다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 한 소녀의 이름과 탄생 연도를 또렷이 제시하며 독자를 장면 속으로 끌어들인다. 출생의 순간에서 해질녘이라는 시간대까지 프레이밍을 좁혀 가며 감정의 진폭을 키운다. &#x27;어머니의 다짐&#x27; 같은 짧은 문구는 정서적 축을 세우는 장치로 기능한다. 무료 공개 분량만으로도 단서의 배열이 앞으로의 전개를 자연스럽게 예감하게 만든다.</p>
+        <p>글이 택한 시선은 자폐와 돌봄을 비극으로만 묘사하지 않고, 일상 속 즐거움의 가능성을 탐색한다는 점에서 의미가 있다. 한국 독자에게도 해질녘 불안이라는 구체적 감각 묘사는 공감의 관문이 된다. 또한 &#x27;진단&#x27;과 &#x27;결의&#x27;라는 두 단어가 사실과 감정의 균형을 상징한다. 이름을 가진 한 가족의 이야기를 통해 사회적 이해의 폭을 넓히려는 칼럼의 공적 역할이 드러난다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 자폐 진단을 받은 아이와 어머니의 결의를 해질녘의 불안이라는 장면으로 포착해, 돌봄의 언어를 다시 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본에서는 자폐 스펙트럼(自閉スペクトラム症, ASD)이라는 용어가 널리 쓰이며, 조기 진단과 지원을 위한 제도적 장치가 지자체 단위로 운영된다.</p>
+        <p>지방 현의 학교·복지기관·가정이 긴밀히 연계하는 사례가 보고되며, 지역 커뮤니티의 참여가 돌봄의 질을 좌우한다는 논의가 이어진다.</p>
+        <p>천성인어는 아사히신문 1면 칼럼으로, 개인의 일화를 통해 보편적 주제로 사고를 확장하는 구성과 응축된 문체로 유명하다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>고유명과 연대를 초두에 배치해 사실성과 몰입을 동시에 확보한다.</p>
+        <p><span class="n">二</span>시간대(해질녘)라는 감각적 모티프로 정서의 리듬을 설계한다.</p>
+        <p><span class="n">三</span>강한 결의의 문장을 축으로 관련 정보를 응축해 배치한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today">ゆっくりでも、<ruby>一歩<rt>いっぽ</rt></ruby>ずつ<ruby>前<rt>まえ</rt></ruby>に<ruby>進<rt>すす</rt></ruby>めばいい。</span>
+      <span class="ko">천천히라도 한 걸음씩 나아가면 된다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-08-31) — <a href="https://www.asahi.com/articles/DA3S16536586.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-08-31.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

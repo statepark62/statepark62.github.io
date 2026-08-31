@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-08-31",
+    "no": 55,
+    "topic_ja": "<ruby>母<rt>はは</rt></ruby>と<ruby>自閉症<rt>じへいしょう</rt></ruby>の<ruby>秋<rt>あき</rt></ruby>",
+    "topic_ko": "어머니와 자폐증의 가을",
+    "url": "https://www.asahi.com/articles/DA3S16536586.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '돌봄의 결의', '해질녘의 불안', '진단 이후의 일상' — 개인 서사를 통해 돌봄의 감정과 제도 사이의 균형을 탐색하며, 시간·감각의 묘사로 독자의 공감을 유도하기 때문.",
+    "pattern": "〜と<ruby>診断<rt>しんだん</rt></ruby>される"
+  },
+  {
     "date": "2026-08-30",
     "no": 54,
     "topic_ja": "<ruby>反省<rt>はんせい</rt></ruby>なき<ruby>森<rt>もり</rt></ruby>",

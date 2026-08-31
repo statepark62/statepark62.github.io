@@ -6691,5 +6691,115 @@
   "example": "彼は怒りのあまり相手の顔を平手打ちした。",
   "exampleReading": "かれはいかりのあまりあいてのかおをひらてうちした。",
   "exampleMeaning": "그는 너무 화가 나서 상대의 얼굴을 손바닥으로 때렸다."
+ },
+ {
+  "id": "news263",
+  "word": "奪われる",
+  "reading": "うばわれる",
+  "meaning": "빼앗기다, 강탈당하다",
+  "level": "N2",
+  "example": "彼女は駅前でバッグを奪われた。",
+  "exampleReading": "かのじょはえきまえでバッグをうばわれた。",
+  "exampleMeaning": "그녀는 역 앞에서 가방을 빼앗겼다."
+ },
+ {
+  "id": "news264",
+  "word": "値上げ",
+  "reading": "ねあげ",
+  "meaning": "가격 인상",
+  "level": "N3",
+  "example": "来月から電気料金が値上げされる。",
+  "exampleReading": "らいげつからでんきりょうきんがねあげされる。",
+  "exampleMeaning": "다음 달부터 전기 요금이 인상된다."
+ },
+ {
+  "id": "news265",
+  "word": "試算",
+  "reading": "しさん",
+  "meaning": "시산, 시험 삼아 계산함",
+  "level": "N1",
+  "example": "この計画の費用を試算してみた。",
+  "exampleReading": "このけいかくのひようをしさんしてみた。",
+  "exampleMeaning": "이 계획의 비용을 시산해 보았다."
+ },
+ {
+  "id": "news266",
+  "word": "凍りつく",
+  "reading": "こおりつく",
+  "meaning": "얼어붙다, (충격으로) 굳어버리다",
+  "level": "N2",
+  "example": "彼の一言でその場が凍りついた。",
+  "exampleReading": "かれのひとことでそのばがこおりついた。",
+  "exampleMeaning": "그의 한마디로 그 자리가 얼어붙었다."
+ },
+ {
+  "id": "news267",
+  "word": "脱水",
+  "reading": "だっすい",
+  "meaning": "탈수",
+  "level": "N2",
+  "example": "夏は脱水症状に気をつけてください。",
+  "exampleReading": "なつはだっすいしょうじょうにきをつけてください。",
+  "exampleMeaning": "여름에는 탈수 증상에 주의하세요."
+ },
+ {
+  "id": "news268",
+  "word": "二重",
+  "reading": "にじゅう",
+  "meaning": "이중",
+  "level": "N3",
+  "example": "彼は二重の意味でその言葉を使った。",
+  "exampleReading": "かれはにじゅうのいみでそのことばをつかった。",
+  "exampleMeaning": "그는 이중의 의미로 그 말을 사용했다."
+ },
+ {
+  "id": "tj236",
+  "word": "自閉症",
+  "reading": "じへいしょう",
+  "meaning": "자폐증",
+  "level": "N1",
+  "example": "わたしは弟の自閉症を理解したい。",
+  "exampleReading": "わたしはおとうとのじへいしょうをりかいしたい。",
+  "exampleMeaning": "나는 남동생의 자폐증을 이해하고 싶다."
+ },
+ {
+  "id": "tj237",
+  "word": "診断",
+  "reading": "しんだん",
+  "meaning": "진단",
+  "level": "N2",
+  "example": "医師に正式な診断を受けた。",
+  "exampleReading": "いしにせいしきなしんだんをうけた。",
+  "exampleMeaning": "의사에게 정식 진단을 받았다."
+ },
+ {
+  "id": "tj238",
+  "word": "日暮れ",
+  "reading": "ひぐれ",
+  "meaning": "해 질 녘, 해거름",
+  "level": "N2",
+  "example": "日暮れに街は少し冷たくなる。",
+  "exampleReading": "ひぐれにまちはすこしつめたくなる。",
+  "exampleMeaning": "해 질 무렵이면 거리는 조금 차가워진다."
+ },
+ {
+  "id": "tj239",
+  "word": "不安",
+  "reading": "ふあん",
+  "meaning": "불안",
+  "level": "N3",
+  "example": "先が見えず胸が不安でいっぱいだ。",
+  "exampleReading": "さきがみえずむねがふあんでいっぱいだ。",
+  "exampleMeaning": "앞이 보이지 않아 가슴이 불안으로 가득하다."
+ },
+ {
+  "id": "tj240",
+  "word": "決意",
+  "reading": "けつい",
+  "meaning": "결의, 다짐",
+  "level": "N2",
+  "example": "母は強い決意で支えた。",
+  "exampleReading": "はははつよいけついでささえた。",
+  "exampleMeaning": "어머니는 굳은 결의로 지탱했다."
  }
 ]
