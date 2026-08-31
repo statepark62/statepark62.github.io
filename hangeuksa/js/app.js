@@ -171,6 +171,7 @@ function renderQuiz(forceQ) {
       <span class="tag lvl-${q.level || "심화"}">${q.level || "심화"}</span>
       <span class="tag src-${q.source || "기출"}">${q.source || "기출"}</span>
     </div>
+    ${q.imageUrl ? `<div class="q-image-wrap"><img class="q-image" src="${q.imageUrl}" alt="문제 자료" loading="lazy"></div>` : ""}
     <p class="q-text">${q.q}</p>
     <div class="choices">
       ${q.choices.map((c, i) => `<button class="choice-btn" data-i="${i}"><span class="idx">${i + 1}</span><span>${c}</span></button>`).join("")}
