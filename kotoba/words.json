@@ -6801,5 +6801,65 @@
   "example": "母は強い決意で支えた。",
   "exampleReading": "はははつよいけついでささえた。",
   "exampleMeaning": "어머니는 굳은 결의로 지탱했다."
+ },
+ {
+  "id": "news269",
+  "word": "迷惑行為",
+  "reading": "めいわくこうい",
+  "meaning": "민폐 행위, 폐를 끼치는 행동",
+  "level": "N2",
+  "example": "電車内での迷惑行為が問題になっている。",
+  "exampleReading": "でんしゃないでのめいわくこういがもんだいになっている。",
+  "exampleMeaning": "전철 안에서의 민폐 행위가 문제가 되고 있다."
+ },
+ {
+  "id": "news270",
+  "word": "誠意",
+  "reading": "せいい",
+  "meaning": "성의, 진심",
+  "level": "N2",
+  "example": "会社は誠意をもって対応すると発表した。",
+  "exampleReading": "かいしゃはせいいをもってたいおうするとはっぴょうした。",
+  "exampleMeaning": "회사는 성의를 다해 대응하겠다고 발표했다."
+ },
+ {
+  "id": "news271",
+  "word": "転覆",
+  "reading": "てんぷく",
+  "meaning": "전복, 뒤집힘",
+  "level": "N1",
+  "example": "強風により船が転覆する事故が発生した。",
+  "exampleReading": "きょうふうによりふねがてんぷくするじこがはっせいした。",
+  "exampleMeaning": "강풍으로 인해 배가 전복되는 사고가 발생했다."
+ },
+ {
+  "id": "news272",
+  "word": "非難",
+  "reading": "ひなん",
+  "meaning": "비난",
+  "level": "N2",
+  "example": "彼の発言は多くの人から非難を浴びた。",
+  "exampleReading": "かれのはつげんはおおくのひとからひなんをあびた。",
+  "exampleMeaning": "그의 발언은 많은 사람들로부터 비난을 받았다."
+ },
+ {
+  "id": "news273",
+  "word": "後ろめたさ",
+  "reading": "うしろめたさ",
+  "meaning": "떳떳하지 못함, 켕기는 마음",
+  "level": "N1",
+  "example": "彼女は嘘をついたことに後ろめたさを感じていた。",
+  "exampleReading": "かのじょはうそをついたことにうしろめたさをかんじていた。",
+  "exampleMeaning": "그녀는 거짓말을 한 것에 대해 켕기는 마음을 느끼고 있었다."
+ },
+ {
+  "id": "news274",
+  "word": "説明会",
+  "reading": "せつめいかい",
+  "meaning": "설명회",
+  "level": "N3",
+  "example": "来週、新入社員向けの説明会が開かれる予定だ。",
+  "exampleReading": "らいしゅう、しんにゅうしゃいんむけのせつめいかいがひらかれるよていだ。",
+  "exampleMeaning": "다음 주, 신입사원 대상 설명회가 열릴 예정이다."
  }
 ]
