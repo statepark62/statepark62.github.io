@@ -6911,5 +6911,125 @@
   "example": "暗闇への恐怖が子どもを包んだ。",
   "exampleReading": "くらやみへのきょうふがこどもをつつんだ。",
   "exampleMeaning": "어둠에 대한 공포가 아이를 휘감았다."
+ },
+ {
+  "id": "news275",
+  "word": "違反",
+  "reading": "いはん",
+  "meaning": "위반",
+  "level": "N3",
+  "example": "彼はスピード違反で罰金を払った。",
+  "exampleReading": "かれはスピードいはんでばっきんをはらった。",
+  "exampleMeaning": "그는 속도위반으로 벌금을 냈다."
+ },
+ {
+  "id": "news276",
+  "word": "謙虚",
+  "reading": "けんきょ",
+  "meaning": "겸허함, 겸손함",
+  "level": "N2",
+  "example": "彼女はいつも謙虚な態度で人と接する。",
+  "exampleReading": "かのじょはいつもけんきょなたいどでひととせっする。",
+  "exampleMeaning": "그녀는 항상 겸손한 태도로 사람을 대한다."
+ },
+ {
+  "id": "news277",
+  "word": "礼儀正しい",
+  "reading": "れいぎただしい",
+  "meaning": "예의바르다",
+  "level": "N3",
+  "example": "彼は礼儀正しい青年として知られている。",
+  "exampleReading": "かれはれいぎただしいせいねんとしてしられている。",
+  "exampleMeaning": "그는 예의바른 청년으로 알려져 있다."
+ },
+ {
+  "id": "news278",
+  "word": "予防策",
+  "reading": "よぼうさく",
+  "meaning": "예방책",
+  "level": "N2",
+  "example": "会社は感染症の予防策を強化した。",
+  "exampleReading": "かいしゃはかんせんしょうのよぼうさくをきょうかした。",
+  "exampleMeaning": "회사는 감염병 예방책을 강화했다."
+ },
+ {
+  "id": "news279",
+  "word": "圧倒的",
+  "reading": "あっとうてき",
+  "meaning": "압도적",
+  "level": "N2",
+  "example": "彼は圧倒的な人気を誇っている。",
+  "exampleReading": "かれはあっとうてきなにんきをほこっている。",
+  "exampleMeaning": "그는 압도적인 인기를 자랑하고 있다."
+ },
+ {
+  "id": "news280",
+  "word": "泣き言を漏らす",
+  "reading": "なきごとをもらす",
+  "meaning": "하소연하다, 불만을 늘어놓다",
+  "level": "N1",
+  "example": "彼はどんなに苦しくても泣き言を漏らさなかった。",
+  "exampleReading": "かれはどんなにくるしくてもなきごとをもらさなかった。",
+  "exampleMeaning": "그는 아무리 힘들어도 하소연하지 않았다."
+ },
+ {
+  "id": "news281",
+  "word": "遅延",
+  "reading": "ちえん",
+  "meaning": "지연",
+  "level": "N2",
+  "example": "台風の影響で新幹線に遅延が発生した。",
+  "exampleReading": "たいふうのえいきょうでしんかんせんにちえんがはっせいした。",
+  "exampleMeaning": "태풍의 영향으로 신칸센에 지연이 발생했다."
+ },
+ {
+  "id": "news282",
+  "word": "出荷",
+  "reading": "しゅっか",
+  "meaning": "출하",
+  "level": "N2",
+  "example": "この工場は毎日大量の製品を出荷している。",
+  "exampleReading": "このこうじょうはまいにちたいりょうのせいひんをしゅっかしている。",
+  "exampleMeaning": "이 공장은 매일 대량의 제품을 출하하고 있다."
+ },
+ {
+  "id": "news283",
+  "word": "効率化",
+  "reading": "こうりつか",
+  "meaning": "효율화",
+  "level": "N2",
+  "example": "新しいシステムの導入で業務の効率化が進んだ。",
+  "exampleReading": "あたらしいシステムのどうにゅうでぎょうむのこうりつかがすすんだ。",
+  "exampleMeaning": "새로운 시스템 도입으로 업무의 효율화가 진행되었다."
+ },
+ {
+  "id": "news284",
+  "word": "免停",
+  "reading": "めんてい",
+  "meaning": "면허 정지",
+  "level": "N1",
+  "example": "スピード違反を繰り返すと免停になることがある。",
+  "exampleReading": "スピードいはんをくりかえすとめんていになることがある。",
+  "exampleMeaning": "과속 위반을 반복하면 면허 정지가 될 수 있다."
+ },
+ {
+  "id": "news285",
+  "word": "泣き言",
+  "reading": "なきごと",
+  "meaning": "우는소리, 불평",
+  "level": "N1",
+  "example": "彼はどんなに辛くても泣き言を言わない。",
+  "exampleReading": "かれはどんなにつらくてもなきごとをいわない。",
+  "exampleMeaning": "그는 아무리 힘들어도 불평을 하지 않는다."
+ },
+ {
+  "id": "news286",
+  "word": "桁違い",
+  "reading": "けたちがい",
+  "meaning": "차원이 다름, 자릿수가 다를 정도로 큰 차이",
+  "level": "N1",
+  "example": "彼女の努力は他の人とは桁違いだ。",
+  "exampleReading": "かのじょのどりょくはほかのひととはけたちがいだ。",
+  "exampleMeaning": "그녀의 노력은 다른 사람과는 차원이 다르다."
  }
 ]
