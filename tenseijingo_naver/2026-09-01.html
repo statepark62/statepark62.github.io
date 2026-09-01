@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-01 天声人語로 배우는 일본어 — 고도성장기와 재일</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-01</span>
+      <span>2026년 9월 1일 (화)</span>
+    </div>
+
+    <h1><ruby>高度成長期<rt>こうどせいちょうき</rt></ruby>と<ruby>在日<rt>ざいにち</rt></ruby></h1>
+    <p class="topic-ko">고도성장기와 재일</p>
+
+    <div class="keyquote">
+      <div class="ja">「この<ruby>窖<rt>あな</rt></ruby>」</div>
+      <div class="ko">이 구멍 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>欄<rt>らん</rt></ruby>は、<ruby>高度成長期<rt>こうどせいちょうき</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>を<ruby>舞台<rt>ぶたい</rt></ruby>にした<ruby>手塚治虫<rt>てづかおさむ</rt></ruby>の<ruby>短編<rt>たんぺん</rt></ruby>『ながい<ruby>窖<rt>あな</rt></ruby>』の<ruby>復刻<rt>ふっこく</rt></ruby>を<ruby>話題<rt>わだい</rt></ruby>にする。</p><p class="ko">칼럼은 고도성장기 일본을 배경으로 한 데즈카 오사무의 단편 ‘ながい窖’ 복간을 화두로 삼는다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>主人公<rt>しゅじんこう</rt></ruby>は<ruby>朝鮮半島<rt>ちょうせんはんとう</rt></ruby><ruby>出身<rt>しゅっしん</rt></ruby>で<ruby>日本<rt>にほん</rt></ruby><ruby>国籍<rt>こくせき</rt></ruby>を<ruby>得<rt>え</rt></ruby>て<ruby>出自<rt>しゅつじ</rt></ruby>を<ruby>隠<rt>かく</rt></ruby>し<ruby>昇進<rt>しょうしん</rt></ruby>を<ruby>目指<rt>めざ</rt></ruby>すが、<ruby>戦時<rt>せんじ</rt></ruby><ruby>体験<rt>たいけん</rt></ruby>と<ruby>差別<rt>さべつ</rt></ruby>への<ruby>不安<rt>ふあん</rt></ruby>に<ruby>苦<rt>くる</rt></ruby>しむ。</p><p class="ko">주인공은 한반도 출신으로 일본 국적을 얻었지만 출신을 숨긴 채 출세하며, 전쟁 체험과 차별의 공포에 시달린다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は、<ruby>作品<rt>さくひん</rt></ruby>を<ruby>通<rt>とお</rt></ruby>して<ruby>在日<rt>ざいにち</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>と<ruby>社会<rt>しゃかい</rt></ruby>の<ruby>影<rt>かげ</rt></ruby>を<ruby>今日<rt>こんにち</rt></ruby>に<ruby>映<rt>うつ</rt></ruby>し<ruby>出<rt>だ</rt></ruby>そうと<ruby>試<rt>こころ</rt></ruby>みる。</p><p class="ko">필자는 이 작품을 통해 재일 코리안의 기억과 일본 사회의 그늘을 오늘의 독자에게 다시 비춰 보려 한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>復刻<rt>ふっこく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">복각, 재간</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">その<ruby>名作<rt>めいさく</rt></ruby>が<ruby>五十年<rt>ごじゅうねん</rt></ruby>ぶりに<ruby>復刻<rt>ふっこく</rt></ruby>された。</span><br>그 명작이 50년 만에 복각되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>出自<rt>しゅつじ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">출신, 가문</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>出自<rt>しゅつじ</rt></ruby>を<ruby>明<rt>あ</rt></ruby>かさなかった。</span><br>그는 자신의 출신을 밝히지 않았다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>差別<rt>さべつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">차별</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>職場<rt>しょくば</rt></ruby>での<ruby>差別<rt>さべつ</rt></ruby>を<ruby>許<rt>ゆる</rt></ruby>してはならない。</span><br>직장에서의 차별을 용납해서는 안 된다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>昇進<rt>しょうしん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">승진</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼女<rt>かのじょ</rt></ruby>は<ruby>努力<rt>どりょく</rt></ruby>の<ruby>末<rt>すえ</rt></ruby>に<ruby>昇進<rt>しょうしん</rt></ruby>を<ruby>勝<rt>か</rt></ruby>ち<ruby>取<rt>と</rt></ruby>った。</span><br>그녀는 노력 끝에 승진을 따냈다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>恐怖<rt>きょうふ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">공포</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>暗闇<rt>くらやみ</rt></ruby>への<ruby>恐怖<rt>きょうふ</rt></ruby>が<ruby>子<rt>こ</rt></ruby>どもを<ruby>包<rt>つつ</rt></ruby>んだ。</span><br>어둠에 대한 공포가 아이를 휘감았다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern"><ruby>頭<rt>あたま</rt></ruby>から<ruby>離<rt>はな</rt></ruby>れない</div>
+        <div class="pattern-ko">머릿속에서 떠나지 않는다</div>
+        <p class="explain">어떤 생각이나 기억이 계속 맴돌아 사라지지 않을 때 쓰는 표현이다. 중립적일 수 있지만, 대개 불안·공포·후회처럼 부정적 정서와 함께 쓰여 심리적 압박감을 드러낸다.</p>
+        <p class="ex"><span class="ja">あの<ruby>出来事<rt>できごと</rt></ruby>が<ruby>頭<rt>あたま</rt></ruby>から<ruby>離<rt>はな</rt></ruby>れない。</span><br>그 사건이 머릿속에서 떠나지 않는다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 작품의 줄거리와 장면 인용으로 독자를 이야기 속으로 끌어들인 뒤, 시대·사회 문제로 시선을 확장한다. ‘복간’이라는 현재의 계기를 앞세워 과거의 서사를 오늘과 연결하는 전형적 전개가 보인다. 주인공의 출세와 공포를 대비시키며, 성공 신화의 이면에 가려진 정체성의 긴장을 부각한다. 짧은 인용구는 폐쇄감과 절박함을 즉각 전달해 정서적 진입을 돕는다.</p>
+        <p>칼럼이 던지는 질문은 재일 코리안의 기억이 어떻게 일본 사회의 집단적 기억 속에서 다뤄져 왔는가이다. 한국 독자에게는 경계와 동화, 가명과 본명, 국적과 소속의 문제를 함께 사유하게 하는 지점이 흥미롭다. 오래된 만화를 ‘다시 읽기’ 함으로써, 문화 텍스트가 사회적 공론의 문을 여는 장치가 될 수 있음을 보여 준다. 개인의 트라우마가 경제 성장의 빛에 가려졌다는 지적은, 성장 서사를 성찰적으로 재검토하라는 제안으로 들린다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 재일 코리안의 상처와 동화의 그림자를 복간된 만화 한 편으로 소환해 현재의 우리에게 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본의 고도성장기(1950~70년대 전후)는 경제 번영의 상징이지만, 이 시기 소수자에 대한 동화 압력과 차별의 기억도 함께 남아 있다.</p>
+        <p>재일 코리안은 식민지와 전쟁, 전후의 사회 변동 속에서 일본에 정착한 사람들과 그 후손을 가리키며, 국적 취득과 이름 문제는 오랫동안 민감한 주제였다.</p>
+        <p>데즈카 오사무는 ‘만화의 신’으로 불리는 창작자이며, 그의 작품은 시대를 넘어 읽히며 종종 복간을 통해 새로운 맥락에서 재평가된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 장면 인용으로 독자의 감정을 먼저 움직인 뒤, 사회적 논점으로 확장하라.</p>
+        <p><span class="n">二</span>현재의 계기(복간)를 고리로 과거의 서사를 오늘의 문제와 연결하라.</p>
+        <p><span class="n">三</span>대비 구조(성장/공포, 출세/정체성)를 활용해 주제의 긴장을 선명하게 드러내라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>出自<rt>しゅつじ</rt></ruby>を<ruby>隠<rt>かく</rt></ruby>して<ruby>生<rt>い</rt></ruby>きる<ruby>痛<rt>いた</rt></ruby>みは、<ruby>時代<rt>じだい</rt></ruby>を<ruby>越<rt>こ</rt></ruby>えても<ruby>消<rt>き</rt></ruby>えない。</span>
+      <span class="ko">출신을 숨기고 사는 아픔은 시대가 바뀌어도 쉬이 사라지지 않는다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-01) — <a href="https://www.asahi.com/articles/DA3S16537533.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-01.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

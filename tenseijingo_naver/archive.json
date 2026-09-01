@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-01",
+    "no": 56,
+    "topic_ja": "<ruby>高度成長期<rt>こうどせいちょうき</rt></ruby>と<ruby>在日<rt>ざいにち</rt></ruby>",
+    "topic_ko": "고도성장기와 재일",
+    "url": "https://www.asahi.com/articles/DA3S16537533.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '기억과 정체성', '성장의 그늘' — 개인의 출신을 둘러싼 두려움과 사회적 차별을, 경제 성장기의 빛과 그림자라는 대비 속에서 성찰하기 때문임.",
+    "pattern": "<ruby>頭<rt>あたま</rt></ruby>から<ruby>離<rt>はな</rt></ruby>れない"
+  },
+  {
     "date": "2026-08-31",
     "no": 55,
     "topic_ja": "<ruby>母<rt>はは</rt></ruby>と<ruby>自閉症<rt>じへいしょう</rt></ruby>の<ruby>秋<rt>あき</rt></ruby>",

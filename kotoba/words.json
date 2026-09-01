@@ -6861,5 +6861,55 @@
   "example": "来週、新入社員向けの説明会が開かれる予定だ。",
   "exampleReading": "らいしゅう、しんにゅうしゃいんむけのせつめいかいがひらかれるよていだ。",
   "exampleMeaning": "다음 주, 신입사원 대상 설명회가 열릴 예정이다."
+ },
+ {
+  "id": "tj241",
+  "word": "復刻",
+  "reading": "ふっこく",
+  "meaning": "복각, 재간",
+  "level": "N1",
+  "example": "その名作が五十年ぶりに復刻された。",
+  "exampleReading": "そのめいさくがごじゅうねんぶりにふっこくされた。",
+  "exampleMeaning": "그 명작이 50년 만에 복각되었다."
+ },
+ {
+  "id": "tj242",
+  "word": "出自",
+  "reading": "しゅつじ",
+  "meaning": "출신, 가문",
+  "level": "N1",
+  "example": "彼は出自を明かさなかった。",
+  "exampleReading": "かれはしゅつじをあかさなかった。",
+  "exampleMeaning": "그는 자신의 출신을 밝히지 않았다."
+ },
+ {
+  "id": "tj243",
+  "word": "差別",
+  "reading": "さべつ",
+  "meaning": "차별",
+  "level": "N2",
+  "example": "職場での差別を許してはならない。",
+  "exampleReading": "しょくばでのさべつをゆるしてはならない。",
+  "exampleMeaning": "직장에서의 차별을 용납해서는 안 된다."
+ },
+ {
+  "id": "tj244",
+  "word": "昇進",
+  "reading": "しょうしん",
+  "meaning": "승진",
+  "level": "N2",
+  "example": "彼女は努力の末に昇進を勝ち取った。",
+  "exampleReading": "かのじょはどりょくのすえにしょうしんをかちとった。",
+  "exampleMeaning": "그녀는 노력 끝에 승진을 따냈다."
+ },
+ {
+  "id": "tj245",
+  "word": "恐怖",
+  "reading": "きょうふ",
+  "meaning": "공포",
+  "level": "N2",
+  "example": "暗闇への恐怖が子どもを包んだ。",
+  "exampleReading": "くらやみへのきょうふがこどもをつつんだ。",
+  "exampleMeaning": "어둠에 대한 공포가 아이를 휘감았다."
  }
 ]
