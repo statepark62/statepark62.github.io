@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-02",
+    "no": 57,
+    "topic_ja": "<ruby>俳句<rt>はいく</rt></ruby><ruby>甲子園<rt>こうしえん</rt></ruby>と〈<ruby>泳<rt>およ</rt></ruby>ぐ〉",
+    "topic_ko": "하이쿠 고시엔과 ‘헤엄치다’",
+    "url": "https://www.asahi.com/articles/DA3S16538211.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘청춘의 역동’, ‘시간과 의지’, ‘시와 현실’ — 한 줄의 시에서 시대 감각과 앞으로 나아가는 태도를 길어 올리며, 문학적 장치가 현실 인식을 열어 주기 때문임.",
+    "pattern": "〜に〜を<ruby>見<rt>み</rt></ruby>る"
+  },
+  {
     "date": "2026-09-01",
     "no": 56,
     "topic_ja": "<ruby>高度成長期<rt>こうどせいちょうき</rt></ruby>と<ruby>在日<rt>ざいにち</rt></ruby>",

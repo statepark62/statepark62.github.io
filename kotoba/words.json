@@ -7031,5 +7031,125 @@
   "example": "彼女の努力は他の人とは桁違いだ。",
   "exampleReading": "かのじょのどりょくはほかのひととはけたちがいだ。",
   "exampleMeaning": "그녀의 노력은 다른 사람과는 차원이 다르다."
+ },
+ {
+  "id": "news287",
+  "word": "憤り",
+  "reading": "いきどおり",
+  "meaning": "분노, 분개",
+  "level": "N1",
+  "example": "彼は不当な扱いに憤りを感じて抗議した。",
+  "exampleReading": "かれはふとうなあつかいにいきどおりをかんじてこうぎした。",
+  "exampleMeaning": "그는 부당한 대우에 분노를 느껴 항의했다."
+ },
+ {
+  "id": "news288",
+  "word": "決算書",
+  "reading": "けっさんしょ",
+  "meaning": "결산서",
+  "level": "N1",
+  "example": "会社の決算書を見れば経営状態がよく分かる。",
+  "exampleReading": "かいしゃのけっさんしょをみればけいえいじょうたいがよくわかる。",
+  "exampleMeaning": "회사의 결산서를 보면 경영 상태를 잘 알 수 있다."
+ },
+ {
+  "id": "news289",
+  "word": "格付け",
+  "reading": "かくづけ",
+  "meaning": "등급 매김, 평가",
+  "level": "N1",
+  "example": "この企業は国際機関から高い格付けを受けている。",
+  "exampleReading": "このきぎょうはこくさいきかんからたかいかくづけをうけている。",
+  "exampleMeaning": "이 기업은 국제 기관으로부터 높은 등급 평가를 받고 있다."
+ },
+ {
+  "id": "news290",
+  "word": "通行止め",
+  "reading": "つうこうどめ",
+  "meaning": "통행금지, 통행 차단",
+  "level": "N2",
+  "example": "事故の影響で高速道路が通行止めになった。",
+  "exampleReading": "じこのえいきょうでこうそくどうろがつうこうどめになった。",
+  "exampleMeaning": "사고의 영향으로 고속도로가 통행 금지되었다."
+ },
+ {
+  "id": "news291",
+  "word": "売却",
+  "reading": "ばいきゃく",
+  "meaning": "매각",
+  "level": "N2",
+  "example": "会社は不要な資産を売却して資金を確保した。",
+  "exampleReading": "かいしゃはふようなしさんをばいきゃくしてしきんをかくほした。",
+  "exampleMeaning": "회사는 불필요한 자산을 매각하여 자금을 확보했다."
+ },
+ {
+  "id": "news292",
+  "word": "返金",
+  "reading": "へんきん",
+  "meaning": "환불",
+  "level": "N3",
+  "example": "商品に不良があったので返金を求めた。",
+  "exampleReading": "しょうひんにふりょうがあったのでへんきんをもとめた。",
+  "exampleMeaning": "상품에 불량이 있어서 환불을 요구했다."
+ },
+ {
+  "id": "news293",
+  "word": "脱退",
+  "reading": "だったい",
+  "meaning": "탈퇴",
+  "level": "N2",
+  "example": "彼はメンバーとの意見の違いからグループを脱退した。",
+  "exampleReading": "かれはめんばーとのいけんのちがいからぐるーぷをだったいした。",
+  "exampleMeaning": "그는 멤버들과의 의견 차이로 그룹을 탈퇴했다."
+ },
+ {
+  "id": "tj246",
+  "word": "俳句",
+  "reading": "はいく",
+  "meaning": "하이쿠, 일본 전통 5·7·5 정형시",
+  "level": "N2",
+  "example": "彼は初めて俳句を詠んだ。",
+  "exampleReading": "かれははじめてはいくをよんだ。",
+  "exampleMeaning": "그는 처음으로 하이쿠를 읊었다."
+ },
+ {
+  "id": "tj247",
+  "word": "最優秀句",
+  "reading": "さいゆうしゅうく",
+  "meaning": "최우수 작품(하이쿠)",
+  "level": "N1",
+  "example": "この作品が最優秀句に選ばれた。",
+  "exampleReading": "このさくひんがさいゆうしゅうくにえらばれた。",
+  "exampleMeaning": "이 작품이 최우수구로 선정되었다."
+ },
+ {
+  "id": "tj248",
+  "word": "たくましさ",
+  "reading": "たくましさ",
+  "meaning": "굳세고 씩씩함",
+  "level": "N2",
+  "example": "若者のたくましさに励まされた。",
+  "exampleReading": "わかもののたくましさにはげまされた.",
+  "exampleMeaning": "젊은이들의 씩씩함에 힘을 얻었다."
+ },
+ {
+  "id": "tj249",
+  "word": "一字空き",
+  "reading": "いちじあき",
+  "meaning": "한 칸 띄우기(서식 기법)",
+  "level": "N1",
+  "example": "一字空きを入れて余韻をつくる。",
+  "exampleReading": "いちじあきをいれてよいんをつくる.",
+  "exampleMeaning": "한 칸 띄우기를 넣어 여운을 만든다."
+ },
+ {
+  "id": "tj250",
+  "word": "時の流れ",
+  "reading": "ときのながれ",
+  "meaning": "시간의 흐름",
+  "level": "N3",
+  "example": "時の流れは止まらない。",
+  "exampleReading": "ときのながれはとまらない。",
+  "exampleMeaning": "시간의 흐름은 멈추지 않는다."
  }
 ]

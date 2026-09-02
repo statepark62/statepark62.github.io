@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-02 天声人語로 배우는 일본어 — 하이쿠 고시엔과 ‘헤엄치다’</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-02</span>
+      <span>2026년 9월 2일 (수)</span>
+    </div>
+
+    <h1><ruby>俳句<rt>はいく</rt></ruby><ruby>甲子園<rt>こうしえん</rt></ruby>と〈<ruby>泳<rt>およ</rt></ruby>ぐ〉</h1>
+    <p class="topic-ko">하이쿠 고시엔과 ‘헤엄치다’</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>明日<rt>あした</rt></ruby>には<ruby>今日<rt>きょう</rt></ruby>は<ruby>昨日<rt>きのう</rt></ruby>」</div>
+      <div class="ko">내일이면 오늘은 어제가 된다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>全国<rt>ぜんこく</rt></ruby>の<ruby>高校生<rt>こうこうせい</rt></ruby>が<ruby>競<rt>きそ</rt></ruby>う「<ruby>俳句<rt>はいく</rt></ruby><ruby>甲子園<rt>こうしえん</rt></ruby>」で、ことしの<ruby>最優秀句<rt>さいゆうしゅうく</rt></ruby>が<ruby>話題<rt>わだい</rt></ruby>となった。</p><p class="ko">전국 고교생이 겨루는 ‘하이쿠 고시엔’에서 올해의 최우수 작품이 화제가 되었다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>句<rt>く</rt></ruby>のおわりに〈<ruby>泳<rt>およ</rt></ruby>ぐ〉を<ruby>一字<rt>いちじ</rt></ruby><ruby>空<rt>あ</rt></ruby>けて<ruby>置<rt>お</rt></ruby>き、<ruby>時<rt>とき</rt></ruby>の<ruby>流<rt>なが</rt></ruby>れと<ruby>青春<rt>せいしゅん</rt></ruby>の<ruby>躍動<rt>やくどう</rt></ruby>を<ruby>喚起<rt>かんき</rt></ruby>する。</p><p class="ko">시의 마지막에 한 칸 띄워 둔 ‘헤엄치다’라는 단어가 시간의 흐름과 청춘의 역동을 함께 떠올리게 한다.</p></div>
+      <div class="s-item"><p class="ja">コラムはその<ruby>一行<rt>いちぎょう</rt></ruby>から、<ruby>変化<rt>へんか</rt></ruby>の<ruby>時代<rt>じだい</rt></ruby>を<ruby>泳<rt>およ</rt></ruby>ぎ<ruby>抜<rt>ぬ</rt></ruby>こうとする<ruby>意思<rt>いし</rt></ruby>と<ruby>若者<rt>わかもの</rt></ruby>の<ruby>力<rt>ちから</rt></ruby>を<ruby>受<rt>う</rt></ruby>け<ruby>止<rt>と</rt></ruby>める。</p><p class="ko">칼럼은 그 한 줄에서 변화의 시대를 헤엄쳐 나가려는 의지와 젊음의 힘을 읽어 낸다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>俳句<rt>はいく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">하이쿠, 일본 전통 5·7·5 정형시</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>初<rt>はじ</rt></ruby>めて<ruby>俳句<rt>はいく</rt></ruby>を<ruby>詠<rt>よ</rt></ruby>んだ。</span><br>그는 처음으로 하이쿠를 읊었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>最優秀句<rt>さいゆうしゅうく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">최우수 작품(하이쿠)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">この<ruby>作品<rt>さくひん</rt></ruby>が<ruby>最優秀句<rt>さいゆうしゅうく</rt></ruby>に<ruby>選<rt>えら</rt></ruby>ばれた。</span><br>이 작품이 최우수구로 선정되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>たくましさ<rt>たくましさ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">굳세고 씩씩함</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>若者<rt>わかもの</rt></ruby>のたくましさに<ruby>励<rt>はげ</rt></ruby>まされた。</span><br>젊은이들의 씩씩함에 힘을 얻었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>一字空き<rt>いちじあき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">한 칸 띄우기(서식 기법)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>一字<rt>いちじ</rt></ruby><ruby>空<rt>あ</rt></ruby>きを<ruby>入<rt>い</rt></ruby>れて<ruby>余韻<rt>よいん</rt></ruby>をつくる。</span><br>한 칸 띄우기를 넣어 여운을 만든다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>時の流れ<rt>ときのながれ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">시간의 흐름</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>時<rt>とき</rt></ruby>の<ruby>流<rt>なが</rt></ruby>れは<ruby>止<rt>と</rt></ruby>まらない。</span><br>시간의 흐름은 멈추지 않는다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜に〜を<ruby>見<rt>み</rt></ruby>る</div>
+        <div class="pattern-ko">~에서 …을 보다, ~ 속에서 …을 발견하다</div>
+        <p class="explain">어떤 대상이나 장면 속에서 성질·가치·의미를 읽어 낼 때 쓰는 표현이다. 객관적 서술이라기보다 화자의 해석과 평가가 담긴 관찰을 드러낸다.</p>
+        <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>の<ruby>言葉<rt>ことば</rt></ruby>に<ruby>誠実<rt>せいじつ</rt></ruby>さを<ruby>見<rt>み</rt></ruby>る。</span><br>그의 말에서 성실함을 본다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 우선 하이쿠 한 편의 형식적 장치에 초점을 맞춰 독자의 시선을 잡아끈다. ‘〈헤엄치다〉’라는 단어 앞의 한 칸 띄우기를 해석하며, 단어의 고립이 만들어 내는 여운과 방향성을 포착한다. 짧은 문장으로 이미지를 던지고, 곧바로 대회와 작자의 발언으로 맥락을 보강하는 전개가 천성인어 특유의 경쾌함을 보여 준다. 구체와 추상의 왕복이 빠르게 이루어져, 한 구절이 시대 감각으로 확장되는 효과가 크다.</p>
+        <p>칼럼이 남기는 핵심은 변화의 물살 속에서 앞으로 나아가려는 젊음의 태도이다. 시간의 흐름을 응시하되 주저하지 않고 ‘헤엄’으로 응답하는 자세를 미학적으로 제시한다. 한국 독자에게도 시적 압축을 통해 시대를 말하는 방식이 신선하게 다가오며, 짧은 언어가 긴 독해를 불러오는 일본 언론 칼럼의 미감을 엿볼 수 있다. 결과보다 문장의 결에서 의미를 길어 올리는 접근이 특히 흥미롭다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 한 줄의 하이쿠를 매개로, 변화의 시간을 헤엄쳐 가는 청춘의 의지를 조명하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>‘하이쿠 고시엔’은 전국 고등학생이 팀전으로 겨루는 하이쿠 대회로, 토론과 발표를 통해 작품의 해석까지 평가하는 것이 특징이다.</p>
+        <p>하이쿠에서는 ‘자르기(切れ)’나 ‘한 칸 띄우기(一字空き)’ 같은 장치로 호흡과 시점을 조절하며, 짧은 형식 속에 여백의 미를 살린다.</p>
+        <p>일본 언론 칼럼은 짧은 소재를 통해 시대 감각을 포착하는 전통이 강하며, 시·문학적 인용으로 사회적 논점을 비추는 방식이 자주 쓰인다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 디테일(한 칸 띄우기)을 포착해 추상적 의미(의지·역동)로 확장하는 비약을 설계하라.</p>
+        <p><span class="n">二</span>짧은 인용 뒤에 맥락 정보를 붙여 독자의 해석 경로를 자연스럽게 안내하라.</p>
+        <p><span class="n">三</span>동사 하나(‘헤엄치다’)에 서사적 방향성을 부여해 문장 전체의 리듬을 만들어라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>変化<rt>へんか</rt></ruby>の<ruby>波<rt>なみ</rt></ruby>を<ruby>恐<rt>おそ</rt></ruby>れず、<ruby>前<rt>まえ</rt></ruby>へ<ruby>泳<rt>およ</rt></ruby>ぎ<ruby>続<rt>つづ</rt></ruby>けよう。</span>
+      <span class="ko">변화의 파도를 두려워하지 말고, 앞으로 계속 헤엄치자.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-02) — <a href="https://www.asahi.com/articles/DA3S16538211.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-02.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
