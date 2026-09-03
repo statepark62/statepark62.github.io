@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-03",
+    "no": 58,
+    "topic_ja": "<ruby>南方特別留学生<rt>なんぽうとくべつりゅうがくせい</rt></ruby>",
+    "topic_ko": "남방 특별 유학생",
+    "url": "https://www.asahi.com/articles/DA3S16538964.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '제국과 교육', '기억의 윤리', '개인의 역사' — 국가 정책과 한 개인의 생을 교차시켜 보편적 질문(누가 기억하고 어떻게 책임질 것인가)을 던지기 때문.",
+    "pattern": "〜の<ruby>一人<rt>ひとり</rt></ruby>である"
+  },
+  {
     "date": "2026-09-02",
     "no": 57,
     "topic_ja": "<ruby>俳句<rt>はいく</rt></ruby><ruby>甲子園<rt>こうしえん</rt></ruby>と〈<ruby>泳<rt>およ</rt></ruby>ぐ〉",
