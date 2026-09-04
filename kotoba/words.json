@@ -7511,5 +7511,55 @@
   "example": "小さな誤解がすれ違いを生んだ。",
   "exampleReading": "ちいさなごかいがすれちがいをうんだ。",
   "exampleMeaning": "작은 오해가 엇갈림을 낳았다."
+ },
+ {
+  "id": "news320",
+  "word": "拒否反応",
+  "reading": "きょひはんのう",
+  "meaning": "거부 반응",
+  "level": "N1",
+  "example": "彼のその発言に、多くの人が拒否反応を示した。",
+  "exampleReading": "かれのそのはつげんに、おおくのひとがきょひはんのうをしめした。",
+  "exampleMeaning": "그의 그 발언에 많은 사람들이 거부 반응을 보였다."
+ },
+ {
+  "id": "news321",
+  "word": "上昇",
+  "reading": "じょうしょう",
+  "meaning": "상승",
+  "level": "N2",
+  "example": "最近、物価の上昇が続いていて生活が苦しい。",
+  "exampleReading": "さいきん、ぶっかのじょうしょうがつづいていてせいかつがくるしい。",
+  "exampleMeaning": "최근 물가 상승이 계속되어 생활이 힘들다."
+ },
+ {
+  "id": "news322",
+  "word": "実感",
+  "reading": "じっかん",
+  "meaning": "실감",
+  "level": "N2",
+  "example": "海外に住んでみて初めて日本の便利さを実感した。",
+  "exampleReading": "かいがいにすんでみてはじめてにほんのべんりさをじっかんした。",
+  "exampleMeaning": "해외에 살아보고 나서야 비로소 일본의 편리함을 실감했다."
+ },
+ {
+  "id": "news323",
+  "word": "回想",
+  "reading": "かいそう",
+  "meaning": "회상",
+  "level": "N1",
+  "example": "彼女は子供の頃の思い出を懐かしそうに回想した。",
+  "exampleReading": "かのじょはこどものころのおもいでをなつかしそうにかいそうした。",
+  "exampleMeaning": "그녀는 어린 시절의 추억을 그리운 듯 회상했다."
+ },
+ {
+  "id": "news324",
+  "word": "報道",
+  "reading": "ほうどう",
+  "meaning": "보도",
+  "level": "N2",
+  "example": "その事件はテレビや新聞で大きく報道された。",
+  "exampleReading": "そのじけんはテレビやしんぶんでおおきくほうどうされた。",
+  "exampleMeaning": "그 사건은 텔레비전과 신문에서 크게 보도되었다."
  }
 ]
