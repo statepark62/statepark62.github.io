@@ -7401,5 +7401,115 @@
   "example": "スキャンダル報道以来、彼は沈黙を貫いている。",
   "exampleReading": "スキャンダルほうどういらい、かれはちんもくをつらぬいている。",
   "exampleMeaning": "스캔들 보도 이후 그는 계속 침묵을 지키고 있다."
+ },
+ {
+  "id": "news314",
+  "word": "疑問符",
+  "reading": "ぎもんふ",
+  "meaning": "의문부호, 의문점",
+  "level": "N1",
+  "example": "彼の説明には疑問符がつく点が多い。",
+  "exampleReading": "かれのせつめいにはぎもんふがつくてんがおおい。",
+  "exampleMeaning": "그의 설명에는 의문이 드는 점이 많다."
+ },
+ {
+  "id": "news315",
+  "word": "命運を握る",
+  "reading": "めいうんをにぎる",
+  "meaning": "운명을 쥐다",
+  "level": "N1",
+  "example": "この試合の結果がチームの命運を握っている。",
+  "exampleReading": "このしあいのけっかがチームのめいうんをにぎっている。",
+  "exampleMeaning": "이 경기의 결과가 팀의 운명을 쥐고 있다."
+ },
+ {
+  "id": "news316",
+  "word": "勢力拡大",
+  "reading": "せいりょくかくだい",
+  "meaning": "세력 확대",
+  "level": "N1",
+  "example": "その企業は海外市場での勢力拡大を目指している。",
+  "exampleReading": "そのきぎょうはかいがいしじょうでのせいりょくかくだいをめざしている。",
+  "exampleMeaning": "그 기업은 해외 시장에서의 세력 확대를 목표로 하고 있다."
+ },
+ {
+  "id": "news317",
+  "word": "買収",
+  "reading": "ばいしゅう",
+  "meaning": "매수, 인수",
+  "level": "N2",
+  "example": "大手企業が小さなスタートアップを買収した。",
+  "exampleReading": "おおてきぎょうがちいさなスタートアップをばいしゅうした。",
+  "exampleMeaning": "대기업이 작은 스타트업을 인수했다."
+ },
+ {
+  "id": "news318",
+  "word": "驚愕",
+  "reading": "きょうがく",
+  "meaning": "경악",
+  "level": "N1",
+  "example": "彼はそのニュースを聞いて驚愕した。",
+  "exampleReading": "かれはそのニュースをきいてきょうがくした。",
+  "exampleMeaning": "그는 그 뉴스를 듣고 경악했다."
+ },
+ {
+  "id": "news319",
+  "word": "恐れ",
+  "reading": "おそれ",
+  "meaning": "우려, 염려",
+  "level": "N2",
+  "example": "大雨により川が氾濫する恐れがある。",
+  "exampleReading": "おおあめによりかわがはんらんするおそれがある。",
+  "exampleMeaning": "폭우로 인해 강이 범람할 우려가 있다."
+ },
+ {
+  "id": "tj256",
+  "word": "興行収入",
+  "reading": "こうぎょうしゅうにゅう",
+  "meaning": "흥행 수입",
+  "level": "N1",
+  "example": "この作品の興行収入は予想を超えた。",
+  "exampleReading": "このさくひんのこうぎょうしゅうにゅうはよそうをこえた。",
+  "exampleMeaning": "이 작품의 흥행 수입은 예상을 넘어섰다."
+ },
+ {
+  "id": "tj257",
+  "word": "公開",
+  "reading": "こうかい",
+  "meaning": "공개, 개봉",
+  "level": "N3",
+  "example": "映画は夏に公開された。",
+  "exampleReading": "えいがはなつにこうかいされた。",
+  "exampleMeaning": "영화는 여름에 개봉되었다."
+ },
+ {
+  "id": "tj258",
+  "word": "友情",
+  "reading": "ゆうじょう",
+  "meaning": "우정",
+  "level": "N3",
+  "example": "困難を越えて友情が深まった。",
+  "exampleReading": "こんなんをこえてゆうじょうがふかまった。",
+  "exampleMeaning": "어려움을 넘어 우정이 깊어졌다."
+ },
+ {
+  "id": "tj259",
+  "word": "悪意",
+  "reading": "あくい",
+  "meaning": "악의",
+  "level": "N2",
+  "example": "彼に悪意はまったくない。",
+  "exampleReading": "かれにあくいはまったくない。",
+  "exampleMeaning": "그에게는 전혀 악의가 없다."
+ },
+ {
+  "id": "tj260",
+  "word": "すれ違い",
+  "reading": "すれちがい",
+  "meaning": "엇갈림, 시차로 인한 불일치",
+  "level": "N2",
+  "example": "小さな誤解がすれ違いを生んだ。",
+  "exampleReading": "ちいさなごかいがすれちがいをうんだ。",
+  "exampleMeaning": "작은 오해가 엇갈림을 낳았다."
  }
 ]

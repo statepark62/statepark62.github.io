@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-04",
+    "no": 59,
+    "topic_ja": "ちいかわ<ruby>映画<rt>えいが</rt></ruby>と<ruby>夏<rt>なつ</rt></ruby>の<ruby>熱狂<rt>ねっきょう</rt></ruby>",
+    "topic_ko": "치이카와 영화와 여름의 열광",
+    "url": "https://www.asahi.com/articles/DA3S16539715.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘오해와 화해’, ‘캐릭터 문화’, ‘대중성과 깊이’ — 흥행 캐릭터물이 관계의 균열과 회복이라는 보편 주제를 품으며, 소비 뉴스가 사유의 장으로 확장되는 과정을 보여주기 때문임.",
+    "pattern": "〜といえば"
+  },
+  {
     "date": "2026-09-03",
     "no": 58,
     "topic_ja": "<ruby>南方特別留学生<rt>なんぽうとくべつりゅうがくせい</rt></ruby>",
