@@ -325,7 +325,7 @@
 
   // ---------- Google 로그인 & Sheets API 저장소 ----------
   // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
-  const CLIENT_ID = "736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com";
+  const CLIENT_ID = "여기에_OAuth_클라이언트_ID를_입력하세요.apps.googleusercontent.com";
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
@@ -373,6 +373,8 @@
   }
 
   let silentAttempted = false;
+  let silentTimer = null;
+  let silentWaited = 0;
   let interactiveRequested = false;
 
   function initTokenClient(){
@@ -380,6 +382,7 @@
       client_id: CLIENT_ID,
       scope: SCOPES,
       callback: async (resp) => {
+        clearTimeout(silentTimer);
         if(resp.error){
           // 무음 인증 실패는 정상적인 경우(최초 사용, 로그아웃 상태 등) — 조용히 로그인 버튼을 보여준다
           if(silentAttempted && !interactiveRequested){
@@ -415,7 +418,9 @@
   // 페이지를 열 때, 이미 권한을 승인한 계정이면 화면 없이 조용히 토큰만 재발급받는다.
   function trySilentLogin(){
     if(!window.google || !google.accounts){
-      // GIS 스크립트가 아직 로딩 중이면 잠시 후 재시도
+      // GIS 스크립트가 아직 로딩 중이면 잠시 후 재시도 (최대 약 5초)
+      silentWaited = (silentWaited || 0) + 300;
+      if(silentWaited > 5000){ showLoginButton(); return; }
       setTimeout(trySilentLogin, 300);
       return;
     }
@@ -424,9 +429,18 @@
     interactiveRequested = false;
     el("loginSubtitle").textContent = "로그인 상태를 확인하는 중...";
     el("loginBtn").style.display = "none";
+
+    // iOS Safari 등에서는 무음 인증이 콜백 없이 조용히 실패할 수 있다.
+    // 일정 시간 응답이 없으면 수동 로그인 버튼을 보여준다.
+    clearTimeout(silentTimer);
+    silentTimer = setTimeout(() => {
+      if(!accessToken) showLoginButton();
+    }, 3500);
+
     try{
       tokenClient.requestAccessToken({ prompt: "" }); // 빈 문자열 = 화면 없이 시도
     }catch(e){
+      clearTimeout(silentTimer);
       showLoginButton();
     }
   }
