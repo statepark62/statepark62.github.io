@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-06 天声人語로 배우는 일본어 — 야쓰시로의 상점가</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-06</span>
+      <span>2026년 9월 6일 (일)</span>
+    </div>
+
+    <h1><ruby>八代<rt>やつしろ</rt></ruby>の<ruby>商店街<rt>しょうてんがい</rt></ruby></h1>
+    <p class="topic-ko">야쓰시로의 상점가</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>海上交通<rt>かいじょうこうつう</rt></ruby>の<ruby>要所<rt>ようしょ</rt></ruby>」</div>
+      <div class="ko">해상 교통의 요충지 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>熊本県<rt>くまもとけん</rt></ruby><ruby>八代市<rt>やつしろし</rt></ruby>が<ruby>海上交通<rt>かいじょうこうつう</rt></ruby>の<ruby>要所<rt>ようしょ</rt></ruby>として<ruby>栄<rt>さか</rt></ruby>え、<ruby>南九州<rt>みなみきゅうしゅう</rt></ruby>の<ruby>工業都市<rt>こうぎょうとし</rt></ruby>へと<ruby>定着<rt>ていちゃく</rt></ruby>していった<ruby>歩<rt>あゆ</rt></ruby>みを<ruby>想起<rt>そうき</rt></ruby>させる。</p><p class="ko">칼럼은 구마모토현 야쓰시로시가 해상 교통의 결절점으로 번성해 남규슈의 공업도시로 자리 잡은 과정을 상기시킨다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>商店街<rt>しょうてんがい</rt></ruby>も<ruby>同時<rt>どうじ</rt></ruby>に<ruby>活気<rt>かっき</rt></ruby>づき、１９７３<ruby>年<rt>ねん</rt></ruby>にはアーケードの<ruby>完成<rt>かんせい</rt></ruby>を<ruby>祝<rt>いわ</rt></ruby>う<ruby>催<rt>もよお</rt></ruby>しがあったことを<ruby>伝<rt>つた</rt></ruby>える。</p><p class="ko">상점가도 함께 활기를 띠었고, 1973년에는 아케이드 완공을 축하하는 행사가 열렸다는 사실을 짚는다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>陶器<rt>とうき</rt></ruby>の<ruby>店主<rt>てんしゅ</rt></ruby>が<ruby>当時<rt>とうじ</rt></ruby>の<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>示<rt>しめ</rt></ruby>し、<ruby>時<rt>とき</rt></ruby>の<ruby>流<rt>なが</rt></ruby>れのなかで<ruby>地域<rt>ちいき</rt></ruby>の<ruby>変化<rt>へんか</rt></ruby>を<ruby>振<rt>ふ</rt></ruby>り<ruby>返<rt>かえ</rt></ruby>らせる<ruby>趣<rt>おもむき</rt></ruby>のある<ruby>一編<rt>いっぺん</rt></ruby>とみられる。</p><p class="ko">오래된 도자기 가게 주인이 당시 사진을 꺼내 보이며, 시간의 흐름 속 지역의 변화를 되돌아보게 하는 글로 보인다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>商店街<rt>しょうてんがい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">상점가, 상가 거리</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>駅前<rt>えきまえ</rt></ruby>の<ruby>商店街<rt>しょうてんがい</rt></ruby>は<ruby>週末<rt>しゅうまつ</rt></ruby>に<ruby>多<rt>おお</rt></ruby>くの<ruby>人<rt>ひと</rt></ruby>で<ruby>賑<rt>にぎ</rt></ruby>わう。</span><br>역 앞 상점가는 주말에 많은 사람들로 붐빈다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>工業都市<rt>こうぎょうとし</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">공업도시</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>海辺<rt>うみべ</rt></ruby>の<ruby>町<rt>まち</rt></ruby>は<ruby>工業都市<rt>こうぎょうとし</rt></ruby>として<ruby>発展<rt>はってん</rt></ruby>した。</span><br>바닷가 도시는 공업도시로 발전했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>海上交通<rt>かいじょうこうつう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">해상 교통</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>海上交通<rt>かいじょうこうつう</rt></ruby>は<ruby>地域<rt>ちいき</rt></ruby>の<ruby>発展<rt>はってん</rt></ruby>を<ruby>支<rt>ささ</rt></ruby>える。</span><br>해상 교통은 지역의 발전을 떠받친다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>酒造<rt>しゅぞう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">주조, 술을 빚음</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>地元<rt>じもと</rt></ruby>には<ruby>酒造<rt>しゅぞう</rt></ruby><ruby>会社<rt>かいしゃ</rt></ruby>が<ruby>多<rt>おお</rt></ruby>い。</span><br>지역에는 주조 회사가 많다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>陶器店<rt>とうきてん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">도자기 가게</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>祖父<rt>そふ</rt></ruby>は<ruby>陶器店<rt>とうきてん</rt></ruby>を<ruby>営<rt>いとな</rt></ruby>んでいた。</span><br>할아버지는 도자기 가게를 운영하고 있었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜として</div>
+        <div class="pattern-ko">~로서, ~의 자격으로</div>
+        <p class="explain">신분·역할·지위·성격을 나타내어 &#x27;무엇으로서&#x27;라는 의미를 만든다. 공식 문서나 설명문에서 자주 쓰이며, 평가·위상·기능을 밝힐 때 자연스럽다.</p>
+        <p class="ex"><span class="ja"><ruby>私<rt>わたし</rt></ruby>は<ruby>委員<rt>いいん</rt></ruby>として<ruby>会議<rt>かいぎ</rt></ruby>に<ruby>参加<rt>さんか</rt></ruby>する。</span><br>나는 위원으로서 회의에 참가한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 지역사회의 거시적 흐름을 간결한 사실 배열로 열고, 곧장 개인의 기억으로 초점을 좁힌다. 항만교통의 요지, 공업도시의 성장, 아케이드 완공이라는 구체 명사와 연도를 배치해 독자가 시간의 축을 빠르게 그리게 한다. 이어 사진이라는 물성을 호출해 과거의 공기를 현재로 끌어오는 점이 천성인어 특유의 장점이다. 문단 전환 기호를 통해 배경 서술에서 증언으로 매끄럽게 접속하며, 짧은 문장으로 리듬을 만든다.</p>
+        <p>글이 남기는 의미는 한 지역의 흥망을 통계가 아니라 기억과 풍경으로 체감하게 한다는 데 있다. 한국 독자에게도 지방 상점가의 변화와 세대 대물림 가게의 표정은 낯설지 않은 이야기다. 화려했던 순간을 기록한 사진은 쇠퇴를 직접 말하지 않아도 충분히 현재를 비추는 거울이 된다. 결말부 전체는 유료 영역이지만, 제시된 단서만으로도 ‘어떻게 기억을 보전할 것인가’라는 질문을 자연스레 던진다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 지역 상점가의 전성기와 현재를 사진과 기억을 통해 비추어 보는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본의 많은 항구 도시는 메이지기 이후 공업화 물결과 함께 물류 거점으로 성장했다. 이러한 맥락에서 해상 교통의 발달은 지역 경제 구조를 재편하는 핵심 동력이었다.</p>
+        <p>쇼와 후반에 아케이드형 상점가가 전국 곳곳에 조성되었고, 1970년대에는 완공 기념 행사가 흔히 열렸다. 이후 자동차 중심화와 대형 쇼핑몰 확산으로 전통 상점가는 침체를 겪었다.</p>
+        <p>일본 지방 도시에는 한 업을 세대가 이어 운영하는 노포가 많다. 칼럼 속 도자기 가게처럼 가업의 사진과 기록은 지역사의 생활사 아카이브 역할을 한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>사실·지명·연도를 초반에 압축 제시해 독자가 맥락 지도를 즉시 그리게 하라.</p>
+        <p><span class="n">二</span>구체 사물(사진 등)을 매개로 거시 서사를 개인 기억으로 전환하라.</p>
+        <p><span class="n">三</span>쇠퇴를 직설로 말하기보다 대비되는 장면을 병치해 여운을 남겨라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>商店街<rt>しょうてんがい</rt></ruby>の<ruby>屋根<rt>やね</rt></ruby>を<ruby>見上<rt>みあ</rt></ruby>げると、<ruby>時代<rt>じだい</rt></ruby>の<ruby>足音<rt>あしおと</rt></ruby>がそっと<ruby>聞<rt>き</rt></ruby>こえる。</span>
+      <span class="ko">상점가의 지붕을 올려다보면, 시대의 발걸음 소리가 은근히 들린다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-06) — <a href="https://www.asahi.com/articles/DA3S16541174.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-06.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

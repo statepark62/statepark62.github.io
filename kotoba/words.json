@@ -7761,5 +7761,115 @@
   "example": "友人の訃報を聞いて言葉を失った。",
   "exampleReading": "ゆうじんのふほうをきいてことばをうしなった",
   "exampleMeaning": "지인의 부고를 듣고 말문이 막혔다."
+ },
+ {
+  "id": "news340",
+  "word": "浸水",
+  "reading": "しんすい",
+  "meaning": "침수",
+  "level": "N1",
+  "example": "大雨により、低い土地では浸水の被害が出た。",
+  "exampleReading": "おおあめにより、ひくいとちではしんすいのひがいがでた。",
+  "exampleMeaning": "폭우로 인해 낮은 지대에서는 침수 피해가 발생했다."
+ },
+ {
+  "id": "news341",
+  "word": "揃い踏み",
+  "reading": "そろいぶみ",
+  "meaning": "한자리에 모임, 총출동",
+  "level": "N1",
+  "example": "決勝戦には強豪チームが揃い踏みした。",
+  "exampleReading": "けっしょうせんにはきょうごうチームがそろいぶみした。",
+  "exampleMeaning": "결승전에는 강호 팀들이 모두 모였다."
+ },
+ {
+  "id": "news342",
+  "word": "入籍",
+  "reading": "にゅうせき",
+  "meaning": "혼인신고",
+  "level": "N2",
+  "example": "二人は先月、静かに入籍した。",
+  "exampleReading": "ふたりはせんげつ、しずかににゅうせきした。",
+  "exampleMeaning": "두 사람은 지난달 조용히 혼인신고를 했다."
+ },
+ {
+  "id": "news343",
+  "word": "生成",
+  "reading": "せいせい",
+  "meaning": "생성",
+  "level": "N2",
+  "example": "AI技術を使って画像を自動で生成する。",
+  "exampleReading": "エーアイぎじゅつをつかってがぞうをじどうでせいせいする。",
+  "exampleMeaning": "AI 기술을 이용해 이미지를 자동으로 생성한다."
+ },
+ {
+  "id": "news344",
+  "word": "遺体",
+  "reading": "いたい",
+  "meaning": "시신, 유해",
+  "level": "N2",
+  "example": "火災現場から二人の遺体が発見された。",
+  "exampleReading": "かさいげんばからふたりのいたいがはっけんされた。",
+  "exampleMeaning": "화재 현장에서 두 사람의 시신이 발견되었다."
+ },
+ {
+  "id": "news345",
+  "word": "捜査",
+  "reading": "そうさ",
+  "meaning": "수사",
+  "level": "N2",
+  "example": "警察は事件の原因について捜査を進めている。",
+  "exampleReading": "けいさつはじけんのげんいんについてそうさをすすめている。",
+  "exampleMeaning": "경찰은 사건의 원인에 대해 수사를 진행하고 있다."
+ },
+ {
+  "id": "tj266",
+  "word": "商店街",
+  "reading": "しょうてんがい",
+  "meaning": "상점가, 상가 거리",
+  "level": "N2",
+  "example": "駅前の商店街は週末に多くの人で賑わう。",
+  "exampleReading": "えきまえのしょうてんがいはしゅうまつにおおくのひとでにぎわう。",
+  "exampleMeaning": "역 앞 상점가는 주말에 많은 사람들로 붐빈다."
+ },
+ {
+  "id": "tj267",
+  "word": "工業都市",
+  "reading": "こうぎょうとし",
+  "meaning": "공업도시",
+  "level": "N2",
+  "example": "海辺の町は工業都市として発展した。",
+  "exampleReading": "うみべのまちはこうぎょうとしとしてはってんした。",
+  "exampleMeaning": "바닷가 도시는 공업도시로 발전했다."
+ },
+ {
+  "id": "tj268",
+  "word": "海上交通",
+  "reading": "かいじょうこうつう",
+  "meaning": "해상 교통",
+  "level": "N1",
+  "example": "海上交通は地域の発展を支える。",
+  "exampleReading": "かいじょうこうつうはちいきのはってんをささえる。",
+  "exampleMeaning": "해상 교통은 지역의 발전을 떠받친다."
+ },
+ {
+  "id": "tj269",
+  "word": "酒造",
+  "reading": "しゅぞう",
+  "meaning": "주조, 술을 빚음",
+  "level": "N2",
+  "example": "地元には酒造会社が多い。",
+  "exampleReading": "じもとにはしゅぞうがいしゃがおおい。",
+  "exampleMeaning": "지역에는 주조 회사가 많다."
+ },
+ {
+  "id": "tj270",
+  "word": "陶器店",
+  "reading": "とうきてん",
+  "meaning": "도자기 가게",
+  "level": "N2",
+  "example": "祖父は陶器店を営んでいた。",
+  "exampleReading": "そふはとうきてんをいとなンでいた。",
+  "exampleMeaning": "할아버지는 도자기 가게를 운영하고 있었다."
  }
 ]

@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-06",
+    "no": 61,
+    "topic_ja": "<ruby>八代<rt>やつしろ</rt></ruby>の<ruby>商店街<rt>しょうてんがい</rt></ruby>",
+    "topic_ko": "야쓰시로의 상점가",
+    "url": "https://www.asahi.com/articles/DA3S16541174.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '지방도시의 기억', '상점가의 흥망', '사진의 증언' — 지역 성장과 변화를 개인의 기록으로 비추며 보편적 도시 경험을 환기하므로.",
+    "pattern": "〜として"
+  },
+  {
     "date": "2026-09-05",
     "no": 60,
     "topic_ja": "スタイネム<ruby>訃報<rt>ふほう</rt></ruby>",
