@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-07",
+    "no": 62,
+    "topic_ja": "ラスト・<ruby>ソ連<rt>それん</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
+    "topic_ko": "라스트 소련의 기억",
+    "url": "https://www.asahi.com/articles/DA3S16541324.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘전환기의 기억’, ‘우주와 인간’, ‘미디어의 증언’. 개인의 체험을 통해 거대사의 굴곡을 비추고, 팟캐스트라는 매체가 기억을 보존·전달하는 창구로 기능함을 보여 주기 때문이다.",
+    "pattern": "〜ている<ruby>間<rt>あいだ</rt></ruby>に"
+  },
+  {
     "date": "2026-09-06",
     "no": 61,
     "topic_ja": "<ruby>八代<rt>やつしろ</rt></ruby>の<ruby>商店街<rt>しょうてんがい</rt></ruby>",
