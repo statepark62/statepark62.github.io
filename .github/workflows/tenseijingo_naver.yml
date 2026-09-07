@@ -60,6 +60,7 @@ jobs:
 
       - name: Threads 게시 여부 확인 (중복 방지)
         id: check_posted
+        if: ${{ !cancelled() && steps.generate.outcome == 'success' }}    # 생성 자체가 실패했으면 게시 시도하지 않음
         run: |
           STATE_FILE="automation_naver/scripts/threads/last_posted_date.txt"
           TODAY="${{ steps.kst_date.outputs.date }}"
@@ -71,7 +72,7 @@ jobs:
           fi
 
       - name: Threads에 요약 게시
-        if: steps.check_posted.outputs.already_posted == 'false'
+        if: ${{ !cancelled() && steps.generate.outcome == 'success' && steps.check_posted.outputs.already_posted == 'false' }}
         env:
           THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
           THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
@@ -90,7 +91,7 @@ jobs:
         run: python automation_naver/sync_words.py
 
       - name: 커밋 및 푸시
-        if: ${{ !cancelled() && steps.generate.outcome == 'success' }}    # Threads 실패는 봐주되, 생성 자체가 실패했으면 커밋하지 않음
+        if: ${{ !cancelled() && steps.generate.outcome == 'success' }}    # 생성 자체가 실패했으면 커밋하지 않음
         run: |
           git config user.name "tenseijingo-bot"
           git config user.email "actions@github.com"
