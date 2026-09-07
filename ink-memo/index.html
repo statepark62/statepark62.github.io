@@ -124,6 +124,43 @@
   .composer textarea:focus{ outline:none; }
   .composer-footer{ display:flex; justify-content:space-between; align-items:center; margin-top: 8px; }
   .composer-hint{ font-size: 11px; color: var(--text-on-paper-dim); }
+  .composer-left{ display:flex; align-items:center; gap:8px; }
+  .attach-btn{
+    background: transparent; border: 1px solid var(--paper-shadow); color: var(--text-on-paper-dim);
+    border-radius: var(--radius); padding: 7px 11px; font-size: 13px; cursor: pointer; font-family: inherit;
+  }
+  .attach-btn:hover{ color: var(--text-on-paper); border-color: var(--text-on-paper-dim); }
+
+  .attach-preview{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px; }
+  .attach-preview:empty{ display:none; }
+  .attach-thumb{ position: relative; width: 72px; height: 72px; border-radius: var(--radius); overflow: hidden; }
+  .attach-thumb img{ width:100%; height:100%; object-fit: cover; display:block; }
+  .attach-thumb .remove{
+    position:absolute; top:2px; right:2px; width:20px; height:20px; border-radius:50%;
+    background: rgba(0,0,0,0.65); color:#fff; border:none; cursor:pointer;
+    font-size:13px; line-height:20px; text-align:center; padding:0;
+  }
+  .attach-thumb.uploading::after{
+    content:""; position:absolute; inset:0; background: rgba(0,0,0,0.45);
+  }
+
+  .memo-images{ display:flex; flex-wrap:wrap; gap:6px; margin-top: 10px; }
+  .memo-images img{
+    width: 96px; height: 96px; object-fit: cover; border-radius: var(--radius);
+    cursor: zoom-in; display:block; background: var(--paper-shadow);
+  }
+  .memo-images .img-failed{
+    width:96px; height:96px; border-radius: var(--radius); background: var(--paper-shadow);
+    display:flex; align-items:center; justify-content:center; font-size:11px; color: var(--text-on-paper-dim);
+    text-align:center; padding:6px;
+  }
+
+  .lightbox{
+    display:none; position:fixed; inset:0; background: rgba(0,0,0,0.9); z-index: 200;
+    align-items:center; justify-content:center; padding: 20px; cursor: zoom-out;
+  }
+  .lightbox.show{ display:flex; }
+  .lightbox img{ max-width:100%; max-height:100%; object-fit:contain; }
   .composer .btn{ padding: 8px 14px; font-size: 13px; }
 
   .search-row{ display:flex; gap:8px; margin-bottom: 12px; }
@@ -230,6 +267,7 @@
     <input type="password" id="unlockPass" placeholder="암호 입력">
     <button class="btn" id="unlockBtn">잠금 해제</button>
     <div class="lock-error" id="unlockError"></div>
+    <div class="lock-toggle" id="signOutToggle">다른 계정으로 로그인 / 이 기기에서 로그아웃</div>
     <div class="lock-toggle" id="resetToggle">암호를 잊으셨나요? (모든 메모 초기화)</div>
   </div>
 
@@ -253,8 +291,12 @@
 
   <div class="composer">
     <textarea id="composerInput" placeholder="메모를 입력하세요. #태그 처럼 쓰면 자동으로 태그가 됩니다."></textarea>
+    <div class="attach-preview" id="attachPreview"></div>
     <div class="composer-footer">
-      <span class="composer-hint">Ctrl/Cmd + Enter로 저장</span>
+      <div class="composer-left">
+        <button class="attach-btn" id="attachBtn" title="사진 첨부">🖼 사진</button>
+        <input type="file" id="attachFile" accept="image/*" multiple style="display:none;">
+      </div>
       <button class="btn" id="saveBtn">저장</button>
     </div>
   </div>
@@ -269,6 +311,10 @@
     <div class="serif">아직 메모가 없습니다</div>
     <p>위 입력창에 첫 메모를 남겨보세요.<br>#태그를 쓰면 나중에 태그별로 모아볼 수 있어요.</p>
   </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <img id="lightboxImg" alt="">
 </div>
 
 <div class="toast" id="toast"></div>
@@ -322,19 +368,37 @@
     const plainBuf = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ct);
     return new TextDecoder().decode(plainBuf);
   }
+  // 이미지 같은 바이너리는 iv(12바이트) + 암호문을 하나로 이어붙여 저장한다.
+  async function encryptBytes(key, arrayBuffer){
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, arrayBuffer));
+    const out = new Uint8Array(iv.length + ct.length);
+    out.set(iv, 0);
+    out.set(ct, iv.length);
+    return out;
+  }
+  async function decryptBytes(key, arrayBuffer){
+    const all = new Uint8Array(arrayBuffer);
+    const iv = all.slice(0, 12);
+    const ct = all.slice(12);
+    return await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, ct);
+  }
 
   // ---------- Google 로그인 & Sheets API 저장소 ----------
   // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
   const CLIENT_ID = "736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com";
+  // 배포한 Cloudflare Worker 주소 (끝에 슬래시 없이). 예: https://ink-memo-auth.<계정>.workers.dev
+  const WORKER_URL = "https://ink-memo-auth.statepark62.workers.dev";
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
+  const SESSION_KEY = "inkmemo:sessionId";
 
   let accessToken = null;
   let spreadsheetId = null;
   let sheetName = "Sheet1"; // 실제 시트 이름은 로그인 후 조회해서 채움 (한국어 계정은 "시트1")
   let lastStorageError = null;
-  let tokenClient = null;
+  let codeClient = null;
 
   function rawFetch(url, opts = {}){
     opts.headers = Object.assign(
@@ -344,105 +408,125 @@
     return fetch(url, opts);
   }
 
-  // 액세스 토큰은 약 1시간 뒤 만료된다. 401이 오면 조용히 재발급받아 한 번 더 시도한다.
+  // 액세스 토큰은 약 1시간 뒤 만료된다. 401이 오면 Worker에서 새로 받아 한 번 더 시도한다.
   async function gapiFetch(url, opts = {}){
     let res = await rawFetch(url, Object.assign({}, opts));
     if(res.status === 401){
-      const renewed = await renewTokenSilently();
+      const renewed = await renewAccessToken();
       if(renewed) res = await rawFetch(url, Object.assign({}, opts));
     }
     return res;
   }
 
-  function renewTokenSilently(){
-    return new Promise(resolve => {
-      if(!window.google || !google.accounts){ resolve(false); return; }
-      try{
-        const renewClient = google.accounts.oauth2.initTokenClient({
-          client_id: CLIENT_ID,
-          scope: SCOPES,
-          callback: (resp) => {
-            if(resp.error || !resp.access_token){ resolve(false); return; }
-            accessToken = resp.access_token;
-            resolve(true);
-          }
-        });
-        renewClient.requestAccessToken({ prompt: "" });
-      }catch(e){ resolve(false); }
-    });
+  function getSessionId(){
+    try{ return localStorage.getItem(SESSION_KEY); }catch(e){ return null; }
+  }
+  function setSessionId(id){
+    try{ localStorage.setItem(SESSION_KEY, id); }catch(e){}
+  }
+  function clearSessionId(){
+    try{ localStorage.removeItem(SESSION_KEY); }catch(e){}
   }
 
-  let silentAttempted = false;
-  let silentTimer = null;
-  let silentWaited = 0;
-  let interactiveRequested = false;
-
-  function initTokenClient(){
-    tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: CLIENT_ID,
-      scope: SCOPES,
-      callback: async (resp) => {
-        clearTimeout(silentTimer);
-        if(resp.error){
-          // 무음 인증 실패는 정상적인 경우(최초 사용, 로그아웃 상태 등) — 조용히 로그인 버튼을 보여준다
-          if(silentAttempted && !interactiveRequested){
-            showLoginButton();
-            return;
-          }
-          el("loginError").textContent = "로그인에 실패했습니다. (" + resp.error + ")";
-          el("loginBtn").disabled = false;
-          return;
-        }
-        interactiveRequested = false;
-        accessToken = resp.access_token;
-        el("loginSubtitle").textContent = "메모 저장소를 찾는 중...";
-        const ok = await ensureSpreadsheet();
-        if(!ok){
-          el("loginError").textContent = storageErrorMessage();
-          showLoginButton();
-          return;
-        }
-        el("loginScreen").style.display = "none";
-        el("lockScreen").style.display = "flex";
-        boot();
+  // 저장된 세션으로 새 액세스 토큰을 받아온다. 성공하면 true.
+  async function renewAccessToken(){
+    const sessionId = getSessionId();
+    if(!sessionId) return false;
+    try{
+      const res = await fetch(WORKER_URL + "/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId })
+      });
+      const data = await res.json();
+      if(!res.ok || !data.access_token){
+        if(res.status === 401) clearSessionId(); // 세션이 무효하면 버린다
+        return false;
       }
-    });
+      accessToken = data.access_token;
+      return true;
+    }catch(e){ return false; }
   }
 
-  function showLoginButton(){
-    el("loginSubtitle").textContent = "Google 계정으로 로그인해서 시작하세요.";
+  function showLoginButton(msg){
+    el("loginSubtitle").textContent = msg || "Google 계정으로 로그인해서 시작하세요.";
     el("loginBtn").style.display = "block";
     el("loginBtn").disabled = false;
   }
 
-  // 페이지를 열 때, 이미 권한을 승인한 계정이면 화면 없이 조용히 토큰만 재발급받는다.
-  function trySilentLogin(){
-    if(!window.google || !google.accounts){
-      // GIS 스크립트가 아직 로딩 중이면 잠시 후 재시도 (최대 약 5초)
-      silentWaited = (silentWaited || 0) + 300;
-      if(silentWaited > 5000){ showLoginButton(); return; }
-      setTimeout(trySilentLogin, 300);
+  // 로그인 성공 후 공통 처리
+  async function afterAuthenticated(){
+    el("loginSubtitle").textContent = "메모 저장소를 찾는 중...";
+    const ok = await ensureSpreadsheet();
+    if(!ok){
+      el("loginError").textContent = storageErrorMessage();
+      showLoginButton();
       return;
     }
-    if(!tokenClient) initTokenClient();
-    silentAttempted = true;
-    interactiveRequested = false;
-    el("loginSubtitle").textContent = "로그인 상태를 확인하는 중...";
-    el("loginBtn").style.display = "none";
+    el("loginScreen").style.display = "none";
+    el("lockScreen").style.display = "flex";
+    boot();
+  }
 
-    // iOS Safari 등에서는 무음 인증이 콜백 없이 조용히 실패할 수 있다.
-    // 일정 시간 응답이 없으면 수동 로그인 버튼을 보여준다.
-    clearTimeout(silentTimer);
-    silentTimer = setTimeout(() => {
-      if(!accessToken) showLoginButton();
-    }, 3500);
+  function initCodeClient(){
+    codeClient = google.accounts.oauth2.initCodeClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      ux_mode: "popup",
+      // 매번 리프레시 토큰을 확실히 받기 위해 동의 화면을 명시적으로 요청
+      prompt: "consent",
+      access_type: "offline",
+      callback: async (resp) => {
+        if(resp.error || !resp.code){
+          el("loginError").textContent = "로그인이 취소되었거나 실패했습니다.";
+          showLoginButton();
+          return;
+        }
+        el("loginError").textContent = "";
+        el("loginBtn").style.display = "none";
+        el("loginSubtitle").textContent = "로그인 처리 중...";
+        try{
+          const res = await fetch(WORKER_URL + "/auth", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: resp.code })
+          });
+          const data = await res.json();
+          if(!res.ok || !data.access_token){
+            el("loginError").textContent = "인증 서버 오류: " + (data.error || res.status);
+            showLoginButton();
+            return;
+          }
+          if(data.sessionId) setSessionId(data.sessionId);
+          accessToken = data.access_token;
+          await afterAuthenticated();
+        }catch(e){
+          el("loginError").textContent = "인증 서버에 연결할 수 없습니다. Worker 주소를 확인해주세요.";
+          showLoginButton();
+        }
+      }
+    });
+  }
 
-    try{
-      tokenClient.requestAccessToken({ prompt: "" }); // 빈 문자열 = 화면 없이 시도
-    }catch(e){
-      clearTimeout(silentTimer);
-      showLoginButton();
+  // 앱을 열면 저장된 세션으로 조용히 로그인 시도 — 성공하면 로그인 화면이 뜨지 않는다.
+  let bootWaited = 0;
+  async function startup(){
+    if(getSessionId()){
+      el("loginSubtitle").textContent = "로그인 상태를 확인하는 중...";
+      el("loginBtn").style.display = "none";
+      const ok = await renewAccessToken();
+      if(ok){ await afterAuthenticated(); return; }
+      showLoginButton("다시 로그인해주세요.");
+      return;
     }
+    // 세션이 없으면 로그인 버튼 (GIS 스크립트 로딩만 기다린다)
+    if(!window.google || !google.accounts){
+      bootWaited += 300;
+      if(bootWaited > 6000){ showLoginButton("Google 로그인 스크립트를 불러오지 못했습니다."); return; }
+      setTimeout(startup, 300);
+      return;
+    }
+    showLoginButton();
   }
 
   // 사용자의 appDataFolder(숨겨진 앱 전용 공간)에서 이 사용자의 스프레드시트를 가리키는
@@ -497,6 +581,83 @@
       });
       return true;
     }catch(e){ lastStorageError = e; return false; }
+  }
+
+  // ---------- 이미지 첨부 (Drive 앱 전용 공간에 암호화 저장) ----------
+  const MAX_IMAGE_DIM = 1600;   // 긴 변 기준 축소 한도
+  const JPEG_QUALITY = 0.82;
+  const imageCache = new Map(); // fileId -> objectURL (복호화 결과 재사용)
+  let pendingAttachments = []; // 저장 전 대기 중인 첨부 이미지 { localId, blob, previewUrl }
+
+  // 사진 원본은 수 MB에 달하므로 업로드 전에 축소한다.
+  function shrinkImage(file){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          let { width, height } = img;
+          const scale = Math.min(1, MAX_IMAGE_DIM / Math.max(width, height));
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+          const canvas = document.createElement("canvas");
+          canvas.width = width; canvas.height = height;
+          canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+          canvas.toBlob(
+            blob => blob ? resolve({ blob, width, height }) : reject(new Error("이미지 변환 실패")),
+            "image/jpeg", JPEG_QUALITY
+          );
+        };
+        img.onerror = () => reject(new Error("이미지를 읽을 수 없습니다"));
+        img.src = reader.result;
+      };
+      reader.onerror = () => reject(new Error("파일을 읽을 수 없습니다"));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function uploadImage(blob){
+    const buf = await blob.arrayBuffer();
+    const encrypted = await encryptBytes(cryptoKey, buf);
+
+    const createRes = await gapiFetch("https://www.googleapis.com/drive/v3/files", {
+      method: "POST",
+      body: JSON.stringify({ name: "inkmemo-img-" + Date.now(), parents: ["appDataFolder"] })
+    });
+    const created = await createRes.json();
+    if(!createRes.ok) throw new Error(created.error?.message || "이미지 업로드 실패");
+
+    const upRes = await gapiFetch(`https://www.googleapis.com/upload/drive/v3/files/${created.id}?uploadType=media`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/octet-stream" },
+      body: encrypted
+    });
+    if(!upRes.ok){
+      const err = await upRes.json().catch(() => ({}));
+      throw new Error(err.error?.message || "이미지 저장 실패");
+    }
+    return created.id;
+  }
+
+  async function loadImage(fileId){
+    if(imageCache.has(fileId)) return imageCache.get(fileId);
+    const res = await gapiFetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`);
+    if(!res.ok) throw new Error("이미지를 불러올 수 없습니다");
+    const encBuf = await res.arrayBuffer();
+    const plainBuf = await decryptBytes(cryptoKey, encBuf);
+    const url = URL.createObjectURL(new Blob([plainBuf], { type: "image/jpeg" }));
+    imageCache.set(fileId, url);
+    return url;
+  }
+
+  async function deleteImageFile(fileId){
+    try{
+      await gapiFetch(`https://www.googleapis.com/drive/v3/files/${fileId}`, { method: "DELETE" });
+      if(imageCache.has(fileId)){
+        URL.revokeObjectURL(imageCache.get(fileId));
+        imageCache.delete(fileId);
+      }
+    }catch(e){ /* 파일이 이미 없어도 무시 */ }
   }
 
   async function storeGet(key){
@@ -616,6 +777,22 @@
     }
   }
 
+  el("signOutToggle").addEventListener("click", async () => {
+    if(!confirm("이 기기에서 로그아웃할까요?\n메모는 지워지지 않으며, 다시 로그인하면 그대로 볼 수 있습니다.")) return;
+    const sessionId = getSessionId();
+    clearSessionId();
+    try{
+      if(sessionId){
+        await fetch(WORKER_URL + "/logout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId })
+        });
+      }
+    }catch(e){ /* 서버에 못 알려도 기기에서는 이미 로그아웃됨 */ }
+    location.reload();
+  });
+
   el("resetToggle").addEventListener("click", async () => {
     if(!confirm("정말 초기화할까요? 저장된 모든 메모가 삭제되며 복구할 수 없습니다.")) return;
     await storeDelete("security-salt");
@@ -638,6 +815,14 @@
     memos = [];
     editingId = null;
     activeTag = null;
+
+    // 복호화된 이미지도 메모리에서 정리
+    imageCache.forEach(url => URL.revokeObjectURL(url));
+    imageCache.clear();
+    pendingAttachments.forEach(a => URL.revokeObjectURL(a.previewUrl));
+    pendingAttachments = [];
+    el("attachPreview").innerHTML = "";
+    el("lightbox").classList.remove("show");
 
     // 화면 초기화
     el("memoList").innerHTML = "";
@@ -669,19 +854,90 @@
   });
   el("composerInput").addEventListener("input", e => autoResize(e.target));
 
+
+  function renderAttachPreview(){
+    const box = el("attachPreview");
+    box.innerHTML = "";
+    pendingAttachments.forEach(att => {
+      const div = document.createElement("div");
+      div.className = "attach-thumb";
+      div.innerHTML = `<img src="${att.previewUrl}" alt=""><button class="remove" title="제거">×</button>`;
+      div.querySelector(".remove").addEventListener("click", () => {
+        URL.revokeObjectURL(att.previewUrl);
+        pendingAttachments = pendingAttachments.filter(a => a.localId !== att.localId);
+        renderAttachPreview();
+      });
+      box.appendChild(div);
+    });
+  }
+
+  async function addAttachments(files){
+    for(const file of files){
+      if(!file.type.startsWith("image/")) continue;
+      try{
+        const { blob } = await shrinkImage(file);
+        pendingAttachments.push({
+          localId: makeId(),
+          blob,
+          previewUrl: URL.createObjectURL(blob)
+        });
+        renderAttachPreview();
+      }catch(err){
+        showToast(err.message || "이미지를 처리할 수 없습니다");
+      }
+    }
+  }
+
+  el("attachBtn").addEventListener("click", () => el("attachFile").click());
+  el("attachFile").addEventListener("change", async (e) => {
+    const files = Array.from(e.target.files || []);
+    e.target.value = "";
+    await addAttachments(files);
+  });
+  // 클립보드에서 이미지 붙여넣기 지원
+  el("composerInput").addEventListener("paste", async (e) => {
+    const items = Array.from(e.clipboardData?.items || []);
+    const files = items.filter(i => i.type.startsWith("image/")).map(i => i.getAsFile()).filter(Boolean);
+    if(files.length){
+      e.preventDefault();
+      await addAttachments(files);
+    }
+  });
+
   async function saveMemo(){
     const input = el("composerInput");
     const text = input.value.trim();
-    if(!text) return;
+    if(!text && pendingAttachments.length === 0) return;
+
+    const attachments = pendingAttachments;
+    pendingAttachments = [];
+    renderAttachPreview();
+    input.value = "";
+    autoResize(input);
+
+    let imageIds = [];
+    if(attachments.length){
+      showToast(`사진 ${attachments.length}장 올리는 중...`);
+      try{
+        for(const att of attachments){
+          imageIds.push(await uploadImage(att.blob));
+          URL.revokeObjectURL(att.previewUrl);
+        }
+      }catch(err){
+        showToast(err.message || "사진 업로드에 실패했습니다");
+        return;
+      }
+    }
+
     memos.unshift({
       id: makeId(),
       text,
       tags: extractTags(text),
       pinned: false,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      images: imageIds
     });
-    input.value = "";
-    autoResize(input);
+
     const ok = await persistMemos();
     if(!ok){ showToast("저장에 실패했습니다. 다시 시도해주세요."); return; }
     render();
@@ -697,9 +953,14 @@
 
   async function deleteMemo(id){
     if(!confirm("이 메모를 삭제할까요?")) return;
+    const target = memos.find(m => m.id === id);
     memos = memos.filter(m => m.id !== id);
     await persistMemos();
     render();
+    // 남아있는 이미지 파일 정리 (실패해도 메모 삭제에는 영향 없음)
+    if(target && Array.isArray(target.images)){
+      for(const fid of target.images) await deleteImageFile(fid);
+    }
   }
 
   function startEdit(id){
@@ -771,7 +1032,7 @@
 
     let filtered = memos.filter(m => {
       if(activeTag && !m.tags.includes(activeTag)) return false;
-      if(q && !m.text.toLowerCase().includes(q) && !m.tags.some(t => t.toLowerCase().includes(q))) return false;
+      if(q && !(m.text || "").toLowerCase().includes(q) && !m.tags.some(t => t.toLowerCase().includes(q))) return false;
       return true;
     });
 
@@ -836,8 +1097,10 @@
 
     const tagsHtml = m.tags.map(t => `<span class="memo-tag">#${escapeHtml(t)}</span>`).join(" ");
     const editedNote = m.editedAt ? ` · 수정됨` : "";
+    const hasImages = Array.isArray(m.images) && m.images.length > 0;
     card.innerHTML = `
-      <div class="memo-text">${escapeHtml(m.text)}</div>
+      ${m.text ? `<div class="memo-text">${escapeHtml(m.text)}</div>` : ""}
+      ${hasImages ? `<div class="memo-images" data-images="${m.id}"></div>` : ""}
       <div class="memo-meta">
         <div class="memo-tags">${tagsHtml}<span class="mono">${fmtTime(m.createdAt)}${editedNote}</span></div>
         <div class="memo-actions">
@@ -850,8 +1113,36 @@
     card.querySelector('[data-action="edit"]').addEventListener("click", () => startEdit(m.id));
     card.querySelector('[data-action="pin"]').addEventListener("click", () => togglePin(m.id));
     card.querySelector('[data-action="delete"]').addEventListener("click", () => deleteMemo(m.id));
+
+    if(hasImages){
+      const box = card.querySelector(`[data-images="${m.id}"]`);
+      m.images.forEach(fid => {
+        const img = document.createElement("img");
+        img.alt = "첨부 이미지";
+        img.addEventListener("click", () => openLightbox(img.src));
+        box.appendChild(img);
+        loadImage(fid)
+          .then(url => { img.src = url; })
+          .catch(() => {
+            const failed = document.createElement("div");
+            failed.className = "img-failed";
+            failed.textContent = "이미지를 불러올 수 없음";
+            box.replaceChild(failed, img);
+          });
+      });
+    }
     return card;
   }
+
+  function openLightbox(src){
+    if(!src) return;
+    el("lightboxImg").src = src;
+    el("lightbox").classList.add("show");
+  }
+  el("lightbox").addEventListener("click", () => {
+    el("lightbox").classList.remove("show");
+    el("lightboxImg").src = "";
+  });
 
   function escapeHtml(str){
     const d = document.createElement("div");
@@ -896,14 +1187,18 @@
 
     // 유효한 메모만 걸러내고, 빠진 항목은 기본값으로 보정
     const valid = parsed
-      .filter(m => m && typeof m.text === "string" && m.text.trim())
+      .filter(m => m && (
+        (typeof m.text === "string" && m.text.trim()) ||
+        (Array.isArray(m.images) && m.images.length)
+      ))
       .map(m => ({
         id: (typeof m.id === "string" && m.id) ? m.id : makeId(),
-        text: m.text,
-        tags: Array.isArray(m.tags) ? m.tags : extractTags(m.text),
+        text: typeof m.text === "string" ? m.text : "",
+        tags: Array.isArray(m.tags) ? m.tags : extractTags(m.text || ""),
         pinned: !!m.pinned,
         createdAt: (typeof m.createdAt === "string" && m.createdAt) ? m.createdAt : new Date().toISOString(),
-        editedAt: m.editedAt
+        editedAt: m.editedAt,
+        images: Array.isArray(m.images) ? m.images : []
       }));
 
     if(valid.length === 0){
@@ -939,14 +1234,18 @@
       el("loginError").textContent = "Google 로그인 스크립트를 아직 불러오는 중입니다. 잠시 후 다시 눌러주세요.";
       return;
     }
-    if(!tokenClient) initTokenClient();
+    if(WORKER_URL.startsWith("여기에")){
+      el("loginError").textContent = "설정이 필요합니다: index.html의 WORKER_URL을 채워주세요.";
+      return;
+    }
+    if(!codeClient) initCodeClient();
     el("loginError").textContent = "";
-    interactiveRequested = true;
-    tokenClient.requestAccessToken({ prompt: "consent" });
+    el("loginBtn").disabled = true;
+    codeClient.requestCode();
   });
 
-  // 앱을 열면 먼저 조용히 로그인 시도 — 성공하면 로그인 화면 없이 바로 암호 입력으로 넘어감
-  trySilentLogin();
+  // 저장된 세션이 있으면 로그인 화면 없이 바로 진입
+  startup();
 })();
 </script>
 </body>
