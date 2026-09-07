@@ -54,6 +54,7 @@
   .day{
     background:var(--paper);min-height:150px;padding:9px 9px 12px;
     display:flex;flex-direction:column;gap:4px;
+    min-width:0;overflow:hidden;
   }
   .day.pad{background:transparent}
   .day .num{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
@@ -65,11 +66,13 @@
     font-family:var(--ja);font-weight:600;font-size:17px;line-height:1.55;
     color:var(--ink);
     max-height:2.42em;overflow:hidden;
+    overflow-wrap:break-word;word-break:break-word;
   }
   .day .ttl-ja rt{font-size:.55em;color:var(--ink-soft);font-weight:500}
   .day .ttl-ko{
     font-size:14px;line-height:1.3;color:var(--ink-soft);
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    overflow-wrap:break-word;word-break:break-word;
   }
 
   footer{margin-top:40px;font-size:13px;color:var(--ink-soft);line-height:1.9;
