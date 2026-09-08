@@ -8141,5 +8141,225 @@
   "example": "物語の余韻が胸に残る。",
   "exampleReading": "ものがたりのよいんがむねにのこる。",
   "exampleMeaning": "이야기의 여운이 가슴에 남는다."
+ },
+ {
+  "id": "news363",
+  "word": "不正入手",
+  "reading": "ふせいにゅうしゅ",
+  "meaning": "부정 입수, 부정한 방법으로 손에 넣음",
+  "level": "N1",
+  "example": "そのチケットは不正入手されたものだったため、無効になった。",
+  "exampleReading": "そのチケットはふせいにゅうしゅされたものだったため、むこうになった。",
+  "exampleMeaning": "그 티켓은 부정 입수된 것이었기 때문에 무효가 되었다."
+ },
+ {
+  "id": "news364",
+  "word": "達筆",
+  "reading": "たっぴつ",
+  "meaning": "달필, 글씨를 잘 씀",
+  "level": "N1",
+  "example": "祖父はとても達筆で、手紙の文字がまるで書道のようだ。",
+  "exampleReading": "そふはとてもたっぴつで、てがみのもじがまるでしょどうのようだ。",
+  "exampleMeaning": "할아버지는 매우 달필이라서 편지 글씨가 마치 서예 같다."
+ },
+ {
+  "id": "news365",
+  "word": "鮮明",
+  "reading": "せんめい",
+  "meaning": "선명함, 뚜렷함",
+  "level": "N2",
+  "example": "写真の画質が鮮明で、細かい部分までよく見える。",
+  "exampleReading": "しゃしんのがしつがせんめいで、こまかいぶぶんまでよくみえる。",
+  "exampleMeaning": "사진 화질이 선명해서 세세한 부분까지 잘 보인다."
+ },
+ {
+  "id": "news366",
+  "word": "悪質",
+  "reading": "あくしつ",
+  "meaning": "악질적임, 질이 나쁨",
+  "level": "N2",
+  "example": "最近、悪質な詐欺の手口が巧妙になってきている。",
+  "exampleReading": "さいきん、あくしつなさぎのてぐちがこうみょうになってきている。",
+  "exampleMeaning": "최근 악질적인 사기 수법이 교묘해지고 있다."
+ },
+ {
+  "id": "news367",
+  "word": "引っかかる",
+  "reading": "ひっかかる",
+  "meaning": "속다, 걸려들다",
+  "level": "N2",
+  "example": "怪しいメールのリンクをクリックして詐欺に引っかかってしまった。",
+  "exampleReading": "あやしいメールのリンクをクリックしてさぎにひっかかってしまった。",
+  "exampleMeaning": "수상한 메일의 링크를 클릭해서 사기에 걸려들고 말았다."
+ },
+ {
+  "id": "news368",
+  "word": "洗脳",
+  "reading": "せんのう",
+  "meaning": "세뇌",
+  "level": "N1",
+  "example": "彼女は長期間にわたって組織に洗脳されていたようだ。",
+  "exampleReading": "かのじょはちょうきかんにわたってそしきにせんのうされていたようだ。",
+  "exampleMeaning": "그녀는 장기간에 걸쳐 조직에 세뇌당했던 것 같다."
+ },
+ {
+  "id": "news369",
+  "word": "滞納",
+  "reading": "たいのう",
+  "meaning": "체납, (요금 등을) 밀림",
+  "level": "N2",
+  "example": "彼は家賃を三か月も滞納していた。",
+  "exampleReading": "かれはやちんをさんかげつもたいのうしていた。",
+  "exampleMeaning": "그는 월세를 3개월이나 체납하고 있었다."
+ },
+ {
+  "id": "news370",
+  "word": "立ち退き",
+  "reading": "たちのき",
+  "meaning": "퇴거, 명도",
+  "level": "N1",
+  "example": "大家から立ち退きを求められて困っている。",
+  "exampleReading": "おおやからたちのきをもとめられてこまっている。",
+  "exampleMeaning": "집주인에게서 퇴거를 요구받아 곤란해하고 있다."
+ },
+ {
+  "id": "news371",
+  "word": "復帰",
+  "reading": "ふっき",
+  "meaning": "복귀",
+  "level": "N2",
+  "example": "彼は怪我から回復し、無事にチームに復帰した。",
+  "exampleReading": "かれはけがからかいふくし、ぶじにちーむにふっきした。",
+  "exampleMeaning": "그는 부상에서 회복하여 무사히 팀에 복귀했다."
+ },
+ {
+  "id": "news372",
+  "word": "疲弊",
+  "reading": "ひへい",
+  "meaning": "피폐, 지침",
+  "level": "N1",
+  "example": "長時間労働で従業員たちは疲弊している。",
+  "exampleReading": "ちょうじかんろうどうでじゅうぎょういんたちはひへいしている。",
+  "exampleMeaning": "장시간 노동으로 직원들이 지쳐 있다."
+ },
+ {
+  "id": "news373",
+  "word": "被害額",
+  "reading": "ひがいがく",
+  "meaning": "피해액",
+  "level": "N2",
+  "example": "今回の事件による被害額はまだ正確に分かっていない。",
+  "exampleReading": "こんかいのじけんによるひがいがくはまだせいかくにわかっていない。",
+  "exampleMeaning": "이번 사건으로 인한 피해액은 아직 정확히 알려지지 않았다."
+ },
+ {
+  "id": "news374",
+  "word": "遺言書",
+  "reading": "ゆいごんしょ",
+  "meaning": "유언장",
+  "level": "N1",
+  "example": "父が残した遺言書には財産の分け方が書かれていた。",
+  "exampleReading": "ちちがのこしたゆいごんしょにはざいさんのわけかたがかかれていた。",
+  "exampleMeaning": "아버지가 남긴 유언장에는 재산 분배 방법이 적혀 있었다."
+ },
+ {
+  "id": "news375",
+  "word": "無効",
+  "reading": "むこう",
+  "meaning": "무효",
+  "level": "N2",
+  "example": "署名がないと、この契約書は無効になる。",
+  "exampleReading": "しょめいがないと、このけいやくしょはむこうになる。",
+  "exampleMeaning": "서명이 없으면 이 계약서는 무효가 된다."
+ },
+ {
+  "id": "news376",
+  "word": "遺品",
+  "reading": "いひん",
+  "meaning": "유품",
+  "level": "N2",
+  "example": "祖父の遺品を整理していたら、古い手紙が出てきた。",
+  "exampleReading": "そふのいひんをせいりしていたら、ふるいてがみがでてきた。",
+  "exampleMeaning": "할아버지의 유품을 정리하다가 오래된 편지가 나왔다."
+ },
+ {
+  "id": "news377",
+  "word": "物議",
+  "reading": "ぶつぎ",
+  "meaning": "물의, 논란",
+  "level": "N1",
+  "example": "彼の発言が物議を醸している。",
+  "exampleReading": "かれのはつげんがぶつぎをかもしている。",
+  "exampleMeaning": "그의 발언이 물의를 일으키고 있다."
+ },
+ {
+  "id": "news378",
+  "word": "近隣",
+  "reading": "きんりん",
+  "meaning": "근린, 이웃, 인근",
+  "level": "N2",
+  "example": "工事の騒音について近隣住民から苦情が寄せられた。",
+  "exampleReading": "こうじのそうおんについてきんりんじゅうみんからくじょうがよせられた。",
+  "exampleMeaning": "공사 소음에 대해 인근 주민들로부터 항의가 접수되었다."
+ },
+ {
+  "id": "news379",
+  "word": "一色",
+  "reading": "いっしょく",
+  "meaning": "온통 ~일색, ~일변도",
+  "level": "N2",
+  "example": "優勝が決まると、街は祝賀ムード一色になった。",
+  "exampleReading": "ゆうしょうがきまると、まちはしゅくがムードいっしょくになった。",
+  "exampleMeaning": "우승이 결정되자 거리는 온통 축하 분위기 일색이 되었다."
+ },
+ {
+  "id": "tj281",
+  "word": "贅を尽くす",
+  "reading": "ぜいをつくす",
+  "meaning": "사치를 극한까지 부리다",
+  "level": "N1",
+  "example": "彼らは披露宴で贅を尽くした演出をした。",
+  "exampleReading": "かれらはひろうえんでぜいをつくしたえんしゅつをした。",
+  "exampleMeaning": "그들은 피로연에서 사치를 극한까지 부린 연출을 했다."
+ },
+ {
+  "id": "tj282",
+  "word": "長編小説",
+  "reading": "ちょうへんしょうせつ",
+  "meaning": "장편소설",
+  "level": "N2",
+  "example": "彼女は歴史を題材にした長編小説を書いた。",
+  "exampleReading": "かのじょはれきしをだいざいにしたちょうへんしょうせつをかいた。",
+  "exampleMeaning": "그녀는 역사를 소재로 한 장편소설을 썼다."
+ },
+ {
+  "id": "tj283",
+  "word": "名門",
+  "reading": "めいもん",
+  "meaning": "명문(가문·학교)",
+  "level": "N2",
+  "example": "彼は名門の家に生まれたが、質素な暮らしを選んだ。",
+  "exampleReading": "かれはめいもんのいえにうまれたが、しっそのくらしをえらんだ。",
+  "exampleMeaning": "그는 명문가에서 태어났지만 검소한 삶을 택했다."
+ },
+ {
+  "id": "tj284",
+  "word": "初夢",
+  "reading": "はつゆめ",
+  "meaning": "새해 첫꿈",
+  "level": "N2",
+  "example": "大晦日の夜、彼は一富士二鷹三茄子の初夢を願った。",
+  "exampleReading": "おおみそかのよる、かれはいちふじにたかさんなすびのはつゆめをねがった。",
+  "exampleMeaning": "제야의 밤에 그는 ‘일후지 니타카 산나스비’의 첫꿈을 빌었다."
+ },
+ {
+  "id": "tj285",
+  "word": "先祖の霊",
+  "reading": "せんぞのれい",
+  "meaning": "조상의 영혼",
+  "level": "N1",
+  "example": "盆には先祖の霊を迎える風習がある。",
+  "exampleReading": "ぼんにはせんぞのれいをむかえるふうしゅうがある。",
+  "exampleMeaning": "오본에는 조상의 영혼을 맞이하는 풍습이 있다."
  }
 ]

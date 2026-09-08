@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-08",
+    "no": 63,
+    "topic_ja": "<ruby>茄子<rt>なす</rt></ruby>と<ruby>贅<rt>ぜい</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
+    "topic_ko": "가지와 사치의 기억",
+    "url": "https://www.asahi.com/articles/DA3S16542287.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘음식과 권력’, ‘오본의 상징’, ‘사물에 깃든 기억’. 권력의 미학을 음식 이미지로 풀고, 일본 계절 의례의 상징성을 덧입혀 사소한 사물에 시대와 기억을 투사하기 때문이다.",
+    "pattern": "〜とともに"
+  },
+  {
     "date": "2026-09-07",
     "no": 62,
     "topic_ja": "ラスト・<ruby>ソ連<rt>それん</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
