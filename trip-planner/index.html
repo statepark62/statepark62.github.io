@@ -220,6 +220,9 @@ let userAnthropicKey = null; // GitHub 등 외부 배포 시 사용자가 직접
 const CLAUDE_PROXY_URL = 'https://royal-rice-4501.statepark62.workers.dev';
 // PDF 자동 인식은 개발자 전용 기능입니다. 주소 뒤에 ?dev=1 을 붙였을 때만 관련 버튼이 보입니다.
 // 예: https://statepark62.github.io/trip-planner/?dev=1
+// 안전을 위해 이 "일반 사용자용" 파일에서는 dev 플래그를 localStorage에 영구 저장하지 않습니다.
+// (trip-planner-dev/ 쪽에서 저장한 flag가 같은 도메인이라 여기로 새어 들어오는 것도 막기 위함)
+// 그 대신 구글 로그인 왕복 중에만 ?dev=1을 유지할 수 있도록 세션 동안만 sessionStorage를 씁니다.
 function _devFlagPresent(){
   if(new URLSearchParams(location.search).get('dev')==='1') return true;
   // 구글 재연결 왕복 중에는 ?dev=1이 아직 주소창에 복원되기 전, 해시의 state 안에 실려있을 수 있음
@@ -232,12 +235,15 @@ function _devFlagPresent(){
   }
   return false;
 }
-if(_devFlagPresent()){ try{ localStorage.setItem('trip_dev_mode','1'); }catch(e){} }
+if(_devFlagPresent()){ try{ sessionStorage.setItem('trip_dev_mode_session','1'); }catch(e){} }
 function isDevMode(){
   if(_devFlagPresent()) return true;
-  try{ if(localStorage.getItem('trip_dev_mode')==='1') return true; }catch(e){}
+  // 세션 동안만 유지 — 탭을 새로 열거나 브라우저를 재시작하면 사라짐 (영구 저장 아님)
+  try{ if(sessionStorage.getItem('trip_dev_mode_session')==='1') return true; }catch(e){}
   return false;
 }
+// 이전 버전에서 영구 저장해두었던 구식 플래그가 남아있다면 정리 (더 이상 사용하지 않음)
+try{ localStorage.removeItem('trip_dev_mode'); }catch(e){}
 
 const $ = sel => document.querySelector(sel);
 const app = $('#app');
