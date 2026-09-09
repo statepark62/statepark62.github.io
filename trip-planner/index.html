@@ -10,7 +10,6 @@
 <meta name="apple-mobile-web-app-title" content="여행 전광판">
 <meta name="theme-color" content="#12172A">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -56,6 +55,8 @@
   .btn-line{background:transparent;border:1.5px solid var(--border);color:var(--ink-soft);}
   .btn-sm{padding:5px 10px;font-size:12px;border-radius:8px;}
   .topbar-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .lang-select{border:1.5px solid var(--border);background:var(--panel);color:var(--ink);
+    font-size:12px;font-weight:700;padding:6px 9px;border-radius:8px;font-family:inherit;cursor:pointer;max-width:140px;}
 
   /* live board */
   .board{
@@ -213,12 +214,977 @@ const GOOGLE_ENABLED = GOOGLE_CLIENT_ID.indexOf('REPLACE_WITH') === -1;
 const SPREADSHEET_TITLE = '지금여기_여행일정_데이터';
 let tokenClient = null, googleAccessToken = null, googleSignedIn = false, spreadsheetId = null;
 let memoryStore = {}; // window.storage와 구글 로그인 둘 다 없을 때의 임시(새로고침시 소실) 저장소
+let userAnthropicKey = null; // GitHub 등 외부 배포 시 사용자가 직접 입력하는 API 키(세션 동안만 메모리 유지)
+// PDF 자동 인식을 위한 Cloudflare Worker 프록시 주소. 설정되어 있으면 이 주소로 요청하고,
+// (REPLACE 문자열이 남아있으면) 설정 전이라는 뜻이라 기존 "API 키 직접 입력" 방식으로 대체 동작합니다.
+const CLAUDE_PROXY_URL = 'https://royal-rice-4501.statepark62.workers.dev';
+// PDF 자동 인식은 개발자 전용 기능입니다. 주소 뒤에 ?dev=1 을 붙였을 때만 관련 버튼이 보입니다.
+// 예: https://statepark62.github.io/trip-planner/?dev=1
+function _devFlagPresent(){
+  if(new URLSearchParams(location.search).get('dev')==='1') return true;
+  // 구글 재연결 왕복 중에는 ?dev=1이 아직 주소창에 복원되기 전, 해시의 state 안에 실려있을 수 있음
+  if(location.hash && location.hash.indexOf('state=')!==-1){
+    try{
+      const hp = new URLSearchParams(location.hash.slice(1));
+      const st = hp.get('state') || '';
+      if(new URLSearchParams(st).get('dev')==='1') return true;
+    }catch(e){}
+  }
+  return false;
+}
+if(_devFlagPresent()){ try{ localStorage.setItem('trip_dev_mode','1'); }catch(e){} }
+function isDevMode(){
+  if(_devFlagPresent()) return true;
+  try{ if(localStorage.getItem('trip_dev_mode')==='1') return true; }catch(e){}
+  return false;
+}
 
 const $ = sel => document.querySelector(sel);
 const app = $('#app');
 const pad = n => String(n).padStart(2,'0');
 const fmtDate = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-const dayLabel = ['일','월','화','수','목','금','토'];
+const DAY_LABELS = {
+  ko: ['일','월','화','수','목','금','토'], en: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+  ja: ['日','月','火','水','木','金','土'], zh: ['周日','周一','周二','周三','周四','周五','周六'],
+  de: ['So','Mo','Di','Mi','Do','Fr','Sa'], fr: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+  it: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'], es: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+  pt: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'], ru: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
+  ar: ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+  nl: ['Zo','Ma','Di','Wo','Do','Vr','Za'], pl: ['Nie','Pon','Wt','Śr','Czw','Pt','Sob'],
+  sv: ['Sön','Mån','Tis','Ons','Tors','Fre','Lör'], uk: ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],
+  tr: ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'], vi: ['CN','Th 2','Th 3','Th 4','Th 5','Th 6','Th 7'],
+  id: ['Min','Sen','Sel','Rab','Kam','Jum','Sab'], th: ['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'],
+  hi: ['रवि','सोम','मंगल','बुध','गुरु','शुक्र','शनि'],
+};
+function dayLabel(){ return DAY_LABELS[LANG] || DAY_LABELS.ko; }
+
+/* ---- 다국어(i18n) 지원 ----
+   새 언어를 추가하려면: 1) I18N 객체에 언어 코드 키로 번역 세트 추가
+   2) DAY_LABELS에 해당 언어 요일 배열 추가  3) LANG_META에 표시 이름 추가 */
+const LANG_META = [
+  {code:'ko', name:'한국어'}, {code:'en', name:'English'}, {code:'ja', name:'日本語'},
+  {code:'zh', name:'中文(简体)'}, {code:'de', name:'Deutsch'}, {code:'fr', name:'Français'},
+  {code:'it', name:'Italiano'}, {code:'es', name:'Español'}, {code:'pt', name:'Português (Brasil)'},
+  {code:'ru', name:'Русский'}, {code:'ar', name:'العربية', rtl:true}, {code:'nl', name:'Nederlands'},
+  {code:'pl', name:'Polski'}, {code:'sv', name:'Svenska'}, {code:'uk', name:'Українська'},
+  {code:'tr', name:'Türkçe'}, {code:'vi', name:'Tiếng Việt'}, {code:'id', name:'Bahasa Indonesia'},
+  {code:'th', name:'ไทย'}, {code:'hi', name:'हिन्दी'},
+];
+const I18N = {
+  ko: {
+    appTitle:'여행 전광판', appTagline:'날짜·시간별 여행 계획을 입력해두면,<br>지금 무엇을 하기로 했는지 실시간으로 보여드려요.',
+    newTripBtn:'+ 새 여행 만들기', newTripBtnShort:'+ 새 여행', pastTripsBtn:'지난 여행 목록 보기',
+    refreshBtn:'↻ 새로고침', refreshTitle:'새로고침', deleteTripBtn:'이 여행 삭제', deleteTripTitle_attr:'현재 여행 삭제',
+    exportPdfBtn:'PDF로 내보내기', shareLinkBtn:'일행에게 공유', pastTripsTitle:'지난 여행 목록',
+    closeBtn:'닫기', cancelBtn:'취소', saveBtn:'저장', addBtn:'추가', savingBtn:'저장 중…', deleteBtn:'삭제',
+    googleSavedBanner:'📊 이 기기의 Google Sheets에 저장되고 있어요.',
+    localSavedBanner:'💾 이 브라우저에 저장되고 있어요(다른 기기와는 동기화 안 돼요). Google에 연결하면 기기 간 동기화도 가능해요.',
+    connectGoogleBtn:'Google 연결', setupInfoBtn:'설정 방법 보기',
+    googleEnabledPrompt:'Google 계정에 연결하면 내 Sheets에 자동 저장되고, 다른 기기에서도 이어볼 수 있어요.',
+    googleDisabledPrompt:'GitHub 배포판에서 Sheets 저장을 쓰려면 먼저 설정이 필요해요.',
+    notifOnBanner:'🔔 브라우저 알림이 켜져 있어요. 이 탭을 열어두면 일정 10분 전 알려드려요.',
+    notifOffBanner:'일정 시작 전에 알림을 받으려면 이 탭을 켜두고 알림을 허용해주세요.', enableNotifBtn:'알림 켜기',
+    boardNeedTrip:'여행을 먼저 만들어주세요.', boardBefore:'여행 시작까지 D-{diff} · {title}',
+    boardAfter:'여행이 종료되었습니다. 좋은 기억 되셨길 바라요.',
+    boardNoplan:'오늘({date}) 등록된 일정이 없어요. 아래에서 추가해보세요.',
+    boardWaiting:'여행 당일, 첫 일정 전이에요.', tagNow:'지금', tagNext:'다음', todayDone:'오늘 일정 끝',
+    todaySuffix:' · 오늘', weekdaySuffix:'요일',
+    editTitle:'수정', deleteTitleAttr:'삭제', emptyDay:'이 날짜엔 아직 일정이 없어요.', addBlockBtn:'+ 일정 추가',
+    shareErrorTitle:'공유 일정을 불러올 수 없어요',
+    shareErrorMsg:'일정을 불러오지 못했어요. 공유 링크가 올바른지, API 키 설정이 되어 있는지 확인해주세요.',
+    shareEmptyTitle:'아직 등록된 일정이 없어요',
+    shareEmptyMsg:'여행 작성자가 일정을 등록하면 여기에 실시간으로 표시됩니다.',
+    shareModeBanner:'👀 실시간 공유 보기(읽기 전용) · 약 30초마다 자동 새로고침돼요.',
+    shareLinkTitle:'실시간 공유 링크',
+    shareLinkDesc:'이 링크를 열면 로그인 없이 지금 여행 일정을 실시간(읽기 전용)으로 볼 수 있어요. 이 여행에 연결된 구글 시트가 "링크가 있는 모든 사용자 - 뷰어"로 공개됩니다.',
+    copyLinkBtn:'링크 복사',
+    toastConnectFirst:'먼저 Google에 연결하고 여행을 열어주세요', toastShareNotConfigured:'공유 보기 기능이 아직 설정되지 않았어요(API 키 필요)',
+    toastSharePermError:'공유 권한 설정 중 오류가 발생했어요', toastCopied:'복사됐어요', toastStorageError:'저장 중 문제가 발생했어요',
+    toastRefreshing:'새로고침 중…', toastRefreshed:'새로고침 완료', toastNoTripData:'이 여행 데이터를 찾을 수 없어요',
+    toastFillNameDate:'이름과 날짜를 올바르게 입력해주세요', toastTripCreated:'여행이 만들어졌어요',
+    toastFillTimeTitle:'시간과 할 일을 입력해주세요', toastBlockDeleted:'일정이 삭제됐어요',
+    toastNoNotifSupport:'이 브라우저는 알림을 지원하지 않아요', toastNotifOn:'알림이 켜졌어요. 이 탭을 열어두세요.',
+    toastNoExportTrip:'내보낼 여행이 없어요', toastTripDeleted:'여행이 삭제됐어요',
+    newTripTitle:'새 여행 만들기', tripNameLabel:'여행 이름', tripNamePlaceholder:'예: 삿포로·오타루 여행',
+    startDateLabel:'시작일', endDateLabel:'종료일', createBtn:'만들기',
+    editBlockTitle:'일정 수정', addBlockTitle:'일정 추가', startTimeLabel:'시작 시간', endTimeLabel:'종료 시간(선택)',
+    todoLabel:'할 일', todoPlaceholder:'예: 오타루 운하 산책', locationLabel:'장소(선택)', locationPlaceholder:'예: 오타루',
+    noteLabel:'메모(선택)', notePlaceholder:'준비물, 예약번호 등',
+    deleteBlockTitle:'이 일정을 삭제할까요?', deleteBlockDesc:'"{title}"이(가) 삭제됩니다. 되돌릴 수 없어요.',
+    deleteTripConfirmTitle:'이 여행을 삭제할까요?', deleteTripConfirmDesc:'"{title}" 여행과 안의 모든 일정이 삭제됩니다. 되돌릴 수 없어요.',
+    morningTitle:'오늘의 일정 · {date}', morningEditBtn:'계획 수정하기', morningOkBtn:'이대로 진행할게요',
+    notifTitle:'곧 시작할 일정', printNoPlan:'일정 없음', printExportedAt:'내보낸 시각', printDocTitleSuffix:' 여행 일정',
+  },
+  en: {
+    appTitle:'Trip Board', appTagline:'Enter your trip plan by date and time,<br>and see what you\'re doing right now, live.',
+    newTripBtn:'+ New trip', newTripBtnShort:'+ New trip', pastTripsBtn:'View past trips',
+    refreshBtn:'↻ Refresh', refreshTitle:'Refresh', deleteTripBtn:'Delete this trip', deleteTripTitle_attr:'Delete current trip',
+    exportPdfBtn:'Export as PDF', shareLinkBtn:'Share with group', pastTripsTitle:'Past trips',
+    closeBtn:'Close', cancelBtn:'Cancel', saveBtn:'Save', addBtn:'Add', savingBtn:'Saving…', deleteBtn:'Delete',
+    googleSavedBanner:'📊 Saved to your Google Sheets on this device.',
+    localSavedBanner:'💾 Saved on this browser only (won\'t sync across devices). Connect Google to sync across devices.',
+    connectGoogleBtn:'Connect Google', setupInfoBtn:'See setup guide',
+    googleEnabledPrompt:'Connect your Google account to auto-save to your Sheets and continue on other devices.',
+    googleDisabledPrompt:'Sheets saving needs to be set up first on this deployment.',
+    notifOnBanner:'🔔 Notifications are on. Keep this tab open to get alerts 10 minutes before each plan.',
+    notifOffBanner:'To get alerts before your plans start, keep this tab open and allow notifications.', enableNotifBtn:'Turn on notifications',
+    boardNeedTrip:'Create a trip first.', boardBefore:'{diff} days until your trip · {title}',
+    boardAfter:'Your trip has ended. Hope it was a great one.',
+    boardNoplan:'No plans for today ({date}). Add one below.',
+    boardWaiting:'Trip day — before your first plan.', tagNow:'Now', tagNext:'Next', todayDone:'Done for today',
+    todaySuffix:' · Today', weekdaySuffix:'',
+    editTitle:'Edit', deleteTitleAttr:'Delete', emptyDay:'No plans for this day yet.', addBlockBtn:'+ Add plan',
+    shareErrorTitle:'Couldn\'t load the shared schedule',
+    shareErrorMsg:'Failed to load the schedule. Check that the share link is correct and the API key is set up.',
+    shareEmptyTitle:'No plans yet',
+    shareEmptyMsg:'Once the trip owner adds plans, they\'ll show up here in real time.',
+    shareModeBanner:'👀 Live shared view (read-only) · Refreshes automatically about every 30s.',
+    shareLinkTitle:'Live share link',
+    shareLinkDesc:'Anyone with this link can view the live trip schedule (read-only) without logging in. The Google Sheet linked to this trip will be set to "Anyone with the link - Viewer".',
+    copyLinkBtn:'Copy link',
+    toastConnectFirst:'Connect Google and open a trip first', toastShareNotConfigured:'Share view isn\'t set up yet (API key needed)',
+    toastSharePermError:'Error while setting share permissions', toastCopied:'Copied', toastStorageError:'There was a problem saving',
+    toastRefreshing:'Refreshing…', toastRefreshed:'Refresh complete', toastNoTripData:'Couldn\'t find data for this trip',
+    toastFillNameDate:'Please enter a valid name and dates', toastTripCreated:'Trip created',
+    toastFillTimeTitle:'Please enter a time and title', toastBlockDeleted:'Plan deleted',
+    toastNoNotifSupport:'This browser doesn\'t support notifications', toastNotifOn:'Notifications are on. Keep this tab open.',
+    toastNoExportTrip:'No trip to export', toastTripDeleted:'Trip deleted',
+    newTripTitle:'New trip', tripNameLabel:'Trip name', tripNamePlaceholder:'e.g. Sapporo & Otaru trip',
+    startDateLabel:'Start date', endDateLabel:'End date', createBtn:'Create',
+    editBlockTitle:'Edit plan', addBlockTitle:'Add plan', startTimeLabel:'Start time', endTimeLabel:'End time (optional)',
+    todoLabel:'What', todoPlaceholder:'e.g. Walk along Otaru Canal', locationLabel:'Location (optional)', locationPlaceholder:'e.g. Otaru',
+    noteLabel:'Note (optional)', notePlaceholder:'Things to bring, booking number, etc.',
+    deleteBlockTitle:'Delete this plan?', deleteBlockDesc:'"{title}" will be deleted. This can\'t be undone.',
+    deleteTripConfirmTitle:'Delete this trip?', deleteTripConfirmDesc:'"{title}" and all its plans will be deleted. This can\'t be undone.',
+    morningTitle:'Today\'s plan · {date}', morningEditBtn:'Edit plan', morningOkBtn:'Looks good, let\'s go',
+    notifTitle:'Starting soon', printNoPlan:'No plans', printExportedAt:'Exported at', printDocTitleSuffix:' itinerary',
+  },
+  ja: {
+    appTitle:'旅の電光掲示板', appTagline:'日付と時間ごとに旅の予定を入力しておくと、<br>今この瞬間に何をする予定かをリアルタイムで表示します。',
+    newTripBtn:'+ 新しい旅行を作成', newTripBtnShort:'+ 新しい旅行', pastTripsBtn:'過去の旅行一覧を見る',
+    refreshBtn:'↻ 更新', refreshTitle:'更新', deleteTripBtn:'この旅行を削除', deleteTripTitle_attr:'現在の旅行を削除',
+    exportPdfBtn:'PDFで書き出す', shareLinkBtn:'仲間と共有', pastTripsTitle:'過去の旅行一覧',
+    closeBtn:'閉じる', cancelBtn:'キャンセル', saveBtn:'保存', addBtn:'追加', savingBtn:'保存中…', deleteBtn:'削除',
+    googleSavedBanner:'📊 この端末のGoogleスプレッドシートに保存されています。',
+    localSavedBanner:'💾 このブラウザにのみ保存されています(他の端末とは同期されません)。Googleと連携すると端末間で同期できます。',
+    connectGoogleBtn:'Googleと連携', setupInfoBtn:'設定方法を見る',
+    googleEnabledPrompt:'Googleアカウントと連携すると自分のシートに自動保存され、他の端末でも続きが見られます。',
+    googleDisabledPrompt:'このデプロイでシート保存機能を使うには先に設定が必要です。',
+    notifOnBanner:'🔔 ブラウザ通知がオンになっています。このタブを開いたままにすると、予定の10分前に知らせます。',
+    notifOffBanner:'予定開始前に通知を受け取るには、このタブを開いたまま通知を許可してください。', enableNotifBtn:'通知をオンにする',
+    boardNeedTrip:'まず旅行を作成してください。', boardBefore:'旅行開始まで D-{diff} · {title}',
+    boardAfter:'旅行は終了しました。良い思い出になりますように。',
+    boardNoplan:'今日({date})の予定が登録されていません。下から追加してみましょう。',
+    boardWaiting:'旅行当日、最初の予定の前です。', tagNow:'今', tagNext:'次', todayDone:'本日の予定は終了',
+    todaySuffix:'・今日', weekdaySuffix:'曜日',
+    editTitle:'編集', deleteTitleAttr:'削除', emptyDay:'この日の予定はまだありません。', addBlockBtn:'+ 予定を追加',
+    shareErrorTitle:'共有された予定を読み込めません',
+    shareErrorMsg:'予定を読み込めませんでした。共有リンクが正しいか、APIキーが設定されているか確認してください。',
+    shareEmptyTitle:'まだ予定が登録されていません',
+    shareEmptyMsg:'旅行の作成者が予定を登録すると、ここにリアルタイムで表示されます。',
+    shareModeBanner:'👀 リアルタイム共有ビュー(読み取り専用)・約30秒ごとに自動更新されます。',
+    shareLinkTitle:'リアルタイム共有リンク',
+    shareLinkDesc:'このリンクを開くとログインなしで旅行の予定をリアルタイム(読み取り専用)で見られます。この旅行に紐づくGoogleスプレッドシートは「リンクを知っている全員が閲覧者」に公開されます。',
+    copyLinkBtn:'リンクをコピー',
+    toastConnectFirst:'先にGoogleと連携して旅行を開いてください', toastShareNotConfigured:'共有ビュー機能はまだ設定されていません(APIキーが必要)',
+    toastSharePermError:'共有権限の設定中にエラーが発生しました', toastCopied:'コピーしました', toastStorageError:'保存中に問題が発生しました',
+    toastRefreshing:'更新中…', toastRefreshed:'更新が完了しました', toastNoTripData:'この旅行のデータが見つかりません',
+    toastFillNameDate:'名前と日付を正しく入力してください', toastTripCreated:'旅行が作成されました',
+    toastFillTimeTitle:'時間と予定内容を入力してください', toastBlockDeleted:'予定が削除されました',
+    toastNoNotifSupport:'このブラウザは通知に対応していません', toastNotifOn:'通知がオンになりました。このタブを開いたままにしてください。',
+    toastNoExportTrip:'書き出す旅行がありません', toastTripDeleted:'旅行が削除されました',
+    newTripTitle:'新しい旅行を作成', tripNameLabel:'旅行名', tripNamePlaceholder:'例:札幌・小樽旅行',
+    startDateLabel:'開始日', endDateLabel:'終了日', createBtn:'作成',
+    editBlockTitle:'予定を編集', addBlockTitle:'予定を追加', startTimeLabel:'開始時刻', endTimeLabel:'終了時刻(任意)',
+    todoLabel:'予定内容', todoPlaceholder:'例:小樽運河を散策', locationLabel:'場所(任意)', locationPlaceholder:'例:小樽',
+    noteLabel:'メモ(任意)', notePlaceholder:'持ち物、予約番号など',
+    deleteBlockTitle:'この予定を削除しますか?', deleteBlockDesc:'「{title}」が削除されます。元に戻せません。',
+    deleteTripConfirmTitle:'この旅行を削除しますか?', deleteTripConfirmDesc:'「{title}」の旅行と中のすべての予定が削除されます。元に戻せません。',
+    morningTitle:'今日の予定 · {date}', morningEditBtn:'計画を修正する', morningOkBtn:'このまま進める',
+    notifTitle:'まもなく開始する予定', printNoPlan:'予定なし', printExportedAt:'書き出し日時', printDocTitleSuffix:' 旅行日程',
+  },
+  zh: {
+    appTitle:'旅行电子看板', appTagline:'按日期和时间输入旅行计划后,<br>即可实时显示此刻应该做什么。',
+    newTripBtn:'+ 创建新旅行', newTripBtnShort:'+ 新旅行', pastTripsBtn:'查看过往旅行',
+    refreshBtn:'↻ 刷新', refreshTitle:'刷新', deleteTripBtn:'删除本次旅行', deleteTripTitle_attr:'删除当前旅行',
+    exportPdfBtn:'导出为PDF', shareLinkBtn:'与同伴分享', pastTripsTitle:'过往旅行列表',
+    closeBtn:'关闭', cancelBtn:'取消', saveBtn:'保存', addBtn:'添加', savingBtn:'保存中…', deleteBtn:'删除',
+    googleSavedBanner:'📊 已保存到本设备的Google表格。',
+    localSavedBanner:'💾 仅保存在此浏览器(不会与其他设备同步)。连接Google后可在设备间同步。',
+    connectGoogleBtn:'连接Google', setupInfoBtn:'查看设置方法',
+    googleEnabledPrompt:'连接Google账号后会自动保存到您的表格,并可在其他设备继续查看。',
+    googleDisabledPrompt:'在此部署环境中使用表格保存功能前需要先完成设置。',
+    notifOnBanner:'🔔 浏览器通知已开启。保持此标签页打开,将在行程开始前10分钟提醒您。',
+    notifOffBanner:'如需在行程开始前收到提醒,请保持此标签页打开并允许通知。', enableNotifBtn:'开启通知',
+    boardNeedTrip:'请先创建一次旅行。', boardBefore:'距离出发还有 D-{diff} · {title}',
+    boardAfter:'旅行已结束,希望是段美好的回忆。',
+    boardNoplan:'今天({date})还没有安排行程,请在下方添加。',
+    boardWaiting:'旅行当天,第一项行程尚未开始。', tagNow:'现在', tagNext:'接下来', todayDone:'今日行程已结束',
+    todaySuffix:' · 今天', weekdaySuffix:'',
+    editTitle:'编辑', deleteTitleAttr:'删除', emptyDay:'这一天还没有安排行程。', addBlockBtn:'+ 添加行程',
+    shareErrorTitle:'无法加载共享行程',
+    shareErrorMsg:'无法加载行程,请确认分享链接是否正确、API密钥是否已配置。',
+    shareEmptyTitle:'还没有已登记的行程',
+    shareEmptyMsg:'旅行创建者添加行程后,将在这里实时显示。',
+    shareModeBanner:'👀 实时共享视图(只读)· 约每30秒自动刷新一次。',
+    shareLinkTitle:'实时共享链接',
+    shareLinkDesc:'打开此链接无需登录即可实时(只读)查看当前旅行行程。与此旅行关联的Google表格将被设置为"知道链接的任何人 - 查看者"。',
+    copyLinkBtn:'复制链接',
+    toastConnectFirst:'请先连接Google并打开一次旅行', toastShareNotConfigured:'共享查看功能尚未设置(需要API密钥)',
+    toastSharePermError:'设置共享权限时发生错误', toastCopied:'已复制', toastStorageError:'保存时出现问题',
+    toastRefreshing:'刷新中…', toastRefreshed:'刷新完成', toastNoTripData:'找不到此旅行的数据',
+    toastFillNameDate:'请正确输入名称和日期', toastTripCreated:'旅行已创建',
+    toastFillTimeTitle:'请输入时间和行程内容', toastBlockDeleted:'行程已删除',
+    toastNoNotifSupport:'此浏览器不支持通知功能', toastNotifOn:'通知已开启,请保持此标签页打开。',
+    toastNoExportTrip:'没有可导出的旅行', toastTripDeleted:'旅行已删除',
+    newTripTitle:'创建新旅行', tripNameLabel:'旅行名称', tripNamePlaceholder:'例如:札幌·小樽之旅',
+    startDateLabel:'开始日期', endDateLabel:'结束日期', createBtn:'创建',
+    editBlockTitle:'编辑行程', addBlockTitle:'添加行程', startTimeLabel:'开始时间', endTimeLabel:'结束时间(可选)',
+    todoLabel:'行程内容', todoPlaceholder:'例如:漫步小樽运河', locationLabel:'地点(可选)', locationPlaceholder:'例如:小樽',
+    noteLabel:'备注(可选)', notePlaceholder:'需带物品、预约编号等',
+    deleteBlockTitle:'确定删除此行程吗?', deleteBlockDesc:'"{title}" 将被删除,无法恢复。',
+    deleteTripConfirmTitle:'确定删除此次旅行吗?', deleteTripConfirmDesc:'"{title}" 及其中所有行程都将被删除,无法恢复。',
+    morningTitle:'今日行程 · {date}', morningEditBtn:'修改计划', morningOkBtn:'就这样出发',
+    notifTitle:'行程即将开始', printNoPlan:'无行程', printExportedAt:'导出时间', printDocTitleSuffix:' 旅行行程',
+  },
+  de: {
+    appTitle:'Reise-Anzeigetafel', appTagline:'Gib deinen Reiseplan nach Datum und Uhrzeit ein<br>und sieh in Echtzeit, was gerade ansteht.',
+    newTripBtn:'+ Neue Reise erstellen', newTripBtnShort:'+ Neue Reise', pastTripsBtn:'Frühere Reisen ansehen',
+    refreshBtn:'↻ Aktualisieren', refreshTitle:'Aktualisieren', deleteTripBtn:'Diese Reise löschen', deleteTripTitle_attr:'Aktuelle Reise löschen',
+    exportPdfBtn:'Als PDF exportieren', shareLinkBtn:'Mit Gruppe teilen', pastTripsTitle:'Frühere Reisen',
+    closeBtn:'Schließen', cancelBtn:'Abbrechen', saveBtn:'Speichern', addBtn:'Hinzufügen', savingBtn:'Wird gespeichert…', deleteBtn:'Löschen',
+    googleSavedBanner:'📊 Wird auf diesem Gerät in Google Sheets gespeichert.',
+    localSavedBanner:'💾 Nur in diesem Browser gespeichert (kein Sync zwischen Geräten). Mit Google verbinden für Sync.',
+    connectGoogleBtn:'Google verbinden', setupInfoBtn:'Einrichtung ansehen',
+    googleEnabledPrompt:'Verbinde dein Google-Konto, um automatisch in deinen Sheets zu speichern und auf anderen Geräten fortzufahren.',
+    googleDisabledPrompt:'Die Sheets-Speicherung muss für diese Bereitstellung zuerst eingerichtet werden.',
+    notifOnBanner:'🔔 Benachrichtigungen sind aktiviert. Lass diesen Tab offen, um 10 Minuten vor jedem Punkt erinnert zu werden.',
+    notifOffBanner:'Um vor Beginn deiner Pläne erinnert zu werden, lass diesen Tab offen und erlaube Benachrichtigungen.', enableNotifBtn:'Benachrichtigungen aktivieren',
+    boardNeedTrip:'Erstelle zuerst eine Reise.', boardBefore:'Noch D-{diff} bis zur Reise · {title}',
+    boardAfter:'Deine Reise ist beendet. Hoffentlich war sie großartig.',
+    boardNoplan:'Keine Pläne für heute ({date}). Füge unten einen hinzu.',
+    boardWaiting:'Reisetag — vor dem ersten Programmpunkt.', tagNow:'Jetzt', tagNext:'Als Nächstes', todayDone:'Für heute erledigt',
+    todaySuffix:' · Heute', weekdaySuffix:'',
+    editTitle:'Bearbeiten', deleteTitleAttr:'Löschen', emptyDay:'Für diesen Tag gibt es noch keine Pläne.', addBlockBtn:'+ Plan hinzufügen',
+    shareErrorTitle:'Geteilter Zeitplan kann nicht geladen werden',
+    shareErrorMsg:'Zeitplan konnte nicht geladen werden. Prüfe, ob der Freigabelink korrekt und der API-Schlüssel eingerichtet ist.',
+    shareEmptyTitle:'Noch keine Pläne',
+    shareEmptyMsg:'Sobald der Reiseersteller Pläne hinzufügt, erscheinen sie hier in Echtzeit.',
+    shareModeBanner:'👀 Live-Freigabeansicht (nur lesen) · Aktualisiert sich automatisch etwa alle 30 Sekunden.',
+    shareLinkTitle:'Live-Freigabelink',
+    shareLinkDesc:'Jeder mit diesem Link kann den Live-Reiseplan ohne Anmeldung ansehen (nur lesen). Das verknüpfte Google Sheet wird auf "Jeder mit dem Link – Betrachter" gesetzt.',
+    copyLinkBtn:'Link kopieren',
+    toastConnectFirst:'Verbinde zuerst Google und öffne eine Reise', toastShareNotConfigured:'Freigabeansicht ist noch nicht eingerichtet (API-Schlüssel nötig)',
+    toastSharePermError:'Fehler beim Festlegen der Freigabeberechtigungen', toastCopied:'Kopiert', toastStorageError:'Beim Speichern ist ein Problem aufgetreten',
+    toastRefreshing:'Wird aktualisiert…', toastRefreshed:'Aktualisierung abgeschlossen', toastNoTripData:'Daten für diese Reise nicht gefunden',
+    toastFillNameDate:'Bitte gültigen Namen und Daten eingeben', toastTripCreated:'Reise erstellt',
+    toastFillTimeTitle:'Bitte Uhrzeit und Titel eingeben', toastBlockDeleted:'Plan gelöscht',
+    toastNoNotifSupport:'Dieser Browser unterstützt keine Benachrichtigungen', toastNotifOn:'Benachrichtigungen sind aktiviert. Lass diesen Tab offen.',
+    toastNoExportTrip:'Keine Reise zum Exportieren', toastTripDeleted:'Reise gelöscht',
+    newTripTitle:'Neue Reise', tripNameLabel:'Reisename', tripNamePlaceholder:'z. B. Sapporo & Otaru-Reise',
+    startDateLabel:'Startdatum', endDateLabel:'Enddatum', createBtn:'Erstellen',
+    editBlockTitle:'Plan bearbeiten', addBlockTitle:'Plan hinzufügen', startTimeLabel:'Startzeit', endTimeLabel:'Endzeit (optional)',
+    todoLabel:'Was', todoPlaceholder:'z. B. Spaziergang am Otaru-Kanal', locationLabel:'Ort (optional)', locationPlaceholder:'z. B. Otaru',
+    noteLabel:'Notiz (optional)', notePlaceholder:'Mitzubringendes, Buchungsnummer usw.',
+    deleteBlockTitle:'Diesen Plan löschen?', deleteBlockDesc:'"{title}" wird gelöscht. Das kann nicht rückgängig gemacht werden.',
+    deleteTripConfirmTitle:'Diese Reise löschen?', deleteTripConfirmDesc:'"{title}" und alle zugehörigen Pläne werden gelöscht. Das kann nicht rückgängig gemacht werden.',
+    morningTitle:'Heutige Pläne · {date}', morningEditBtn:'Plan bearbeiten', morningOkBtn:'Passt so, los geht\'s',
+    notifTitle:'Beginnt bald', printNoPlan:'Keine Pläne', printExportedAt:'Exportiert am', printDocTitleSuffix:' Reiseplan',
+  },
+  fr: {
+    appTitle:'Tableau de voyage', appTagline:'Saisissez votre programme de voyage par date et heure,<br>et voyez en temps réel ce que vous faites maintenant.',
+    newTripBtn:'+ Créer un voyage', newTripBtnShort:'+ Nouveau voyage', pastTripsBtn:'Voir les voyages passés',
+    refreshBtn:'↻ Actualiser', refreshTitle:'Actualiser', deleteTripBtn:'Supprimer ce voyage', deleteTripTitle_attr:'Supprimer le voyage actuel',
+    exportPdfBtn:'Exporter en PDF', shareLinkBtn:'Partager avec le groupe', pastTripsTitle:'Voyages passés',
+    closeBtn:'Fermer', cancelBtn:'Annuler', saveBtn:'Enregistrer', addBtn:'Ajouter', savingBtn:'Enregistrement…', deleteBtn:'Supprimer',
+    googleSavedBanner:'📊 Enregistré dans vos Google Sheets sur cet appareil.',
+    localSavedBanner:'💾 Enregistré uniquement dans ce navigateur (pas de synchro entre appareils). Connectez-vous à Google pour synchroniser.',
+    connectGoogleBtn:'Connecter Google', setupInfoBtn:'Voir la configuration',
+    googleEnabledPrompt:'Connectez votre compte Google pour enregistrer automatiquement dans vos Sheets et continuer sur d\'autres appareils.',
+    googleDisabledPrompt:'L\'enregistrement Sheets doit d\'abord être configuré pour ce déploiement.',
+    notifOnBanner:'🔔 Les notifications sont activées. Gardez cet onglet ouvert pour être alerté 10 minutes avant chaque étape.',
+    notifOffBanner:'Pour être alerté avant le début de vos étapes, gardez cet onglet ouvert et autorisez les notifications.', enableNotifBtn:'Activer les notifications',
+    boardNeedTrip:'Créez d\'abord un voyage.', boardBefore:'J-{diff} avant votre voyage · {title}',
+    boardAfter:'Votre voyage est terminé. J\'espère que c\'était formidable.',
+    boardNoplan:'Aucun programme aujourd\'hui ({date}). Ajoutez-en un ci-dessous.',
+    boardWaiting:'Jour du voyage — avant la première étape.', tagNow:'Maintenant', tagNext:'Suivant', todayDone:'Journée terminée',
+    todaySuffix:' · Aujourd\'hui', weekdaySuffix:'',
+    editTitle:'Modifier', deleteTitleAttr:'Supprimer', emptyDay:'Pas encore de programme pour ce jour.', addBlockBtn:'+ Ajouter une étape',
+    shareErrorTitle:'Impossible de charger le programme partagé',
+    shareErrorMsg:'Échec du chargement du programme. Vérifiez que le lien de partage est correct et que la clé API est configurée.',
+    shareEmptyTitle:'Pas encore de programme',
+    shareEmptyMsg:'Dès que le créateur du voyage ajoute des étapes, elles apparaîtront ici en temps réel.',
+    shareModeBanner:'👀 Vue partagée en direct (lecture seule) · Actualisation automatique toutes les 30 secondes environ.',
+    shareLinkTitle:'Lien de partage en direct',
+    shareLinkDesc:'Toute personne disposant de ce lien peut consulter le programme de voyage en direct (lecture seule) sans se connecter. La feuille Google liée sera définie sur "Tous les utilisateurs disposant du lien – Lecteur".',
+    copyLinkBtn:'Copier le lien',
+    toastConnectFirst:'Connectez d\'abord Google et ouvrez un voyage', toastShareNotConfigured:'La vue partagée n\'est pas encore configurée (clé API requise)',
+    toastSharePermError:'Erreur lors de la configuration des autorisations de partage', toastCopied:'Copié', toastStorageError:'Un problème est survenu lors de l\'enregistrement',
+    toastRefreshing:'Actualisation…', toastRefreshed:'Actualisation terminée', toastNoTripData:'Données introuvables pour ce voyage',
+    toastFillNameDate:'Veuillez saisir un nom et des dates valides', toastTripCreated:'Voyage créé',
+    toastFillTimeTitle:'Veuillez saisir une heure et un titre', toastBlockDeleted:'Étape supprimée',
+    toastNoNotifSupport:'Ce navigateur ne prend pas en charge les notifications', toastNotifOn:'Les notifications sont activées. Gardez cet onglet ouvert.',
+    toastNoExportTrip:'Aucun voyage à exporter', toastTripDeleted:'Voyage supprimé',
+    newTripTitle:'Nouveau voyage', tripNameLabel:'Nom du voyage', tripNamePlaceholder:'ex. Voyage Sapporo & Otaru',
+    startDateLabel:'Date de début', endDateLabel:'Date de fin', createBtn:'Créer',
+    editBlockTitle:'Modifier l\'étape', addBlockTitle:'Ajouter une étape', startTimeLabel:'Heure de début', endTimeLabel:'Heure de fin (optionnel)',
+    todoLabel:'Activité', todoPlaceholder:'ex. Promenade le long du canal d\'Otaru', locationLabel:'Lieu (optionnel)', locationPlaceholder:'ex. Otaru',
+    noteLabel:'Note (optionnel)', notePlaceholder:'Affaires à prendre, numéro de réservation, etc.',
+    deleteBlockTitle:'Supprimer cette étape ?', deleteBlockDesc:'« {title} » sera supprimée. Cette action est irréversible.',
+    deleteTripConfirmTitle:'Supprimer ce voyage ?', deleteTripConfirmDesc:'« {title} » et toutes ses étapes seront supprimées. Cette action est irréversible.',
+    morningTitle:'Programme du jour · {date}', morningEditBtn:'Modifier le programme', morningOkBtn:'C\'est bon, on y va',
+    notifTitle:'Bientôt le début', printNoPlan:'Aucune étape', printExportedAt:'Exporté le', printDocTitleSuffix:' — programme de voyage',
+  },
+  it: {
+    appTitle:'Tabellone del viaggio', appTagline:'Inserisci il programma di viaggio per data e ora<br>e vedi in tempo reale cosa stai facendo ora.',
+    newTripBtn:'+ Crea nuovo viaggio', newTripBtnShort:'+ Nuovo viaggio', pastTripsBtn:'Vedi viaggi passati',
+    refreshBtn:'↻ Aggiorna', refreshTitle:'Aggiorna', deleteTripBtn:'Elimina questo viaggio', deleteTripTitle_attr:'Elimina viaggio corrente',
+    exportPdfBtn:'Esporta in PDF', shareLinkBtn:'Condividi con il gruppo', pastTripsTitle:'Viaggi passati',
+    closeBtn:'Chiudi', cancelBtn:'Annulla', saveBtn:'Salva', addBtn:'Aggiungi', savingBtn:'Salvataggio…', deleteBtn:'Elimina',
+    googleSavedBanner:'📊 Salvato su Google Sheets di questo dispositivo.',
+    localSavedBanner:'💾 Salvato solo su questo browser (nessuna sincronizzazione tra dispositivi). Collega Google per sincronizzare.',
+    connectGoogleBtn:'Collega Google', setupInfoBtn:'Vedi la configurazione',
+    googleEnabledPrompt:'Collega il tuo account Google per salvare automaticamente nei tuoi Sheets e continuare su altri dispositivi.',
+    googleDisabledPrompt:'Il salvataggio su Sheets deve prima essere configurato per questo deployment.',
+    notifOnBanner:'🔔 Le notifiche sono attive. Tieni aperta questa scheda per essere avvisato 10 minuti prima di ogni attività.',
+    notifOffBanner:'Per ricevere avvisi prima dell\'inizio delle attività, tieni aperta questa scheda e consenti le notifiche.', enableNotifBtn:'Attiva notifiche',
+    boardNeedTrip:'Crea prima un viaggio.', boardBefore:'Mancano D-{diff} al viaggio · {title}',
+    boardAfter:'Il tuo viaggio è terminato. Speriamo sia stato bellissimo.',
+    boardNoplan:'Nessun programma per oggi ({date}). Aggiungine uno qui sotto.',
+    boardWaiting:'Giorno del viaggio — prima della prima attività.', tagNow:'Ora', tagNext:'Prossimo', todayDone:'Giornata conclusa',
+    todaySuffix:' · Oggi', weekdaySuffix:'',
+    editTitle:'Modifica', deleteTitleAttr:'Elimina', emptyDay:'Nessun programma per questo giorno.', addBlockBtn:'+ Aggiungi attività',
+    shareErrorTitle:'Impossibile caricare il programma condiviso',
+    shareErrorMsg:'Caricamento del programma non riuscito. Verifica che il link di condivisione sia corretto e che la chiave API sia configurata.',
+    shareEmptyTitle:'Ancora nessun programma',
+    shareEmptyMsg:'Quando il creatore del viaggio aggiunge attività, appariranno qui in tempo reale.',
+    shareModeBanner:'👀 Vista condivisa in diretta (sola lettura) · Si aggiorna automaticamente ogni 30 secondi circa.',
+    shareLinkTitle:'Link di condivisione in diretta',
+    shareLinkDesc:'Chiunque abbia questo link può vedere il programma di viaggio in diretta (sola lettura) senza accedere. Il foglio Google collegato sarà impostato su "Chiunque abbia il link - Lettore".',
+    copyLinkBtn:'Copia link',
+    toastConnectFirst:'Collega prima Google e apri un viaggio', toastShareNotConfigured:'La vista condivisa non è ancora configurata (serve una chiave API)',
+    toastSharePermError:'Errore durante l\'impostazione dei permessi di condivisione', toastCopied:'Copiato', toastStorageError:'Si è verificato un problema durante il salvataggio',
+    toastRefreshing:'Aggiornamento…', toastRefreshed:'Aggiornamento completato', toastNoTripData:'Dati non trovati per questo viaggio',
+    toastFillNameDate:'Inserisci un nome e date validi', toastTripCreated:'Viaggio creato',
+    toastFillTimeTitle:'Inserisci orario e titolo', toastBlockDeleted:'Attività eliminata',
+    toastNoNotifSupport:'Questo browser non supporta le notifiche', toastNotifOn:'Le notifiche sono attive. Tieni aperta questa scheda.',
+    toastNoExportTrip:'Nessun viaggio da esportare', toastTripDeleted:'Viaggio eliminato',
+    newTripTitle:'Nuovo viaggio', tripNameLabel:'Nome del viaggio', tripNamePlaceholder:'es. Viaggio a Sapporo e Otaru',
+    startDateLabel:'Data di inizio', endDateLabel:'Data di fine', createBtn:'Crea',
+    editBlockTitle:'Modifica attività', addBlockTitle:'Aggiungi attività', startTimeLabel:'Ora di inizio', endTimeLabel:'Ora di fine (opzionale)',
+    todoLabel:'Attività', todoPlaceholder:'es. Passeggiata lungo il canale di Otaru', locationLabel:'Luogo (opzionale)', locationPlaceholder:'es. Otaru',
+    noteLabel:'Nota (opzionale)', notePlaceholder:'Cose da portare, numero di prenotazione, ecc.',
+    deleteBlockTitle:'Eliminare questa attività?', deleteBlockDesc:'"{title}" verrà eliminata. Non può essere annullato.',
+    deleteTripConfirmTitle:'Eliminare questo viaggio?', deleteTripConfirmDesc:'"{title}" e tutte le sue attività verranno eliminate. Non può essere annullato.',
+    morningTitle:'Programma di oggi · {date}', morningEditBtn:'Modifica programma', morningOkBtn:'Va bene, andiamo',
+    notifTitle:'In arrivo a breve', printNoPlan:'Nessuna attività', printExportedAt:'Esportato il', printDocTitleSuffix:' — itinerario di viaggio',
+  },
+  es: {
+    appTitle:'Tablero de viaje', appTagline:'Introduce tu plan de viaje por fecha y hora<br>y mira en tiempo real qué toca hacer ahora.',
+    newTripBtn:'+ Crear nuevo viaje', newTripBtnShort:'+ Nuevo viaje', pastTripsBtn:'Ver viajes anteriores',
+    refreshBtn:'↻ Actualizar', refreshTitle:'Actualizar', deleteTripBtn:'Eliminar este viaje', deleteTripTitle_attr:'Eliminar viaje actual',
+    exportPdfBtn:'Exportar como PDF', shareLinkBtn:'Compartir con el grupo', pastTripsTitle:'Viajes anteriores',
+    closeBtn:'Cerrar', cancelBtn:'Cancelar', saveBtn:'Guardar', addBtn:'Añadir', savingBtn:'Guardando…', deleteBtn:'Eliminar',
+    googleSavedBanner:'📊 Guardado en tu Google Sheets en este dispositivo.',
+    localSavedBanner:'💾 Guardado solo en este navegador (no se sincroniza entre dispositivos). Conecta Google para sincronizar.',
+    connectGoogleBtn:'Conectar Google', setupInfoBtn:'Ver guía de configuración',
+    googleEnabledPrompt:'Conecta tu cuenta de Google para guardar automáticamente en tus Sheets y continuar en otros dispositivos.',
+    googleDisabledPrompt:'El guardado en Sheets debe configurarse primero en este despliegue.',
+    notifOnBanner:'🔔 Las notificaciones están activadas. Mantén esta pestaña abierta para avisos 10 minutos antes de cada plan.',
+    notifOffBanner:'Para recibir avisos antes de que empiecen tus planes, mantén esta pestaña abierta y permite notificaciones.', enableNotifBtn:'Activar notificaciones',
+    boardNeedTrip:'Crea primero un viaje.', boardBefore:'Faltan D-{diff} para tu viaje · {title}',
+    boardAfter:'Tu viaje ha terminado. Espero que haya sido genial.',
+    boardNoplan:'Sin planes para hoy ({date}). Añade uno abajo.',
+    boardWaiting:'Día del viaje — antes del primer plan.', tagNow:'Ahora', tagNext:'Siguiente', todayDone:'Día terminado',
+    todaySuffix:' · Hoy', weekdaySuffix:'',
+    editTitle:'Editar', deleteTitleAttr:'Eliminar', emptyDay:'Aún no hay planes para este día.', addBlockBtn:'+ Añadir plan',
+    shareErrorTitle:'No se pudo cargar el itinerario compartido',
+    shareErrorMsg:'No se pudo cargar el itinerario. Verifica que el enlace sea correcto y que la clave API esté configurada.',
+    shareEmptyTitle:'Aún no hay planes',
+    shareEmptyMsg:'Cuando el creador del viaje añada planes, aparecerán aquí en tiempo real.',
+    shareModeBanner:'👀 Vista compartida en vivo (solo lectura) · Se actualiza automáticamente cada ~30 segundos.',
+    shareLinkTitle:'Enlace de compartición en vivo',
+    shareLinkDesc:'Cualquiera con este enlace puede ver el itinerario en vivo (solo lectura) sin iniciar sesión. La hoja de Google vinculada se configurará como "Cualquiera con el enlace - Lector".',
+    copyLinkBtn:'Copiar enlace',
+    toastConnectFirst:'Conecta Google primero y abre un viaje', toastShareNotConfigured:'La vista compartida aún no está configurada (se necesita clave API)',
+    toastSharePermError:'Error al configurar los permisos de compartición', toastCopied:'Copiado', toastStorageError:'Hubo un problema al guardar',
+    toastRefreshing:'Actualizando…', toastRefreshed:'Actualización completa', toastNoTripData:'No se encontraron datos de este viaje',
+    toastFillNameDate:'Introduce un nombre y fechas válidos', toastTripCreated:'Viaje creado',
+    toastFillTimeTitle:'Introduce una hora y un título', toastBlockDeleted:'Plan eliminado',
+    toastNoNotifSupport:'Este navegador no admite notificaciones', toastNotifOn:'Las notificaciones están activadas. Mantén esta pestaña abierta.',
+    toastNoExportTrip:'No hay viaje para exportar', toastTripDeleted:'Viaje eliminado',
+    newTripTitle:'Nuevo viaje', tripNameLabel:'Nombre del viaje', tripNamePlaceholder:'ej. Viaje a Sapporo y Otaru',
+    startDateLabel:'Fecha de inicio', endDateLabel:'Fecha de fin', createBtn:'Crear',
+    editBlockTitle:'Editar plan', addBlockTitle:'Añadir plan', startTimeLabel:'Hora de inicio', endTimeLabel:'Hora de fin (opcional)',
+    todoLabel:'Actividad', todoPlaceholder:'ej. Paseo por el canal de Otaru', locationLabel:'Lugar (opcional)', locationPlaceholder:'ej. Otaru',
+    noteLabel:'Nota (opcional)', notePlaceholder:'Cosas que llevar, número de reserva, etc.',
+    deleteBlockTitle:'¿Eliminar este plan?', deleteBlockDesc:'"{title}" será eliminado. Esta acción no se puede deshacer.',
+    deleteTripConfirmTitle:'¿Eliminar este viaje?', deleteTripConfirmDesc:'"{title}" y todos sus planes serán eliminados. Esta acción no se puede deshacer.',
+    morningTitle:'Plan de hoy · {date}', morningEditBtn:'Editar plan', morningOkBtn:'Perfecto, vamos',
+    notifTitle:'Empieza pronto', printNoPlan:'Sin planes', printExportedAt:'Exportado el', printDocTitleSuffix:' — itinerario de viaje',
+  },
+  pt: {
+    appTitle:'Painel de viagem', appTagline:'Insira seu plano de viagem por data e horário<br>e veja em tempo real o que fazer agora.',
+    newTripBtn:'+ Criar nova viagem', newTripBtnShort:'+ Nova viagem', pastTripsBtn:'Ver viagens anteriores',
+    refreshBtn:'↻ Atualizar', refreshTitle:'Atualizar', deleteTripBtn:'Excluir esta viagem', deleteTripTitle_attr:'Excluir viagem atual',
+    exportPdfBtn:'Exportar como PDF', shareLinkBtn:'Compartilhar com o grupo', pastTripsTitle:'Viagens anteriores',
+    closeBtn:'Fechar', cancelBtn:'Cancelar', saveBtn:'Salvar', addBtn:'Adicionar', savingBtn:'Salvando…', deleteBtn:'Excluir',
+    googleSavedBanner:'📊 Salvo no seu Google Sheets neste dispositivo.',
+    localSavedBanner:'💾 Salvo apenas neste navegador (não sincroniza entre dispositivos). Conecte o Google para sincronizar.',
+    connectGoogleBtn:'Conectar Google', setupInfoBtn:'Ver guia de configuração',
+    googleEnabledPrompt:'Conecte sua conta do Google para salvar automaticamente em suas planilhas e continuar em outros dispositivos.',
+    googleDisabledPrompt:'O salvamento em Sheets precisa ser configurado primeiro neste ambiente.',
+    notifOnBanner:'🔔 As notificações estão ativadas. Mantenha esta aba aberta para receber avisos 10 minutos antes de cada compromisso.',
+    notifOffBanner:'Para receber avisos antes do início dos seus compromissos, mantenha esta aba aberta e permita notificações.', enableNotifBtn:'Ativar notificações',
+    boardNeedTrip:'Crie uma viagem primeiro.', boardBefore:'Faltam D-{diff} para sua viagem · {title}',
+    boardAfter:'Sua viagem terminou. Espero que tenha sido ótima.',
+    boardNoplan:'Nenhum compromisso hoje ({date}). Adicione um abaixo.',
+    boardWaiting:'Dia da viagem — antes do primeiro compromisso.', tagNow:'Agora', tagNext:'A seguir', todayDone:'Dia concluído',
+    todaySuffix:' · Hoje', weekdaySuffix:'',
+    editTitle:'Editar', deleteTitleAttr:'Excluir', emptyDay:'Ainda não há compromissos para este dia.', addBlockBtn:'+ Adicionar compromisso',
+    shareErrorTitle:'Não foi possível carregar o roteiro compartilhado',
+    shareErrorMsg:'Falha ao carregar o roteiro. Verifique se o link de compartilhamento está correto e se a chave de API está configurada.',
+    shareEmptyTitle:'Ainda não há compromissos',
+    shareEmptyMsg:'Quando o criador da viagem adicionar compromissos, eles aparecerão aqui em tempo real.',
+    shareModeBanner:'👀 Visualização compartilhada ao vivo (somente leitura) · Atualiza automaticamente a cada ~30 segundos.',
+    shareLinkTitle:'Link de compartilhamento ao vivo',
+    shareLinkDesc:'Qualquer pessoa com este link pode ver o roteiro da viagem ao vivo (somente leitura) sem fazer login. A planilha do Google vinculada será definida como "Qualquer pessoa com o link - Leitor".',
+    copyLinkBtn:'Copiar link',
+    toastConnectFirst:'Conecte o Google primeiro e abra uma viagem', toastShareNotConfigured:'A visualização compartilhada ainda não foi configurada (é necessária uma chave de API)',
+    toastSharePermError:'Erro ao definir as permissões de compartilhamento', toastCopied:'Copiado', toastStorageError:'Ocorreu um problema ao salvar',
+    toastRefreshing:'Atualizando…', toastRefreshed:'Atualização concluída', toastNoTripData:'Não foram encontrados dados desta viagem',
+    toastFillNameDate:'Insira um nome e datas válidos', toastTripCreated:'Viagem criada',
+    toastFillTimeTitle:'Insira um horário e um título', toastBlockDeleted:'Compromisso excluído',
+    toastNoNotifSupport:'Este navegador não é compatível com notificações', toastNotifOn:'As notificações estão ativadas. Mantenha esta aba aberta.',
+    toastNoExportTrip:'Nenhuma viagem para exportar', toastTripDeleted:'Viagem excluída',
+    newTripTitle:'Nova viagem', tripNameLabel:'Nome da viagem', tripNamePlaceholder:'ex.: Viagem a Sapporo e Otaru',
+    startDateLabel:'Data de início', endDateLabel:'Data de término', createBtn:'Criar',
+    editBlockTitle:'Editar compromisso', addBlockTitle:'Adicionar compromisso', startTimeLabel:'Horário de início', endTimeLabel:'Horário de término (opcional)',
+    todoLabel:'Atividade', todoPlaceholder:'ex.: Caminhada pelo Canal de Otaru', locationLabel:'Local (opcional)', locationPlaceholder:'ex.: Otaru',
+    noteLabel:'Observação (opcional)', notePlaceholder:'O que levar, número da reserva, etc.',
+    deleteBlockTitle:'Excluir este compromisso?', deleteBlockDesc:'"{title}" será excluído. Isso não pode ser desfeito.',
+    deleteTripConfirmTitle:'Excluir esta viagem?', deleteTripConfirmDesc:'"{title}" e todos os seus compromissos serão excluídos. Isso não pode ser desfeito.',
+    morningTitle:'Compromissos de hoje · {date}', morningEditBtn:'Editar plano', morningOkBtn:'Tudo certo, vamos lá',
+    notifTitle:'Começa em breve', printNoPlan:'Sem compromissos', printExportedAt:'Exportado em', printDocTitleSuffix:' — roteiro de viagem',
+  },
+  ru: {
+    appTitle:'Табло путешествия', appTagline:'Введите план поездки по датам и времени —<br>и смотрите в реальном времени, что делать сейчас.',
+    newTripBtn:'+ Создать поездку', newTripBtnShort:'+ Новая поездка', pastTripsBtn:'Посмотреть прошлые поездки',
+    refreshBtn:'↻ Обновить', refreshTitle:'Обновить', deleteTripBtn:'Удалить эту поездку', deleteTripTitle_attr:'Удалить текущую поездку',
+    exportPdfBtn:'Экспорт в PDF', shareLinkBtn:'Поделиться с группой', pastTripsTitle:'Прошлые поездки',
+    closeBtn:'Закрыть', cancelBtn:'Отмена', saveBtn:'Сохранить', addBtn:'Добавить', savingBtn:'Сохранение…', deleteBtn:'Удалить',
+    googleSavedBanner:'📊 Сохраняется в Google Таблицы на этом устройстве.',
+    localSavedBanner:'💾 Сохраняется только в этом браузере (без синхронизации между устройствами). Подключите Google для синхронизации.',
+    connectGoogleBtn:'Подключить Google', setupInfoBtn:'Смотреть инструкцию',
+    googleEnabledPrompt:'Подключите аккаунт Google, чтобы автоматически сохранять в свои таблицы и продолжать на других устройствах.',
+    googleDisabledPrompt:'Сохранение в Таблицы нужно сначала настроить для этого развёртывания.',
+    notifOnBanner:'🔔 Уведомления включены. Держите эту вкладку открытой, чтобы получать напоминание за 10 минут до каждого пункта.',
+    notifOffBanner:'Чтобы получать напоминания перед началом планов, держите эту вкладку открытой и разрешите уведомления.', enableNotifBtn:'Включить уведомления',
+    boardNeedTrip:'Сначала создайте поездку.', boardBefore:'До поездки осталось D-{diff} · {title}',
+    boardAfter:'Ваша поездка завершена. Надеемся, она была прекрасной.',
+    boardNoplan:'На сегодня ({date}) планов нет. Добавьте их ниже.',
+    boardWaiting:'День поездки — перед первым пунктом.', tagNow:'Сейчас', tagNext:'Далее', todayDone:'На сегодня всё',
+    todaySuffix:' · Сегодня', weekdaySuffix:'',
+    editTitle:'Изменить', deleteTitleAttr:'Удалить', emptyDay:'На этот день пока нет планов.', addBlockBtn:'+ Добавить пункт',
+    shareErrorTitle:'Не удалось загрузить общий план',
+    shareErrorMsg:'Не удалось загрузить план. Проверьте правильность ссылки и настройку API-ключа.',
+    shareEmptyTitle:'Планов пока нет',
+    shareEmptyMsg:'Когда создатель поездки добавит планы, они появятся здесь в реальном времени.',
+    shareModeBanner:'👀 Просмотр в реальном времени (только чтение) · Автообновление примерно раз в 30 секунд.',
+    shareLinkTitle:'Ссылка для общего доступа в реальном времени',
+    shareLinkDesc:'Любой, у кого есть эта ссылка, может смотреть план поездки в реальном времени (только чтение) без входа в аккаунт. Связанная таблица Google будет открыта для "Всех, у кого есть ссылка — Читатель".',
+    copyLinkBtn:'Копировать ссылку',
+    toastConnectFirst:'Сначала подключите Google и откройте поездку', toastShareNotConfigured:'Общий просмотр ещё не настроен (нужен API-ключ)',
+    toastSharePermError:'Ошибка при настройке прав доступа', toastCopied:'Скопировано', toastStorageError:'Возникла проблема при сохранении',
+    toastRefreshing:'Обновление…', toastRefreshed:'Обновление завершено', toastNoTripData:'Данные этой поездки не найдены',
+    toastFillNameDate:'Введите корректное название и даты', toastTripCreated:'Поездка создана',
+    toastFillTimeTitle:'Введите время и название', toastBlockDeleted:'Пункт удалён',
+    toastNoNotifSupport:'Этот браузер не поддерживает уведомления', toastNotifOn:'Уведомления включены. Держите эту вкладку открытой.',
+    toastNoExportTrip:'Нет поездки для экспорта', toastTripDeleted:'Поездка удалена',
+    newTripTitle:'Новая поездка', tripNameLabel:'Название поездки', tripNamePlaceholder:'напр., Поездка в Саппоро и Отару',
+    startDateLabel:'Дата начала', endDateLabel:'Дата окончания', createBtn:'Создать',
+    editBlockTitle:'Изменить пункт', addBlockTitle:'Добавить пункт', startTimeLabel:'Время начала', endTimeLabel:'Время окончания (необязательно)',
+    todoLabel:'Что делать', todoPlaceholder:'напр., Прогулка по каналу Отару', locationLabel:'Место (необязательно)', locationPlaceholder:'напр., Отару',
+    noteLabel:'Заметка (необязательно)', notePlaceholder:'Что взять с собой, номер брони и т.д.',
+    deleteBlockTitle:'Удалить этот пункт?', deleteBlockDesc:'«{title}» будет удалён. Это действие нельзя отменить.',
+    deleteTripConfirmTitle:'Удалить эту поездку?', deleteTripConfirmDesc:'«{title}» и все её пункты будут удалены. Это действие нельзя отменить.',
+    morningTitle:'План на сегодня · {date}', morningEditBtn:'Изменить план', morningOkBtn:'Всё хорошо, поехали',
+    notifTitle:'Скоро начало', printNoPlan:'Планов нет', printExportedAt:'Экспортировано', printDocTitleSuffix:' — план поездки',
+  },
+  ar: {
+    appTitle:'لوحة الرحلة', appTagline:'أدخل خطة رحلتك حسب التاريخ والوقت،<br>وشاهد في الوقت الفعلي ما يجب فعله الآن.',
+    newTripBtn:'+ إنشاء رحلة جديدة', newTripBtnShort:'+ رحلة جديدة', pastTripsBtn:'عرض الرحلات السابقة',
+    refreshBtn:'↻ تحديث', refreshTitle:'تحديث', deleteTripBtn:'حذف هذه الرحلة', deleteTripTitle_attr:'حذف الرحلة الحالية',
+    exportPdfBtn:'تصدير كملف PDF', shareLinkBtn:'مشاركة مع المجموعة', pastTripsTitle:'الرحلات السابقة',
+    closeBtn:'إغلاق', cancelBtn:'إلغاء', saveBtn:'حفظ', addBtn:'إضافة', savingBtn:'جارٍ الحفظ…', deleteBtn:'حذف',
+    googleSavedBanner:'📊 يتم الحفظ في Google Sheets على هذا الجهاز.',
+    localSavedBanner:'💾 يُحفظ في هذا المتصفح فقط (لا مزامنة بين الأجهزة). اربط Google للمزامنة بين الأجهزة.',
+    connectGoogleBtn:'ربط Google', setupInfoBtn:'عرض طريقة الإعداد',
+    googleEnabledPrompt:'اربط حساب Google الخاص بك للحفظ التلقائي في جداولك ومتابعة العمل على أجهزة أخرى.',
+    googleDisabledPrompt:'يجب إعداد الحفظ في Sheets أولاً لهذا النشر.',
+    notifOnBanner:'🔔 الإشعارات مفعّلة. أبقِ هذه العلامة مفتوحة لتلقي تنبيه قبل 10 دقائق من كل موعد.',
+    notifOffBanner:'لتلقي تنبيهات قبل بدء خططك، أبقِ هذه العلامة مفتوحة واسمح بالإشعارات.', enableNotifBtn:'تفعيل الإشعارات',
+    boardNeedTrip:'أنشئ رحلة أولاً.', boardBefore:'باقي D-{diff} على رحلتك · {title}',
+    boardAfter:'انتهت رحلتك. نتمنى أن تكون قد كانت رائعة.',
+    boardNoplan:'لا توجد خطط لليوم ({date}). أضف واحدة أدناه.',
+    boardWaiting:'يوم الرحلة — قبل أول موعد.', tagNow:'الآن', tagNext:'التالي', todayDone:'انتهت خطط اليوم',
+    todaySuffix:' · اليوم', weekdaySuffix:'',
+    editTitle:'تعديل', deleteTitleAttr:'حذف', emptyDay:'لا توجد خطط لهذا اليوم بعد.', addBlockBtn:'+ إضافة موعد',
+    shareErrorTitle:'تعذّر تحميل الجدول المشترك',
+    shareErrorMsg:'تعذّر تحميل الجدول. تحقق من صحة رابط المشاركة وإعداد مفتاح API.',
+    shareEmptyTitle:'لا توجد خطط بعد',
+    shareEmptyMsg:'بمجرد أن يضيف منشئ الرحلة خططًا، ستظهر هنا في الوقت الفعلي.',
+    shareModeBanner:'👀 عرض مباشر مشترك (للقراءة فقط) · يتم التحديث تلقائيًا كل 30 ثانية تقريبًا.',
+    shareLinkTitle:'رابط المشاركة المباشر',
+    shareLinkDesc:'يمكن لأي شخص لديه هذا الرابط مشاهدة جدول الرحلة المباشر (للقراءة فقط) دون تسجيل الدخول. سيتم ضبط جدول Google المرتبط على "أي شخص لديه الرابط - مشاهد".',
+    copyLinkBtn:'نسخ الرابط',
+    toastConnectFirst:'اربط Google أولاً وافتح رحلة', toastShareNotConfigured:'عرض المشاركة غير مُعد بعد (يلزم مفتاح API)',
+    toastSharePermError:'حدث خطأ أثناء ضبط أذونات المشاركة', toastCopied:'تم النسخ', toastStorageError:'حدثت مشكلة أثناء الحفظ',
+    toastRefreshing:'جارٍ التحديث…', toastRefreshed:'اكتمل التحديث', toastNoTripData:'تعذّر العثور على بيانات هذه الرحلة',
+    toastFillNameDate:'يرجى إدخال اسم وتواريخ صحيحة', toastTripCreated:'تم إنشاء الرحلة',
+    toastFillTimeTitle:'يرجى إدخال الوقت والعنوان', toastBlockDeleted:'تم حذف الموعد',
+    toastNoNotifSupport:'هذا المتصفح لا يدعم الإشعارات', toastNotifOn:'تم تفعيل الإشعارات. أبقِ هذه العلامة مفتوحة.',
+    toastNoExportTrip:'لا توجد رحلة للتصدير', toastTripDeleted:'تم حذف الرحلة',
+    newTripTitle:'رحلة جديدة', tripNameLabel:'اسم الرحلة', tripNamePlaceholder:'مثال: رحلة سابورو وأوتارو',
+    startDateLabel:'تاريخ البدء', endDateLabel:'تاريخ الانتهاء', createBtn:'إنشاء',
+    editBlockTitle:'تعديل الموعد', addBlockTitle:'إضافة موعد', startTimeLabel:'وقت البدء', endTimeLabel:'وقت الانتهاء (اختياري)',
+    todoLabel:'النشاط', todoPlaceholder:'مثال: نزهة على طول قناة أوتارو', locationLabel:'المكان (اختياري)', locationPlaceholder:'مثال: أوتارو',
+    noteLabel:'ملاحظة (اختياري)', notePlaceholder:'أغراض يجب إحضارها، رقم الحجز، إلخ.',
+    deleteBlockTitle:'هل تريد حذف هذا الموعد؟', deleteBlockDesc:'سيتم حذف "{title}". لا يمكن التراجع عن هذا الإجراء.',
+    deleteTripConfirmTitle:'هل تريد حذف هذه الرحلة؟', deleteTripConfirmDesc:'سيتم حذف "{title}" وجميع مواعيدها. لا يمكن التراجع عن هذا الإجراء.',
+    morningTitle:'خطط اليوم · {date}', morningEditBtn:'تعديل الخطة', morningOkBtn:'جيد، لنبدأ',
+    notifTitle:'يبدأ قريبًا', printNoPlan:'لا توجد خطط', printExportedAt:'تم التصدير في', printDocTitleSuffix:' — برنامج الرحلة',
+  },
+  nl: {
+    appTitle:'Reisbord', appTagline:'Voer je reisplan in op datum en tijd<br>en zie live wat je nu geacht wordt te doen.',
+    newTripBtn:'+ Nieuwe reis maken', newTripBtnShort:'+ Nieuwe reis', pastTripsBtn:'Eerdere reizen bekijken',
+    refreshBtn:'↻ Vernieuwen', refreshTitle:'Vernieuwen', deleteTripBtn:'Deze reis verwijderen', deleteTripTitle_attr:'Huidige reis verwijderen',
+    exportPdfBtn:'Exporteren als PDF', shareLinkBtn:'Delen met groep', pastTripsTitle:'Eerdere reizen',
+    closeBtn:'Sluiten', cancelBtn:'Annuleren', saveBtn:'Opslaan', addBtn:'Toevoegen', savingBtn:'Opslaan…', deleteBtn:'Verwijderen',
+    googleSavedBanner:'📊 Opgeslagen in je Google Sheets op dit apparaat.',
+    localSavedBanner:'💾 Alleen opgeslagen in deze browser (geen synchronisatie tussen apparaten). Verbind Google om te synchroniseren.',
+    connectGoogleBtn:'Google verbinden', setupInfoBtn:'Instructies bekijken',
+    googleEnabledPrompt:'Verbind je Google-account om automatisch op te slaan in je Sheets en verder te gaan op andere apparaten.',
+    googleDisabledPrompt:'Opslaan in Sheets moet eerst worden ingesteld voor deze implementatie.',
+    notifOnBanner:'🔔 Meldingen staan aan. Houd dit tabblad open om 10 minuten van tevoren een melding te krijgen.',
+    notifOffBanner:'Om meldingen te krijgen voordat je plannen beginnen, houd dit tabblad open en sta meldingen toe.', enableNotifBtn:'Meldingen inschakelen',
+    boardNeedTrip:'Maak eerst een reis aan.', boardBefore:'Nog D-{diff} tot je reis · {title}',
+    boardAfter:'Je reis is afgelopen. Hopelijk was het geweldig.',
+    boardNoplan:'Geen plannen voor vandaag ({date}). Voeg er hieronder een toe.',
+    boardWaiting:'Reisdag — vóór het eerste plan.', tagNow:'Nu', tagNext:'Volgende', todayDone:'Vandaag klaar',
+    todaySuffix:' · Vandaag', weekdaySuffix:'',
+    editTitle:'Bewerken', deleteTitleAttr:'Verwijderen', emptyDay:'Nog geen plannen voor deze dag.', addBlockBtn:'+ Plan toevoegen',
+    shareErrorTitle:'Kan gedeeld schema niet laden',
+    shareErrorMsg:'Laden van schema mislukt. Controleer of de deellink correct is en de API-sleutel is ingesteld.',
+    shareEmptyTitle:'Nog geen plannen',
+    shareEmptyMsg:'Zodra de reismaker plannen toevoegt, verschijnen ze hier in realtime.',
+    shareModeBanner:'👀 Live gedeelde weergave (alleen-lezen) · Wordt ongeveer elke 30 seconden automatisch vernieuwd.',
+    shareLinkTitle:'Live deellink',
+    shareLinkDesc:'Iedereen met deze link kan het live reisschema (alleen-lezen) bekijken zonder in te loggen. Het gekoppelde Google Sheet wordt ingesteld op "Iedereen met de link - Kijker".',
+    copyLinkBtn:'Link kopiëren',
+    toastConnectFirst:'Verbind eerst Google en open een reis', toastShareNotConfigured:'Gedeelde weergave is nog niet ingesteld (API-sleutel nodig)',
+    toastSharePermError:'Fout bij het instellen van deelrechten', toastCopied:'Gekopieerd', toastStorageError:'Er is een probleem opgetreden bij het opslaan',
+    toastRefreshing:'Vernieuwen…', toastRefreshed:'Vernieuwen voltooid', toastNoTripData:'Geen gegevens gevonden voor deze reis',
+    toastFillNameDate:'Voer een geldige naam en data in', toastTripCreated:'Reis aangemaakt',
+    toastFillTimeTitle:'Voer een tijd en titel in', toastBlockDeleted:'Plan verwijderd',
+    toastNoNotifSupport:'Deze browser ondersteunt geen meldingen', toastNotifOn:'Meldingen staan aan. Houd dit tabblad open.',
+    toastNoExportTrip:'Geen reis om te exporteren', toastTripDeleted:'Reis verwijderd',
+    newTripTitle:'Nieuwe reis', tripNameLabel:'Reisnaam', tripNamePlaceholder:'bijv. Reis naar Sapporo & Otaru',
+    startDateLabel:'Startdatum', endDateLabel:'Einddatum', createBtn:'Aanmaken',
+    editBlockTitle:'Plan bewerken', addBlockTitle:'Plan toevoegen', startTimeLabel:'Starttijd', endTimeLabel:'Eindtijd (optioneel)',
+    todoLabel:'Wat', todoPlaceholder:'bijv. Wandeling langs het Otaru-kanaal', locationLabel:'Locatie (optioneel)', locationPlaceholder:'bijv. Otaru',
+    noteLabel:'Notitie (optioneel)', notePlaceholder:'Mee te nemen spullen, boekingsnummer, enz.',
+    deleteBlockTitle:'Dit plan verwijderen?', deleteBlockDesc:'"{title}" wordt verwijderd. Dit kan niet ongedaan worden gemaakt.',
+    deleteTripConfirmTitle:'Deze reis verwijderen?', deleteTripConfirmDesc:'"{title}" en alle bijbehorende plannen worden verwijderd. Dit kan niet ongedaan worden gemaakt.',
+    morningTitle:'Plannen voor vandaag · {date}', morningEditBtn:'Plan bewerken', morningOkBtn:'Ziet er goed uit, we gaan',
+    notifTitle:'Begint binnenkort', printNoPlan:'Geen plannen', printExportedAt:'Geëxporteerd op', printDocTitleSuffix:' — reisschema',
+  },
+  pl: {
+    appTitle:'Tablica podróży', appTagline:'Wprowadź plan podróży według daty i godziny<br>i zobacz na żywo, co robić właśnie teraz.',
+    newTripBtn:'+ Utwórz nową podróż', newTripBtnShort:'+ Nowa podróż', pastTripsBtn:'Zobacz poprzednie podróże',
+    refreshBtn:'↻ Odśwież', refreshTitle:'Odśwież', deleteTripBtn:'Usuń tę podróż', deleteTripTitle_attr:'Usuń bieżącą podróż',
+    exportPdfBtn:'Eksportuj jako PDF', shareLinkBtn:'Udostępnij grupie', pastTripsTitle:'Poprzednie podróże',
+    closeBtn:'Zamknij', cancelBtn:'Anuluj', saveBtn:'Zapisz', addBtn:'Dodaj', savingBtn:'Zapisywanie…', deleteBtn:'Usuń',
+    googleSavedBanner:'📊 Zapisywane w Arkuszach Google na tym urządzeniu.',
+    localSavedBanner:'💾 Zapisywane tylko w tej przeglądarce (bez synchronizacji między urządzeniami). Połącz z Google, aby synchronizować.',
+    connectGoogleBtn:'Połącz z Google', setupInfoBtn:'Zobacz instrukcję',
+    googleEnabledPrompt:'Połącz konto Google, aby automatycznie zapisywać w arkuszach i kontynuować na innych urządzeniach.',
+    googleDisabledPrompt:'Zapisywanie w Arkuszach wymaga wcześniejszej konfiguracji dla tego wdrożenia.',
+    notifOnBanner:'🔔 Powiadomienia są włączone. Trzymaj tę kartę otwartą, aby otrzymać przypomnienie 10 minut przed każdym punktem.',
+    notifOffBanner:'Aby otrzymywać przypomnienia przed rozpoczęciem planów, trzymaj tę kartę otwartą i zezwól na powiadomienia.', enableNotifBtn:'Włącz powiadomienia',
+    boardNeedTrip:'Najpierw utwórz podróż.', boardBefore:'Do podróży zostało D-{diff} · {title}',
+    boardAfter:'Twoja podróż się zakończyła. Mamy nadzieję, że była wspaniała.',
+    boardNoplan:'Brak planów na dziś ({date}). Dodaj jeden poniżej.',
+    boardWaiting:'Dzień podróży — przed pierwszym punktem.', tagNow:'Teraz', tagNext:'Następny', todayDone:'Dzień zakończony',
+    todaySuffix:' · Dziś', weekdaySuffix:'',
+    editTitle:'Edytuj', deleteTitleAttr:'Usuń', emptyDay:'Na ten dzień nie ma jeszcze planów.', addBlockBtn:'+ Dodaj punkt',
+    shareErrorTitle:'Nie można załadować udostępnionego planu',
+    shareErrorMsg:'Nie udało się załadować planu. Sprawdź, czy link jest poprawny i czy klucz API został skonfigurowany.',
+    shareEmptyTitle:'Jeszcze brak planów',
+    shareEmptyMsg:'Gdy twórca podróży doda plany, pojawią się tutaj na żywo.',
+    shareModeBanner:'👀 Udostępniony widok na żywo (tylko do odczytu) · Automatyczne odświeżanie co ok. 30 sekund.',
+    shareLinkTitle:'Link udostępniania na żywo',
+    shareLinkDesc:'Każdy, kto ma ten link, może zobaczyć plan podróży na żywo (tylko do odczytu) bez logowania. Powiązany Arkusz Google zostanie ustawiony na "Każdy z linkiem – Przeglądający".',
+    copyLinkBtn:'Kopiuj link',
+    toastConnectFirst:'Najpierw połącz Google i otwórz podróż', toastShareNotConfigured:'Widok udostępniania nie został jeszcze skonfigurowany (wymagany klucz API)',
+    toastSharePermError:'Błąd podczas ustawiania uprawnień udostępniania', toastCopied:'Skopiowano', toastStorageError:'Wystąpił problem podczas zapisywania',
+    toastRefreshing:'Odświeżanie…', toastRefreshed:'Odświeżanie zakończone', toastNoTripData:'Nie znaleziono danych tej podróży',
+    toastFillNameDate:'Wprowadź poprawną nazwę i daty', toastTripCreated:'Podróż utworzona',
+    toastFillTimeTitle:'Wprowadź godzinę i tytuł', toastBlockDeleted:'Punkt usunięty',
+    toastNoNotifSupport:'Ta przeglądarka nie obsługuje powiadomień', toastNotifOn:'Powiadomienia są włączone. Trzymaj tę kartę otwartą.',
+    toastNoExportTrip:'Brak podróży do eksportu', toastTripDeleted:'Podróż usunięta',
+    newTripTitle:'Nowa podróż', tripNameLabel:'Nazwa podróży', tripNamePlaceholder:'np. Podróż do Sapporo i Otaru',
+    startDateLabel:'Data rozpoczęcia', endDateLabel:'Data zakończenia', createBtn:'Utwórz',
+    editBlockTitle:'Edytuj punkt', addBlockTitle:'Dodaj punkt', startTimeLabel:'Godzina rozpoczęcia', endTimeLabel:'Godzina zakończenia (opcjonalnie)',
+    todoLabel:'Co robić', todoPlaceholder:'np. Spacer wzdłuż kanału Otaru', locationLabel:'Miejsce (opcjonalnie)', locationPlaceholder:'np. Otaru',
+    noteLabel:'Notatka (opcjonalnie)', notePlaceholder:'Rzeczy do zabrania, numer rezerwacji itp.',
+    deleteBlockTitle:'Usunąć ten punkt?', deleteBlockDesc:'"{title}" zostanie usunięty. Tej czynności nie można cofnąć.',
+    deleteTripConfirmTitle:'Usunąć tę podróż?', deleteTripConfirmDesc:'"{title}" i wszystkie jej punkty zostaną usunięte. Tej czynności nie można cofnąć.',
+    morningTitle:'Dzisiejsze plany · {date}', morningEditBtn:'Edytuj plan', morningOkBtn:'Dobrze, jedziemy',
+    notifTitle:'Wkrótce się zacznie', printNoPlan:'Brak planów', printExportedAt:'Wyeksportowano', printDocTitleSuffix:' — plan podróży',
+  },
+  sv: {
+    appTitle:'Resetavla', appTagline:'Ange din reseplan efter datum och tid<br>och se live vad du ska göra just nu.',
+    newTripBtn:'+ Skapa ny resa', newTripBtnShort:'+ Ny resa', pastTripsBtn:'Visa tidigare resor',
+    refreshBtn:'↻ Uppdatera', refreshTitle:'Uppdatera', deleteTripBtn:'Ta bort den här resan', deleteTripTitle_attr:'Ta bort aktuell resa',
+    exportPdfBtn:'Exportera som PDF', shareLinkBtn:'Dela med gruppen', pastTripsTitle:'Tidigare resor',
+    closeBtn:'Stäng', cancelBtn:'Avbryt', saveBtn:'Spara', addBtn:'Lägg till', savingBtn:'Sparar…', deleteBtn:'Ta bort',
+    googleSavedBanner:'📊 Sparas i dina Google Sheets på den här enheten.',
+    localSavedBanner:'💾 Sparas endast i den här webbläsaren (ingen synk mellan enheter). Anslut Google för att synka.',
+    connectGoogleBtn:'Anslut Google', setupInfoBtn:'Visa installationsguide',
+    googleEnabledPrompt:'Anslut ditt Google-konto för att spara automatiskt i dina Sheets och fortsätta på andra enheter.',
+    googleDisabledPrompt:'Sheets-lagring måste först konfigureras för den här driftsättningen.',
+    notifOnBanner:'🔔 Aviseringar är aktiverade. Håll den här fliken öppen för att få en påminnelse 10 minuter innan varje punkt.',
+    notifOffBanner:'För att få påminnelser innan dina planer börjar, håll den här fliken öppen och tillåt aviseringar.', enableNotifBtn:'Aktivera aviseringar',
+    boardNeedTrip:'Skapa en resa först.', boardBefore:'D-{diff} kvar till resan · {title}',
+    boardAfter:'Din resa är över. Vi hoppas att den var fantastisk.',
+    boardNoplan:'Inga planer för idag ({date}). Lägg till en nedan.',
+    boardWaiting:'Resdag — före den första punkten.', tagNow:'Nu', tagNext:'Nästa', todayDone:'Klart för idag',
+    todaySuffix:' · Idag', weekdaySuffix:'',
+    editTitle:'Redigera', deleteTitleAttr:'Ta bort', emptyDay:'Inga planer för den här dagen än.', addBlockBtn:'+ Lägg till punkt',
+    shareErrorTitle:'Det gick inte att läsa in det delade schemat',
+    shareErrorMsg:'Det gick inte att läsa in schemat. Kontrollera att dellänken är korrekt och att API-nyckeln är konfigurerad.',
+    shareEmptyTitle:'Inga planer än',
+    shareEmptyMsg:'När resans skapare lägger till planer visas de här i realtid.',
+    shareModeBanner:'👀 Live delad vy (skrivskyddad) · Uppdateras automatiskt cirka var 30:e sekund.',
+    shareLinkTitle:'Live-dellänk',
+    shareLinkDesc:'Alla med den här länken kan se det live reseschemat (skrivskyddat) utan att logga in. Det kopplade Google Sheet-arket ställs in på "Alla med länken – Läsare".',
+    copyLinkBtn:'Kopiera länk',
+    toastConnectFirst:'Anslut Google först och öppna en resa', toastShareNotConfigured:'Delad vy är inte konfigurerad än (API-nyckel krävs)',
+    toastSharePermError:'Fel vid inställning av delningsbehörigheter', toastCopied:'Kopierat', toastStorageError:'Ett problem uppstod vid sparande',
+    toastRefreshing:'Uppdaterar…', toastRefreshed:'Uppdatering klar', toastNoTripData:'Hittade ingen data för den här resan',
+    toastFillNameDate:'Ange ett giltigt namn och datum', toastTripCreated:'Resa skapad',
+    toastFillTimeTitle:'Ange en tid och en titel', toastBlockDeleted:'Punkt borttagen',
+    toastNoNotifSupport:'Den här webbläsaren stöder inte aviseringar', toastNotifOn:'Aviseringar är aktiverade. Håll den här fliken öppen.',
+    toastNoExportTrip:'Ingen resa att exportera', toastTripDeleted:'Resa borttagen',
+    newTripTitle:'Ny resa', tripNameLabel:'Resans namn', tripNamePlaceholder:'t.ex. Resa till Sapporo och Otaru',
+    startDateLabel:'Startdatum', endDateLabel:'Slutdatum', createBtn:'Skapa',
+    editBlockTitle:'Redigera punkt', addBlockTitle:'Lägg till punkt', startTimeLabel:'Starttid', endTimeLabel:'Sluttid (valfritt)',
+    todoLabel:'Vad', todoPlaceholder:'t.ex. Promenad längs Otaru-kanalen', locationLabel:'Plats (valfritt)', locationPlaceholder:'t.ex. Otaru',
+    noteLabel:'Anteckning (valfritt)', notePlaceholder:'Saker att ta med, bokningsnummer, osv.',
+    deleteBlockTitle:'Ta bort den här punkten?', deleteBlockDesc:'"{title}" kommer att tas bort. Detta kan inte ångras.',
+    deleteTripConfirmTitle:'Ta bort den här resan?', deleteTripConfirmDesc:'"{title}" och alla dess punkter kommer att tas bort. Detta kan inte ångras.',
+    morningTitle:'Dagens planer · {date}', morningEditBtn:'Redigera plan', morningOkBtn:'Ser bra ut, kör igång',
+    notifTitle:'Börjar snart', printNoPlan:'Inga planer', printExportedAt:'Exporterad', printDocTitleSuffix:' — resplan',
+  },
+  uk: {
+    appTitle:'Табло подорожі', appTagline:'Введіть план подорожі за датою та часом —<br>і дивіться в реальному часі, що робити зараз.',
+    newTripBtn:'+ Створити подорож', newTripBtnShort:'+ Нова подорож', pastTripsBtn:'Переглянути минулі подорожі',
+    refreshBtn:'↻ Оновити', refreshTitle:'Оновити', deleteTripBtn:'Видалити цю подорож', deleteTripTitle_attr:'Видалити поточну подорож',
+    exportPdfBtn:'Експортувати як PDF', shareLinkBtn:'Поділитися з групою', pastTripsTitle:'Минулі подорожі',
+    closeBtn:'Закрити', cancelBtn:'Скасувати', saveBtn:'Зберегти', addBtn:'Додати', savingBtn:'Збереження…', deleteBtn:'Видалити',
+    googleSavedBanner:'📊 Зберігається в Google Таблицях на цьому пристрої.',
+    localSavedBanner:'💾 Зберігається лише в цьому браузері (без синхронізації між пристроями). Підключіть Google для синхронізації.',
+    connectGoogleBtn:'Підключити Google', setupInfoBtn:'Переглянути інструкцію',
+    googleEnabledPrompt:'Підключіть акаунт Google, щоб автоматично зберігати у своїх таблицях і продовжувати на інших пристроях.',
+    googleDisabledPrompt:'Збереження в Таблиці потрібно спочатку налаштувати для цього розгортання.',
+    notifOnBanner:'🔔 Сповіщення увімкнено. Тримайте цю вкладку відкритою, щоб отримати нагадування за 10 хвилин до кожного пункту.',
+    notifOffBanner:'Щоб отримувати нагадування перед початком планів, тримайте цю вкладку відкритою і дозвольте сповіщення.', enableNotifBtn:'Увімкнути сповіщення',
+    boardNeedTrip:'Спочатку створіть подорож.', boardBefore:'До подорожі залишилось D-{diff} · {title}',
+    boardAfter:'Вашу подорож завершено. Сподіваємось, вона була чудовою.',
+    boardNoplan:'На сьогодні ({date}) планів немає. Додайте їх нижче.',
+    boardWaiting:'День подорожі — перед першим пунктом.', tagNow:'Зараз', tagNext:'Далі', todayDone:'На сьогодні все',
+    todaySuffix:' · Сьогодні', weekdaySuffix:'',
+    editTitle:'Редагувати', deleteTitleAttr:'Видалити', emptyDay:'На цей день ще немає планів.', addBlockBtn:'+ Додати пункт',
+    shareErrorTitle:'Не вдалося завантажити спільний план',
+    shareErrorMsg:'Не вдалося завантажити план. Перевірте правильність посилання та налаштування API-ключа.',
+    shareEmptyTitle:'Планів поки немає',
+    shareEmptyMsg:'Коли автор подорожі додасть плани, вони з\'являться тут у реальному часі.',
+    shareModeBanner:'👀 Перегляд у реальному часі (лише читання) · Автооновлення приблизно кожні 30 секунд.',
+    shareLinkTitle:'Посилання для спільного доступу наживо',
+    shareLinkDesc:'Будь-хто з цим посиланням може переглядати план подорожі в реальному часі (лише читання) без входу в акаунт. Пов\'язана таблиця Google буде відкрита для "Будь-кого з посиланням — Читач".',
+    copyLinkBtn:'Копіювати посилання',
+    toastConnectFirst:'Спочатку підключіть Google і відкрийте подорож', toastShareNotConfigured:'Спільний перегляд ще не налаштовано (потрібен API-ключ)',
+    toastSharePermError:'Помилка під час налаштування прав доступу', toastCopied:'Скопійовано', toastStorageError:'Виникла проблема під час збереження',
+    toastRefreshing:'Оновлення…', toastRefreshed:'Оновлення завершено', toastNoTripData:'Дані цієї подорожі не знайдено',
+    toastFillNameDate:'Введіть коректну назву та дати', toastTripCreated:'Подорож створено',
+    toastFillTimeTitle:'Введіть час і назву', toastBlockDeleted:'Пункт видалено',
+    toastNoNotifSupport:'Цей браузер не підтримує сповіщення', toastNotifOn:'Сповіщення увімкнено. Тримайте цю вкладку відкритою.',
+    toastNoExportTrip:'Немає подорожі для експорту', toastTripDeleted:'Подорож видалено',
+    newTripTitle:'Нова подорож', tripNameLabel:'Назва подорожі', tripNamePlaceholder:'напр., Подорож до Саппоро й Отару',
+    startDateLabel:'Дата початку', endDateLabel:'Дата завершення', createBtn:'Створити',
+    editBlockTitle:'Редагувати пункт', addBlockTitle:'Додати пункт', startTimeLabel:'Час початку', endTimeLabel:'Час завершення (необов\'язково)',
+    todoLabel:'Що робити', todoPlaceholder:'напр., Прогулянка каналом Отару', locationLabel:'Місце (необов\'язково)', locationPlaceholder:'напр., Отару',
+    noteLabel:'Нотатка (необов\'язково)', notePlaceholder:'Що взяти, номер бронювання тощо.',
+    deleteBlockTitle:'Видалити цей пункт?', deleteBlockDesc:'«{title}» буде видалено. Це неможливо скасувати.',
+    deleteTripConfirmTitle:'Видалити цю подорож?', deleteTripConfirmDesc:'«{title}» та всі її пункти буде видалено. Це неможливо скасувати.',
+    morningTitle:'План на сьогодні · {date}', morningEditBtn:'Редагувати план', morningOkBtn:'Все добре, вирушаємо',
+    notifTitle:'Скоро початок', printNoPlan:'Немає планів', printExportedAt:'Експортовано', printDocTitleSuffix:' — план подорожі',
+  },
+  tr: {
+    appTitle:'Seyahat Panosu', appTagline:'Seyahat planınızı tarihe ve saate göre girin,<br>şu anda ne yapmanız gerektiğini canlı olarak görün.',
+    newTripBtn:'+ Yeni seyahat oluştur', newTripBtnShort:'+ Yeni seyahat', pastTripsBtn:'Geçmiş seyahatleri gör',
+    refreshBtn:'↻ Yenile', refreshTitle:'Yenile', deleteTripBtn:'Bu seyahati sil', deleteTripTitle_attr:'Mevcut seyahati sil',
+    exportPdfBtn:'PDF olarak dışa aktar', shareLinkBtn:'Grupla paylaş', pastTripsTitle:'Geçmiş seyahatler',
+    closeBtn:'Kapat', cancelBtn:'İptal', saveBtn:'Kaydet', addBtn:'Ekle', savingBtn:'Kaydediliyor…', deleteBtn:'Sil',
+    googleSavedBanner:'📊 Bu cihazda Google E-Tablolar\'a kaydediliyor.',
+    localSavedBanner:'💾 Yalnızca bu tarayıcıda kaydediliyor (cihazlar arasında senkronize olmaz). Senkronizasyon için Google\'a bağlanın.',
+    connectGoogleBtn:'Google\'a bağlan', setupInfoBtn:'Kurulum rehberine bak',
+    googleEnabledPrompt:'Sheets\'e otomatik kaydetmek ve diğer cihazlarda devam etmek için Google hesabınızı bağlayın.',
+    googleDisabledPrompt:'Sheets kaydı için önce bu dağıtımın kurulması gerekir.',
+    notifOnBanner:'🔔 Bildirimler açık. Her plandan 10 dakika önce uyarı almak için bu sekmeyi açık tutun.',
+    notifOffBanner:'Planlarınız başlamadan önce uyarı almak için bu sekmeyi açık tutun ve bildirimlere izin verin.', enableNotifBtn:'Bildirimleri aç',
+    boardNeedTrip:'Önce bir seyahat oluşturun.', boardBefore:'Seyahate D-{diff} kaldı · {title}',
+    boardAfter:'Seyahatiniz sona erdi. Umarız harika geçmiştir.',
+    boardNoplan:'Bugün ({date}) için plan yok. Aşağıya bir tane ekleyin.',
+    boardWaiting:'Seyahat günü — ilk plandan önce.', tagNow:'Şimdi', tagNext:'Sıradaki', todayDone:'Bugün için tamamlandı',
+    todaySuffix:' · Bugün', weekdaySuffix:'',
+    editTitle:'Düzenle', deleteTitleAttr:'Sil', emptyDay:'Bu gün için henüz plan yok.', addBlockBtn:'+ Plan ekle',
+    shareErrorTitle:'Paylaşılan program yüklenemedi',
+    shareErrorMsg:'Program yüklenemedi. Paylaşım bağlantısının doğru olduğunu ve API anahtarının ayarlandığını kontrol edin.',
+    shareEmptyTitle:'Henüz plan yok',
+    shareEmptyMsg:'Seyahat sahibi plan eklediğinde burada gerçek zamanlı olarak görünecektir.',
+    shareModeBanner:'👀 Canlı paylaşılan görünüm (salt okunur) · Yaklaşık her 30 saniyede otomatik yenilenir.',
+    shareLinkTitle:'Canlı paylaşım bağlantısı',
+    shareLinkDesc:'Bu bağlantıya sahip herkes oturum açmadan canlı seyahat programını (salt okunur) görüntüleyebilir. Bağlı Google E-Tablosu "Bağlantıya sahip herkes - Görüntüleyici" olarak ayarlanacaktır.',
+    copyLinkBtn:'Bağlantıyı kopyala',
+    toastConnectFirst:'Önce Google\'a bağlanın ve bir seyahat açın', toastShareNotConfigured:'Paylaşılan görünüm henüz ayarlanmadı (API anahtarı gerekli)',
+    toastSharePermError:'Paylaşım izinleri ayarlanırken hata oluştu', toastCopied:'Kopyalandı', toastStorageError:'Kaydederken bir sorun oluştu',
+    toastRefreshing:'Yenileniyor…', toastRefreshed:'Yenileme tamamlandı', toastNoTripData:'Bu seyahat için veri bulunamadı',
+    toastFillNameDate:'Lütfen geçerli bir ad ve tarih girin', toastTripCreated:'Seyahat oluşturuldu',
+    toastFillTimeTitle:'Lütfen bir saat ve başlık girin', toastBlockDeleted:'Plan silindi',
+    toastNoNotifSupport:'Bu tarayıcı bildirimleri desteklemiyor', toastNotifOn:'Bildirimler açık. Bu sekmeyi açık tutun.',
+    toastNoExportTrip:'Dışa aktarılacak seyahat yok', toastTripDeleted:'Seyahat silindi',
+    newTripTitle:'Yeni seyahat', tripNameLabel:'Seyahat adı', tripNamePlaceholder:'örn. Sapporo ve Otaru gezisi',
+    startDateLabel:'Başlangıç tarihi', endDateLabel:'Bitiş tarihi', createBtn:'Oluştur',
+    editBlockTitle:'Planı düzenle', addBlockTitle:'Plan ekle', startTimeLabel:'Başlangıç saati', endTimeLabel:'Bitiş saati (isteğe bağlı)',
+    todoLabel:'Ne yapılacak', todoPlaceholder:'örn. Otaru Kanalı boyunca yürüyüş', locationLabel:'Konum (isteğe bağlı)', locationPlaceholder:'örn. Otaru',
+    noteLabel:'Not (isteğe bağlı)', notePlaceholder:'Getirilecek eşyalar, rezervasyon numarası vb.',
+    deleteBlockTitle:'Bu plan silinsin mi?', deleteBlockDesc:'"{title}" silinecek. Bu işlem geri alınamaz.',
+    deleteTripConfirmTitle:'Bu seyahat silinsin mi?', deleteTripConfirmDesc:'"{title}" ve tüm planları silinecek. Bu işlem geri alınamaz.',
+    morningTitle:'Bugünün planı · {date}', morningEditBtn:'Planı düzenle', morningOkBtn:'Uygun, gidelim',
+    notifTitle:'Yakında başlıyor', printNoPlan:'Plan yok', printExportedAt:'Dışa aktarma zamanı', printDocTitleSuffix:' — seyahat planı',
+  },
+  vi: {
+    appTitle:'Bảng lịch trình du lịch', appTagline:'Nhập kế hoạch chuyến đi theo ngày và giờ,<br>xem trực tiếp bây giờ nên làm gì.',
+    newTripBtn:'+ Tạo chuyến đi mới', newTripBtnShort:'+ Chuyến đi mới', pastTripsBtn:'Xem các chuyến đi trước',
+    refreshBtn:'↻ Làm mới', refreshTitle:'Làm mới', deleteTripBtn:'Xóa chuyến đi này', deleteTripTitle_attr:'Xóa chuyến đi hiện tại',
+    exportPdfBtn:'Xuất PDF', shareLinkBtn:'Chia sẻ với nhóm', pastTripsTitle:'Các chuyến đi trước',
+    closeBtn:'Đóng', cancelBtn:'Hủy', saveBtn:'Lưu', addBtn:'Thêm', savingBtn:'Đang lưu…', deleteBtn:'Xóa',
+    googleSavedBanner:'📊 Đang lưu vào Google Sheets trên thiết bị này.',
+    localSavedBanner:'💾 Chỉ lưu trên trình duyệt này (không đồng bộ giữa các thiết bị). Kết nối Google để đồng bộ.',
+    connectGoogleBtn:'Kết nối Google', setupInfoBtn:'Xem hướng dẫn cài đặt',
+    googleEnabledPrompt:'Kết nối tài khoản Google để tự động lưu vào Sheets của bạn và tiếp tục trên các thiết bị khác.',
+    googleDisabledPrompt:'Cần thiết lập lưu Sheets trước cho bản triển khai này.',
+    notifOnBanner:'🔔 Thông báo đang bật. Giữ tab này mở để nhận nhắc nhở trước mỗi mục 10 phút.',
+    notifOffBanner:'Để nhận nhắc nhở trước khi kế hoạch bắt đầu, hãy giữ tab này mở và cho phép thông báo.', enableNotifBtn:'Bật thông báo',
+    boardNeedTrip:'Hãy tạo một chuyến đi trước.', boardBefore:'Còn D-{diff} nữa đến chuyến đi · {title}',
+    boardAfter:'Chuyến đi của bạn đã kết thúc. Hy vọng đó là một chuyến đi tuyệt vời.',
+    boardNoplan:'Hôm nay ({date}) chưa có kế hoạch. Thêm một mục bên dưới.',
+    boardWaiting:'Ngày khởi hành — trước mục đầu tiên.', tagNow:'Bây giờ', tagNext:'Tiếp theo', todayDone:'Đã xong hôm nay',
+    todaySuffix:' · Hôm nay', weekdaySuffix:'',
+    editTitle:'Sửa', deleteTitleAttr:'Xóa', emptyDay:'Chưa có kế hoạch cho ngày này.', addBlockBtn:'+ Thêm mục',
+    shareErrorTitle:'Không thể tải lịch trình chia sẻ',
+    shareErrorMsg:'Không tải được lịch trình. Kiểm tra liên kết chia sẻ có đúng và khóa API đã được thiết lập chưa.',
+    shareEmptyTitle:'Chưa có kế hoạch nào',
+    shareEmptyMsg:'Khi người tạo chuyến đi thêm kế hoạch, chúng sẽ hiện ở đây theo thời gian thực.',
+    shareModeBanner:'👀 Xem chia sẻ trực tiếp (chỉ đọc) · Tự động làm mới khoảng mỗi 30 giây.',
+    shareLinkTitle:'Liên kết chia sẻ trực tiếp',
+    shareLinkDesc:'Bất kỳ ai có liên kết này đều có thể xem lịch trình chuyến đi trực tiếp (chỉ đọc) mà không cần đăng nhập. Google Sheet liên kết sẽ được đặt thành "Bất kỳ ai có liên kết - Người xem".',
+    copyLinkBtn:'Sao chép liên kết',
+    toastConnectFirst:'Hãy kết nối Google trước và mở một chuyến đi', toastShareNotConfigured:'Chế độ xem chia sẻ chưa được thiết lập (cần khóa API)',
+    toastSharePermError:'Lỗi khi thiết lập quyền chia sẻ', toastCopied:'Đã sao chép', toastStorageError:'Đã xảy ra sự cố khi lưu',
+    toastRefreshing:'Đang làm mới…', toastRefreshed:'Đã làm mới xong', toastNoTripData:'Không tìm thấy dữ liệu của chuyến đi này',
+    toastFillNameDate:'Vui lòng nhập tên và ngày hợp lệ', toastTripCreated:'Đã tạo chuyến đi',
+    toastFillTimeTitle:'Vui lòng nhập giờ và tiêu đề', toastBlockDeleted:'Đã xóa mục',
+    toastNoNotifSupport:'Trình duyệt này không hỗ trợ thông báo', toastNotifOn:'Thông báo đã bật. Giữ tab này mở.',
+    toastNoExportTrip:'Không có chuyến đi để xuất', toastTripDeleted:'Đã xóa chuyến đi',
+    newTripTitle:'Chuyến đi mới', tripNameLabel:'Tên chuyến đi', tripNamePlaceholder:'vd: Chuyến đi Sapporo & Otaru',
+    startDateLabel:'Ngày bắt đầu', endDateLabel:'Ngày kết thúc', createBtn:'Tạo',
+    editBlockTitle:'Sửa mục', addBlockTitle:'Thêm mục', startTimeLabel:'Giờ bắt đầu', endTimeLabel:'Giờ kết thúc (tùy chọn)',
+    todoLabel:'Việc cần làm', todoPlaceholder:'vd: Dạo bộ dọc kênh đào Otaru', locationLabel:'Địa điểm (tùy chọn)', locationPlaceholder:'vd: Otaru',
+    noteLabel:'Ghi chú (tùy chọn)', notePlaceholder:'Đồ cần mang, mã đặt chỗ, v.v.',
+    deleteBlockTitle:'Xóa mục này?', deleteBlockDesc:'"{title}" sẽ bị xóa. Không thể hoàn tác.',
+    deleteTripConfirmTitle:'Xóa chuyến đi này?', deleteTripConfirmDesc:'"{title}" và tất cả các mục trong đó sẽ bị xóa. Không thể hoàn tác.',
+    morningTitle:'Kế hoạch hôm nay · {date}', morningEditBtn:'Sửa kế hoạch', morningOkBtn:'Ổn rồi, đi thôi',
+    notifTitle:'Sắp bắt đầu', printNoPlan:'Không có kế hoạch', printExportedAt:'Đã xuất lúc', printDocTitleSuffix:' — lịch trình chuyến đi',
+  },
+  id: {
+    appTitle:'Papan Perjalanan', appTagline:'Masukkan rencana perjalanan berdasarkan tanggal dan waktu,<br>lihat secara langsung apa yang harus dilakukan sekarang.',
+    newTripBtn:'+ Buat perjalanan baru', newTripBtnShort:'+ Perjalanan baru', pastTripsBtn:'Lihat perjalanan sebelumnya',
+    refreshBtn:'↻ Segarkan', refreshTitle:'Segarkan', deleteTripBtn:'Hapus perjalanan ini', deleteTripTitle_attr:'Hapus perjalanan saat ini',
+    exportPdfBtn:'Ekspor sebagai PDF', shareLinkBtn:'Bagikan dengan grup', pastTripsTitle:'Perjalanan sebelumnya',
+    closeBtn:'Tutup', cancelBtn:'Batal', saveBtn:'Simpan', addBtn:'Tambah', savingBtn:'Menyimpan…', deleteBtn:'Hapus',
+    googleSavedBanner:'📊 Disimpan ke Google Sheets Anda di perangkat ini.',
+    localSavedBanner:'💾 Hanya disimpan di browser ini (tidak disinkronkan antar perangkat). Hubungkan Google untuk sinkronisasi.',
+    connectGoogleBtn:'Hubungkan Google', setupInfoBtn:'Lihat panduan penyiapan',
+    googleEnabledPrompt:'Hubungkan akun Google Anda untuk menyimpan otomatis ke Sheets dan melanjutkan di perangkat lain.',
+    googleDisabledPrompt:'Penyimpanan Sheets perlu disiapkan terlebih dahulu untuk penerapan ini.',
+    notifOnBanner:'🔔 Notifikasi aktif. Biarkan tab ini terbuka untuk mendapat peringatan 10 menit sebelum setiap acara.',
+    notifOffBanner:'Untuk mendapat peringatan sebelum rencana dimulai, biarkan tab ini terbuka dan izinkan notifikasi.', enableNotifBtn:'Aktifkan notifikasi',
+    boardNeedTrip:'Buat perjalanan terlebih dahulu.', boardBefore:'D-{diff} lagi menuju perjalanan Anda · {title}',
+    boardAfter:'Perjalanan Anda telah berakhir. Semoga menyenangkan.',
+    boardNoplan:'Tidak ada rencana untuk hari ini ({date}). Tambahkan di bawah.',
+    boardWaiting:'Hari keberangkatan — sebelum acara pertama.', tagNow:'Sekarang', tagNext:'Berikutnya', todayDone:'Selesai untuk hari ini',
+    todaySuffix:' · Hari ini', weekdaySuffix:'',
+    editTitle:'Ubah', deleteTitleAttr:'Hapus', emptyDay:'Belum ada rencana untuk hari ini.', addBlockBtn:'+ Tambah acara',
+    shareErrorTitle:'Tidak dapat memuat jadwal yang dibagikan',
+    shareErrorMsg:'Gagal memuat jadwal. Periksa apakah tautan berbagi benar dan kunci API sudah disiapkan.',
+    shareEmptyTitle:'Belum ada rencana',
+    shareEmptyMsg:'Setelah pembuat perjalanan menambahkan rencana, akan muncul di sini secara langsung.',
+    shareModeBanner:'👀 Tampilan berbagi langsung (hanya baca) · Menyegarkan otomatis sekitar setiap 30 detik.',
+    shareLinkTitle:'Tautan berbagi langsung',
+    shareLinkDesc:'Siapa pun dengan tautan ini dapat melihat jadwal perjalanan langsung (hanya baca) tanpa masuk. Google Sheet terkait akan diatur ke "Siapa pun dengan tautan - Pelihat".',
+    copyLinkBtn:'Salin tautan',
+    toastConnectFirst:'Hubungkan Google terlebih dahulu dan buka perjalanan', toastShareNotConfigured:'Tampilan berbagi belum disiapkan (perlu kunci API)',
+    toastSharePermError:'Terjadi kesalahan saat mengatur izin berbagi', toastCopied:'Disalin', toastStorageError:'Terjadi masalah saat menyimpan',
+    toastRefreshing:'Menyegarkan…', toastRefreshed:'Penyegaran selesai', toastNoTripData:'Data perjalanan ini tidak ditemukan',
+    toastFillNameDate:'Masukkan nama dan tanggal yang valid', toastTripCreated:'Perjalanan dibuat',
+    toastFillTimeTitle:'Masukkan waktu dan judul', toastBlockDeleted:'Acara dihapus',
+    toastNoNotifSupport:'Browser ini tidak mendukung notifikasi', toastNotifOn:'Notifikasi aktif. Biarkan tab ini terbuka.',
+    toastNoExportTrip:'Tidak ada perjalanan untuk diekspor', toastTripDeleted:'Perjalanan dihapus',
+    newTripTitle:'Perjalanan baru', tripNameLabel:'Nama perjalanan', tripNamePlaceholder:'mis. Perjalanan Sapporo & Otaru',
+    startDateLabel:'Tanggal mulai', endDateLabel:'Tanggal selesai', createBtn:'Buat',
+    editBlockTitle:'Ubah acara', addBlockTitle:'Tambah acara', startTimeLabel:'Waktu mulai', endTimeLabel:'Waktu selesai (opsional)',
+    todoLabel:'Kegiatan', todoPlaceholder:'mis. Jalan-jalan di Kanal Otaru', locationLabel:'Lokasi (opsional)', locationPlaceholder:'mis. Otaru',
+    noteLabel:'Catatan (opsional)', notePlaceholder:'Barang bawaan, nomor reservasi, dll.',
+    deleteBlockTitle:'Hapus acara ini?', deleteBlockDesc:'"{title}" akan dihapus. Tindakan ini tidak dapat dibatalkan.',
+    deleteTripConfirmTitle:'Hapus perjalanan ini?', deleteTripConfirmDesc:'"{title}" beserta semua acaranya akan dihapus. Tindakan ini tidak dapat dibatalkan.',
+    morningTitle:'Rencana hari ini · {date}', morningEditBtn:'Ubah rencana', morningOkBtn:'Siap, ayo berangkat',
+    notifTitle:'Akan segera dimulai', printNoPlan:'Tidak ada rencana', printExportedAt:'Diekspor pada', printDocTitleSuffix:' — jadwal perjalanan',
+  },
+  th: {
+    appTitle:'บอร์ดแสดงการเดินทาง', appTagline:'ป้อนแผนการเดินทางตามวันที่และเวลา<br>แล้วดูแบบเรียลไทม์ว่าตอนนี้ควรทำอะไร',
+    newTripBtn:'+ สร้างทริปใหม่', newTripBtnShort:'+ ทริปใหม่', pastTripsBtn:'ดูทริปที่ผ่านมา',
+    refreshBtn:'↻ รีเฟรช', refreshTitle:'รีเฟรช', deleteTripBtn:'ลบทริปนี้', deleteTripTitle_attr:'ลบทริปปัจจุบัน',
+    exportPdfBtn:'ส่งออกเป็น PDF', shareLinkBtn:'แชร์กับกลุ่ม', pastTripsTitle:'ทริปที่ผ่านมา',
+    closeBtn:'ปิด', cancelBtn:'ยกเลิก', saveBtn:'บันทึก', addBtn:'เพิ่ม', savingBtn:'กำลังบันทึก…', deleteBtn:'ลบ',
+    googleSavedBanner:'📊 กำลังบันทึกลง Google ชีตของอุปกรณ์นี้',
+    localSavedBanner:'💾 บันทึกไว้ในเบราว์เซอร์นี้เท่านั้น (ไม่ซิงค์ข้ามอุปกรณ์) เชื่อมต่อ Google เพื่อซิงค์ข้ามอุปกรณ์',
+    connectGoogleBtn:'เชื่อมต่อ Google', setupInfoBtn:'ดูวิธีตั้งค่า',
+    googleEnabledPrompt:'เชื่อมต่อบัญชี Google เพื่อบันทึกอัตโนมัติลงชีตของคุณและใช้ต่อบนอุปกรณ์อื่นได้',
+    googleDisabledPrompt:'ต้องตั้งค่าการบันทึกชีตก่อนสำหรับการติดตั้งนี้',
+    notifOnBanner:'🔔 เปิดการแจ้งเตือนอยู่ เปิดแท็บนี้ค้างไว้เพื่อรับการแจ้งเตือนก่อนแต่ละกิจกรรม 10 นาที',
+    notifOffBanner:'หากต้องการรับการแจ้งเตือนก่อนแผนเริ่มต้น ให้เปิดแท็บนี้ค้างไว้และอนุญาตการแจ้งเตือน', enableNotifBtn:'เปิดการแจ้งเตือน',
+    boardNeedTrip:'กรุณาสร้างทริปก่อน', boardBefore:'อีก D-{diff} วันจะถึงทริปของคุณ · {title}',
+    boardAfter:'ทริปของคุณสิ้นสุดแล้ว หวังว่าจะเป็นความทรงจำที่ดี',
+    boardNoplan:'วันนี้ ({date}) ยังไม่มีแผน เพิ่มด้านล่างได้เลย',
+    boardWaiting:'วันเดินทาง — ก่อนกิจกรรมแรก', tagNow:'ตอนนี้', tagNext:'ถัดไป', todayDone:'จบกิจกรรมวันนี้แล้ว',
+    todaySuffix:' · วันนี้', weekdaySuffix:'',
+    editTitle:'แก้ไข', deleteTitleAttr:'ลบ', emptyDay:'ยังไม่มีแผนสำหรับวันนี้', addBlockBtn:'+ เพิ่มกิจกรรม',
+    shareErrorTitle:'ไม่สามารถโหลดตารางที่แชร์ได้',
+    shareErrorMsg:'โหลดตารางไม่สำเร็จ กรุณาตรวจสอบว่าลิงก์แชร์ถูกต้องและตั้งค่า API key แล้ว',
+    shareEmptyTitle:'ยังไม่มีแผนการเดินทาง',
+    shareEmptyMsg:'เมื่อเจ้าของทริปเพิ่มแผนแล้ว จะแสดงที่นี่แบบเรียลไทม์',
+    shareModeBanner:'👀 มุมมองแชร์แบบเรียลไทม์ (อ่านอย่างเดียว) · รีเฟรชอัตโนมัติทุกประมาณ 30 วินาที',
+    shareLinkTitle:'ลิงก์แชร์แบบเรียลไทม์',
+    shareLinkDesc:'ใครก็ตามที่มีลิงก์นี้สามารถดูตารางทริปแบบเรียลไทม์ (อ่านอย่างเดียว) ได้โดยไม่ต้องเข้าสู่ระบบ Google ชีตที่เชื่อมโยงจะถูกตั้งค่าเป็น "ทุกคนที่มีลิงก์ - ผู้ดู"',
+    copyLinkBtn:'คัดลอกลิงก์',
+    toastConnectFirst:'กรุณาเชื่อมต่อ Google ก่อนแล้วเปิดทริป', toastShareNotConfigured:'ยังไม่ได้ตั้งค่ามุมมองแชร์ (ต้องใช้ API key)',
+    toastSharePermError:'เกิดข้อผิดพลาดขณะตั้งค่าสิทธิ์การแชร์', toastCopied:'คัดลอกแล้ว', toastStorageError:'เกิดปัญหาขณะบันทึก',
+    toastRefreshing:'กำลังรีเฟรช…', toastRefreshed:'รีเฟรชเสร็จสิ้น', toastNoTripData:'ไม่พบข้อมูลของทริปนี้',
+    toastFillNameDate:'กรุณากรอกชื่อและวันที่ให้ถูกต้อง', toastTripCreated:'สร้างทริปแล้ว',
+    toastFillTimeTitle:'กรุณากรอกเวลาและชื่อกิจกรรม', toastBlockDeleted:'ลบกิจกรรมแล้ว',
+    toastNoNotifSupport:'เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน', toastNotifOn:'เปิดการแจ้งเตือนแล้ว กรุณาเปิดแท็บนี้ค้างไว้',
+    toastNoExportTrip:'ไม่มีทริปให้ส่งออก', toastTripDeleted:'ลบทริปแล้ว',
+    newTripTitle:'ทริปใหม่', tripNameLabel:'ชื่อทริป', tripNamePlaceholder:'เช่น ทริปซัปโปโร & โอตารุ',
+    startDateLabel:'วันที่เริ่มต้น', endDateLabel:'วันที่สิ้นสุด', createBtn:'สร้าง',
+    editBlockTitle:'แก้ไขกิจกรรม', addBlockTitle:'เพิ่มกิจกรรม', startTimeLabel:'เวลาเริ่มต้น', endTimeLabel:'เวลาสิ้นสุด (ไม่บังคับ)',
+    todoLabel:'กิจกรรม', todoPlaceholder:'เช่น เดินเล่นริมคลองโอตารุ', locationLabel:'สถานที่ (ไม่บังคับ)', locationPlaceholder:'เช่น โอตารุ',
+    noteLabel:'บันทึกช่วยจำ (ไม่บังคับ)', notePlaceholder:'ของที่ต้องเตรียม, หมายเลขจอง ฯลฯ',
+    deleteBlockTitle:'ต้องการลบกิจกรรมนี้หรือไม่?', deleteBlockDesc:'"{title}" จะถูกลบ ไม่สามารถย้อนกลับได้',
+    deleteTripConfirmTitle:'ต้องการลบทริปนี้หรือไม่?', deleteTripConfirmDesc:'"{title}" และกิจกรรมทั้งหมดในทริปนี้จะถูกลบ ไม่สามารถย้อนกลับได้',
+    morningTitle:'แผนวันนี้ · {date}', morningEditBtn:'แก้ไขแผน', morningOkBtn:'โอเค ไปกันเลย',
+    notifTitle:'กำลังจะเริ่ม', printNoPlan:'ไม่มีแผน', printExportedAt:'ส่งออกเมื่อ', printDocTitleSuffix:' — กำหนดการเดินทาง',
+  },
+  hi: {
+    appTitle:'यात्रा बोर्ड', appTagline:'तारीख और समय के अनुसार अपनी यात्रा योजना दर्ज करें,<br>और लाइव देखें कि अभी क्या करना है।',
+    newTripBtn:'+ नई यात्रा बनाएं', newTripBtnShort:'+ नई यात्रा', pastTripsBtn:'पिछली यात्राएं देखें',
+    refreshBtn:'↻ रीफ्रेश करें', refreshTitle:'रीफ्रेश करें', deleteTripBtn:'यह यात्रा हटाएं', deleteTripTitle_attr:'वर्तमान यात्रा हटाएं',
+    exportPdfBtn:'PDF के रूप में निर्यात करें', shareLinkBtn:'समूह के साथ साझा करें', pastTripsTitle:'पिछली यात्राएं',
+    closeBtn:'बंद करें', cancelBtn:'रद्द करें', saveBtn:'सहेजें', addBtn:'जोड़ें', savingBtn:'सहेजा जा रहा है…', deleteBtn:'हटाएं',
+    googleSavedBanner:'📊 इस डिवाइस पर आपके Google Sheets में सहेजा जा रहा है।',
+    localSavedBanner:'💾 केवल इस ब्राउज़र में सहेजा गया है (डिवाइसों के बीच सिंक नहीं होगा)। सिंक के लिए Google कनेक्ट करें।',
+    connectGoogleBtn:'Google कनेक्ट करें', setupInfoBtn:'सेटअप गाइड देखें',
+    googleEnabledPrompt:'अपने Sheets में स्वतः सहेजने और अन्य डिवाइसों पर जारी रखने के लिए अपना Google खाता कनेक्ट करें।',
+    googleDisabledPrompt:'इस डिप्लॉयमेंट के लिए पहले Sheets सेव सेटअप करना होगा।',
+    notifOnBanner:'🔔 सूचनाएं चालू हैं। हर योजना से 10 मिनट पहले अलर्ट पाने के लिए इस टैब को खुला रखें।',
+    notifOffBanner:'अपनी योजनाएं शुरू होने से पहले अलर्ट पाने के लिए, इस टैब को खुला रखें और सूचनाओं की अनुमति दें।', enableNotifBtn:'सूचनाएं चालू करें',
+    boardNeedTrip:'पहले एक यात्रा बनाएं।', boardBefore:'आपकी यात्रा में D-{diff} दिन बाकी · {title}',
+    boardAfter:'आपकी यात्रा समाप्त हो गई है। आशा है यह शानदार रही होगी।',
+    boardNoplan:'आज ({date}) के लिए कोई योजना नहीं है। नीचे एक जोड़ें।',
+    boardWaiting:'यात्रा का दिन — पहली योजना से पहले।', tagNow:'अभी', tagNext:'आगे', todayDone:'आज के लिए समाप्त',
+    todaySuffix:' · आज', weekdaySuffix:'',
+    editTitle:'संपादित करें', deleteTitleAttr:'हटाएं', emptyDay:'इस दिन के लिए अभी तक कोई योजना नहीं है।', addBlockBtn:'+ योजना जोड़ें',
+    shareErrorTitle:'साझा किया गया कार्यक्रम लोड नहीं हो सका',
+    shareErrorMsg:'कार्यक्रम लोड करने में विफल। जांचें कि साझा लिंक सही है और API कुंजी सेट है।',
+    shareEmptyTitle:'अभी तक कोई योजना नहीं है',
+    shareEmptyMsg:'जब यात्रा निर्माता योजनाएं जोड़ेगा, तो वे यहां वास्तविक समय में दिखेंगी।',
+    shareModeBanner:'👀 लाइव साझा दृश्य (केवल पढ़ने योग्य) · लगभग हर 30 सेकंड में स्वतः रीफ्रेश होता है।',
+    shareLinkTitle:'लाइव साझाकरण लिंक',
+    shareLinkDesc:'इस लिंक वाला कोई भी व्यक्ति बिना लॉग इन किए लाइव यात्रा कार्यक्रम (केवल पढ़ने योग्य) देख सकता है। इससे जुड़ी Google शीट को "लिंक वाला कोई भी - दर्शक" पर सेट किया जाएगा।',
+    copyLinkBtn:'लिंक कॉपी करें',
+    toastConnectFirst:'पहले Google कनेक्ट करें और एक यात्रा खोलें', toastShareNotConfigured:'साझा दृश्य अभी सेट नहीं हुआ है (API कुंजी आवश्यक)',
+    toastSharePermError:'साझाकरण अनुमतियां सेट करते समय त्रुटि हुई', toastCopied:'कॉपी हो गया', toastStorageError:'सहेजते समय समस्या हुई',
+    toastRefreshing:'रीफ्रेश हो रहा है…', toastRefreshed:'रीफ्रेश पूर्ण', toastNoTripData:'इस यात्रा का डेटा नहीं मिला',
+    toastFillNameDate:'कृपया मान्य नाम और तारीखें दर्ज करें', toastTripCreated:'यात्रा बनाई गई',
+    toastFillTimeTitle:'कृपया समय और शीर्षक दर्ज करें', toastBlockDeleted:'योजना हटाई गई',
+    toastNoNotifSupport:'यह ब्राउज़र सूचनाओं का समर्थन नहीं करता', toastNotifOn:'सूचनाएं चालू हैं। इस टैब को खुला रखें।',
+    toastNoExportTrip:'निर्यात के लिए कोई यात्रा नहीं है', toastTripDeleted:'यात्रा हटाई गई',
+    newTripTitle:'नई यात्रा', tripNameLabel:'यात्रा का नाम', tripNamePlaceholder:'उदा. सप्पोरो और ओटारू यात्रा',
+    startDateLabel:'आरंभ तिथि', endDateLabel:'समाप्ति तिथि', createBtn:'बनाएं',
+    editBlockTitle:'योजना संपादित करें', addBlockTitle:'योजना जोड़ें', startTimeLabel:'आरंभ समय', endTimeLabel:'समाप्ति समय (वैकल्पिक)',
+    todoLabel:'क्या करना है', todoPlaceholder:'उदा. ओटारू नहर के किनारे टहलना', locationLabel:'स्थान (वैकल्पिक)', locationPlaceholder:'उदा. ओटारू',
+    noteLabel:'नोट (वैकल्पिक)', notePlaceholder:'साथ ले जाने की चीज़ें, बुकिंग नंबर, आदि।',
+    deleteBlockTitle:'क्या इस योजना को हटाएं?', deleteBlockDesc:'"{title}" हटा दी जाएगी। इसे पूर्ववत नहीं किया जा सकता।',
+    deleteTripConfirmTitle:'क्या इस यात्रा को हटाएं?', deleteTripConfirmDesc:'"{title}" और इसकी सभी योजनाएं हटा दी जाएंगी। इसे पूर्ववत नहीं किया जा सकता।',
+    morningTitle:'आज की योजना · {date}', morningEditBtn:'योजना संपादित करें', morningOkBtn:'ठीक है, चलते हैं',
+    notifTitle:'जल्द शुरू होगा', printNoPlan:'कोई योजना नहीं', printExportedAt:'निर्यात किया गया', printDocTitleSuffix:' — यात्रा कार्यक्रम',
+  },
+};
+let LANG = (function(){
+  try{ const saved = localStorage.getItem('trip_lang'); if(saved && I18N[saved]) return saved; }catch(e){}
+  const nav = ((navigator.language||'ko')).toLowerCase();
+  const short = nav.split('-')[0];
+  if(I18N[short]) return short;
+  if(nav.startsWith('zh')) return 'zh';
+  if(nav.startsWith('pt')) return 'pt';
+  return 'ko';
+})();
+function isRtl(l){ const m = LANG_META.find(x=>x.code===(l||LANG)); return !!(m && m.rtl); }
+function t(key, vars){
+  let s = (I18N[LANG] && I18N[LANG][key]!==undefined) ? I18N[LANG][key] : (I18N.ko[key]!==undefined ? I18N.ko[key] : key);
+  if(vars) Object.keys(vars).forEach(k=>{ s = s.replace('{'+k+'}', vars[k]); });
+  return s;
+}
+function setLang(l){
+  if(!I18N[l] || l===LANG){ return; }
+  LANG = l;
+  try{ localStorage.setItem('trip_lang', l); }catch(e){}
+  document.documentElement.lang = l;
+  document.documentElement.dir = isRtl(l) ? 'rtl' : 'ltr';
+  document.title = t('appTitle');
+  if(state.shareMode) renderShareView(); else render();
+}
+function langSwitcherHtml(){
+  return `<select class="lang-select" id="langSelect">${LANG_META.map(m=>
+    `<option value="${m.code}" ${m.code===LANG?'selected':''}>${m.name}</option>`
+  ).join('')}</select>`;
+}
+function bindLangSwitcher(root){
+  const sel = (root||document).querySelector('#langSelect');
+  if(sel) sel.onchange = ()=>setLang(sel.value);
+}
 
 let state = {
   trips: [],        // [{id,title,startDate,endDate}]
@@ -377,10 +1343,10 @@ async function syncTripSheetTab(tripId, trip){
       const dt = new Date(d+'T00:00:00');
       const blocks = (trip.days[d]||[]).slice().sort((a,b)=>a.time.localeCompare(b.time));
       if(!blocks.length){
-        rows.push([d, dayLabel[dt.getDay()]+'요일', '', '', '(일정 없음)', '', '']);
+        rows.push([d, dayLabel()[dt.getDay()]+'요일', '', '', '(일정 없음)', '', '']);
       } else {
         blocks.forEach(b=>{
-          rows.push([d, dayLabel[dt.getDay()]+'요일', b.time, b.endTime||'', b.title, b.location||'', b.note||'']);
+          rows.push([d, dayLabel()[dt.getDay()]+'요일', b.time, b.endTime||'', b.title, b.location||'', b.note||'']);
         });
       }
     });
@@ -446,17 +1412,17 @@ function openGoogleSetupInfo(){
 }
 function renderGoogleStatus(){
   if(googleSignedIn){
-    return `<div class="notif-banner"><span>📊 이 기기의 Google Sheets에 저장되고 있어요.</span></div>`;
+    return `<div class="notif-banner"><span>${t('googleSavedBanner')}</span></div>`;
   }
   if(localStorageAvailable()){
     return `<div class="notif-banner">
-      <span>💾 이 브라우저에 저장되고 있어요(다른 기기와는 동기화 안 돼요). Google에 연결하면 기기 간 동기화도 가능해요.</span>
-      <button class="btn btn-sm btn-ghost" id="googleConnectBtn">${GOOGLE_ENABLED?'Google 연결':'설정 방법 보기'}</button>
+      <span>${t('localSavedBanner')}</span>
+      <button class="btn btn-sm btn-ghost" id="googleConnectBtn">${GOOGLE_ENABLED?t('connectGoogleBtn'):t('setupInfoBtn')}</button>
     </div>`;
   }
   return `<div class="notif-banner">
-    <span>${GOOGLE_ENABLED?'Google 계정에 연결하면 내 Sheets에 자동 저장되고, 다른 기기에서도 이어볼 수 있어요.':'GitHub 배포판에서 Sheets 저장을 쓰려면 먼저 설정이 필요해요.'}</span>
-    <button class="btn btn-sm btn-ghost" id="googleConnectBtn">${GOOGLE_ENABLED?'Google 연결':'설정 방법 보기'}</button>
+    <span>${GOOGLE_ENABLED?t('googleEnabledPrompt'):t('googleDisabledPrompt')}</span>
+    <button class="btn btn-sm btn-ghost" id="googleConnectBtn">${GOOGLE_ENABLED?t('connectGoogleBtn'):t('setupInfoBtn')}</button>
   </div>`;
 }
 function showToast(msg){
@@ -489,7 +1455,7 @@ async function safeSet(key,val){
     if(window.storage){ await window.storage.set(key, JSON.stringify(val), false); return; }
     if(ls_trySet('tripdata:'+key, JSON.stringify(val))) return;
     memoryStore[key]=val;
-  }catch(e){ console.error('storage set failed', e); showToast('저장 중 문제가 발생했어요'); }
+  }catch(e){ console.error('storage set failed', e); showToast(t('toastStorageError')); }
 }
 
 function dateRange(start,end){
@@ -500,10 +1466,10 @@ function dateRange(start,end){
 function uid(){ return Math.random().toString(36).slice(2,9); }
 
 async function refreshData(){
-  showToast('새로고침 중…');
+  showToast(t('toastRefreshing'));
   await loadState();
   render();
-  showToast('새로고침 완료');
+  showToast(t('toastRefreshed'));
 }
 
 async function loadState(){
@@ -557,16 +1523,18 @@ async function loadShareData(){
     state.shareError = null;
   }catch(e){
     console.error(e);
-    state.shareError = '일정을 불러오지 못했어요. 공유 링크가 올바른지, API 키 설정이 되어 있는지 확인해주세요.';
+    state.shareError = t('shareErrorMsg');
   }
 }
 function renderShareView(){
   if(state.shareError){
-    app.innerHTML = `<div class="setup-empty"><h2>공유 일정을 불러올 수 없어요</h2><p>${escapeHtml(state.shareError)}</p></div>`;
+    app.innerHTML = `<div class="setup-empty">${langSwitcherHtml()}<h2>${t('shareErrorTitle')}</h2><p>${escapeHtml(state.shareError)}</p></div>`;
+    bindLangSwitcher(app);
     return;
   }
   if(!state.trip){
-    app.innerHTML = `<div class="setup-empty"><h2>아직 등록된 일정이 없어요</h2><p>여행 작성자가 일정을 등록하면 여기에 실시간으로 표시됩니다.</p></div>`;
+    app.innerHTML = `<div class="setup-empty">${langSwitcherHtml()}<h2>${t('shareEmptyTitle')}</h2><p>${t('shareEmptyMsg')}</p></div>`;
+    bindLangSwitcher(app);
     return;
   }
   app.innerHTML = `
@@ -575,8 +1543,9 @@ function renderShareView(){
         <div class="trip-title">${escapeHtml(state.trip.title)}</div>
         <div class="trip-dates"><span class="mono">${state.trip.startDate}</span> → <span class="mono">${state.trip.endDate}</span></div>
       </div>
+      <div class="topbar-actions">${langSwitcherHtml()}</div>
     </div>
-    <div class="notif-banner"><span>👀 실시간 공유 보기(읽기 전용) · 약 30초마다 자동 새로고침돼요.</span></div>
+    <div class="notif-banner"><span>${t('shareModeBanner')}</span></div>
     ${renderBoard()}
     ${renderTabs()}
     ${renderTimeline()}
@@ -584,6 +1553,7 @@ function renderShareView(){
   document.querySelectorAll('.tabs .tab').forEach(el=>{
     el.onclick = ()=>{ state.selectedDate = el.dataset.date; renderShareView(); };
   });
+  bindLangSwitcher(app);
 }
 async function initShareView(spreadsheetId){
   state.shareMode = true;
@@ -594,16 +1564,16 @@ async function initShareView(spreadsheetId){
   setInterval(async ()=>{ await loadShareData(); renderShareView(); }, 30000);
 }
 async function createShareLink(){
-  if(!googleSignedIn || !state.trip){ showToast('먼저 Google에 연결하고 여행을 열어주세요'); return; }
+  if(!googleSignedIn || !state.trip){ showToast(t('toastConnectFirst')); return; }
   if(!GOOGLE_API_KEY || GOOGLE_API_KEY.indexOf('REPLACE')!==-1){
-    showToast('공유 보기 기능이 아직 설정되지 않았어요(API 키 필요)');
+    showToast(t('toastShareNotConfigured'));
     return;
   }
   try{
     await gApi(`https://www.googleapis.com/drive/v3/files/${spreadsheetId}/permissions`, {
       method:'POST', body: JSON.stringify({role:'reader', type:'anyone'})
     });
-  }catch(e){ console.error(e); showToast('공유 권한 설정 중 오류가 발생했어요'); return; }
+  }catch(e){ console.error(e); showToast(t('toastSharePermError')); return; }
   const url = `${location.origin}${location.pathname}?share=${spreadsheetId}`;
   openShareLinkModal(url);
 }
@@ -611,12 +1581,12 @@ function openShareLinkModal(url){
   const overlay = document.createElement('div');
   overlay.className='overlay';
   overlay.innerHTML = `<div class="sheet">
-    <h3>실시간 공유 링크</h3>
-    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.7;">이 링크를 열면 로그인 없이 지금 여행 일정을 실시간(읽기 전용)으로 볼 수 있어요. 이 여행에 연결된 구글 시트가 "링크가 있는 모든 사용자 - 뷰어"로 공개됩니다.</p>
+    <h3>${t('shareLinkTitle')}</h3>
+    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.7;">${t('shareLinkDesc')}</p>
     <div class="field"><input id="share_url" value="${url}" readonly></div>
     <div class="sheet-actions">
-      <button class="btn btn-line" id="share_close">닫기</button>
-      <button class="btn btn-primary" id="share_copy">링크 복사</button>
+      <button class="btn btn-line" id="share_close">${t('closeBtn')}</button>
+      <button class="btn btn-primary" id="share_copy">${t('copyLinkBtn')}</button>
     </div>
   </div>`;
   document.body.appendChild(overlay);
@@ -625,7 +1595,7 @@ function openShareLinkModal(url){
   $('#share_copy').onclick = ()=>{
     const input = $('#share_url');
     input.select();
-    navigator.clipboard && navigator.clipboard.writeText(url).then(()=>showToast('복사됐어요')).catch(()=>{ document.execCommand('copy'); showToast('복사됐어요'); });
+    navigator.clipboard && navigator.clipboard.writeText(url).then(()=>showToast(t('toastCopied'))).catch(()=>{ document.execCommand('copy'); showToast(t('toastCopied')); });
   };
 }
 
@@ -681,36 +1651,37 @@ function renderBoard(){
   const info = currentActivityInfo();
   const now = new Date();
   const clock = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-  const dateStr = `${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())} (${dayLabel[now.getDay()]})`;
+  const dateStr = `${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())} (${dayLabel()[now.getDay()]})`;
 
   let body = '';
   if(!info){
-    body = `<div class="board-empty">여행을 먼저 만들어주세요.</div>`;
+    body = `<div class="board-empty">${t('boardNeedTrip')}</div>`;
   } else if(info.phase==='before'){
-    body = `<div class="board-empty">여행 시작까지 <span class="mono" style="color:var(--flap-amber)">D-${info.diff}</span> · ${state.trip.title}</div>`;
+    const beforeText = t('boardBefore').replace('D-{diff}', `<span class="mono" style="color:var(--flap-amber)">D-${info.diff}</span>`).replace('{title}', escapeHtml(state.trip.title));
+    body = `<div class="board-empty">${beforeText}</div>`;
   } else if(info.phase==='after'){
-    body = `<div class="board-empty">여행이 종료되었습니다. 좋은 기억 되셨길 바라요.</div>`;
+    body = `<div class="board-empty">${t('boardAfter')}</div>`;
   } else if(info.phase==='noplan'){
-    body = `<div class="board-empty">오늘(${info.date}) 등록된 일정이 없어요. 아래에서 추가해보세요.</div>`;
+    body = `<div class="board-empty">${t('boardNoplan',{date:info.date})}</div>`;
   } else if(info.phase==='waiting'){
-    body = `<div class="board-empty">여행 당일, 첫 일정 전이에요.</div>
+    body = `<div class="board-empty">${t('boardWaiting')}</div>
       <div class="board-rows"><div class="board-row">
-        <span class="board-tag">다음</span>
+        <span class="board-tag">${t('tagNext')}</span>
         <span class="board-time mono">${info.next.time}</span>
         <span class="board-activity">${escapeHtml(info.next.title)}${info.next.location?`<span class="board-loc">@ ${escapeHtml(info.next.location)}</span>`:''}</span>
       </div></div>`;
   } else if(info.phase==='active'){
     body = `<div class="board-rows">
       <div class="board-row now">
-        <span class="board-tag">지금</span>
+        <span class="board-tag">${t('tagNow')}</span>
         <span class="board-time mono">${info.current.time}${info.current.endTime?'–'+info.current.endTime:''}</span>
         <span class="board-activity">${escapeHtml(info.current.title)}${info.current.location?`<span class="board-loc">@ ${escapeHtml(info.current.location)}</span>`:''}</span>
       </div>
       ${info.next?`<div class="board-row">
-        <span class="board-tag">다음</span>
+        <span class="board-tag">${t('tagNext')}</span>
         <span class="board-time mono">${info.next.time}</span>
         <span class="board-activity">${escapeHtml(info.next.title)}${info.next.location?`<span class="board-loc">@ ${escapeHtml(info.next.location)}</span>`:''}</span>
-      </div>`:`<div class="board-row"><span class="board-tag">다음</span><span class="board-activity" style="color:#7C8496">오늘 일정 끝</span></div>`}
+      </div>`:`<div class="board-row"><span class="board-tag">${t('tagNext')}</span><span class="board-activity" style="color:#7C8496">${t('todayDone')}</span></div>`}
     </div>`;
   }
 
@@ -753,7 +1724,7 @@ function renderTabs(){
     const isToday = d===todayStr;
     const active = d===state.selectedDate;
     return `<div class="tab ${active?'active':''} ${isToday?'today':''}" data-date="${d}">
-      <div class="tab-d">${dayLabel[dt.getDay()]}요일${isToday?' · 오늘':''}</div>
+      <div class="tab-d">${dayLabel()[dt.getDay()]}${t('weekdaySuffix')}${isToday?t('todaySuffix'):''}</div>
       <div class="tab-n mono">${pad(dt.getMonth()+1)}/${pad(dt.getDate())}</div>
     </div>`;
   }).join('')}</div>`;
@@ -771,20 +1742,20 @@ function renderTimeline(){
         ${b.note?`<div class="block-note">${linkifyNote(b.note)}</div>`:''}
       </div>
       ${state.shareMode?'':`<div class="block-actions">
-        <button class="icon-btn" data-edit="${b.id}" title="수정">✎</button>
-        <button class="icon-btn" data-del="${b.id}" title="삭제">✕</button>
+        <button class="icon-btn" data-edit="${b.id}" title="${t('editTitle')}">✎</button>
+        <button class="icon-btn" data-del="${b.id}" title="${t('deleteTitleAttr')}">✕</button>
       </div>`}
     </div>
-  `).join('') : `<div class="empty-day">이 날짜엔 아직 일정이 없어요.</div>`;
+  `).join('') : `<div class="empty-day">${t('emptyDay')}</div>`;
 
   return `<div class="timeline">${list}</div>
-    ${state.shareMode?'':`<button class="add-block-btn" id="addBlockBtn">+ 일정 추가</button>`}`;
+    ${state.shareMode?'':`<button class="add-block-btn" id="addBlockBtn">${t('addBlockBtn')}</button>`}`;
 }
 
 function renderNotifBanner(){
   if(state.notifPermission==='unsupported') return '';
-  if(state.notifPermission==='granted') return `<div class="notif-banner"><span>🔔 브라우저 알림이 켜져 있어요. 이 탭을 열어두면 일정 10분 전 알려드려요.</span></div>`;
-  return `<div class="notif-banner"><span>일정 시작 전에 알림을 받으려면 이 탭을 켜두고 알림을 허용해주세요.</span><button class="btn btn-sm btn-ghost" id="enableNotif">알림 켜기</button></div>`;
+  if(state.notifPermission==='granted') return `<div class="notif-banner"><span>${t('notifOnBanner')}</span></div>`;
+  return `<div class="notif-banner"><span>${t('notifOffBanner')}</span><button class="btn btn-sm btn-ghost" id="enableNotif">${t('enableNotifBtn')}</button></div>`;
 }
 
 function openPastTripsModal(){
@@ -792,14 +1763,14 @@ function openPastTripsModal(){
   overlay.className='overlay';
   const sorted = state.trips.slice().sort((a,b)=> b.startDate.localeCompare(a.startDate));
   overlay.innerHTML = `<div class="sheet">
-    <h3>지난 여행 목록</h3>
-    <div class="morning-list">${sorted.map(t=>`
-      <div class="morning-item" data-trip="${t.id}" style="cursor:pointer;justify-content:space-between;">
-        <span>${escapeHtml(t.title)}</span>
-        <span class="mono" style="font-size:11px;">${t.startDate} ~ ${t.endDate}</span>
+    <h3>${t('pastTripsTitle')}</h3>
+    <div class="morning-list">${sorted.map(tr=>`
+      <div class="morning-item" data-trip="${tr.id}" style="cursor:pointer;justify-content:space-between;">
+        <span>${escapeHtml(tr.title)}</span>
+        <span class="mono" style="font-size:11px;">${tr.startDate} ~ ${tr.endDate}</span>
       </div>
     `).join('')}</div>
-    <div class="sheet-actions"><button class="btn btn-line" id="pt_close">닫기</button></div>
+    <div class="sheet-actions"><button class="btn btn-line" id="pt_close">${t('closeBtn')}</button></div>
   </div>`;
   document.body.appendChild(overlay);
   $('#pt_close').onclick = ()=>overlay.remove();
@@ -808,7 +1779,7 @@ function openPastTripsModal(){
     el.onclick = async ()=>{
       const id = el.dataset.trip;
       const data = await safeGet('trip:'+id);
-      if(!data){ showToast('이 여행 데이터를 찾을 수 없어요'); return; }
+      if(!data){ showToast(t('toastNoTripData')); return; }
       state.activeTripId = id;
       state.trip = data;
       state.viewingPastTrip = true;
@@ -827,18 +1798,25 @@ function tripHasEnded(trip){
 function render(){
   if(!state.trip || (tripHasEnded(state.trip) && !state.viewingPastTrip)){
     app.innerHTML = `
+      <div class="topbar"><div></div><div class="topbar-actions">${langSwitcherHtml()}</div></div>
       ${renderGoogleStatus()}
       <div class="setup-empty">
-        <h2>여행 전광판</h2>
-        <p>날짜·시간별 여행 계획을 입력해두면,<br>지금 무엇을 하기로 했는지 실시간으로 보여드려요.</p>
-        <button class="btn btn-primary" id="newTripBtn">+ 새 여행 만들기</button>
-        ${state.trips.length?`<div style="margin-top:16px;"><button class="btn btn-line btn-sm" id="pastTripsBtn">지난 여행 목록 보기</button>
-        <button class="btn btn-line btn-sm" id="refreshBtnEmpty" title="새로고침" style="margin-left:8px;">↻ 새로고침</button></div>`:''}
+        <h2>${t('appTitle')}</h2>
+        <p>${t('appTagline')}</p>
+        <button class="btn btn-primary" id="newTripBtn">${t('newTripBtn')}</button>
+        ${isDevMode()?`<button class="btn btn-line" id="pdfImportBtnEmpty" style="margin-left:8px;">PDF로 가져오기</button>
+        <button class="btn btn-line" id="photoImportBtnEmpty" style="margin-left:8px;">사진으로 가져오기</button>
+        <div class="pdf-hint">여행사·항공사에서 받은 일정표 PDF·사진을 올리면<br>날짜·시간·장소를 자동으로 읽어와요.</div>`:''}
+        ${state.trips.length?`<div style="margin-top:16px;"><button class="btn btn-line btn-sm" id="pastTripsBtn">${t('pastTripsBtn')}</button>
+        <button class="btn btn-line btn-sm" id="refreshBtnEmpty" title="${t('refreshTitle')}" style="margin-left:8px;">${t('refreshBtn')}</button></div>`:''}
       </div>`;
     $('#newTripBtn').onclick = ()=>openTripForm();
+    const pib = $('#pdfImportBtnEmpty'); if(pib) pib.onclick = ()=>triggerPdfPick('new');
+    const phib = $('#photoImportBtnEmpty'); if(phib) phib.onclick = ()=>triggerPhotoPick('new');
     const ptb = $('#pastTripsBtn'); if(ptb) ptb.onclick = ()=>openPastTripsModal();
     const rfbe = $('#refreshBtnEmpty'); if(rfbe) rfbe.onclick = ()=>refreshData();
     const gcb = $('#googleConnectBtn'); if(gcb) gcb.onclick = ()=>connectGoogle();
+    bindLangSwitcher(app);
     return;
   }
   app.innerHTML = `
@@ -848,12 +1826,15 @@ function render(){
         <div class="trip-dates"><span class="mono">${state.trip.startDate}</span> → <span class="mono">${state.trip.endDate}</span></div>
       </div>
       <div class="topbar-actions">
-        ${state.trips.length>1?`<select id="tripSwitch" class="btn btn-line btn-sm">${state.trips.map(t=>`<option value="${t.id}" ${t.id===state.activeTripId?'selected':''}>${escapeHtml(t.title)}</option>`).join('')}</select>`:''}
-        <button class="btn btn-line btn-sm" id="deleteTripBtn" title="현재 여행 삭제">이 여행 삭제</button>
-        <button class="btn btn-line btn-sm" id="newTripBtn2">+ 새 여행</button>
-        <button class="btn btn-line btn-sm" id="exportPdfBtn">PDF로 내보내기</button>
-        <button class="btn btn-line btn-sm" id="refreshBtn" title="새로고침">↻ 새로고침</button>
-        ${googleSignedIn?`<button class="btn btn-line btn-sm" id="shareLinkBtn">일행에게 공유</button>`:''}
+        ${langSwitcherHtml()}
+        ${state.trips.length>1?`<select id="tripSwitch" class="btn btn-line btn-sm">${state.trips.map(tr=>`<option value="${tr.id}" ${tr.id===state.activeTripId?'selected':''}>${escapeHtml(tr.title)}</option>`).join('')}</select>`:''}
+        <button class="btn btn-line btn-sm" id="deleteTripBtn" title="${t('deleteTripTitle_attr')}">${t('deleteTripBtn')}</button>
+        <button class="btn btn-line btn-sm" id="newTripBtn2">${t('newTripBtnShort')}</button>
+        ${isDevMode()?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 추가</button>
+        <button class="btn btn-line btn-sm" id="photoImportBtn2">사진으로 추가</button>`:''}
+        <button class="btn btn-line btn-sm" id="exportPdfBtn">${t('exportPdfBtn')}</button>
+        <button class="btn btn-line btn-sm" id="refreshBtn" title="${t('refreshTitle')}">${t('refreshBtn')}</button>
+        ${googleSignedIn?`<button class="btn btn-line btn-sm" id="shareLinkBtn">${t('shareLinkBtn')}</button>`:''}
       </div>
     </div>
     ${renderGoogleStatus()}
@@ -863,13 +1844,17 @@ function render(){
     ${renderTimeline()}
   `;
   bindEvents();
+  bindLangSwitcher(app);
 }
 
 function bindEvents(){
   const nt = $('#newTripBtn2'); if(nt) nt.onclick = ()=>openTripForm();
+  const pi2 = $('#pdfImportBtn2'); if(pi2) pi2.onclick = ()=>triggerPdfPick('merge');
+  const phi2 = $('#photoImportBtn2'); if(phi2) phi2.onclick = ()=>triggerPhotoPick('merge');
   const ex = $('#exportPdfBtn'); if(ex) ex.onclick = ()=>exportPdf();
   const rfb = $('#refreshBtn'); if(rfb) rfb.onclick = ()=>refreshData();
   const slb = $('#shareLinkBtn'); if(slb) slb.onclick = ()=>createShareLink();
+  const ak = $('#apiKeyBtn'); if(ak) ak.onclick = ()=>openApiKeyModal();
   const dtb = $('#deleteTripBtn'); if(dtb) dtb.onclick = ()=>deleteCurrentTrip();
   const sw = $('#tripSwitch'); if(sw) sw.onchange = async e=>{
     const newId = e.target.value;
@@ -877,7 +1862,7 @@ function bindEvents(){
     if(!newTrip){
       state.trips = state.trips.filter(t=>t.id!==newId);
       await safeSet('trips-list', state.trips);
-      showToast('데이터가 없는 여행이라 목록에서 정리했어요');
+      showToast(t('toastNoTripData'));
       if(state.trips.length){
         state.activeTripId = state.trips[0].id;
         state.trip = await safeGet('trip:'+state.activeTripId);
@@ -915,15 +1900,15 @@ function openTripForm(){
   const overlay = document.createElement('div');
   overlay.className='overlay';
   overlay.innerHTML = `<div class="sheet">
-    <h3>새 여행 만들기</h3>
-    <div class="field"><label>여행 이름</label><input id="f_title" placeholder="예: 삿포로·오타루 여행"></div>
+    <h3>${t('newTripTitle')}</h3>
+    <div class="field"><label>${t('tripNameLabel')}</label><input id="f_title" placeholder="${t('tripNamePlaceholder')}"></div>
     <div class="row2">
-      <div class="field"><label>시작일</label><input id="f_start" type="date"></div>
-      <div class="field"><label>종료일</label><input id="f_end" type="date"></div>
+      <div class="field"><label>${t('startDateLabel')}</label><input id="f_start" type="date"></div>
+      <div class="field"><label>${t('endDateLabel')}</label><input id="f_end" type="date"></div>
     </div>
     <div class="sheet-actions">
-      <button class="btn btn-line" id="f_cancel">취소</button>
-      <button class="btn btn-primary" id="f_save">만들기</button>
+      <button class="btn btn-line" id="f_cancel">${t('cancelBtn')}</button>
+      <button class="btn btn-primary" id="f_save">${t('createBtn')}</button>
     </div>
   </div>`;
   document.body.appendChild(overlay);
@@ -932,7 +1917,7 @@ function openTripForm(){
   $('#f_save').onclick = async ()=>{
     const title = $('#f_title').value.trim();
     const s = $('#f_start').value, e = $('#f_end').value;
-    if(!title||!s||!e||s>e){ showToast('이름과 날짜를 올바르게 입력해주세요'); return; }
+    if(!title||!s||!e||s>e){ showToast(t('toastFillNameDate')); return; }
     const id = uid();
     const days = {}; dateRange(s,e).forEach(d=>days[d]=[]);
     const trip = {title,startDate:s,endDate:e,days,morningChecked:[]};
@@ -945,7 +1930,7 @@ function openTripForm(){
     state.selectedDate = days[todayStr]!==undefined ? todayStr : Object.keys(days)[0];
     overlay.remove();
     render();
-    showToast('여행이 만들어졌어요');
+    showToast(t('toastTripCreated'));
   };
 }
 
@@ -955,20 +1940,20 @@ function openBlockForm(blockId){
   const overlay = document.createElement('div');
   overlay.className='overlay';
   overlay.innerHTML = `<div class="sheet">
-    <h3>${editing?'일정 수정':'일정 추가'} · ${state.selectedDate}</h3>
+    <h3>${editing?t('editBlockTitle'):t('addBlockTitle')} · ${state.selectedDate}</h3>
     <div class="row2">
-      <div class="field"><label>시작 시간</label><input id="b_time" type="time" value="${editing?editing.time:''}"></div>
-      <div class="field"><label>종료 시간(선택)</label><input id="b_end" type="time" value="${editing&&editing.endTime?editing.endTime:''}"></div>
+      <div class="field"><label>${t('startTimeLabel')}</label><input id="b_time" type="time" value="${editing?editing.time:''}"></div>
+      <div class="field"><label>${t('endTimeLabel')}</label><input id="b_end" type="time" value="${editing&&editing.endTime?editing.endTime:''}"></div>
     </div>
-    <div class="field"><label>할 일</label><input id="b_title" placeholder="예: 오타루 운하 산책" value="${editing?escapeHtml(editing.title):''}"></div>
-    <div class="field"><label>장소(선택)</label><input id="b_loc" placeholder="예: 오타루" value="${editing&&editing.location?escapeHtml(editing.location):''}"></div>
+    <div class="field"><label>${t('todoLabel')}</label><input id="b_title" placeholder="${t('todoPlaceholder')}" value="${editing?escapeHtml(editing.title):''}"></div>
+    <div class="field"><label>${t('locationLabel')}</label><input id="b_loc" placeholder="${t('locationPlaceholder')}" value="${editing&&editing.location?escapeHtml(editing.location):''}"></div>
     <div class="field">
-      <label>메모(선택)</label>
-      <textarea id="b_note" placeholder="준비물, 예약번호 등">${editing&&editing.note?escapeHtml(editing.note):''}</textarea>
+      <label>${t('noteLabel')}</label>
+      <textarea id="b_note" placeholder="${t('notePlaceholder')}">${editing&&editing.note?escapeHtml(editing.note):''}</textarea>
     </div>
     <div class="sheet-actions">
-      <button class="btn btn-line" id="b_cancel">취소</button>
-      <button class="btn btn-primary" id="b_save">${editing?'저장':'추가'}</button>
+      <button class="btn btn-line" id="b_cancel">${t('cancelBtn')}</button>
+      <button class="btn btn-primary" id="b_save">${editing?t('saveBtn'):t('addBtn')}</button>
     </div>
   </div>`;
   document.body.appendChild(overlay);
@@ -980,10 +1965,10 @@ function openBlockForm(blockId){
   overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
   $('#b_save').onclick = async ()=>{
     const time = $('#b_time').value, title = $('#b_title').value.trim();
-    if(!time||!title){ showToast('시간과 할 일을 입력해주세요'); return; }
+    if(!time||!title){ showToast(t('toastFillTimeTitle')); return; }
     const sheetEl = overlay.querySelector('.sheet');
     sheetEl.classList.add('saving');
-    $('#b_save').textContent = '저장 중…';
+    $('#b_save').textContent = t('savingBtn');
     $('#b_save').disabled = true;
     $('#b_cancel').disabled = true;
     const data = {
@@ -1011,11 +1996,11 @@ async function deleteBlock(id){
   const overlay = document.createElement('div');
   overlay.className='overlay';
   overlay.innerHTML = `<div class="sheet">
-    <h3>이 일정을 삭제할까요?</h3>
-    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">"${escapeHtml(block?block.title:'')}"이(가) 삭제됩니다. 되돌릴 수 없어요.</p>
+    <h3>${t('deleteBlockTitle')}</h3>
+    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">${t('deleteBlockDesc').replace('{title}', escapeHtml(block?block.title:''))}</p>
     <div class="sheet-actions">
-      <button class="btn btn-line" id="db_cancel">취소</button>
-      <button class="btn btn-primary" id="db_confirm" style="background:var(--coral);">삭제</button>
+      <button class="btn btn-line" id="db_cancel">${t('cancelBtn')}</button>
+      <button class="btn btn-primary" id="db_confirm" style="background:var(--coral);">${t('deleteBtn')}</button>
     </div>
   </div>`;
   document.body.appendChild(overlay);
@@ -1027,7 +2012,7 @@ async function deleteBlock(id){
     await safeSet('trip:'+state.activeTripId, state.trip);
     overlay.remove();
     render();
-    showToast('일정이 삭제됐어요');
+    showToast(t('toastBlockDeleted'));
   };
 }
 
@@ -1049,13 +2034,13 @@ function openMorningModal(dateStr, blocks){
   overlay.className='overlay';
   const sorted = blocks.slice().sort((a,b)=>a.time.localeCompare(b.time));
   overlay.innerHTML = `<div class="sheet">
-    <h3>오늘의 일정 · ${dateStr}</h3>
+    <h3>${t('morningTitle').replace('{date}', dateStr)}</h3>
     <div class="morning-list">${sorted.map(b=>`
       <div class="morning-item"><span class="mono">${b.time}</span><span>${escapeHtml(b.title)}${b.location?` · ${escapeHtml(b.location)}`:''}</span></div>
     `).join('')}</div>
     <div class="sheet-actions">
-      <button class="btn btn-ghost" id="m_edit">계획 수정하기</button>
-      <button class="btn btn-primary" id="m_ok">이대로 진행할게요</button>
+      <button class="btn btn-ghost" id="m_edit">${t('morningEditBtn')}</button>
+      <button class="btn btn-primary" id="m_ok">${t('morningOkBtn')}</button>
     </div>
   </div>`;
   document.body.appendChild(overlay);
@@ -1076,11 +2061,11 @@ function openMorningModal(dateStr, blocks){
 
 /* ---- notifications ---- */
 async function requestNotifPermission(){
-  if(typeof Notification==='undefined'){ showToast('이 브라우저는 알림을 지원하지 않아요'); return; }
+  if(typeof Notification==='undefined'){ showToast(t('toastNoNotifSupport')); return; }
   const perm = await Notification.requestPermission();
   state.notifPermission = perm;
   render();
-  if(perm==='granted') showToast('알림이 켜졌어요. 이 탭을 열어두세요.');
+  if(perm==='granted') showToast(t('toastNotifOn'));
 }
 
 function checkUpcomingNotifications(){
@@ -1094,20 +2079,306 @@ function checkUpcomingNotifications(){
     const blockTime = new Date(now); blockTime.setHours(h,m,0,0);
     const diffMin = (blockTime - now)/60000;
     if(diffMin<=10 && diffMin>=0){
-      new Notification('곧 시작할 일정', {body:`${b.time} ${b.title}${b.location?' · '+b.location:''}`});
+      new Notification(t('notifTitle'), {body:`${b.time} ${b.title}${b.location?' · '+b.location:''}`});
       state.notifiedIds.add(b.id);
     }
   });
 }
 
+/* ---- PDF import ---- */
+function ensurePdfJs(){
+  return new Promise((resolve,reject)=>{
+    if(window.pdfjsLib){ resolve(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = ()=>{
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      resolve();
+    };
+    s.onerror = ()=>reject(new Error('pdf.js 로드 실패'));
+    document.head.appendChild(s);
+  });
+}
+
+function triggerPdfPick(mode){
+  let input = document.getElementById('hiddenPdfInput');
+  if(!input){
+    input = document.createElement('input');
+    input.type='file'; input.accept='application/pdf'; input.id='hiddenPdfInput'; input.style.display='none';
+    document.body.appendChild(input);
+  }
+  input.value='';
+  input.onchange = e=>{
+    const file = e.target.files[0];
+    if(file) handlePdfFile(file, mode);
+  };
+  input.click();
+}
+
+async function extractPdfText(file){
+  await ensurePdfJs();
+  const buf = await file.arrayBuffer();
+  const pdf = await window.pdfjsLib.getDocument({data:buf}).promise;
+  let text = '';
+  const maxPages = Math.min(pdf.numPages, 25);
+  for(let i=1;i<=maxPages;i++){
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    text += content.items.map(it=>it.str).join(' ') + '\n';
+  }
+  return text.trim();
+}
+
+function openPdfProgressModal(){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet"><h3>PDF 분석 중…</h3><p style="color:var(--ink-soft);font-size:13.5px;line-height:1.6;">일정표에서 날짜·시간·장소를 읽어오고 있어요. 잠시만 기다려주세요.</p></div>`;
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+const EXTRACT_SYSTEM_PROMPT = (todayStr)=>`당신은 여행 일정표(텍스트 또는 이미지)에서 정보를 추출해 JSON으로만 응답하는 도구입니다.
+설명, 인사말, 코드블록 표시(백틱) 없이 순수 JSON 객체 하나만 출력하세요.
+스키마:
+{"title": string, "startDate": "YYYY-MM-DD", "endDate": "YYYY-MM-DD",
+ "items": [{"date":"YYYY-MM-DD","time":"HH:MM","endTime":"HH:MM 또는 null","title":string,"location":string,"note":string}]}
+규칙:
+- 연도가 원본에 없으면 오늘 날짜(${todayStr}) 기준 가장 가까운 미래 연도를 사용하세요.
+- 시간이 명시되지 않은 항목은 하루 흐름상 자연스러운 시각을 24시간제로 추정해 채우세요.
+- location, note 정보가 없으면 빈 문자열로 두세요.
+- note 안에 서로 다른 정보(예: 교통편 안내, 준비물, 요금, 환승 방법 등)가 여러 개 섞여 있으면, 항목마다 줄바꿈(\\n)으로 구분해서 읽기 쉽게 정리하세요. 한 문장짜리 짧은 메모는 그대로 한 줄로 두세요.
+- items는 날짜, 시간 순으로 정렬하세요.`;
+
+async function callClaudeForItinerary(userContent){
+  const todayStr = fmtDate(new Date());
+  const system = EXTRACT_SYSTEM_PROMPT(todayStr);
+  const headers = {'Content-Type':'application/json'};
+  let endpoint = 'https://api.anthropic.com/v1/messages';
+  if(CLAUDE_PROXY_URL && CLAUDE_PROXY_URL.indexOf('REPLACE')===-1){
+    endpoint = CLAUDE_PROXY_URL;
+  } else if(userAnthropicKey){
+    headers['x-api-key'] = userAnthropicKey;
+    headers['anthropic-version'] = '2023-06-01';
+    headers['anthropic-dangerous-direct-browser-access'] = 'true';
+  }
+  const resp = await fetch(endpoint, {
+    method:'POST',
+    headers,
+    body: JSON.stringify({
+      model:'claude-sonnet-5',
+      max_tokens:4096,
+      system,
+      messages:[{role:'user', content:userContent}]
+    })
+  });
+  const data = await resp.json();
+  if(!resp.ok){
+    const msg = (data && data.error && data.error.message) ? data.error.message : ('HTTP '+resp.status);
+    throw new Error('API 오류: '+msg);
+  }
+  const textBlocks = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+  const cleaned = textBlocks.replace(/```json|```/g,'').trim();
+  let parsed;
+  try{
+    parsed = JSON.parse(cleaned);
+  }catch(e){
+    console.error('JSON 파싱 실패, 원본 응답:', textBlocks);
+    const truncatedHint = data.stop_reason==='max_tokens' ? ' (응답이 길이 제한에 걸려 중간에 잘렸을 수 있어요)' : '';
+    throw new Error('응답을 이해하지 못했어요'+truncatedHint);
+  }
+  if(!parsed.title || !parsed.startDate || !parsed.endDate || !Array.isArray(parsed.items)){
+    throw new Error('형식이 올바르지 않습니다');
+  }
+  return parsed;
+}
+
+async function callClaudeExtract(text){
+  const truncated = text.slice(0, 12000);
+  return callClaudeForItinerary(`다음은 여행 일정표에서 추출한 텍스트입니다:\n\n${truncated}`);
+}
+
+async function readFileAsBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(String(reader.result).split(',')[1]);
+    reader.onerror = ()=> reject(new Error('파일을 읽지 못했어요'));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function callClaudeExtractFromImage(file){
+  const base64 = await readFileAsBase64(file);
+  const mediaType = file.type || 'image/jpeg';
+  return callClaudeForItinerary([
+    { type:'image', source:{ type:'base64', media_type: mediaType, data: base64 } },
+    { type:'text', text:'위 이미지는 여행 일정표(캡처·사진)입니다. 여기서 정보를 추출하세요.' }
+  ]);
+}
+
+function openApiKeyModal(){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>Anthropic API 키 설정</h3>
+    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.6;">GitHub 등 외부에 배포했다면, PDF 자동 인식을 쓰기 위해 본인의 Anthropic API 키가 필요해요. 이 키는 저장되지 않고 <b>현재 탭이 열려있는 동안에만</b> 메모리에 유지돼요.</p>
+    <div class="field"><label>API 키</label><input id="k_input" type="password" placeholder="sk-ant-..." value="${userAnthropicKey||''}"></div>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="k_cancel">취소</button>
+      <button class="btn btn-primary" id="k_save">저장</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#k_cancel').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+  $('#k_save').onclick = ()=>{
+    userAnthropicKey = $('#k_input').value.trim() || null;
+    overlay.remove();
+    showToast(userAnthropicKey ? 'API 키가 설정됐어요(이 세션 동안만)' : 'API 키를 비웠어요');
+  };
+}
+
+async function handlePdfFile(file, mode){
+  const overlay = openPdfProgressModal();
+  try{
+    const text = await extractPdfText(file);
+    if(!text || text.length < 20){
+      overlay.remove();
+      openImportErrorModal('PDF에서 텍스트를 읽지 못했어요.', '스캔한 이미지 PDF일 가능성이 높아요. 이 경우 텍스트 레이어가 없어서 자동으로 읽을 수 없으니, 직접 입력해주세요.');
+      return;
+    }
+    const parsed = await callClaudeExtract(text);
+    if(!parsed.items || parsed.items.length===0){
+      overlay.remove();
+      openImportErrorModal(
+        '세부 일정을 찾지 못했어요.',
+        `날짜(${parsed.startDate} ~ ${parsed.endDate})는 인식했지만, 시간대별 개별 일정은 찾지 못했어요. 표나 이미지 형태의 일정표는 자동 인식이 어려울 수 있어요.\n\n실제로 읽힌 텍스트 일부:\n"${text.slice(0,400).replace(/\s+/g,' ')}"`
+      );
+      return;
+    }
+    overlay.remove();
+    openImportPreview(parsed, mode);
+  }catch(err){
+    console.error(err);
+    overlay.remove();
+    openImportErrorModal('PDF 분석 중 오류가 발생했어요.', err.message || String(err));
+  }
+}
+
+function openImportErrorModal(title, detail){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>${escapeHtml(title)}</h3>
+    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;white-space:pre-wrap;">${escapeHtml(detail)}</p>
+    <div class="sheet-actions"><button class="btn btn-primary" id="err_close">확인</button></div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#err_close').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+}
+
+async function mergeIntoCurrentTrip(parsed){
+  const trip = state.trip;
+  const allDates = [trip.startDate, trip.endDate, ...parsed.items.map(i=>i.date)].sort();
+  const newStart = allDates[0], newEnd = allDates[allDates.length-1];
+  if(newStart!==trip.startDate || newEnd!==trip.endDate){
+    dateRange(newStart,newEnd).forEach(d=>{ if(!trip.days[d]) trip.days[d]=[]; });
+    trip.startDate = newStart; trip.endDate = newEnd;
+  }
+  parsed.items.forEach(it=>{
+    if(!trip.days[it.date]) trip.days[it.date]=[];
+    trip.days[it.date].push({id:uid(), time:it.time||'09:00', endTime:it.endTime||null, title:it.title||'일정', location:it.location||'', note:it.note||''});
+  });
+  await safeSet('trip:'+state.activeTripId, trip);
+  const idx = state.trips.findIndex(t=>t.id===state.activeTripId);
+  if(idx!==-1){
+    state.trips[idx].startDate = trip.startDate; state.trips[idx].endDate = trip.endDate;
+    await safeSet('trips-list', state.trips);
+  }
+}
+
+function openImportPreview(parsed, mode){
+  const overlay = document.createElement('div');
+  overlay.className='overlay';
+  const dayCounts = {};
+  parsed.items.forEach(it=>{ dayCounts[it.date]=(dayCounts[it.date]||0)+1; });
+  const days = Object.keys(dayCounts).sort();
+
+  if(mode==='merge' && state.trip){
+    overlay.innerHTML = `<div class="sheet">
+      <h3>"${escapeHtml(state.trip.title)}"에 추가</h3>
+      <div class="morning-list">${days.map(d=>`<div class="morning-item"><span class="mono">${d}</span><span>일정 ${dayCounts[d]}개 추가</span></div>`).join('')}</div>
+      <p style="font-size:12px;color:var(--ink-soft);">총 ${parsed.items.length}개 일정이 현재 여행에 날짜·시간순으로 합쳐집니다.</p>
+      <div class="sheet-actions">
+        <button class="btn btn-line" id="p_cancel">취소</button>
+        <button class="btn btn-primary" id="p_save">기존 여행에 추가</button>
+      </div>
+    </div>`;
+    document.body.appendChild(overlay);
+    $('#p_cancel').onclick = ()=>overlay.remove();
+    overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+    $('#p_save').onclick = async ()=>{
+      await mergeIntoCurrentTrip(parsed);
+      overlay.remove();
+      const todayStr = fmtDate(new Date());
+      if(state.trip.days[todayStr]!==undefined) state.selectedDate = todayStr;
+      render();
+      showToast('일정이 추가됐어요');
+    };
+    return;
+  }
+
+  overlay.innerHTML = `<div class="sheet">
+    <h3>가져온 일정 확인</h3>
+    <div class="field"><label>여행 이름</label><input id="p_title" value="${escapeHtml(parsed.title)}"></div>
+    <div class="row2">
+      <div class="field"><label>시작일</label><input id="p_start" type="date" value="${parsed.startDate}"></div>
+      <div class="field"><label>종료일</label><input id="p_end" type="date" value="${parsed.endDate}"></div>
+    </div>
+    <div class="morning-list">${days.map(d=>`<div class="morning-item"><span class="mono">${d}</span><span>일정 ${dayCounts[d]}개</span></div>`).join('')}</div>
+    <p style="font-size:12px;color:var(--ink-soft);">총 ${parsed.items.length}개 일정을 불러왔어요. 저장 후에도 언제든 수정할 수 있어요.</p>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="p_cancel">취소</button>
+      <button class="btn btn-primary" id="p_save">이 일정으로 만들기</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  $('#p_cancel').onclick = ()=>overlay.remove();
+  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+  $('#p_save').onclick = async ()=>{
+    const title = $('#p_title').value.trim() || parsed.title;
+    let start = $('#p_start').value || parsed.startDate;
+    let end = $('#p_end').value || parsed.endDate;
+    const allDates = [start, end, ...parsed.items.map(i=>i.date)].sort();
+    start = allDates[0]; end = allDates[allDates.length-1];
+    const id = uid();
+    const days = {}; dateRange(start,end).forEach(d=>days[d]=[]);
+    parsed.items.forEach(it=>{
+      if(!days[it.date]) days[it.date]=[];
+      days[it.date].push({id:uid(), time:it.time||'09:00', endTime:it.endTime||null, title:it.title||'일정', location:it.location||'', note:it.note||''});
+    });
+    const trip = {title, startDate:start, endDate:end, days, morningChecked:[]};
+    state.trips.push({id,title,startDate:start,endDate:end});
+    await safeSet('trips-list', state.trips);
+    await safeSet('trip:'+id, trip);
+    await safeSet('active-trip', id);
+    state.activeTripId = id; state.trip = trip;
+    const todayStr = fmtDate(new Date());
+    state.selectedDate = days[todayStr]!==undefined ? todayStr : Object.keys(days)[0];
+    overlay.remove();
+    render();
+    showToast('PDF 일정을 불러왔어요');
+  };
+}
+
 /* ---- PDF export (print to PDF) ---- */
 function buildPrintable(){
   if(!state.trip) return;
-  const t = state.trip;
-  const dates = Object.keys(t.days).sort();
+  const trip = state.trip;
+  const dates = Object.keys(trip.days).sort();
   const daysHtml = dates.map(d=>{
     const dt = new Date(d+'T00:00:00');
-    const blocks = (t.days[d]||[]).slice().sort((a,b)=>a.time.localeCompare(b.time));
+    const blocks = (trip.days[d]||[]).slice().sort((a,b)=>a.time.localeCompare(b.time));
     const rows = blocks.length ? blocks.map(b=>`
       <tr>
         <td class="print-time">${b.time}${b.endTime?'–'+b.endTime:''}</td>
@@ -1115,24 +2386,25 @@ function buildPrintable(){
           <div class="print-item-title">${escapeHtml(b.title)}${b.location?` <span class="print-loc">· ${escapeHtml(b.location)}</span>`:''}</div>
           ${b.note?`<div class="print-note">${linkifyNote(b.note)}</div>`:''}
         </td>
-      </tr>`).join('') : `<tr><td colspan="2" class="print-empty">일정 없음</td></tr>`;
+      </tr>`).join('') : `<tr><td colspan="2" class="print-empty">${t('printNoPlan')}</td></tr>`;
     return `<div class="print-day">
-      <h2>${d} · ${dayLabel[dt.getDay()]}요일</h2>
+      <h2>${d} · ${dayLabel()[dt.getDay()]}${t('weekdaySuffix')}</h2>
       <table class="print-table">${rows}</table>
     </div>`;
   }).join('');
+  const locale = LANG==='en' ? 'en-US' : 'ko-KR';
   document.getElementById('printSheet').innerHTML = `
-    <h1>${escapeHtml(t.title)}</h1>
-    <div class="print-dates">${t.startDate} ~ ${t.endDate} · 내보낸 시각 ${new Date().toLocaleString('ko-KR')}</div>
+    <h1>${escapeHtml(trip.title)}</h1>
+    <div class="print-dates">${trip.startDate} ~ ${trip.endDate} · ${t('printExportedAt')} ${new Date().toLocaleString(locale)}</div>
     ${daysHtml}
   `;
 }
 
 function exportPdf(){
-  if(!state.trip){ showToast('내보낼 여행이 없어요'); return; }
+  if(!state.trip){ showToast(t('toastNoExportTrip')); return; }
   buildPrintable();
   const prevTitle = document.title;
-  document.title = state.trip.title + ' 여행 일정';
+  document.title = state.trip.title + t('printDocTitleSuffix');
   window.print();
   document.title = prevTitle;
 }
@@ -1142,11 +2414,11 @@ async function deleteCurrentTrip(){
   const overlay = document.createElement('div');
   overlay.className='overlay';
   overlay.innerHTML = `<div class="sheet">
-    <h3>이 여행을 삭제할까요?</h3>
-    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">"${escapeHtml(state.trip.title)}" 여행과 안의 모든 일정이 삭제됩니다. 되돌릴 수 없어요.</p>
+    <h3>${t('deleteTripConfirmTitle')}</h3>
+    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">${t('deleteTripConfirmDesc').replace('{title}', escapeHtml(state.trip.title))}</p>
     <div class="sheet-actions">
-      <button class="btn btn-line" id="dt_cancel">취소</button>
-      <button class="btn btn-primary" id="dt_confirm" style="background:var(--coral);">삭제</button>
+      <button class="btn btn-line" id="dt_cancel">${t('cancelBtn')}</button>
+      <button class="btn btn-primary" id="dt_confirm" style="background:var(--coral);">${t('deleteBtn')}</button>
     </div>
   </div>`;
   document.body.appendChild(overlay);
@@ -1170,14 +2442,40 @@ async function deleteCurrentTrip(){
     }
     overlay.remove();
     render();
-    showToast('여행이 삭제됐어요');
+    showToast(t('toastTripDeleted'));
   };
 }
 
-if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('service-worker.js').catch(e=>console.log('SW 등록 실패(무시 가능):', e));
-  });
+function triggerPhotoPick(mode){
+  let input = document.getElementById('hiddenPhotoInput');
+  if(!input){
+    input = document.createElement('input');
+    input.type='file'; input.accept='image/*'; input.id='hiddenPhotoInput'; input.style.display='none';
+    document.body.appendChild(input);
+  }
+  input.value='';
+  input.onchange = e=>{
+    const file = e.target.files[0];
+    if(file) handlePhotoFile(file, mode);
+  };
+  input.click();
+}
+
+async function handlePhotoFile(file, mode){
+  const overlay = openPdfProgressModal();
+  try{
+    const parsed = await callClaudeExtractFromImage(file);
+    overlay.remove();
+    if(!parsed.items || parsed.items.length===0){
+      openImportErrorModal('세부 일정을 찾지 못했어요.', `날짜(${parsed.startDate} ~ ${parsed.endDate})는 인식했지만, 시간대별 개별 일정은 찾지 못했어요. 더 선명한 사진으로 다시 시도해주세요.`);
+      return;
+    }
+    openImportPreview(parsed, mode);
+  }catch(err){
+    console.error(err);
+    overlay.remove();
+    openImportErrorModal('사진 분석 중 오류가 발생했어요.', err.message || String(err));
+  }
 }
 
 init();
