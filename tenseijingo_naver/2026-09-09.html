@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-09 天声人語로 배우는 일본어 — ‘주석’이라는 이름</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-09</span>
+      <span>2026년 9월 9일 (수)</span>
+    </div>
+
+    <h1><ruby>主席<rt>しゅせき</rt></ruby>という<ruby>名<rt>な</rt></ruby></h1>
+    <p class="topic-ko">‘주석’이라는 이름</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>毛主席<rt>もうしゅせき</rt></ruby>と<ruby>呼<rt>よ</rt></ruby>ぶ」</div>
+      <div class="ko">‘모주석’이라 부르다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>中国<rt>ちゅうごく</rt></ruby>では、<ruby>毛沢東<rt>もうたくとう</rt></ruby>を「<ruby>毛主席<rt>もうしゅせき</rt></ruby>」と<ruby>呼<rt>よ</rt></ruby>び、その<ruby>呼称<rt>こしょう</rt></ruby>が<ruby>名前<rt>なまえ</rt></ruby>と<ruby>一体<rt>いったい</rt></ruby>のように<ruby>定着<rt>ていちゃく</rt></ruby>していたことを<ruby>想起<rt>そうき</rt></ruby>させる。</p><p class="ko">중국에서는 마오쩌둥을 ‘모주석’이라 부르며, 그 호칭이 사실상 이름과 한몸처럼 굳어졌다고 상기시킨다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>現在<rt>げんざい</rt></ruby>の<ruby>習近平<rt>しゅうきんぺい</rt></ruby>も「<ruby>習主席<rt>しゅうしゅせき</rt></ruby>」と<ruby>呼<rt>よ</rt></ruby>ばれるが、あくまで<ruby>国家主席<rt>こっかしゅせき</rt></ruby>という<ruby>職<rt>しょく</rt></ruby>を<ruby>指<rt>さ</rt></ruby>す<ruby>呼<rt>よ</rt></ruby>び<ruby>方<rt>かた</rt></ruby>だと<ruby>対比<rt>たいひ</rt></ruby>する。</p><p class="ko">이어 현재의 시진핑도 ‘습 주석’이라 불리지만, 이는 어디까지나 국가주석 직함을 가리키는 호명임을 대비시킨다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は、<ruby>呼称<rt>こしょう</rt></ruby>の<ruby>用<rt>もち</rt></ruby>い<ruby>方<rt>かた</rt></ruby>が<ruby>権力<rt>けんりょく</rt></ruby>の<ruby>性格<rt>せいかく</rt></ruby>や<ruby>時代<rt>じだい</rt></ruby>の<ruby>空気<rt>くうき</rt></ruby>を<ruby>映<rt>うつ</rt></ruby>す<ruby>鏡<rt>かがみ</rt></ruby>だと<ruby>示唆<rt>しさ</rt></ruby>している。</p><p class="ko">필자는 호칭의 쓰임이 권력의 성격과 시대의 공기를 비추는 거울임을 암시한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>主席<rt>しゅせき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">주석, 의장</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>中国<rt>ちゅうごく</rt></ruby>の<ruby>国家主席<rt>こっかしゅせき</rt></ruby>が<ruby>会見<rt>かいけん</rt></ruby>を<ruby>開<rt>ひら</rt></ruby>いた。</span><br>중국의 국가주석이 회견을 열었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>呼称<rt>こしょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">호칭</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>報道<rt>ほうどう</rt></ruby>ではその<ruby>人物<rt>じんぶつ</rt></ruby>を<ruby>通例<rt>つうれい</rt></ruby>の<ruby>呼称<rt>こしょう</rt></ruby>で<ruby>呼<rt>よ</rt></ruby>ぶ。</span><br>보도에서는 그 인물을 통례적인 호칭으로 부른다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>不動<rt>ふどう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">부동, 흔들림 없음</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>業界<rt>ぎょうかい</rt></ruby>で<ruby>不動<rt>ふどう</rt></ruby>の<ruby>地位<rt>ちい</rt></ruby>を<ruby>築<rt>きず</rt></ruby>いた。</span><br>그는 업계에서 흔들리지 않는 지위를 구축했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>定着<rt>ていちゃく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">정착</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>新<rt>あたら</rt></ruby>しい<ruby>言葉<rt>ことば</rt></ruby>が<ruby>社会<rt>しゃかい</rt></ruby>に<ruby>定着<rt>ていちゃく</rt></ruby>しつつある。</span><br>새로운 말이 사회에 정착해 가고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>権力<rt>けんりょく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">권력</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>権力<rt>けんりょく</rt></ruby>は<ruby>監視<rt>かんし</rt></ruby>されてこそ<ruby>健全<rt>けんぜん</rt></ruby>だ。</span><br>권력은 감시될 때에야 건전하다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">まるで〜のように</div>
+        <div class="pattern-ko">마치 ~인 것처럼</div>
+        <p class="explain">상상을 불러일으키는 비유적 표현으로, 실제 사실과는 다르지만 그와 비슷한 느낌을 줄 때 쓴다. 관찰자의 주관적 인상을 자연스럽게 덧칠하는 용법이다.</p>
+        <p class="ex"><span class="ja">その<ruby>場面<rt>ばめん</rt></ruby>は、まるで<ruby>夢<rt>ゆめ</rt></ruby>のように<ruby>静<rt>しず</rt></ruby>かだった。</span><br>그 장면은 마치 꿈처럼 고요했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 호칭에서 출발해 권력의 실체를 비추는 방식으로 주제를 전개한다. 먼저 ‘모주석’이라는 부름이 이름과 결합된 표지였다는 점을 떠올리게 하면서, 명칭이 권위를 어떻게 고정시키는지 보여 준다. 이후 현재의 사례를 나란히 놓아 의미 차이를 자연스럽게 드러내는 대조 기법이 돋보인다. 천성인어 특유의 간결한 정보 제시와 비유적 연결이 읽는 이를 생각의 흐름으로 끌어들인다.</p>
+        <p>글의 함의는 ‘어떻게 부르느냐’가 ‘무엇이 권력인가’를 규정하고 반영한다는 데 있다. 한국 독자에게도 ‘대통령’과 ‘국가원수’, ‘총리’와 같은 호칭의 쓰임이 정치 문법을 드러낸다는 점이 흥미롭게 다가온다. 특히 개인 이름과 직함의 결합 정도가 카리스마와 제도화 사이의 긴장을 보여 준다는 관찰이 인상적이다. 결국 호칭은 언어적 습관이면서 동시에 시대의 공기를 기록하는 장치임을 환기한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 호칭의 뉘앙스를 통해 권력의 성격과 시대의 분위기를 비추는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본 언론은 중국 국가원수를 ‘国家主席(국가주석)’으로 표기하며, 약칭으로 ‘習主席’처럼 성+주석 형태를 자주 쓴다.</p>
+        <p>중국의 최고 권력 구조에서 공산당 ‘総書記(총서기)’와 ‘国家主席(국가주석)’은 구분되는 직함이며, 두 직책의 결합 여부는 권력 집중도를 가늠하는 지표로 거론되곤 한다.</p>
+        <p>일본어 ‘主席’은 일반적으로 회의의 의장이나 좌장을 뜻하지만, 중국 맥락에서는 ‘국가주석’의 의미로 특수화되어 사용된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>개념어(호칭)에서 출발해 역사와 현재를 연결하는 대조 구조를 구축하라.</p>
+        <p><span class="n">二</span>단정 대신 비유(‘마치 ~처럼’)로 여운을 남겨 독자의 사유를 유도하라.</p>
+        <p><span class="n">三</span>사실 제시는 간결하게, 의미 확장은 독자가 스스로 조합하도록 여백을 두어라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>肩書<rt>かたがき</rt></ruby>は<ruby>人<rt>ひと</rt></ruby>を<ruby>映<rt>うつ</rt></ruby>し、<ruby>呼称<rt>こしょう</rt></ruby>は<ruby>時代<rt>じだい</rt></ruby>を<ruby>映<rt>うつ</rt></ruby>す。</span>
+      <span class="ko">직함은 사람을 비추고, 호칭은 시대를 비춘다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-09) — <a href="https://www.asahi.com/articles/DA3S16542978.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-09.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

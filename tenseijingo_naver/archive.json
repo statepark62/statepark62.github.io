@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-09",
+    "no": 64,
+    "topic_ja": "<ruby>主席<rt>しゅせき</rt></ruby>という<ruby>名<rt>な</rt></ruby>",
+    "topic_ko": "‘주석’이라는 이름",
+    "url": "https://www.asahi.com/articles/DA3S16542978.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘호칭과 권력’, ‘이름의 정치’. 부름말의 차이를 통해 권력의 제도화와 개인화의 긴장을 드러내므로, 정치 커뮤니케이션과 언어사회학을 아우르는 장에 배치하기 적합하다.",
+    "pattern": "まるで〜のように"
+  },
+  {
     "date": "2026-09-08",
     "no": 63,
     "topic_ja": "<ruby>茄子<rt>なす</rt></ruby>と<ruby>贅<rt>ぜい</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
