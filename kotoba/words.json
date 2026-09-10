@@ -8641,5 +8641,35 @@
   "example": "春から家に引きこもる生活が続いた。",
   "exampleReading": "はるからいえにひきこもるせいかつがつづいた。",
   "exampleMeaning": "봄부터 집에 틀어박혀 지내는 생활이 계속되었다."
+ },
+ {
+  "id": "news398",
+  "word": "想定外",
+  "reading": "そうていがい",
+  "meaning": "예상 밖, 상정 외",
+  "level": "N2",
+  "example": "デビュー後の展開は完全に想定外だった。",
+  "exampleReading": "デビューごのてんかいはかんぜんにそうていがいだった。",
+  "exampleMeaning": "데뷔 이후의 전개는 완전히 예상 밖이었다."
+ },
+ {
+  "id": "news399",
+  "word": "喫煙",
+  "reading": "きつえん",
+  "meaning": "흡연",
+  "level": "N3",
+  "example": "長年の喫煙が原因で健康を害した。",
+  "exampleReading": "ながねんのきつえんがげんいんでけんこうをがいした。",
+  "exampleMeaning": "오랜 흡연이 원인이 되어 건강을 해쳤다."
+ },
+ {
+  "id": "news400",
+  "word": "手口",
+  "reading": "てぐち",
+  "meaning": "수법, 범행 수법",
+  "level": "N1",
+  "example": "詐欺グループの手口は年々巧妙になっている。",
+  "exampleReading": "さぎぐるーぷのてぐちはねんねんこうみょうになっている。",
+  "exampleMeaning": "사기 그룹의 수법은 해마다 교묘해지고 있다."
  }
 ]
