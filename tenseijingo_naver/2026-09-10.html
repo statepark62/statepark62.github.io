@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-10 天声人語로 배우는 일본어 — 통기구를 찾아서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-10</span>
+      <span>2026년 9월 10일 (목)</span>
+    </div>
+
+    <h1><ruby>通気口<rt>つうきこう</rt></ruby>を<ruby>求<rt>もと</rt></ruby>めて</h1>
+    <p class="topic-ko">통기구를 찾아서</p>
+
+    <div class="keyquote">
+      <div class="ja">「「<ruby>通気口<rt>つうきこう</rt></ruby>」」</div>
+      <div class="ko">‘통기구’ <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>埼玉県<rt>さいたまけん</rt></ruby>に<ruby>暮<rt>く</rt></ruby>らす３０<ruby>代<rt>だい</rt></ruby>の<ruby>女性<rt>じょせい</rt></ruby>が、<ruby>人間関係<rt>にんげんかんけい</rt></ruby>に<ruby>悩<rt>なや</rt></ruby>み、<ruby>大学院<rt>だいがくいん</rt></ruby>を<ruby>休学<rt>きゅうがく</rt></ruby>して<ruby>自宅<rt>じたく</rt></ruby>にこもっていた<ruby>時期<rt>じき</rt></ruby>が<ruby>紹介<rt>しょうかい</rt></ruby>される。</p><p class="ko">사이타마에 사는 30대 여성이 인간관계에 지쳐 대학원을 휴학하고 집에 머물던 시기가 소개된다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>将来<rt>しょうらい</rt></ruby>が<ruby>見<rt>み</rt></ruby>えず、<ruby>働<rt>はたら</rt></ruby>けるのかという<ruby>不安<rt>ふあん</rt></ruby>がふくらむが、<ruby>誰<rt>だれ</rt></ruby>にも<ruby>打<rt>う</rt></ruby>ち<ruby>明<rt>あ</rt></ruby>けられず、「<ruby>通気口<rt>つうきこう</rt></ruby>」を<ruby>求<rt>もと</rt></ruby>める<ruby>思<rt>おも</rt></ruby>いが<ruby>綴<rt>つづ</rt></ruby>られる。</p><p class="ko">앞날이 보이지 않고 일할 수 있을지 두려움이 커지지만, 누구에게도 털어놓지 못한 채 ‘통기구’를 갈망한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>はその<ruby>心<rt>こころ</rt></ruby>の<ruby>揺<rt>ゆ</rt></ruby>れをたどり、<ruby>小<rt>ちい</rt></ruby>さな<ruby>出口<rt>でぐち</rt></ruby>を<ruby>探<rt>さが</rt></ruby>すことを<ruby>主題<rt>しゅだい</rt></ruby>として<ruby>示唆<rt>しさ</rt></ruby>するようだ。</p><p class="ko">칼럼은 그 심리의 흔들림을 따라가며, 숨 쉴 틈을 찾는 문제를 사유의 출발점으로 삼는 듯하다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>不安<rt>ふあん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">불안</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>将来<rt>しょうらい</rt></ruby>への<ruby>不安<rt>ふあん</rt></ruby>が<ruby>夜<rt>よる</rt></ruby>になると<ruby>強<rt>つよ</rt></ruby>くなる。</span><br>미래에 대한 불안이 밤이 되면 더 강해진다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>休学<rt>きゅうがく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">휴학</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>体調<rt>たいちょう</rt></ruby>を<ruby>整<rt>ととの</rt></ruby>えるため、<ruby>一年<rt>いちねん</rt></ruby>だけ<ruby>休学<rt>きゅうがく</rt></ruby>した。</span><br>컨디션을 회복하기 위해 1년만 휴학했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>相談<rt>そうだん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">상담, 상의</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>困<rt>こま</rt></ruby>ったら、<ruby>先生<rt>せんせい</rt></ruby>に<ruby>相談<rt>そうだん</rt></ruby>してみよう。</span><br>곤란할 때는 선생님께 상담해 보자.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>傷つく<rt>きずつく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">상처받다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>何気<rt>なにげ</rt></ruby>ない<ruby>一言<rt>ひとこと</rt></ruby>で<ruby>心<rt>こころ</rt></ruby>が<ruby>傷<rt>きず</rt></ruby>ついた。</span><br>아무렇지 않게 던진 한마디에 마음이 상했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>引きこもる<rt>ひきこもる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">틀어박혀 지내다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>春<rt>はる</rt></ruby>から<ruby>家<rt>いえ</rt></ruby>に<ruby>引<rt>ひ</rt></ruby>きこもる<ruby>生活<rt>せいかつ</rt></ruby>が<ruby>続<rt>つづ</rt></ruby>いた。</span><br>봄부터 집에 틀어박혀 지내는 생활이 계속되었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜かな</div>
+        <div class="pattern-ko">~일까, ~려나</div>
+        <p class="explain">자기 혼잣말하듯 의문을 부드럽게 표현하는 말투이다. 상대에게 강하게 묻기보다, 마음속 생각을 살짝 내비칠 때 쓴다.</p>
+        <p class="ex"><span class="ja"><ruby>明日<rt>あした</rt></ruby>は<ruby>晴<rt>は</rt></ruby>れるかな。</span><br>내일은 맑을까.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 한 개인의 구체적 시간과 장소를 제시한 뒤, 짤막한 내면 독백을 이어 붙여 정서의 결을 세밀하게 잡아낸다. 쉼표와 단문을 반복해 호흡을 좁히고, 독자가 불안의 속도를 피부로 느끼게 한다. 서술자는 큰 교훈을 앞세우지 않고 ‘통기구’라는 상징을 놓아, 말과 몸이 지친 상황을 이미지로 압축한다. 천성인어 특유의 절제된 묘사와 여백이 살아 있는 전개이다.</p>
+        <p>글이 던지는 핵심은 해결책보다 ‘숨 쉴 틈’을 찾는 감각에 가깝다. 한국 독자에게도 익숙한 학업·관계의 압박 속에서, 먼저 말문을 트는 행위가 왜 중요한지 생각하게 만든다. ‘통기구’라는 단어 선택은 완치나 도약이 아니라 일상의 미세한 환기를 중시한다는 점에서 시사적이다. 거창한 서사 없이도 작은 비유 하나로 공감과 사유를 불러일으키는 점이 인상적이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 말하지 못한 불안을 ‘통기구’라는 이미지로 드러내며, 견딜 틈을 찾는 마음을 따라가는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본 대학에는 일정 기간 학업을 멈추는 ‘휴학(休学)’ 제도가 일반화되어 있어, 건강·경제·가정 사유 등으로 학업 중단을 선택하는 사례가 적지 않다.</p>
+        <p>정신적 어려움과 관련해 일본 사회도 최근 들어 상담 창구 확충과 낙인 완화를 추진하고 있으나, 개인이 주저하는 분위기는 여전히 존재한다.</p>
+        <p>아사히신문의 ‘천성인어’는 시사·문화·일상의 단면을 짧은 분량에 은유와 여백으로 압축하는 칼럼로, 개인적 일화에서 공적 논의로 여운을 확장하는 구성이 자주 보인다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 사례 하나를 잡아 정서를 촘촘히 따라가며 보편적 문제의식을 이끌어낸다.</p>
+        <p><span class="n">二</span>직설적 주장 대신 상징어(‘통기구’)를 배치해 독자의 해석 참여를 유도한다.</p>
+        <p><span class="n">三</span>단문과 쉼표의 리듬을 조절해 인물의 호흡과 불안의 속도를 체감하게 한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>不安<rt>ふあん</rt></ruby>は<ruby>一人<rt>ひとり</rt></ruby>で<ruby>抱<rt>かか</rt></ruby>えず、<ruby>小<rt>ちい</rt></ruby>さな<ruby>声<rt>こえ</rt></ruby>で<ruby>助<rt>たす</rt></ruby>けを<ruby>求<rt>もと</rt></ruby>めよう。</span>
+      <span class="ko">불안은 혼자 끌어안지 말고, 작은 목소리로라도 도움을 청하자.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-10) — <a href="https://www.asahi.com/articles/DA3S16543678.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-10.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

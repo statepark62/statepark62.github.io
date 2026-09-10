@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-10",
+    "no": 65,
+    "topic_ja": "<ruby>通気口<rt>つうきこう</rt></ruby>を<ruby>求<rt>もと</rt></ruby>めて",
+    "topic_ko": "통기구를 찾아서",
+    "url": "https://www.asahi.com/articles/DA3S16543678.html?iref=pc_rensai_long_61_article",
+    "memo": "‘불안의 언어’, ‘쉼의 기술’, ‘작은 출구’ — 해결보다 환기를 중시하며, 개인의 내면을 통해 보편적 회복의 단초를 제시하기 때문이다.",
+    "pattern": "〜かな"
+  },
+  {
     "date": "2026-09-09",
     "no": 64,
     "topic_ja": "<ruby>主席<rt>しゅせき</rt></ruby>という<ruby>名<rt>な</rt></ruby>",

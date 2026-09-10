@@ -8541,5 +8541,105 @@
   "example": "権力は監視されてこそ健全だ。",
   "exampleReading": "けんりょくはかんしされてこそけんぜんだ",
   "exampleMeaning": "권력은 감시될 때에야 건전하다."
+ },
+ {
+  "id": "news393",
+  "word": "舞い込む",
+  "reading": "まいこむ",
+  "meaning": "(소식·바람 등이) 뜻밖에 날아들다, 굴러들어오다",
+  "level": "N2",
+  "example": "彼のもとに突然、海外留学の招待状が舞い込んだ。",
+  "exampleReading": "かれのもとに とつぜん、かいがいりゅうがくの しょうたいじょうが まいこんだ。",
+  "exampleMeaning": "그에게 갑자기 해외 유학 초청장이 날아들었다."
+ },
+ {
+  "id": "news394",
+  "word": "炎上",
+  "reading": "えんじょう",
+  "meaning": "(SNS 등에서) 논란이 되다, 악플이 쇄도하다",
+  "level": "N2",
+  "example": "彼の発言がSNSで炎上している。",
+  "exampleReading": "かれの はつげんが エスエヌエスで えんじょうしている。",
+  "exampleMeaning": "그의 발언이 SNS에서 논란이 되고 있다."
+ },
+ {
+  "id": "news395",
+  "word": "間一髪",
+  "reading": "かんいっぱつ",
+  "meaning": "간발의 차, 아슬아슬한 순간",
+  "level": "N1",
+  "example": "間一髪のところで電車に間に合った。",
+  "exampleReading": "かんいっぱつの ところで でんしゃに まにあった。",
+  "exampleMeaning": "아슬아슬하게 전철 시간에 맞췄다."
+ },
+ {
+  "id": "news396",
+  "word": "免れる",
+  "reading": "まぬかれる",
+  "meaning": "(위험·재난 등을) 면하다, 벗어나다",
+  "level": "N1",
+  "example": "彼は運よく事故を免れた。",
+  "exampleReading": "かれは うんよく じこを まぬかれた。",
+  "exampleMeaning": "그는 운 좋게 사고를 면했다."
+ },
+ {
+  "id": "news397",
+  "word": "認知症",
+  "reading": "にんちしょう",
+  "meaning": "치매",
+  "level": "N2",
+  "example": "祖母は最近、認知症と診断された。",
+  "exampleReading": "そぼは さいきん、にんちしょうと しんだんされた。",
+  "exampleMeaning": "할머니는 최근 치매 진단을 받으셨다."
+ },
+ {
+  "id": "tj291",
+  "word": "不安",
+  "reading": "ふあん",
+  "meaning": "불안",
+  "level": "N3",
+  "example": "将来への不安が夜になると強くなる。",
+  "exampleReading": "しょうらいへのふあんがよるになるとつよくなる。",
+  "exampleMeaning": "미래에 대한 불안이 밤이 되면 더 강해진다."
+ },
+ {
+  "id": "tj292",
+  "word": "休学",
+  "reading": "きゅうがく",
+  "meaning": "휴학",
+  "level": "N2",
+  "example": "体調を整えるため、一年だけ休学した。",
+  "exampleReading": "たいちょうをととのえるためいちねんだけきゅうがくした。",
+  "exampleMeaning": "컨디션을 회복하기 위해 1년만 휴학했다."
+ },
+ {
+  "id": "tj293",
+  "word": "相談",
+  "reading": "そうだん",
+  "meaning": "상담, 상의",
+  "level": "N3",
+  "example": "困ったら、先生に相談してみよう。",
+  "exampleReading": "こまったらせんせいにそうだんしてみよう。",
+  "exampleMeaning": "곤란할 때는 선생님께 상담해 보자."
+ },
+ {
+  "id": "tj294",
+  "word": "傷つく",
+  "reading": "きずつく",
+  "meaning": "상처받다",
+  "level": "N2",
+  "example": "何気ない一言で心が傷ついた。",
+  "exampleReading": "なにげないひとことでこころがきずついた。",
+  "exampleMeaning": "아무렇지 않게 던진 한마디에 마음이 상했다."
+ },
+ {
+  "id": "tj295",
+  "word": "引きこもる",
+  "reading": "ひきこもる",
+  "meaning": "틀어박혀 지내다",
+  "level": "N2",
+  "example": "春から家に引きこもる生活が続いた。",
+  "exampleReading": "はるからいえにひきこもるせいかつがつづいた。",
+  "exampleMeaning": "봄부터 집에 틀어박혀 지내는 생활이 계속되었다."
  }
 ]
