@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-11",
+    "no": 66,
+    "topic_ja": "<ruby>被爆<rt>ひばく</rt></ruby>と<ruby>母<rt>はは</rt></ruby>の<ruby>背<rt>せ</rt></ruby>",
+    "topic_ko": "피폭과 어머니의 등",
+    "url": "https://www.asahi.com/articles/DA3S16544352.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘전쟁의 기억’, ‘가족의 몸’, ‘말과 정체성’ — 방언과 별명이라는 언어 단서를 통해 개인의 체험이 역사적 폭력과 맞닿는 과정을 보여 주기 때문.",
+    "pattern": "〜で<ruby>言<rt>い</rt></ruby>うところの"
+  },
+  {
     "date": "2026-09-10",
     "no": 65,
     "topic_ja": "<ruby>通気口<rt>つうきこう</rt></ruby>を<ruby>求<rt>もと</rt></ruby>めて",

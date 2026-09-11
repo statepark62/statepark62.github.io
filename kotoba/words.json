@@ -8671,5 +8671,225 @@
   "example": "詐欺グループの手口は年々巧妙になっている。",
   "exampleReading": "さぎぐるーぷのてぐちはねんねんこうみょうになっている。",
   "exampleMeaning": "사기 그룹의 수법은 해마다 교묘해지고 있다."
+ },
+ {
+  "id": "news401",
+  "word": "効用",
+  "reading": "こうよう",
+  "meaning": "효용, 효과",
+  "level": "N1",
+  "example": "この薬には鎮痛の効用がある。",
+  "exampleReading": "このくすりにはちんつうのこうようがある。",
+  "exampleMeaning": "이 약에는 진통 효과가 있다."
+ },
+ {
+  "id": "news402",
+  "word": "通用",
+  "reading": "つうよう",
+  "meaning": "통용되다, 통하다",
+  "level": "N2",
+  "example": "その言い訳はもう通用しない。",
+  "exampleReading": "そのいいわけはもうつうようしない。",
+  "exampleMeaning": "그 변명은 더 이상 통하지 않는다."
+ },
+ {
+  "id": "news403",
+  "word": "絡む",
+  "reading": "からむ",
+  "meaning": "얽히다, 관련되다",
+  "level": "N2",
+  "example": "この事件には複数の企業が絡んでいる。",
+  "exampleReading": "このじけんにはふくすうのきぎょうがからんでいる。",
+  "exampleMeaning": "이 사건에는 여러 기업이 얽혀 있다."
+ },
+ {
+  "id": "news404",
+  "word": "逆走",
+  "reading": "ぎゃくそう",
+  "meaning": "역주행",
+  "level": "N2",
+  "example": "高速道路で逆走する車が増えている。",
+  "exampleReading": "こうそくどうろでぎゃくそうするくるまがふえている。",
+  "exampleMeaning": "고속도로에서 역주행하는 차가 늘고 있다."
+ },
+ {
+  "id": "news405",
+  "word": "追放",
+  "reading": "ついほう",
+  "meaning": "추방",
+  "level": "N1",
+  "example": "彼は不正行為で組織から追放された。",
+  "exampleReading": "かれはふせいこういでそしきからついほうされた。",
+  "exampleMeaning": "그는 부정행위로 조직에서 추방당했다."
+ },
+ {
+  "id": "news406",
+  "word": "苦境",
+  "reading": "くきょう",
+  "meaning": "곤경, 어려운 상황",
+  "level": "N2",
+  "example": "出版業界は長引く不況で苦境に立たされている。",
+  "exampleReading": "しゅっぱんぎょうかいはながびくふきょうでくきょうにたたされている。",
+  "exampleMeaning": "출판업계는 장기화된 불황으로 곤경에 처해 있다."
+ },
+ {
+  "id": "news407",
+  "word": "起用",
+  "reading": "きよう",
+  "meaning": "기용, 발탁",
+  "level": "N2",
+  "example": "新しい広告に若手俳優が起用された。",
+  "exampleReading": "あたらしいこうこくにわかていはいゆうがきようされた。",
+  "exampleMeaning": "새로운 광고에 젊은 배우가 기용되었다."
+ },
+ {
+  "id": "news408",
+  "word": "内定取り消し",
+  "reading": "ないていとりけし",
+  "meaning": "내정 취소",
+  "level": "N1",
+  "example": "彼は入社直前に内定取り消しを言い渡された。",
+  "exampleReading": "かれはにゅうしゃちょくぜんにないていとりけしをいいわたされた。",
+  "exampleMeaning": "그는 입사 직전에 내정 취소 통보를 받았다."
+ },
+ {
+  "id": "news409",
+  "word": "還元",
+  "reading": "かんげん",
+  "meaning": "환원, 되돌려 줌",
+  "level": "N2",
+  "example": "このカードは利用金額の一部をポイントで還元してくれる。",
+  "exampleReading": "このカードはりようきんがくのいちぶをポイントでかんげんしてくれる。",
+  "exampleMeaning": "이 카드는 이용 금액의 일부를 포인트로 환원해 준다."
+ },
+ {
+  "id": "news410",
+  "word": "質素",
+  "reading": "しっそ",
+  "meaning": "검소함, 소박함",
+  "level": "N2",
+  "example": "彼女は高収入なのに質素な暮らしを続けている。",
+  "exampleReading": "かのじょはこうしゅうにゅうなのにしっそなくらしをつづけている。",
+  "exampleMeaning": "그녀는 고소득임에도 검소한 생활을 계속하고 있다."
+ },
+ {
+  "id": "news411",
+  "word": "堪能",
+  "reading": "たんのう",
+  "meaning": "만끽함, 충분히 즐김",
+  "level": "N1",
+  "example": "旅行先で本場のうどんを堪能した。",
+  "exampleReading": "りょこうさきでほんばのうどんをたんのうした。",
+  "exampleMeaning": "여행지에서 본고장 우동을 만끽했다."
+ },
+ {
+  "id": "news412",
+  "word": "搬送",
+  "reading": "はんそう",
+  "meaning": "이송, (환자 등을) 옮겨 나름",
+  "level": "N2",
+  "example": "事故で怪我をした男性が救急車で病院に搬送された。",
+  "exampleReading": "じこでけがをしただんせいがきゅうきゅうしゃでびょういんにはんそうされた。",
+  "exampleMeaning": "사고로 다친 남성이 구급차로 병원에 이송되었다."
+ },
+ {
+  "id": "news413",
+  "word": "全治",
+  "reading": "ぜんち",
+  "meaning": "완치, (부상 등의) 완쾌까지 걸리는 기간",
+  "level": "N1",
+  "example": "彼はスキーで転んで全治3週間の骨折をした。",
+  "exampleReading": "かれはスキーでころんでぜんちさんしゅうかんのこっせつをした。",
+  "exampleMeaning": "그는 스키를 타다 넘어져서 완치까지 3주가 걸리는 골절상을 입었다."
+ },
+ {
+  "id": "news414",
+  "word": "落とし穴",
+  "reading": "おとしあな",
+  "meaning": "함정, 맹점",
+  "level": "N2",
+  "example": "その契約には見落としがちな落とし穴があった。",
+  "exampleReading": "そのけいやくにはみおとしがちなおとしあながあった。",
+  "exampleMeaning": "그 계약에는 간과하기 쉬운 함정이 있었다."
+ },
+ {
+  "id": "news415",
+  "word": "掛金",
+  "reading": "かけきん",
+  "meaning": "(보험 등의) 납입금, 불입금",
+  "level": "N1",
+  "example": "毎月の保険の掛金を口座から自動で引き落としている。",
+  "exampleReading": "まいつきのほけんのかけきんをこうざからじどうでひきおとしている。",
+  "exampleMeaning": "매달 보험 납입금을 계좌에서 자동으로 인출하고 있다."
+ },
+ {
+  "id": "news416",
+  "word": "内定",
+  "reading": "ないてい",
+  "meaning": "내정, (채용 등의) 사전 결정",
+  "level": "N2",
+  "example": "彼は第一志望の会社から内定をもらった。",
+  "exampleReading": "かれはだいいちしぼうのかいしゃからないていをもらった。",
+  "exampleMeaning": "그는 제1지망 회사로부터 내정(합격 통보)을 받았다."
+ },
+ {
+  "id": "news417",
+  "word": "証言",
+  "reading": "しょうげん",
+  "meaning": "증언",
+  "level": "N2",
+  "example": "目撃者の証言によって事件の真相が明らかになった。",
+  "exampleReading": "もくげきしゃのしょうげんによってじけんのしんそうがあきらかになった。",
+  "exampleMeaning": "목격자의 증언에 의해 사건의 진상이 밝혀졌다."
+ },
+ {
+  "id": "tj296",
+  "word": "ごんた",
+  "reading": "ごんた",
+  "meaning": "장난꾸러니, 말썽꾸러니(히로시마 방언)",
+  "level": "N1",
+  "example": "きみはほんとにごんただね。",
+  "exampleReading": "きみはほんとにごんただね",
+  "exampleMeaning": "너는 정말 장난꾸러기다."
+ },
+ {
+  "id": "tj297",
+  "word": "暴れん坊",
+  "reading": "あばれんぼう",
+  "meaning": "난동꾼, 미친 듯 날뛰는 아이",
+  "level": "N2",
+  "example": "あの子は有名な暴れん坊だ。",
+  "exampleReading": "あのこはゆうめいなあばれんぼうだ",
+  "exampleMeaning": "저 아이는 유명한 난동꾸러기다."
+ },
+ {
+  "id": "tj298",
+  "word": "被爆",
+  "reading": "ひばく",
+  "meaning": "피폭, 원폭을 맞음",
+  "level": "N1",
+  "example": "祖母は広島で被爆した。",
+  "exampleReading": "そぼはひろしまでひばくした",
+  "exampleMeaning": "할머니는 히로시마에서 피폭을 겪었다."
+ },
+ {
+  "id": "tj299",
+  "word": "背負う",
+  "reading": "せおう",
+  "meaning": "업다, 짊어지다",
+  "level": "N2",
+  "example": "母は弟を背負って歩いた。",
+  "exampleReading": "はははおとうとをせおってあるいた",
+  "exampleMeaning": "어머니는 남동생을 업고 걸었다."
+ },
+ {
+  "id": "tj300",
+  "word": "申し訳ない",
+  "reading": "もうしわけない",
+  "meaning": "정말 미안하다, 송구스럽다",
+  "level": "N2",
+  "example": "約束を守れず、本当に申し訳ない。",
+  "exampleReading": "やくそくをまもれずほんとうにもうしわけない",
+  "exampleMeaning": "약속을 지키지 못해 정말 미안하다."
  }
 ]
