@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-12",
+    "no": 67,
+    "topic_ja": "グアンタナモと<ruby>法<rt>ほう</rt></ruby>の<ruby>狭間<rt>はざま</rt></ruby>",
+    "topic_ko": "관타나모와 법의 경계",
+    "url": "https://www.asahi.com/articles/DA3S16545156.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘경계와 예외’, ‘국가와 인권’. 법의 사각지대가 어떻게 만들어지고 유지되는지, 그리고 개인의 목소리가 그 경계를 흔드는 방식을 탐구하므로 두 범주가 적합하다.",
+    "pattern": "〜に<ruby>渡<rt>わた</rt></ruby>り"
+  },
+  {
     "date": "2026-09-11",
     "no": 66,
     "topic_ja": "<ruby>被爆<rt>ひばく</rt></ruby>と<ruby>母<rt>はは</rt></ruby>の<ruby>背<rt>せ</rt></ruby>",

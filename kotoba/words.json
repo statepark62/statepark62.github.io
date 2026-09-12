@@ -8891,5 +8891,125 @@
   "example": "約束を守れず、本当に申し訳ない。",
   "exampleReading": "やくそくをまもれずほんとうにもうしわけない",
   "exampleMeaning": "약속을 지키지 못해 정말 미안하다."
+ },
+ {
+  "id": "news418",
+  "word": "引き金",
+  "reading": "ひきがね",
+  "meaning": "방아쇠, (사건 등의) 계기, 도화선",
+  "level": "N1",
+  "example": "彼の一言が二人の喧嘩の引き金になった。",
+  "exampleReading": "かれのひとことがふたりのけんかのひきがねになった。",
+  "exampleMeaning": "그의 한마디가 두 사람의 싸움의 도화선이 되었다."
+ },
+ {
+  "id": "news419",
+  "word": "補償",
+  "reading": "ほしょう",
+  "meaning": "보상",
+  "level": "N2",
+  "example": "事故の被害者には十分な補償が必要だ。",
+  "exampleReading": "じこのひがいしゃにはじゅうぶんなほしょうがひつようだ。",
+  "exampleMeaning": "사고 피해자에게는 충분한 보상이 필요하다."
+ },
+ {
+  "id": "news420",
+  "word": "感染",
+  "reading": "かんせん",
+  "meaning": "감염",
+  "level": "N2",
+  "example": "手洗いをしっかりすればウイルスの感染を防げる。",
+  "exampleReading": "てあらいをしっかりすればういるすのかんせんをふせげる。",
+  "exampleMeaning": "손을 잘 씻으면 바이러스 감염을 막을 수 있다."
+ },
+ {
+  "id": "news421",
+  "word": "奇特",
+  "reading": "きとく",
+  "meaning": "기특함, (보통 하지 않을 일을 자진해서 하는) 갸륵함",
+  "level": "N1",
+  "example": "この忙しい時期に手伝ってくれるとは奇特な人だ。",
+  "exampleReading": "このいそがしいじきにてつだってくれるとはきとくなひとだ。",
+  "exampleMeaning": "이 바쁜 시기에 도와주다니 기특한 사람이다."
+ },
+ {
+  "id": "news422",
+  "word": "後任",
+  "reading": "こうにん",
+  "meaning": "후임",
+  "level": "N1",
+  "example": "社長が引退した後、後任は社内から選ばれた。",
+  "exampleReading": "しゃちょうがいんたいしたあと、こうにんはしゃないからえらばれた。",
+  "exampleMeaning": "사장이 은퇴한 후, 후임은 사내에서 선출되었다."
+ },
+ {
+  "id": "news423",
+  "word": "見当たらない",
+  "reading": "みあたらない",
+  "meaning": "(찾는 것이) 보이지 않다, 눈에 띄지 않다",
+  "level": "N3",
+  "example": "財布をどこに置いたか見当たらない。",
+  "exampleReading": "さいふをどこにおいたかみあたらない。",
+  "exampleMeaning": "지갑을 어디에 두었는지 보이지 않는다."
+ },
+ {
+  "id": "news424",
+  "word": "挑戦",
+  "reading": "ちょうせん",
+  "meaning": "도전",
+  "level": "N3",
+  "example": "彼は新しい仕事に挑戦することを決めた。",
+  "exampleReading": "かれはあたらしいしごとにちょうせんすることをきめた。",
+  "exampleMeaning": "그는 새로운 일에 도전하기로 결심했다."
+ },
+ {
+  "id": "tj301",
+  "word": "無法地帯",
+  "reading": "むほうちたい",
+  "meaning": "무법 지대",
+  "level": "N1",
+  "example": "そこは無法地帯と化した。",
+  "exampleReading": "そこはむほうちたいとかした",
+  "exampleMeaning": "그곳은 무법 지대로 변했다."
+ },
+ {
+  "id": "tj302",
+  "word": "拷問",
+  "reading": "ごうもん",
+  "meaning": "고문",
+  "level": "N1",
+  "example": "囚人は拷問を訴えた。",
+  "exampleReading": "しゅうじんはごうもんをうったえた",
+  "exampleMeaning": "수감자는 고문을 호소했다."
+ },
+ {
+  "id": "tj303",
+  "word": "収容者",
+  "reading": "しゅうようしゃ",
+  "meaning": "수용자, 수감자",
+  "level": "N1",
+  "example": "収容者の権利を守るべきだ。",
+  "exampleReading": "しゅうようしゃのけんりをまもるべきだ",
+  "exampleMeaning": "수용자의 권리를 지켜야 한다."
+ },
+ {
+  "id": "tj304",
+  "word": "海軍基地",
+  "reading": "かいぐんきち",
+  "meaning": "해군 기지",
+  "level": "N2",
+  "example": "海軍基地は湾の奥にある。",
+  "exampleReading": "かいぐんきちはわんのおくにある",
+  "exampleMeaning": "해군 기지는 만의 안쪽에 있다."
+ },
+ {
+  "id": "tj305",
+  "word": "租借地",
+  "reading": "そしゃくち",
+  "meaning": "조차지(임차 영토)",
+  "level": "N1",
+  "example": "その港は租借地となった。",
+  "exampleReading": "そのみなとはそしゃくちとなった",
+  "exampleMeaning": "그 항구는 조차지가 되었다."
  }
 ]

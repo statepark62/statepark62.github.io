@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-12 天声人語로 배우는 일본어 — 관타나모와 법의 경계</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-12</span>
+      <span>2026년 9월 12일 (토)</span>
+    </div>
+
+    <h1>グアンタナモと<ruby>法<rt>ほう</rt></ruby>の<ruby>狭間<rt>はざま</rt></ruby></h1>
+    <p class="topic-ko">관타나모와 법의 경계</p>
+
+    <div class="keyquote">
+      <div class="ja">「この“<ruby>無法地帯<rt>むほうちたい</rt></ruby>”」</div>
+      <div class="ko">이 ‘무법지대’ <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">キューバの<ruby>南東部<rt>なんとうぶ</rt></ruby>にあるグアンタナモの<ruby>米軍基地<rt>べいぐんきち</rt></ruby>が、<ruby>長年<rt>ながねん</rt></ruby>の<ruby>租借<rt>そしゃく</rt></ruby>で<ruby>維持<rt>いじ</rt></ruby>される<ruby>特別<rt>とくべつ</rt></ruby>な<ruby>場<rt>ば</rt></ruby>として<ruby>取<rt>と</rt></ruby>り<ruby>上<rt>あ</rt></ruby>げられる。</p><p class="ko">쿠바 남동부 관타나모의 미군 기지가 오랜 조차에 기반한 특수한 장소로 소개된다.</p></div>
+      <div class="s-item"><p class="ja">そこはキューバでも<ruby>米国<rt>べいこく</rt></ruby>でもないという<ruby>曖昧<rt>あいまい</rt></ruby>な<ruby>立場<rt>たちば</rt></ruby>を<ruby>抱<rt>かか</rt></ruby>え、<ruby>無法地帯<rt>むほうちたい</rt></ruby>と<ruby>批判<rt>ひはん</rt></ruby>されてきた<ruby>経緯<rt>けいい</rt></ruby>が<ruby>示<rt>しめ</rt></ruby>される。</p><p class="ko">그곳은 쿠바도 미국도 아닌 모호한 지위를 지녀 ‘무법지대’라는 비판이 따라붙는다고 한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>元<rt>もと</rt></ruby><ruby>収容者<rt>しゅうようしゃ</rt></ruby>の<ruby>手記<rt>しゅき</rt></ruby>が<ruby>示<rt>しめ</rt></ruby>す<ruby>拷問<rt>ごうもん</rt></ruby>の<ruby>実態<rt>じったい</rt></ruby>に<ruby>向<rt>む</rt></ruby>き<ruby>合<rt>あ</rt></ruby>い、<ruby>権力<rt>けんりょく</rt></ruby>と<ruby>法<rt>ほう</rt></ruby>の<ruby>関係<rt>かんけい</rt></ruby>を<ruby>問<rt>と</rt></ruby>い<ruby>直<rt>なお</rt></ruby>す<ruby>視点<rt>してん</rt></ruby>が<ruby>提示<rt>ていじ</rt></ruby>される。</p><p class="ko">전 수용자의 수기가 드러낸 고문의 실태를 통해 권력과 법의 관계를 다시 묻는 시선이 제시된다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>無法地帯<rt>むほうちたい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">무법 지대</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">そこは<ruby>無法地帯<rt>むほうちたい</rt></ruby>と<ruby>化<rt>か</rt></ruby>した。</span><br>그곳은 무법 지대로 변했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>拷問<rt>ごうもん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">고문</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>囚人<rt>しゅうじん</rt></ruby>は<ruby>拷問<rt>ごうもん</rt></ruby>を<ruby>訴<rt>うった</rt></ruby>えた。</span><br>수감자는 고문을 호소했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>収容者<rt>しゅうようしゃ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수용자, 수감자</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>収容者<rt>しゅうようしゃ</rt></ruby>の<ruby>権利<rt>けんり</rt></ruby>を<ruby>守<rt>まも</rt></ruby>るべきだ。</span><br>수용자의 권리를 지켜야 한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>海軍基地<rt>かいぐんきち</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">해군 기지</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>海軍基地<rt>かいぐんきち</rt></ruby>は<ruby>湾<rt>わん</rt></ruby>の<ruby>奥<rt>おく</rt></ruby>にある。</span><br>해군 기지는 만의 안쪽에 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>租借地<rt>そしゃくち</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">조차지(임차 영토)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">その<ruby>港<rt>みなと</rt></ruby>は<ruby>租借地<rt>そしゃくち</rt></ruby>となった。</span><br>그 항구는 조차지가 되었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜に<ruby>渡<rt>わた</rt></ruby>り</div>
+        <div class="pattern-ko">~에 걸쳐</div>
+        <p class="explain">시간·공간·범위가 넓게 이어짐을 나타낸다. 공식 문어체에서 자주 쓰이며, 〜にわたって로도 쓴다. 기간의 길이나 대상의 폭을 강조하는 효과가 있다.</p>
+        <p class="ex"><span class="ja"><ruby>十年<rt>じゅうねん</rt></ruby>に<ruby>渡<rt>わた</rt></ruby>り、この<ruby>町<rt>まち</rt></ruby>は<ruby>平和<rt>へいわ</rt></ruby>の<ruby>祭<rt>まつ</rt></ruby>りを<ruby>続<rt>つづ</rt></ruby>けている。</span><br>10년에 걸쳐, 이 도시는 평화 축제를 이어 오고 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 장소의 성격을 정교하게 묘사하는 것으로 시작해 독자를 사유로 끌어들인다. ‘거기 있지만 거기가 아니다’라는 역설적 구도를 통해, 지리적·법적 경계의 모호함이 어떤 결과를 낳는지 조심스럽게 드러낸다. 이어 ‘무법지대’라는 낱말을 배치해 정서적 긴장을 올리고, 전환부에서 개인의 증언(수기)로 시선을 낮추어 구체적 고통을 감지하게 한다. 천성인어 특유의 간명한 문장과 대조법이 응축된 전개다.</p>
+        <p>글이 남기는 질문은 명확하다. 국가 안보와 인권, 주권과 임차, 법과 예외 상태의 경계는 어디에 있어야 하는가. 한국 독자에게도 군사기지와 치외법권의 뉘앙스는 낯설지 않으며, 제도 밖으로 밀려난 개인의 목소리를 어떻게 다시 제도 안으로 불러올지 고민하게 만든다. 간단한 사실 서술에서 공론의 윤리적 초점으로 매끄럽게 이동하는 점이 특히 인상적이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 관타나모라는 경계적 공간을 통해 법과 권력의 균형을 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>관타나모 만 미 해군 기지는 20세기 초 체결된 조약에 따라 장기간 임차 형태로 유지되어 왔다.</p>
+        <p>9·11 이후 테러와의 전쟁 국면에서 이곳에 민간인·전투원 여부가 불분명한 이들이 수용되었다는 점이 국제적으로 큰 논쟁을 불러왔다.</p>
+        <p>고문 의혹과 재판 절차의 공정성 문제는 지금도 인권·국제법 담론의 핵심 쟁점으로 반복 소환된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 지명과 제도 용어로 현실의 무게를 먼저 제시한 뒤, 개인의 증언으로 감정의 결을 입힌다.</p>
+        <p><span class="n">二</span>‘A이지만 A가 아니다’ 식의 역설적 대비로 독자의 인식을 흔들고 핵심 문제를 부각한다.</p>
+        <p><span class="n">三</span>감정적 단어(무법지대)를 이르게 던지되, 곧바로 사실과 증언으로 받쳐 균형을 유지한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>境界<rt>きょうかい</rt></ruby>が<ruby>曖昧<rt>あいまい</rt></ruby>な<ruby>場所<rt>ばしょ</rt></ruby>では、<ruby>最<rt>もっと</rt></ruby>も<ruby>守<rt>まも</rt></ruby>るべきは<ruby>人権<rt>じんけん</rt></ruby>だ。</span>
+      <span class="ko">경계가 모호한 곳일수록 가장 지켜야 할 것은 인권이다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-12) — <a href="https://www.asahi.com/articles/DA3S16545156.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-12.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
