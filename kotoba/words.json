@@ -9011,5 +9011,65 @@
   "example": "その港は租借地となった。",
   "exampleReading": "そのみなとはそしゃくちとなった",
   "exampleMeaning": "그 항구는 조차지가 되었다."
+ },
+ {
+  "id": "news425",
+  "word": "すら",
+  "reading": "すら",
+  "meaning": "~조차, ~마저",
+  "level": "N1",
+  "example": "彼はひらがなすら書けない。",
+  "exampleReading": "かれはひらがなすらかけない。",
+  "exampleMeaning": "그는 히라가나조차 쓰지 못한다."
+ },
+ {
+  "id": "news426",
+  "word": "一斉",
+  "reading": "いっせい",
+  "meaning": "일제히, 동시에",
+  "level": "N2",
+  "example": "警察は駅前で一斉に取り締まりを行った。",
+  "exampleReading": "けいさつはえきまえでいっせいにとりしまりをおこなった。",
+  "exampleMeaning": "경찰은 역 앞에서 일제히 단속을 실시했다."
+ },
+ {
+  "id": "news427",
+  "word": "偽造",
+  "reading": "ぎぞう",
+  "meaning": "위조",
+  "level": "N2",
+  "example": "彼は偽造したパスポートで入国しようとした。",
+  "exampleReading": "かれはぎぞうしたパスポートでにゅうこくしようとした。",
+  "exampleMeaning": "그는 위조한 여권으로 입국하려 했다."
+ },
+ {
+  "id": "news428",
+  "word": "拡大",
+  "reading": "かくだい",
+  "meaning": "확대",
+  "level": "N3",
+  "example": "感染がアジア全体に拡大した。",
+  "exampleReading": "かんせんがアジアぜんたいにかくだいした。",
+  "exampleMeaning": "감염이 아시아 전역으로 확대되었다."
+ },
+ {
+  "id": "news429",
+  "word": "全貌",
+  "reading": "ぜんぼう",
+  "meaning": "전모, 전체 모습",
+  "level": "N1",
+  "example": "事件の全貌がようやく明らかになった。",
+  "exampleReading": "じけんのぜんぼうがようやくあきらかになった。",
+  "exampleMeaning": "사건의 전모가 마침내 밝혀졌다."
+ },
+ {
+  "id": "news430",
+  "word": "見舞われる",
+  "reading": "みまわれる",
+  "meaning": "(재난·불행 등을) 당하다, 겪다",
+  "level": "N2",
+  "example": "昨夜、この地域は激しい大雨に見舞われた。",
+  "exampleReading": "さくや、このちいきははげしいおおあめにみまわれた。",
+  "exampleMeaning": "어젯밤, 이 지역은 심한 폭우를 겪었다."
  }
 ]
