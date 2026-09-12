@@ -9071,5 +9071,135 @@
   "example": "昨夜、この地域は激しい大雨に見舞われた。",
   "exampleReading": "さくや、このちいきははげしいおおあめにみまわれた。",
   "exampleMeaning": "어젯밤, 이 지역은 심한 폭우를 겪었다."
+ },
+ {
+  "id": "news431",
+  "word": "祝辞",
+  "reading": "しゅくじ",
+  "meaning": "축사",
+  "level": "N2",
+  "example": "彼女は結婚式で心のこもった祝辞を述べた。",
+  "exampleReading": "かのじょはけっこんしきでこころのこもったしゅくじをのべた。",
+  "exampleMeaning": "그녀는 결혼식에서 진심 어린 축사를 했다."
+ },
+ {
+  "id": "news432",
+  "word": "発達",
+  "reading": "はったつ",
+  "meaning": "발달, (기상에서) 세력이 강해짐",
+  "level": "N3",
+  "example": "台風が急速に発達しながら北上している。",
+  "exampleReading": "たいふうがきゅうそくにはったつしながらほくじょうしている。",
+  "exampleMeaning": "태풍이 급속히 발달하면서 북상하고 있다."
+ },
+ {
+  "id": "news433",
+  "word": "意識不明",
+  "reading": "いしきふめい",
+  "meaning": "의식불명",
+  "level": "N2",
+  "example": "事故に巻き込まれた男性は意識不明の重体だ。",
+  "exampleReading": "じこにまきこまれただんせいはいしきふめいのじゅうたいだ。",
+  "exampleMeaning": "사고에 휘말린 남성은 의식불명의 중태이다."
+ },
+ {
+  "id": "news434",
+  "word": "重体",
+  "reading": "じゅうたい",
+  "meaning": "중태, 위독한 상태",
+  "level": "N2",
+  "example": "彼は交通事故で重体に陥った。",
+  "exampleReading": "かれはこうつうじこでじゅうたいにおちいった。",
+  "exampleMeaning": "그는 교통사고로 중태에 빠졌다."
+ },
+ {
+  "id": "news435",
+  "word": "名指し",
+  "reading": "なざし",
+  "meaning": "실명 거론, 콕 집어 지목함",
+  "level": "N2",
+  "example": "彼はミスの責任者として名指しされた。",
+  "exampleReading": "かれはミスのせきにんしゃとしてなざしされた。",
+  "exampleMeaning": "그는 실수의 책임자로 지목되었다."
+ },
+ {
+  "id": "news436",
+  "word": "批判殺到",
+  "reading": "ひはんさっとう",
+  "meaning": "비판이 쇄도함",
+  "level": "N1",
+  "example": "その発言に対してSNSで批判が殺到した。",
+  "exampleReading": "そのはつげんにたいしてエスエヌエスでひはんがさっとうした。",
+  "exampleMeaning": "그 발언에 대해 SNS에서 비판이 쇄도했다."
+ },
+ {
+  "id": "news437",
+  "word": "釈明",
+  "reading": "しゃくめい",
+  "meaning": "해명, 변명",
+  "level": "N1",
+  "example": "彼は不正について釈明を求められた。",
+  "exampleReading": "かれはふせいについてしゃくめいをもとめられた。",
+  "exampleMeaning": "그는 부정에 대해 해명을 요구받았다."
+ },
+ {
+  "id": "news438",
+  "word": "賛否両論",
+  "reading": "さんぴりょうろん",
+  "meaning": "찬반양론",
+  "level": "N1",
+  "example": "その政策には賛否両論がある。",
+  "exampleReading": "そのせいさくにはさんぴりょうろんがある。",
+  "exampleMeaning": "그 정책에는 찬반양론이 있다."
+ },
+ {
+  "id": "tj306",
+  "word": "佇む",
+  "reading": "たたずむ",
+  "meaning": "가만히 서 있다",
+  "level": "N1",
+  "example": "公園の木陰に一人でたたずむ。",
+  "exampleReading": "こうえんのこかげにひとりでたたずむ",
+  "exampleMeaning": "공원 그늘에 홀로 가만히 서 있다."
+ },
+ {
+  "id": "tj307",
+  "word": "偲ぶ",
+  "reading": "しのぶ",
+  "meaning": "추모하다, 그리워하다",
+  "level": "N2",
+  "example": "亡き友を偲ぶ集いが開かれた。",
+  "exampleReading": "なきともをしのぶつどいがひらかれた",
+  "exampleMeaning": "고인이 된 친구를 기리는 모임이 열렸다."
+ },
+ {
+  "id": "tj308",
+  "word": "繁華街",
+  "reading": "はんかがい",
+  "meaning": "번화가",
+  "level": "N2",
+  "example": "夜の繁華街は人であふれる。",
+  "exampleReading": "よるのはんかがいはひとであふれる",
+  "exampleMeaning": "밤의 번화가는 사람들로 가득하다."
+ },
+ {
+  "id": "tj309",
+  "word": "旧満州",
+  "reading": "きゅうまんしゅう",
+  "meaning": "구 만주(옛 만주)",
+  "level": "N2",
+  "example": "祖父は旧満州で生まれた。",
+  "exampleReading": "そふはきゅうまんしゅうでうまれた",
+  "exampleMeaning": "할아버지는 옛 만주에서 태어났다."
+ },
+ {
+  "id": "tj310",
+  "word": "へそを見つめる",
+  "reading": "へそをみつめる",
+  "meaning": "배꼽을 응시하다",
+  "level": "N3",
+  "example": "寂しいとき、へそを見つめてこころを落ち着かせた。",
+  "exampleReading": "さびしいときへそをみつめてこころをおちつかせた",
+  "exampleMeaning": "쓸쓸할 때 배꼽을 바라보며 마음을 가라앉혔다."
  }
 ]

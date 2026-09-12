@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-13",
+    "no": 68,
+    "topic_ja": "ともちゃん<ruby>地蔵<rt>じぞう</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
+    "topic_ko": "토모짱 지장의 기억",
+    "url": "https://www.asahi.com/articles/DA3S16545790.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '전후의 기억', '도시와 추모', '작은 기념물' — 화려한 도시 공간 속에서 작은 조형물이 역사적 상실을 환기하는 과정을 다뤄, 개인적 기억과 사회적 기억의 만남을 보여 주기 때문.",
+    "pattern": "〜ような<ruby>姿<rt>すがた</rt></ruby>で"
+  },
+  {
     "date": "2026-09-12",
     "no": 67,
     "topic_ja": "グアンタナモと<ruby>法<rt>ほう</rt></ruby>の<ruby>狭間<rt>はざま</rt></ruby>",
