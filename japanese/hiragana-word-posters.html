@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>히라가나로 시작하는 단어 (50음 전체)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+
+  header{ padding:44px 20px 28px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(228,87,46,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(59,110,165,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(26.5px, 6vw, 38px); font-weight:900; letter-spacing:-0.02em; }
+  header .hero{ font-family:'Noto Serif JP', serif; font-size:clamp(18.5px, 4vw, 23.5px); color:var(--sub); margin-top:10px; }
+  header p.desc{ margin:14px auto 0; max-width:560px; color:var(--sub); font-size:19px; }
+
+  nav.rownav{ position:sticky; top:0; z-index:20; background:rgba(251,248,242,0.96); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line); padding:10px 12px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  nav.rownav::-webkit-scrollbar{display:none;}
+  nav.rownav a{ flex:0 0 auto; text-decoration:none; font-size:17px; font-weight:700; color:var(--ink);
+    background:var(--card); border:1.5px solid var(--line); padding:7px 13px; border-radius:999px; white-space:nowrap; }
+
+  main{max-width:1180px;margin:0 auto;padding:6px 14px 60px;}
+
+  section.gyou{ margin-top:40px; scroll-margin-top:64px; }
+  section.gyou .gyou-head{ display:flex; align-items:baseline; gap:10px; padding:0 2px 12px; border-bottom:3px solid var(--accent); }
+  section.gyou .gyou-head .jptitle{ font-family:'Noto Serif JP', serif; font-size:31.5px; font-weight:700; color:var(--accent); }
+  section.gyou .gyou-head .kotitle{ font-size:17px; color:var(--sub); font-weight:500; }
+
+  .poster{ margin-top:26px; scroll-margin-top:64px; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--card); }
+  .poster .ptop{ display:flex; align-items:center; gap:12px; padding:14px 16px; background:color-mix(in srgb, var(--accent) 10%, white); border-bottom:1px solid var(--line); }
+  .poster .badge{ width:44px; height:44px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center;
+    font-family:'Noto Serif JP', serif; font-size:28.5px; font-weight:700; flex:0 0 auto; }
+  .poster .ptitle{ font-size:19px; font-weight:700; }
+  .poster .pbody{ padding:14px 16px 16px; }
+
+  .wgrid{ display:grid; grid-template-columns:repeat(2,1fr); gap:9px; }
+  @media(min-width:560px){ .wgrid{grid-template-columns:repeat(2,1fr);} }
+  @media(min-width:760px){ .wgrid{grid-template-columns:repeat(4,1fr);} }
+
+  .wcard{ background:var(--paper); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:9px; padding:10px 11px; }
+  .wcard .wjp{ font-family:'Noto Serif JP', serif; font-weight:700; font-size:21.5px; }
+  .wcard .wtop{ display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
+  .wcard .wicon{ font-size:22px; }
+  .wcard .wkanji{ font-size:14.5px; color:var(--sub); margin-left:3px; }
+  .wcard .wromaji{ font-size:14.5px; color:#9c927a; font-style:italic; margin-top:2px; }
+  .wcard .wkr{ font-size:17.5px; font-weight:700; color:var(--accent); margin-top:2px; }
+  .wcard .wmean{ font-size:15px; color:var(--sub); margin-top:3px; }
+  .wcard .wpos{ font-size:13px; color:#a99b78; font-weight:700; }
+
+  .exlist{ margin-top:12px; display:flex; flex-direction:column; gap:7px; }
+  .exlist .ex{ font-size:15.5px; background:#fff; border:1px dashed var(--line); border-radius:8px; padding:8px 10px; }
+  .exlist .ex .exjp{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:17.5px; }
+  .exlist .ex .exromaji{ color:#9c927a; font-style:italic; font-size:14.5px; margin-top:2px; }
+  .exlist .ex .exkr{ font-weight:700; color:var(--accent); font-size:15.5px; margin-top:2px; }
+  .exlist .ex .exmean{ color:var(--sub); margin-top:2px; }
+
+  .tip{ margin-top:12px; font-size:15.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+
+  .noteonly{ padding:16px; font-size:17px; color:var(--sub); line-height:1.6; }
+
+  footer{ max-width:920px; margin:10px auto 50px; padding:22px 20px; background:var(--card); border:1px solid var(--line); border-radius:14px; }
+  footer h2{ font-size:20.5px; margin:0 0 10px; }
+  footer p{ font-size:17.5px; color:var(--sub); margin:0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero jp">ひらがな 50音 から始まることば</div>
+  <h1>히라가나로 시작하는 단어 (50음 전체)</h1>
+  <p class="desc">글자마다 자주 쓰는 단어 3~4개, 예문, 외우는 팁을 정리했습니다. <b style="color:#E4572E">굵은 색 글자</b>는 한글 발음, <i>이탤릭체</i>는 로마자(영어) 표기예요. 히라가나를 몰라도 소리 내어 읽을 수 있어요.</p>
+</header>
+
+<nav class="rownav" id="rownav"></nav>
+<main id="main"></main>
+
+<footer>
+  <h2>일러두기</h2>
+  <p>한글 발음은 실제 일본어 발음과 100% 같지 않아요. 가능하면 원어민 음성도 함께 들으며 연습해보세요. [명사]·[동사]·[형용사]·[な형]·[부사]·[인사말]은 품사를 나타냅니다.</p>
+</footer>
+
+<script>
+const GYOU = [
+{ id:'a', accent:'#E4572E', jp:'あ行', ko:'아행', chars:[
+  { ch:'あ', words:[
+      {jp:'あさ', kanji:'朝', romaji:'asa', kr:'아사', pos:'명사', mean:'아침, 오전', icon:'🌅'},
+      {jp:'あさごはん', kanji:'朝ご飯', romaji:'asagohan', kr:'아사고항', pos:'명사', mean:'아침밥', icon:'🍚'},
+      {jp:'あめ', kanji:'雨', romaji:'ame', kr:'아메', pos:'명사', mean:'비', icon:'🌧️'},
+      {jp:'あか', kanji:'赤', romaji:'aka', kr:'아카', pos:'명사', mean:'빨간색', icon:'🍎'},
+      {jp:'ありがとう', romaji:'arigatou', kr:'아리가토-', pos:'인사말', mean:'고마워요', icon:'🙏'},
+      {jp:'あいさつ', kanji:'挨拶', romaji:'aisatsu', kr:'아이사츠', pos:'명사', mean:'인사', icon:'👋'},
+    ],
+    examples:[
+      {jp:'あさごはんを たべました。', romaji:'asagohan wo tabemashita.', kr:'아사고항오 타베마시타', mean:'아침밥을 먹었어요.'},
+      {jp:'あめが ふっています。', romaji:'ame ga futte imasu.', kr:'아메가 훗테이마스', mean:'비가 내리고 있어요.'},
+    ], tip:'「あ」는 사물의 시작·처음이라는 이미지가 있어요.'},
+]},
+{ id:'a2', accent:'#E4572E', jp:'', ko:'', chars:[
+  { ch:'い', words:[
+      {jp:'いえ', kanji:'家', romaji:'ie', kr:'이에', pos:'명사', mean:'집', icon:'🏠'},
+      {jp:'いす', kanji:'椅子', romaji:'isu', kr:'이스', pos:'명사', mean:'의자', icon:'🪑'},
+      {jp:'いぬ', kanji:'犬', romaji:'inu', kr:'이누', pos:'명사', mean:'개', icon:'🐶'},
+      {jp:'いちご', kanji:'苺', romaji:'ichigo', kr:'이치고', pos:'명사', mean:'딸기', icon:'🍓'},
+      {jp:'いい／よい', kanji:'良い', romaji:'ii / yoi', kr:'이- / 요이', pos:'형용사', mean:'좋다', icon:'👍'},
+      {jp:'いたい', kanji:'痛い', romaji:'itai', kr:'이타이', pos:'형용사', mean:'아프다', icon:'🤕'},
+      {jp:'いく', kanji:'行く', romaji:'iku', kr:'이쿠', pos:'동사', mean:'가다', icon:'🚶'},
+      {jp:'いる', romaji:'iru', kr:'이루', pos:'동사', mean:'(사람·동물이) 있다', icon:'🧍'},
+    ],
+    examples:[
+      {jp:'わたしの いえは おおきいです。', romaji:'watashi no ie wa ookii desu.', kr:'와타시노 이에와 오오키-데스', mean:'제 집은 커요.'},
+      {jp:'あたまが いたいので、やすみます。', romaji:'atama ga itai node, yasumimasu.', kr:'아타마가 이타이노데, 야스미마스', mean:'머리가 아파서 쉴게요.'},
+    ], tip:'「い」의 발음을 의식하며 소리 내어 읽어보세요.'},
+]},
+{ id:'a3', accent:'#E4572E', jp:'', ko:'', chars:[
+  { ch:'う', words:[
+      {jp:'うえ', kanji:'上', romaji:'ue', kr:'우에', pos:'명사', mean:'위', icon:'⬆️'},
+      {jp:'うし', kanji:'牛', romaji:'ushi', kr:'우시', pos:'명사', mean:'소', icon:'🐄'},
+      {jp:'うみ', kanji:'海', romaji:'umi', kr:'우미', pos:'명사', mean:'바다', icon:'🌊'},
+      {jp:'うた', kanji:'歌', romaji:'uta', kr:'우타', pos:'명사', mean:'노래', icon:'🎵'},
+      {jp:'うち', kanji:'家・内', romaji:'uchi', kr:'우치', pos:'명사', mean:'집, 안', icon:'🏡'},
+      {jp:'うれしい', kanji:'嬉しい', romaji:'ureshii', kr:'우레시-', pos:'형용사', mean:'기쁘다', icon:'😊'},
+      {jp:'うまい', romaji:'umai', kr:'우마이', pos:'형용사', mean:'맛있다, 잘하다', icon:'👌'},
+      {jp:'うごく', kanji:'動く', romaji:'ugoku', kr:'우고쿠', pos:'동사', mean:'움직이다', icon:'🏃'},
+    ],
+    examples:[
+      {jp:'たなの うえに ほんが あります。', romaji:'tana no ue ni hon ga arimasu.', kr:'타나노 우에니 홍가 아리마스', mean:'선반 위에 책이 있어요.'},
+      {jp:'くるまを うんてんして、がっこうへ いきます。', romaji:'kuruma wo unten shite, gakkou e ikimasu.', kr:'쿠루마오 운텐시테, 각코-에 이키마스', mean:'차를 운전해서 학교에 가요.'},
+    ], tip:'그림과 함께 소리 내어 읽고, 직접 써보면 더 잘 외워져요.'},
+]},
+{ id:'a4', accent:'#E4572E', jp:'', ko:'', chars:[
+  { ch:'え', words:[
+      {jp:'えいが', kanji:'映画', romaji:'eiga', kr:'에이가', pos:'명사', mean:'영화', icon:'🎬'},
+      {jp:'えんぴつ', kanji:'鉛筆', romaji:'enpitsu', kr:'엔피츠', pos:'명사', mean:'연필', icon:'✏️'},
+      {jp:'えき', kanji:'駅', romaji:'eki', kr:'에키', pos:'명사', mean:'역', icon:'🚉'},
+      {jp:'えがお', kanji:'笑顔', romaji:'egao', kr:'에가오', pos:'명사', mean:'웃는 얼굴', icon:'😄'},
+    ],
+    examples:[
+      {jp:'えいがを みました。', romaji:'eiga wo mimashita.', kr:'에이가오 미마시타', mean:'영화를 봤어요.'},
+      {jp:'えんぴつで えを かきます。', romaji:'enpitsu de e wo kakimasu.', kr:'엔피츠데 에오 카키마스', mean:'연필로 그림을 그려요.'},
+    ], tip:'「え」는 「絵」「駅」「笑う」처럼 가까운 곳에 많이 있어요.'},
+]},
+{ id:'a5', accent:'#E4572E', jp:'', ko:'', chars:[
+  { ch:'お', words:[
+      {jp:'おかね', kanji:'お金', romaji:'okane', kr:'오카네', pos:'명사', mean:'돈', icon:'💰'},
+      {jp:'おおきい', kanji:'大きい', romaji:'ookii', kr:'오오키-', pos:'형용사', mean:'크다', icon:'🐘'},
+      {jp:'おいしい', romaji:'oishii', kr:'오이시-', pos:'형용사', mean:'맛있다', icon:'😋'},
+      {jp:'おくる', kanji:'送る', romaji:'okuru', kr:'오쿠루', pos:'동사', mean:'보내다', icon:'🎁'},
+      {jp:'おと', kanji:'音', romaji:'oto', kr:'오토', pos:'명사', mean:'소리', icon:'🔔'},
+    ],
+    examples:[
+      {jp:'おかねを はらいます。', romaji:'okane wo haraimasu.', kr:'오카네오 하라이마스', mean:'돈을 지불해요.'},
+      {jp:'ケーキが おいしいです。', romaji:'keeki ga oishii desu.', kr:'케-키가 오이시-데스', mean:'케이크가 맛있어요.'},
+    ], tip:'「お」로 시작하는 단어는 일상에서 자주 쓰는 것이 많아요.'},
+]},
+{ id:'ka', accent:'#D9A441', jp:'か行', ko:'카행', chars:[
+  { ch:'か', words:[
+      {jp:'かばん', kanji:'鞄', romaji:'kaban', kr:'카방', pos:'명사', mean:'가방', icon:'🎒'},
+      {jp:'かお', kanji:'顔', romaji:'kao', kr:'카오', pos:'명사', mean:'얼굴', icon:'😊'},
+      {jp:'かう', kanji:'買う', romaji:'kau', kr:'카우', pos:'동사', mean:'사다', icon:'🛍️'},
+      {jp:'かわいい', romaji:'kawaii', kr:'카와이-', pos:'형용사', mean:'귀엽다', icon:'🥰'},
+    ],
+    examples:[
+      {jp:'かばんを かいました。', romaji:'kaban wo kaimashita.', kr:'카방오 카이마시타', mean:'가방을 샀어요.'},
+      {jp:'この いぬは かわいいです。', romaji:'kono inu wa kawaii desu.', kr:'코노 이누와 카와이-데스', mean:'이 개는 귀여워요.'},
+    ], tip:'「か」로 시작하는 말은 쇼핑・외모 표현에 자주 등장해요.'},
+  { ch:'き', words:[
+      {jp:'きのう', kanji:'昨日', romaji:'kinou', kr:'키노-', pos:'명사', mean:'어제', icon:'📅'},
+      {jp:'きって', kanji:'切手', romaji:'kitte', kr:'킷테', pos:'명사', mean:'우표', icon:'✉️'},
+      {jp:'きく', kanji:'聞く', romaji:'kiku', kr:'키쿠', pos:'동사', mean:'듣다, 묻다', icon:'👂'},
+      {jp:'きれい', romaji:'kirei', kr:'키레-', pos:'な형', mean:'예쁘다, 깨끗하다', icon:'✨'},
+    ],
+    examples:[
+      {jp:'きのう えいがを みました。', romaji:'kinou eiga wo mimashita.', kr:'키노- 에이가오 미마시타', mean:'어제 영화를 봤어요.'},
+      {jp:'このはなは きれいです。', romaji:'kono hana wa kirei desu.', kr:'코노하나와 키레-데스', mean:'이 꽃은 예뻐요.'},
+    ], tip:'きれい처럼 な형용사는 명사를 꾸밀 때「きれいな」가 돼요.'},
+  { ch:'く', words:[
+      {jp:'くつ', kanji:'靴', romaji:'kutsu', kr:'쿠츠', pos:'명사', mean:'신발', icon:'👟'},
+      {jp:'くるま', kanji:'車', romaji:'kuruma', kr:'쿠루마', pos:'명사', mean:'자동차', icon:'🚗'},
+      {jp:'くる', kanji:'来る', romaji:'kuru', kr:'쿠루', pos:'동사', mean:'오다', icon:'🚶‍♂️'},
+      {jp:'くらい', kanji:'暗い', romaji:'kurai', kr:'쿠라이', pos:'형용사', mean:'어둡다', icon:'🌑'},
+    ],
+    examples:[
+      {jp:'あたらしい くつを かいました。', romaji:'atarashii kutsu wo kaimashita.', kr:'아타라시- 쿠츠오 카이마시타', mean:'새 신발을 샀어요.'},
+      {jp:'へやが くらいです。', romaji:'heya ga kurai desu.', kr:'헤야가 쿠라이데스', mean:'방이 어두워요.'},
+    ], tip:'くる(오다)는 불규칙 동사라서 활용형을 따로 외워야 해요.'},
+  { ch:'け', words:[
+      {jp:'けさ', kanji:'今朝', romaji:'kesa', kr:'케사', pos:'명사', mean:'오늘 아침', icon:'🌄'},
+      {jp:'けいたい', kanji:'携帯', romaji:'keitai', kr:'케-타이', pos:'명사', mean:'휴대폰', icon:'📱'},
+      {jp:'けす', kanji:'消す', romaji:'kesu', kr:'케스', pos:'동사', mean:'끄다, 지우다', icon:'🧹'},
+      {jp:'けっこん', kanji:'結婚', romaji:'kekkon', kr:'켁콘', pos:'명사', mean:'결혼', icon:'💍'},
+    ],
+    examples:[
+      {jp:'けさ はやく おきました。', romaji:'kesa hayaku okimashita.', kr:'케사 하야쿠 오키마시타', mean:'오늘 아침 일찍 일어났어요.'},
+      {jp:'でんきを けしてください。', romaji:'denki wo keshite kudasai.', kr:'뎅키오 케시테쿠다사이', mean:'불을 꺼 주세요.'},
+    ], tip:'けさ(오늘 아침)와 あさ(아침)를 헷갈리지 않도록 주의하세요.'},
+  { ch:'こ', words:[
+      {jp:'こども', kanji:'子供', romaji:'kodomo', kr:'코도모', pos:'명사', mean:'어린이', icon:'🧒'},
+      {jp:'ここ', romaji:'koko', kr:'코코', pos:'명사', mean:'여기', icon:'📍'},
+      {jp:'こたえる', kanji:'答える', romaji:'kotaeru', kr:'코타에루', pos:'동사', mean:'대답하다', icon:'💬'},
+      {jp:'こわい', kanji:'怖い', romaji:'kowai', kr:'코와이', pos:'형용사', mean:'무섭다', icon:'😱'},
+    ],
+    examples:[
+      {jp:'こどもが あそんでいます。', romaji:'kodomo ga asonde imasu.', kr:'코도모가 아손데이마스', mean:'아이가 놀고 있어요.'},
+      {jp:'このえいがは こわいです。', romaji:'kono eiga wa kowai desu.', kr:'코노에이가와 코와이데스', mean:'이 영화는 무서워요.'},
+    ], tip:'ここ(여기)・そこ(거기)・あそこ(저기)를 세트로 외우면 편해요.'},
+]},
+{ id:'sa', accent:'#8A9A5B', jp:'さ行', ko:'사행', chars:[
+  { ch:'さ', words:[
+      {jp:'さくら', kanji:'桜', romaji:'sakura', kr:'사쿠라', pos:'명사', mean:'벚꽃', icon:'🌸'},
+      {jp:'さかな', kanji:'魚', romaji:'sakana', kr:'사카나', pos:'명사', mean:'물고기', icon:'🐟'},
+      {jp:'さむい', kanji:'寒い', romaji:'samui', kr:'사무이', pos:'형용사', mean:'춥다', icon:'🥶'},
+      {jp:'さがす', kanji:'探す', romaji:'sagasu', kr:'사가스', pos:'동사', mean:'찾다', icon:'🔍'},
+    ],
+    examples:[
+      {jp:'さくらが きれいです。', romaji:'sakura ga kirei desu.', kr:'사쿠라가 키레-데스', mean:'벚꽃이 예뻐요.'},
+      {jp:'ふゆは さむいです。', romaji:'fuyu wa samui desu.', kr:'후유와 사무이데스', mean:'겨울은 추워요.'},
+    ], tip:'계절・날씨 표현에 さ행 단어가 많이 나와요.'},
+  { ch:'し', words:[
+      {jp:'しごと', kanji:'仕事', romaji:'shigoto', kr:'시고토', pos:'명사', mean:'일, 직업', icon:'💼'},
+      {jp:'しんぶん', kanji:'新聞', romaji:'shinbun', kr:'신붕', pos:'명사', mean:'신문', icon:'📰'},
+      {jp:'しる', kanji:'知る', romaji:'shiru', kr:'시루', pos:'동사', mean:'알다', icon:'💡'},
+      {jp:'しずか', kanji:'静か', romaji:'shizuka', kr:'시즈카', pos:'な형', mean:'조용하다', icon:'🤫'},
+    ],
+    examples:[
+      {jp:'しごとが いそがしいです。', romaji:'shigoto ga isogashii desu.', kr:'시고토가 이소가시-데스', mean:'일이 바빠요.'},
+      {jp:'このへやは しずかです。', romaji:'kono heya wa shizuka desu.', kr:'코노헤야와 시즈카데스', mean:'이 방은 조용해요.'},
+    ], tip:'しずか는 な형용사라서 명사를 꾸밀 때「しずかな」가 돼요.'},
+  { ch:'す', words:[
+      {jp:'すし', kanji:'寿司', romaji:'sushi', kr:'스시', pos:'명사', mean:'초밥', icon:'🍣'},
+      {jp:'すいか', romaji:'suika', kr:'스이카', pos:'명사', mean:'수박', icon:'🍉'},
+      {jp:'すわる', kanji:'座る', romaji:'suwaru', kr:'스와루', pos:'동사', mean:'앉다', icon:'🪑'},
+      {jp:'すき', kanji:'好き', romaji:'suki', kr:'스키', pos:'な형', mean:'좋아함', icon:'❤️'},
+    ],
+    examples:[
+      {jp:'すしが すきです。', romaji:'sushi ga suki desu.', kr:'스시가 스키데스', mean:'초밥을 좋아해요.'},
+      {jp:'いすに すわってください。', romaji:'isu ni suwatte kudasai.', kr:'이스니 스왓테쿠다사이', mean:'의자에 앉아 주세요.'},
+    ], tip:'すき(좋아하다)는 동사가 아니라 な형용사예요.'},
+  { ch:'せ', words:[
+      {jp:'せんせい', kanji:'先生', romaji:'sensei', kr:'센세-', pos:'명사', mean:'선생님', icon:'🧑‍🏫'},
+      {jp:'せかい', kanji:'世界', romaji:'sekai', kr:'세카이', pos:'명사', mean:'세계', icon:'🌍'},
+      {jp:'せまい', kanji:'狭い', romaji:'semai', kr:'세마이', pos:'형용사', mean:'좁다', icon:'🤏'},
+      {jp:'せんたく', kanji:'洗濯', romaji:'sentaku', kr:'센타쿠', pos:'명사', mean:'빨래', icon:'🧺'},
+    ],
+    examples:[
+      {jp:'せんせいに しつもんします。', romaji:'sensei ni shitsumon shimasu.', kr:'센세-니 시츠몬시마스', mean:'선생님께 질문해요.'},
+      {jp:'このへやは せまいです。', romaji:'kono heya wa semai desu.', kr:'코노헤야와 세마이데스', mean:'이 방은 좁아요.'},
+    ], tip:'せんせい는 자신을 부를 때는 쓰지 않는다는 점을 기억하세요.'},
+  { ch:'そ', words:[
+      {jp:'そら', kanji:'空', romaji:'sora', kr:'소라', pos:'명사', mean:'하늘', icon:'☁️'},
+      {jp:'そつぎょう', kanji:'卒業', romaji:'sotsugyou', kr:'소츠교-', pos:'명사', mean:'졸업', icon:'🎓'},
+      {jp:'そうじ', kanji:'掃除', romaji:'souji', kr:'소-지', pos:'명사', mean:'청소', icon:'🧹'},
+      {jp:'そだてる', kanji:'育てる', romaji:'sodateru', kr:'소다테루', pos:'동사', mean:'기르다', icon:'🌱'},
+    ],
+    examples:[
+      {jp:'そらが あおいです。', romaji:'sora ga aoi desu.', kr:'소라가 아오이데스', mean:'하늘이 파래요.'},
+      {jp:'まいにち そうじを します。', romaji:'mainichi souji wo shimasu.', kr:'마이니치 소-지오 시마스', mean:'매일 청소를 해요.'},
+    ], tip:'そら(하늘)와 うみ(바다)를 같이 그림으로 외우면 좋아요.'},
+]},
+{ id:'ta', accent:'#3C8C7B', jp:'た行', ko:'타행', chars:[
+  { ch:'た', words:[
+      {jp:'たべる', kanji:'食べる', romaji:'taberu', kr:'타베루', pos:'동사', mean:'먹다', icon:'🍽️'},
+      {jp:'たかい', kanji:'高い', romaji:'takai', kr:'타카이', pos:'형용사', mean:'높다, 비싸다', icon:'💰'},
+      {jp:'たのしい', kanji:'楽しい', romaji:'tanoshii', kr:'타노시-', pos:'형용사', mean:'즐겁다', icon:'🥳'},
+      {jp:'たんじょうび', kanji:'誕生日', romaji:'tanjoubi', kr:'탄죠-비', pos:'명사', mean:'생일', icon:'🎂'},
+    ],
+    examples:[
+      {jp:'ごはんを たべます。', romaji:'gohan wo tabemasu.', kr:'고항오 타베마스', mean:'밥을 먹어요.'},
+      {jp:'りょこうは たのしかったです。', romaji:'ryokou wa tanoshikatta desu.', kr:'료코-와 타노시캇타데스', mean:'여행은 즐거웠어요.'},
+    ], tip:'たかい는 ‘높다’와 ‘비싸다’ 두 가지 의미로 다 쓰여요.'},
+  { ch:'ち', words:[
+      {jp:'ちいさい', kanji:'小さい', romaji:'chiisai', kr:'치이사이', pos:'형용사', mean:'작다', icon:'🐭'},
+      {jp:'ちかい', kanji:'近い', romaji:'chikai', kr:'치카이', pos:'형용사', mean:'가깝다', icon:'📍'},
+      {jp:'ちず', kanji:'地図', romaji:'chizu', kr:'치즈', pos:'명사', mean:'지도', icon:'🗺️'},
+      {jp:'ちがう', kanji:'違う', romaji:'chigau', kr:'치가우', pos:'동사', mean:'다르다, 틀리다', icon:'❌'},
+    ],
+    examples:[
+      {jp:'このいぬは ちいさいです。', romaji:'kono inu wa chiisai desu.', kr:'코노이누와 치이사이데스', mean:'이 개는 작아요.'},
+      {jp:'えきから ちかいです。', romaji:'eki kara chikai desu.', kr:'에키카라 치카이데스', mean:'역에서 가까워요.'},
+    ], tip:'ちいさい(작다)⇔おおきい(크다)를 짝으로 외우면 좋아요.'},
+  { ch:'つ', words:[
+      {jp:'つくえ', kanji:'机', romaji:'tsukue', kr:'츠쿠에', pos:'명사', mean:'책상', icon:'🗄️'},
+      {jp:'つよい', kanji:'強い', romaji:'tsuyoi', kr:'츠요이', pos:'형용사', mean:'강하다', icon:'💪'},
+      {jp:'つかう', kanji:'使う', romaji:'tsukau', kr:'츠카우', pos:'동사', mean:'사용하다', icon:'🛠️'},
+      {jp:'つめたい', kanji:'冷たい', romaji:'tsumetai', kr:'츠메타이', pos:'형용사', mean:'차갑다', icon:'🧊'},
+    ],
+    examples:[
+      {jp:'つくえの うえに ほんが あります。', romaji:'tsukue no ue ni hon ga arimasu.', kr:'츠쿠에노 우에니 홍가 아리마스', mean:'책상 위에 책이 있어요.'},
+      {jp:'みずが つめたいです。', romaji:'mizu ga tsumetai desu.', kr:'미즈가 츠메타이데스', mean:'물이 차가워요.'},
+    ], tip:'「つ」발음은 한국어에 없는 소리라 여러 번 연습해보세요.'},
+  { ch:'て', words:[
+      {jp:'てがみ', kanji:'手紙', romaji:'tegami', kr:'테가미', pos:'명사', mean:'편지', icon:'✉️'},
+      {jp:'てんき', kanji:'天気', romaji:'tenki', kr:'텐키', pos:'명사', mean:'날씨', icon:'☀️'},
+      {jp:'てつだう', kanji:'手伝う', romaji:'tetsudau', kr:'테츠다우', pos:'동사', mean:'돕다', icon:'🤝'},
+      {jp:'ていねい', kanji:'丁寧', romaji:'teinei', kr:'테-네-', pos:'な형', mean:'정중하다', icon:'🙇'},
+    ],
+    examples:[
+      {jp:'てがみを かきます。', romaji:'tegami wo kakimasu.', kr:'테가미오 카키마스', mean:'편지를 써요.'},
+      {jp:'きょうは てんきが いいです。', romaji:'kyou wa tenki ga ii desu.', kr:'쿄와 텐키가 이-데스', mean:'오늘은 날씨가 좋아요.'},
+    ], tip:'てんき(날씨) 관련 회화는 초급 필수 표현이에요.'},
+  { ch:'と', words:[
+      {jp:'とけい', kanji:'時計', romaji:'tokei', kr:'토케-', pos:'명사', mean:'시계', icon:'⏰'},
+      {jp:'ともだち', kanji:'友達', romaji:'tomodachi', kr:'토모다치', pos:'명사', mean:'친구', icon:'🧑‍🤝‍🧑'},
+      {jp:'とる', kanji:'撮る', romaji:'toru', kr:'토루', pos:'동사', mean:'(사진을) 찍다', icon:'📸'},
+      {jp:'とおい', kanji:'遠い', romaji:'tooi', kr:'토-이', pos:'형용사', mean:'멀다', icon:'🛣️'},
+    ],
+    examples:[
+      {jp:'ともだちと しゃしんを とります。', romaji:'tomodachi to shashin wo torimasu.', kr:'토모다치토 샤신오 토리마스', mean:'친구와 사진을 찍어요.'},
+      {jp:'がっこうまで とおいです。', romaji:'gakkou made tooi desu.', kr:'각코-마데 토-이데스', mean:'학교까지 멀어요.'},
+    ], tip:'とおい(멀다)⇔ちかい(가깝다)를 함께 외우세요.'},
+]},
+{ id:'na', accent:'#3B6EA5', jp:'な行', ko:'나행', chars:[
+  { ch:'な', words:[
+      {jp:'なつ', kanji:'夏', romaji:'natsu', kr:'나츠', pos:'명사', mean:'여름', icon:'🏖️'},
+      {jp:'ながい', kanji:'長い', romaji:'nagai', kr:'나가이', pos:'형용사', mean:'길다', icon:'📏'},
+      {jp:'なく', kanji:'泣く', romaji:'naku', kr:'나쿠', pos:'동사', mean:'울다', icon:'😢'},
+      {jp:'なまえ', kanji:'名前', romaji:'namae', kr:'나마에', pos:'명사', mean:'이름', icon:'📛'},
+    ],
+    examples:[
+      {jp:'なつは あついです。', romaji:'natsu wa atsui desu.', kr:'나츠와 아츠이데스', mean:'여름은 더워요.'},
+      {jp:'なまえを おしえてください。', romaji:'namae wo oshiete kudasai.', kr:'나마에오 오시에테쿠다사이', mean:'이름을 알려 주세요.'},
+    ], tip:'이름을 물을 때는「おなまえは？」처럼 존대를 붙이는 경우가 많아요.'},
+  { ch:'に', words:[
+      {jp:'にほん', kanji:'日本', romaji:'nihon', kr:'니혼', pos:'명사', mean:'일본', icon:'🇯🇵'},
+      {jp:'にもつ', kanji:'荷物', romaji:'nimotsu', kr:'니모츠', pos:'명사', mean:'짐', icon:'🧳'},
+      {jp:'にる', kanji:'似る', romaji:'niru', kr:'니루', pos:'동사', mean:'닮다', icon:'👯'},
+      {jp:'にがい', kanji:'苦い', romaji:'nigai', kr:'니가이', pos:'형용사', mean:'쓰다(맛)', icon:'😖'},
+    ],
+    examples:[
+      {jp:'にほんに すんでいます。', romaji:'nihon ni sunde imasu.', kr:'니혼니 슨데이마스', mean:'일본에 살고 있어요.'},
+      {jp:'にもつが おもいです。', romaji:'nimotsu ga omoi desu.', kr:'니모츠가 오모이데스', mean:'짐이 무거워요.'},
+    ], tip:'にほん은 국명 중 초급에서 가장 먼저 배우는 단어예요.'},
+  { ch:'ぬ', words:[
+      {jp:'ぬる', kanji:'塗る', romaji:'nuru', kr:'누루', pos:'동사', mean:'칠하다', icon:'🎨'},
+      {jp:'ぬぐ', kanji:'脱ぐ', romaji:'nugu', kr:'누구', pos:'동사', mean:'벗다', icon:'👕'},
+      {jp:'ぬの', kanji:'布', romaji:'nuno', kr:'누노', pos:'명사', mean:'천', icon:'🧵'},
+      {jp:'ぬるい', romaji:'nurui', kr:'누루이', pos:'형용사', mean:'미지근하다', icon:'🌡️'},
+    ],
+    examples:[
+      {jp:'くつを ぬいでください。', romaji:'kutsu wo nuide kudasai.', kr:'쿠츠오 누이데쿠다사이', mean:'신발을 벗어 주세요.'},
+      {jp:'おふろが ぬるいです。', romaji:'ofuro ga nurui desu.', kr:'오후로가 누루이데스', mean:'목욕물이 미지근해요.'},
+    ], tip:'ぬ로 시작하는 단어는 수가 적으니 이 몇 개만 확실히 기억하세요.'},
+  { ch:'ね', words:[
+      {jp:'ねこ', kanji:'猫', romaji:'neko', kr:'네코', pos:'명사', mean:'고양이', icon:'🐱'},
+      {jp:'ねる', kanji:'寝る', romaji:'neru', kr:'네루', pos:'동사', mean:'자다', icon:'😴'},
+      {jp:'ねだん', kanji:'値段', romaji:'nedan', kr:'네단', pos:'명사', mean:'가격', icon:'🏷️'},
+      {jp:'ねつ', kanji:'熱', romaji:'netsu', kr:'네츠', pos:'명사', mean:'열(체온)', icon:'🤒'},
+    ],
+    examples:[
+      {jp:'ねこが すきです。', romaji:'neko ga suki desu.', kr:'네코가 스키데스', mean:'고양이를 좋아해요.'},
+      {jp:'きのう はやく ねました。', romaji:'kinou hayaku nemashita.', kr:'키노- 하야쿠 네마시타', mean:'어제 일찍 잤어요.'},
+    ], tip:'ねつが あります(열이 있어요)는 아플 때 바로 쓰는 표현이에요.'},
+  { ch:'の', words:[
+      {jp:'のむ', kanji:'飲む', romaji:'nomu', kr:'노무', pos:'동사', mean:'마시다', icon:'🥤'},
+      {jp:'のる', kanji:'乗る', romaji:'noru', kr:'노루', pos:'동사', mean:'타다', icon:'🚃'},
+      {jp:'のど', kanji:'喉', romaji:'nodo', kr:'노도', pos:'명사', mean:'목(구멍)', icon:'🗣️'},
+      {jp:'のはら', kanji:'野原', romaji:'nohara', kr:'노하라', pos:'명사', mean:'들판', icon:'🌾'},
+    ],
+    examples:[
+      {jp:'みずを のみます。', romaji:'mizu wo nomimasu.', kr:'미즈오 노미마스', mean:'물을 마셔요.'},
+      {jp:'でんしゃに のります。', romaji:'densha ni norimasu.', kr:'덴샤니 노리마스', mean:'전철을 타요.'},
+    ], tip:'のむ・のる는 초급 필수 동사예요. 활용형까지 함께 연습하세요.'},
+]},
+{ id:'ha', accent:'#6A5ACD', jp:'は行', ko:'하행', chars:[
+  { ch:'は', words:[
+      {jp:'はな', kanji:'花', romaji:'hana', kr:'하나', pos:'명사', mean:'꽃', icon:'🌸'},
+      {jp:'はやい', kanji:'早い／速い', romaji:'hayai', kr:'하야이', pos:'형용사', mean:'이르다, 빠르다', icon:'⚡'},
+      {jp:'はたらく', kanji:'働く', romaji:'hataraku', kr:'하타라쿠', pos:'동사', mean:'일하다', icon:'💼'},
+      {jp:'はれ', kanji:'晴れ', romaji:'hare', kr:'하레', pos:'명사', mean:'맑음', icon:'☀️'},
+    ],
+    examples:[
+      {jp:'はなが きれいです。', romaji:'hana ga kirei desu.', kr:'하나가 키레-데스', mean:'꽃이 예뻐요.'},
+      {jp:'まいにち はたらいています。', romaji:'mainichi hataraite imasu.', kr:'마이니치 하타라이테이마스', mean:'매일 일하고 있어요.'},
+    ], tip:'はやい는 한자에 따라 ‘이르다(早い)’와 ‘빠르다(速い)’로 나뉘어요.'},
+  { ch:'ひ', words:[
+      {jp:'ひと', kanji:'人', romaji:'hito', kr:'히토', pos:'명사', mean:'사람', icon:'🧑'},
+      {jp:'ひろい', kanji:'広い', romaji:'hiroi', kr:'히로이', pos:'형용사', mean:'넓다', icon:'↔️'},
+      {jp:'ひく', kanji:'弾く', romaji:'hiku', kr:'히쿠', pos:'동사', mean:'(악기를) 치다', icon:'🎸'},
+      {jp:'ひま', kanji:'暇', romaji:'hima', kr:'히마', pos:'な형', mean:'한가함', icon:'🛋️'},
+    ],
+    examples:[
+      {jp:'あのひとは せんせいです。', romaji:'ano hito wa sensei desu.', kr:'아노히토와 센세-데스', mean:'저 사람은 선생님이에요.'},
+      {jp:'きょうは ひまです。', romaji:'kyou wa hima desu.', kr:'쿄와 히마데스', mean:'오늘은 한가해요.'},
+    ], tip:'ひま는 “오늘 밤 한가해요”처럼 회화에서 자주 쓰는 단어예요.'},
+  { ch:'ふ', words:[
+      {jp:'ふゆ', kanji:'冬', romaji:'fuyu', kr:'후유', pos:'명사', mean:'겨울', icon:'❄️'},
+      {jp:'ふとい', kanji:'太い', romaji:'futoi', kr:'후토이', pos:'형용사', mean:'굵다, 뚱뚱하다', icon:'🐷'},
+      {jp:'ふる', kanji:'降る', romaji:'furu', kr:'후루', pos:'동사', mean:'(비·눈이) 내리다', icon:'🌧️'},
+      {jp:'ふべん', kanji:'不便', romaji:'fuben', kr:'후벤', pos:'な형', mean:'불편함', icon:'😕'},
+    ],
+    examples:[
+      {jp:'ふゆは さむいです。', romaji:'fuyu wa samui desu.', kr:'후유와 사무이데스', mean:'겨울은 추워요.'},
+      {jp:'あめが ふっています。', romaji:'ame ga futte imasu.', kr:'아메가 훗테이마스', mean:'비가 내리고 있어요.'},
+    ], tip:'ふる(내리다)는 날씨 표현에서 자주 쓰이는 동사예요.'},
+  { ch:'へ', words:[
+      {jp:'へや', kanji:'部屋', romaji:'heya', kr:'헤야', pos:'명사', mean:'방', icon:'🚪'},
+      {jp:'へん', kanji:'変', romaji:'hen', kr:'헨', pos:'な형', mean:'이상함', icon:'❓'},
+      {jp:'へた', kanji:'下手', romaji:'heta', kr:'헤타', pos:'な형', mean:'서투름', icon:'😅'},
+      {jp:'へる', kanji:'減る', romaji:'heru', kr:'헤루', pos:'동사', mean:'줄다', icon:'📉'},
+    ],
+    examples:[
+      {jp:'わたしの へやは ちいさいです。', romaji:'watashi no heya wa chiisai desu.', kr:'와타시노 헤야와 치이사이데스', mean:'제 방은 작아요.'},
+      {jp:'りょうりが へたです。', romaji:'ryouri ga heta desu.', kr:'료-리가 헤타데스', mean:'요리가 서툴러요.'},
+    ], tip:'へた(서투름)⇔じょうず(잘함)를 함께 기억하세요.'},
+  { ch:'ほ', words:[
+      {jp:'ほん', kanji:'本', romaji:'hon', kr:'혼', pos:'명사', mean:'책', icon:'📖'},
+      {jp:'ほし', kanji:'星', romaji:'hoshi', kr:'호시', pos:'명사', mean:'별', icon:'⭐'},
+      {jp:'ほしい', kanji:'欲しい', romaji:'hoshii', kr:'호시-', pos:'형용사', mean:'갖고 싶다', icon:'🙏'},
+      {jp:'ほめる', kanji:'褒める', romaji:'homeru', kr:'호메루', pos:'동사', mean:'칭찬하다', icon:'👏'},
+    ],
+    examples:[
+      {jp:'ほんを よみます。', romaji:'hon wo yomimasu.', kr:'홍오 요미마스', mean:'책을 읽어요.'},
+      {jp:'あたらしい かばんが ほしいです。', romaji:'atarashii kaban ga hoshii desu.', kr:'아타라시- 카방가 호시-데스', mean:'새 가방을 갖고 싶어요.'},
+    ], tip:'ほしい는 ‘~을 갖고 싶다’는 뜻으로, 앞에 조사「が」를 써요.'},
+]},
+{ id:'ma', accent:'#B85C8A', jp:'ま行', ko:'마행', chars:[
+  { ch:'ま', words:[
+      {jp:'まど', kanji:'窓', romaji:'mado', kr:'마도', pos:'명사', mean:'창문', icon:'🪟'},
+      {jp:'まいにち', kanji:'毎日', romaji:'mainichi', kr:'마이니치', pos:'명사', mean:'매일', icon:'📅'},
+      {jp:'まつ', kanji:'待つ', romaji:'matsu', kr:'마츠', pos:'동사', mean:'기다리다', icon:'⏳'},
+      {jp:'まずい', romaji:'mazui', kr:'마즈이', pos:'형용사', mean:'맛없다', icon:'🤢'},
+    ],
+    examples:[
+      {jp:'まどを あけてください。', romaji:'mado wo akete kudasai.', kr:'마도오 아케테쿠다사이', mean:'창문을 열어 주세요.'},
+      {jp:'ここで まっています。', romaji:'koko de matte imasu.', kr:'코코데 맛테이마스', mean:'여기서 기다리고 있어요.'},
+    ], tip:'まいにち는 시간 표현 중에서 가장 먼저 외우면 좋은 단어예요.'},
+  { ch:'み', words:[
+      {jp:'みず', kanji:'水', romaji:'mizu', kr:'미즈', pos:'명사', mean:'물', icon:'💧'},
+      {jp:'みせ', kanji:'店', romaji:'mise', kr:'미세', pos:'명사', mean:'가게', icon:'🏪'},
+      {jp:'みる', kanji:'見る', romaji:'miru', kr:'미루', pos:'동사', mean:'보다', icon:'👀'},
+      {jp:'みじかい', kanji:'短い', romaji:'mijikai', kr:'미지카이', pos:'형용사', mean:'짧다', icon:'✂️'},
+    ],
+    examples:[
+      {jp:'みずを のみます。', romaji:'mizu wo nomimasu.', kr:'미즈오 노미마스', mean:'물을 마셔요.'},
+      {jp:'えいがを みました。', romaji:'eiga wo mimashita.', kr:'에이가오 미마시타', mean:'영화를 봤어요.'},
+    ], tip:'みじかい(짧다)⇔ながい(길다)를 세트로 외우세요.'},
+  { ch:'む', words:[
+      {jp:'むずかしい', kanji:'難しい', romaji:'muzukashii', kr:'무즈카시-', pos:'형용사', mean:'어렵다', icon:'😵'},
+      {jp:'むし', kanji:'虫', romaji:'mushi', kr:'무시', pos:'명사', mean:'벌레', icon:'🐛'},
+      {jp:'むすこ', kanji:'息子', romaji:'musuko', kr:'무스코', pos:'명사', mean:'아들', icon:'👦'},
+      {jp:'むかし', kanji:'昔', romaji:'mukashi', kr:'무카시', pos:'명사', mean:'옛날', icon:'🕰️'},
+    ],
+    examples:[
+      {jp:'にほんごは むずかしいです。', romaji:'nihongo wa muzukashii desu.', kr:'니혼고와 무즈카시-데스', mean:'일본어는 어려워요.'},
+      {jp:'むかし ここに いえが ありました。', romaji:'mukashi koko ni ie ga arimashita.', kr:'무카시 코코니 이에가 아리마시타', mean:'옛날에 여기에 집이 있었어요.'},
+    ], tip:'むずかしい⇔かんたん(簡単, 쉬움)을 같이 기억하면 좋아요.'},
+  { ch:'め', words:[
+      {jp:'め', kanji:'目', romaji:'me', kr:'메', pos:'명사', mean:'눈', icon:'👁️'},
+      {jp:'めがね', kanji:'眼鏡', romaji:'megane', kr:'메가네', pos:'명사', mean:'안경', icon:'👓'},
+      {jp:'めずらしい', kanji:'珍しい', romaji:'mezurashii', kr:'메즈라시-', pos:'형용사', mean:'드물다', icon:'🦄'},
+      {jp:'めいわく', kanji:'迷惑', romaji:'meiwaku', kr:'메-와쿠', pos:'명사', mean:'폐, 민폐', icon:'😣'},
+    ],
+    examples:[
+      {jp:'めが いたいです。', romaji:'me ga itai desu.', kr:'메가 이타이데스', mean:'눈이 아파요.'},
+      {jp:'めがねを かけています。', romaji:'megane wo kakete imasu.', kr:'메가네오 카케테이마스', mean:'안경을 쓰고 있어요.'},
+    ], tip:'め(눈)는 신체 부위 중 회화에 아주 자주 등장해요.'},
+  { ch:'も', words:[
+      {jp:'もの', kanji:'物', romaji:'mono', kr:'모노', pos:'명사', mean:'물건', icon:'📦'},
+      {jp:'もり', kanji:'森', romaji:'mori', kr:'모리', pos:'명사', mean:'숲', icon:'🌲'},
+      {jp:'もつ', kanji:'持つ', romaji:'motsu', kr:'모츠', pos:'동사', mean:'가지다, 들다', icon:'🤲'},
+      {jp:'もったいない', romaji:'mottainai', kr:'못타이나이', pos:'형용사', mean:'아깝다', icon:'♻️'},
+    ],
+    examples:[
+      {jp:'このものは たかいです。', romaji:'kono mono wa takai desu.', kr:'코노모노와 타카이데스', mean:'이 물건은 비싸요.'},
+      {jp:'にもつを もちます。', romaji:'nimotsu wo mochimasu.', kr:'니모츠오 모치마스', mean:'짐을 들어요.'},
+    ], tip:'もったいない는 일본 문화를 대표하는 단어 중 하나예요.'},
+]},
+{ id:'ya', accent:'#C1666B', jp:'や行', ko:'야행', chars:[
+  { ch:'や', words:[
+      {jp:'やま', kanji:'山', romaji:'yama', kr:'야마', pos:'명사', mean:'산', icon:'⛰️'},
+      {jp:'やさい', kanji:'野菜', romaji:'yasai', kr:'야사이', pos:'명사', mean:'채소', icon:'🥦'},
+      {jp:'やすい', kanji:'安い', romaji:'yasui', kr:'야스이', pos:'형용사', mean:'싸다', icon:'💵'},
+      {jp:'やめる', kanji:'辞める', romaji:'yameru', kr:'야메루', pos:'동사', mean:'그만두다', icon:'🛑'},
+    ],
+    examples:[
+      {jp:'やまに のぼります。', romaji:'yama ni noborimasu.', kr:'야마니 노보리마스', mean:'산에 올라가요.'},
+      {jp:'このやさいは やすいです。', romaji:'kono yasai wa yasui desu.', kr:'코노야사이와 야스이데스', mean:'이 채소는 싸요.'},
+    ], tip:'やすい(싸다)⇔たかい(비싸다)를 함께 외우세요.'},
+  { ch:'ゆ', words:[
+      {jp:'ゆき', kanji:'雪', romaji:'yuki', kr:'유키', pos:'명사', mean:'눈(雪)', icon:'❄️'},
+      {jp:'ゆめ', kanji:'夢', romaji:'yume', kr:'유메', pos:'명사', mean:'꿈', icon:'💭'},
+      {jp:'ゆびわ', kanji:'指輪', romaji:'yubiwa', kr:'유비와', pos:'명사', mean:'반지', icon:'💍'},
+      {jp:'ゆっくり', romaji:'yukkuri', kr:'육쿠리', pos:'부사', mean:'천천히', icon:'🐢'},
+    ],
+    examples:[
+      {jp:'ふゆは ゆきが ふります。', romaji:'fuyu wa yuki ga furimasu.', kr:'후유와 유키가 후리마스', mean:'겨울에는 눈이 내려요.'},
+      {jp:'ゆっくり はなしてください。', romaji:'yukkuri hanashite kudasai.', kr:'육쿠리 하나시테쿠다사이', mean:'천천히 말해 주세요.'},
+    ], tip:'ゆっくり는 여행지에서도 자주 쓰는 유용한 부사예요.'},
+  { ch:'よ', words:[
+      {jp:'よる', kanji:'夜', romaji:'yoru', kr:'요루', pos:'명사', mean:'밤', icon:'🌙'},
+      {jp:'よてい', kanji:'予定', romaji:'yotei', kr:'요테-', pos:'명사', mean:'예정, 일정', icon:'🗓️'},
+      {jp:'よむ', kanji:'読む', romaji:'yomu', kr:'요무', pos:'동사', mean:'읽다', icon:'📖'},
+      {jp:'よわい', kanji:'弱い', romaji:'yowai', kr:'요와이', pos:'형용사', mean:'약하다', icon:'🥺'},
+    ],
+    examples:[
+      {jp:'よる ほんを よみます。', romaji:'yoru hon wo yomimasu.', kr:'요루 홍오 요미마스', mean:'밤에 책을 읽어요.'},
+      {jp:'あしたの よていは なんですか。', romaji:'ashita no yotei wa nan desu ka.', kr:'아시타노 요테-와 난데스카', mean:'내일 일정은 뭐예요?'},
+    ], tip:'よてい(예정)는 약속을 잡을 때 자주 쓰는 표현이에요.'},
+]},
+{ id:'ra', accent:'#4E7C59', jp:'ら行', ko:'라행', chars:[
+  { ch:'ら', words:[
+      {jp:'らいねん', kanji:'来年', romaji:'rainen', kr:'라이넨', pos:'명사', mean:'내년', icon:'📅'},
+      {jp:'らく', kanji:'楽', romaji:'raku', kr:'라쿠', pos:'な형', mean:'편함', icon:'😌'},
+      {jp:'らいしゅう', kanji:'来週', romaji:'raishuu', kr:'라이슈-', pos:'명사', mean:'다음 주', icon:'🗓️'},
+    ],
+    examples:[
+      {jp:'らいねん にほんに いきます。', romaji:'rainen nihon ni ikimasu.', kr:'라이넨 니혼니 이키마스', mean:'내년에 일본에 가요.'},
+      {jp:'このしごとは らくです。', romaji:'kono shigoto wa raku desu.', kr:'코노시고토와 라쿠데스', mean:'이 일은 편해요.'},
+    ], tip:'ら행으로 시작하는 순수 일본어 단어는 적고, 대부분 한자어예요.'},
+  { ch:'り', words:[
+      {jp:'りんご', kanji:'林檎', romaji:'ringo', kr:'링고', pos:'명사', mean:'사과', icon:'🍎'},
+      {jp:'りゆう', kanji:'理由', romaji:'riyuu', kr:'리유-', pos:'명사', mean:'이유', icon:'❓'},
+      {jp:'りっぱ', kanji:'立派', romaji:'rippa', kr:'립파', pos:'な형', mean:'훌륭함', icon:'🏆'},
+    ],
+    examples:[
+      {jp:'りんごを たべます。', romaji:'ringo wo tabemasu.', kr:'링고오 타베마스', mean:'사과를 먹어요.'},
+      {jp:'りゆうを おしえてください。', romaji:'riyuu wo oshiete kudasai.', kr:'리유-오 오시에테쿠다사이', mean:'이유를 알려 주세요.'},
+    ], tip:'りんご는 초급 필수 과일 단어예요.'},
+  { ch:'る', words:[
+      {jp:'るす', kanji:'留守', romaji:'rusu', kr:'루스', pos:'명사', mean:'부재중', icon:'🚪'},
+      {jp:'るすばん', kanji:'留守番', romaji:'rusuban', kr:'루스반', pos:'명사', mean:'집 보기', icon:'🏠'},
+    ],
+    examples:[
+      {jp:'いま るすです。', romaji:'ima rusu desu.', kr:'이마 루스데스', mean:'지금 부재중이에요.'},
+      {jp:'こどもが るすばんを しています。', romaji:'kodomo ga rusuban wo shite imasu.', kr:'코도모가 루스반오 시테이마스', mean:'아이가 집을 보고 있어요.'},
+    ], tip:'る로 시작하는 고유 단어는 매우 적어서 이 두 개만 기억해도 충분해요.'},
+  { ch:'れ', words:[
+      {jp:'れい', kanji:'例', romaji:'rei', kr:'레-', pos:'명사', mean:'예시', icon:'📝'},
+      {jp:'れいぞうこ', kanji:'冷蔵庫', romaji:'reizouko', kr:'레-조-코', pos:'명사', mean:'냉장고', icon:'🧊'},
+      {jp:'れんしゅう', kanji:'練習', romaji:'renshuu', kr:'렌슈-', pos:'명사', mean:'연습', icon:'🏋️'},
+    ],
+    examples:[
+      {jp:'れいぞうこに ぎゅうにゅうが あります。', romaji:'reizouko ni gyuunyuu ga arimasu.', kr:'레-조-코니 규-뉴-가 아리마스', mean:'냉장고에 우유가 있어요.'},
+      {jp:'まいにち にほんごを れんしゅうします。', romaji:'mainichi nihongo wo renshuu shimasu.', kr:'마이니치 니혼고오 렌슈-시마스', mean:'매일 일본어를 연습해요.'},
+    ], tip:'れんしゅう(연습)는 공부할 때 자주 쓰는 표현이에요.'},
+  { ch:'ろ', words:[
+      {jp:'ろうか', kanji:'廊下', romaji:'rouka', kr:'로-카', pos:'명사', mean:'복도', icon:'🚪'},
+      {jp:'ろうそく', romaji:'rousoku', kr:'로-소쿠', pos:'명사', mean:'양초', icon:'🕯️'},
+    ],
+    examples:[
+      {jp:'ろうかを あるきます。', romaji:'rouka wo arukimasu.', kr:'로-카오 아루키마스', mean:'복도를 걸어요.'},
+      {jp:'ろうそくに ひを つけます。', romaji:'rousoku ni hi wo tsukemasu.', kr:'로-소쿠니 히오 츠케마스', mean:'양초에 불을 붙여요.'},
+    ], tip:'ろ행도 단어 수가 적은 편이니, 이 두 단어만 확실히 외우세요.'},
+]},
+{ id:'wa', accent:'#7A5230', jp:'わ行', ko:'와행', chars:[
+  { ch:'わ', words:[
+      {jp:'わたし', kanji:'私', romaji:'watashi', kr:'와타시', pos:'명사', mean:'나, 저', icon:'🙋'},
+      {jp:'わかい', kanji:'若い', romaji:'wakai', kr:'와카이', pos:'형용사', mean:'젊다', icon:'🌱'},
+      {jp:'わかる', kanji:'分かる', romaji:'wakaru', kr:'와카루', pos:'동사', mean:'이해하다, 알다', icon:'💡'},
+      {jp:'わるい', kanji:'悪い', romaji:'warui', kr:'와루이', pos:'형용사', mean:'나쁘다', icon:'😈'},
+    ],
+    examples:[
+      {jp:'わたしは がくせいです。', romaji:'watashi wa gakusei desu.', kr:'와타시와 각세-데스', mean:'저는 학생이에요.'},
+      {jp:'にほんごが すこし わかります。', romaji:'nihongo ga sukoshi wakarimasu.', kr:'니혼고가 스코시 와카리마스', mean:'일본어를 조금 이해해요.'},
+    ], tip:'わたし(저)는 자기소개할 때 가장 먼저 쓰는 단어예요.'},
+  { ch:'を', note:'を는 단어의 첫 글자로는 거의 쓰이지 않고, 목적격 조사(~을/를)로만 사용돼요. 예) ごはんを たべます。(밥을 먹어요) — ここ서 を는 「ごはん」 뒤에 붙는 조사예요.'},
+]},
+{ id:'n', accent:'#5B5A57', jp:'ん', ko:'받침 ん', chars:[
+  { ch:'ん', note:'ん은 단어의 첫 글자로는 쓰이지 않는 소리예요. 다른 글자 뒤에 붙어 받침처럼 쓰여요. 예) ほん(책), せんせい(선생님), にほん(일본) — 모두 ん이 앞 글자 뒤에 붙어 있어요.'},
+]},
+];
+
+const nav = document.getElementById('rownav');
+const main = document.getElementById('main');
+
+function wcardHtml(w){
+  return `
+    <div class="wcard">
+      <div class="wtop"><span class="wicon">${w.icon||''}</span><span class="wjp jp">${w.jp}</span>${w.kanji ? `<span class="wkanji">(${w.kanji})</span>` : ''}</div>
+      <div class="wromaji">${w.romaji}</div>
+      <div class="wkr">${w.kr}</div>
+      <div class="wmean"><span class="wpos">[${w.pos}]</span> ${w.mean}</div>
+    </div>`;
+}
+function exHtml(e){
+  return `
+    <div class="ex">
+      <div class="exjp jp">${e.jp}</div>
+      <div class="exromaji">${e.romaji}</div>
+      <div class="exkr">${e.kr}</div>
+      <div class="exmean">${e.mean}</div>
+    </div>`;
+}
+
+GYOU.forEach(g=>{
+  let section = document.getElementById(g.id) ? null : document.createElement('section');
+  if(section){
+    section.className = 'gyou';
+    section.id = g.id;
+    section.style.setProperty('--accent', g.accent);
+    if(g.jp){
+      const a = document.createElement('a');
+      a.href = '#'+g.id;
+      a.textContent = g.jp;
+      nav.appendChild(a);
+      const head = document.createElement('div');
+      head.className = 'gyou-head';
+      head.innerHTML = `<span class="jptitle">${g.jp}</span><span class="kotitle">${g.ko}</span>`;
+      section.appendChild(head);
+    }
+    main.appendChild(section);
+  } else {
+    section = document.getElementById(g.id);
+  }
+  section.style.setProperty('--accent', g.accent);
+
+  g.chars.forEach(c=>{
+    const poster = document.createElement('div');
+    poster.className = 'poster';
+    poster.style.setProperty('--accent', g.accent);
+
+    if(c.note){
+      poster.innerHTML = `
+        <div class="ptop">
+          <div class="badge jp">${c.ch}</div>
+          <div class="ptitle">「${c.ch}」에 대하여</div>
+        </div>
+        <div class="noteonly">${c.note}</div>`;
+      section.appendChild(poster);
+      return;
+    }
+
+    const wordsHtml = c.words.map(wcardHtml).join('');
+    const exHtmlStr = c.examples.map(exHtml).join('');
+    poster.innerHTML = `
+      <div class="ptop">
+        <div class="badge jp">${c.ch}</div>
+        <div class="ptitle">「${c.ch}」로 시작하는 단어</div>
+      </div>
+      <div class="pbody">
+        <div class="wgrid">${wordsHtml}</div>
+        <div class="exlist">${exHtmlStr}</div>
+        <div class="tip">💡 ${c.tip}</div>
+      </div>`;
+    section.appendChild(poster);
+  });
+});
+</script>
+
+</body>
+</html>

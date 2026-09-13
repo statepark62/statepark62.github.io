@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>숫자/갯수 세는 법</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+
+  header{ padding:44px 20px 28px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(228,87,46,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(26.5px, 6vw, 38px); font-weight:900; letter-spacing:-0.02em; }
+  header .hero{ font-family:'Noto Serif JP', serif; font-size:clamp(18.5px, 4vw, 23.5px); color:var(--sub); margin-top:10px; }
+  header p.desc{ margin:14px auto 0; max-width:540px; color:var(--sub); font-size:19px; }
+
+  nav.rownav{ position:sticky; top:0; z-index:20; background:rgba(251,248,242,0.96); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line); padding:10px 12px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  nav.rownav::-webkit-scrollbar{display:none;}
+  nav.rownav a{ flex:0 0 auto; text-decoration:none; font-size:16px; font-weight:700; color:var(--ink);
+    background:var(--card); border:1.5px solid var(--line); padding:7px 12px; border-radius:999px; white-space:nowrap; }
+
+  main{max-width:1180px;margin:0 auto;padding:6px 14px 60px;}
+
+  section.blk{ margin-top:34px; scroll-margin-top:64px; }
+  section.blk .blk-head{ display:flex; align-items:baseline; gap:10px; padding:0 2px 12px; border-bottom:3px solid var(--accent); flex-wrap:wrap; }
+  section.blk .blk-head .title{ font-size:22px; font-weight:700; color:var(--accent); }
+  section.blk .blk-note{ font-size:16px; color:var(--sub); margin-top:10px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:9px 11px; }
+
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:14px; }
+  @media(min-width:520px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media(min-width:760px){ .grid{grid-template-columns:repeat(5,1fr);} }
+
+  .vcard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:6px; }
+  .vcard .vtop{ display:flex; align-items:center; gap:8px; }
+  .vcard .icon{ font-size:26px; flex:0 0 auto; }
+  .vcard .jpword{ font-family:'Noto Serif JP', serif; font-size:24.5px; font-weight:700; line-height:1.25; }
+  .vcard .furigana{ font-family:'Noto Serif JP', serif; font-size:15.5px; color:var(--sub); font-weight:500; margin-left:2px; }
+  .vcard .romaji{ font-size:15px; color:#9c927a; font-style:italic; }
+  .vcard .kr{ font-size:19.5px; font-weight:700; color:var(--accent); }
+  .vcard .mean{ font-size:16px; color:var(--sub); }
+
+  .slist{ display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .scard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:13px 14px; }
+  .scard .sjp{ font-family:'Noto Serif JP', serif; font-size:20.5px; font-weight:600; }
+  .scard .sromaji{ font-size:15.5px; color:#9c927a; font-style:italic; margin-top:4px; }
+  .scard .skr{ font-size:17.5px; font-weight:700; color:var(--accent); margin-top:4px; }
+  .scard .smean{ font-size:16px; color:var(--sub); margin-top:2px; }
+
+  footer{ max-width:960px; margin:10px auto 50px; padding:22px 20px; background:var(--card); border:1px solid var(--line); border-radius:14px; }
+  footer h2{ font-size:20.5px; margin:0 0 10px; }
+  footer p{ font-size:17.5px; color:var(--sub); margin:0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero jp">数（かず）・数え方（かぞえかた）</div>
+  <h1>숫자 / 갯수 세는 법</h1>
+  <p class="desc">한자·히라가나를 몰라도 읽을 수 있게, 굵은 파란 글자로 <b>한글 발음</b>을 크게 넣었습니다. 이탤릭체는 영어(로마자) 표기예요.</p>
+</header>
+
+<nav class="rownav" id="rownav"></nav>
+<main id="main"></main>
+
+<footer>
+  <h2>일러두기</h2>
+  <p>진한 파란색 글자가 한글 발음, 기울어진 회색 글자가 로마자(영어) 표기예요. 한글 발음만 보고도 소리 내어 말할 수 있어요. 단, 실제 발음은 한글로 완벽히 옮길 수 없으니, 가능하면 원어민 음성도 함께 들어보세요.</p>
+</footer>
+
+<script>
+const SECTIONS = [
+  { id:'basic', accent:'#3B6EA5', title:'1) 숫자 1~10 (기본)', type:'vocab',
+    note:'초급 회화에서는 4=よん, 7=なな, 9=きゅう를 우선 추천해요 (오해·혼동이 적어요).',
+    items:[
+      {jp:'1', furi:'いち', romaji:'ichi', kr:'이치', mean:'1'},
+      {jp:'2', furi:'に', romaji:'ni', kr:'니', mean:'2'},
+      {jp:'3', furi:'さん', romaji:'san', kr:'산', mean:'3'},
+      {jp:'4', furi:'よん / し', romaji:'yon / shi', kr:'욘 / 시', mean:'4'},
+      {jp:'5', furi:'ご', romaji:'go', kr:'고', mean:'5'},
+      {jp:'6', furi:'ろく', romaji:'roku', kr:'로쿠', mean:'6'},
+      {jp:'7', furi:'なな / しち', romaji:'nana / shichi', kr:'나나 / 시치', mean:'7'},
+      {jp:'8', furi:'はち', romaji:'hachi', kr:'하치', mean:'8'},
+      {jp:'9', furi:'きゅう / く', romaji:'kyuu / ku', kr:'큐- / 쿠', mean:'9'},
+      {jp:'10', furi:'じゅう', romaji:'juu', kr:'주-', mean:'10'},
+    ]},
+  { id:'counting', accent:'#E4572E', title:'2) 1개~10개 (~つ, 개 세기)', type:'vocab',
+    items:[
+      {jp:'1つ', furi:'ひとつ', romaji:'hitotsu', kr:'히토츠', mean:'한 개'},
+      {jp:'2つ', furi:'ふたつ', romaji:'futatsu', kr:'후타츠', mean:'두 개'},
+      {jp:'3つ', furi:'みっつ', romaji:'mittsu', kr:'밋츠', mean:'세 개'},
+      {jp:'4つ', furi:'よっつ', romaji:'yottsu', kr:'욧츠', mean:'네 개'},
+      {jp:'5つ', furi:'いつつ', romaji:'itsutsu', kr:'이츠츠', mean:'다섯 개'},
+      {jp:'6つ', furi:'むっつ', romaji:'muttsu', kr:'뭇츠', mean:'여섯 개'},
+      {jp:'7つ', furi:'ななつ', romaji:'nanatsu', kr:'나나츠', mean:'일곱 개'},
+      {jp:'8つ', furi:'やっつ', romaji:'yattsu', kr:'얏츠', mean:'여덟 개'},
+      {jp:'9つ', furi:'ここのつ', romaji:'kokonotsu', kr:'코코노츠', mean:'아홉 개'},
+      {jp:'10', furi:'とお', romaji:'too', kr:'토오', mean:'열 개'},
+    ]},
+  { id:'q1', accent:'#E4572E', title:'자주 쓰는 질문 · 대답', type:'sentence',
+    items:[
+      {jp:'いくつですか。', romaji:'ikutsu desu ka.', kr:'이쿠츠 데스카', mean:'몇 개예요?'},
+      {jp:'みっつです。', romaji:'mittsu desu.', kr:'밋츠 데스', mean:'3개예요'},
+    ]},
+  { id:'date', accent:'#8A9A5B', title:'3) 1일~10일 (~日, 날짜)', type:'vocab',
+    note:'여기가 초급이 가장 많이 헷갈리는 구간이에요. 1~10일은 특수한 형태가 많아요.',
+    items:[
+      {jp:'1일', furi:'ついたち', romaji:'tsuitachi', kr:'츠이타치'},
+      {jp:'2일', furi:'ふつか', romaji:'futsuka', kr:'후츠카'},
+      {jp:'3일', furi:'みっか', romaji:'mikka', kr:'밋카'},
+      {jp:'4일', furi:'よっか', romaji:'yokka', kr:'욧카'},
+      {jp:'5일', furi:'いつか', romaji:'itsuka', kr:'이츠카'},
+      {jp:'6일', furi:'むいか', romaji:'muika', kr:'무이카'},
+      {jp:'7일', furi:'なのか', romaji:'nanoka', kr:'나노카'},
+      {jp:'8일', furi:'ようか', romaji:'youka', kr:'요-카'},
+      {jp:'9일', furi:'ここのか', romaji:'kokonoka', kr:'코코노카'},
+      {jp:'10일', furi:'とおか', romaji:'tooka', kr:'토-카'},
+      {jp:'14일', furi:'じゅうよっか', romaji:'juuyokka', kr:'주-욧카'},
+      {jp:'20일', furi:'はつか', romaji:'hatsuka', kr:'하츠카'},
+      {jp:'24일', furi:'にじゅうよっか', romaji:'nijuuyokka', kr:'니주-욧카'},
+    ]},
+  { id:'date-ex', accent:'#8A9A5B', title:'날짜 예문', type:'sentence',
+    items:[
+      {jp:'きょうは みっかです。', romaji:'kyou wa mikka desu.', kr:'쿄와 밋카데스', mean:'오늘은 3일이에요'},
+      {jp:'きょうは じゅうよっかです。', romaji:'kyou wa juuyokka desu.', kr:'쿄와 주-욧카데스', mean:'오늘은 14일이에요'},
+      {jp:'たんじょうびは はつかです。', romaji:'tanjoubi wa hatsuka desu.', kr:'탄죠-비와 하츠카데스', mean:'생일은 20일이에요'},
+      {jp:'よやくは にじゅうよっかです。', romaji:'yoyaku wa nijuuyokka desu.', kr:'요야쿠와 니주-욧카데스', mean:'예약은 24일이에요'},
+    ]},
+  { id:'minute', accent:'#3C8C7B', title:'4) 1분~10분 (~分)', type:'vocab',
+    note:'“분”은 숫자에 따라 ふん/ぷん 발음이 바뀌어요.',
+    items:[
+      {jp:'1分', furi:'いっぷん', romaji:'ippun', kr:'잇푼', mean:'1분'},
+      {jp:'2分', furi:'にふん', romaji:'nifun', kr:'니훈', mean:'2분'},
+      {jp:'3分', furi:'さんぷん', romaji:'sanpun', kr:'산푼', mean:'3분'},
+      {jp:'4分', furi:'よんぷん', romaji:'yonpun', kr:'욘푼', mean:'4분'},
+      {jp:'5分', furi:'ごふん', romaji:'gofun', kr:'고훈', mean:'5분'},
+      {jp:'6分', furi:'ろっぷん', romaji:'roppun', kr:'롭푼', mean:'6분'},
+      {jp:'7分', furi:'ななふん', romaji:'nanafun', kr:'나나훈', mean:'7분'},
+      {jp:'8分', furi:'はっぷん', romaji:'happun', kr:'핫푼', mean:'8분'},
+      {jp:'9分', furi:'きゅうふん', romaji:'kyuufun', kr:'큐우훈', mean:'9분'},
+      {jp:'10分', furi:'じゅっぷん / じっぷん', romaji:'juppun / jippun', kr:'줏푼 / 짓푼', mean:'10분'},
+    ]},
+  { id:'floor', accent:'#6A5ACD', title:'5) 1층~10층 (~階)', type:'vocab',
+    items:[
+      {jp:'1階', furi:'いっかい', romaji:'ikkai', kr:'잇카이', mean:'1층'},
+      {jp:'2階', furi:'にかい', romaji:'nikai', kr:'니카이', mean:'2층'},
+      {jp:'3階', furi:'さんがい', romaji:'sangai', kr:'산가이', mean:'3층'},
+      {jp:'4階', furi:'よんかい', romaji:'yonkai', kr:'욘카이', mean:'4층'},
+      {jp:'5階', furi:'ごかい', romaji:'gokai', kr:'고카이', mean:'5층'},
+      {jp:'6階', furi:'ろっかい', romaji:'rokkai', kr:'록카이', mean:'6층'},
+      {jp:'7階', furi:'ななかい', romaji:'nanakai', kr:'나나카이', mean:'7층'},
+      {jp:'8階', furi:'はっかい', romaji:'hakkai', kr:'핫카이', mean:'8층'},
+      {jp:'9階', furi:'きゅうかい', romaji:'kyuukai', kr:'큐우카이', mean:'9층'},
+      {jp:'10階', furi:'じゅっかい / じっかい', romaji:'jukkai / jikkai', kr:'줏카이 / 짓카이', mean:'10층'},
+    ]},
+  { id:'sentences', accent:'#B85C8A', title:'초급용 바로 쓰는 문장 6개', type:'sentence',
+    items:[
+      {jp:'いちから じゅうまで いってください。', romaji:'ichi kara juu made itte kudasai.', kr:'이치카라 주-마데 잇테쿠다사이', mean:'1부터 10까지 말해 주세요'},
+      {jp:'ひとつ ください。', romaji:'hitotsu kudasai.', kr:'히토츠 쿠다사이', mean:'하나 주세요'},
+      {jp:'ふたつ おねがいします。', romaji:'futatsu onegaishimasu.', kr:'후타츠 오네가이시마스', mean:'두 개 부탁합니다'},
+      {jp:'きょうは いつかですか。', romaji:'kyou wa itsuka desu ka.', kr:'쿄와 이츠카데스카', mean:'오늘은 며칠이에요?'},
+      {jp:'5ふん まってください。', romaji:'gofun matte kudasai.', kr:'고훈 맛테쿠다사이', mean:'5분 기다려 주세요'},
+      {jp:'2かいです。', romaji:'nikai desu.', kr:'니카이데스', mean:'2층이에요'},
+    ]},
+];
+
+const nav = document.getElementById('rownav');
+const main = document.getElementById('main');
+
+function makeVcard(it){
+  const c = document.createElement('div');
+  c.className = 'vcard';
+  c.innerHTML = `
+    <div class="vtop">
+      <div>
+        <span class="jpword jp">${it.jp}</span>
+        ${it.furi ? `<span class="furigana">(${it.furi})</span>` : ''}
+      </div>
+    </div>
+    <div class="romaji">${it.romaji}</div>
+    <div class="kr">${it.kr}</div>
+    ${it.mean ? `<div class="mean">${it.mean}</div>` : ''}
+  `;
+  return c;
+}
+function makeScard(it){
+  const c = document.createElement('div');
+  c.className = 'scard';
+  c.innerHTML = `
+    <div class="sjp jp">${it.jp}</div>
+    <div class="sromaji">${it.romaji}</div>
+    <div class="skr">${it.kr}</div>
+    <div class="smean">${it.mean}</div>
+  `;
+  return c;
+}
+
+SECTIONS.forEach(sec=>{
+  const a = document.createElement('a');
+  a.href = '#'+sec.id;
+  a.textContent = sec.title.replace(/^[0-9)]+\)?\s*/,'').split('(')[0].trim().slice(0,10);
+  nav.appendChild(a);
+
+  const section = document.createElement('section');
+  section.className = 'blk';
+  section.id = sec.id;
+  section.style.setProperty('--accent', sec.accent);
+
+  const head = document.createElement('div');
+  head.className = 'blk-head';
+  head.innerHTML = `<span class="title">${sec.title}</span>`;
+  section.appendChild(head);
+
+  if(sec.note){
+    const note = document.createElement('div');
+    note.className = 'blk-note';
+    note.textContent = sec.note;
+    section.appendChild(note);
+  }
+
+  if(sec.type === 'vocab'){
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    sec.items.forEach(it=> grid.appendChild(makeVcard(it)));
+    section.appendChild(grid);
+  } else {
+    const list = document.createElement('div');
+    list.className = 'slist';
+    sec.items.forEach(it=> list.appendChild(makeScard(it)));
+    section.appendChild(list);
+  }
+
+  main.appendChild(section);
+});
+</script>
+
+</body>
+</html>

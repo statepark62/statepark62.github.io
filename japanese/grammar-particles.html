@@ -10,24 +10,24 @@
   .jp{ font-family:'Noto Serif JP', serif; }
   header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
     background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(60,140,123,0.08), transparent 40%); }
-  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
-  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  header h1{ margin:0; font-size:clamp(23px, 5vw, 38px); font-weight:900; }
+  main{max-width:1180px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
   .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:18.5px; padding:10px 16px; }
   .info-card .ic-body{ padding:6px 8px; }
   .p-grid{ display:grid; grid-template-columns:1fr; gap:8px; padding:8px; }
   @media(min-width:700px){ .p-grid{ grid-template-columns:repeat(2,1fr);} }
   .p-item{ border:1px solid var(--line); border-radius:10px; padding:10px 12px; display:flex; gap:10px; align-items:flex-start; }
-  .p-item .num{ width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex:0 0 auto; }
-  .p-item .p-jp{ font-family:'Noto Serif JP', serif; font-size:18px; font-weight:700; }
-  .p-item .p-mean{ font-size:12px; color:var(--sub); font-weight:700; }
-  .p-item .p-desc{ font-size:12px; color:var(--sub); margin-top:2px; }
-  .p-item .p-ex{ font-size:12.5px; margin-top:4px; }
-  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
-  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  .p-item .num{ width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15.5px; flex:0 0 auto; }
+  .p-item .p-jp{ font-family:'Noto Serif JP', serif; font-size:23.5px; font-weight:700; }
+  .p-item .p-mean{ font-size:15.5px; color:var(--sub); font-weight:700; }
+  .p-item .p-desc{ font-size:15.5px; color:var(--sub); margin-top:2px; }
+  .p-item .p-ex{ font-size:16px; margin-top:4px; }
+  .tip-box{ margin-top:10px; font-size:16px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:16px; margin-top:6px; }
   table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
-  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
-  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:15px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:17.5px; text-align:center; line-height:1.7; }
 </style></head>
 <body>
 <header><h1>일본어 조사 정리</h1></header>
@@ -60,12 +60,12 @@
     <div class="ic-body" style="padding:14px 16px;">
       <table class="mini">
         <tr><th>は vs が</th><th>に vs で</th><th>と vs や</th></tr>
-        <tr><td class="jp">これは ペンです。<br><span style="font-size:11px;color:var(--sub);">(이것은 펜입니다-주제)</span></td>
-            <td class="jp">学校に 行きます。<br><span style="font-size:11px;color:var(--sub);">(학교에 갑니다-도착점,시간)</span></td>
-            <td class="jp">友だちと 映画を見ました。<br><span style="font-size:11px;color:var(--sub);">(친구와-함께, 전부 나열)</span></td></tr>
-        <tr><td class="jp">これは ペンが いいです。<br><span style="font-size:11px;color:var(--sub);">(이 펜이 좋아요-주어 강조)</span></td>
-            <td class="jp">学校で 勉強します。<br><span style="font-size:11px;color:var(--sub);">(학교에서 공부합니다-장소,수단)</span></td>
-            <td class="jp">パンや 牛乳を 買いました。<br><span style="font-size:11px;color:var(--sub);">(빵이나 우유 등-일부 예시)</span></td></tr>
+        <tr><td class="jp">これは ペンです。<br><span style="font-size:14.5px;color:var(--sub);">(이것은 펜입니다-주제)</span></td>
+            <td class="jp">学校に 行きます。<br><span style="font-size:14.5px;color:var(--sub);">(학교에 갑니다-도착점,시간)</span></td>
+            <td class="jp">友だちと 映画を見ました。<br><span style="font-size:14.5px;color:var(--sub);">(친구와-함께, 전부 나열)</span></td></tr>
+        <tr><td class="jp">これは ペンが いいです。<br><span style="font-size:14.5px;color:var(--sub);">(이 펜이 좋아요-주어 강조)</span></td>
+            <td class="jp">学校で 勉強します。<br><span style="font-size:14.5px;color:var(--sub);">(학교에서 공부합니다-장소,수단)</span></td>
+            <td class="jp">パンや 牛乳を 買いました。<br><span style="font-size:14.5px;color:var(--sub);">(빵이나 우유 등-일부 예시)</span></td></tr>
       </table>
     </div>
   </div>

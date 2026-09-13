@@ -16,48 +16,48 @@
 
   header{ padding:44px 20px 28px; text-align:center; border-bottom:1px solid var(--line);
     background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(228,87,46,0.08), transparent 40%); }
-  header h1{ margin:0; font-size:clamp(24px,6vw,34px); font-weight:900; letter-spacing:-0.02em; }
-  header .hero{ font-family:'Noto Serif JP', serif; font-size:clamp(14px,4vw,18px); color:var(--sub); margin-top:10px; }
-  header p.desc{ margin:14px auto 0; max-width:560px; color:var(--sub); font-size:14.5px; }
+  header h1{ margin:0; font-size:clamp(26.5px, 6vw, 38px); font-weight:900; letter-spacing:-0.02em; }
+  header .hero{ font-family:'Noto Serif JP', serif; font-size:clamp(18.5px, 4vw, 23.5px); color:var(--sub); margin-top:10px; }
+  header p.desc{ margin:14px auto 0; max-width:560px; color:var(--sub); font-size:19px; }
 
   nav.rownav{ position:sticky; top:0; z-index:20; background:rgba(251,248,242,0.96); backdrop-filter:blur(6px);
     border-bottom:1px solid var(--line); padding:10px 12px; display:flex; justify-content:center; gap:8px; overflow-x:auto; scrollbar-width:none; }
   nav.rownav::-webkit-scrollbar{display:none;}
-  nav.rownav a{ flex:0 0 auto; text-decoration:none; font-size:12.5px; font-weight:700; color:var(--ink);
+  nav.rownav a{ flex:0 0 auto; text-decoration:none; font-size:16px; font-weight:700; color:var(--ink);
     background:var(--card); border:1.5px solid var(--line); padding:7px 12px; border-radius:999px; white-space:nowrap; }
 
-  main{max-width:960px;margin:0 auto;padding:6px 14px 60px;}
+  main{max-width:1180px;margin:0 auto;padding:6px 14px 60px;}
 
   section.blk{ margin-top:34px; scroll-margin-top:64px; }
   section.blk .blk-head{ display:flex; align-items:center; gap:12px; padding:0 2px 12px; border-bottom:3px solid var(--accent); flex-wrap:wrap; }
-  section.blk .blk-head .rule{ font-family:'Noto Serif JP', serif; font-size:20px; font-weight:700; color:var(--accent); }
-  section.blk .blk-head .title{ font-size:13.5px; color:var(--sub); }
-  section.blk .blk-note{ font-size:12.5px; color:var(--sub); margin-top:10px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:9px 11px; }
+  section.blk .blk-head .rule{ font-family:'Noto Serif JP', serif; font-size:26px; font-weight:700; color:var(--accent); }
+  section.blk .blk-head .title{ font-size:17.5px; color:var(--sub); }
+  section.blk .blk-note{ font-size:16px; color:var(--sub); margin-top:10px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:9px 11px; }
 
   .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin-top:14px; }
   @media(min-width:560px){ .grid{grid-template-columns:repeat(3,1fr);} }
   @media(min-width:820px){ .grid{grid-template-columns:repeat(4,1fr);} }
 
   .tcard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:10px 11px; display:flex; flex-direction:column; gap:5px; }
-  .tcard .base{ font-size:11px; color:var(--sub); }
-  .tcard .base .jpword{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:14px; color:var(--ink); }
-  .tcard .arrow{ font-size:11px; color:#c9bfa0; text-align:center; }
+  .tcard .base{ font-size:14.5px; color:var(--sub); }
+  .tcard .base .jpword{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:18.5px; color:var(--ink); }
+  .tcard .arrow{ font-size:14.5px; color:#c9bfa0; text-align:center; }
   .tcard .teform{ display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
-  .tcard .teform .jpword{ font-family:'Noto Serif JP', serif; font-weight:700; font-size:16.5px; }
-  .tcard .romaji{ font-size:10.5px; color:#9c927a; font-style:italic; }
-  .tcard .kr{ font-size:13.5px; font-weight:700; color:var(--accent); }
-  .tcard .mean{ font-size:10.5px; color:var(--sub); }
+  .tcard .teform .jpword{ font-family:'Noto Serif JP', serif; font-weight:700; font-size:21.5px; }
+  .tcard .romaji{ font-size:13.5px; color:#9c927a; font-style:italic; }
+  .tcard .kr{ font-size:17.5px; font-weight:700; color:var(--accent); }
+  .tcard .mean{ font-size:13.5px; color:var(--sub); }
 
   .excard{ margin-top:14px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:10px; padding:14px 16px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-  .excard .badge{ font-size:10.5px; background:#7a3a3a; color:#fff; padding:3px 9px; border-radius:999px; font-weight:700; }
-  .excard .jpword{ font-family:'Noto Serif JP', serif; font-weight:700; font-size:18px; }
-  .excard .romaji{ font-size:11.5px; color:#9c927a; font-style:italic; }
-  .excard .kr{ font-size:15px; font-weight:700; color:#7a3a3a; }
-  .excard .note{ font-size:12px; color:#7a3a3a; width:100%; margin-top:4px; }
+  .excard .badge{ font-size:13.5px; background:#7a3a3a; color:#fff; padding:3px 9px; border-radius:999px; font-weight:700; }
+  .excard .jpword{ font-family:'Noto Serif JP', serif; font-weight:700; font-size:23.5px; }
+  .excard .romaji{ font-size:15px; color:#9c927a; font-style:italic; }
+  .excard .kr{ font-size:19.5px; font-weight:700; color:#7a3a3a; }
+  .excard .note{ font-size:15.5px; color:#7a3a3a; width:100%; margin-top:4px; }
 
   footer{ max-width:960px; margin:10px auto 50px; padding:22px 20px; background:var(--card); border:1px solid var(--line); border-radius:14px; }
-  footer h2{ font-size:16px; margin:0 0 10px; }
-  footer p{ font-size:13.5px; color:var(--sub); margin:0 0 8px; }
+  footer h2{ font-size:20.5px; margin:0 0 10px; }
+  footer p{ font-size:17.5px; color:var(--sub); margin:0 0 8px; }
 </style>
 </head>
 <body>
@@ -207,7 +207,7 @@ GROUPS.forEach(g=>{
       <span class="jpword jp">行く (いく)</span>
       <span class="romaji">iku</span>
       <span class="kr">이쿠</span>
-      <span style="font-size:12px;color:#7a3a3a;">→</span>
+      <span style="font-size:15.5px;color:#7a3a3a;">→</span>
       <span class="jpword jp">行って</span>
       <span class="romaji">itte</span>
       <span class="kr">잇테</span>

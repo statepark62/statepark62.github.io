@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신체부위별 명칭</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+
+  header{ padding:44px 20px 28px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(184,92,138,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(59,110,165,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(26.5px, 6vw, 38px); font-weight:900; letter-spacing:-0.02em; }
+  header .hero{ font-family:'Noto Serif JP', serif; font-size:clamp(18.5px, 4vw, 23.5px); color:var(--sub); margin-top:10px; }
+  header p.desc{ margin:14px auto 0; max-width:540px; color:var(--sub); font-size:19px; }
+
+  nav.rownav{ position:sticky; top:0; z-index:20; background:rgba(251,248,242,0.96); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line); padding:10px 12px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  nav.rownav::-webkit-scrollbar{display:none;}
+  nav.rownav a{ flex:0 0 auto; text-decoration:none; font-size:16px; font-weight:700; color:var(--ink);
+    background:var(--card); border:1.5px solid var(--line); padding:7px 12px; border-radius:999px; white-space:nowrap; }
+
+  main{max-width:1180px;margin:0 auto;padding:6px 14px 60px;}
+
+  section.blk{ margin-top:34px; scroll-margin-top:64px; }
+  section.blk .blk-head{ display:flex; align-items:baseline; gap:10px; padding:0 2px 12px; border-bottom:3px solid var(--accent); flex-wrap:wrap; }
+  section.blk .blk-head .title{ font-size:22px; font-weight:700; color:var(--accent); }
+  section.blk .blk-note{ font-size:16px; color:var(--sub); margin-top:10px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:9px 11px; }
+
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:14px; }
+  @media(min-width:520px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media(min-width:760px){ .grid{grid-template-columns:repeat(5,1fr);} }
+
+  .vcard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:6px; }
+  .vcard .vtop{ display:flex; align-items:center; gap:8px; }
+  .vcard .icon{ font-size:28.5px; flex:0 0 auto; }
+  .vcard .jpword{ font-family:'Noto Serif JP', serif; font-size:23.5px; font-weight:700; line-height:1.25; }
+  .vcard .furigana{ font-family:'Noto Serif JP', serif; font-size:15.5px; color:var(--sub); font-weight:500; margin-left:2px; }
+  .vcard .romaji{ font-size:15px; color:#9c927a; font-style:italic; }
+  .vcard .kr{ font-size:19.5px; font-weight:700; color:var(--accent); }
+  .vcard .mean{ font-size:16px; color:var(--sub); }
+
+  .slist{ display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .scard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:13px 14px; }
+  .scard .sjp{ font-family:'Noto Serif JP', serif; font-size:20.5px; font-weight:600; }
+  .scard .sromaji{ font-size:15.5px; color:#9c927a; font-style:italic; margin-top:4px; }
+  .scard .skr{ font-size:17.5px; font-weight:700; color:var(--accent); margin-top:4px; }
+  .scard .smean{ font-size:16px; color:var(--sub); margin-top:2px; }
+
+  footer{ max-width:960px; margin:10px auto 50px; padding:22px 20px; background:var(--card); border:1px solid var(--line); border-radius:14px; }
+  footer h2{ font-size:20.5px; margin:0 0 10px; }
+  footer p{ font-size:17.5px; color:var(--sub); margin:0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero jp">体（からだ）の部位（ぶい）</div>
+  <h1>신체부위별 명칭</h1>
+  <p class="desc">한자·히라가나를 몰라도 읽을 수 있게, 굵은 자주색 글자로 <b>한글 발음</b>을 크게 넣었습니다. 이탤릭체는 영어(로마자) 표기예요.</p>
+</header>
+
+<nav class="rownav" id="rownav"></nav>
+<main id="main"></main>
+
+<footer>
+  <h2>일러두기</h2>
+  <p>진한 자주색 글자가 한글 발음, 기울어진 회색 글자가 로마자(영어) 표기예요. あし(足)는 “다리/발” 둘 다 될 수 있어요. 다리라고 분명히 말하고 싶으면 脚(あし), 발목은 足首(あしくび)처럼 구체적인 단어를 쓰면 안전해요.</p>
+</footer>
+
+<script>
+const SECTIONS = [
+  { id:'face', accent:'#B85C8A', title:'1) 얼굴·머리 주변', type:'vocab',
+    items:[
+      {icon:'😊', jp:'顔', furi:'かお', romaji:'kao', kr:'카오', mean:'얼굴'},
+      {icon:'🧠', jp:'頭', furi:'あたま', romaji:'atama', kr:'아타마', mean:'머리(머리통)'},
+      {icon:'💇', jp:'髪', furi:'かみ', romaji:'kami', kr:'카미', mean:'머리카락'},
+      {icon:'🙂', jp:'額(おでこ)', furi:'おでこ', romaji:'odeko', kr:'오데코', mean:'이마'},
+      {icon:'👁️', jp:'目', furi:'め', romaji:'me', kr:'메', mean:'눈'},
+      {icon:'👂', jp:'耳', furi:'みみ', romaji:'mimi', kr:'미미', mean:'귀'},
+      {icon:'👃', jp:'鼻', furi:'はな', romaji:'hana', kr:'하나', mean:'코'},
+      {icon:'👄', jp:'口', furi:'くち', romaji:'kuchi', kr:'쿠치', mean:'입'},
+      {icon:'🦷', jp:'歯', furi:'は', romaji:'ha', kr:'하', mean:'이(치아)'},
+      {icon:'👅', jp:'舌', furi:'した', romaji:'shita', kr:'시타', mean:'혀'},
+      {icon:'🗣️', jp:'喉(のど)', furi:'のど', romaji:'nodo', kr:'노도', mean:'목(목구멍)'},
+    ]},
+  { id:'torso', accent:'#3B6EA5', title:'2) 몸통', type:'vocab',
+    items:[
+      {icon:'💆', jp:'首', furi:'くび', romaji:'kubi', kr:'쿠비', mean:'목'},
+      {icon:'🤷', jp:'肩', furi:'かた', romaji:'kata', kr:'카타', mean:'어깨'},
+      {icon:'🫁', jp:'胸', furi:'むね', romaji:'mune', kr:'무네', mean:'가슴'},
+      {icon:'🔙', jp:'背中', furi:'せなか', romaji:'senaka', kr:'세나카', mean:'등'},
+      {icon:'🤰', jp:'お腹', furi:'おなか', romaji:'onaka', kr:'오나카', mean:'배(복부)'},
+      {icon:'🦴', jp:'腰', furi:'こし', romaji:'koshi', kr:'코시', mean:'허리'},
+      {icon:'🍑', jp:'お尻', furi:'おしり', romaji:'oshiri', kr:'오시리', mean:'엉덩이'},
+    ]},
+  { id:'arm', accent:'#D9A441', title:'3) 팔·손', type:'vocab',
+    items:[
+      {icon:'💪', jp:'腕', furi:'うで', romaji:'ude', kr:'우데', mean:'팔(팔 전체/팔뚝 포함)'},
+      {icon:'🦾', jp:'肘', furi:'ひじ', romaji:'hiji', kr:'히지', mean:'팔꿈치'},
+      {icon:'✋', jp:'手', furi:'て', romaji:'te', kr:'테', mean:'손'},
+      {icon:'⌚', jp:'手首', furi:'てくび', romaji:'tekubi', kr:'테쿠비', mean:'손목'},
+      {icon:'👆', jp:'指', furi:'ゆび', romaji:'yubi', kr:'유비', mean:'손가락'},
+      {icon:'👍', jp:'親指', furi:'おやゆび', romaji:'oyayubi', kr:'오야유비', mean:'엄지손가락'},
+      {icon:'💅', jp:'爪', furi:'つめ', romaji:'tsume', kr:'츠메', mean:'손톱/발톱'},
+    ]},
+  { id:'leg', accent:'#3C8C7B', title:'4) 다리·발', type:'vocab',
+    note:'あし(足)는 “다리/발” 둘 다 될 수 있어요. 다리는 脚(あし), 발목은 足首(あしくび)처럼 구체적인 단어를 쓰면 더 명확해요.',
+    items:[
+      {icon:'🦵', jp:'足', furi:'あし', romaji:'ashi', kr:'아시', mean:'다리/발(문맥에 따라 둘 다)'},
+      {icon:'🦵', jp:'脚', furi:'あし', romaji:'ashi', kr:'아시', mean:'다리(‘다리’ 의미가 더 분명)'},
+      {icon:'🦿', jp:'膝', furi:'ひざ', romaji:'hiza', kr:'히자', mean:'무릎'},
+      {icon:'🍗', jp:'ふくらはぎ', furi:'ふくらはぎ', romaji:'fukurahagi', kr:'후쿠라하기', mean:'종아리'},
+      {icon:'👟', jp:'足首', furi:'あしくび', romaji:'ashikubi', kr:'아시쿠비', mean:'발목'},
+      {icon:'🦶', jp:'足', furi:'あし', romaji:'ashi', kr:'아시', mean:'발(문맥상 ‘발’로도 자주 씀)'},
+      {icon:'👣', jp:'つま先', furi:'つまさき', romaji:'tsumasaki', kr:'츠마사키', mean:'발끝/발가락 쪽'},
+      {icon:'🦶', jp:'かかと', furi:'かかと', romaji:'kakato', kr:'카카토', mean:'뒤꿈치'},
+    ]},
+  { id:'pain', accent:'#E4572E', title:'여행회화에 바로 쓰는 “아프다/다치다” 기본 문장 10개', type:'sentence',
+    items:[
+      {jp:'ここが いたいです。', romaji:'koko ga itai desu.', kr:'코코가 이타이데스', mean:'여기가 아파요'},
+      {jp:'あたまが いたいです。', romaji:'atama ga itai desu.', kr:'아타마가 이타이데스', mean:'머리가 아파요'},
+      {jp:'おなかが いたいです。', romaji:'onaka ga itai desu.', kr:'오나카가 이타이데스', mean:'배가 아파요'},
+      {jp:'のどが いたいです。', romaji:'nodo ga itai desu.', kr:'노도가 이타이데스', mean:'목이 아파요'},
+      {jp:'はが いたいです。', romaji:'ha ga itai desu.', kr:'하가 이타이데스', mean:'이가 아파요'},
+      {jp:'ひざが いたいです。', romaji:'hiza ga itai desu.', kr:'히자가 이타이데스', mean:'무릎이 아파요'},
+      {jp:'あしくびが いたいです。', romaji:'ashikubi ga itai desu.', kr:'아시쿠비가 이타이데스', mean:'발목이 아파요'},
+      {jp:'てを きりました。', romaji:'te wo kirimashita.', kr:'테오 키리마시타', mean:'손을 베었어요'},
+      {jp:'ころびました。', romaji:'korobimashita.', kr:'코로비마시타', mean:'넘어졌어요'},
+      {jp:'びょういんに いきたいです。', romaji:'byouin ni ikitai desu.', kr:'뵤-인니 이키타이데스', mean:'병원에 가고 싶어요'},
+    ]},
+];
+
+const nav = document.getElementById('rownav');
+const main = document.getElementById('main');
+
+function makeVcard(it){
+  const c = document.createElement('div');
+  c.className = 'vcard';
+  c.innerHTML = `
+    <div class="vtop">
+      ${it.icon ? `<span class="icon">${it.icon}</span>` : ''}
+      <div>
+        <span class="jpword jp">${it.jp}</span>
+        ${it.furi ? `<span class="furigana">(${it.furi})</span>` : ''}
+      </div>
+    </div>
+    <div class="romaji">${it.romaji}</div>
+    <div class="kr">${it.kr}</div>
+    ${it.mean ? `<div class="mean">${it.mean}</div>` : ''}
+  `;
+  return c;
+}
+function makeScard(it){
+  const c = document.createElement('div');
+  c.className = 'scard';
+  c.innerHTML = `
+    <div class="sjp jp">${it.jp}</div>
+    <div class="sromaji">${it.romaji}</div>
+    <div class="skr">${it.kr}</div>
+    <div class="smean">${it.mean}</div>
+  `;
+  return c;
+}
+
+SECTIONS.forEach(sec=>{
+  const a = document.createElement('a');
+  a.href = '#'+sec.id;
+  a.textContent = sec.title.replace(/^[0-9)]+\)?\s*/,'').split('(')[0].trim().slice(0,10);
+  nav.appendChild(a);
+
+  const section = document.createElement('section');
+  section.className = 'blk';
+  section.id = sec.id;
+  section.style.setProperty('--accent', sec.accent);
+
+  const head = document.createElement('div');
+  head.className = 'blk-head';
+  head.innerHTML = `<span class="title">${sec.title}</span>`;
+  section.appendChild(head);
+
+  if(sec.note){
+    const note = document.createElement('div');
+    note.className = 'blk-note';
+    note.textContent = sec.note;
+    section.appendChild(note);
+  }
+
+  if(sec.type === 'vocab'){
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    sec.items.forEach(it=> grid.appendChild(makeVcard(it)));
+    section.appendChild(grid);
+  } else {
+    const list = document.createElement('div');
+    list.className = 'slist';
+    sec.items.forEach(it=> list.appendChild(makeScard(it)));
+    section.appendChild(list);
+  }
+
+  main.appendChild(section);
+});
+</script>
+
+</body>
+</html>

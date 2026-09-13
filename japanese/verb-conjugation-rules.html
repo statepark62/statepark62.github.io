@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 동사 변형 규칙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+
+  header{ padding:44px 20px 28px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(217,164,65,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(59,110,165,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(26.5px, 6vw, 38px); font-weight:900; letter-spacing:-0.02em; }
+  header .hero{ font-family:'Noto Serif JP', serif; font-size:clamp(18.5px, 4vw, 23.5px); color:var(--sub); margin-top:10px; }
+  header p.desc{ margin:14px auto 0; max-width:560px; color:var(--sub); font-size:19px; }
+
+  nav.rownav{ position:sticky; top:0; z-index:20; background:rgba(251,248,242,0.96); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line); padding:10px 12px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  nav.rownav::-webkit-scrollbar{display:none;}
+  nav.rownav a{ flex:0 0 auto; text-decoration:none; font-size:16px; font-weight:700; color:var(--ink);
+    background:var(--card); border:1.5px solid var(--line); padding:7px 12px; border-radius:999px; white-space:nowrap; }
+
+  main{max-width:1180px;margin:0 auto;padding:6px 14px 60px;}
+
+  section.blk{ margin-top:34px; scroll-margin-top:64px; }
+  section.blk .blk-head{ display:flex; align-items:baseline; gap:10px; padding:0 2px 12px; border-bottom:3px solid var(--accent); flex-wrap:wrap; }
+  section.blk .blk-head .title{ font-size:22px; font-weight:700; color:var(--accent); }
+  section.blk .blk-note{ font-size:16px; color:var(--sub); margin-top:10px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:9px 11px; }
+  section.blk .blk-warn{ font-size:16px; color:#7a3a3a; margin-top:10px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:9px 11px; }
+
+  .vblist{ display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .vbcard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:12px 13px; }
+  .vbcard .vbmain{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+  .vbcard .jpword{ font-family:'Noto Serif JP', serif; font-size:23.5px; font-weight:700; }
+  .vbcard .furigana{ font-family:'Noto Serif JP', serif; font-size:15px; color:var(--sub); }
+  .vbcard .romaji{ font-size:14.5px; color:#9c927a; font-style:italic; }
+  .vbcard .kr{ font-size:19px; font-weight:700; color:var(--accent); }
+  .vbcard .mean{ font-size:15.5px; color:var(--sub); margin-left:auto; }
+  .vbcard .exflag{ font-size:13.5px; background:#7a3a3a; color:#fff; padding:2px 7px; border-radius:999px; font-weight:700; }
+  .conj-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:6px; margin-top:9px; }
+  @media(min-width:640px){ .conj-grid{grid-template-columns:repeat(4,1fr);} }
+  .conj-chip{ background:var(--paper); border:1px dashed var(--line); border-radius:7px; padding:6px 8px; font-size:14.5px; }
+  .conj-chip .clabel{ font-size:12.5px; color:#a99b78; font-weight:700; }
+  .conj-chip .cjp{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:16px; }
+  .conj-chip .cromaji{ color:#9c927a; font-style:italic; font-size:13px; }
+  .conj-chip .ckr{ color:var(--accent); font-weight:700; font-size:13.5px; }
+
+  .rule-grid{ display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px; }
+  @media(min-width:640px){ .rule-grid{grid-template-columns:repeat(3,1fr);} }
+  .rule-card{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:13px 14px; }
+  .rule-card h3{ margin:0 0 8px; font-size:18.5px; }
+  .rule-card ul{ margin:0; padding-left:18px; font-size:16px; color:var(--sub); }
+  .rule-card li{ margin-bottom:6px; }
+  .rule-card .rjp{ font-family:'Noto Serif JP', serif; font-weight:600; color:var(--ink); }
+
+  footer{ max-width:960px; margin:10px auto 50px; padding:22px 20px; background:var(--card); border:1px solid var(--line); border-radius:14px; }
+  footer h2{ font-size:20.5px; margin:0 0 10px; }
+  footer p{ font-size:17.5px; color:var(--sub); margin:0 0 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero jp">日本語動詞の活用ルール</div>
+  <h1>일본어 동사 변형 규칙</h1>
+  <p class="desc"><b style="color:#D9A441">굵은 색 글자</b>가 한글 발음, <i>이탤릭체</i>가 로마자(영어) 표기예요. 양이 많으니 천천히 소리 내어 읽으며 따라와보세요.</p>
+</header>
+
+<nav class="rownav" id="rownav"></nav>
+<main id="main"></main>
+
+<footer>
+  <h2>일러두기</h2>
+  <p>부정형(ない)=~하지 않다, 공손체(ます)=~합니다, 연용형=명사화·연결형, て형=~하고/해서. 한글 발음은 실제 발음과 100% 같지 않으니 원어민 음성과 함께 연습해보세요.</p>
+</footer>
+
+<script>
+const VERB_SECTIONS = [
+  { id:'g1', accent:'#D9A441', title:'1) 1그룹 동사 (5단 동사)의 활용',
+    note:'1그룹은 어미(끝 글자)가 u 발음으로 끝나며, 가장 변화무쌍해요.',
+    items:[
+      {jp:'会う', furi:'あう', romaji:'au', kr:'아우', mean:'만나다', conj:[
+        {l:'부정형(ない)', jp:'あわない', romaji:'awanai', kr:'아와나이'},
+        {l:'공손체(ます)', jp:'あいます', romaji:'aimasu', kr:'아이마스'},
+        {l:'연용형', jp:'あい', romaji:'ai', kr:'아이'},
+        {l:'て형', jp:'あって', romaji:'atte', kr:'앗테'}]},
+      {jp:'待つ', furi:'まつ', romaji:'matsu', kr:'마츠', mean:'기다리다', conj:[
+        {l:'부정형(ない)', jp:'またない', romaji:'matanai', kr:'마타나이'},
+        {l:'공손체(ます)', jp:'まちます', romaji:'machimasu', kr:'마치마스'},
+        {l:'연용형', jp:'まち', romaji:'machi', kr:'마치'},
+        {l:'て형', jp:'まって', romaji:'matte', kr:'맛테'}]},
+      {jp:'作る', furi:'つくる', romaji:'tsukuru', kr:'츠쿠루', mean:'만들다', conj:[
+        {l:'부정형(ない)', jp:'つくらない', romaji:'tsukuranai', kr:'츠쿠라나이'},
+        {l:'공손체(ます)', jp:'つくります', romaji:'tsukurimasu', kr:'츠쿠리마스'},
+        {l:'연용형', jp:'つくり', romaji:'tsukuri', kr:'츠쿠리'},
+        {l:'て형', jp:'つくって', romaji:'tsukutte', kr:'츠쿳테'}]},
+      {jp:'読む', furi:'よむ', romaji:'yomu', kr:'요무', mean:'읽다', conj:[
+        {l:'부정형(ない)', jp:'よまない', romaji:'yomanai', kr:'요마나이'},
+        {l:'공손체(ます)', jp:'よみます', romaji:'yomimasu', kr:'요미마스'},
+        {l:'연용형', jp:'よみ', romaji:'yomi', kr:'요미'},
+        {l:'て형', jp:'よんで', romaji:'yonde', kr:'욘데'}]},
+      {jp:'遊ぶ', furi:'あそぶ', romaji:'asobu', kr:'아소부', mean:'놀다', conj:[
+        {l:'부정형(ない)', jp:'あそばない', romaji:'asobanai', kr:'아소바나이'},
+        {l:'공손체(ます)', jp:'あそびます', romaji:'asobimasu', kr:'아소비마스'},
+        {l:'연용형', jp:'あそび', romaji:'asobi', kr:'아소비'},
+        {l:'て형', jp:'あそんで', romaji:'asonde', kr:'아손데'}]},
+      {jp:'死ぬ', furi:'しぬ', romaji:'shinu', kr:'시누', mean:'죽다', conj:[
+        {l:'부정형(ない)', jp:'しなない', romaji:'shinanai', kr:'시나나이'},
+        {l:'공손체(ます)', jp:'しにます', romaji:'shinimasu', kr:'시니마스'},
+        {l:'연용형', jp:'しに', romaji:'shini', kr:'시니'},
+        {l:'て형', jp:'しんで', romaji:'shinde', kr:'신데'}]},
+      {jp:'書く', furi:'かく', romaji:'kaku', kr:'카쿠', mean:'쓰다', conj:[
+        {l:'부정형(ない)', jp:'かかない', romaji:'kakanai', kr:'카카나이'},
+        {l:'공손체(ます)', jp:'かきます', romaji:'kakimasu', kr:'카키마스'},
+        {l:'연용형', jp:'かき', romaji:'kaki', kr:'카키'},
+        {l:'て형', jp:'かいて', romaji:'kaite', kr:'카이테'}]},
+      {jp:'泳ぐ', furi:'およぐ', romaji:'oyogu', kr:'오요구', mean:'헤엄치다', conj:[
+        {l:'부정형(ない)', jp:'およがない', romaji:'oyoganai', kr:'오요가나이'},
+        {l:'공손체(ます)', jp:'およぎます', romaji:'oyogimasu', kr:'오요기마스'},
+        {l:'연용형', jp:'およぎ', romaji:'oyogi', kr:'오요기'},
+        {l:'て형', jp:'およいで', romaji:'oyoide', kr:'오요이데'}]},
+      {jp:'話す', furi:'はなす', romaji:'hanasu', kr:'하나스', mean:'말하다', conj:[
+        {l:'부정형(ない)', jp:'はなさない', romaji:'hanasanai', kr:'하나사나이'},
+        {l:'공손체(ます)', jp:'はなします', romaji:'hanashimasu', kr:'하나시마스'},
+        {l:'연용형', jp:'はなし', romaji:'hanashi', kr:'하나시'},
+        {l:'て형', jp:'はなして', romaji:'hanashite', kr:'하나시테'}]},
+      {jp:'行く', furi:'いく', romaji:'iku', kr:'이쿠', mean:'가다', flag:'예외', conj:[
+        {l:'부정형(ない)', jp:'いかない', romaji:'ikanai', kr:'이카나이'},
+        {l:'공손체(ます)', jp:'いきます', romaji:'ikimasu', kr:'이키마스'},
+        {l:'연용형', jp:'いき', romaji:'iki', kr:'이키'},
+        {l:'て형', jp:'いって', romaji:'itte', kr:'잇테'}]},
+    ]},
+  { id:'g2', accent:'#3C8C7B', title:'2) 2그룹 동사 (상/하 1단 동사)의 활용',
+    note:'2그룹은 어미가 「る(ru)」로 끝나고 그 앞 글자가 이(i)·에(e) 발음이에요. 「る」만 떼고 부품(ない, ます, て)을 그대로 붙이면 끝!',
+    items:[
+      {jp:'食べる', furi:'たべる', romaji:'taberu', kr:'타베루', mean:'먹다', conj:[
+        {l:'부정형(ない)', jp:'たべない', romaji:'tabenai', kr:'타베나이'},
+        {l:'공손체(ます)', jp:'たべます', romaji:'tabemasu', kr:'타베마스'},
+        {l:'연용형', jp:'たべ', romaji:'tabe', kr:'타베'},
+        {l:'て형', jp:'たべて', romaji:'tabete', kr:'타베테'}]},
+      {jp:'見る', furi:'みる', romaji:'miru', kr:'미루', mean:'보다', conj:[
+        {l:'부정형(ない)', jp:'みない', romaji:'minai', kr:'미나이'},
+        {l:'공손체(ます)', jp:'みます', romaji:'mimasu', kr:'미마스'},
+        {l:'연용형', jp:'み', romaji:'mi', kr:'미'},
+        {l:'て형', jp:'みて', romaji:'mite', kr:'미테'}]},
+      {jp:'寝る', furi:'ねる', romaji:'neru', kr:'네루', mean:'자다', conj:[
+        {l:'부정형(ない)', jp:'ねない', romaji:'nenai', kr:'네나이'},
+        {l:'공손체(ます)', jp:'ねます', romaji:'nemasu', kr:'네마스'},
+        {l:'연용형', jp:'ね', romaji:'ne', kr:'네'},
+        {l:'て형', jp:'ねて', romaji:'nete', kr:'네테'}]},
+      {jp:'起きる', furi:'おきる', romaji:'okiru', kr:'오키루', mean:'일어나다', conj:[
+        {l:'부정형(ない)', jp:'おきない', romaji:'okinai', kr:'오키나이'},
+        {l:'공손체(ます)', jp:'おきます', romaji:'okimasu', kr:'오키마스'},
+        {l:'연용형', jp:'おき', romaji:'oki', kr:'오키'},
+        {l:'て형', jp:'おきて', romaji:'okite', kr:'오키테'}]},
+    ]},
+  { id:'g3', accent:'#B85C8A', title:'3) 3그룹 동사 (불규칙 동사)의 활용',
+    items:[
+      {jp:'する', romaji:'suru', kr:'스루', mean:'하다', conj:[
+        {l:'부정형(ない)', jp:'しない', romaji:'shinai', kr:'시나이'},
+        {l:'공손체(ます)', jp:'します', romaji:'shimasu', kr:'시마스'},
+        {l:'연용형', jp:'し', romaji:'shi', kr:'시'},
+        {l:'て형', jp:'して', romaji:'shite', kr:'시테'}]},
+      {jp:'くる', romaji:'kuru', kr:'쿠루', mean:'오다', conj:[
+        {l:'부정형(ない)', jp:'こない', romaji:'konai', kr:'코나이'},
+        {l:'공손체(ます)', jp:'きます', romaji:'kimasu', kr:'키마스'},
+        {l:'연용형', jp:'き', romaji:'ki', kr:'키'},
+        {l:'て형', jp:'きて', romaji:'kite', kr:'키테'}]},
+    ]},
+];
+
+const EXCEPTION_SECTION =
+  { id:'exception', accent:'#7A3A3A', title:'5) 학습 포인트: "예외 1그룹"을 조심하세요!',
+    note:'모양은 2그룹(끝이 iru, eru)처럼 생겼지만, 활용은 1그룹처럼 하는 동사들이에요. 초급 단계에서 가장 헷갈리는 부분이니 따로 기억해두세요.',
+    items:[
+      {jp:'帰る', furi:'かえる', romaji:'kaeru', kr:'카에루', mean:'돌아가다', flag:'예외 1그룹', conj:[
+        {l:'부정형(ない)', jp:'かえらない', romaji:'kaeranai', kr:'카에라나이'},
+        {l:'공손체(ます)', jp:'かえります', romaji:'kaerimasu', kr:'카에리마스'},
+        {l:'연용형', jp:'かえり', romaji:'kaeri', kr:'카에리'},
+        {l:'て형', jp:'かえって', romaji:'kaette', kr:'카엣테'}]},
+      {jp:'入る', furi:'はいる', romaji:'hairu', kr:'하이루', mean:'들어가다', flag:'예외 1그룹', conj:[
+        {l:'부정형(ない)', jp:'はいらない', romaji:'hairanai', kr:'하이라나이'},
+        {l:'공손체(ます)', jp:'はいります', romaji:'hairimasu', kr:'하이리마스'},
+        {l:'연용형', jp:'はいり', romaji:'hairi', kr:'하이리'},
+        {l:'て형', jp:'はいって', romaji:'haitte', kr:'하잇테'}]},
+      {jp:'切る', furi:'きる', romaji:'kiru', kr:'키루', mean:'자르다', flag:'예외 1그룹', conj:[
+        {l:'부정형(ない)', jp:'きらない', romaji:'kiranai', kr:'키라나이'},
+        {l:'공손체(ます)', jp:'きります', romaji:'kirimasu', kr:'키리마스'},
+        {l:'연용형', jp:'きり', romaji:'kiri', kr:'키리'},
+        {l:'て형', jp:'きって', romaji:'kitte', kr:'킷테'}]},
+      {jp:'走る', furi:'はしる', romaji:'hashiru', kr:'하시루', mean:'달리다', flag:'예외 1그룹', conj:[
+        {l:'부정형(ない)', jp:'はしらない', romaji:'hashiranai', kr:'하시라나이'},
+        {l:'공손체(ます)', jp:'はしります', romaji:'hashirimasu', kr:'하시리마스'},
+        {l:'연용형', jp:'はしり', romaji:'hashiri', kr:'하시리'},
+        {l:'て형', jp:'はしって', romaji:'hashitte', kr:'하싯테'}]},
+    ]};
+
+const nav = document.getElementById('rownav');
+const main = document.getElementById('main');
+
+function makeVbcard(it, accent){
+  const c = document.createElement('div');
+  c.className = 'vbcard';
+  const chips = it.conj.map(cj => `
+    <div class="conj-chip">
+      <div class="clabel">${cj.l}</div>
+      <div class="cjp jp">${cj.jp}</div>
+      <div class="cromaji">${cj.romaji}</div>
+      <div class="ckr">${cj.kr}</div>
+    </div>`).join('');
+  c.innerHTML = `
+    <div class="vbmain">
+      <span class="jpword jp">${it.jp}</span>${it.furi ? `<span class="furigana">(${it.furi})</span>` : ''}
+      <span class="romaji">${it.romaji}</span>
+      <span class="kr">${it.kr}</span>
+      ${it.flag ? `<span class="exflag">${it.flag}</span>` : ''}
+      <span class="mean">${it.mean}</span>
+    </div>
+    <div class="conj-grid">${chips}</div>
+  `;
+  return c;
+}
+
+VERB_SECTIONS.forEach(sec=>{
+  const a = document.createElement('a');
+  a.href = '#'+sec.id;
+  a.textContent = sec.title.split(')')[0].replace(/[^0-9가-힣]/g,'') + '그룹';
+  nav.appendChild(a);
+
+  const section = document.createElement('section');
+  section.className = 'blk';
+  section.id = sec.id;
+  section.style.setProperty('--accent', sec.accent);
+
+  const head = document.createElement('div');
+  head.className = 'blk-head';
+  head.innerHTML = `<span class="title">${sec.title}</span>`;
+  section.appendChild(head);
+
+  if(sec.note){
+    const note = document.createElement('div');
+    note.className = sec.id === 'exception' ? 'blk-warn' : 'blk-note';
+    note.textContent = sec.note;
+    section.appendChild(note);
+  }
+
+  const list = document.createElement('div');
+  list.className = 'vblist';
+  sec.items.forEach(it=> list.appendChild(makeVbcard(it, sec.accent)));
+  section.appendChild(list);
+
+  main.appendChild(section);
+});
+
+// 4) 형태별 변신 공식 섹션 (규칙 카드, 데이터가 아닌 고정 설명)
+(function(){
+  const a = document.createElement('a');
+  a.href = '#formula';
+  a.textContent = '변신공식';
+  nav.appendChild(a);
+
+  const section = document.createElement('section');
+  section.className = 'blk';
+  section.id = 'formula';
+  section.style.setProperty('--accent', '#3B6EA5');
+
+  section.innerHTML = `
+    <div class="blk-head"><span class="title">4) 형태별 변신 공식 (핵심 정리)</span></div>
+    <div class="rule-grid">
+      <div class="rule-card">
+        <h3>① 부정형(ない) 만들기</h3>
+        <ul>
+          <li><b>1그룹</b>: 끝 글자를 '아(a)단'으로 바꾸고 <span class="rjp">ない</span>를 붙여요.</li>
+          <li><b>2그룹</b>: <span class="rjp">る</span> 빼고 <span class="rjp">ない</span>를 붙여요.</li>
+        </ul>
+      </div>
+      <div class="rule-card">
+        <h3>② 공손체(ます) · 연용형 만들기</h3>
+        <ul>
+          <li><b>1그룹</b>: 끝 글자를 '이(i)단'으로 바꾸고 <span class="rjp">ます</span>를 붙여요.</li>
+          <li><b>2그룹</b>: <span class="rjp">る</span> 빼고 <span class="rjp">ます</span>를 붙여요.</li>
+        </ul>
+      </div>
+      <div class="rule-card">
+        <h3>③ て형(연결형) 만들기 (1그룹 전용 리듬)</h3>
+        <ul>
+          <li><span class="rjp">う, つ, る</span> → <span class="rjp">って</span></li>
+          <li><span class="rjp">む, ぶ, ぬ</span> → <span class="rjp">んで</span></li>
+          <li><span class="rjp">く</span> → <span class="rjp">いて</span> ／ <span class="rjp">ぐ</span> → <span class="rjp">いで</span></li>
+          <li><span class="rjp">す</span> → <span class="rjp">して</span></li>
+          <li>특별 예외: <span class="rjp">行く</span>(가다)는 <span class="rjp">行って</span>(잇테)</li>
+        </ul>
+      </div>
+    </div>
+  `;
+  main.appendChild(section);
+})();
+
+// 5) 예외 1그룹 섹션 렌더링 (formula 다음 순서)
+(function(sec){
+  const a = document.createElement('a');
+  a.href = '#'+sec.id;
+  a.textContent = '예외1그룹';
+  nav.appendChild(a);
+
+  const section = document.createElement('section');
+  section.className = 'blk';
+  section.id = sec.id;
+  section.style.setProperty('--accent', sec.accent);
+
+  const head = document.createElement('div');
+  head.className = 'blk-head';
+  head.innerHTML = `<span class="title">${sec.title}</span>`;
+  section.appendChild(head);
+
+  const note = document.createElement('div');
+  note.className = 'blk-warn';
+  note.textContent = sec.note;
+  section.appendChild(note);
+
+  const list = document.createElement('div');
+  list.className = 'vblist';
+  sec.items.forEach(it=> list.appendChild(makeVbcard(it, sec.accent)));
+  section.appendChild(list);
+
+  main.appendChild(section);
+})(EXCEPTION_SECTION);
+</script>
+
+</body>
+</html>

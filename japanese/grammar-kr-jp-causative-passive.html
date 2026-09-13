@@ -10,24 +10,24 @@
   .jp{ font-family:'Noto Serif JP', serif; }
   header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
     background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(217,98,42,0.08), transparent 40%); }
-  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
-  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
-  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  header h1{ margin:0; font-size:clamp(23px, 5vw, 38px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:17px; }
+  main{max-width:1180px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
   .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
-  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
-  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:18.5px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:17.5px; }
   .lang-pair{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
   .lang-col{ border:1px solid var(--line); border-radius:10px; padding:10px; text-align:center; }
-  .lang-col .tag{ display:inline-block; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:999px; margin-bottom:8px; }
+  .lang-col .tag{ display:inline-block; font-size:15px; font-weight:700; padding:2px 9px; border-radius:999px; margin-bottom:8px; }
   .jp-tag{ background:#EAF1FB; color:#2A5CAA; } .kr-tag{ background:#EAF6EE; color:#2E7D4F; }
-  .arrow-row{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:16px; font-weight:700; margin-top:6px; }
+  .arrow-row{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:20.5px; font-weight:700; margin-top:6px; }
   .diff-pair{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
-  .diff-pair .box{ border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:13px; }
-  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
-  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  .diff-pair .box{ border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:17px; }
+  .tip-box{ margin-top:10px; font-size:16px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:16px; margin-top:6px; }
   table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
-  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
-  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:15px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:17.5px; text-align:center; line-height:1.7; }
 </style></head>
 <body>
 <header>
@@ -38,10 +38,10 @@
   <div class="info-card" style="--accent:#2A5CAA">
     <div class="ic-head">1. 공통점</div>
     <div class="ic-body">
-      <p style="font-size:12.5px; color:var(--sub);">두 언어 모두 기본 어순(SOV)이며, 조사·격조사를 사용한다.</p>
+      <p style="font-size:16px; color:var(--sub);">두 언어 모두 기본 어순(SOV)이며, 조사·격조사를 사용한다.</p>
       <div class="lang-pair">
-        <div class="lang-col"><span class="tag jp-tag">일본어</span><br><span class="jp">私は 本を 読みます</span><br><span style="font-size:11px;color:var(--sub);">주어 · 목적어 · 서술어</span></div>
-        <div class="lang-col"><span class="tag kr-tag">한국어</span><br>저는 책을 읽습니다<br><span style="font-size:11px;color:var(--sub);">주어 · 목적어 · 서술어</span></div>
+        <div class="lang-col"><span class="tag jp-tag">일본어</span><br><span class="jp">私は 本を 読みます</span><br><span style="font-size:14.5px;color:var(--sub);">주어 · 목적어 · 서술어</span></div>
+        <div class="lang-col"><span class="tag kr-tag">한국어</span><br>저는 책을 읽습니다<br><span style="font-size:14.5px;color:var(--sub);">주어 · 목적어 · 서술어</span></div>
       </div>
       <div class="tip-box">💡 두 언어 모두 어순은 비슷하지만, 문법 형식을 만드는 방식에는 차이가 있다.</div>
     </div>
@@ -55,7 +55,7 @@
           <b style="color:#D9622A;">일본어</b> — 동사 활용으로 사역형을 만듦<br>
           <span class="jp">食べる → 食べさせる</span><br>
           <span class="jp">母は子どもに野菜を食べさせた。</span><br>
-          <span style="font-size:11.5px;color:var(--sub);">(엄마는 아이에게 채소를 먹게 했다.)</span>
+          <span style="font-size:15px;color:var(--sub);">(엄마는 아이에게 채소를 먹게 했다.)</span>
         </div>
         <div class="box">
           <b style="color:#2E7D4F;">한국어</b> — 보통 '~게 하다'로 표현<br>
@@ -75,7 +75,7 @@
           <b style="color:#D9622A;">일본어</b> — 동사 활용으로 수동형을 만듦<br>
           <span class="jp">書く → 書かれる / ほめる → ほめられる</span><br>
           <span class="jp">私は先生にほめられました。</span><br>
-          <span style="font-size:11.5px;color:var(--sub);">(저는 선생님께 칭찬받았습니다.)</span>
+          <span style="font-size:15px;color:var(--sub);">(저는 선생님께 칭찬받았습니다.)</span>
         </div>
         <div class="box">
           <b style="color:#2E7D4F;">한국어</b> — 피동 접사와 '받다/되다' 표현을 함께 사용<br>
@@ -83,7 +83,7 @@
           저는 선생님께 칭찬받았습니다.
         </div>
       </div>
-      <p style="font-size:12px; color:var(--sub); margin-top:6px;">수동 표현의 종류(한국어): 피동사(열리다,닫히다,깨지다,죽다,보이다 등), 보조용언 '-받다'(칭찬받다,혼나다,도움받다), '-되다/-아지다'(물들다,망가지다,높아지다)</p>
+      <p style="font-size:15.5px; color:var(--sub); margin-top:6px;">수동 표현의 종류(한국어): 피동사(열리다,닫히다,깨지다,죽다,보이다 등), 보조용언 '-받다'(칭찬받다,혼나다,도움받다), '-되다/-아지다'(물들다,망가지다,높아지다)</p>
       <div class="tip-box">💡 일본어는 수동형 활용이 매우 활발하며, '-받다'라는 보조 표현 없이도 자연스럽게 쓴다. 한국어는 피동사·보조용언 표현을 함께 쓰는 편이다.</div>
     </div>
   </div>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>위치/방향 말하기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+
+  header{ padding:44px 20px 28px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(59,140,123,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(217,164,65,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(26.5px, 6vw, 38px); font-weight:900; letter-spacing:-0.02em; }
+  header .hero{ font-family:'Noto Serif JP', serif; font-size:clamp(18.5px, 4vw, 23.5px); color:var(--sub); margin-top:10px; }
+  header p.desc{ margin:14px auto 0; max-width:540px; color:var(--sub); font-size:19px; }
+
+  nav.rownav{ position:sticky; top:0; z-index:20; background:rgba(251,248,242,0.96); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line); padding:10px 12px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  nav.rownav::-webkit-scrollbar{display:none;}
+  nav.rownav a{ flex:0 0 auto; text-decoration:none; font-size:16px; font-weight:700; color:var(--ink);
+    background:var(--card); border:1.5px solid var(--line); padding:7px 12px; border-radius:999px; white-space:nowrap; }
+
+  main{max-width:1180px;margin:0 auto;padding:6px 14px 60px;}
+
+  section.blk{ margin-top:34px; scroll-margin-top:64px; }
+  section.blk .blk-head{ display:flex; align-items:baseline; gap:10px; padding:0 2px 12px; border-bottom:3px solid var(--accent); flex-wrap:wrap; }
+  section.blk .blk-head .title{ font-size:22px; font-weight:700; color:var(--accent); }
+  section.blk .blk-note{ font-size:16px; color:var(--sub); margin-top:10px; background:#EAF1FB; border:1px solid #C9DBF2; border-radius:8px; padding:9px 11px; }
+
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:14px; }
+  @media(min-width:520px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media(min-width:760px){ .grid{grid-template-columns:repeat(5,1fr);} }
+
+  .vcard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:6px; }
+  .vcard .vtop{ display:flex; align-items:center; gap:8px; }
+  .vcard .icon{ font-size:28.5px; flex:0 0 auto; }
+  .vcard .jpword{ font-family:'Noto Serif JP', serif; font-size:23.5px; font-weight:700; line-height:1.25; }
+  .vcard .furigana{ font-family:'Noto Serif JP', serif; font-size:15.5px; color:var(--sub); font-weight:500; margin-left:2px; }
+  .vcard .romaji{ font-size:15px; color:#9c927a; font-style:italic; }
+  .vcard .kr{ font-size:19.5px; font-weight:700; color:var(--accent); }
+  .vcard .mean{ font-size:16px; color:var(--sub); }
+
+  .slist{ display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .scard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:13px 14px; }
+  .scard .sjp{ font-family:'Noto Serif JP', serif; font-size:20.5px; font-weight:600; }
+  .scard .sromaji{ font-size:15.5px; color:#9c927a; font-style:italic; margin-top:4px; }
+  .scard .skr{ font-size:17.5px; font-weight:700; color:var(--accent); margin-top:4px; }
+  .scard .smean{ font-size:16px; color:var(--sub); margin-top:2px; }
+
+  footer{ max-width:960px; margin:10px auto 50px; padding:22px 20px; background:var(--card); border:1px solid var(--line); border-radius:14px; }
+  footer h2{ font-size:20.5px; margin:0 0 10px; }
+  footer p{ font-size:17.5px; color:var(--sub); margin:0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero jp">位置（いち）・方向（ほうこう）</div>
+  <h1>위치 / 방향 말하기</h1>
+  <p class="desc">한자·히라가나를 몰라도 읽을 수 있게, 굵은 초록 글자로 <b>한글 발음</b>을 크게 넣었습니다. 이탤릭체는 영어(로마자) 표기예요.</p>
+</header>
+
+<nav class="rownav" id="rownav"></nav>
+<main id="main"></main>
+
+<footer>
+  <h2>일러두기</h2>
+  <p>진한 초록색 글자가 한글 발음, 기울어진 회색 글자가 로마자(영어) 표기예요. 한글 발음만 보고도 소리 내어 말할 수 있어요.</p>
+</footer>
+
+<script>
+const SECTIONS = [
+  { id:'position', accent:'#3C8C7B', title:'1) 위치/방향 (앞·뒤·옆·위·아래·좌·우)', type:'vocab',
+    items:[
+      {icon:'⬅️', jp:'前', furi:'まえ', romaji:'mae', kr:'마에', mean:'앞'},
+      {icon:'➡️', jp:'後ろ', furi:'うしろ', romaji:'ushiro', kr:'우시로', mean:'뒤'},
+      {icon:'↔️', jp:'横', furi:'よこ', romaji:'yoko', kr:'요코', mean:'옆'},
+      {icon:'⬆️', jp:'上', furi:'うえ', romaji:'ue', kr:'우에', mean:'위'},
+      {icon:'⬇️', jp:'下', furi:'した', romaji:'shita', kr:'시타', mean:'아래'},
+      {icon:'◀️', jp:'左', furi:'ひだり', romaji:'hidari', kr:'히다리', mean:'왼쪽(좌측)'},
+      {icon:'▶️', jp:'右', furi:'みぎ', romaji:'migi', kr:'미기', mean:'오른쪽(우측)'},
+    ]},
+  { id:'position-ex', accent:'#3C8C7B', title:'바로 쓰는 예문(초급)', type:'sentence',
+    items:[
+      {jp:'みぎです。', romaji:'migi desu.', kr:'미기데스', mean:'오른쪽이에요'},
+      {jp:'まえに あります。', romaji:'mae ni arimasu.', kr:'마에니 아리마스', mean:'앞에 있어요'},
+      {jp:'えきは みぎです。', romaji:'eki wa migi desu.', kr:'에키와 미기데스', mean:'역은 오른쪽이에요'},
+    ]},
+  { id:'compass', accent:'#D9A441', title:'2) 방위 (동·서·남·북)', type:'vocab',
+    items:[
+      {icon:'🌅', jp:'東', furi:'ひがし', romaji:'higashi', kr:'히가시', mean:'동쪽'},
+      {icon:'🌇', jp:'西', furi:'にし', romaji:'nishi', kr:'니시', mean:'서쪽'},
+      {icon:'☀️', jp:'南', furi:'みなみ', romaji:'minami', kr:'미나미', mean:'남쪽'},
+      {icon:'❄️', jp:'北', furi:'きた', romaji:'kita', kr:'키타', mean:'북쪽'},
+    ]},
+  { id:'compass-use', accent:'#D9A441', title:'자주 쓰는 말', type:'vocab',
+    note:'역에서 출구 찾을 때 정말 많이 씁니다.',
+    items:[
+      {icon:'🚪', jp:'東口', furi:'ひがしぐち', romaji:'higashiguchi', kr:'히가시구치', mean:'동쪽 출구'},
+      {icon:'🚪', jp:'西口', furi:'にしぐち', romaji:'nishiguchi', kr:'니시구치', mean:'서쪽 출구'},
+    ]},
+  { id:'weekdays', accent:'#3B6EA5', title:'3) 요일', type:'vocab',
+    items:[
+      {jp:'月曜日', furi:'げつようび', romaji:'getsuyoubi', kr:'게츠요-비', mean:'월요일'},
+      {jp:'火曜日', furi:'かようび', romaji:'kayoubi', kr:'카요-비', mean:'화요일'},
+      {jp:'水曜日', furi:'すいようび', romaji:'suiyoubi', kr:'스이요-비', mean:'수요일'},
+      {jp:'木曜日', furi:'もくようび', romaji:'mokuyoubi', kr:'모쿠요-비', mean:'목요일'},
+      {jp:'金曜日', furi:'きんようび', romaji:'kinyoubi', kr:'킨요-비', mean:'금요일'},
+      {jp:'土曜日', furi:'どようび', romaji:'doyoubi', kr:'도요-비', mean:'토요일'},
+      {jp:'日曜日', furi:'にちようび', romaji:'nichiyoubi', kr:'니치요-비', mean:'일요일'},
+    ]},
+  { id:'weekdays-ex', accent:'#3B6EA5', title:'자주 쓰는 예문', type:'sentence',
+    items:[
+      {jp:'きょうは げつようびです。', romaji:'kyou wa getsuyoubi desu.', kr:'쿄와 게츠요-비데스', mean:'오늘은 월요일이에요'},
+    ]},
+  { id:'ymt', accent:'#6A5ACD', title:'4) 어제·오늘·내일', type:'vocab',
+    items:[
+      {jp:'昨日', furi:'きのう', romaji:'kinou', kr:'키노-', mean:'어제'},
+      {jp:'今日', furi:'きょう', romaji:'kyou', kr:'쿄-', mean:'오늘'},
+      {jp:'明日', furi:'あした', romaji:'ashita', kr:'아시타', mean:'내일'},
+      {jp:'明日', furi:'あす', romaji:'asu', kr:'아스', mean:'내일(격식/뉴스체)'},
+    ]},
+  { id:'timeofday', accent:'#B85C8A', title:'5) 시간대 (아침·점심·저녁·밤)', type:'vocab',
+    note:'“점심/저녁”은 일상 회화에서는 보통 ひるごはん(점심밥), ばんごはん(저녁밥)이 가장 편하고 자주 쓰여요.',
+    items:[
+      {jp:'朝', furi:'あさ', romaji:'asa', kr:'아사', mean:'아침'},
+      {jp:'昼', furi:'ひる', romaji:'hiru', kr:'히루', mean:'낮/점심 무렵'},
+      {jp:'昼ごはん', furi:'ひるごはん', romaji:'hirugohan', kr:'히루고항', mean:'점심밥'},
+      {jp:'昼食', furi:'ちゅうしょく', romaji:'chuushoku', kr:'츄-쇼쿠', mean:'점심식사(조금 격식)'},
+      {jp:'夕方', furi:'ゆうがた', romaji:'yuugata', kr:'유-가타', mean:'해질 무렵/저녁때'},
+      {jp:'晩', furi:'ばん', romaji:'ban', kr:'반', mean:'저녁/밤(문맥 따라)'},
+      {jp:'晩ごはん', furi:'ばんごはん', romaji:'bangohan', kr:'반고항', mean:'저녁밥'},
+      {jp:'夜', furi:'よる', romaji:'yoru', kr:'요루', mean:'밤'},
+      {jp:'今晩', furi:'こんばん', romaji:'konban', kr:'콘반', mean:'오늘 밤'},
+    ]},
+  { id:'bonus', accent:'#E4572E', title:'보너스: 초급에서 바로 써먹는 세트 문장 8개', type:'sentence',
+    items:[
+      {jp:'まえに あります。', romaji:'mae ni arimasu.', kr:'마에니 아리마스', mean:'앞에 있어요'},
+      {jp:'うしろに あります。', romaji:'ushiro ni arimasu.', kr:'우시로니 아리마스', mean:'뒤에 있어요'},
+      {jp:'みぎです。/ ひだりです。', romaji:'migi desu. / hidari desu.', kr:'미기데스 / 히다리데스', mean:'오른쪽/왼쪽이에요'},
+      {jp:'ひがしぐちは どこですか。', romaji:'higashiguchi wa doko desu ka.', kr:'히가시구치와 도코데스카', mean:'동쪽 출구는 어디예요?'},
+      {jp:'きょうは きんようびです。', romaji:'kyou wa kinyoubi desu.', kr:'쿄와 킨요-비데스', mean:'오늘은 금요일이에요'},
+      {jp:'きのうは いそがしかったです。', romaji:'kinou wa isogashikatta desu.', kr:'키노-와 이소가시캇타데스', mean:'어제는 바빴어요'},
+      {jp:'あした あさ いきます。', romaji:'ashita asa ikimasu.', kr:'아시타 아사 이키마스', mean:'내일 아침 가요'},
+      {jp:'こんばん ひまです。', romaji:'konban hima desu.', kr:'콘반 히마데스', mean:'오늘 밤 한가해요'},
+    ]},
+];
+
+const nav = document.getElementById('rownav');
+const main = document.getElementById('main');
+
+function makeVcard(it){
+  const c = document.createElement('div');
+  c.className = 'vcard';
+  c.innerHTML = `
+    <div class="vtop">
+      ${it.icon ? `<span class="icon">${it.icon}</span>` : ''}
+      <div>
+        <span class="jpword jp">${it.jp}</span>
+        ${it.furi ? `<span class="furigana">(${it.furi})</span>` : ''}
+      </div>
+    </div>
+    <div class="romaji">${it.romaji}</div>
+    <div class="kr">${it.kr}</div>
+    ${it.mean ? `<div class="mean">${it.mean}</div>` : ''}
+  `;
+  return c;
+}
+function makeScard(it){
+  const c = document.createElement('div');
+  c.className = 'scard';
+  c.innerHTML = `
+    <div class="sjp jp">${it.jp}</div>
+    <div class="sromaji">${it.romaji}</div>
+    <div class="skr">${it.kr}</div>
+    <div class="smean">${it.mean}</div>
+  `;
+  return c;
+}
+
+SECTIONS.forEach(sec=>{
+  const a = document.createElement('a');
+  a.href = '#'+sec.id;
+  a.textContent = sec.title.replace(/^[0-9)]+\)?\s*/,'').split('(')[0].trim().slice(0,10);
+  nav.appendChild(a);
+
+  const section = document.createElement('section');
+  section.className = 'blk';
+  section.id = sec.id;
+  section.style.setProperty('--accent', sec.accent);
+
+  const head = document.createElement('div');
+  head.className = 'blk-head';
+  head.innerHTML = `<span class="title">${sec.title}</span>`;
+  section.appendChild(head);
+
+  if(sec.note){
+    const note = document.createElement('div');
+    note.className = 'blk-note';
+    note.textContent = sec.note;
+    section.appendChild(note);
+  }
+
+  if(sec.type === 'vocab'){
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    sec.items.forEach(it=> grid.appendChild(makeVcard(it)));
+    section.appendChild(grid);
+  } else {
+    const list = document.createElement('div');
+    list.className = 'slist';
+    sec.items.forEach(it=> list.appendChild(makeScard(it)));
+    section.appendChild(list);
+  }
+
+  main.appendChild(section);
+});
+</script>
+
+</body>
+</html>

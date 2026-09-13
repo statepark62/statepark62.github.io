@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>레벨 0 단어장</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+
+  header{ padding:44px 20px 28px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(228,87,46,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(26.5px, 6vw, 38px); font-weight:900; letter-spacing:-0.02em; }
+  header .hero{ font-family:'Noto Serif JP', serif; font-size:clamp(18.5px, 4vw, 23.5px); color:var(--sub); margin-top:10px; }
+  header p.desc{ margin:14px auto 0; max-width:560px; color:var(--sub); font-size:19px; }
+
+  nav.rownav{ position:sticky; top:0; z-index:20; background:rgba(251,248,242,0.96); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line); padding:10px 12px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  nav.rownav::-webkit-scrollbar{display:none;}
+  nav.rownav a{ flex:0 0 auto; text-decoration:none; font-size:16px; font-weight:700; color:var(--ink);
+    background:var(--card); border:1.5px solid var(--line); padding:7px 12px; border-radius:999px; white-space:nowrap; }
+
+  main{max-width:1180px;margin:0 auto;padding:6px 14px 60px;}
+
+  section.blk{ margin-top:34px; scroll-margin-top:64px; }
+  section.blk .blk-head{ display:flex; align-items:baseline; gap:10px; padding:0 2px 12px; border-bottom:3px solid var(--accent); flex-wrap:wrap; }
+  section.blk .blk-head .title{ font-size:22px; font-weight:700; color:var(--accent); }
+  section.blk .blk-note{ font-size:16px; color:var(--sub); margin-top:10px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:9px 11px; }
+
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin-top:14px; }
+  @media(min-width:520px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media(min-width:760px){ .grid{grid-template-columns:repeat(4,1fr);} }
+
+  .vcard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:11px; display:flex; flex-direction:column; gap:5px; }
+  .vcard .jpword{ font-family:'Noto Serif JP', serif; font-size:22px; font-weight:700; line-height:1.25; }
+  .vcard .furigana{ font-family:'Noto Serif JP', serif; font-size:15px; color:var(--sub); font-weight:500; margin-left:2px; }
+  .vcard .romaji{ font-size:14.5px; color:#9c927a; font-style:italic; }
+  .vcard .kr{ font-size:19px; font-weight:700; color:var(--accent); }
+  .vcard .mean{ font-size:15.5px; color:var(--sub); }
+
+  .vblist{ display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+  .vbcard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:12px 13px; }
+  .vbcard .vbmain{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+  .vbcard .jpword{ font-family:'Noto Serif JP', serif; font-size:23.5px; font-weight:700; }
+  .vbcard .furigana{ font-family:'Noto Serif JP', serif; font-size:15px; color:var(--sub); }
+  .vbcard .romaji{ font-size:14.5px; color:#9c927a; font-style:italic; }
+  .vbcard .kr{ font-size:19px; font-weight:700; color:var(--accent); }
+  .vbcard .mean{ font-size:15.5px; color:var(--sub); margin-left:auto; }
+  .conj-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:6px; margin-top:9px; }
+  @media(min-width:560px){ .conj-grid{grid-template-columns:repeat(4,1fr);} }
+  .conj-chip{ background:var(--paper); border:1px dashed var(--line); border-radius:7px; padding:6px 8px; font-size:14.5px; }
+  .conj-chip .clabel{ font-size:12.5px; color:#a99b78; font-weight:700; }
+  .conj-chip .cjp{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:16px; }
+  .conj-chip .cromaji{ color:#9c927a; font-style:italic; font-size:13px; }
+
+  .slist{ display:flex; flex-direction:column; gap:9px; margin-top:14px; }
+  .scard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:11px 13px; }
+  .scard .sjp{ font-family:'Noto Serif JP', serif; font-size:19.5px; font-weight:600; }
+  .scard .sromaji{ font-size:15px; color:#9c927a; font-style:italic; margin-top:3px; }
+  .scard .skr{ font-size:17px; font-weight:700; color:var(--accent); margin-top:3px; }
+  .scard .smean{ font-size:15.5px; color:var(--sub); margin-top:2px; }
+
+  footer{ max-width:960px; margin:10px auto 50px; padding:22px 20px; background:var(--card); border:1px solid var(--line); border-radius:14px; }
+  footer h2{ font-size:20.5px; margin:0 0 10px; }
+  footer p{ font-size:17.5px; color:var(--sub); margin:0 0 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero jp">レベル0 単語（たんご）</div>
+  <h1>레벨 0 단어장</h1>
+  <p class="desc"><b style="color:#3B6EA5">굵은 파란 글자</b>가 한글 발음, <i>이탤릭체</i>가 로마자(영어) 표기예요. 히라가나를 몰라도 소리 내어 읽을 수 있어요. 동사는 사전형과 함께 ます형·て형·ない형·た형도 로마자와 함께 정리했어요.</p>
+</header>
+
+<nav class="rownav" id="rownav"></nav>
+<main id="main"></main>
+
+<footer>
+  <h2>동사 활용형이란?</h2>
+  <p><b>ます형</b>: 정중체(~습니다) · <b>て형</b>: 연결형(~하고, ~해서) · <b>ない형</b>: 부정형(~하지 않다) · <b>た형</b>: 과거형(~했다)</p>
+  <p>한글 발음은 실제 발음과 100% 같지 않으니, 가능하면 원어민 음성도 함께 들으며 연습해보세요.</p>
+</footer>
+
+<script>
+const SECTIONS = [
+  { id:'people', accent:'#3B6EA5', title:'명사 — 사람·직업', type:'vocab', items:[
+    {jp:'私', furi:'わたし', romaji:'watashi', kr:'와타시', mean:'나'},
+    {jp:'あなた', romaji:'anata', kr:'아나타', mean:'당신, 너'},
+    {jp:'彼', furi:'かれ', romaji:'kare', kr:'카레', mean:'그'},
+    {jp:'彼女', furi:'かのじょ', romaji:'kanojo', kr:'카노죠', mean:'그녀, 여자친구'},
+    {jp:'友達', furi:'ともだち', romaji:'tomodachi', kr:'토모다치', mean:'친구'},
+    {jp:'人', furi:'ひと', romaji:'hito', kr:'히토', mean:'사람'},
+    {jp:'韓国人', furi:'かんこくじん', romaji:'kankokujin', kr:'캉코쿠징', mean:'한국인'},
+    {jp:'日本人', furi:'にほんじん', romaji:'nihonjin', kr:'니혼징', mean:'일본인'},
+    {jp:'会社員', furi:'かいしゃいん', romaji:'kaishain', kr:'카이샤인', mean:'회사원'},
+    {jp:'学生', furi:'がくせい', romaji:'gakusei', kr:'각세-', mean:'학생'},
+    {jp:'先生', furi:'せんせい', romaji:'sensei', kr:'센세-', mean:'선생님'},
+    {jp:'彼氏', furi:'かれし', romaji:'kareshi', kr:'카레시', mean:'남자친구'},
+    {jp:'家族', furi:'かぞく', romaji:'kazoku', kr:'카조쿠', mean:'가족'},
+    {jp:'誰', furi:'だれ', romaji:'dare', kr:'다레', mean:'누구'},
+    {jp:'社長', furi:'しゃちょう', romaji:'shachou', kr:'샤쵸-', mean:'사장'},
+  ]},
+  { id:'things', accent:'#E4572E', title:'명사 — 사물', type:'vocab', items:[
+    {jp:'寿司', furi:'すし', romaji:'sushi', kr:'스시', mean:'스시'},
+    {jp:'たこやき', romaji:'takoyaki', kr:'타코야키', mean:'타코야키'},
+    {jp:'とんかつ', romaji:'tonkatsu', kr:'톤카츠', mean:'돈가스'},
+    {jp:'ペン', romaji:'pen', kr:'펜', mean:'펜'},
+    {jp:'かばん', romaji:'kaban', kr:'카방', mean:'가방'},
+    {jp:'からあげ', romaji:'karaage', kr:'카라아게', mean:'가라아게'},
+    {jp:'着物', furi:'きもの', romaji:'kimono', kr:'키모노', mean:'기모노'},
+    {jp:'カメラ', romaji:'kamera', kr:'카메라', mean:'카메라'},
+    {jp:'パン', romaji:'pan', kr:'팡', mean:'빵'},
+    {jp:'うどん', romaji:'udon', kr:'우동', mean:'우동'},
+    {jp:'ノート', romaji:'nooto', kr:'노-토', mean:'노트'},
+    {jp:'本', furi:'ほん', romaji:'hon', kr:'혼', mean:'책'},
+    {jp:'スマホ', romaji:'sumaho', kr:'스마호', mean:'스마트폰'},
+    {jp:'バス', romaji:'basu', kr:'바스', mean:'버스'},
+    {jp:'写真', furi:'しゃしん', romaji:'shashin', kr:'샤신', mean:'사진'},
+    {jp:'ミルク', romaji:'miruku', kr:'미루쿠', mean:'우유'},
+    {jp:'お酒', furi:'おさけ', romaji:'osake', kr:'오사케', mean:'술'},
+    {jp:'お金', furi:'おかね', romaji:'okane', kr:'오카네', mean:'돈'},
+    {jp:'物', furi:'もの', romaji:'mono', kr:'모노', mean:'물건, 것'},
+    {jp:'名前', furi:'なまえ', romaji:'namae', kr:'나마에', mean:'이름'},
+  ]},
+  { id:'body', accent:'#8A9A5B', title:'명사 — 신체·기타', type:'vocab', items:[
+    {jp:'頭', furi:'あたま', romaji:'atama', kr:'아타마', mean:'머리'},
+    {jp:'話', furi:'はなし', romaji:'hanashi', kr:'하나시', mean:'이야기'},
+  ]},
+  { id:'time', accent:'#3C8C7B', title:'명사 — 장소·시간', type:'vocab', items:[
+    {jp:'ここ', romaji:'koko', kr:'코코', mean:'여기'},
+    {jp:'前', furi:'まえ', romaji:'mae', kr:'마에', mean:'앞, 이전'},
+    {jp:'今', furi:'いま', romaji:'ima', kr:'이마', mean:'지금'},
+    {jp:'今日', furi:'きょう', romaji:'kyou', kr:'쿄-', mean:'오늘'},
+    {jp:'明日', furi:'あした', romaji:'ashita', kr:'아시타', mean:'내일'},
+    {jp:'昨日', furi:'きのう', romaji:'kinou', kr:'키노-', mean:'어제'},
+  ]},
+  { id:'iadj', accent:'#6A5ACD', title:'い형용사', type:'vocab',
+    note:'い형용사는 어미 「い」를 빼고 활용해요. おいしい・いい는 초급에서 자주 헷갈리는 특수 활용을 가지고 있어요.',
+    items:[
+    {jp:'甘い', furi:'あまい', romaji:'amai', kr:'아마이', mean:'달콤한'},
+    {jp:'美味しい', furi:'おいしい', romaji:'oishii', kr:'오이시-', mean:'맛있는 (오이시쿠테/오이시쿠나이/오이시캇타)'},
+    {jp:'うまい', romaji:'umai', kr:'우마이', mean:'맛있는, 잘하는'},
+    {jp:'安い', furi:'やすい', romaji:'yasui', kr:'야스이', mean:'저렴한'},
+    {jp:'うるさい', romaji:'urusai', kr:'우루사이', mean:'시끄러운'},
+    {jp:'すごい', romaji:'sugoi', kr:'스고이', mean:'대단한'},
+    {jp:'辛い', furi:'からい', romaji:'karai', kr:'카라이', mean:'매운'},
+    {jp:'高い', furi:'たかい', romaji:'takai', kr:'타카이', mean:'비싼, 높은'},
+    {jp:'熱い／暑い', furi:'あつい', romaji:'atsui', kr:'아츠이', mean:'뜨거운, 더운'},
+    {jp:'暖かい', furi:'あたたかい', romaji:'atatakai', kr:'아타타카이', mean:'따뜻한'},
+    {jp:'いい', romaji:'ii', kr:'이-', mean:'좋은 (요쿠테/요쿠나이/요캇타)'},
+    {jp:'可愛い', furi:'かわいい', romaji:'kawaii', kr:'카와이-', mean:'귀여운'},
+    {jp:'優しい', furi:'やさしい', romaji:'yasashii', kr:'야사시-', mean:'상냥한'},
+    {jp:'悪い', furi:'わるい', romaji:'warui', kr:'와루이', mean:'나쁜'},
+    {jp:'楽しい', furi:'たのしい', romaji:'tanoshii', kr:'타노시-', mean:'즐거운'},
+    {jp:'怖い', furi:'こわい', romaji:'kowai', kr:'코와이', mean:'무서운'},
+    {jp:'冷たい', furi:'つめたい', romaji:'tsumetai', kr:'츠메타이', mean:'차가운'},
+    {jp:'寒い', furi:'さむい', romaji:'samui', kr:'사무이', mean:'추운'},
+    {jp:'小さい', furi:'ちいさい', romaji:'chiisai', kr:'치이사이', mean:'작은'},
+    {jp:'大きい', furi:'おおきい', romaji:'ookii', kr:'오오키-', mean:'큰'},
+    {jp:'忙しい', furi:'いそがしい', romaji:'isogashii', kr:'이소가시-', mean:'바쁜'},
+    {jp:'多い', furi:'おおい', romaji:'ooi', kr:'오오이', mean:'많은'},
+    {jp:'少ない', furi:'すくない', romaji:'sukunai', kr:'스쿠나이', mean:'적은'},
+  ]},
+  { id:'naadj', accent:'#B85C8A', title:'な형용사', type:'vocab',
+    note:'な형용사는 명사를 꾸밀 때 어미에 「な」를 붙여요 (예: きれいな はな).',
+    items:[
+    {jp:'親切な', furi:'しんせつな', romaji:'shinsetsuna', kr:'신세츠나', mean:'친절한'},
+    {jp:'素敵な', furi:'すてきな', romaji:'sutekina', kr:'스테키나', mean:'멋진'},
+    {jp:'失礼な', furi:'しつれいな', romaji:'shitsureina', kr:'시츠레-나', mean:'실례인'},
+    {jp:'だめな', romaji:'damena', kr:'다메나', mean:'안 되는'},
+    {jp:'下手な', furi:'へたな', romaji:'hetana', kr:'헤타나', mean:'서투른'},
+    {jp:'人気な', furi:'にんきな', romaji:'ninkina', kr:'닝키나', mean:'인기 있는'},
+    {jp:'無理な', furi:'むりな', romaji:'murina', kr:'무리나', mean:'무리한'},
+    {jp:'便利な', furi:'べんりな', romaji:'benrina', kr:'벤리나', mean:'편리한'},
+    {jp:'簡単な', furi:'かんたんな', romaji:'kantanna', kr:'칸탄나', mean:'쉬운'},
+    {jp:'元気な', furi:'げんきな', romaji:'genkina', kr:'겡키나', mean:'건강한, 활기찬'},
+    {jp:'大丈夫な', furi:'だいじょうぶな', romaji:'daijoubuna', kr:'다이죠-부나', mean:'괜찮은'},
+    {jp:'きれいな', romaji:'kireina', kr:'키레-나', mean:'예쁜, 깨끗한'},
+    {jp:'好きな', furi:'すきな', romaji:'sukina', kr:'스키나', mean:'좋아하는'},
+    {jp:'嫌いな', furi:'きらいな', romaji:'kiraina', kr:'키라이나', mean:'싫어하는'},
+    {jp:'大変な', furi:'たいへんな', romaji:'taihenna', kr:'타이헨나', mean:'힘든'},
+    {jp:'残念な', furi:'ざんねんな', romaji:'zannenna', kr:'잔넨나', mean:'유감스러운'},
+    {jp:'大切な', furi:'たいせつな', romaji:'taisetsuna', kr:'타이세츠나', mean:'소중한'},
+    {jp:'上手な', furi:'じょうずな', romaji:'jouzuna', kr:'죠-즈나', mean:'능숙한'},
+    {jp:'真面目な', furi:'まじめな', romaji:'majimena', kr:'마지메나', mean:'성실한'},
+    {jp:'有名な', furi:'ゆうめいな', romaji:'yuumeina', kr:'유-메-나', mean:'유명한 (유-메-데/유-메-쟈나이/유-메-닷타)'},
+  ]},
+  { id:'v1', accent:'#D9A441', title:'1류동사 (う동사) — 사전형 / ます형 / て형 / ない형 / た형', type:'verb', items:[
+    {jp:'飲む', furi:'のむ', romaji:'nomu', kr:'노무', mean:'마시다', conj:[
+      {l:'ます', jp:'のみます', romaji:'nomimasu', kr:'노미마스'},{l:'て', jp:'のんで', romaji:'nonde', kr:'논데'},
+      {l:'ない', jp:'のまない', romaji:'nomanai', kr:'노마나이'},{l:'た', jp:'のんだ', romaji:'nonda', kr:'논다'}]},
+    {jp:'読む', furi:'よむ', romaji:'yomu', kr:'요무', mean:'읽다', conj:[
+      {l:'ます', jp:'よみます', romaji:'yomimasu', kr:'요미마스'},{l:'て', jp:'よんで', romaji:'yonde', kr:'욘데'},
+      {l:'ない', jp:'よまない', romaji:'yomanai', kr:'요마나이'},{l:'た', jp:'よんだ', romaji:'yonda', kr:'욘다'}]},
+    {jp:'買う', furi:'かう', romaji:'kau', kr:'카우', mean:'사다', conj:[
+      {l:'ます', jp:'かいます', romaji:'kaimasu', kr:'카이마스'},{l:'て', jp:'かって', romaji:'katte', kr:'캇테'},
+      {l:'ない', jp:'かわない', romaji:'kawanai', kr:'카와나이'},{l:'た', jp:'かった', romaji:'katta', kr:'캇타'}]},
+    {jp:'聞く', furi:'きく', romaji:'kiku', kr:'키쿠', mean:'듣다, 묻다', conj:[
+      {l:'ます', jp:'ききます', romaji:'kikimasu', kr:'키키마스'},{l:'て', jp:'きいて', romaji:'kiite', kr:'키-테'},
+      {l:'ない', jp:'きかない', romaji:'kikanai', kr:'키카나이'},{l:'た', jp:'きいた', romaji:'kiita', kr:'키-타'}]},
+    {jp:'行く', furi:'いく', romaji:'iku', kr:'이쿠', mean:'가다', conj:[
+      {l:'ます', jp:'いきます', romaji:'ikimasu', kr:'이키마스'},{l:'て', jp:'いって', romaji:'itte', kr:'잇테'},
+      {l:'ない', jp:'いかない', romaji:'ikanai', kr:'이카나이'},{l:'た', jp:'いった', romaji:'itta', kr:'잇타'}]},
+    {jp:'話す', furi:'はなす', romaji:'hanasu', kr:'하나스', mean:'말하다', conj:[
+      {l:'ます', jp:'はなします', romaji:'hanashimasu', kr:'하나시마스'},{l:'て', jp:'はなして', romaji:'hanashite', kr:'하나시테'},
+      {l:'ない', jp:'はなさない', romaji:'hanasanai', kr:'하나사나이'},{l:'た', jp:'はなした', romaji:'hanashita', kr:'하나시타'}]},
+    {jp:'待つ', furi:'まつ', romaji:'matsu', kr:'마츠', mean:'기다리다', conj:[
+      {l:'ます', jp:'まちます', romaji:'machimasu', kr:'마치마스'},{l:'て', jp:'まって', romaji:'matte', kr:'맛테'},
+      {l:'ない', jp:'またない', romaji:'matanai', kr:'마타나이'},{l:'た', jp:'まった', romaji:'matta', kr:'맛타'}]},
+    {jp:'撮る', furi:'とる', romaji:'toru', kr:'토루', mean:'찍다', conj:[
+      {l:'ます', jp:'とります', romaji:'torimasu', kr:'토리마스'},{l:'て', jp:'とって', romaji:'totte', kr:'톳테'},
+      {l:'ない', jp:'とらない', romaji:'toranai', kr:'토라나이'},{l:'た', jp:'とった', romaji:'totta', kr:'톳타'}]},
+    {jp:'終わる', furi:'おわる', romaji:'owaru', kr:'오와루', mean:'끝나다', conj:[
+      {l:'ます', jp:'おわります', romaji:'owarimasu', kr:'오와리마스'},{l:'て', jp:'おわって', romaji:'owatte', kr:'오왓테'},
+      {l:'ない', jp:'おわらない', romaji:'owaranai', kr:'오와라나이'},{l:'た', jp:'おわった', romaji:'owatta', kr:'오왓타'}]},
+    {jp:'書く', furi:'かく', romaji:'kaku', kr:'카쿠', mean:'쓰다', conj:[
+      {l:'ます', jp:'かきます', romaji:'kakimasu', kr:'카키마스'},{l:'て', jp:'かいて', romaji:'kaite', kr:'카이테'},
+      {l:'ない', jp:'かかない', romaji:'kakanai', kr:'카카나이'},{l:'た', jp:'かいた', romaji:'kaita', kr:'카이타'}]},
+    {jp:'泳ぐ', furi:'およぐ', romaji:'oyogu', kr:'오요구', mean:'헤엄치다', conj:[
+      {l:'ます', jp:'およぎます', romaji:'oyogimasu', kr:'오요기마스'},{l:'て', jp:'およいで', romaji:'oyoide', kr:'오요이데'},
+      {l:'ない', jp:'およがない', romaji:'oyoganai', kr:'오요가나이'},{l:'た', jp:'およいだ', romaji:'oyoida', kr:'오요이다'}]},
+    {jp:'立つ', furi:'たつ', romaji:'tatsu', kr:'타츠', mean:'서다', conj:[
+      {l:'ます', jp:'たちます', romaji:'tachimasu', kr:'타치마스'},{l:'て', jp:'たって', romaji:'tatte', kr:'탓테'},
+      {l:'ない', jp:'たたない', romaji:'tatanai', kr:'타타나이'},{l:'た', jp:'たった', romaji:'tatta', kr:'탓타'}]},
+    {jp:'遊ぶ', furi:'あそぶ', romaji:'asobu', kr:'아소부', mean:'놀다', conj:[
+      {l:'ます', jp:'あそびます', romaji:'asobimasu', kr:'아소비마스'},{l:'て', jp:'あそんで', romaji:'asonde', kr:'아손데'},
+      {l:'ない', jp:'あそばない', romaji:'asobanai', kr:'아소바나이'},{l:'た', jp:'あそんだ', romaji:'asonda', kr:'아손다'}]},
+    {jp:'呼ぶ', furi:'よぶ', romaji:'yobu', kr:'요부', mean:'부르다', conj:[
+      {l:'ます', jp:'よびます', romaji:'yobimasu', kr:'요비마스'},{l:'て', jp:'よんで', romaji:'yonde', kr:'욘데'},
+      {l:'ない', jp:'よばない', romaji:'yobanai', kr:'요바나이'},{l:'た', jp:'よんだ', romaji:'yonda', kr:'욘다'}]},
+    {jp:'死ぬ', furi:'しぬ', romaji:'shinu', kr:'시누', mean:'죽다', conj:[
+      {l:'ます', jp:'しにます', romaji:'shinimasu', kr:'시니마스'},{l:'て', jp:'しんで', romaji:'shinde', kr:'신데'},
+      {l:'ない', jp:'しなない', romaji:'shinanai', kr:'시나나이'},{l:'た', jp:'しんだ', romaji:'shinda', kr:'신다'}]},
+    {jp:'ある', romaji:'aru', kr:'아루', mean:'(사물이) 있다', conj:[
+      {l:'ます', jp:'あります', romaji:'arimasu', kr:'아리마스'},{l:'て', jp:'あって', romaji:'atte', kr:'앗테'},
+      {l:'ない', jp:'ない', romaji:'nai', kr:'나이'},{l:'た', jp:'あった', romaji:'atta', kr:'앗타'}]},
+  ]},
+  { id:'v2', accent:'#4E7C59', title:'2류동사 (る동사) — 사전형 / ます형 / て형 / ない형 / た형', type:'verb', items:[
+    {jp:'食べる', furi:'たべる', romaji:'taberu', kr:'타베루', mean:'먹다', conj:[
+      {l:'ます', jp:'たべます', romaji:'tabemasu', kr:'타베마스'},{l:'て', jp:'たべて', romaji:'tabete', kr:'타베테'},
+      {l:'ない', jp:'たべない', romaji:'tabenai', kr:'타베나이'},{l:'た', jp:'たべた', romaji:'tabeta', kr:'타베타'}]},
+    {jp:'寝る', furi:'ねる', romaji:'neru', kr:'네루', mean:'자다', conj:[
+      {l:'ます', jp:'ねます', romaji:'nemasu', kr:'네마스'},{l:'て', jp:'ねて', romaji:'nete', kr:'네테'},
+      {l:'ない', jp:'ねない', romaji:'nenai', kr:'네나이'},{l:'た', jp:'ねた', romaji:'neta', kr:'네타'}]},
+    {jp:'始める', furi:'はじめる', romaji:'hajimeru', kr:'하지메루', mean:'시작하다', conj:[
+      {l:'ます', jp:'はじめます', romaji:'hajimemasu', kr:'하지메마스'},{l:'て', jp:'はじめて', romaji:'hajimete', kr:'하지메테'},
+      {l:'ない', jp:'はじめない', romaji:'hajimenai', kr:'하지메나이'},{l:'た', jp:'はじめた', romaji:'hajimeta', kr:'하지메타'}]},
+    {jp:'起きる', furi:'おきる', romaji:'okiru', kr:'오키루', mean:'일어나다', conj:[
+      {l:'ます', jp:'おきます', romaji:'okimasu', kr:'오키마스'},{l:'て', jp:'おきて', romaji:'okite', kr:'오키테'},
+      {l:'ない', jp:'おきない', romaji:'okinai', kr:'오키나이'},{l:'た', jp:'おきた', romaji:'okita', kr:'오키타'}]},
+    {jp:'見る', furi:'みる', romaji:'miru', kr:'미루', mean:'보다', conj:[
+      {l:'ます', jp:'みます', romaji:'mimasu', kr:'미마스'},{l:'て', jp:'みて', romaji:'mite', kr:'미테'},
+      {l:'ない', jp:'みない', romaji:'minai', kr:'미나이'},{l:'た', jp:'みた', romaji:'mita', kr:'미타'}]},
+    {jp:'借りる', furi:'かりる', romaji:'kariru', kr:'카리루', mean:'빌리다', conj:[
+      {l:'ます', jp:'かります', romaji:'karimasu', kr:'카리마스'},{l:'て', jp:'かりて', romaji:'karite', kr:'카리테'},
+      {l:'ない', jp:'かりない', romaji:'karinai', kr:'카리나이'},{l:'た', jp:'かりた', romaji:'karita', kr:'카리타'}]},
+    {jp:'開ける', furi:'あける', romaji:'akeru', kr:'아케루', mean:'열다', conj:[
+      {l:'ます', jp:'あけます', romaji:'akemasu', kr:'아케마스'},{l:'て', jp:'あけて', romaji:'akete', kr:'아케테'},
+      {l:'ない', jp:'あけない', romaji:'akenai', kr:'아케나이'},{l:'た', jp:'あけた', romaji:'aketa', kr:'아케타'}]},
+    {jp:'やめる', romaji:'yameru', kr:'야메루', mean:'그만두다', conj:[
+      {l:'ます', jp:'やめます', romaji:'yamemasu', kr:'야메마스'},{l:'て', jp:'やめて', romaji:'yamete', kr:'야메테'},
+      {l:'ない', jp:'やめない', romaji:'yamenai', kr:'야메나이'},{l:'た', jp:'やめた', romaji:'yameta', kr:'야메타'}]},
+    {jp:'忘れる', furi:'わすれる', romaji:'wasureru', kr:'와스레루', mean:'잊다', conj:[
+      {l:'ます', jp:'わすれます', romaji:'wasuremasu', kr:'와스레마스'},{l:'て', jp:'わすれて', romaji:'wasurete', kr:'와스레테'},
+      {l:'ない', jp:'わすれない', romaji:'wasurenai', kr:'와스레나이'},{l:'た', jp:'わすれた', romaji:'wasureta', kr:'와스레타'}]},
+    {jp:'できる', romaji:'dekiru', kr:'데키루', mean:'할 수 있다', conj:[
+      {l:'ます', jp:'できます', romaji:'dekimasu', kr:'데키마스'},{l:'て', jp:'できて', romaji:'dekite', kr:'데키테'},
+      {l:'ない', jp:'できない', romaji:'dekinai', kr:'데키나이'},{l:'た', jp:'できた', romaji:'dekita', kr:'데키타'}]},
+    {jp:'いる', romaji:'iru', kr:'이루', mean:'(사람·동물이) 있다', conj:[
+      {l:'ます', jp:'います', romaji:'imasu', kr:'이마스'},{l:'て', jp:'いて', romaji:'ite', kr:'이테'},
+      {l:'ない', jp:'いない', romaji:'inai', kr:'이나이'},{l:'た', jp:'いた', romaji:'ita', kr:'이타'}]},
+  ]},
+  { id:'v3', accent:'#7A5230', title:'3류동사 (불규칙동사)', type:'verb', items:[
+    {jp:'する', romaji:'suru', kr:'스루', mean:'하다', conj:[
+      {l:'ます', jp:'します', romaji:'shimasu', kr:'시마스'},{l:'て', jp:'して', romaji:'shite', kr:'시테'},
+      {l:'ない', jp:'しない', romaji:'shinai', kr:'시나이'},{l:'た', jp:'した', romaji:'shita', kr:'시타'}]},
+    {jp:'来る', furi:'くる', romaji:'kuru', kr:'쿠루', mean:'오다', conj:[
+      {l:'ます', jp:'きます', romaji:'kimasu', kr:'키마스'},{l:'て', jp:'きて', romaji:'kite', kr:'키테'},
+      {l:'ない', jp:'こない', romaji:'konai', kr:'코나이'},{l:'た', jp:'きた', romaji:'kita', kr:'키타'}]},
+  ]},
+  { id:'expr', accent:'#5B5A57', title:'표현 · 조사 · 부사', type:'vocab', items:[
+    {jp:'はじめまして', romaji:'hajimemashite', kr:'하지메마시테', mean:'처음 뵙겠습니다'},
+    {jp:'よろしくお願いします', furi:'よろしくおねがいします', romaji:'yoroshiku onegaishimasu', kr:'요로시쿠 오네가이시마스', mean:'잘 부탁드립니다'},
+    {jp:'から', romaji:'kara', kr:'카라', mean:'~부터, ~에서 (조사)'},
+    {jp:'ここに', romaji:'koko ni', kr:'코코니', mean:'여기에'},
+    {jp:'一緒に', furi:'いっしょに', romaji:'issho ni', kr:'잇쇼니', mean:'함께'},
+    {jp:'本当に', furi:'ほんとうに', romaji:'hontou ni', kr:'혼토-니', mean:'정말로'},
+    {jp:'ちょっと', romaji:'chotto', kr:'춋토', mean:'조금'},
+    {jp:'絶対に', furi:'ぜったいに', romaji:'zettai ni', kr:'젯타이니', mean:'반드시, 절대로'},
+    {jp:'早く', furi:'はやく', romaji:'hayaku', kr:'하야쿠', mean:'빨리, 일찍'},
+  ]},
+];
+
+const nav = document.getElementById('rownav');
+const main = document.getElementById('main');
+
+function makeVcard(it){
+  const c = document.createElement('div');
+  c.className = 'vcard';
+  c.innerHTML = `
+    <div><span class="jpword jp">${it.jp}</span>${it.furi ? `<span class="furigana">(${it.furi})</span>` : ''}</div>
+    <div class="romaji">${it.romaji}</div>
+    <div class="kr">${it.kr}</div>
+    <div class="mean">${it.mean}</div>
+  `;
+  return c;
+}
+function makeVbcard(it){
+  const c = document.createElement('div');
+  c.className = 'vbcard';
+  const chips = it.conj.map(cj => `
+    <div class="conj-chip">
+      <div class="clabel">${cj.l}형</div>
+      <div class="cjp jp">${cj.jp}</div>
+      <div class="cromaji">${cj.romaji} · ${cj.kr}</div>
+    </div>`).join('');
+  c.innerHTML = `
+    <div class="vbmain">
+      <span class="jpword jp">${it.jp}</span>${it.furi ? `<span class="furigana">(${it.furi})</span>` : ''}
+      <span class="romaji">${it.romaji}</span>
+      <span class="kr">${it.kr}</span>
+      <span class="mean">${it.mean}</span>
+    </div>
+    <div class="conj-grid">${chips}</div>
+  `;
+  return c;
+}
+
+SECTIONS.forEach(sec=>{
+  const a = document.createElement('a');
+  a.href = '#'+sec.id;
+  a.textContent = sec.title.split('—')[0].split('(')[0].trim();
+  nav.appendChild(a);
+
+  const section = document.createElement('section');
+  section.className = 'blk';
+  section.id = sec.id;
+  section.style.setProperty('--accent', sec.accent);
+
+  const head = document.createElement('div');
+  head.className = 'blk-head';
+  head.innerHTML = `<span class="title">${sec.title}</span>`;
+  section.appendChild(head);
+
+  if(sec.note){
+    const note = document.createElement('div');
+    note.className = 'blk-note';
+    note.textContent = sec.note;
+    section.appendChild(note);
+  }
+
+  if(sec.type === 'vocab'){
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    sec.items.forEach(it=> grid.appendChild(makeVcard(it)));
+    section.appendChild(grid);
+  } else if(sec.type === 'verb'){
+    const list = document.createElement('div');
+    list.className = 'vblist';
+    sec.items.forEach(it=> list.appendChild(makeVbcard(it)));
+    section.appendChild(list);
+  }
+
+  main.appendChild(section);
+});
+</script>
+
+</body>
+</html>
