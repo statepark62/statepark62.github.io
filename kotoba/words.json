@@ -9201,5 +9201,105 @@
   "example": "寂しいとき、へそを見つめてこころを落ち着かせた。",
   "exampleReading": "さびしいときへそをみつめてこころをおちつかせた",
   "exampleMeaning": "쓸쓸할 때 배꼽을 바라보며 마음을 가라앉혔다."
+ },
+ {
+  "id": "news439",
+  "word": "脱却",
+  "reading": "だっきゃく",
+  "meaning": "(나쁜 상태나 의존 등에서) 벗어남, 탈피",
+  "level": "N1",
+  "example": "彼はギャンブル依存からの脱却を目指している。",
+  "exampleReading": "かれはギャンブルいぞんからのだっきゃくをめざしている。",
+  "exampleMeaning": "그는 도박 의존에서 벗어나는 것을 목표로 하고 있다."
+ },
+ {
+  "id": "news440",
+  "word": "依存",
+  "reading": "いぞん",
+  "meaning": "의존",
+  "level": "N2",
+  "example": "スマートフォンへの依存が社会問題になっている。",
+  "exampleReading": "スマートフォンへのいぞんがしゃかいもんだいになっている。",
+  "exampleMeaning": "스마트폰 의존이 사회 문제가 되고 있다."
+ },
+ {
+  "id": "news441",
+  "word": "伺える",
+  "reading": "うかがえる",
+  "meaning": "(상황이나 모습 등을) 엿볼 수 있다, 짐작할 수 있다",
+  "level": "N2",
+  "example": "この資料からは政府の税金の使い方が伺える。",
+  "exampleReading": "このしりょうからはせいふのぜいきんのつかいかたがうかがえる。",
+  "exampleMeaning": "이 자료로부터 정부의 세금 사용 방식을 엿볼 수 있다."
+ },
+ {
+  "id": "news442",
+  "word": "怒涛",
+  "reading": "どとう",
+  "meaning": "노도, 격동(거센 물결처럼 몰아치는 상황)",
+  "level": "N1",
+  "example": "後半は怒涛の展開でドラマが幕を閉じた。",
+  "exampleReading": "こうはんはどとうのてんかいでドラマがまくをとじた。",
+  "exampleMeaning": "후반은 격동의 전개로 드라마가 막을 내렸다."
+ },
+ {
+  "id": "news443",
+  "word": "動機",
+  "reading": "どうき",
+  "meaning": "동기",
+  "level": "N2",
+  "example": "彼が事件を起こした動機はまだ明らかになっていない。",
+  "exampleReading": "かれがじけんをおこしたどうきはまだあきらかになっていない。",
+  "exampleMeaning": "그가 사건을 일으킨 동기는 아직 밝혀지지 않았다."
+ },
+ {
+  "id": "news444",
+  "word": "片思い",
+  "reading": "かたおもい",
+  "meaning": "짝사랑",
+  "level": "N3",
+  "example": "彼女は同僚に片思いをしている。",
+  "exampleReading": "かのじょはどうりょうにかたおもいをしている。",
+  "exampleMeaning": "그녀는 동료를 짝사랑하고 있다."
+ },
+ {
+  "id": "news445",
+  "word": "素顔",
+  "reading": "すがお",
+  "meaning": "민낯, 꾸미지 않은 본모습",
+  "level": "N2",
+  "example": "テレビでは見せない素顔を写真集で公開した。",
+  "exampleReading": "テレビではみせないすがおをしゃしんしゅうでこうかいした。",
+  "exampleMeaning": "TV에서는 보여주지 않는 민낯(본모습)을 사진집으로 공개했다."
+ },
+ {
+  "id": "news446",
+  "word": "煽り運転",
+  "reading": "あおりうんてん",
+  "meaning": "난폭운전, 보복운전",
+  "level": "N2",
+  "example": "高速道路での煽り運転は厳しく罰せられる。",
+  "exampleReading": "こうそくどうろでのあおりうんてんはきびしくばっせられる。",
+  "exampleMeaning": "고속도로에서의 난폭운전(보복운전)은 엄격하게 처벌된다."
+ },
+ {
+  "id": "news447",
+  "word": "支持率",
+  "reading": "しじりつ",
+  "meaning": "지지율",
+  "level": "N2",
+  "example": "内閣の支持率が発表直後に急上昇した。",
+  "exampleReading": "ないかくのしじりつがはっぴょうちょくごにきゅうじょうしょうした。",
+  "exampleMeaning": "내각 지지율이 발표 직후 급상승했다."
+ },
+ {
+  "id": "news448",
+  "word": "目撃談",
+  "reading": "もくげきだん",
+  "meaning": "목격담",
+  "level": "N1",
+  "example": "ネッシーの目撃談が今年になって急増している。",
+  "exampleReading": "ねっしーのもくげきだんがことしになってきゅうぞうしている。",
+  "exampleMeaning": "네시 목격담이 올해 들어 급증하고 있다."
  }
 ]
