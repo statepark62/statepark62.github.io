@@ -1,1 +1,35 @@
+name: Deploy to GitHub Pages
 
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Replace API key placeholder
+        run: |
+          sed -i "s|__GOOGLE_API_KEY__|${{ secrets.GOOGLE_API_KEY }}|g" trip-planner/index.html
+          sed -i "s|__GOOGLE_API_KEY__|${{ secrets.GOOGLE_API_KEY }}|g" trip-planner-dev/index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
