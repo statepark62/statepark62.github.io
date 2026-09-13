@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 날짜·요일 읽기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; text-align:center; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; border-bottom:1px solid var(--line); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1050px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13px; }
+  .date-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+  @media(min-width:600px){ .date-grid{grid-template-columns:repeat(5,1fr);} }
+  .date-grid .d{ border:1px solid var(--line); border-radius:8px; padding:6px 4px; background:var(--paper); font-size:11.5px; }
+  .date-grid .d b{ display:block; font-size:13px; }
+  .date-grid .d.special{ border-color:#C1416B; background:#FDECEF; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin:0 auto; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); }
+  .warn-box{ margin-top:10px; font-size:12.5px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:8px 11px; color:#7a3a3a; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .special3{ display:grid; grid-template-columns:1fr; gap:10px; margin-top:8px; }
+  @media(min-width:600px){ .special3{grid-template-columns:repeat(3,1fr);} }
+  .special3 .s{ border:2px solid #C1416B; border-radius:10px; padding:10px; background:#fff; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 날짜·요일 읽기 (1일~31일)</h1>
+  <p class="sub">날짜와 요일을 읽을 수 있으면 일본어가 더 쉬워져요!</p>
+</header>
+<main>
+  <div class="warn-box">⭐ 14일·20일·24일은 읽기가 특별합니다!</div>
+
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">1. 날짜 읽기 (1일~31일)</div>
+    <div class="ic-body">
+      <div class="date-grid">
+        <div class="d"><b>1일</b><span class="jp">ついたち</span></div>
+        <div class="d"><b>2일</b><span class="jp">ふつか</span></div>
+        <div class="d"><b>3일</b><span class="jp">みっか</span></div>
+        <div class="d special"><b>4일</b><span class="jp">よっか</span></div>
+        <div class="d"><b>5일</b><span class="jp">いつか</span></div>
+        <div class="d"><b>6일</b><span class="jp">むいか</span></div>
+        <div class="d"><b>7일</b><span class="jp">なのか</span></div>
+        <div class="d"><b>8일</b><span class="jp">ようか</span></div>
+        <div class="d"><b>9일</b><span class="jp">ここのか</span></div>
+        <div class="d"><b>10일</b><span class="jp">とおか</span></div>
+        <div class="d"><b>11일</b><span class="jp">じゅういちにち</span></div>
+        <div class="d"><b>12일</b><span class="jp">じゅうににち</span></div>
+        <div class="d"><b>13일</b><span class="jp">じゅうさんにち</span></div>
+        <div class="d special"><b>14일</b><span class="jp">じゅうよっか</span></div>
+        <div class="d"><b>15일</b><span class="jp">じゅうごにち</span></div>
+        <div class="d"><b>16일</b><span class="jp">じゅうろくにち</span></div>
+        <div class="d"><b>17일</b><span class="jp">じゅうしちにち</span></div>
+        <div class="d"><b>18일</b><span class="jp">じゅうはちにち</span></div>
+        <div class="d"><b>19일</b><span class="jp">じゅうくにち</span></div>
+        <div class="d special"><b>20일</b><span class="jp">はつか</span></div>
+        <div class="d"><b>21일</b><span class="jp">にじゅういちにち</span></div>
+        <div class="d"><b>22일</b><span class="jp">にじゅうににち</span></div>
+        <div class="d"><b>23일</b><span class="jp">にじゅうさんにち</span></div>
+        <div class="d special"><b>24일</b><span class="jp">にじゅうよっか</span></div>
+        <div class="d"><b>25일</b><span class="jp">にじゅうごにち</span></div>
+        <div class="d"><b>26일</b><span class="jp">にじゅうろくにち</span></div>
+        <div class="d"><b>27일</b><span class="jp">にじゅうしちにち</span></div>
+        <div class="d"><b>28일</b><span class="jp">にじゅうはちにち</span></div>
+        <div class="d"><b>29일</b><span class="jp">にじゅうくにち</span></div>
+        <div class="d"><b>30일</b><span class="jp">さんじゅうにち</span></div>
+        <div class="d"><b>31일</b><span class="jp">さんじゅういちにち</span></div>
+      </div>
+      <div class="special3">
+        <div class="s"><b style="color:#C1416B;">14일 → じゅうよっか</b><div style="font-size:11.5px;color:var(--sub);">「じゅうよんにち」가 아닙니다!</div></div>
+        <div class="s"><b style="color:#C1416B;">20일 → はつか</b><div style="font-size:11.5px;color:var(--sub);">「にじゅうにち」가 아닙니다!</div></div>
+        <div class="s"><b style="color:#C1416B;">24일 → にじゅうよっか</b><div style="font-size:11.5px;color:var(--sub);">「にじゅうよんにち」가 아닙니다!</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">2. 요일 읽기</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>한자</th><th>히라가나</th><th>한글 발음</th></tr>
+        <tr><td class="jp">日</td><td class="jp">にちようび</td><td>니치요-비 (일요일)</td></tr>
+        <tr><td class="jp">月</td><td class="jp">げつようび</td><td>게츠요-비 (월요일)</td></tr>
+        <tr><td class="jp">火</td><td class="jp">かようび</td><td>카요-비 (화요일)</td></tr>
+        <tr><td class="jp">水</td><td class="jp">すいようび</td><td>스이요-비 (수요일)</td></tr>
+        <tr><td class="jp">木</td><td class="jp">もくようび</td><td>모쿠요-비 (목요일)</td></tr>
+        <tr><td class="jp">金</td><td class="jp">きんようび</td><td>킨요-비 (금요일)</td></tr>
+        <tr><td class="jp">土</td><td class="jp">どようび</td><td>도요-비 (토요일)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    💡 날짜 앞에는 「○月」(○がつ)를 붙여 읽어요! 예) 7月3日 → しちがつ みっか<br>
+    💡 동사 활용을 많이 사용하면 자연스럽게 익혀져요! 매일 5분씩 복습하면 기억이 오래가요!
+  </div>
+
+  <div class="summary-bar">
+    매일 조금씩 읽으면서 익혀보세요! 14일·20일·24일 세 개만 확실히 외우면 나머지는 규칙적이에요.
+  </div>
+</main>
+</body>
+</html>

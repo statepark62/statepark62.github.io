@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>て형 규칙별 그룹 정리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+
+  header{ padding:44px 20px 28px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(228,87,46,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(24px,6vw,34px); font-weight:900; letter-spacing:-0.02em; }
+  header .hero{ font-family:'Noto Serif JP', serif; font-size:clamp(14px,4vw,18px); color:var(--sub); margin-top:10px; }
+  header p.desc{ margin:14px auto 0; max-width:560px; color:var(--sub); font-size:14.5px; }
+
+  nav.rownav{ position:sticky; top:0; z-index:20; background:rgba(251,248,242,0.96); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line); padding:10px 12px; display:flex; justify-content:center; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  nav.rownav::-webkit-scrollbar{display:none;}
+  nav.rownav a{ flex:0 0 auto; text-decoration:none; font-size:12.5px; font-weight:700; color:var(--ink);
+    background:var(--card); border:1.5px solid var(--line); padding:7px 12px; border-radius:999px; white-space:nowrap; }
+
+  main{max-width:960px;margin:0 auto;padding:6px 14px 60px;}
+
+  section.blk{ margin-top:34px; scroll-margin-top:64px; }
+  section.blk .blk-head{ display:flex; align-items:center; gap:12px; padding:0 2px 12px; border-bottom:3px solid var(--accent); flex-wrap:wrap; }
+  section.blk .blk-head .rule{ font-family:'Noto Serif JP', serif; font-size:20px; font-weight:700; color:var(--accent); }
+  section.blk .blk-head .title{ font-size:13.5px; color:var(--sub); }
+  section.blk .blk-note{ font-size:12.5px; color:var(--sub); margin-top:10px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:9px 11px; }
+
+  .grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin-top:14px; }
+  @media(min-width:560px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media(min-width:820px){ .grid{grid-template-columns:repeat(4,1fr);} }
+
+  .tcard{ background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:10px; padding:10px 11px; display:flex; flex-direction:column; gap:5px; }
+  .tcard .base{ font-size:11px; color:var(--sub); }
+  .tcard .base .jpword{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:14px; color:var(--ink); }
+  .tcard .arrow{ font-size:11px; color:#c9bfa0; text-align:center; }
+  .tcard .teform{ display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
+  .tcard .teform .jpword{ font-family:'Noto Serif JP', serif; font-weight:700; font-size:16.5px; }
+  .tcard .romaji{ font-size:10.5px; color:#9c927a; font-style:italic; }
+  .tcard .kr{ font-size:13.5px; font-weight:700; color:var(--accent); }
+  .tcard .mean{ font-size:10.5px; color:var(--sub); }
+
+  .excard{ margin-top:14px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:10px; padding:14px 16px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .excard .badge{ font-size:10.5px; background:#7a3a3a; color:#fff; padding:3px 9px; border-radius:999px; font-weight:700; }
+  .excard .jpword{ font-family:'Noto Serif JP', serif; font-weight:700; font-size:18px; }
+  .excard .romaji{ font-size:11.5px; color:#9c927a; font-style:italic; }
+  .excard .kr{ font-size:15px; font-weight:700; color:#7a3a3a; }
+  .excard .note{ font-size:12px; color:#7a3a3a; width:100%; margin-top:4px; }
+
+  footer{ max-width:960px; margin:10px auto 50px; padding:22px 20px; background:var(--card); border:1px solid var(--line); border-radius:14px; }
+  footer h2{ font-size:16px; margin:0 0 10px; }
+  footer p{ font-size:13.5px; color:var(--sub); margin:0 0 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero jp">て形の変化ルール別グループ</div>
+  <h1>て형, 변하는 규칙끼리 모아보기</h1>
+  <p class="desc">JLPT 동사 50개를 사전형 어미에 따라 <b>같은 규칙으로 변하는 것끼리</b> 묶었습니다. <b style="color:#3B6EA5">굵은 색 글자</b>가 한글 발음, <i>이탤릭체</i>가 로마자예요.</p>
+</header>
+
+<nav class="rownav" id="rownav"></nav>
+<main id="main"></main>
+
+<footer>
+  <h2>규칙 요약</h2>
+  <p>1류동사: う·つ·る → って ／ む·ぶ·ぬ → んで ／ く → いて ／ ぐ → いで ／ す → して</p>
+  <p>2류동사: る를 떼고 て만 붙임 (たべる→たべて) ／ 3류동사(불규칙): する→して, 来る→きて</p>
+  <p>行く(가다)는 く로 끝나는 1류동사지만 いて가 아니라 って로 변하는 유일한 예외예요.</p>
+</footer>
+
+<script>
+const GROUPS = [
+  { id:'g-uturu', accent:'#D9A441', rule:'う・つ・る → って', title:'1류동사 (17개)', verbs:[
+    {jp:'会う', furi:'あう', romaji:'au', kr:'아우', te:'あって', teR:'atte', teK:'앗테', mean:'만나다'},
+    {jp:'買う', furi:'かう', romaji:'kau', kr:'카우', te:'かって', teR:'katte', teK:'캇테', mean:'사다'},
+    {jp:'待つ', furi:'まつ', romaji:'matsu', kr:'마츠', te:'まって', teR:'matte', teK:'맛테', mean:'기다리다'},
+    {jp:'帰る', furi:'かえる', romaji:'kaeru', kr:'카에루', te:'かえって', teR:'kaette', teK:'카엣테', mean:'돌아가다'},
+    {jp:'作る', furi:'つくる', romaji:'tsukuru', kr:'츠쿠루', te:'つくって', teR:'tsukutte', teK:'츠쿳테', mean:'만들다'},
+    {jp:'取る', furi:'とる', romaji:'toru', kr:'토루', te:'とって', teR:'totte', teK:'톳테', mean:'잡다, 집다'},
+    {jp:'乗る', furi:'のる', romaji:'noru', kr:'노루', te:'のって', teR:'notte', teK:'놋테', mean:'타다'},
+    {jp:'入る', furi:'はいる', romaji:'hairu', kr:'하이루', te:'はいって', teR:'haitte', teK:'하잇테', mean:'들어가다'},
+    {jp:'走る', furi:'はしる', romaji:'hashiru', kr:'하시루', te:'はしって', teR:'hashitte', teK:'하싯테', mean:'달리다'},
+    {jp:'洗う', furi:'あらう', romaji:'arau', kr:'아라우', te:'あらって', teR:'aratte', teK:'아랏테', mean:'씻다'},
+    {jp:'歌う', furi:'うたう', romaji:'utau', kr:'우타우', te:'うたって', teR:'utatte', teK:'우탓테', mean:'노래하다'},
+    {jp:'使う', furi:'つかう', romaji:'tsukau', kr:'츠카우', te:'つかって', teR:'tsukatte', teK:'츠캇테', mean:'사용하다'},
+    {jp:'習う', furi:'ならう', romaji:'narau', kr:'나라우', te:'ならって', teR:'naratte', teK:'나랏테', mean:'배우다'},
+    {jp:'始まる', furi:'はじまる', romaji:'hajimaru', kr:'하지마루', te:'はじまって', teR:'hajimatte', teK:'하지맛테', mean:'시작되다'},
+    {jp:'終わる', furi:'おわる', romaji:'owaru', kr:'오와루', te:'おわって', teR:'owatte', teK:'오왓테', mean:'끝나다'},
+    {jp:'分かる', furi:'わかる', romaji:'wakaru', kr:'와카루', te:'わかって', teR:'wakatte', teK:'와캇테', mean:'알다, 이해하다'},
+    {jp:'払う', furi:'はらう', romaji:'harau', kr:'하라우', te:'はらって', teR:'haratte', teK:'하랏테', mean:'지불하다'},
+  ]},
+  { id:'g-mubunu', accent:'#4E7C59', rule:'む・ぶ・ぬ → んで', title:'1류동사 (6개)', verbs:[
+    {jp:'読む', furi:'よむ', romaji:'yomu', kr:'요무', te:'よんで', teR:'yonde', teK:'욘데', mean:'읽다'},
+    {jp:'飲む', furi:'のむ', romaji:'nomu', kr:'노무', te:'のんで', teR:'nonde', teK:'논데', mean:'마시다'},
+    {jp:'遊ぶ', furi:'あそぶ', romaji:'asobu', kr:'아소부', te:'あそんで', teR:'asonde', teK:'아손데', mean:'놀다'},
+    {jp:'休む', furi:'やすむ', romaji:'yasumu', kr:'야스무', te:'やすんで', teR:'yasunde', teK:'야순데', mean:'쉬다'},
+    {jp:'死ぬ', furi:'しぬ', romaji:'shinu', kr:'시누', te:'しんで', teR:'shinde', teK:'신데', mean:'죽다'},
+    {jp:'呼ぶ', furi:'よぶ', romaji:'yobu', kr:'요부', te:'よんで', teR:'yonde', teK:'욘데', mean:'부르다'},
+  ]},
+  { id:'g-ku', accent:'#3C8C7B', rule:'く → いて', title:'1류동사 (2개)', verbs:[
+    {jp:'書く', furi:'かく', romaji:'kaku', kr:'카쿠', te:'かいて', teR:'kaite', teK:'카이테', mean:'쓰다'},
+    {jp:'聞く', furi:'きく', romaji:'kiku', kr:'키쿠', te:'きいて', teR:'kiite', teK:'키-테', mean:'듣다, 묻다'},
+  ]},
+  { id:'g-gu', accent:'#8A9A5B', rule:'ぐ → いで', title:'1류동사 (2개)', verbs:[
+    {jp:'急ぐ', furi:'いそぐ', romaji:'isogu', kr:'이소구', te:'いそいで', teR:'isoide', teK:'이소이데', mean:'서두르다'},
+    {jp:'泳ぐ', furi:'およぐ', romaji:'oyogu', kr:'오요구', te:'およいで', teR:'oyoide', teK:'오요이데', mean:'헤엄치다'},
+  ]},
+  { id:'g-su', accent:'#E4572E', rule:'す → して', title:'1류동사 (3개)', verbs:[
+    {jp:'話す', furi:'はなす', romaji:'hanasu', kr:'하나스', te:'はなして', teR:'hanashite', teK:'하나시테', mean:'이야기하다'},
+    {jp:'貸す', furi:'かす', romaji:'kasu', kr:'카스', te:'かして', teR:'kashite', teK:'카시테', mean:'빌려주다'},
+    {jp:'消す', furi:'けす', romaji:'kesu', kr:'케스', te:'けして', teR:'keshite', teK:'케시테', mean:'끄다, 지우다'},
+  ]},
+  { id:'g-ru2', accent:'#6A5ACD', rule:'る를 떼고 て', title:'2류동사 (17개)', verbs:[
+    {jp:'食べる', furi:'たべる', romaji:'taberu', kr:'타베루', te:'たべて', teR:'tabete', teK:'타베테', mean:'먹다'},
+    {jp:'寝る', furi:'ねる', romaji:'neru', kr:'네루', te:'ねて', teR:'nete', teK:'네테', mean:'자다'},
+    {jp:'見る', furi:'みる', romaji:'miru', kr:'미루', te:'みて', teR:'mite', teK:'미테', mean:'보다'},
+    {jp:'起きる', furi:'おきる', romaji:'okiru', kr:'오키루', te:'おきて', teR:'okite', teK:'오키테', mean:'일어나다'},
+    {jp:'開ける', furi:'あける', romaji:'akeru', kr:'아케루', te:'あけて', teR:'akete', teK:'아케테', mean:'열다'},
+    {jp:'閉める', furi:'しめる', romaji:'shimeru', kr:'시메루', te:'しめて', teR:'shimete', teK:'시메테', mean:'닫다'},
+    {jp:'教える', furi:'おしえる', romaji:'oshieru', kr:'오시에루', te:'おしえて', teR:'oshiete', teK:'오시에테', mean:'가르치다'},
+    {jp:'覚える', furi:'おぼえる', romaji:'oboeru', kr:'오보에루', te:'おぼえて', teR:'oboete', teK:'오보에테', mean:'외우다'},
+    {jp:'忘れる', furi:'わすれる', romaji:'wasureru', kr:'와스레루', te:'わすれて', teR:'wasurete', teK:'와스레테', mean:'잊다'},
+    {jp:'出る', furi:'でる', romaji:'deru', kr:'데루', te:'でて', teR:'dete', teK:'데테', mean:'나가다'},
+    {jp:'降りる', furi:'おりる', romaji:'oriru', kr:'오리루', te:'おりて', teR:'orite', teK:'오리테', mean:'내리다'},
+    {jp:'借りる', furi:'かりる', romaji:'kariru', kr:'카리루', te:'かりて', teR:'karite', teK:'카리테', mean:'빌리다'},
+    {jp:'疲れる', furi:'つかれる', romaji:'tsukareru', kr:'츠카레루', te:'つかれて', teR:'tsukarete', teK:'츠카레테', mean:'지치다'},
+    {jp:'調べる', furi:'しらべる', romaji:'shiraberu', kr:'시라베루', te:'しらべて', teR:'shirabete', teK:'시라베테', mean:'조사하다'},
+    {jp:'考える', furi:'かんがえる', romaji:'kangaeru', kr:'캉가에루', te:'かんがえて', teR:'kangaete', teK:'캉가에테', mean:'생각하다'},
+    {jp:'付ける', furi:'つける', romaji:'tsukeru', kr:'츠케루', te:'つけて', teR:'tsukete', teK:'츠케테', mean:'켜다, 붙이다'},
+    {jp:'掛ける', furi:'かける', romaji:'kakeru', kr:'카케루', te:'かけて', teR:'kakete', teK:'카케테', mean:'걸다'},
+  ]},
+  { id:'g-irr', accent:'#B85C8A', rule:'不規則 (불규칙)', title:'3류동사 (2개)', verbs:[
+    {jp:'する', romaji:'suru', kr:'스루', te:'して', teR:'shite', teK:'시테', mean:'하다'},
+    {jp:'来る', furi:'くる', romaji:'kuru', kr:'쿠루', te:'きて', teR:'kite', teK:'키테', mean:'오다'},
+  ]},
+];
+
+const nav = document.getElementById('rownav');
+const main = document.getElementById('main');
+
+function makeTcard(v){
+  const c = document.createElement('div');
+  c.className = 'tcard';
+  c.innerHTML = `
+    <div class="base"><span class="jpword jp">${v.jp}</span>${v.furi ? `(${v.furi})` : ''} <span class="romaji">${v.romaji}</span> · ${v.kr}</div>
+    <div class="arrow">↓ て형</div>
+    <div class="teform">
+      <span class="jpword jp">${v.te}</span>
+    </div>
+    <div class="romaji">${v.teR}</div>
+    <div class="kr">${v.teK}</div>
+    <div class="mean">${v.mean}</div>
+  `;
+  return c;
+}
+
+GROUPS.forEach(g=>{
+  const a = document.createElement('a');
+  a.href = '#'+g.id;
+  a.textContent = g.rule;
+  nav.appendChild(a);
+
+  const section = document.createElement('section');
+  section.className = 'blk';
+  section.id = g.id;
+  section.style.setProperty('--accent', g.accent);
+
+  const head = document.createElement('div');
+  head.className = 'blk-head';
+  head.innerHTML = `<span class="rule jp">${g.rule}</span><span class="title">${g.title}</span>`;
+  section.appendChild(head);
+
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+  g.verbs.forEach(v => grid.appendChild(makeTcard(v)));
+  section.appendChild(grid);
+
+  main.appendChild(section);
+});
+
+// 예외: 行く
+(function(){
+  const a = document.createElement('a');
+  a.href = '#exception';
+  a.textContent = '예외: 行く';
+  nav.appendChild(a);
+
+  const section = document.createElement('section');
+  section.className = 'blk';
+  section.id = 'exception';
+  section.style.setProperty('--accent', '#7A3A3A');
+
+  section.innerHTML = `
+    <div class="blk-head"><span class="rule jp" style="color:#7A3A3A">例外</span><span class="title">예외 1개</span></div>
+    <div class="excard">
+      <span class="badge">예외</span>
+      <span class="jpword jp">行く (いく)</span>
+      <span class="romaji">iku</span>
+      <span class="kr">이쿠</span>
+      <span style="font-size:12px;color:#7a3a3a;">→</span>
+      <span class="jpword jp">行って</span>
+      <span class="romaji">itte</span>
+      <span class="kr">잇테</span>
+      <div class="note">「く → いて」 규칙을 따른다면 「いいて」가 되어야 하지만, 行く만은 예외로 「って」로 변해요. 초급에서 가장 많이 틀리는 부분이니 따로 기억해두세요.</div>
+    </div>
+  `;
+  main.appendChild(section);
+})();
+</script>
+
+</body>
+</html>

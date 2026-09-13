@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 시간 말하기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; text-align:center; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; border-bottom:1px solid var(--line); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1050px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin:0 auto; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .special3{ display:grid; grid-template-columns:1fr; gap:10px; margin-top:8px; }
+  @media(min-width:600px){ .special3{grid-template-columns:repeat(3,1fr);} }
+  .special3 .s{ border:2px solid #C1416B; border-radius:10px; padding:10px; background:#fff; }
+  .ex-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+  @media(min-width:700px){ .ex-grid{grid-template-columns:repeat(4,1fr);} }
+  .ex-grid .e{ border:1px solid var(--line); border-radius:8px; padding:8px; background:var(--paper); font-size:12px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 시간 말하기</h1>
+  <p class="sub">기본 표현을 알면 누구나 쉽게 말할 수 있어요! (시간을 말할 때는 「~時(じ)」와 「~分(ふん)」을 사용해요)</p>
+</header>
+<main>
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">1. 기본 표현</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>표현</th><th>의미</th><th>예문</th></tr>
+        <tr><td class="jp">~時です。</td><td>~시입니다</td><td class="jp">3時です。(3시입니다.)</td></tr>
+        <tr><td class="jp">~時~分です。</td><td>~시~분입니다</td><td class="jp">3時30分です。(3시30분입니다.)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">2. 자주 사용하는 표현</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>표현</th><th>의미</th><th>예문</th></tr>
+        <tr><td class="jp">~時</td><td>~시 정각</td><td class="jp">7時です。(7시입니다.)</td></tr>
+        <tr><td class="jp">~時半</td><td>~시 30분</td><td class="jp">8時半です。(8시 30분입니다.)</td></tr>
+        <tr><td class="jp">~時15分</td><td>~시 15분</td><td class="jp">9時15分です。(9시 15분입니다.)</td></tr>
+        <tr><td class="jp">~時45分</td><td>~시 45분</td><td class="jp">10時45分です。(10시 45분입니다.)</td></tr>
+        <tr><td class="jp">~時10分前</td><td>~시 10분 전</td><td class="jp">11時10分前です。(11시 10분 전입니다.)</td></tr>
+        <tr><td class="jp">~時5分後</td><td>~시 5분 후</td><td class="jp">12時5分後です。(12시 5분 후입니다.)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9622A">
+    <div class="ic-head">3. 시간 말하기 예시</div>
+    <div class="ic-body">
+      <div class="ex-grid">
+        <div class="e jp">1時です。<div style="font-family:'Noto Sans KR';color:var(--sub);">(1시입니다.)</div></div>
+        <div class="e jp">2時半です。<div style="font-family:'Noto Sans KR';color:var(--sub);">(2시 30분입니다.)</div></div>
+        <div class="e jp">3時15分です。<div style="font-family:'Noto Sans KR';color:var(--sub);">(3시 15분입니다.)</div></div>
+        <div class="e jp">4時45分です。<div style="font-family:'Noto Sans KR';color:var(--sub);">(4시 45분입니다.)</div></div>
+        <div class="e jp">5時10分前です。<div style="font-family:'Noto Sans KR';color:var(--sub);">(5시 10분 전입니다.)</div></div>
+        <div class="e jp">6時5分後です。<div style="font-family:'Noto Sans KR';color:var(--sub);">(6시 5분 후입니다.)</div></div>
+        <div class="e jp">7時20分です。<div style="font-family:'Noto Sans KR';color:var(--sub);">(7시 20분입니다.)</div></div>
+        <div class="e jp">8時55分です。<div style="font-family:'Noto Sans KR';color:var(--sub);">(8시 55분입니다.)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="special3">
+    <div class="s"><b style="color:#C1416B;">14時 → じゅうよじ</b><div style="font-size:11.5px;color:var(--sub);">「じゅうしじ」가 아닙니다!</div></div>
+    <div class="s"><b style="color:#C1416B;">20時 → にじゅうじ</b><div style="font-size:11.5px;color:var(--sub);">보통 규칙대로 읽어요.</div></div>
+    <div class="s"><b style="color:#C1416B;">24時 → にじゅうよじ</b><div style="font-size:11.5px;color:var(--sub);">「にじゅうしじ」가 아닙니다!</div></div>
+  </div>
+
+  <div class="tip-box">💡 1일은 24시간제로 말해요! ~時(じ): 시간 / ~分(ふん): 분 · 처음에는 큰 소리로 읽어보세요! 매일 조금씩 복습하면 기억이 오래가요!</div>
+
+  <div class="summary-bar">
+    「~時(じ)」「~分(ふん)」을 사용해요! 헷갈리는 특별 시간(14時, 24時) 두 개만 확실히 외워두세요.
+  </div>
+</main>
+</body>
+</html>

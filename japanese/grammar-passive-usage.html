@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 동사의 종류별 수동형 만들기 — 활용편</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(60,140,123,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(217,164,65,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .warn-box{ margin-top:10px; font-size:12.5px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:8px 11px; color:#7a3a3a; }
+  .ex-list{ display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+  .ex-list .ex{ font-size:12.5px; background:var(--paper); border:1px dashed var(--line); border-radius:8px; padding:7px 10px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 동사의 종류별 수동형 만들기 <span style="color:#D9A441">활용편</span></h1>
+  <p class="sub">다양한 문장에서 수동형을 사용해 보고, 의미와 쓰임을 익혀봐요!</p>
+</header>
+<main>
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">③ 자연스러운 수동문으로 바꾸기</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>능동 표현</th><th>수동 표현(예문)</th></tr>
+        <tr><td class="jp">私をほめてください。</td><td class="jp">私はほめられたいです。</td></tr>
+        <tr><td class="jp">クラスをそうじします。</td><td class="jp">クラスがそうじされます。</td></tr>
+        <tr><td class="jp">この歌を作りました。</td><td class="jp">この歌は作られました。</td></tr>
+        <tr><td class="jp">この問題を先生が説明します。</td><td class="jp">この問題は先生によって説明されます。</td></tr>
+        <tr><td class="jp">私の部屋を見ないでください。</td><td class="jp">私の部屋は見られたくありません。</td></tr>
+        <tr><td class="jp">新聞がニュースを伝えます。</td><td class="jp">ニュースが新聞で報じられます。</td></tr>
+      </table>
+      <div class="tip-box">💡 「~て(によって)」를 쓰면 더 자연스러워요! 명령문은 「~ないでください → ~られたくありません」으로 바꿔요.</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">④ 의미 구별 (능동 vs 수동)</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>능동문</th><th>수동문</th></tr>
+        <tr><td class="jp">先生が私をしからない。</td><td class="jp">私は先生にしかられません。</td></tr>
+        <tr><td class="jp">母がごはんを作る。</td><td class="jp">ごはんが作られます。</td></tr>
+        <tr><td class="jp">犬が子どもを追いかける。</td><td class="jp">子どもが犬に追いかけられます。</td></tr>
+        <tr><td class="jp">私はこの映画を見ない。</td><td class="jp">この映画は見られません。</td></tr>
+      </table>
+      <div class="tip-box">💡 능동문은 '누가 행동을 하는가', 수동문은 '누가(무엇이) 당하는가'에 주목하세요.</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9622A">
+    <div class="ic-head">자주 쓰이는 수동 표현 모음</div>
+    <div class="ic-body">
+      <div class="ex-list">
+        <div class="ex jp">~と言われます: ~(라고) 말해집니다</div>
+        <div class="ex jp">~とされます: ~로 여겨집니다</div>
+        <div class="ex jp">~ことができます: ~할 수 있습니다</div>
+        <div class="ex jp">~ことを禁止されています: ~하는 것이 금지되어 있습니다</div>
+        <div class="ex jp">~ように言われました: ~하도록 말해졌습니다</div>
+        <div class="ex jp">~てはいけません: ~해서는 안 됩니다(금지)</div>
+        <div class="ex jp">~られてしまいました: ~당해 버렸습니다</div>
+        <div class="ex jp">~られる予定です: ~될 예정입니다(수동적 예정)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">⚠️ 헷갈리기 쉬운 자동사·타동사 짝!<br>
+    <span class="jp">開く(あく)</span>=열리다(자동사) / <span class="jp">開ける(あける)</span>=열다(타동사) → <span class="jp">開けられる</span>=열리게 되다(열려지다)<br>
+    <span class="jp">切る(きる)</span>=자르다 → <span class="jp">切られる</span>=잘리다 (자르지 자를 수 있다는 뜻이 아니에요! 「切れる」는 가능형/자동사)
+  </div>
+
+  <div class="summary-bar">
+    <b>기억하기 쉬운 암기 팁!</b> 1형: a단→a단+れる(う→わ) / 2형: る제거+られる / 3형: する→される, 来る→来られる<br>
+    행위자(~에/~에 의해)와 'れる'의 형태를 정확히!
+  </div>
+</main>
+</body>
+</html>

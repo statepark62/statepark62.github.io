@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 방향 표현</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; text-align:center; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; border-bottom:1px solid var(--line); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1050px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13px; }
+  .icon-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+  @media(min-width:700px){ .icon-grid{grid-template-columns:repeat(4,1fr);} }
+  .icon-grid .w{ border:1px solid var(--line); border-radius:8px; padding:8px; background:var(--paper); font-size:12px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .ex-list{ display:flex; flex-direction:column; gap:6px; margin-top:8px; align-items:center; }
+  .ex-list .ex{ font-size:12.5px; background:var(--paper); border:1px dashed var(--line); border-radius:8px; padding:7px 10px; width:100%; max-width:460px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 방향 표현</h1>
+  <p class="sub">길을 물을 때, 위치를 설명할 때 유용해요! (일본어는 화자 기준(시점)에 따라 방향이 정해져요)</p>
+</header>
+<main>
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">1. 동서남북 (4방향)</div>
+    <div class="ic-body">
+      <div class="icon-grid">
+        <div class="w"><span class="jp">北(きた)</span><div>키타 (북)</div></div>
+        <div class="w"><span class="jp">南(みなみ)</span><div>미나미 (남)</div></div>
+        <div class="w"><span class="jp">東(ひがし)</span><div>히가시 (동)</div></div>
+        <div class="w"><span class="jp">西(にし)</span><div>니시 (서)</div></div>
+        <div class="w"><span class="jp">北東(ほくとう)</span><div>호쿠토- (북동쪽)</div></div>
+        <div class="w"><span class="jp">南東(なんとう)</span><div>난토- (남동쪽)</div></div>
+        <div class="w"><span class="jp">南西(なんせい)</span><div>난세- (남서쪽)</div></div>
+        <div class="w"><span class="jp">北西(ほくせい)</span><div>호쿠세- (북서쪽)</div></div>
+      </div>
+      <div class="ex-list"><div class="ex jp">駅は私の家の東にあります。<div style="font-family:'Noto Sans KR';color:var(--sub);">(역은 제 집의 동쪽에 있습니다.)</div></div></div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">2. 오른쪽·왼쪽</div>
+    <div class="ic-body">
+      <div class="icon-grid">
+        <div class="w"><span class="jp">左(ひだり)</span><div>히다리 (왼쪽)</div></div>
+        <div class="w"><span class="jp">右(みぎ)</span><div>미기 (오른쪽)</div></div>
+        <div class="w"><span class="jp">~の左側</span><div>~의 왼쪽 옆</div></div>
+        <div class="w"><span class="jp">~の右側</span><div>~의 오른쪽 옆</div></div>
+      </div>
+      <div class="ex-list">
+        <div class="ex jp">私の左にあります。<div style="font-family:'Noto Sans KR';color:var(--sub);">(제 왼쪽에 있습니다.)</div></div>
+        <div class="ex jp">私の右にあります。<div style="font-family:'Noto Sans KR';color:var(--sub);">(제 오른쪽에 있습니다.)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9622A">
+    <div class="ic-head">3. 위·아래</div>
+    <div class="ic-body">
+      <div class="icon-grid">
+        <div class="w"><span class="jp">上(うえ)</span><div>우에 (위)</div></div>
+        <div class="w"><span class="jp">下(した)</span><div>시타 (아래)</div></div>
+      </div>
+      <div class="ex-list">
+        <div class="ex jp">テーブルの上に本があります。<div style="font-family:'Noto Sans KR';color:var(--sub);">(테이블 위에 책이 있습니다.)</div></div>
+        <div class="ex jp">テーブルの下に猫がいます。<div style="font-family:'Noto Sans KR';color:var(--sub);">(테이블 아래에 고양이가 있어요.)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">4. 옆·근처</div>
+    <div class="ic-body">
+      <div class="icon-grid">
+        <div class="w"><span class="jp">横(よこ)</span><div>요코 (옆)</div></div>
+        <div class="w"><span class="jp">近く(ちかく)</span><div>치카쿠 (근처,가까이)</div></div>
+        <div class="w"><span class="jp">~のとなり</span><div>~옆에</div></div>
+        <div class="w"><span class="jp">~の近く</span><div>~근처에</div></div>
+      </div>
+      <div class="ex-list">
+        <div class="ex jp">木は家のよこにあります。<div style="font-family:'Noto Sans KR';color:var(--sub);">(나무는 집 옆에 있습니다.)</div></div>
+        <div class="ex jp">駅の近くにコンビニがあります。<div style="font-family:'Noto Sans KR';color:var(--sub);">(역 근처에 편의점이 있어요.)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#6A4C93">
+    <div class="ic-head">5. 기타 자주 쓰는 방향 표현</div>
+    <div class="ic-body">
+      <div class="icon-grid">
+        <div class="w"><span class="jp">前(まえ)</span><div>앞</div></div>
+        <div class="w"><span class="jp">後ろ(うしろ)</span><div>뒤</div></div>
+        <div class="w"><span class="jp">中(なか)</span><div>안(안쪽)</div></div>
+        <div class="w"><span class="jp">外(そと)</span><div>밖(바깥쪽)</div></div>
+        <div class="w"><span class="jp">上側(うえがわ)</span><div>위쪽,위로</div></div>
+        <div class="w"><span class="jp">下側(したがわ)</span><div>아래쪽,아래로</div></div>
+        <div class="w"><span class="jp">反対側(はんたいがわ)</span><div>반대쪽</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">💡 화자의 위치(시점)를 기준으로 표현해요! · 지도를 보며 연습하면 더 쉬워져요!</div>
+
+  <div class="summary-bar">
+    핵심 정리: 동서남북 / 오른쪽·왼쪽 / 위·아래 / 옆·근처 / 기타 방향 표현
+  </div>
+</main>
+</body>
+</html>

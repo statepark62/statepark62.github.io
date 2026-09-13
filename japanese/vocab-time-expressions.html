@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 시간대 표현</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; text-align:center; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; border-bottom:1px solid var(--line); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1050px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin:0 auto; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .ex-list{ display:flex; flex-direction:column; gap:6px; margin-top:8px; align-items:center; }
+  .ex-list .ex{ font-size:12.5px; background:var(--paper); border:1px dashed var(--line); border-radius:8px; padding:7px 10px; width:100%; max-width:460px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 시간대 표현</h1>
+  <p class="sub">하루의 시간을 일본어로 말해보세요! (시간대는 상황에 따라 자연스럽게 사용해요)</p>
+</header>
+<main>
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">시간대별 표현</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>시간대</th><th>일본어</th><th>읽는 법</th><th>대략적인 시간</th></tr>
+        <tr><td>새벽</td><td class="jp">明け方</td><td>아케가타</td><td>0:00~6:00</td></tr>
+        <tr><td>아침</td><td class="jp">朝</td><td>아사</td><td>6:00~10:00</td></tr>
+        <tr><td>점심(낮)</td><td class="jp">昼</td><td>히루</td><td>10:00~14:00</td></tr>
+        <tr><td>저녁</td><td class="jp">夕方</td><td>유우가타</td><td>14:00~18:00</td></tr>
+        <tr><td>밤</td><td class="jp">夜</td><td>요루</td><td>18:00~22:00</td></tr>
+        <tr><td>한밤중</td><td class="jp">夜中</td><td>요나카</td><td>22:00~24:00</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">참고! 비슷한 표현</div>
+    <div class="ic-body">
+      <div class="ex-list">
+        <div class="ex jp">夜明け(よあけ): 해가 막 떠오를 때, 여명</div>
+        <div class="ex jp">明け方(あけがた): 새벽녘, 동트기 전 무렵</div>
+        <div class="ex jp">午前中(ごぜんちゅう): 오전 중(12:00 전까지)</div>
+        <div class="ex jp">午後(ごご): 오후(12:00~18:00)</div>
+        <div class="ex jp">夜遅く(よおそく): 늦은 밤</div>
+        <div class="ex jp">深夜(しんや): 심야(0:00~)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9622A">
+    <div class="ic-head">예문</div>
+    <div class="ic-body">
+      <div class="ex-list">
+        <div class="ex jp">今日は朝早く起きました。<div style="color:var(--sub);font-family:'Noto Sans KR';font-size:11.5px;">(오늘은 아침 일찍 일어났어요.)</div></div>
+        <div class="ex jp">昼ごはんを友達と食べます。<div style="color:var(--sub);font-family:'Noto Sans KR';font-size:11.5px;">(점심을 친구와 먹어요.)</div></div>
+        <div class="ex jp">夕方は散歩をします。<div style="color:var(--sub);font-family:'Noto Sans KR';font-size:11.5px;">(저녁 무렵에 산책을 해요.)</div></div>
+        <div class="ex jp">夜はテレビを見て過ごします。<div style="color:var(--sub);font-family:'Noto Sans KR';font-size:11.5px;">(밤에는 TV를 보며 보내요.)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    ⭐ 朝(あさ)=아침 · 昼(ひる)=낮,점심 무렵 · 夜(よる)=밤 · 夜中(よなか)=한밤중 · 明け方(あけがた)=새벽녘<br>
+    기본 질문: 何時ですか？(난지 데스까?) 몇 시에요? / いつですか？(이츠 데스까?) 언제예요? / 今は何時ですか？(이마 난지 데스까?) 지금 몇 시에요?
+  </div>
+
+  <div class="summary-bar">
+    상황에 맞게 사용하면 더 자연스러워져요! 다양한 표현을 익혀서 일본어 회화에 활용해 보세요.
+  </div>
+</main>
+</body>
+</html>

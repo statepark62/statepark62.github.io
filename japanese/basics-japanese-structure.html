@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어의 구성 및 구조</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+
+  header{ padding:36px 20px 22px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(228,87,46,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(22px,5.5vw,30px); font-weight:900; letter-spacing:-0.02em; }
+  header p.sub{ margin:10px auto 0; max-width:560px; color:var(--sub); font-size:13.5px; }
+
+  .speech-row{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; max-width:900px; margin:16px auto 0; padding:0 16px; }
+  .speech{ background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:10px 16px; font-size:13px; color:var(--ink); max-width:320px; }
+
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:18px;}
+
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14.5px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; color:var(--ink); }
+  .info-card .ic-body p{ margin:0 0 10px; }
+  .two-col{ display:grid; grid-template-columns:1fr; gap:14px; }
+  @media(min-width:700px){ .two-col{ grid-template-columns:1fr 1fr; } }
+
+  table.mini{ width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 8px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-weight:700; font-size:12px; }
+  table.mini .jp{ font-weight:600; }
+
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+
+  .noun-list{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:8px; }
+  .noun-list .n-item{ background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:8px 10px; font-size:13px; display:flex; align-items:center; gap:8px; }
+  .noun-list .n-item .icon{ font-size:18px; }
+
+  ol.feature-list{ margin:0; padding-left:20px; font-size:13.5px; }
+  ol.feature-list li{ margin-bottom:10px; }
+  ol.feature-list .ex{ display:block; font-size:12px; color:var(--sub); margin-top:2px; }
+
+  .compare-table{ width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  .compare-table th, .compare-table td{ border:1px solid var(--line); padding:8px 10px; }
+  .compare-table th{ background:var(--paper); font-weight:700; color:var(--sub); }
+  .compare-table td:first-child{ font-weight:700; background:#fafaf7; }
+
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:16px 20px; font-size:14px; text-align:center; line-height:1.6; }
+  .quote-box{ background:linear-gradient(135deg,#FFF3E0,#FDEBEB); border-radius:12px; padding:16px 20px; text-align:center; font-size:14.5px; font-weight:700; color:#7a3a2a; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>일본어의 구성 및 구조 <span style="color:#D9622A">— 동사·형용사·명사 관점에서 정리</span></h1>
+</header>
+
+<div class="speech-row">
+  <div class="speech">일본어는 <b>'문장 뒤쪽'</b>이 가장 중요한 언어입니다.</div>
+  <div class="speech">일본어는 <b>끝까지</b> 들어야 의미가 완성됩니다.</div>
+</div>
+
+<main>
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">1. 일본어 문장의 기본 구조</div>
+    <div class="ic-body">
+      <p>가장 기본 구조는 다음과 같습니다.</p>
+      <p style="text-align:center; font-size:14px;"><b style="color:#2A5CAA">주어</b> + <b style="color:#3C8C7B">목적어</b> + <b style="color:#C1666B">동사</b></p>
+      <p class="jp" style="text-align:center;">わたしは りんごを たべます。<span style="font-family:'Noto Sans KR';font-size:12px;color:var(--sub);">(저는 사과를 먹습니다.)</span></p>
+      <div class="noun-list">
+        <div class="n-item">🔵 <span><b>주어(は)</b>: 문장의 주제를 나타냄</span></div>
+        <div class="n-item">🟢 <span><b>목적어(を)</b>: 행동의 대상이 되는 것</span></div>
+        <div class="n-item">🔴 <span><b>동사(ます)</b>: 문장의 의미를 마무리</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">2. 일본어 동사의 기본 활용</div>
+    <div class="ic-body">
+      <p>일본어 동사는 활용 형태가 정해져 있습니다.</p>
+      <table class="mini">
+        <tr><th>기본형</th><th>~ます형</th></tr>
+        <tr><td class="jp">たべる</td><td class="jp">たべます</td></tr>
+        <tr><td class="jp">のむ</td><td class="jp">のみます</td></tr>
+        <tr><td class="jp">いく</td><td class="jp">いきます</td></tr>
+      </table>
+      <div class="tip-box">💡 동사의 활용을 익히면 표현이 쉬워집니다!</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9622A">
+    <div class="ic-head">3. 일본어 형용사의 구조</div>
+    <div class="ic-body">
+      <p><b>① い형용사</b></p>
+      <table class="mini">
+        <tr><th>기본형</th><th>~い</th><th>~くない</th></tr>
+        <tr><td class="jp">あつい</td><td class="jp">あつい</td><td class="jp">あつくない</td></tr>
+        <tr><td class="jp">さむい</td><td class="jp">さむい</td><td class="jp">さむくない</td></tr>
+      </table>
+      <p style="margin-top:12px;"><b>② な형용사</b></p>
+      <table class="mini">
+        <tr><th>기본형</th><th>~だ</th><th>~じゃない</th></tr>
+        <tr><td class="jp">しずかだ</td><td class="jp">しずかだ</td><td class="jp">しずかじゃない</td></tr>
+        <tr><td class="jp">べんりだ</td><td class="jp">べんりだ</td><td class="jp">べんりじゃない</td></tr>
+      </table>
+      <div class="tip-box">💡 형용사는 명사 앞에 위치해 명사를 설명합니다.</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">4. 일본어 명사의 구조</div>
+    <div class="ic-body">
+      <p>명사는 사물, 사람, 장소 등의 이름을 나타냅니다.</p>
+      <div class="noun-list">
+        <div class="n-item"><span class="icon">📖</span> <span class="jp">ほん</span> (책)</div>
+        <div class="n-item"><span class="icon">🚗</span> <span class="jp">くるま</span> (자동차)</div>
+        <div class="n-item"><span class="icon">🏫</span> <span class="jp">がっこう</span> (학교)</div>
+        <div class="n-item"><span class="icon">🧑‍🤝‍🧑</span> <span class="jp">ともだち</span> (친구)</div>
+      </div>
+      <div class="tip-box">💡 명사는 조사와 함께 문장에서 사용됩니다.</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#6A4C93">
+    <div class="ic-head">5. 조사: 핵심 연결 장치</div>
+    <div class="ic-body">
+      <p>조사는 단어와 단어, 단어와 문장을 연결합니다.</p>
+      <table class="mini">
+        <tr><th>조사</th><th>역할</th><th>예시</th></tr>
+        <tr><td class="jp">は</td><td>주제</td><td class="jp">わたしは がくせいです。</td></tr>
+        <tr><td class="jp">を</td><td>목적어</td><td class="jp">りんごを たべます。</td></tr>
+        <tr><td class="jp">に</td><td>방향·시간</td><td class="jp">がっこうに いきます。</td></tr>
+        <tr><td class="jp">で</td><td>장소·수단</td><td class="jp">くるまで いきます。</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#1c2b45">
+    <div class="ic-head">6. 일본어 문장의 특징</div>
+    <div class="ic-body">
+      <ol class="feature-list">
+        <li><b>끝까지 들어야 의미가 완성된다</b><span class="ex jp">예) きょうは… ちょっと… それは… → 끝에 의미!</span></li>
+        <li><b>주어를 자주 생략한다</b><span class="ex jp">예) たべました。<span style="font-family:'Noto Sans KR';">(저는 먹었습니다.)</span></span></li>
+        <li><b>관계를 조사로 표현한다</b><span class="ex jp">예) ともだちと いきます。<span style="font-family:'Noto Sans KR';">(친구와 갑니다.)</span></span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">7. 한국어와 일본어 비교</div>
+    <div class="ic-body">
+      <table class="compare-table">
+        <tr><th>항목</th><th>한국어</th><th>일본어</th></tr>
+        <tr><td>기본 어순</td><td>주어–목적어–동사</td><td>주어–목적어–동사</td></tr>
+        <tr><td>조사 사용</td><td>적음</td><td>많음</td></tr>
+        <tr><td>동사 위치</td><td>문장 끝</td><td>문장 끝</td></tr>
+        <tr><td>주어 생략</td><td>드물다</td><td>자주 함</td></tr>
+        <tr><td>관계 표현</td><td>어순 중심</td><td>조사로 표현</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    ✔ 동사 활용을 먼저 익혀 다양한 표현을 만들어 보세요!<br>
+    ✔ 조사와 어순을 이해하면 일본어가 훨씬 쉬워집니다!
+  </div>
+
+  <div class="quote-box">
+    "일본어는 관계를 조절하며 문장을 완성하는 언어이다."
+  </div>
+</main>
+
+</body>
+</html>

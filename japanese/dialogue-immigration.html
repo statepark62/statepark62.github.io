@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본 입국 과정 &amp; 자주 쓰는 대화</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; text-align:center; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; border-bottom:1px solid var(--line); }
+  header h1{ margin:0; font-size:clamp(19px,4.6vw,25px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1100px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .four-col{ display:grid; grid-template-columns:1fr; gap:12px; }
+  @media(min-width:900px){ .four-col{ grid-template-columns:repeat(4,1fr);} }
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:13.5px; padding:10px 12px; }
+  .info-card .ic-body{ padding:10px; font-size:12px; }
+  .dline{ text-align:left; margin-bottom:8px; padding-bottom:8px; border-bottom:1px dashed var(--line); }
+  .dline:last-child{ border-bottom:none; margin-bottom:0; }
+  .dline .who{ font-size:10.5px; font-weight:700; color:var(--accent); }
+  .dline .jp{ font-size:12.5px; font-weight:600; }
+  .dline .romaji{ font-size:10.5px; color:#9c927a; font-style:italic; }
+  .dline .kr{ font-size:11px; color:var(--sub); }
+  .chip-list{ display:flex; flex-direction:column; gap:6px; margin-top:8px; align-items:center; }
+  .chip-list .c{ font-size:11.5px; background:var(--paper); border:1px dashed var(--line); border-radius:8px; padding:6px 9px; width:100%; max-width:340px; text-align:left; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12px; margin:0 auto; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본 입국 과정 & 자주 쓰는 대화</h1>
+  <p class="sub">공항 도착부터 입국까지의 절차와 상황별 표현을 정리했어요!</p>
+</header>
+<main>
+  <div class="four-col">
+    <div class="info-card" style="--accent:#2A5CAA">
+      <div class="ic-head">① 입국 심사 (여권 심사)</div>
+      <div class="ic-body">
+        <div class="dline"><div class="who">심사관</div><div class="jp">パスポートを見せてください。</div><div class="romaji">pasupooto wo misete kudasai.</div><div class="kr">여권을 보여주세요.</div></div>
+        <div class="dline"><div class="who">여행자</div><div class="jp">はい、どうぞ。</div><div class="romaji">hai, douzo.</div><div class="kr">네, 여기 있습니다.</div></div>
+        <div class="dline"><div class="who">심사관</div><div class="jp">日本の滞在目的は？</div><div class="romaji">nihon no taizai mokuteki wa?</div><div class="kr">입국 목적은 무엇인가요?</div></div>
+        <div class="dline"><div class="who">여행자</div><div class="jp">観光です。</div><div class="romaji">kankou desu.</div><div class="kr">관광입니다.</div></div>
+        <div class="dline"><div class="who">심사관</div><div class="jp">何日間の滞在ですか？</div><div class="romaji">nan nichikan no taizai desu ka?</div><div class="kr">며칠간 체재하나요?</div></div>
+        <div class="dline"><div class="who">여행자</div><div class="jp">5日間です。</div><div class="romaji">itsuka kan desu.</div><div class="kr">5일간입니다.</div></div>
+        <div class="dline"><div class="who">심사관</div><div class="jp">よい旅を！</div><div class="romaji">yoi tabi wo!</div><div class="kr">좋은 여행 되세요!</div></div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#3C8C7B">
+      <div class="ic-head">② 세관 신고 (수하물 검사)</div>
+      <div class="ic-body">
+        <div class="dline"><div class="who">세관직원</div><div class="jp">申告するものはありますか？</div><div class="romaji">shinkoku suru mono wa arimasu ka?</div><div class="kr">신고할 물건이 있나요?</div></div>
+        <div class="dline"><div class="who">여행자</div><div class="jp">いいえ、ありません。</div><div class="romaji">iie, arimasen.</div><div class="kr">아니요, 없습니다.</div></div>
+        <div class="dline"><div class="who">세관직원</div><div class="jp">こちらにサインをお願いします。</div><div class="romaji">kochira ni sain wo onegaishimasu.</div><div class="kr">여기에 서명해 주세요.</div></div>
+        <div class="dline"><div class="who">여행자</div><div class="jp">はい、わかりました。</div><div class="romaji">hai, wakarimashita.</div><div class="kr">네, 알겠습니다.</div></div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#D9622A">
+      <div class="ic-head">③ 수하물 찾기 (짐 찾는 곳)</div>
+      <div class="ic-body">
+        <div class="dline"><div class="who">여행자</div><div class="jp">すみません、このスーツケースは私のですか？</div><div class="romaji">sumimasen, kono suutsukeesu wa watashi no desu ka?</div><div class="kr">죄송한데, 이 캐리어가 제 것인가요?</div></div>
+        <div class="dline"><div class="who">공항직원</div><div class="jp">はい、タグを確認してください。</div><div class="romaji">hai, tagu wo kakunin shite kudasai.</div><div class="kr">네, 태그를 확인해 주세요.</div></div>
+        <div class="dline"><div class="who">여행자</div><div class="jp">ありがとうございます！</div><div class="romaji">arigatou gozaimasu!</div><div class="kr">감사합니다!</div></div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#C1416B">
+      <div class="ic-head">④ 입국 완료 (공항 밖으로)</div>
+      <div class="ic-body">
+        <div class="dline"><div class="who">여행자</div><div class="jp">出口はどこですか？</div><div class="romaji">deguchi wa doko desu ka?</div><div class="kr">출구는 어디인가요?</div></div>
+        <div class="dline"><div class="who">공항직원</div><div class="jp">まっすぐ行って、右にあります。</div><div class="romaji">massugu itte, migi ni arimasu.</div><div class="kr">직진하신 후 오른쪽에 있습니다.</div></div>
+        <div class="dline"><div class="who">여행자</div><div class="jp">ありがとうございます！</div><div class="romaji">arigatou gozaimasu!</div><div class="kr">감사합니다!</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#6A4C93">
+    <div class="ic-head">자주 쓰는 표현</div>
+    <div class="ic-body">
+      <div class="chip-list">
+        <div class="c jp">パスポートを見せてください。 <span style="color:var(--sub);font-family:'Noto Sans KR';">— 여권을 보여주세요.</span></div>
+        <div class="c jp">日本の滞在目的は？ <span style="color:var(--sub);font-family:'Noto Sans KR';">— 입국 목적은 무엇인가요?</span></div>
+        <div class="c jp">何日間の滞在ですか？ <span style="color:var(--sub);font-family:'Noto Sans KR';">— 며칠간 체류하나요?</span></div>
+        <div class="c jp">申告するものはありますか？ <span style="color:var(--sub);font-family:'Noto Sans KR';">— 신고할 물건이 있나요?</span></div>
+        <div class="c jp">出口はどこですか？ <span style="color:var(--sub);font-family:'Noto Sans KR';">— 출구는 어디인가요?</span></div>
+        <div class="c jp">ありがとうございます！ <span style="color:var(--sub);font-family:'Noto Sans KR';">— 감사합니다!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3B6EA5">
+    <div class="ic-head">예상 질문 & 답변 정리</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>질문(일본어)</th><th>답변 예시(일본어)</th></tr>
+        <tr><td class="jp">日本の滞在目的は？</td><td class="jp">観光です。</td></tr>
+        <tr><td class="jp">何日間の滞在ですか？</td><td class="jp">5日間です。</td></tr>
+        <tr><td class="jp">どこに泊まりますか？</td><td class="jp">ホテルに泊まります。</td></tr>
+        <tr><td class="jp">いくら持っていますか？</td><td class="jp">〇〇円です。</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    ✔ 입국 카드(ED 카드)는 기내에서 작성해 두면 더 빨리 입국 심사를 받을 수 있어요.<br>
+    ✔ 세관 신고가 필요한 물건이 있다면 "はい、あります。(하이, 아리마스)"라고 솔직하게 말하세요.<br>
+    ✔ Wi-Fi, 교통패스, 환전 등은 공항 내 안내 데스크에서 도움을 받을 수 있어요.
+  </div>
+
+  <div class="summary-bar">
+    💡 모르는 경우에는 「すみません(스미마셍)」이라고 말하면 친절하게 도와줘요!
+  </div>
+</main>
+</body>
+</html>

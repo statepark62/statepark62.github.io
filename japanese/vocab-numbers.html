@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 숫자 읽기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; text-align:center; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(217,98,42,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; }
+  .four-col{ display:grid; grid-template-columns:1fr; gap:12px; }
+  @media(min-width:900px){ .four-col{ grid-template-columns:repeat(4,1fr);} }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin:0 auto; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .warn-box{ margin-top:10px; font-size:12.5px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:8px 11px; color:#7a3a3a; }
+  .ex-list{ display:flex; flex-direction:column; gap:6px; margin-top:8px; align-items:center; }
+  .ex-list .ex{ font-size:12.5px; background:var(--paper); border:1px dashed var(--line); border-radius:8px; padding:7px 10px; width:100%; max-width:420px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 숫자 읽기 (히라가나)</h1>
+  <p class="sub">길을 묻거나, 가격을 말할 때 꼭 필요한 숫자! 정확하게 익혀보세요!</p>
+</header>
+<main>
+  <div class="tip-box">💡 숫자 뒤에는 '~반(ばん)'을 붙여 순서를 나타내요!</div>
+
+  <div class="four-col">
+    <div class="info-card" style="--accent:#2A5CAA">
+      <div class="ic-head">1. 0~10</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>숫자</th><th>히라가나</th></tr>
+          <tr><td>0</td><td class="jp">れい</td></tr><tr><td>1</td><td class="jp">いち</td></tr>
+          <tr><td>2</td><td class="jp">に</td></tr><tr><td>3</td><td class="jp">さん</td></tr>
+          <tr><td>4</td><td class="jp">よん / し</td></tr><tr><td>5</td><td class="jp">ご</td></tr>
+          <tr><td>6</td><td class="jp">ろく</td></tr><tr><td>7</td><td class="jp">なな / しち</td></tr>
+          <tr><td>8</td><td class="jp">はち</td></tr><tr><td>9</td><td class="jp">きゅう / く</td></tr>
+          <tr><td>10</td><td class="jp">じゅう</td></tr>
+        </table>
+        <div class="tip-box">예시: 3番(さんばん), 5時(ごじ), 7個(ななつ), 10階(じゅっかい)</div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#3C8C7B">
+      <div class="ic-head">2. 11~19</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>숫자</th><th>히라가나</th></tr>
+          <tr><td>11</td><td class="jp">じゅういち</td></tr><tr><td>12</td><td class="jp">じゅうに</td></tr>
+          <tr><td>13</td><td class="jp">じゅうさん</td></tr><tr><td>14</td><td class="jp">じゅうよん</td></tr>
+          <tr><td>15</td><td class="jp">じゅうご</td></tr><tr><td>16</td><td class="jp">じゅうろく</td></tr>
+          <tr><td>17</td><td class="jp">じゅうなな</td></tr><tr><td>18</td><td class="jp">じゅうはち</td></tr>
+          <tr><td>19</td><td class="jp">じゅうきゅう</td></tr>
+        </table>
+        <div class="tip-box">예시: 12時(じゅうにじ), 15分(じゅうごふん), 19個(じゅうきゅうこ)</div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#D9622A">
+      <div class="ic-head">3. 20~99 (십의 자리 수)</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>숫자</th><th>히라가나</th></tr>
+          <tr><td>20</td><td class="jp">にじゅう</td></tr><tr><td>30</td><td class="jp">さんじゅう</td></tr>
+          <tr><td>40</td><td class="jp">よんじゅう</td></tr><tr><td>50</td><td class="jp">ごじゅう</td></tr>
+          <tr><td>60</td><td class="jp">ろくじゅう</td></tr><tr><td>70</td><td class="jp">ななじゅう</td></tr>
+          <tr><td>80</td><td class="jp">はちじゅう</td></tr><tr><td>90</td><td class="jp">きゅうじゅう</td></tr>
+        </table>
+        <div class="tip-box">예시: 20分(にじゅうふん), 35살(さんじゅうごさい), 80엔(はちじゅうえん)</div>
+        <div class="warn-box">⚠️ ~じゅう 앞의 숫자 읽기는 0~10과 달라요!</div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#C1416B">
+      <div class="ic-head">4. 큰 숫자</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>숫자</th><th>히라가나</th></tr>
+          <tr><td>100</td><td class="jp">ひゃく</td></tr><tr><td>1,000</td><td class="jp">せん</td></tr>
+          <tr><td>10,000</td><td class="jp">いちまん</td></tr><tr><td>100,000</td><td class="jp">じゅうまん</td></tr>
+          <tr><td>1,000,000</td><td class="jp">ひゃくまん</td></tr><tr><td>100,000,000</td><td class="jp">いちおく</td></tr>
+        </table>
+        <div class="tip-box">예시: 300엔(さんびゃくえん), 2,000엔(にせんえん), 1억(いちおく)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3B6EA5">
+    <div class="ic-head">6. 4, 7, 9 읽는 법</div>
+    <div class="ic-body">
+      <p>4, 7, 9는 상황에 따라 두 가지로 읽어요.</p>
+      <div class="ex-list">
+        <div class="ex jp">4 → よん(し) 예) よんじゅう(40)</div>
+        <div class="ex jp">7 → なな(しち) 예) ななじゅう(70)</div>
+        <div class="ex jp">9 → きゅう(く) 예) きゅうじゅう(90)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#8A9A5B">
+    <div class="ic-head">7. 사용 예문</div>
+    <div class="ic-body">
+      <div class="ex-list">
+        <div class="ex jp">3時(さんじ)は どこですか？<div style="color:var(--sub);font-family:'Noto Sans KR';font-size:11.5px;">(3시는 어디인가요?)</div></div>
+        <div class="ex jp">次の駅は新宿(しんじゅく)です。<div style="color:var(--sub);font-family:'Noto Sans KR';font-size:11.5px;">(다음 역은 신주쿠입니다.)</div></div>
+        <div class="ex jp">電話番号は 090-1234-5678です。</div>
+        <div class="ex jp">ここは 7時(しちじ)です。<div style="color:var(--sub);font-family:'Noto Sans KR';font-size:11.5px;">(여기는 7시입니다.)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    ✔ 숫자 뒤에 '~반(ばん)'을 붙여 순서를 나타내요! ✔ 처음에는 큰소리로 읽으며 익혀 보세요!
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어와 한국어의 구조 비교</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+
+  header{ padding:36px 20px 22px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(60,140,123,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(22px,5.5vw,30px); font-weight:900; letter-spacing:-0.02em; }
+  header p.sub{ margin:10px auto 0; max-width:560px; color:var(--sub); font-size:13.5px; }
+
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:18px;}
+
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14.5px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; color:var(--ink); }
+
+  .lang-pair{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
+  .lang-col{ border:1px solid var(--line); border-radius:10px; padding:10px; }
+  .lang-col .tag{ display:inline-block; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:999px; margin-bottom:8px; }
+  .lang-col.jp-col .tag{ background:#EAF1FB; color:#2A5CAA; }
+  .lang-col.kr-col .tag{ background:#EAF6EE; color:#2E7D4F; }
+  .word-row{ display:flex; gap:6px; font-size:13px; flex-wrap:wrap; }
+  .word-row .w{ background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:5px 8px; text-align:center; }
+  .word-row .w .role{ display:block; font-size:10px; color:var(--sub); margin-top:2px; }
+
+  table.compare-table{ width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  table.compare-table th, table.compare-table td{ border:1px solid var(--line); padding:8px 10px; text-align:center; }
+  table.compare-table th{ background:var(--paper); font-weight:700; color:var(--sub); }
+
+  .verb-compare{ display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+  .verb-compare .row{ display:flex; align-items:center; gap:10px; font-size:13px; }
+  .verb-compare .tag{ font-size:11px; font-weight:700; padding:2px 9px; border-radius:999px; flex:0 0 auto; }
+  .verb-compare .jp-tag{ background:#EAF1FB; color:#2A5CAA; }
+  .verb-compare .kr-tag{ background:#EAF6EE; color:#2E7D4F; }
+
+  .diff-pair{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
+  .diff-pair .box{ border:1px solid var(--line); border-radius:10px; padding:10px; font-size:13px; }
+
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#EAF1FB; border:1px solid #C9DBF2; border-radius:8px; padding:8px 11px; color:#2A5CAA; text-align:center; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:16px 20px; font-size:14px; text-align:center; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>일본어와 한국어의 구조 비교</h1>
+  <p class="sub">비슷한 점과 다른 점을 한눈에 이해하기</p>
+</header>
+
+<main>
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">1. 기본 어순</div>
+    <div class="ic-body">
+      <div class="lang-pair">
+        <div class="lang-col jp-col">
+          <span class="tag">일본어</span>
+          <div class="word-row">
+            <div class="w jp">私は<span class="role">주어</span></div>
+            <div class="w jp">りんごを<span class="role">목적어</span></div>
+            <div class="w jp">食べます<span class="role">서술어</span></div>
+          </div>
+        </div>
+        <div class="lang-col kr-col">
+          <span class="tag">한국어</span>
+          <div class="word-row">
+            <div class="w">저는<span class="role">주어</span></div>
+            <div class="w">사과를<span class="role">목적어</span></div>
+            <div class="w">먹습니다<span class="role">서술어</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="tip-box">✔ 두 언어 모두 기본적으로 SOV(주어-목적어-서술어) 구조</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9A441">
+    <div class="ic-head">2. 조사 사용</div>
+    <div class="ic-body">
+      <table class="compare-table">
+        <tr><th>일본어</th><th>한국어</th></tr>
+        <tr><td class="jp">は, が, を, に</td><td>은/는, 이/가, 을/를, 에</td></tr>
+      </table>
+      <div class="tip-box">💡 명사 뒤에 붙어 문장 속 역할을 나타냄</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#6A4C93">
+    <div class="ic-head">3. 동사는 문장 끝에</div>
+    <div class="ic-body">
+      <p style="font-size:12.5px;color:var(--sub);margin:0 0 6px;">시제·높임·부정 표현이 문장 끝 동사에 집중</p>
+      <div class="verb-compare">
+        <div class="row"><span class="tag jp-tag">일본어</span><span class="jp">食べる / 食べました / 食べません</span></div>
+        <div class="row"><span class="tag kr-tag">한국어</span><span>먹다 / 먹었습니다 / 먹지 않습니다</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">4. 주어 생략</div>
+    <div class="ic-body">
+      <div class="verb-compare">
+        <div class="row"><span class="tag jp-tag">일본어</span><span class="jp">(私は) 行きます</span></div>
+        <div class="row"><span class="tag kr-tag">한국어</span><span>(저는) 갑니다</span></div>
+      </div>
+      <div class="tip-box">💡 문맥이 분명하면 주어를 자주 생략</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9622A">
+    <div class="ic-head">5. 수식 구조</div>
+    <div class="ic-body">
+      <div class="lang-pair">
+        <div class="lang-col jp-col">
+          <span class="tag">일본어</span>
+          <div class="word-row"><div class="w jp">赤い 花</div></div>
+          <div class="word-row" style="margin-top:6px;"><div class="w jp">昨日 読んだ 本</div></div>
+        </div>
+        <div class="lang-col kr-col">
+          <span class="tag">한국어</span>
+          <div class="word-row"><div class="w">빨간 꽃</div></div>
+          <div class="word-row" style="margin-top:6px;"><div class="w">어제 읽은 책</div></div>
+        </div>
+      </div>
+      <div class="tip-box">⭐ 수식어가 꾸밈을 받는 말 앞에 옴</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">6. 중요한 차이</div>
+    <div class="ic-body">
+      <div class="diff-pair">
+        <div class="box">
+          <b style="color:#C1416B;">일본어</b>
+          <ul style="margin:6px 0 0; padding-left:18px;">
+            <li>문자: 한자 + 히라가나 + 가타카나</li>
+            <li>음절보다 '모라' 리듬이 중요</li>
+            <li>경어 체계가 매우 발달</li>
+          </ul>
+        </div>
+        <div class="box">
+          <b style="color:#2E7D4F;">한국어</b>
+          <ul style="margin:6px 0 0; padding-left:18px;">
+            <li>문자: 한글 중심</li>
+            <li>음절 블록이 뚜렷함</li>
+            <li>높임 표현과 종결어미가 발달</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <b>핵심 정리</b>: 일본어와 한국어는 어순과 조사 사용 등에서 매우 비슷하지만,<br>
+    문자 체계와 발음 단위, 표현 방식에는 차이가 있다.
+  </div>
+</main>
+
+</body>
+</html>

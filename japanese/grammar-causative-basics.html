@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 동사의 종류별 사역형 만들기 — 원리편</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(217,98,42,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(59,110,165,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .rule3{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .rule3 .r{ flex:1 1 260px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:12.5px; }
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .warn-box{ margin-top:10px; font-size:12.5px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:8px 11px; color:#7a3a3a; }
+  .three-col{ display:grid; grid-template-columns:1fr; gap:12px; }
+  @media(min-width:820px){ .three-col{ grid-template-columns:repeat(3,1fr);} }
+  .struct-row{ display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; font-size:13px; margin-top:8px; }
+  .struct-chip{ border:1px solid var(--line); border-radius:8px; padding:6px 10px; background:var(--paper); }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 동사의 종류별 사역형 만들기 <span style="color:#D9622A">① 원리편</span></h1>
+  <p class="sub">동사를 ① 1형 · ② 2형 · ③ 3형으로 구분하면 사역형을 쉽고 정확하게 만들 수 있어요!</p>
+</header>
+<main>
+  <div class="rule3">
+    <div class="r"><b>① 1형 동사</b>: 어미를 'あ단'으로 바꾸고 'せる'를 붙인다. (단, う→わ)</div>
+    <div class="r"><b>② 2형 동사</b>: 'る'를 떼고 'させる'를 붙인다.</div>
+    <div class="r"><b>③ 3형 동사</b>: 특별한 형태이므로 그대로 외운다.</div>
+  </div>
+
+  <div class="three-col">
+    <div class="info-card" style="--accent:#2A5CAA">
+      <div class="ic-head">① 1형 동사 (五段動詞)</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>사전형</th><th>사역형</th><th>의미</th></tr>
+          <tr><td class="jp">書く</td><td class="jp">書かせる</td><td>쓰게 하다</td></tr>
+          <tr><td class="jp">読む</td><td class="jp">読ませる</td><td>읽게 하다</td></tr>
+          <tr><td class="jp">話す</td><td class="jp">話させる</td><td>말하게 하다</td></tr>
+          <tr><td class="jp">買う</td><td class="jp">買わせる</td><td>사게 하다 (う→わ)</td></tr>
+          <tr><td class="jp">待つ</td><td class="jp">待たせる</td><td>기다리게 하다</td></tr>
+          <tr><td class="jp">遊ぶ</td><td class="jp">遊ばせる</td><td>놀게 하다</td></tr>
+        </table>
+        <div class="tip-box">✔ 'せる' 앞의 모음이 '아'가 되도록 만들어요! ('う'로 끝나는 동사는 '와'로 바뀜: 買う→買わせる)</div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#3C8C7B">
+      <div class="ic-head">② 2형 동사 (一段動詞)</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>사전형</th><th>사역형</th><th>의미</th></tr>
+          <tr><td class="jp">食べる</td><td class="jp">食べさせる</td><td>먹게 하다/시키다</td></tr>
+          <tr><td class="jp">見る</td><td class="jp">見させる</td><td>보게 하다</td></tr>
+          <tr><td class="jp">起きる</td><td class="jp">起きさせる</td><td>일어나게 하다</td></tr>
+          <tr><td class="jp">寝る</td><td class="jp">寝させる</td><td>재우게 하다</td></tr>
+          <tr><td class="jp">借りる</td><td class="jp">借りさせる</td><td>빌리게 하다</td></tr>
+          <tr><td class="jp">閉める</td><td class="jp">閉めさせる</td><td>닫게 하다</td></tr>
+        </table>
+        <div class="tip-box">✔ 2형 동사는 항상 'る'를 떼고 'させる'를 붙여요! 예) 食べる→食べさせる 見る→見させる</div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#C1416B">
+      <div class="ic-head">③ 3형 동사 (サ変・カ変動詞)</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>사전형</th><th>사역형</th><th>의미(예문)</th></tr>
+          <tr><td class="jp">する</td><td class="jp">させる</td><td class="jp">宿題をさせます。(숙제를 시킵니다.)</td></tr>
+          <tr><td class="jp">来る(くる)</td><td class="jp">来させる(こさせる)</td><td class="jp">先生を来させます。(선생님을 오게 합니다.)</td></tr>
+        </table>
+        <div class="tip-box">✔ '来させる'는 존경의 의미로도 자주 사용돼요. 예) 社長を来させました。(사장님을 모셨습니다.)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#6A4C93">
+    <div class="ic-head">사역형의 기본 구조</div>
+    <div class="ic-body">
+      <div class="struct-row">
+        <span class="struct-chip jp">先生が 私を ほめます。</span>
+        <span>→ 사역문으로 바꾸면 →</span>
+        <span class="struct-chip jp">先生が 私に ほめさせます。</span>
+      </div>
+      <p style="text-align:center; font-size:12px; color:var(--sub); margin-top:8px;">능동문(~가 ~를 ~한다)의 동작을 다른 사람에게 시킴·허락함을 나타냅니다.</p>
+    </div>
+  </div>
+
+  <div class="warn-box">⚠️ 주의할 점: 상황에 따라 '강제로 시키다' 또는 '허락하다'의 의미로 사용돼요.<br>
+    예) <span class="jp">母は子どもを遊ばせます。</span> (허락하다/놀게 해준다) — 사역형은 타동사·자동사에 따라 목적어의 조사가 달라져요.
+  </div>
+
+  <div class="summary-bar">
+    <b>암기 팁!</b> ① 1형: 아단 + せる(단, う→わ) ② 2형: 'る' 제거 + させる ③ 3형: する→させる, 来る→来させる<br>
+    조사 사용 기억하기: 타동사 목적어에는 '에(に)', 자동사 목적어에는 '을(を)'
+  </div>
+</main>
+</body>
+</html>

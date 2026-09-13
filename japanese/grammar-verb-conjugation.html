@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한눈에 보는 일본어 동사 활용</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(107,63,160,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(21px,5vw,28px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; }
+  .three-col{ display:grid; grid-template-columns:1fr; gap:12px; }
+  @media(min-width:760px){ .three-col{ grid-template-columns:repeat(3,1fr);} }
+  .group-box{ border:1px solid var(--line); border-radius:10px; padding:11px; }
+  .group-box h4{ margin:0 0 6px; font-size:13.5px; }
+  .group-box p{ margin:0 0 8px; font-size:12px; color:var(--sub); }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+  ol.q-list{ margin:0; padding-left:20px; font-size:13px; }
+  ol.q-list li{ margin-bottom:6px; }
+  .ex-list{ display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+  .ex-list .ex{ font-size:12.5px; background:var(--paper); border:1px dashed var(--line); border-radius:8px; padding:7px 10px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>한눈에 보는 일본어 동사 활용</h1>
+  <p class="sub">동사의 기본형을 알고 형태를 바꾸면 일본어 회화가 쉬워져요!</p>
+</header>
+<main>
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">1. 동사의 3가지 종류</div>
+    <div class="ic-body">
+      <div class="three-col">
+        <div class="group-box"><h4>Ⅰ그룹 (5단 활용)</h4><p>어미가 う·く·す·つ·ぬ·む·ぶ·る 동으로 끝나는 동사</p>예) 書く, 話す, 食べる(×,예외 아님 주의), 飲む</div>
+        <div class="group-box"><h4>Ⅱ그룹 (1단 활용)</h4><p>い·え + る 형태로 끝나는 동사</p>예) 起きる, 見る, 食べる, 入る</div>
+        <div class="group-box"><h4>Ⅲ그룹 (불규칙 활용)</h4><p>する·くる 두 동사만 있어요</p>예) する, くる</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#6A4C93">
+    <div class="ic-head">2. 기본 활용형 (자주 사용)</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>활용형</th><th>Ⅰ그룹(書く)</th><th>Ⅱ그룹(起きる)</th><th>Ⅲ그룹(する)</th><th>Ⅲ그룹(くる)</th></tr>
+        <tr><td>기본형</td><td class="jp">書く</td><td class="jp">起きる</td><td class="jp">する</td><td class="jp">くる</td></tr>
+        <tr><td>~ます형</td><td class="jp">書きます</td><td class="jp">起きます</td><td class="jp">します</td><td class="jp">きます</td></tr>
+        <tr><td>~ない형</td><td class="jp">書かない</td><td class="jp">起きない</td><td class="jp">しない</td><td class="jp">こない</td></tr>
+        <tr><td>~て형</td><td class="jp">書いて</td><td class="jp">起きて</td><td class="jp">して</td><td class="jp">きて</td></tr>
+        <tr><td>~た형</td><td class="jp">書いた</td><td class="jp">起きた</td><td class="jp">した</td><td class="jp">きた</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9622A">
+    <div class="ic-head">3. 자주 쓰는 활용 예문</div>
+    <div class="ic-body">
+      <div class="ex-list">
+        <div class="ex"><b>~ます형</b>: <span class="jp">私は毎日ご飯を食べます。</span> (저는 매일 밥을 먹습니다.)</div>
+        <div class="ex"><b>~ない형</b>: <span class="jp">今日は時間がありません。</span> (오늘은 시간이 없습니다.)</div>
+        <div class="ex"><b>~て형</b>: <span class="jp">手を洗って、学校に行きます。</span> (손을 씻고, 학교에 갑니다.)</div>
+        <div class="ex"><b>~た형</b>: <span class="jp">昨日映画を見ました。</span> (어제 영화를 봤습니다.)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">4. 동사 활용 규칙 (간단 정리)</div>
+    <div class="ic-body">
+      <div class="three-col">
+        <div class="group-box"><h4>Ⅰ그룹 (5단 활용)</h4><p>어미에 따라 아래처럼 바뀌어요</p>
+          う단 → いました / く단 → きました / る단 → 帰りました 처럼 각 행의 い단으로</div>
+        <div class="group-box"><h4>Ⅱ그룹 (1단 활용)</h4><p>어미 「る」를 빼고 ~ます, ~ない, ~て, ~た를 만들어요</p>
+          <span class="jp">起きる → 起きます / 起きない / 起きて / 起きた</span></div>
+        <div class="group-box"><h4>Ⅲ그룹 (불규칙 활용)</h4><p>암기해요!</p>
+          <span class="jp">する → します・しない・して・した</span><br><span class="jp">くる → きます・こない・きて・きた</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">5. 추가로 알아두면 좋은 표현</div>
+    <div class="ic-body">
+      <div class="ex-list">
+        <div class="ex"><b class="jp">~てください</b>: <span class="jp">開けてください。</span> (열어 주세요.)</div>
+        <div class="ex"><b class="jp">~たい</b>: <span class="jp">日本に行きたいです。</span> (일본에 가고 싶어요.)</div>
+        <div class="ex"><b class="jp">~ましょう</b>: <span class="jp">一緒に行きましょう。</span> (함께 갑시다!)</div>
+        <div class="ex"><b class="jp">~そうだ</b>: <span class="jp">雨が降りそうです。</span> (비가 올 것 같아요.)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    ✔ 동사 활용을 많이 사용해 보면서 익혀요! · 처음에는 큰소리로 읽으면서 입에 익혀요! · 매일 5분씩 복습하면 기억이 오래가요!<br>
+    <b>활용 순서 기억하기</b>: 기본형 → ~ます형 → ~ない형 → ~て형 → ~た형 (이 순서대로 익히면 기억하기 쉬워요!)
+  </div>
+</main>
+</body>
+</html>

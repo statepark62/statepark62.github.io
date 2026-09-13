@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본의 스모 (相撲)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; text-align:center; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(193,65,107,0.1), transparent 40%), radial-gradient(circle at 85% 30%, rgba(28,43,69,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(21px,5.2vw,29px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:600px; color:var(--sub); font-size:13.5px; }
+  main{max-width:1050px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin:0 auto; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); }
+  .four-col{ display:grid; grid-template-columns:1fr; gap:10px; }
+  @media(min-width:820px){ .four-col{ grid-template-columns:repeat(4,1fr);} }
+  .step{ border:1px solid var(--line); border-radius:10px; padding:10px; background:var(--paper); }
+  .step .num{ width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; margin:0 auto 6px; }
+  .two-col{ display:grid; grid-template-columns:1fr; gap:12px; }
+  @media(min-width:700px){ .two-col{ grid-template-columns:repeat(2,1fr);} }
+  .rank-list{ display:flex; flex-direction:column; gap:6px; }
+  .rank-list .r{ border:1px solid var(--line); border-radius:8px; padding:8px 10px; text-align:left; font-size:12px; }
+  .rank-list .r b{ font-family:'Noto Serif JP',serif; }
+  .warn-box{ margin-top:10px; font-size:12.5px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:8px 11px; color:#7a3a3a; }
+  .term-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+  @media(min-width:700px){ .term-grid{grid-template-columns:repeat(3,1fr);} }
+  .term-grid .t{ border:1px solid var(--line); border-radius:8px; padding:8px; background:var(--paper); font-size:11.5px; }
+  .term-grid .t .jp{ font-weight:700; font-size:13px; }
+  .term-grid .t .romaji{ color:#9c927a; font-style:italic; font-size:10.5px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본의 스모 (相撲)</h1>
+  <p class="sub">스모는 일본의 전통 국기(國技)로, 두 선수가 흙으로 만든 원형 경기장 '도효(土俵)'에서 상대를 밀어내거나 넘어뜨려 승부를 겨루는 경기입니다. 단순한 힘의 대결을 넘어 예의와 전통을 중시하는 일본 고유의 문화입니다.</p>
+</header>
+<main>
+  <div class="info-card" style="--accent:#1c2b45">
+    <div class="ic-head">기본 정보</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><td>기원</td><td>약 1,500년 이상의 역사</td></tr>
+        <tr><td>발상지</td><td>일본</td></tr>
+        <tr><td>성격</td><td>신사 의식에서 유래한 전통 경기</td></tr>
+        <tr><td>주요 대회</td><td>1월(하츠바쇼), 3월(하루바쇼), 5월(나츠바쇼), 7월(나고야바쇼), 9월(아키바쇼), 11월(큐슈바쇼)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">경기 흐름</div>
+    <div class="ic-body">
+      <p style="font-size:12px;color:var(--sub);">정해진 규칙 안에서 서로의 몸을 밀고 당겨 상대를 넘어뜨리거나, 도효 밖으로 밀어내어 승부를 결정합니다.</p>
+      <div class="four-col">
+        <div class="step"><div class="num">1</div><b>입장</b><p style="font-size:11.5px;">선수는 의식을 갖추고 도효에 입장합니다.</p></div>
+        <div class="step"><div class="num">2</div><b class="jp">シコ (시코)</b><p style="font-size:11.5px;">양손을 뻗고 다리를 굴혀 땅을 힘차게 구르며 몸의 균형을 잡고 기세를 끌어올립니다.</p></div>
+        <div class="step"><div class="num">3</div><b class="jp">行司 (교지)</b><p style="font-size:11.5px;">교지(심판)가 「はっけよい(하케요이)!」 신호로 경기를 시작합니다.</p></div>
+        <div class="step"><div class="num">4</div><b>승부 결정</b><p style="font-size:11.5px;">상대를 넘어뜨리거나 도효 밖으로 밀어내면 승리합니다.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9622A">
+    <div class="ic-head">승리 조건 (두 가지)</div>
+    <div class="ic-body">
+      <div class="two-col">
+        <div class="step">
+          <b class="jp">寄り切り (요리키리)</b>
+          <p style="font-size:12px;">상대를 밀어 도효 밖으로 내보냅니다.</p>
+        </div>
+        <div class="step">
+          <b class="jp">倒し (타오시)</b>
+          <p style="font-size:12px;">상대의 몸 어느 부분이든 도효에 닿게 하여 넘어뜨립니다.</p>
+        </div>
+      </div>
+      <p style="font-size:11px; color:var(--sub); margin-top:8px;">※ 반칙 기술(禁じ手)을 사용하면 즉시 패배합니다.</p>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">주요 기술 (예시)</div>
+    <div class="ic-body">
+      <div class="term-grid">
+        <div class="t"><span class="jp">押し出し</span> (오시다시)<div style="margin-top:3px;">상대를 밀어 어깨로 도효 밖으로 내보낸다.</div></div>
+        <div class="t"><span class="jp">上手投げ</span> (우와테나게)<div style="margin-top:3px;">상대의 팔을 잡고 몸을 틀어 넘어뜨린다.</div></div>
+        <div class="t"><span class="jp">打ち出し</span> (우치다시)<div style="margin-top:3px;">상대의 균형이 무너진 순간, 안쪽에서 밀어 도효 밖으로 보낸다.</div></div>
+        <div class="t"><span class="jp">引き落とし</span> (히키오토시)<div style="margin-top:3px;">상대의 팔이나 허리를 당기며 앞으로 넘어뜨린다.</div></div>
+        <div class="t"><span class="jp">四つ突き</span> (요츠츠케)<div style="margin-top:3px;">상대를 앞으로 밀며 겨루는 기술.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#7A3A3A">
+    <div class="ic-head">반칙 기술 (禁じ手)</div>
+    <div class="ic-body">
+      <p style="font-size:12px;">다음과 같은 반칙 행위는 즉시 패배합니다.</p>
+      <div class="warn-box">눈을 찌르기 · 머리카락 잡아당기기 · 목 조르기 · 허리 아래 공격(급소 가격) · 도효 밖으로 도망가기</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">힘소(스모 선수)의 등급 (番付)</div>
+    <div class="ic-body">
+      <p style="font-size:12px;color:var(--sub);">실력에 따라 계급이 나뉘며, 매 대회 후 성적에 따라 승강이 결정됩니다. (상위 → 하위 순)</p>
+      <div class="rank-list">
+        <div class="r"><b class="jp">横綱</b> (요코즈나) — 최고 등급. 스모계의 최고 자리이며, 위아래 실력의 인품이 요구됩니다. 현재는 매우 드문 등급입니다.</div>
+        <div class="r"><b class="jp">大関</b> (오제키) — 요코즈나 다음으로 높은 등급. 안정적인 성적이 필요합니다.</div>
+        <div class="r"><b class="jp">関脇</b> (세키와케) — 상위(三役) 중 하나로, 요코즈나와 오제키를 보좌하는 위치입니다.</div>
+        <div class="r"><b class="jp">小結</b> (코무스비) — 상위(三役) 중 하나로, 실력 있는 중견 선수들입니다.</div>
+        <div class="r"><b class="jp">前頭</b> (마에가시라) — 상위·중위권. 보통 1~18등급을 순서대로 매깁니다.</div>
+        <div class="r"><b class="jp">十両</b> (주료) — 중위권. 이 위에 오르면 후원(마우와치)이 지급됩니다.</div>
+        <div class="r"><b class="jp">幕内</b> (마쿠우치) — 하위권. 여기서부터가 프로 선수의 시작점입니다.</div>
+        <div class="r"><b class="jp">序ノ口</b> (산단매/조노쿠치) — 스모계가 가장 하위, 초보 단계입니다.</div>
+      </div>
+      <p style="font-size:11px; color:var(--sub); margin-top:8px;">※ 등급과 구분은 시기에 따라 달라질 수 있습니다.</p>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="info-card" style="--accent:#8A9A5B">
+      <div class="ic-head">훈련과 생활</div>
+      <div class="ic-body" style="text-align:left;">
+        <p><b class="jp">相撲部屋</b> (스모부야): 선수들은 스모부야(숙소 겸 훈련장)에서 생활하며, 선배를 '오야카타(사부)'로 모시고 예의와 규율을 배웁니다.</p>
+        <p><b>훈련</b>: 매일 아침 훈련과 기술 연습, 실전식 대련 등으로 기량을 키워냅니다.</p>
+        <p><b class="jp">ちゃんこ鍋</b> (찬코나베): 채소와 영양을 위해 고칼로리의 식단을 함께(찬코나베) 많이 먹습니다.</p>
+        <p><b>생활 규율</b>: 청소, 세탁, 심부름 등 모든 일을 스스로 하며, 정신적인 인내심을 기릅니다.</p>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#D9A441">
+      <div class="ic-head">스모의 매력</div>
+      <div class="ic-body" style="text-align:left;">
+        <p><b>전통과 의식</b>: 경기 전후의 의식과 예절에서 일본 전통 문화를 느낄 수 있습니다.</p>
+        <p><b>힘과 기술의 조화</b>: 단순한 힘뿐만 아니라, 상대의 힘을 이용하는 기술과 판단력이 필요합니다.</p>
+        <p><b>박진감</b>: 순식간에 승부가 뒤바뀌는 긴장감과 선수들의 기개가 매력적입니다.</p>
+        <p><b>국기(國技)</b>: 일본을 대표하는 전통 경기로, 국민의 사랑을 받고 있습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">알아두면 좋은 용어</div>
+    <div class="ic-body">
+      <div class="term-grid">
+        <div class="t"><span class="jp">土俵</span> <span class="romaji">dohyou</span><div style="margin-top:3px;">(도효) — 스모 경기가 열리는 흙으로 만든 원형 경기장</div></div>
+        <div class="t"><span class="jp">廻し</span> <span class="romaji">mawashi</span><div style="margin-top:3px;">(마와시) — 선수가 허리에 두르는 띠 모양의 경기복</div></div>
+        <div class="t"><span class="jp">行司</span> <span class="romaji">gyouji</span><div style="margin-top:3px;">(교지) — 경기 진행과 승부 판정을 담당하는 심판</div></div>
+        <div class="t"><span class="jp">四股</span> <span class="romaji">shiko</span><div style="margin-top:3px;">(시코) — 다리를 벌려 땅을 구르며 몸의 기운을 끌어올리는 동작</div></div>
+        <div class="t"><span class="jp">はっけよい</span> <span class="romaji">hakkeyoi</span><div style="margin-top:3px;">(하케요이) — 교지가 외치는 경기 시작 구호</div></div>
+        <div class="t"><span class="jp">残った</span> <span class="romaji">nokotta</span><div style="margin-top:3px;">(노코타) — 교지가 외치는 승부 결정 구호(남은 쪽이 승리)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    스모는 단순한 힘 겨루기가 아니라, 예의·전통·기술이 어우러진 일본의 대표 국기(國技)입니다. 경기 규칙과 용어를 알면 관전이 훨씬 재미있어져요!
+  </div>
+</main>
+</body>
+</html>

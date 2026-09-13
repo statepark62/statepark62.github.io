@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 동사의 종류별 て형 만들기 — 원리편</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(217,98,42,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(59,110,165,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .rule3{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .rule3 .r{ flex:1 1 260px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:12.5px; }
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .warn-box{ margin-top:10px; font-size:12.5px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:8px 11px; color:#7a3a3a; }
+  .three-col{ display:grid; grid-template-columns:1fr; gap:12px; }
+  @media(min-width:820px){ .three-col{ grid-template-columns:repeat(3,1fr);} }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+</style>
+</head>
+<body>
+<header>
+  <h1>일본어 동사의 종류별 て형 만들기 <span style="color:#D9622A">① 원리편</span></h1>
+  <p class="sub">동사를 ① 1형 · ② 2형 · ③ 3형으로 구분하면 て형을 쉽게 만들 수 있어요!</p>
+</header>
+<main>
+  <div class="rule3">
+    <div class="r"><b>① 1형 동사</b>: 끝 글자에 따라 て형이 달라진다.</div>
+    <div class="r"><b>② 2형 동사</b>: 'る'를 떼고 'て'를 붙인다.</div>
+    <div class="r"><b>③ 3형 동사</b>: 특별한 형태이므로 그대로 외운다.</div>
+  </div>
+
+  <div class="three-col">
+    <div class="info-card" style="--accent:#2A5CAA">
+      <div class="ic-head">① 1형 동사 (五段動詞)</div>
+      <div class="ic-body">
+        <p style="font-size:12px;color:var(--sub);">끝 글자(어미)에 따라 て형이 달라져요.</p>
+        <table class="mini">
+          <tr><th>끝 글자</th><th>변화</th><th>예시</th></tr>
+          <tr><td class="jp">う・つ・る</td><td class="jp">って</td><td class="jp">買って・待って・帰って</td></tr>
+          <tr><td class="jp">む・ぶ・ぬ</td><td class="jp">んで</td><td class="jp">飲んで・遊んで・死んで</td></tr>
+          <tr><td class="jp">く</td><td class="jp">いて</td><td class="jp">書いて・聞いて・歩いて</td></tr>
+          <tr><td class="jp">ぐ</td><td class="jp">いで</td><td class="jp">泳いで・急いで・稼いで</td></tr>
+          <tr><td class="jp">す</td><td class="jp">して</td><td class="jp">話して・探して・出して</td></tr>
+        </table>
+        <div class="warn-box">★ 1형 동사의 예외: <span class="jp">行く(いく)</span><br>「く」로 끝나지만 て형은 「行って」가 됩니다. <span class="jp">行く → 行って</span></div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#3C8C7B">
+      <div class="ic-head">② 2형 동사 (一段動詞)</div>
+      <div class="ic-body">
+        <p style="font-size:12px;color:var(--sub);">'る'를 떼고 'て'를 붙입니다.</p>
+        <table class="mini">
+          <tr><th>사전형</th><th>る 뗀 형태</th><th>て형</th></tr>
+          <tr><td class="jp">食べる</td><td class="jp">食べ</td><td class="jp">食べて</td></tr>
+          <tr><td class="jp">見る</td><td class="jp">見</td><td class="jp">見て</td></tr>
+          <tr><td class="jp">起きる</td><td class="jp">起き</td><td class="jp">起きて</td></tr>
+          <tr><td class="jp">寝る</td><td class="jp">寝</td><td class="jp">寝て</td></tr>
+          <tr><td class="jp">教える</td><td class="jp">教え</td><td class="jp">教えて</td></tr>
+          <tr><td class="jp">借りる</td><td class="jp">借り</td><td class="jp">借りて</td></tr>
+          <tr><td class="jp">開ける</td><td class="jp">開け</td><td class="jp">開けて</td></tr>
+          <tr><td class="jp">閉める</td><td class="jp">閉め</td><td class="jp">閉めて</td></tr>
+        </table>
+        <div class="tip-box">✔ 2형 동사는 항상 'る'를 떼고 'て'를 붙이면 OK!</div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#C1416B">
+      <div class="ic-head">③ 3형 동사 (サ変・カ変動詞)</div>
+      <div class="ic-body">
+        <p style="font-size:12px;color:var(--sub);">특별한 형태이므로 그대로 외웁니다. 3형 동사는 두 개!</p>
+        <table class="mini">
+          <tr><th>사전형</th><th>て형</th><th>예문</th></tr>
+          <tr><td class="jp">する</td><td class="jp">して</td><td class="jp">勉強して、テストに備えます。</td></tr>
+          <tr><td class="jp">来る(くる)</td><td class="jp">来て(きて)</td><td class="jp">明日、学校に来てください。</td></tr>
+        </table>
+        <div class="tip-box">✔ 3형 동사는 'する'와 '来る(くる)' 두 개만 외우면 됩니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <b>기억하기 쉬운 암기 팁!</b><br>
+    ① 1형: 끝 글자에 따라! ② 2형: 'る'를 떼고 'て'! ③ 3형: する는 して, くる는 来て!<br>
+    ※ て형은 동사를 연결하거나, 명령형(~てください), 상태의 지속(~ています) 등에 사용됩니다.
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 조사 정리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(59,110,165,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(60,140,123,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:6px 8px; }
+  .p-grid{ display:grid; grid-template-columns:1fr; gap:8px; padding:8px; }
+  @media(min-width:700px){ .p-grid{ grid-template-columns:repeat(2,1fr);} }
+  .p-item{ border:1px solid var(--line); border-radius:10px; padding:10px 12px; display:flex; gap:10px; align-items:flex-start; }
+  .p-item .num{ width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex:0 0 auto; }
+  .p-item .p-jp{ font-family:'Noto Serif JP', serif; font-size:18px; font-weight:700; }
+  .p-item .p-mean{ font-size:12px; color:var(--sub); font-weight:700; }
+  .p-item .p-desc{ font-size:12px; color:var(--sub); margin-top:2px; }
+  .p-item .p-ex{ font-size:12.5px; margin-top:4px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+</style></head>
+<body>
+<header><h1>일본어 조사 정리</h1></header>
+<main>
+  <div class="info-card" style="--accent:#2A5CAA">
+    <div class="ic-head">1단계 (핵심 조사)</div>
+    <div class="p-grid">
+      <div class="p-item"><div class="num">1</div><div><span class="p-jp">は</span> <span class="p-mean">(wa) 주제(화제)의 제시</span><div class="p-desc">문장의 주제가 되는 단어나 문장을 제시할 때 사용</div><div class="p-ex jp">わたしは 学生です。<span style="font-family:'Noto Sans KR';color:var(--sub);">(나는 학생입니다.)</span></div></div></div>
+      <div class="p-item"><div class="num">2</div><div><span class="p-jp">が</span> <span class="p-mean">(ga) 주어(행위 주체)의 강조</span><div class="p-desc">동작을 하는 주체를 강조. 'は'는 주제, 'が'는 주어를 강조</div><div class="p-ex jp">犬が 走っています。<span style="font-family:'Noto Sans KR';color:var(--sub);">(개가 달리고 있습니다.)</span></div></div></div>
+      <div class="p-item"><div class="num">3</div><div><span class="p-jp">を</span> <span class="p-mean">(wo) 목적어(대상)의 표시</span><div class="p-desc">동작의 대상(무엇을)을 나타낼 때 사용</div><div class="p-ex jp">わたしは 本を 読みます。<span style="font-family:'Noto Sans KR';color:var(--sub);">(나는 책을 읽습니다.)</span></div></div></div>
+      <div class="p-item"><div class="num">4</div><div><span class="p-jp">に</span> <span class="p-mean">(ni) 시간·장소(도착점)의 방향/도착점</span><div class="p-desc">이동의 도착지나 시간의 특정 시점을 나타낼 때 사용</div><div class="p-ex jp">学校に 行きます。<span style="font-family:'Noto Sans KR';color:var(--sub);">(학교에 갑니다.)</span></div></div></div>
+      <div class="p-item"><div class="num">5</div><div><span class="p-jp">で</span> <span class="p-mean">(de) 장소·수단·방법의 표시</span><div class="p-desc">동작이 일어나는 장소, 수단, 방법을 나타낼 때 사용</div><div class="p-ex jp">カフェで コーヒーを飲みます。<span style="font-family:'Noto Sans KR';color:var(--sub);">(카페에서 커피를 마십니다.)</span></div></div></div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">2단계 (자주 쓰는 조사)</div>
+    <div class="p-grid">
+      <div class="p-item"><div class="num">6</div><div><span class="p-jp">の</span> <span class="p-mean">(no) 소유·소속·연관</span><div class="p-desc">소유, 소속, 명사 사이의 연관 관계를 나타낼 때 사용</div><div class="p-ex jp">わたしの ペンです。<span style="font-family:'Noto Sans KR';color:var(--sub);">(내 펜입니다.)</span></div></div></div>
+      <div class="p-item"><div class="num">7</div><div><span class="p-jp">と</span> <span class="p-mean">(to) 함께·동행</span><div class="p-desc">두 사람 또는 여러 사람이 함께 있는 것을 나타냄</div><div class="p-ex jp">友だちと 映画を見ました。<span style="font-family:'Noto Sans KR';color:var(--sub);">(친구와 영화를 보았습니다.)</span></div></div></div>
+      <div class="p-item"><div class="num">8</div><div><span class="p-jp">へ</span> <span class="p-mean">(e) 방향(향하는 곳)</span><div class="p-desc">이동의 방향을 나타낼 때 사용 (도착점 자체는 아님)</div><div class="p-ex jp">駅へ 行きます。<span style="font-family:'Noto Sans KR';color:var(--sub);">(역으로 갑니다.)</span></div></div></div>
+      <div class="p-item"><div class="num">9</div><div><span class="p-jp">から</span> <span class="p-mean">(kara) 출발점·이유·원인</span><div class="p-desc">출발점, 이유, 원인을 나타낼 때 사용</div><div class="p-ex jp">家から 学校へ 行きます。<span style="font-family:'Noto Sans KR';color:var(--sub);">(집에서 학교로 갑니다.)</span></div></div></div>
+      <div class="p-item"><div class="num">10</div><div><span class="p-jp">まで</span> <span class="p-mean">(made) 도착점(한계)·기간</span><div class="p-desc">시간, 거리, 범위 등의 끝 지점이나 '~까지'를 나타냄</div><div class="p-ex jp">3時まで 勉強します。<span style="font-family:'Noto Sans KR';color:var(--sub);">(3시까지 공부합니다.)</span></div></div></div>
+      <div class="p-item"><div class="num">11</div><div><span class="p-jp">も</span> <span class="p-mean">(mo) ~도(포함·추가)</span><div class="p-desc">화자 이외의 것(사람,사물)도 포함하거나 추가할 때 사용</div><div class="p-ex jp">わたしも 行きます。<span style="font-family:'Noto Sans KR';color:var(--sub);">(나도 갑니다.)</span></div></div></div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">헷갈리기 쉬운 조사 비교</div>
+    <div class="ic-body" style="padding:14px 16px;">
+      <table class="mini">
+        <tr><th>は vs が</th><th>に vs で</th><th>と vs や</th></tr>
+        <tr><td class="jp">これは ペンです。<br><span style="font-size:11px;color:var(--sub);">(이것은 펜입니다-주제)</span></td>
+            <td class="jp">学校に 行きます。<br><span style="font-size:11px;color:var(--sub);">(학교에 갑니다-도착점,시간)</span></td>
+            <td class="jp">友だちと 映画を見ました。<br><span style="font-size:11px;color:var(--sub);">(친구와-함께, 전부 나열)</span></td></tr>
+        <tr><td class="jp">これは ペンが いいです。<br><span style="font-size:11px;color:var(--sub);">(이 펜이 좋아요-주어 강조)</span></td>
+            <td class="jp">学校で 勉強します。<br><span style="font-size:11px;color:var(--sub);">(학교에서 공부합니다-장소,수단)</span></td>
+            <td class="jp">パンや 牛乳を 買いました。<br><span style="font-size:11px;color:var(--sub);">(빵이나 우유 등-일부 예시)</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    ★ 조사는 하나만 사용해도 문장의 의미가 달라져요! 예) わたしは学生です(나는 학생입니다) / わたしが学生です(내가 학생입니다)<br>
+    ★ 같은 단어라도 조사가 바뀌면 역할이 바뀝니다. 예) りんごを食べます(사과를 먹습니다) / りんごは赤いです(사과는 빨갛습니다)<br>
+    ★ から와 まで는 '세트'로 자주 사용됩니다. 예) 9時から5時まで働きます。(9시부터 5시까지 일합니다.)
+  </div>
+
+  <div class="summary-bar">
+    조사는 연습이 가장 중요해요! 매일 조금씩 읽고, 쓰고, 말해 보세요! 꾸준한 연습이 실력을 키워줍니다! 😊
+  </div>
+</main>
+</body>
+</html>

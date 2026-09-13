@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 동사의 종류별 사역형 만들기 — 활용편</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(217,98,42,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(217,164,65,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .warn-box{ margin-top:10px; font-size:12.5px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:8px 11px; color:#7a3a3a; }
+  .ex-list{ display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+  .ex-list .ex{ font-size:12.5px; background:var(--paper); border:1px dashed var(--line); border-radius:8px; padding:7px 10px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 동사의 종류별 사역형 만들기 <span style="color:#D9A441">활용편</span></h1>
+  <p class="sub">다양한 문장에서 사역형을 사용해 보고, 의미와 쓰임을 익혀봐요!</p>
+</header>
+<main>
+  <div class="info-card" style="--accent:#3C8C7B">
+    <div class="ic-head">③ 자연스러운 사역문으로 바꾸기</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>원래 문장</th><th>자연스러운 사역문</th></tr>
+        <tr><td class="jp">あなたは子どもを静かにして。</td><td class="jp">あなたは子どもを静かにさせてください。</td></tr>
+        <tr><td class="jp">お母さんは弟に勉強しないと言った。</td><td class="jp">お母さんは弟に勉強させました。</td></tr>
+        <tr><td class="jp">先生は学生に発表しなさいと言った。</td><td class="jp">先生は学生に発表させました。</td></tr>
+        <tr><td class="jp">彼は友だちを待たせてしまった。</td><td class="jp">彼は友だちを待たせてしまいました。</td></tr>
+        <tr><td class="jp">社長は社員に工場を見学させた。</td><td class="jp">社長は社員に早く仕事させました。</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">④ 의미 구별하기 (강제 vs 허락)</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th>사역문</th><th>의미</th></tr>
+        <tr><td class="jp">先生は学生に宿題をさせました。</td><td>선생님은 학생에게 숙제를 시켰다 (강제)</td></tr>
+        <tr><td class="jp">母は子どもを公園で遊ばせました。</td><td>엄마는 아이를 공원에서 놀게 했다 (허락)</td></tr>
+        <tr><td class="jp">私は弟に早く起きさせた。</td><td>나는 동생을 일찍 일어나게 했다 (강제)</td></tr>
+        <tr><td class="jp">先生は学生を発表させました。</td><td>선생님은 학생에게 발표시켰다 (강제/기회 부여)</td></tr>
+      </table>
+      <div class="tip-box">💡 사역형은 상황에 따라 '강제(시키다)' 또는 '허락(하게 하다)'의 의미로 사용돼요.</div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#D9622A">
+    <div class="ic-head">자주 쓰는 사역 표현 모음</div>
+    <div class="ic-body">
+      <div class="ex-list">
+        <div class="ex jp">~させます: 시키다</div>
+        <div class="ex jp">~させてください: 시켜 주세요</div>
+        <div class="ex jp">~させてあげます: 시켜/하게 해줍니다</div>
+        <div class="ex jp">~させていただきます: (겸양) 시키겠습니다/하게 하겠습니다</div>
+        <div class="ex jp">~させてもらいます: 시켜 주십니까? / 하게 해주까요?</div>
+        <div class="ex jp">~させていただきたいです: 시키고 싶습니다/하게 하고 싶습니다</div>
+        <div class="ex jp">~させられます: 시킴을 당하다 (사역수동)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">⚠️ 주의! 헷갈리기 쉬워요.<br>
+    <b>자동사도 사역 가능</b>: <span class="jp">行く(가다)→行かせる(가게 하다)</span> 예) <span class="jp">母は子どもを学校へ行かせます。</span><br>
+    <b>사역형이 아닌 표현</b>: ~てあげる(해 주다) / ~てもらう(해 주다) / ~ていただく(겸양 표현/사역수동 아님)
+  </div>
+
+  <div class="info-card" style="--accent:#6A4C93">
+    <div class="ic-head">사역형에서의 조사 사용</div>
+    <div class="ic-body">
+      <p><b>타동사(목적어가 있는 동사) → 'に'</b><br><span class="jp">先生は学生に宿題をさせます。</span> (선생님은 학생에게 숙제를 시킵니다.)</p>
+      <p><b>자동사(목적어가 없는 동사) → 'を'</b><br><span class="jp">母は子どもを早く寝させます。</span> (엄마는 아이를 빨리 자게 합니다.)</p>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    <b>기억하기 쉬운 암기 팁!</b> 1형: 아단+せる(う→わ) / 2형: る제거+させる / 3형: する→させる, 来る→来させる<br>
+    다양한 사역문을 연습하면 일본어 표현의 폭이 넓어집니다!
+  </div>
+</main>
+</body>
+</html>

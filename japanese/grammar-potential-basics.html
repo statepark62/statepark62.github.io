@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 동사의 종류별 가능형 만들기 — 원리편</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(107,63,160,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(59,110,165,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .rule3{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .rule3 .r{ flex:1 1 260px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:12.5px; }
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .warn-box{ margin-top:10px; font-size:12.5px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:8px 11px; color:#7a3a3a; }
+  .three-col{ display:grid; grid-template-columns:1fr; gap:12px; }
+  @media(min-width:820px){ .three-col{ grid-template-columns:repeat(3,1fr);} }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 동사의 종류별 가능형 만들기 <span style="color:#6A4C93">① 원리편</span></h1>
+  <p class="sub">동사를 ① 1형 · ② 2형 · ③ 3형으로 구분하면 가능형을 쉽고 정확하게 만들 수 있어요!</p>
+</header>
+<main>
+  <div class="rule3">
+    <div class="r"><b>① 1형 동사</b>: 끝 글자를 e단으로 바꾸고 'る'를 붙인다.</div>
+    <div class="r"><b>② 2형 동사</b>: 'る'를 'られる'로 바꾼다.</div>
+    <div class="r"><b>③ 3형 동사</b>: 특별한 활용이므로 그대로 외운다.</div>
+  </div>
+
+  <div class="three-col">
+    <div class="info-card" style="--accent:#2A5CAA">
+      <div class="ic-head">① 1형 동사 (五段動詞)</div>
+      <div class="ic-body">
+        <p style="font-size:12px;color:var(--sub);">어미를 e단으로 바꾸고 「る」를 붙입니다.</p>
+        <table class="mini">
+          <tr><th>사전형</th><th>가능형</th><th>의미</th></tr>
+          <tr><td class="jp">会う</td><td class="jp">会える</td><td>만날 수 있다</td></tr>
+          <tr><td class="jp">待つ</td><td class="jp">待てる</td><td>기다릴 수 있다</td></tr>
+          <tr><td class="jp">帰る</td><td class="jp">帰れる</td><td>돌아갈 수 있다</td></tr>
+          <tr><td class="jp">死ぬ</td><td class="jp">死ねる</td><td>죽을 수 있다</td></tr>
+          <tr><td class="jp">遊ぶ</td><td class="jp">遊べる</td><td>놀 수 있다</td></tr>
+          <tr><td class="jp">飲む</td><td class="jp">飲める</td><td>마실 수 있다</td></tr>
+          <tr><td class="jp">書く</td><td class="jp">書ける</td><td>쓸 수 있다</td></tr>
+          <tr><td class="jp">泳ぐ</td><td class="jp">泳げる</td><td>헤엄칠 수 있다</td></tr>
+          <tr><td class="jp">話す</td><td class="jp">話せる</td><td>말할 수 있다</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#3C8C7B">
+      <div class="ic-head">② 2형 동사 (一段動詞)</div>
+      <div class="ic-body">
+        <p style="font-size:12px;color:var(--sub);">'る'를 떼고 'られる'를 붙입니다.</p>
+        <table class="mini">
+          <tr><th>사전형</th><th>가능형</th><th>의미</th></tr>
+          <tr><td class="jp">食べる</td><td class="jp">食べられる</td><td>초밥을 먹을 수 있다</td></tr>
+          <tr><td class="jp">見る</td><td class="jp">見られる</td><td>후지산을 볼 수 있다</td></tr>
+          <tr><td class="jp">起きる</td><td class="jp">起きられる</td><td>일찍 일어날 수 있다</td></tr>
+          <tr><td class="jp">寝る</td><td class="jp">寝られる</td><td>언제든지 잘 수 있다</td></tr>
+          <tr><td class="jp">教える</td><td class="jp">教えられる</td><td>일본어를 가르칠 수 있다</td></tr>
+          <tr><td class="jp">借りる</td><td class="jp">借りられる</td><td>책을 빌릴 수 있다</td></tr>
+          <tr><td class="jp">開ける</td><td class="jp">開けられる</td><td>혼자서 창문을 열 수 있다</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#C1416B">
+      <div class="ic-head">③ 3형 동사 (サ変・カ変動詞)</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>사전형</th><th>가능형</th><th>예문</th></tr>
+          <tr><td class="jp">する</td><td class="jp">できる</td><td class="jp">勉強ができます。</td></tr>
+          <tr><td class="jp">来る(くる)</td><td class="jp">来られる(こられる)</td><td class="jp">明日来られますか。</td></tr>
+        </table>
+        <div class="tip-box">✔ 'する'는 'できる'로 완전히 형태가 바뀐다는 점에 주의!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">⚠️ 중요! 가능형에서는 조사가 바뀌는 경우가 많아요.<br>
+    <span class="jp">私は日本語を話します。 → 私は日本語が話せます。</span> (목적어「を」가「が」로 바뀌는 경우가 많아요.) ※ 모든 경우에 바뀌는 것은 아니므로 문맥에 따라 확인하세요.
+  </div>
+
+  <div class="summary-bar">
+    <b>암기 팁!</b><br>
+    ① 1형: 끝 글자를 e단으로 바꾸고 'る'를 붙이자! ② 2형: 'る' 떼고 'られる'! ③ 3형: する→できる, 来る→来られる(こられる)!
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>のんびり vs ゆったり</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; text-align:center; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; border-bottom:1px solid var(--line); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1050px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .two-col{ display:grid; grid-template-columns:1fr; gap:14px; }
+  @media(min-width:700px){ .two-col{grid-template-columns:repeat(2,1fr);} }
+  .word-card{ border-radius:12px; overflow:hidden; border:1px solid var(--line); background:#fff; }
+  .word-card .wh{ background:var(--accent); color:#fff; padding:14px; }
+  .word-card .wh .big{ font-family:'Noto Serif JP',serif; font-size:26px; font-weight:900; }
+  .word-card .wh .sub{ font-size:12px; margin-top:4px; }
+  .word-card .wb{ padding:12px; font-size:12.5px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12px; margin:0 auto; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); }
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:#1c2b45; color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13px; }
+  .kw-row{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:8px; }
+  .kw{ background:var(--paper); border:1px solid var(--line); border-radius:999px; padding:4px 10px; font-size:11.5px; }
+  .ex-box{ background:var(--paper); border-radius:8px; padding:8px 10px; margin-top:8px; font-size:12px; }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>のんびり vs ゆったり</h1>
+  <p class="sub">비슷하지만 다르다! '여유·느긋함'을 표현하는 일본어</p>
+</header>
+<main>
+  <div class="two-col">
+    <div class="word-card" style="--accent:#3C8C7B">
+      <div class="wh"><div class="big">のんびり</div><div class="sub">= 급하지 않게, 느긋하게 있는 것</div></div>
+      <div class="wb">
+        <p><b>중점</b>: 초조해하지 않고 천천히 행동·생활하는 것</p>
+        <p><b>의미</b>: '급하지 않음', '서두르지 않음'</p>
+        <div class="ex-box jp">休日は家でのんびり過ごした。<div style="font-family:'Noto Sans KR';color:var(--sub);">(휴일에는 집에서 느긋하게 보냈다.)</div></div>
+        <div class="ex-box jp">温泉でのんびりした。<div style="font-family:'Noto Sans KR';color:var(--sub);">(온천에서 한가롭게 쉬었다.)</div></div>
+        <div class="kw-row"><span class="kw">☕커피</span><span class="kw">♨️온천</span><span class="kw">🌾시골·자연</span><span class="kw">📖독서·취미</span></div>
+      </div>
+    </div>
+
+    <div class="word-card" style="--accent:#D9622A">
+      <div class="wh"><div class="big">ゆったり</div><div class="sub">= 여유가 있고, 넉넉함이 있는 것</div></div>
+      <div class="wb">
+        <p><b>중점</b>: 공간·시간·마음에 여유가 있는 것</p>
+        <p><b>의미</b>: '여유가 있음', '심신이 넉넉함'</p>
+        <div class="ex-box jp">ゆったりしたソファー。<div style="font-family:'Noto Sans KR';color:var(--sub);">(넓고 편안한 소파.)</div></div>
+        <div class="ex-box jp">ゆったりした気分になる。<div style="font-family:'Noto Sans KR';color:var(--sub);">(마음이 편안해진다.)</div></div>
+        <div class="kw-row"><span class="kw">🛋️넓고 쾌적</span><span class="kw">👕여유 있는 옷</span><span class="kw">🎵릴랙스 음악</span><span class="kw">💗마음의 여유</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#6A4C93">
+    <div class="ic-head">포인트의 차이</div>
+    <div class="ic-body">
+      <table class="mini">
+        <tr><th></th><th class="jp">のんびり</th><th class="jp">ゆったり</th></tr>
+        <tr><td>초조함</td><td>없음</td><td>없음</td></tr>
+        <tr><td>대상</td><td>사람의 행동·생활</td><td>공간·시간·마음</td></tr>
+        <tr><td>이미지</td><td>내 페이스대로 지내기</td><td>여유 있고 쾌적함</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#3B6EA5">
+    <div class="ic-head">일본인이 느끼는 뉘앙스</div>
+    <div class="ic-body">
+      <div class="two-col">
+        <div class="ex-box">
+          <b class="jp">のんびりは…</b><br>
+          ✅ 시간에 쫓기지 않음<br>✅ 초조해하지 않음<br>✅ 자기 페이스대로<br>
+          <b style="display:block;margin-top:6px;">= "급하지 않은 것"</b>
+        </div>
+        <div class="ex-box">
+          <b class="jp">ゆったりは…</b><br>
+          ✅ 공간에 여유가 있음<br>✅ 마음에 여유가 있음<br>✅ 차분하고 쾌적함<br>
+          <b style="display:block;margin-top:6px;">= "여유가 있는 것"</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#C1416B">
+    <div class="ic-head">일상 예문</div>
+    <div class="ic-body">
+      <div class="ex-box jp">温泉でのんびりゆったりした時間を楽しんだ。<div style="font-family:'Noto Sans KR';color:var(--sub);">(온천에서 느긋하고 여유로운 시간을 즐겼다.)</div></div>
+    </div>
+  </div>
+
+  <div class="summary-bar">
+    のんびり = "급하지 않은, 느긋한 시간" ➕ ゆったり = "여유가 있는, 쾌적한 상태" = 최고의 릴랙스 타임!
+  </div>
+</main>
+</body>
+</html>

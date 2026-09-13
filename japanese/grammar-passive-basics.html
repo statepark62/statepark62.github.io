@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 동사의 종류별 수동형 만들기 — 원리편</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#26241F; --sub:#6b6558; --paper:#FBF8F2; --card:#ffffff; --line:#E7E1D3; }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{ background:var(--paper); color:var(--ink); font-family:'Noto Sans KR', sans-serif; line-height:1.55; }
+  .jp{ font-family:'Noto Serif JP', serif; }
+  header{ padding:32px 20px 18px; text-align:center; border-bottom:1px solid var(--line);
+    background: radial-gradient(circle at 15% 20%, rgba(60,140,123,0.08), transparent 40%), radial-gradient(circle at 85% 30%, rgba(59,110,165,0.08), transparent 40%); }
+  header h1{ margin:0; font-size:clamp(20px,5vw,27px); font-weight:900; }
+  header p.sub{ margin:8px auto 0; max-width:560px; color:var(--sub); font-size:13px; }
+  main{max-width:1000px;margin:0 auto;padding:20px 14px 60px; display:flex; flex-direction:column; gap:16px;}
+  .rule3{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+  .rule3 .r{ flex:1 1 260px; background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:12.5px; }
+  .info-card{ background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .info-card .ic-head{ background:var(--accent); color:#fff; font-weight:700; font-size:14px; padding:10px 16px; }
+  .info-card .ic-body{ padding:14px 16px; font-size:13.5px; }
+  table.mini{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; }
+  table.mini th, table.mini td{ border:1px solid var(--line); padding:6px 7px; text-align:center; }
+  table.mini th{ background:var(--paper); color:var(--sub); font-size:11.5px; }
+  .tip-box{ margin-top:10px; font-size:12.5px; background:#FFF6E9; border:1px solid #F0DEB8; border-radius:8px; padding:8px 11px; color:#7a6a3a; }
+  .warn-box{ margin-top:10px; font-size:12.5px; background:#FDECEF; border:1px solid #F3C9D2; border-radius:8px; padding:8px 11px; color:#7a3a3a; }
+  .three-col{ display:grid; grid-template-columns:1fr; gap:12px; }
+  @media(min-width:820px){ .three-col{ grid-template-columns:repeat(3,1fr);} }
+  .meaning4{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:8px; }
+  @media(min-width:640px){ .meaning4{grid-template-columns:repeat(4,1fr);} }
+  .meaning4 .m{ border:1px solid var(--line); border-radius:8px; padding:8px; text-align:center; font-size:11.5px; background:var(--paper); }
+  .summary-bar{ background:#1c2b45; color:#fff; border-radius:12px; padding:14px 18px; font-size:13.5px; text-align:center; line-height:1.7; }
+</style></head>
+<body>
+<header>
+  <h1>일본어 동사의 종류별 수동형 만들기 <span style="color:#3C8C7B">① 원리편</span></h1>
+  <p class="sub">동사를 ① 1형 · ② 2형 · ③ 3형으로 구분하면 수동형을 쉽고 정확하게 만들 수 있어요!</p>
+</header>
+<main>
+  <div class="rule3">
+    <div class="r"><b>① 1형 동사</b>: e단 → a단으로 바꾸고 'れる'를 붙인다. (단, う→わ)</div>
+    <div class="r"><b>② 2형 동사</b>: 'る'를 떼고 'られる'를 붙인다.</div>
+    <div class="r"><b>③ 3형 동사</b>: 특별한 형태이므로 그대로 외운다.</div>
+  </div>
+
+  <div class="three-col">
+    <div class="info-card" style="--accent:#2A5CAA">
+      <div class="ic-head">① 1형 동사 (五段動詞)</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>사전형</th><th>수동형</th><th>의미(예문)</th></tr>
+          <tr><td class="jp">書く</td><td class="jp">書かれる</td><td>본이 쓰였다</td></tr>
+          <tr><td class="jp">読む</td><td class="jp">読まれる</td><td>책이 읽혔다</td></tr>
+          <tr><td class="jp">話す</td><td class="jp">話される</td><td>이야기가 되다</td></tr>
+          <tr><td class="jp">買う</td><td class="jp">買われる</td><td>차가 구매되다</td></tr>
+          <tr><td class="jp">待つ</td><td class="jp">待たれる</td><td>그를 기다리고 있다</td></tr>
+          <tr><td class="jp">運ぶ</td><td class="jp">運ばれる</td><td>짐이 옮겨지다</td></tr>
+        </table>
+        <div class="tip-box">✔ 1형 동사는 'e단→a단+れる'가 기본 원리예요. う로 끝나면 '와'로 바뀌어요.</div>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#3C8C7B">
+      <div class="ic-head">② 2형 동사 (一段動詞)</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>사전형</th><th>수동형</th><th>의미(예문)</th></tr>
+          <tr><td class="jp">食べる</td><td class="jp">食べられる</td><td>먹히다(음식이 먹혀짐)</td></tr>
+          <tr><td class="jp">見る</td><td class="jp">見られる</td><td>보이다(그림이 보여짐)</td></tr>
+          <tr><td class="jp">起きる</td><td class="jp">起きられる</td><td>일어나게 되다</td></tr>
+          <tr><td class="jp">教える</td><td class="jp">教えられる</td><td>가르침을 받다</td></tr>
+          <tr><td class="jp">借りる</td><td class="jp">借りられる</td><td>빌려지다(책을 빌리다)</td></tr>
+          <tr><td class="jp">開ける</td><td class="jp">開けられる</td><td>열리다/열림을 당하다</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="info-card" style="--accent:#C1416B">
+      <div class="ic-head">③ 3형 동사 (サ変・カ変動詞)</div>
+      <div class="ic-body">
+        <table class="mini">
+          <tr><th>사전형</th><th>수동형</th><th>의미(예문)</th></tr>
+          <tr><td class="jp">する</td><td class="jp">される</td><td>하게 되다/당하게 되다</td></tr>
+          <tr><td class="jp">来る(くる)</td><td class="jp">来られる(こられる)</td><td>오게 되다/오시게 되다(존경)</td></tr>
+        </table>
+        <div class="tip-box">✔ 존경의 의미(오시다)로도 '来られる'가 사용돼요.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card" style="--accent:#6A4C93">
+    <div class="ic-head">「られる」의 여러 의미</div>
+    <div class="ic-body">
+      <p style="font-size:12px;color:var(--sub);">같은 형태라도 문맥에 따라 의미가 달라져요.</p>
+      <div class="meaning4">
+        <div class="m"><b>가능</b><br>~할 수 있다<br><span class="jp">食べられます</span></div>
+        <div class="m"><b>수동</b><br>~당하다/되다<br><span class="jp">食べられました</span></div>
+        <div class="m"><b>존경</b><br>(높임)~하시다<br><span class="jp">来られます</span></div>
+        <div class="m"><b>자발/타동</b><br>~하게 되다<br><span class="jp">入られていく</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">⚠️ 주의할 점: '열리다(開く)', '닫히다(閉じる)'처럼 자연스러운 상태 변화를 나타내는 자동사와 혼동하지 않도록 주의하세요.<br>
+    예) <span class="jp">ドアが開きました。</span>(문이 열렸다-자동사) vs <span class="jp">ドアが開けられました。</span>(문이 열렸다-수동, 누군가에 의해)
+  </div>
+
+  <div class="summary-bar">
+    <b>암기 팁!</b> ① 1형: e단→a단+れる(う→わ) ② 2형: る제거+られる ③ 3형: する→される, 来る→来られる<br>
+    다양한 예문으로 연습하면 수동형이 자연스럽게 익어요! 꼭 활용하여 일본어 표현의 폭을 넓혀갑시다!
+  </div>
+</main>
+</body>
+</html>
