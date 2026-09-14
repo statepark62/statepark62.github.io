@@ -9301,5 +9301,125 @@
   "example": "ネッシーの目撃談が今年になって急増している。",
   "exampleReading": "ねっしーのもくげきだんがことしになってきゅうぞうしている。",
   "exampleMeaning": "네시 목격담이 올해 들어 급증하고 있다."
+ },
+ {
+  "id": "news449",
+  "word": "馴れ初め",
+  "reading": "なれそめ",
+  "meaning": "(연인이) 처음 만나게 된 계기",
+  "level": "N1",
+  "example": "二人の馴れ初めは友人の紹介だったそうだ。",
+  "exampleReading": "ふたりのなれそめはゆうじんのしょうかいだったそうだ。",
+  "exampleMeaning": "두 사람이 처음 만나게 된 계기는 친구의 소개였다고 한다."
+ },
+ {
+  "id": "news450",
+  "word": "胸ぐらをつかむ",
+  "reading": "むなぐらをつかむ",
+  "meaning": "멱살을 잡다",
+  "level": "N1",
+  "example": "口論になった男は相手の胸ぐらをつかんで怒鳴った。",
+  "exampleReading": "こうろんになったおとこはあいてのむなぐらをつかんでどなった。",
+  "exampleMeaning": "말다툼이 된 남자는 상대방의 멱살을 잡고 소리쳤다."
+ },
+ {
+  "id": "news451",
+  "word": "物議を醸す",
+  "reading": "ぶつぎをかもす",
+  "meaning": "물의를 빚다, 논란을 일으키다",
+  "level": "N1",
+  "example": "大臣の失言が物議を醸している。",
+  "exampleReading": "だいじんのしつげんがぶつぎをかもしている。",
+  "exampleMeaning": "장관의 실언이 물의를 빚고 있다."
+ },
+ {
+  "id": "news452",
+  "word": "不信感",
+  "reading": "ふしんかん",
+  "meaning": "불신감",
+  "level": "N2",
+  "example": "会社の対応に不信感を抱く社員が増えている。",
+  "exampleReading": "かいしゃのたいおうにふしんかんをいだくしゃいんがふえている。",
+  "exampleMeaning": "회사의 대응에 불신감을 느끼는 직원이 늘고 있다."
+ },
+ {
+  "id": "news453",
+  "word": "急増",
+  "reading": "きゅうぞう",
+  "meaning": "급증",
+  "level": "N2",
+  "example": "最近、外国人観光客が急増している。",
+  "exampleReading": "さいきん、がいこくじんかんこうきゃくがきゅうぞうしている。",
+  "exampleMeaning": "최근 외국인 관광객이 급증하고 있다."
+ },
+ {
+  "id": "news454",
+  "word": "無職",
+  "reading": "むしょく",
+  "meaning": "무직, 직업이 없음",
+  "level": "N2",
+  "example": "彼は会社を辞めてから半年間、無職のままだった。",
+  "exampleReading": "かれはかいしゃをやめてから、はんとしかん、むしょくのままだった。",
+  "exampleMeaning": "그는 회사를 그만둔 후 반년 동안 무직인 채였다."
+ },
+ {
+  "id": "news455",
+  "word": "訪問",
+  "reading": "ほうもん",
+  "meaning": "방문",
+  "level": "N3",
+  "example": "首相は来週、被災地を訪問する予定です。",
+  "exampleReading": "しゅしょうはらいしゅう、ひさいちをほうもんするよていです。",
+  "exampleMeaning": "총리는 다음 주 재해 지역을 방문할 예정입니다."
+ },
+ {
+  "id": "news456",
+  "word": "軽傷",
+  "reading": "けいしょう",
+  "meaning": "경상, 가벼운 부상",
+  "level": "N2",
+  "example": "事故に遭った運転手は軽傷で済んだ。",
+  "exampleReading": "じこにあったうんてんしゅはけいしょうですんだ。",
+  "exampleMeaning": "사고를 당한 운전자는 경상으로 끝났다."
+ },
+ {
+  "id": "news457",
+  "word": "通りすがり",
+  "reading": "とおりすがり",
+  "meaning": "지나가는 길, 우연히 지나침",
+  "level": "N2",
+  "example": "通りすがりの人が倒れた老人を助け起こした。",
+  "exampleReading": "とおりすがりのひとがたおれたろうじんをたすけおこした。",
+  "exampleMeaning": "지나가던 사람이 쓰러진 노인을 일으켜 도왔다."
+ },
+ {
+  "id": "news458",
+  "word": "有罪判決",
+  "reading": "ゆうざいはんけつ",
+  "meaning": "유죄 판결",
+  "level": "N1",
+  "example": "裁判所は被告に有罪判決を言い渡した。",
+  "exampleReading": "さいばんしょはひこくにゆうざいはんけつをいいわたした。",
+  "exampleMeaning": "법원은 피고에게 유죄 판결을 선고했다."
+ },
+ {
+  "id": "news459",
+  "word": "所持",
+  "reading": "しょじ",
+  "meaning": "소지",
+  "level": "N2",
+  "example": "彼は違法な薬物を所持していた疑いがある。",
+  "exampleReading": "かれはいほうなやくぶつをしょじしていたうたがいがある。",
+  "exampleMeaning": "그는 불법 약물을 소지하고 있었다는 의혹이 있다."
+ },
+ {
+  "id": "news460",
+  "word": "報告",
+  "reading": "ほうこく",
+  "meaning": "보고",
+  "level": "N3",
+  "example": "彼女は仕事の進捗を上司に報告した。",
+  "exampleReading": "かのじょはしごとのしんちょくをじょうしにほうこくした。",
+  "exampleMeaning": "그녀는 업무 진척 상황을 상사에게 보고했다."
  }
 ]
