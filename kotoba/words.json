@@ -9421,5 +9421,105 @@
   "example": "彼女は仕事の進捗を上司に報告した。",
   "exampleReading": "かのじょはしごとのしんちょくをじょうしにほうこくした。",
   "exampleMeaning": "그녀는 업무 진척 상황을 상사에게 보고했다."
+ },
+ {
+  "id": "news461",
+  "word": "食い潰す",
+  "reading": "くいつぶす",
+  "meaning": "(재산·유산 등을) 탕진하다, 축내다",
+  "level": "N1",
+  "example": "彼は親の財産を全部食い潰してしまった。",
+  "exampleReading": "かれはおやのざいさんをぜんぶくいつぶしてしまった。",
+  "exampleMeaning": "그는 부모의 재산을 전부 탕진해 버렸다."
+ },
+ {
+  "id": "news462",
+  "word": "異変",
+  "reading": "いへん",
+  "meaning": "이변, 심상치 않은 변화",
+  "level": "N2",
+  "example": "最近、体に異変を感じて病院に行った。",
+  "exampleReading": "さいきん、からだにいへんをかんじてびょういんにいった。",
+  "exampleMeaning": "요즘 몸에 이변을 느껴서 병원에 갔다."
+ },
+ {
+  "id": "news463",
+  "word": "不適切",
+  "reading": "ふてきせつ",
+  "meaning": "부적절함",
+  "level": "N2",
+  "example": "彼の発言は状況にそぐわない不適切なものだった。",
+  "exampleReading": "かれのはつげんはじょうきょうにそぐわないふてきせつなものだった。",
+  "exampleMeaning": "그의 발언은 상황에 맞지 않는 부적절한 것이었다."
+ },
+ {
+  "id": "news464",
+  "word": "波乱万丈",
+  "reading": "はらんばんじょう",
+  "meaning": "파란만장",
+  "level": "N1",
+  "example": "彼女は波乱万丈な人生を歩んできた。",
+  "exampleReading": "かのじょははらんばんじょうなじんせいをあゆんできた。",
+  "exampleMeaning": "그녀는 파란만장한 인생을 걸어왔다."
+ },
+ {
+  "id": "news465",
+  "word": "水没",
+  "reading": "すいぼつ",
+  "meaning": "수몰, 물에 잠김",
+  "level": "N1",
+  "example": "大雨で地下街が水没する恐れがある。",
+  "exampleReading": "おおあめでちかがいがすいぼつするおそれがある。",
+  "exampleMeaning": "폭우로 지하상가가 수몰될 우려가 있다."
+ },
+ {
+  "id": "tj311",
+  "word": "暴走",
+  "reading": "ぼうそう",
+  "meaning": "폭주, 통제에서 벗어난 움직임",
+  "level": "N1",
+  "example": "機械が暴走しないよう監視する。",
+  "exampleReading": "きかいがぼうそうしないようかんしする",
+  "exampleMeaning": "기계가 폭주하지 않도록 감시한다."
+ },
+ {
+  "id": "tj312",
+  "word": "隔離",
+  "reading": "かくり",
+  "meaning": "격리",
+  "level": "N1",
+  "example": "患者は別室で隔離された。",
+  "exampleReading": "かんじゃはべっしつでかくりされた",
+  "exampleMeaning": "환자는 별실에서 격리되었다."
+ },
+ {
+  "id": "tj313",
+  "word": "抜け出す",
+  "reading": "ぬけだす",
+  "meaning": "빠져나오다, 몰래 벗어나다",
+  "level": "N2",
+  "example": "彼は会議をこっそり抜け出した。",
+  "exampleReading": "かれはかいぎをこっそりぬけだした",
+  "exampleMeaning": "그는 회의에서 몰래 빠져나왔다."
+ },
+ {
+  "id": "tj314",
+  "word": "痕跡",
+  "reading": "こんせき",
+  "meaning": "흔적",
+  "level": "N1",
+  "example": "雨は道に小さな痕跡を残した。",
+  "exampleReading": "あめはみちにちいさなこんせきをのこした",
+  "exampleMeaning": "비는 길에 작은 흔적을 남겼다."
+ },
+ {
+  "id": "tj315",
+  "word": "連絡を取る",
+  "reading": "れんらくをとる",
+  "meaning": "연락을 취하다",
+  "level": "N3",
+  "example": "至急、彼に連絡を取ってください。",
+  "exampleReading": "しきゅうかれにれんらくをとってください",
+  "exampleMeaning": "긴급히 그에게 연락을 취해주세요."
  }
 ]

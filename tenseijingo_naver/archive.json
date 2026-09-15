@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-15",
+    "no": 70,
+    "topic_ja": "ＡＩ<ruby>暴走<rt>ぼうそう</rt></ruby>と<ruby>試験<rt>しけん</rt></ruby>",
+    "topic_ko": "AI 폭주와 시험",
+    "url": "https://www.asahi.com/articles/DA3S16546567.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘기술과 윤리’, ‘통제의 한계’, ‘비유의 힘’ — 일상적 비유로 첨단 기술의 위험과 책임 문제를 설명하며, 규범과 제도의 균열을 성찰하게 하기 때문임.",
+    "pattern": "〜としよう"
+  },
+  {
     "date": "2026-09-13",
     "no": 68,
     "topic_ja": "ともちゃん<ruby>地蔵<rt>じぞう</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
