@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-16",
+    "no": 71,
+    "topic_ja": "<ruby>地図<rt>ちず</rt></ruby><ruby>投影<rt>とうえい</rt></ruby>の<ruby>見直<rt>みなお</rt></ruby>し",
+    "topic_ko": "지도 투영의 재검토",
+    "url": "https://www.asahi.com/articles/DA3S16547387.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘지도와 권력’, ‘시선의 공정성’, ‘국제사회와 교육’ — 지도 투영의 선택이 세계 인식과 교육 현장에 미치는 상징적 힘을 다루므로 이 장(章)에 배치하기 적합하다.",
+    "pattern": "〜かもしれない"
+  },
+  {
     "date": "2026-09-15",
     "no": 70,
     "topic_ja": "ＡＩ<ruby>暴走<rt>ぼうそう</rt></ruby>と<ruby>試験<rt>しけん</rt></ruby>",

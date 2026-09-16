@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-16 天声人語로 배우는 일본어 — 지도 투영의 재검토</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-16</span>
+      <span>2026년 9월 16일 (수)</span>
+    </div>
+
+    <h1><ruby>地図<rt>ちず</rt></ruby><ruby>投影<rt>とうえい</rt></ruby>の<ruby>見直<rt>みなお</rt></ruby>し</h1>
+    <p class="topic-ko">지도 투영의 재검토</p>
+
+    <div class="keyquote">
+      <div class="ja">「イコールアース<ruby>図法<rt>ずほう</rt></ruby>」</div>
+      <div class="ko">이퀄 어스 도법 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">このコラムは、<ruby>学校<rt>がっこう</rt></ruby>や<ruby>家庭<rt>かてい</rt></ruby>で<ruby>親<rt>した</rt></ruby>しむ<ruby>世界<rt>せかい</rt></ruby><ruby>地図<rt>ちず</rt></ruby>を<ruby>手掛<rt>てが</rt></ruby>かりに、<ruby>国連総会<rt>こくれんそうかい</rt></ruby>がメルカトルではなく「イコールアース<ruby>図法<rt>ずほう</rt></ruby>」を<ruby>推奨<rt>すいしょう</rt></ruby>する<ruby>決議案<rt>けつぎあん</rt></ruby>を<ruby>採択<rt>さいたく</rt></ruby>したことを<ruby>報<rt>ほう</rt></ruby>じる。</p><p class="ko">이 칼럼은 학교와 가정에서 익숙한 세계지도 이야기를 꺼내며, 유엔 총회가 메르카토르 대신 ‘이퀄 어스’ 도법을 권고하는 결의안을 채택했다는 소식을 전한다.</p></div>
+      <div class="s-item"><p class="ja">この<ruby>動向<rt>どうこう</rt></ruby>は、<ruby>六月<rt>ろくがつ</rt></ruby>にこの<ruby>欄<rt>らん</rt></ruby>で<ruby>取<rt>と</rt></ruby>り<ruby>上<rt>あ</rt></ruby>げたトーゴの<ruby>提案<rt>ていあん</rt></ruby>を<ruby>再確認<rt>さいかくにん</rt></ruby>し、<ruby>現地<rt>げんち</rt></ruby>で<ruby>見守<rt>みまも</rt></ruby>った<ruby>人<rt>ひと</rt></ruby>の<ruby>視点<rt>してん</rt></ruby>を<ruby>添<rt>そ</rt></ruby>えて<ruby>展開<rt>てんかい</rt></ruby>される。</p><p class="ko">이 논의는 올해 6월 이 칼럼에서 다루었던 토고의 제안을 다시 상기시키고, 현지에서 상황을 지켜본 한 인물의 시선을 보태어 이어진다.</p></div>
+      <div class="s-item"><p class="ja">そして、<ruby>地図<rt>ちず</rt></ruby>が<ruby>変<rt>か</rt></ruby>われば<ruby>世界<rt>せかい</rt></ruby>の<ruby>見<rt>み</rt></ruby>え<ruby>方<rt>かた</rt></ruby>も<ruby>変<rt>か</rt></ruby>わりうると<ruby>示唆<rt>しさ</rt></ruby>し、<ruby>公正<rt>こうせい</rt></ruby>な<ruby>視野<rt>しや</rt></ruby>を<ruby>問い直<rt>といなお</rt></ruby>す<ruby>余韻<rt>よいん</rt></ruby>を<ruby>残<rt>のこ</rt></ruby>す。</p><p class="ko">글은 지도가 바뀌면 세계를 보는 균형도 달라질 수 있음을 암시하며, 시선의 공정성을 되묻는 여운으로 마무리된다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>採択<rt>さいたく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">채택</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>総会<rt>そうかい</rt></ruby>は<ruby>決議<rt>けつぎ</rt></ruby>を<ruby>採択<rt>さいたく</rt></ruby>した。</span><br>총회는 결의를 채택했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>決議案<rt>けつぎあん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">결의안</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>新<rt>あたら</rt></ruby>しい<ruby>決議案<rt>けつぎあん</rt></ruby>が<ruby>提出<rt>ていしゅつ</rt></ruby>された。</span><br>새 결의안이 제출되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>促す<rt>うながす</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">촉구하다, 독려하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>先生<rt>せんせい</rt></ruby>は<ruby>発言<rt>はつげん</rt></ruby>を<ruby>促<rt>うなが</rt></ruby>した。</span><br>선생님은 발언을 독려했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>提案<rt>ていあん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">제안</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>委員<rt>いいん</rt></ruby>から<ruby>提案<rt>ていあん</rt></ruby>が<ruby>出<rt>で</rt></ruby>た。</span><br>위원으로부터 제안이 나왔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>図法<rt>ずほう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">도법(지도 투영법)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>正確<rt>せいかく</rt></ruby>な<ruby>地図<rt>ちず</rt></ruby>を<ruby>作<rt>つく</rt></ruby>るには<ruby>図法<rt>ずほう</rt></ruby>の<ruby>選択<rt>せんたく</rt></ruby>が<ruby>重要<rt>じゅうよう</rt></ruby>だ。</span><br>정확한 지도를 만들려면 도법 선택이 중요하다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜かもしれない</div>
+        <div class="pattern-ko">…일지도 모른다</div>
+        <p class="explain">불확실하지만 어느 정도 가능성이 있을 때 쓰는 표현이다. 단정하지 않고 여지를 남기는 공손한 서술에 널리 쓰이며, 추측의 강도를 약하게 만든다.</p>
+        <p class="ex"><span class="ja">この<ruby>変化<rt>へんか</rt></ruby>は<ruby>長期<rt>ちょうき</rt></ruby>に<ruby>及<rt>およ</rt></ruby>ぶかもしれない。</span><br>이 변화는 장기에 걸칠지도 모른다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 ‘교실 벽의 세계지도’라는 일상적 장면으로 문을 연 뒤, 곧바로 유엔 총회의 결의 소식으로 확대한다. 친숙한 사물에서 공적 의제로 점프하는 천성인어의 전형적 구성으로, 독자가 뉴스를 자기 일처럼 느끼게 하는 효과가 있다. 이어 6월의 이전 보도를 환기시키며 같은 주제를 다시 비추는데, 이는 지면의 축적을 활용해 ‘연속 독해’를 유도하는 장치이다. 현지 관찰자의 시선을 덧붙이는 방식도 현장성과 신뢰를 확보하는 데 유효하다.</p>
+        <p>의미 면에서 칼럼은 지도 투영법이라는 기술적 문제를 ‘세계관의 균형’이라는 규범적 질문으로 끌어올린다. 일본 독자에게도 학교 교육과 미디어 지도의 영향력을 되돌아보게 하는 대목이 흥미롭다. 한국 독자 입장에서는 유럽 중심적 왜곡 비판이 익숙한 주제이지만, 국제기구의 결의라는 계기를 통해 교육 현장의 변화를 상상하게 한다는 점이 신선하다. 결론을 단정하지 않고 여운을 남기는 점도 독자 스스로 판단을 확장하도록 초대한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 세계지도 도법의 전환을 계기로 세계를 바라보는 균형 감각을 재고하게 하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>메르카토르 도법은 항해에 유리하지만 고위도 지역의 면적을 과도하게 부풀려 유럽과 북반구가 실제보다 크게 보인다.</p>
+        <p>평면 등적 도법의 한 종류인 ‘이퀄 어스’는 면적을 보존해 남반구와 아프리카의 상대적 크기를 보다 정확히 보여 주려는 시도를 담고 있다.</p>
+        <p>유엔 총회 결의는 법적 구속력은 약하지만 상징성과 권고 효과가 커, 교육 현장과 공공기관의 지도 채택 기준에 영향을 줄 수 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>일상적 장면에서 출발해 국제 뉴스로 확장하는 ‘근거리에서 원거리로’의 구도 전환을 익혀라.</p>
+        <p><span class="n">二</span>이전 보도를 끌어와 맥락을 축적하고, 독자가 따라올 수 있도록 연결 고리를 분명히 하라.</p>
+        <p><span class="n">三</span>기술적 이슈를 가치 판단의 질문으로 격상시키되, 단정하지 않고 사유의 여백을 남겨라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>地図<rt>ちず</rt></ruby>の<ruby>描<rt>えが</rt></ruby>き<ruby>方<rt>かた</rt></ruby>が<ruby>世界<rt>せかい</rt></ruby>の<ruby>見<rt>み</rt></ruby>え<ruby>方<rt>かた</rt></ruby>を<ruby>左右<rt>さゆう</rt></ruby>する。</span>
+      <span class="ko">지도를 그리는 방식이 세계를 보는 방식을 좌우한다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-16) — <a href="https://www.asahi.com/articles/DA3S16547387.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-16.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

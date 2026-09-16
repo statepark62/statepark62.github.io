@@ -9621,5 +9621,215 @@
   "example": "事件の黒幕が誰なのか、視聴者の間で憶測が広がっている。",
   "exampleReading": "じけんのくろまくがだれなのか、しちょうしゃのあいだでおくそくがひろがっている。",
   "exampleMeaning": "사건의 흑막이 누구인지 시청자들 사이에서 억측이 퍼지고 있다."
+ },
+ {
+  "id": "news476",
+  "word": "通報",
+  "reading": "つうほう",
+  "meaning": "신고, 통보",
+  "level": "N2",
+  "example": "近所の人が火事を消防署に通報した。",
+  "exampleReading": "きんじょのひとがかじをしょうぼうしょにつうほうした。",
+  "exampleMeaning": "이웃 사람이 화재를 소방서에 신고했다."
+ },
+ {
+  "id": "news477",
+  "word": "運休",
+  "reading": "うんきゅう",
+  "meaning": "(교통편) 운행 중단, 결항",
+  "level": "N2",
+  "example": "台風の影響で新幹線が運休した。",
+  "exampleReading": "たいふうのえいきょうでしんかんせんがうんきゅうした。",
+  "exampleMeaning": "태풍의 영향으로 신칸센이 운행 중단되었다."
+ },
+ {
+  "id": "news478",
+  "word": "陥落",
+  "reading": "かんらく",
+  "meaning": "함락, (순위 등이) 떨어짐",
+  "level": "N1",
+  "example": "そのチームは首位から陥落してしまった。",
+  "exampleReading": "そのちーむはしゅいからかんらくしてしまった。",
+  "exampleMeaning": "그 팀은 1위 자리에서 떨어지고 말았다."
+ },
+ {
+  "id": "news479",
+  "word": "赤字",
+  "reading": "あかじ",
+  "meaning": "적자",
+  "level": "N2",
+  "example": "この会社は今年、大幅な赤字を計上した。",
+  "exampleReading": "このかいしゃはことし、おおはばなあかじをけいじょうした。",
+  "exampleMeaning": "이 회사는 올해 큰 폭의 적자를 기록했다."
+ },
+ {
+  "id": "news480",
+  "word": "誤算",
+  "reading": "ごさん",
+  "meaning": "오산, 판단 착오",
+  "level": "N1",
+  "example": "彼にとって今回の失敗は大きな誤算だった。",
+  "exampleReading": "かれにとってこんかいのしっぱいはおおきなごさんだった。",
+  "exampleMeaning": "그에게 이번 실패는 큰 오산이었다."
+ },
+ {
+  "id": "news481",
+  "word": "言葉遣い",
+  "reading": "ことばづかい",
+  "meaning": "말투, 언어 사용법",
+  "level": "N2",
+  "example": "目上の人には丁寧な言葉遣いを心がけるべきだ。",
+  "exampleReading": "めうえのひとにはていねいなことばづかいをこころがけるべきだ。",
+  "exampleMeaning": "윗사람에게는 정중한 말투를 신경 써야 한다."
+ },
+ {
+  "id": "news482",
+  "word": "逆上",
+  "reading": "ぎゃくじょう",
+  "meaning": "격분함, 발끈함",
+  "level": "N1",
+  "example": "注意されて逆上した男は店員を殴った。",
+  "exampleReading": "ちゅういされてぎゃくじょうしたおとこはてんいんをなぐった。",
+  "exampleMeaning": "주의를 받고 격분한 남자는 점원을 때렸다."
+ },
+ {
+  "id": "news483",
+  "word": "脅迫",
+  "reading": "きょうはく",
+  "meaning": "협박",
+  "level": "N1",
+  "example": "彼女はSNSで脅迫を受けたと警察に相談した。",
+  "exampleReading": "かのじょはえすえぬえすできょうはくをうけたとけいさつにそうだんした。",
+  "exampleMeaning": "그녀는 SNS에서 협박을 받았다고 경찰에 상담했다."
+ },
+ {
+  "id": "news484",
+  "word": "憂慮",
+  "reading": "ゆうりょ",
+  "meaning": "우려, 걱정",
+  "level": "N1",
+  "example": "専門家たちはこの問題を憂慮している。",
+  "exampleReading": "せんもんかたちはこのもんだいをゆうりょしている。",
+  "exampleMeaning": "전문가들은 이 문제를 우려하고 있다."
+ },
+ {
+  "id": "news485",
+  "word": "厳罰",
+  "reading": "げんばつ",
+  "meaning": "엄벌",
+  "level": "N1",
+  "example": "悪質な犯罪には厳罰を求める声が多い。",
+  "exampleReading": "あくしつなはんざいにはげんばつをもとめるこえがおおい。",
+  "exampleMeaning": "악질적인 범죄에는 엄벌을 요구하는 목소리가 많다."
+ },
+ {
+  "id": "news486",
+  "word": "信用",
+  "reading": "しんよう",
+  "meaning": "신용, 신뢰",
+  "level": "N3",
+  "example": "一度失った信用を取り戻すのは難しい。",
+  "exampleReading": "いちどうしなったしんようをとりもどすのはむずかしい。",
+  "exampleMeaning": "한번 잃은 신용을 되찾는 것은 어렵다."
+ },
+ {
+  "id": "news487",
+  "word": "急逝",
+  "reading": "きゅうせい",
+  "meaning": "급서, 갑작스러운 죽음",
+  "level": "N1",
+  "example": "有名な俳優が急逝したというニュースに、多くのファンが衝撃を受けた。",
+  "exampleReading": "ゆうめいなはいゆうがきゅうせいしたというニュースに、おおくのファンがしょうげきをうけた。",
+  "exampleMeaning": "유명한 배우가 급서했다는 뉴스에 많은 팬들이 충격을 받았다."
+ },
+ {
+  "id": "news488",
+  "word": "逸話",
+  "reading": "いつわ",
+  "meaning": "일화",
+  "level": "N1",
+  "example": "彼女には幼い頃の面白い逸話がたくさんある。",
+  "exampleReading": "かのじょにはおさないころのおもしろいいつわがたくさんある。",
+  "exampleMeaning": "그녀에게는 어린 시절의 재미있는 일화가 많이 있다."
+ },
+ {
+  "id": "news489",
+  "word": "解散",
+  "reading": "かいさん",
+  "meaning": "해산",
+  "level": "N2",
+  "example": "そのグループはメンバー間の意見の違いから解散を発表した。",
+  "exampleReading": "そのグループはメンバーかんのいけんのちがいからかいさんをはっぴょうした。",
+  "exampleMeaning": "그 그룹은 멤버 간의 의견 차이로 해산을 발표했다."
+ },
+ {
+  "id": "news490",
+  "word": "本音",
+  "reading": "ほんね",
+  "meaning": "본심, 속마음",
+  "level": "N2",
+  "example": "友達についお酒の勢いで本音を話してしまった。",
+  "exampleReading": "ともだちについおさけのいきおいでほんねをはなしてしまった。",
+  "exampleMeaning": "친구에게 그만 술김에 속마음을 말해버렸다."
+ },
+ {
+  "id": "news491",
+  "word": "敷居が低い",
+  "reading": "しきいがひくい",
+  "meaning": "문턱이 낮다, 접근하기 쉽다",
+  "level": "N1",
+  "example": "このアプリは操作が簡単で、初心者でも敷居が低い。",
+  "exampleReading": "このアプリはそうさがかんたんで、しょしんしゃでもしきいがひくい。",
+  "exampleMeaning": "이 앱은 조작이 간단해서 초보자도 접근하기 쉽다."
+ },
+ {
+  "id": "tj316",
+  "word": "採択",
+  "reading": "さいたく",
+  "meaning": "채택",
+  "level": "N1",
+  "example": "総会は決議を採択した。",
+  "exampleReading": "そうかいはけつぎをさいたくした。",
+  "exampleMeaning": "총회는 결의를 채택했다."
+ },
+ {
+  "id": "tj317",
+  "word": "決議案",
+  "reading": "けつぎあん",
+  "meaning": "결의안",
+  "level": "N1",
+  "example": "新しい決議案が提出された。",
+  "exampleReading": "あたらしいけつぎあんがていしゅつされた。",
+  "exampleMeaning": "새 결의안이 제출되었다."
+ },
+ {
+  "id": "tj318",
+  "word": "促す",
+  "reading": "うながす",
+  "meaning": "촉구하다, 독려하다",
+  "level": "N2",
+  "example": "先生は発言を促した。",
+  "exampleReading": "せんせいははつげんをうながした。",
+  "exampleMeaning": "선생님은 발언을 독려했다."
+ },
+ {
+  "id": "tj319",
+  "word": "提案",
+  "reading": "ていあん",
+  "meaning": "제안",
+  "level": "N2",
+  "example": "委員から提案が出た。",
+  "exampleReading": "いいんからていあんがでた。",
+  "exampleMeaning": "위원으로부터 제안이 나왔다."
+ },
+ {
+  "id": "tj320",
+  "word": "図法",
+  "reading": "ずほう",
+  "meaning": "도법(지도 투영법)",
+  "level": "N1",
+  "example": "正確な地図を作るには図法の選択が重要だ。",
+  "exampleReading": "せいかくなちずをつくるにはずほうのせんたくがじゅうようだ。",
+  "exampleMeaning": "정확한 지도를 만들려면 도법 선택이 중요하다."
  }
 ]
