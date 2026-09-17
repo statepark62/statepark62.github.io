@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-17",
+    "no": 72,
+    "topic_ja": "<ruby>男女<rt>だんじょ</rt></ruby><ruby>格差<rt>かくさ</rt></ruby>と<ruby>政治<rt>せいじ</rt></ruby>",
+    "topic_ko": "성별 격차와 정치",
+    "url": "https://www.asahi.com/articles/DA3S16548147.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '성평등 지표', '정치 대표성' — 국제 비교 수치로 일본의 위치를 점검하고, 특히 정치 분야의 구조적 과제를 환기시키는 칼럼이므로 두 축이 적합하다.",
+    "pattern": "〜だけだった"
+  },
+  {
     "date": "2026-09-16",
     "no": 71,
     "topic_ja": "<ruby>地図<rt>ちず</rt></ruby><ruby>投影<rt>とうえい</rt></ruby>の<ruby>見直<rt>みなお</rt></ruby>し",
