@@ -9941,5 +9941,85 @@
   "example": "政治分野での女性の活躍が注目される。",
   "exampleReading": "せいじぶんやでのじょせいのかつやくがちゅうもくされる。",
   "exampleMeaning": "정치 분야에서의 여성 활약이 주목받는다."
+ },
+ {
+  "id": "news498",
+  "word": "意図的",
+  "reading": "いとてき",
+  "meaning": "의도적",
+  "level": "N2",
+  "example": "彼は意図的にその質問を避けた。",
+  "exampleReading": "かれは いとてきに その しつもんを さけた。",
+  "exampleMeaning": "그는 의도적으로 그 질문을 피했다."
+ },
+ {
+  "id": "news499",
+  "word": "急落",
+  "reading": "きゅうらく",
+  "meaning": "급락",
+  "level": "N1",
+  "example": "円安の影響で株価が急落した。",
+  "exampleReading": "えんやすの えいきょうで かぶかが きゅうらくした。",
+  "exampleMeaning": "엔화 약세의 영향으로 주가가 급락했다."
+ },
+ {
+  "id": "news500",
+  "word": "勝ち取る",
+  "reading": "かちとる",
+  "meaning": "쟁취하다, 얻어내다",
+  "level": "N2",
+  "example": "彼女は努力の末に優勝を勝ち取った。",
+  "exampleReading": "かのじょは どりょくの すえに ゆうしょうを かちとった。",
+  "exampleMeaning": "그녀는 노력 끝에 우승을 쟁취했다."
+ },
+ {
+  "id": "news501",
+  "word": "悔やむ",
+  "reading": "くやむ",
+  "meaning": "후회하다",
+  "level": "N2",
+  "example": "彼はあの時の決断を今でも悔やんでいる。",
+  "exampleReading": "かれは あのときの けつだんを いまでも くやんでいる。",
+  "exampleMeaning": "그는 그때의 결정을 지금도 후회하고 있다."
+ },
+ {
+  "id": "news502",
+  "word": "実態",
+  "reading": "じったい",
+  "meaning": "실태",
+  "level": "N1",
+  "example": "調査によって業界の実態が明らかになった。",
+  "exampleReading": "ちょうさに よって ぎょうかいの じったいが あきらかに なった。",
+  "exampleMeaning": "조사를 통해 업계의 실태가 밝혀졌다."
+ },
+ {
+  "id": "news503",
+  "word": "期間限定",
+  "reading": "きかんげんてい",
+  "meaning": "기간 한정",
+  "level": "N2",
+  "example": "このケーキは期間限定で販売されています。",
+  "exampleReading": "このケーキはきかんげんていではんばいされています。",
+  "exampleMeaning": "이 케이크는 기간 한정으로 판매되고 있습니다."
+ },
+ {
+  "id": "news504",
+  "word": "咀嚼",
+  "reading": "そしゃく",
+  "meaning": "저작, 씹음",
+  "level": "N1",
+  "example": "よく咀嚼して食べることは消化に良いとされている。",
+  "exampleReading": "よくそしゃくしてたべることはしょうかによいとされている。",
+  "exampleMeaning": "잘 씹어서 먹는 것은 소화에 좋다고 여겨진다."
+ },
+ {
+  "id": "news505",
+  "word": "継承",
+  "reading": "けいしょう",
+  "meaning": "계승",
+  "level": "N1",
+  "example": "伝統文化を次の世代に継承することが重要だ。",
+  "exampleReading": "でんとうぶんかをつぎのせだいにけいしょうすることがじゅうようだ。",
+  "exampleMeaning": "전통 문화를 다음 세대에 계승하는 것이 중요하다."
  }
 ]
