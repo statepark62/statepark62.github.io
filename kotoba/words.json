@@ -10121,5 +10121,95 @@
   "example": "わたしは作品を展覧会で発表した。",
   "exampleReading": "わたしはさくひんをてんらんかいではっぴょうした",
   "exampleMeaning": "나는 작품을 전람회에서 발표했다."
+ },
+ {
+  "id": "news511",
+  "word": "円安",
+  "reading": "えんやす",
+  "meaning": "엔화 약세, 엔저",
+  "level": "N2",
+  "example": "円安が進み、輸入品の価格が上昇している。",
+  "exampleReading": "えんやすがすすみ、ゆにゅうひんのかかくがじょうしょうしている。",
+  "exampleMeaning": "엔화 약세가 진행되어 수입품 가격이 상승하고 있다."
+ },
+ {
+  "id": "news512",
+  "word": "憔悴",
+  "reading": "しょうすい",
+  "meaning": "초췌함, 심신이 지쳐 야윔",
+  "level": "N1",
+  "example": "彼女は長時間の看病で憔悴しきっていた。",
+  "exampleReading": "かのじょはちょうじかんのかんびょうでしょうすいしきっていた。",
+  "exampleMeaning": "그녀는 장시간의 간병으로 완전히 초췌해져 있었다."
+ },
+ {
+  "id": "news513",
+  "word": "喪失感",
+  "reading": "そうしつかん",
+  "meaning": "상실감",
+  "level": "N1",
+  "example": "大切な人を失った喪失感は簡単には消えない。",
+  "exampleReading": "たいせつなひとをうしなったそうしつかんはかんたんにはきえない。",
+  "exampleMeaning": "소중한 사람을 잃은 상실감은 쉽게 사라지지 않는다."
+ },
+ {
+  "id": "news514",
+  "word": "救急搬送",
+  "reading": "きゅうきゅうはんそう",
+  "meaning": "응급 이송",
+  "level": "N2",
+  "example": "彼は意識を失い、病院へ救急搬送された。",
+  "exampleReading": "かれはいしきをうしない、びょういんへきゅうきゅうはんそうされた。",
+  "exampleMeaning": "그는 의식을 잃고 병원으로 응급 이송되었다."
+ },
+ {
+  "id": "news515",
+  "word": "ポイ捨て",
+  "reading": "ぽいすて",
+  "meaning": "쓰레기 무단투기",
+  "level": "N2",
+  "example": "公園でのポイ捨ては条例で禁止されている。",
+  "exampleReading": "こうえんでのぽいすては じょうれいで きんしされている。",
+  "exampleMeaning": "공원에서의 쓰레기 무단투기는 조례로 금지되어 있다."
+ },
+ {
+  "id": "news516",
+  "word": "目撃",
+  "reading": "もくげき",
+  "meaning": "목격",
+  "level": "N2",
+  "example": "住宅街でキツネが目撃されて話題になった。",
+  "exampleReading": "じゅうたくがいできつねがもくげきされてわだいになった。",
+  "exampleMeaning": "주택가에서 여우가 목격되어 화제가 되었다."
+ },
+ {
+  "id": "news517",
+  "word": "煽る",
+  "reading": "あおる",
+  "meaning": "(운전 등에서) 위협하다, 부추기다",
+  "level": "N1",
+  "example": "後ろの車に煽られて怖い思いをした。",
+  "exampleReading": "うしろのくるまにあおられてこわいおもいをした。",
+  "exampleMeaning": "뒤차에게 위협 운전을 당해 무서운 경험을 했다."
+ },
+ {
+  "id": "news518",
+  "word": "余儀なくされる",
+  "reading": "よぎなくされる",
+  "meaning": "어쩔 수 없이 ~하게 되다",
+  "level": "N1",
+  "example": "狭い道でトラックはバックを余儀なくされた。",
+  "exampleReading": "せまいみちでとらっくはばっくをよぎなくされた。",
+  "exampleMeaning": "좁은 길에서 트럭은 후진을 할 수밖에 없었다."
+ },
+ {
+  "id": "news519",
+  "word": "熱愛",
+  "reading": "ねつあい",
+  "meaning": "열애",
+  "level": "N2",
+  "example": "二人の熱愛が週刊誌に報じられた。",
+  "exampleReading": "ふたりのねつあいがしゅうかんしにほうじられた。",
+  "exampleMeaning": "두 사람의 열애가 주간지에 보도되었다."
  }
 ]
