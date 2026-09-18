@@ -10021,5 +10021,105 @@
   "example": "伝統文化を次の世代に継承することが重要だ。",
   "exampleReading": "でんとうぶんかをつぎのせだいにけいしょうすることがじゅうようだ。",
   "exampleMeaning": "전통 문화를 다음 세대에 계승하는 것이 중요하다."
+ },
+ {
+  "id": "news506",
+  "word": "貿易赤字",
+  "reading": "ぼうえきあかじ",
+  "meaning": "무역 적자",
+  "level": "N2",
+  "example": "今年度の貿易赤字は前年より拡大した。",
+  "exampleReading": "こんねんどのぼうえきあかじはぜんねんよりかくだいした。",
+  "exampleMeaning": "이번 연도의 무역 적자는 전년보다 확대되었다."
+ },
+ {
+  "id": "news507",
+  "word": "一途",
+  "reading": "いちず",
+  "meaning": "한결같음, 오로지 한 마음",
+  "level": "N2",
+  "example": "彼女は一途な性格で、一度決めたことは最後までやり遂げる。",
+  "exampleReading": "かのじょはいちずなせいかくで、いちどきめたことはさいごまでやりとげる。",
+  "exampleMeaning": "그녀는 한결같은 성격으로, 한번 결정한 것은 끝까지 해낸다."
+ },
+ {
+  "id": "news508",
+  "word": "貫く",
+  "reading": "つらぬく",
+  "meaning": "(신념 등을) 관철하다, 끝까지 지키다",
+  "level": "N2",
+  "example": "彼は自分の信念を最後まで貫いた。",
+  "exampleReading": "かれはじぶんのしんねんをさいごまでつらぬいた。",
+  "exampleMeaning": "그는 자신의 신념을 끝까지 관철했다."
+ },
+ {
+  "id": "news509",
+  "word": "太鼓判を押す",
+  "reading": "たいこばんをおす",
+  "meaning": "확실히 보증하다, 자신 있게 인정하다",
+  "level": "N1",
+  "example": "専門家がこの製品の品質に太鼓判を押した。",
+  "exampleReading": "せんもんかがこのせいひんのひんしつにたいこばんをおした。",
+  "exampleMeaning": "전문가가 이 제품의 품질을 확실히 보증했다."
+ },
+ {
+  "id": "news510",
+  "word": "人目を盗む",
+  "reading": "ひとめをぬすむ",
+  "meaning": "남의 눈을 피하다, 몰래 하다",
+  "level": "N1",
+  "example": "二人は人目を盗んでこっそり会っていた。",
+  "exampleReading": "ふたりはひとめをぬすんでこっそりあっていた。",
+  "exampleMeaning": "두 사람은 남의 눈을 피해 몰래 만나고 있었다."
+ },
+ {
+  "id": "tj326",
+  "word": "画材",
+  "reading": "がざい",
+  "meaning": "화구, 그림 재료",
+  "level": "N2",
+  "example": "わたしは新しい画材を試してみた。",
+  "exampleReading": "わたしはあたらしいがざいをためしてみた",
+  "exampleMeaning": "나는 새로운 화구를 시험해 보았다."
+ },
+ {
+  "id": "tj327",
+  "word": "無心",
+  "reading": "むしん",
+  "meaning": "잡념 없음, 몰입",
+  "level": "N2",
+  "example": "彼は無心で筆を動かす。",
+  "exampleReading": "かれはむしんでふでをうごかす",
+  "exampleMeaning": "그는 잡념 없이 붓을 움직인다."
+ },
+ {
+  "id": "tj328",
+  "word": "目を奪う",
+  "reading": "めをうばう",
+  "meaning": "시선을 빼앗다, 사람을 홀리다",
+  "level": "N2",
+  "example": "鮮やかな色が観客の目を奪う。",
+  "exampleReading": "あざやかないろがかんきゃくのめをうばう",
+  "exampleMeaning": "선명한 색이 관객의 시선을 빼앗는다."
+ },
+ {
+  "id": "tj329",
+  "word": "木版",
+  "reading": "もくはん",
+  "meaning": "목판, 목판화",
+  "level": "N2",
+  "example": "彼女は木版の技法を学んでいる。",
+  "exampleReading": "かのじょはもくはんのぎほうをまなんでいる",
+  "exampleMeaning": "그녀는 목판의 기법을 배우고 있다."
+ },
+ {
+  "id": "tj330",
+  "word": "作品",
+  "reading": "さくひん",
+  "meaning": "작품",
+  "level": "N3",
+  "example": "わたしは作品を展覧会で発表した。",
+  "exampleReading": "わたしはさくひんをてんらんかいではっぴょうした",
+  "exampleMeaning": "나는 작품을 전람회에서 발표했다."
  }
 ]

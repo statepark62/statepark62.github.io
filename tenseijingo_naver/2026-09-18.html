@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-18 天声人語로 배우는 일본어 — 길가에서 그리는 화가</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-18</span>
+      <span>2026년 9월 18일 (금)</span>
+    </div>
+
+    <h1><ruby>路上<rt>ろじょう</rt></ruby>で<ruby>描<rt>えが</rt></ruby>く<ruby>画家<rt>がか</rt></ruby></h1>
+    <p class="topic-ko">길가에서 그리는 화가</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>無心<rt>むしん</rt></ruby>に<ruby>絵<rt>え</rt></ruby>に<ruby>向<rt>む</rt></ruby>かう」</div>
+      <div class="ko">잡념 없이 그림에 마주하다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>道路<rt>どうろ</rt></ruby>わきに<ruby>座<rt>すわ</rt></ruby>り、<ruby>絵<rt>え</rt></ruby>に<ruby>没頭<rt>ぼっとう</rt></ruby>した<ruby>姿<rt>すがた</rt></ruby>の<ruby>画家<rt>がか</rt></ruby>、<ruby>江上茂雄<rt>えがみしげお</rt></ruby>を<ruby>町<rt>まち</rt></ruby>の<ruby>人々<rt>ひとびと</rt></ruby>は<ruby>覚<rt>おぼ</rt></ruby>えている。</p><p class="ko">도로변에 앉아 몰입해 그림을 그리던 에가미 시게오(江上茂雄)의 모습이 지역 주민들의 기억 속에 남아 있다고 한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>偶然<rt>ぐうぜん</rt></ruby>、<ruby>上野<rt>うえの</rt></ruby>の<ruby>東京都美術館<rt>とうきょうとびじゅつかん</rt></ruby>で<ruby>彼<rt>かれ</rt></ruby>の<ruby>作品<rt>さくひん</rt></ruby>４００<ruby>点<rt>てん</rt></ruby>に<ruby>出会<rt>であ</rt></ruby>った。</p><p class="ko">필자는 우연히 도쿄 우에노의 도쿄도미술관에서 그의 작품 400점을 마주했다.</p></div>
+      <div class="s-item"><p class="ja">クレヨンや<ruby>水彩<rt>すいさい</rt></ruby>、<ruby>木版<rt>もくはん</rt></ruby>といった<ruby>身近<rt>みぢか</rt></ruby>な<ruby>画材<rt>がざい</rt></ruby>だけでどれほど<ruby>豊<rt>ゆた</rt></ruby>かな<ruby>表現<rt>ひょうげん</rt></ruby>が<ruby>可能<rt>かのう</rt></ruby>かと<ruby>驚<rt>おどろ</rt></ruby>きと<ruby>敬意<rt>けいい</rt></ruby>を<ruby>述<rt>の</rt></ruby>べる。</p><p class="ko">크레용·수채·목판 같은 소박한 재료만으로도 표현이 얼마나 넓어지는지에 대한 놀라움과 경외가 전해진다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>画材<rt>がざい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">화구, 그림 재료</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">わたしは<ruby>新<rt>あたら</rt></ruby>しい<ruby>画材<rt>がざい</rt></ruby>を<ruby>試<rt>ため</rt></ruby>してみた。</span><br>나는 새로운 화구를 시험해 보았다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>無心<rt>むしん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">잡념 없음, 몰입</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>無心<rt>むしん</rt></ruby>で<ruby>筆<rt>ふで</rt></ruby>を<ruby>動<rt>うご</rt></ruby>かす。</span><br>그는 잡념 없이 붓을 움직인다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>目を奪う<rt>めをうばう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">시선을 빼앗다, 사람을 홀리다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>鮮<rt>あざ</rt></ruby>やかな<ruby>色<rt>いろ</rt></ruby>が<ruby>観客<rt>かんきゃく</rt></ruby>の<ruby>目<rt>め</rt></ruby>を<ruby>奪<rt>うば</rt></ruby>う。</span><br>선명한 색이 관객의 시선을 빼앗는다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>木版<rt>もくはん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">목판, 목판화</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼女<rt>かのじょ</rt></ruby>は<ruby>木版<rt>もくはん</rt></ruby>の<ruby>技法<rt>ぎほう</rt></ruby>を<ruby>学<rt>まな</rt></ruby>んでいる。</span><br>그녀는 목판의 기법을 배우고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>作品<rt>さくひん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">작품</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">わたしは<ruby>作品<rt>さくひん</rt></ruby>を<ruby>展覧会<rt>てんらんかい</rt></ruby>で<ruby>発表<rt>はっぴょう</rt></ruby>した。</span><br>나는 작품을 전람회에서 발표했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜だけで</div>
+        <div class="pattern-ko">~만으로, ~뿐으로</div>
+        <p class="explain">어떤 수단이나 조건이 최소한임에도 그 자체로 목적을 달성하거나 변화가 일어남을 나타낸다. &#x27;뿐만으로도 충분하다&#x27;는 뉘앙스가 강하며, 과장 없이 담담하게 가능성을 강조할 때 자주 쓴다.</p>
+        <p class="ex"><span class="ja">この<ruby>鉛筆<rt>えんぴつ</rt></ruby>だけで<ruby>十<rt>じゅう</rt></ruby><ruby>分<rt>ぶん</rt></ruby>に<ruby>描<rt>えが</rt></ruby>ける。</span><br>이 연필만으로도 충분히 그릴 수 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 길가에서 몰입해 그림을 그리던 한 화가의 장면을 첫 컷처럼 제시하며, 독자의 시선을 그 즉시 현장으로 끌어당긴다. 이어서 우연히 들른 미술관이라는 일상적 사건을 축으로 삼아, 개인의 기억과 공공의 전시가 만나는 지점을 자연스럽게 연결한다. 구체적인 숫자(400점)가 주는 물성과 규모감은 감상자의 놀라움을 객관화하는 장치로 작동한다. 천성인어 특유의 ‘작은 디테일에서 보편으로’ 확장하는 구성이 간결하면서도 정서적 울림을 남긴다.</p>
+        <p>글이 남기는 의미는 재료보다 시선과 태도가 예술의 핵심이라는 깨달음에 가깝다. 크레용·수채·목판 같은 소박한 도구가 오히려 표현의 폭을 넓힌다는 통찰은, 한국 독자에게도 익숙한 ‘적은 것으로 충분히’의 미학과 맞닿아 있다. 또한 지역 사람들이 기억하는 한 화가의 모습은 공동체가 예술을 기억하는 방식에 대한 생각거리를 준다. ‘우연한 만남’이 촉발한 성찰의 여정이 짧은 문단 속에서도 차분히 축적되는 점이 인상적이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 소박한 재료와 한 화가의 태도가 어떻게 풍부한 예술로 확장되는지를 따라가는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>도쿄도미술관은 우에노 공원에 위치한 공립 미술관으로, 대형 공모전과 기획전을 자주 열어 시민들의 접근성이 높다.</p>
+        <p>일본의 미술 교육과 동호회 문화에서는 야외에서 사물을 관찰하며 그리는 ‘사생(写生)’ 전통이 뿌리 깊다.</p>
+        <p>크레용, 수채, 목판 등은 전문 장비가 없어도 접근 가능한 재료로, 일본의 아마추어부터 프로까지 폭넓게 사용된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>첫 문장에서 시각적 디테일을 포착해 독자의 몰입을 유도한다.</p>
+        <p><span class="n">二</span>우연한 장면과 전시의 규모를 연결해 개인적 경험을 공적 맥락으로 확장한다.</p>
+        <p><span class="n">三</span>소박한 재료의 힘을 강조하는 대조법으로 주제를 선명하게 드러낸다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>身近<rt>みぢか</rt></ruby>な<ruby>道具<rt>どうぐ</rt></ruby>だけで<ruby>心<rt>こころ</rt></ruby>は<ruby>動<rt>うご</rt></ruby>き<ruby>出<rt>だ</rt></ruby>す。</span>
+      <span class="ko">身近한 도구만으로도 마음은 움직이기 시작한다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-18) — <a href="https://www.asahi.com/articles/DA3S16548960.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-18.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

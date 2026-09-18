@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-18",
+    "no": 73,
+    "topic_ja": "<ruby>路上<rt>ろじょう</rt></ruby>で<ruby>描<rt>えが</rt></ruby>く<ruby>画家<rt>がか</rt></ruby>",
+    "topic_ko": "길가에서 그리는 화가",
+    "url": "https://www.asahi.com/articles/DA3S16548960.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘일상과 예술’, ‘재료의 힘’, ‘기억의 장면’ — 사소한 재료와 우연한 만남이 예술적 감동으로 확장되는 과정을 통해, 공동체의 기억과 개인의 시선이 만나는 지점을 설득력 있게 드러낸다.",
+    "pattern": "〜だけで"
+  },
+  {
     "date": "2026-09-17",
     "no": 72,
     "topic_ja": "<ruby>男女<rt>だんじょ</rt></ruby><ruby>格差<rt>かくさ</rt></ruby>と<ruby>政治<rt>せいじ</rt></ruby>",
