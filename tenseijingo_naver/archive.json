@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-19",
+    "no": 74,
+    "topic_ja": "<ruby>火野葦平<rt>ひのあしへい</rt></ruby>と<ruby>河童<rt>かっぱ</rt></ruby>",
+    "topic_ko": "히노 아시헤이와 갓파",
+    "url": "https://www.asahi.com/articles/DA3S16549792.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘두 얼굴의 작가’, ‘요괴와 문학’ — 전쟁 체험과 민속적 상상력이 한 인물 안에서 교차하는 지점을 보여 주므로, 문학의 스펙트럼과 협업 문화의 단면을 함께 다룰 수 있다.",
+    "pattern": "〜かと<ruby>思<rt>おも</rt></ruby>えば"
+  },
+  {
     "date": "2026-09-18",
     "no": 73,
     "topic_ja": "<ruby>路上<rt>ろじょう</rt></ruby>で<ruby>描<rt>えが</rt></ruby>く<ruby>画家<rt>がか</rt></ruby>",

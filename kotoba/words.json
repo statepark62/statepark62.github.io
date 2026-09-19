@@ -10211,5 +10211,135 @@
   "example": "二人の熱愛が週刊誌に報じられた。",
   "exampleReading": "ふたりのねつあいがしゅうかんしにほうじられた。",
   "exampleMeaning": "두 사람의 열애가 주간지에 보도되었다."
+ },
+ {
+  "id": "news520",
+  "word": "取り違え",
+  "reading": "とりちがえ",
+  "meaning": "착각, 혼동, 뒤바뀜",
+  "level": "N2",
+  "example": "病院で薬の取り違えが起きないよう、細心の注意を払っている。",
+  "exampleReading": "びょういんでくすりのとりちがえがおきないよう、さいしんのちゅういをはらっている。",
+  "exampleMeaning": "병원에서 약이 뒤바뀌는 일이 생기지 않도록 세심한 주의를 기울이고 있다."
+ },
+ {
+  "id": "news521",
+  "word": "憤怒",
+  "reading": "ふんぬ",
+  "meaning": "분노, 격노",
+  "level": "N1",
+  "example": "彼は不当な扱いに憤怒を覚えた。",
+  "exampleReading": "かれはふとうなあつかいにふんぬをおぼえた。",
+  "exampleMeaning": "그는 부당한 대우에 분노를 느꼈다."
+ },
+ {
+  "id": "news522",
+  "word": "真価",
+  "reading": "しんか",
+  "meaning": "진가, 참된 가치",
+  "level": "N1",
+  "example": "困難な状況でこそ、その人の真価が問われる。",
+  "exampleReading": "こんななじょうきょうでこそ、そのひとのしんかがとわれる。",
+  "exampleMeaning": "어려운 상황에서야말로 그 사람의 진가가 시험받는다."
+ },
+ {
+  "id": "news523",
+  "word": "資金洗浄",
+  "reading": "しきんせんじょう",
+  "meaning": "자금 세탁, 돈세탁",
+  "level": "N1",
+  "example": "銀行は資金洗浄の疑いがある取引を監視している。",
+  "exampleReading": "ぎんこうはしきんせんじょうのうたがいがあるとりひきをかんししている。",
+  "exampleMeaning": "은행은 자금 세탁 의혹이 있는 거래를 감시하고 있다."
+ },
+ {
+  "id": "news524",
+  "word": "自白強要",
+  "reading": "じはくきょうよう",
+  "meaning": "자백 강요",
+  "level": "N1",
+  "example": "警察による自白強要が問題視されている。",
+  "exampleReading": "けいさつによるじはくきょうようがもんだいしされている。",
+  "exampleMeaning": "경찰에 의한 자백 강요가 문제시되고 있다."
+ },
+ {
+  "id": "news525",
+  "word": "失態",
+  "reading": "しったい",
+  "meaning": "실태, 실수, 망신스러운 실수",
+  "level": "N1",
+  "example": "彼は大事な会議で資料を忘れるという失態を演じた。",
+  "exampleReading": "かれはだいじなかいぎでしりょうをわすれるというしったいをえんじた。",
+  "exampleMeaning": "그는 중요한 회의에서 자료를 잊어버리는 실수를 저질렀다."
+ },
+ {
+  "id": "news526",
+  "word": "波紋",
+  "reading": "はもん",
+  "meaning": "파문, 여파",
+  "level": "N1",
+  "example": "その発言は社会に大きな波紋を広げた。",
+  "exampleReading": "そのはつげんはしゃかいにおおきなはもんをひろげた。",
+  "exampleMeaning": "그 발언은 사회에 큰 파문을 일으켰다."
+ },
+ {
+  "id": "news527",
+  "word": "秘訣",
+  "reading": "ひけつ",
+  "meaning": "비결",
+  "level": "N2",
+  "example": "健康で長生きする秘訣は規則正しい生活だ。",
+  "exampleReading": "けんこうでながいきするひけつはきそくただしいせいかつだ。",
+  "exampleMeaning": "건강하게 오래 사는 비결은 규칙적인 생활이다."
+ },
+ {
+  "id": "tj331",
+  "word": "大家",
+  "reading": "たいか",
+  "meaning": "대가, 거장",
+  "level": "N2",
+  "example": "彼は俳句の大家として知られる。",
+  "exampleReading": "かれははいくのたいかとしてしられる",
+  "exampleMeaning": "그는 하이쿠의 대가로 알려져 있다."
+ },
+ {
+  "id": "tj332",
+  "word": "集大成",
+  "reading": "しゅうたいせい",
+  "meaning": "집대성",
+  "level": "N1",
+  "example": "この本は研究の集大成だ。",
+  "exampleReading": "このほんはけんきゅうのしゅうたいせいだ",
+  "exampleMeaning": "이 책은 연구의 집대성이다."
+ },
+ {
+  "id": "tj333",
+  "word": "挿絵",
+  "reading": "さしえ",
+  "meaning": "삽화",
+  "level": "N2",
+  "example": "挿絵を眺めるのが楽しい。",
+  "exampleReading": "さしえをながめるのがたのしい",
+  "exampleMeaning": "삽화를 바라보는 것이 즐겁다."
+ },
+ {
+  "id": "tj334",
+  "word": "悪戯する",
+  "reading": "いたずらする",
+  "meaning": "장난치다",
+  "level": "N3",
+  "example": "子どもが猫に悪戯する。",
+  "exampleReading": "こどもがねこにいたずらする",
+  "exampleMeaning": "아이가 고양이에게 장난을 친다."
+ },
+ {
+  "id": "tj335",
+  "word": "人助け",
+  "reading": "ひとだすけ",
+  "meaning": "사람 돕기, 남을 도움",
+  "level": "N2",
+  "example": "彼女は通りで人助けをした。",
+  "exampleReading": "かのじょはとおりでひとだすけをした",
+  "exampleMeaning": "그녀는 길에서 사람을 도왔다."
  }
 ]
