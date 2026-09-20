@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-20 天声人語로 배우는 일본어 — 사랑의 진주와 완전의 덫</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:980px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-20</span>
+      <span>2026년 9월 20일 (일)</span>
+    </div>
+
+    <h1><ruby>愛<rt>あい</rt></ruby>の<ruby>真珠<rt>しんじゅ</rt></ruby>と<ruby>完全<rt>かんぜん</rt></ruby>の<ruby>罠<rt>わな</rt></ruby></h1>
+    <p class="topic-ko">사랑의 진주와 완전의 덫</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>完全<rt>かんぜん</rt></ruby>な<ruby>美<rt>うつく</rt></ruby>しさ」</div>
+      <div class="ko">완전한 아름다움 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">イギリスの<ruby>作家<rt>さっか</rt></ruby>ウェルズの『<ruby>愛<rt>あい</rt></ruby>の<ruby>真珠<rt>しんじゅ</rt></ruby>』を<ruby>手<rt>て</rt></ruby>がかりに、<ruby>王<rt>おう</rt></ruby>が<ruby>王妃<rt>おうひ</rt></ruby>の<ruby>死<rt>し</rt></ruby>を<ruby>悼<rt>いた</rt></ruby>み、<ruby>完全<rt>かんぜん</rt></ruby>な<ruby>美<rt>うつく</rt></ruby>しさの<ruby>霊廟<rt>れいびょう</rt></ruby>を<ruby>建<rt>た</rt></ruby>てようとする<ruby>物語<rt>ものがたり</rt></ruby>で<ruby>書<rt>か</rt></ruby>きだす。</p><p class="ko">칼럼은 H.G. 웰스의 단편 ‘사랑의 진주’를 꺼내, 왕이 왕비의 죽음을 애도하며 완전한 미를 지닌 영묘를 세우려 한 이야기를 서두로 삼는다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>巨大<rt>きょだい</rt></ruby>な<ruby>富<rt>とみ</rt></ruby>と<ruby>時間<rt>じかん</rt></ruby>を<ruby>注<rt>そそ</rt></ruby>いで<ruby>完璧<rt>かんぺき</rt></ruby>を<ruby>追求<rt>ついきゅう</rt></ruby>する<ruby>過程<rt>かてい</rt></ruby>が<ruby>示<rt>しめ</rt></ruby>され、<ruby>手段<rt>しゅだん</rt></ruby>が<ruby>目的<rt>もくてき</rt></ruby>をのみこむ<ruby>瞬間<rt>しゅんかん</rt></ruby>を<ruby>予感<rt>よかん</rt></ruby>させる。</p><p class="ko">막대한 재화와 시간을 쏟아 완벽을 추구하는 과정이 그려지며, 수단이 목적을 삼키는 순간을 예감하게 한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>はこの<ruby>逸話<rt>いつわ</rt></ruby>を<ruby>通<rt>とお</rt></ruby>して、<ruby>哀悼<rt>あいとう</rt></ruby>と<ruby>美学<rt>びがく</rt></ruby>、<ruby>権力<rt>けんりょく</rt></ruby>の<ruby>虚栄<rt>きょえい</rt></ruby>が<ruby>交差<rt>こうさ</rt></ruby>する<ruby>地点<rt>ちてん</rt></ruby>を<ruby>示<rt>しめ</rt></ruby>し、<ruby>現実<rt>げんじつ</rt></ruby>への<ruby>照射<rt>しょうしゃ</rt></ruby>を<ruby>試<rt>こころ</rt></ruby>みるようだ。</p><p class="ko">필자는 이 일화를 통해 애도와 미학, 권력의 허영이 교차하는 지점을 가리키며, 오늘의 현실에 비춰보려는 듯한 여운을 남긴다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>棺<rt>ひつぎ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">관, 관짝</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>葬儀<rt>そうぎ</rt></ruby>で<ruby>棺<rt>ひつぎ</rt></ruby>を<ruby>運<rt>はこ</rt></ruby>ぶ。</span><br>장례식에서 관을 운반한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>霊廟<rt>れいびょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">영묘, 능묘</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>有名<rt>ゆうめい</rt></ruby>な<ruby>霊廟<rt>れいびょう</rt></ruby>を<ruby>訪<rt>おとず</rt></ruby>れた。</span><br>유명한 영묘를 방문했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>宝石<rt>ほうせき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">보석</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>宝石<rt>ほうせき</rt></ruby>が<ruby>光<rt>ひか</rt></ruby>る。</span><br>보석이 반짝인다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>宣言する<rt>せんげんする</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">선언하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>市長<rt>しちょう</rt></ruby>は<ruby>改革<rt>かいかく</rt></ruby>を<ruby>宣言<rt>せんげん</rt></ruby>した。</span><br>시장은 개혁을 선언했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>完璧<rt>かんぺき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">완벽함</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>の<ruby>計画<rt>けいかく</rt></ruby>は<ruby>完璧<rt>かんぺき</rt></ruby>だ。</span><br>그의 계획은 완벽하다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜ため（に）</div>
+        <div class="pattern-ko">~하기 위해, ~을 위해</div>
+        <p class="explain">목적을 나타낼 때 ‘~하기 위해’의 뜻으로 쓰인다. 이유·원인을 나타내는 ‘~ 때문에’와 형태가 같으므로 문맥으로 구분해야 한다. 공식문서나 설명문에서도 자주 쓰이는 기본 표현이다.</p>
+        <p class="ex"><span class="ja"><ruby>留学<rt>りゅうがく</rt></ruby>のため、<ruby>貯金<rt>ちょきん</rt></ruby>を<ruby>始<rt>はじ</rt></ruby>めた。</span><br>유학을 위해 저금을 시작했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 글은 문학적 일화를 전면에 내세워 정서적 톤을 먼저 깔아두는 ‘천성인어’의 전형을 보여준다. 알라배스터와 보석, 화려한 관 같은 구체 이미지가 즉각적인 시각적 장면을 만들고, 독자의 감각을 애도라는 정서에 묶어둔다. 그러다 ‘완전한 아름다움’이라는 추상어로 한 단계 상승하며 주제의 축을 미학과 권력의 영역으로 확장한다. 도입의 응축감이 강해서, 이후 이어질 사회적 비유의 설득력을 미리 확보하는 효과가 크다.</p>
+        <p>이 칼럼이 던지는 메시지는 ‘처음의 사랑과 슬픔’이 ‘완벽이라는 집착’으로 전도되는 그 순간에 대한 경계로 읽힌다. 거대한 건축물이나 국가 프로젝트가 때로는 본래의 목적을 잃는 장면은 한국 독자에게도 낯설지 않다. 문학을 거울로 삼아 현실을 비추는 방식은 직접적인 논박보다 여운이 길고, 독자 스스로 연결고리를 찾게 만든다. 결국 글은 애도의 진정성과 기념의 형식, 그리고 권력이 사랑을 미학으로 치환하는 메커니즘을 성찰하게 한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 애도의 건축이 어떻게 완전의 집착으로 미끄러지는지를 빌려 오늘의 현실을 비추는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>H.G. 웰스는 공상과학 소설로 유명하지만, ‘사랑의 진주’처럼 인간의 감정과 미학적 집착을 탐구하는 단편도 다수 남겼다.</p>
+        <p>사랑을 기리는 능묘(霊廟)는 세계 여러 문화권에서 권력의 상징이자 애도의 형식으로 등장해 왔으며, 타지마할을 연상시키는 사례가 자주 언급된다.</p>
+        <p>아사히신문의 ‘천성인어’는 문학·사례의 서술로 시작해 사회 현안을 비유적으로 연결하는 구성을 즐겨 사용하며, 짧은 분량 속에 반전을 심는 것이 특징이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 이미지(관, 보석, 건축)로 정서를 먼저 환기한 뒤 추상적 주제로 고양시키는 단계적 전개를 배운다.</p>
+        <p><span class="n">二</span>‘완전’ 같은 키워드를 반복·변주해 수단과 목적의 전도를 독자 스스로 감지하게 한다.</p>
+        <p><span class="n">三</span>문학적 일화를 사회적 논점에 비유로 연결해 직접 공방 없이 사유의 여백을 남긴다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>追悼<rt>ついとう</rt></ruby>の<ruby>建築<rt>けんちく</rt></ruby>は、やがて<ruby>目的<rt>もくてき</rt></ruby>を<ruby>超<rt>こ</rt></ruby>える<ruby>美<rt>うつく</rt></ruby>へと<ruby>変<rt>か</rt></ruby>わりうる。</span>
+      <span class="ko">추도의 건축은 어느새 목적을 넘어선 미로 바뀔 수 있다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-20) — <a href="https://www.asahi.com/articles/DA3S16550536.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-20.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

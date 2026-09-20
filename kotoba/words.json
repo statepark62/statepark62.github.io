@@ -10341,5 +10341,215 @@
   "example": "彼女は通りで人助けをした。",
   "exampleReading": "かのじょはとおりでひとだすけをした",
   "exampleMeaning": "그녀는 길에서 사람을 도왔다."
+ },
+ {
+  "id": "news528",
+  "word": "言い訳",
+  "reading": "いいわけ",
+  "meaning": "변명",
+  "level": "N2",
+  "example": "彼はいつも遅刻の言い訳ばかりしている。",
+  "exampleReading": "かれはいつもちこくのいいわけばかりしている。",
+  "exampleMeaning": "그는 항상 지각에 대한 변명만 하고 있다."
+ },
+ {
+  "id": "news529",
+  "word": "拡散",
+  "reading": "かくさん",
+  "meaning": "확산",
+  "level": "N2",
+  "example": "そのニュースはSNSで瞬く間に拡散した。",
+  "exampleReading": "そのニュースはエスエヌエスでまたたくまにかくさんした。",
+  "exampleMeaning": "그 뉴스는 SNS에서 순식간에 확산되었다."
+ },
+ {
+  "id": "news530",
+  "word": "訂正",
+  "reading": "ていせい",
+  "meaning": "정정, 수정",
+  "level": "N2",
+  "example": "記事の誤りについて訂正記事が出された。",
+  "exampleReading": "きじのあやまりについてていせいきじがだされた。",
+  "exampleMeaning": "기사의 오류에 대해 정정 기사가 나왔다."
+ },
+ {
+  "id": "tj336",
+  "word": "霊廟",
+  "reading": "れいびょう",
+  "meaning": "영묘",
+  "level": "N1",
+  "example": "古都には王をまつる霊廟が残っている。",
+  "exampleReading": "ことにはおうをまつるれいびょうがのこっている。",
+  "exampleMeaning": "고도에는 왕을 모시는 영묘가 남아 있다."
+ },
+ {
+  "id": "tj337",
+  "word": "棺",
+  "reading": "ひつぎ",
+  "meaning": "관",
+  "level": "N2",
+  "example": "祭壇の中央に棺が安置された。",
+  "exampleReading": "さいだんのちゅうおうにひつぎがあんちされた。",
+  "exampleMeaning": "제단 중앙에 관이 안치되었다."
+ },
+ {
+  "id": "tj338",
+  "word": "豪華",
+  "reading": "ごうか",
+  "meaning": "호화로움, 화려함",
+  "level": "N2",
+  "example": "豪華な装飾が来訪者の目を奪う。",
+  "exampleReading": "ごうかなそうしょくがらいほうしゃのめをうばう。",
+  "exampleMeaning": "호화로운 장식이 방문객의 눈을 사로잡는다."
+ },
+ {
+  "id": "tj339",
+  "word": "宣言",
+  "reading": "せんげん",
+  "meaning": "선언",
+  "level": "N3",
+  "example": "市長は再開発の推進を宣言した。",
+  "exampleReading": "しちょうはさいかいはつのすいしんをせんげんした。",
+  "exampleMeaning": "시장은 재개발 추진을 선언했다."
+ },
+ {
+  "id": "tj340",
+  "word": "建造",
+  "reading": "けんぞう",
+  "meaning": "건조, 건설",
+  "level": "N2",
+  "example": "橋の建造には多くの職人が携わった。",
+  "exampleReading": "はしのけんぞうにはおおくのしょくにんがたずさわった。",
+  "exampleMeaning": "다리의 건조에는 많은 장인이 참여했다."
+ },
+ {
+  "id": "news531",
+  "word": "置き忘れる",
+  "reading": "おきわすれる",
+  "meaning": "물건을 두고 잊어버리다, 놓고 오다",
+  "level": "N2",
+  "example": "電車の中にスマートフォンを置き忘れてしまった。",
+  "exampleReading": "でんしゃのなかにスマートフォンをおきわすれてしまった。",
+  "exampleMeaning": "전철 안에 스마트폰을 두고 내려버렸다."
+ },
+ {
+  "id": "news532",
+  "word": "騙される",
+  "reading": "だまされる",
+  "meaning": "속다, 사기당하다",
+  "level": "N3",
+  "example": "彼は詐欺師に騙されて大金を失った。",
+  "exampleReading": "かれはさぎしにだまされてたいきんをうしなった。",
+  "exampleMeaning": "그는 사기꾼에게 속아서 큰돈을 잃었다."
+ },
+ {
+  "id": "news533",
+  "word": "親不孝",
+  "reading": "おやふこう",
+  "meaning": "불효",
+  "level": "N2",
+  "example": "彼女は自分の行動が親不孝だと反省している。",
+  "exampleReading": "かのじょはじぶんのこうどうがおやふこうだとはんせいしている。",
+  "exampleMeaning": "그녀는 자신의 행동이 불효라고 반성하고 있다."
+ },
+ {
+  "id": "news534",
+  "word": "特殊詐欺",
+  "reading": "とくしゅさぎ",
+  "meaning": "특수사기 (보이스피싱 등 신종 사기)",
+  "level": "N1",
+  "example": "特殊詐欺の被害額は年々増加している。",
+  "exampleReading": "とくしゅさぎのひがいがくはねんねんぞうかしている。",
+  "exampleMeaning": "특수사기 피해액은 해마다 증가하고 있다."
+ },
+ {
+  "id": "news535",
+  "word": "闇バイト",
+  "reading": "やみバイト",
+  "meaning": "불법·범죄에 연루된 알바(어둠의 알바)",
+  "level": "N1",
+  "example": "闇バイトに応募したことを彼は後悔していると語った。",
+  "exampleReading": "やみバイトにおうぼしたことをかれはこうかいしているとかたった。",
+  "exampleMeaning": "그는 어둠의 알바에 지원한 것을 후회하고 있다고 말했다."
+ },
+ {
+  "id": "news536",
+  "word": "批判",
+  "reading": "ひはん",
+  "meaning": "비판",
+  "level": "N3",
+  "example": "その政策は多くの国民から批判を受けた。",
+  "exampleReading": "そのせいさくはおおくのこくみんからひはんをうけた。",
+  "exampleMeaning": "그 정책은 많은 국민들로부터 비판을 받았다."
+ },
+ {
+  "id": "news537",
+  "word": "容疑者",
+  "reading": "ようぎしゃ",
+  "meaning": "용의자",
+  "level": "N2",
+  "example": "警察は容疑者を追跡している。",
+  "exampleReading": "けいさつはようぎしゃをついせきしている。",
+  "exampleMeaning": "경찰은 용의자를 추적하고 있다."
+ },
+ {
+  "id": "news538",
+  "word": "差別的",
+  "reading": "さべつてき",
+  "meaning": "차별적",
+  "level": "N2",
+  "example": "その発言は差別的だとして問題になった。",
+  "exampleReading": "そのはつげんはさべつてきだとしてもんだいになった。",
+  "exampleMeaning": "그 발언은 차별적이라며 문제가 되었다."
+ },
+ {
+  "id": "tj341",
+  "word": "棺",
+  "reading": "ひつぎ",
+  "meaning": "관, 관짝",
+  "level": "N1",
+  "example": "葬儀で棺を運ぶ。",
+  "exampleReading": "そうぎでひつぎをはこぶ。",
+  "exampleMeaning": "장례식에서 관을 운반한다."
+ },
+ {
+  "id": "tj342",
+  "word": "霊廟",
+  "reading": "れいびょう",
+  "meaning": "영묘, 능묘",
+  "level": "N1",
+  "example": "有名な霊廟を訪れた。",
+  "exampleReading": "ゆうめいなれいびょうをおとずれた。",
+  "exampleMeaning": "유명한 영묘를 방문했다."
+ },
+ {
+  "id": "tj343",
+  "word": "宝石",
+  "reading": "ほうせき",
+  "meaning": "보석",
+  "level": "N2",
+  "example": "宝石が光る。",
+  "exampleReading": "ほうせきがひかる。",
+  "exampleMeaning": "보석이 반짝인다."
+ },
+ {
+  "id": "tj344",
+  "word": "宣言する",
+  "reading": "せんげんする",
+  "meaning": "선언하다",
+  "level": "N2",
+  "example": "市長は改革を宣言した。",
+  "exampleReading": "しちょうはかいかくをせんげんした。",
+  "exampleMeaning": "시장은 개혁을 선언했다."
+ },
+ {
+  "id": "tj345",
+  "word": "完璧",
+  "reading": "かんぺき",
+  "meaning": "완벽함",
+  "level": "N1",
+  "example": "彼の計画は完璧だ。",
+  "exampleReading": "かれのけいかくはかんぺきだ。",
+  "exampleMeaning": "그의 계획은 완벽하다."
  }
 ]

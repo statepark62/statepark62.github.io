@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-20",
+    "no": 75,
+    "topic_ja": "<ruby>愛<rt>あい</rt></ruby>の<ruby>真珠<rt>しんじゅ</rt></ruby>と<ruby>完全<rt>かんぜん</rt></ruby>の<ruby>罠<rt>わな</rt></ruby>",
+    "topic_ko": "사랑의 진주와 완전의 덫",
+    "url": "https://www.asahi.com/articles/DA3S16550536.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘애도와 미학’, ‘목적과 수단’, ‘권력의 기념물’ — 개인의 슬픔이 공공의 기념물로 형상화되는 과정에서 목적이 전도되는 문제를 문학적 일화로 성찰하기 때문임.",
+    "pattern": "〜ため（に）"
+  },
+  {
     "date": "2026-09-19",
     "no": 74,
     "topic_ja": "<ruby>火野葦平<rt>ひのあしへい</rt></ruby>と<ruby>河童<rt>かっぱ</rt></ruby>",
