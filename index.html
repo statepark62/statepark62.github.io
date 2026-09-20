@@ -217,7 +217,7 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
 /* 방명록 바로가기 버튼 */
 html{scroll-behavior:smooth}
 .gb-fab{
-  position:fixed;right:18px;bottom:18px;z-index:60;
+  position:fixed;right:max(18px, calc((100vw - 940px) / 2 + 18px));bottom:18px;z-index:60;
   display:flex;align-items:center;gap:8px;
   background:var(--pine);color:#F3F1E7;text-decoration:none;
   font-size:13.5px;font-weight:700;letter-spacing:.06em;
@@ -509,20 +509,21 @@ async function main() {
     correctLevel: QRCode.CorrectLevel.M
   });
 
-  // ───── 계절별 배너 사진 ─────
+  // ───── 계절별 배너 사진 (언어=나라별 사진 세트 중, 현재 달에 맞는 계절을 자동 선택) ─────
   (function () {
     const img = document.getElementById("heroImg");
     const cap = document.getElementById("heroCap");
+    const set = C.seasons[LANG] || C.seasons.ko;
     const m = new Date().getMonth() + 1;
     const s = (m >= 3 && m <= 5) ? "spring" : (m >= 6 && m <= 8) ? "summer"
             : (m >= 9 && m <= 11) ? "autumn" : "winter";
-    const d = C.seasons[s];
+    const d = set[s];
     let fell = false;
     img.onerror = function () {
-      if (!fell) { fell = true; const f = C.seasons.summer; img.src = f.src; img.alt = t(f.alt); cap.textContent = t(f.cap); }
+      if (!fell) { fell = true; const f = set.summer; img.src = f.src; img.alt = f.alt; cap.textContent = f.cap; }
       else { img.style.display = "none"; }
     };
-    img.src = d.src; img.alt = t(d.alt); cap.textContent = t(d.cap);
+    img.src = d.src; img.alt = d.alt; cap.textContent = d.cap;
   })();
 
   // ───── 방문자 수 ─────

@@ -34,56 +34,70 @@
     }
   },
   "seasons": {
-    "spring": {
-      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Cherry%20flowers%20during%20the%20cherry%20blossom%20at%20the%20Gyeongbokgung%20Palace%2C%20South%20Korea.jpg?width=1400",
-      "alt": {
-        "ko": "경복궁의 봄 — 벚꽃",
-        "en": "Cherry blossoms at Gyeongbokgung Palace",
-        "ja": "景福宮の春 — 桜"
+    "ko": {
+      "spring": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Cherry%20flowers%20during%20the%20cherry%20blossom%20at%20the%20Gyeongbokgung%20Palace%2C%20South%20Korea.jpg?width=1400",
+        "alt": "경복궁의 봄 — 벚꽃",
+        "cap": "봄 · 경복궁 벚꽃 — Wikimedia Commons"
       },
-      "cap": {
-        "ko": "봄 · 경복궁 벚꽃 — Wikimedia Commons",
-        "en": "Spring · Cherry blossoms, Gyeongbokgung — Wikimedia Commons",
-        "ja": "春 · 景福宮の桜 — Wikimedia Commons"
+      "summer": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Baekje%20Historic%20Areas%20Gongsanseong%20Fortress.jpg?width=1400",
+        "alt": "공주 공산성의 여름",
+        "cap": "여름 · 공주 공산성 (유네스코 세계유산) — Wikimedia Commons"
+      },
+      "autumn": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/%EA%B2%BD%EB%B3%B5%EA%B6%81%20%EA%B2%BD%ED%9A%8C%EB%A3%A8%202011%EB%85%84%2011%EC%9B%94%20%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%20%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EB%AA%85%EC%86%8C%20%28Seoul%20best%20attractions%29%207.jpg?width=1400",
+        "alt": "경회루의 가을",
+        "cap": "가을 · 경복궁 경회루 — Wikimedia Commons"
+      },
+      "winter": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/KOCIS%20Korea%20Snowfall%20in%20Gyeongbokgung%2003%20%2811318876484%29.jpg?width=1400",
+        "alt": "경복궁의 겨울 — 설경",
+        "cap": "겨울 · 눈 내린 경복궁 — Wikimedia Commons"
       }
     },
-    "summer": {
-      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Baekje%20Historic%20Areas%20Gongsanseong%20Fortress.jpg?width=1400",
-      "alt": {
-        "ko": "공주 공산성의 여름",
-        "en": "Gongsanseong Fortress, Gongju, in summer",
-        "ja": "公州・公山城の夏"
+    "en": {
+      "spring": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Cherry%20Blossoms%20Washington%20Monument.jpg?width=1400",
+        "alt": "Cherry blossoms at the Washington Monument",
+        "cap": "Spring · Washington, D.C. — Wikimedia Commons"
       },
-      "cap": {
-        "ko": "여름 · 공주 공산성 (유네스코 세계유산) — Wikimedia Commons",
-        "en": "Summer · Gongsanseong Fortress (UNESCO World Heritage) — Wikimedia Commons",
-        "ja": "夏 · 公州・公山城(ユネスコ世界遺産)— Wikimedia Commons"
+      "summer": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/A%20Burst%20of%20Sunlight%20in%20Tupelo%20Meadow.jpg?width=1400",
+        "alt": "Tupelo Meadow, Central Park, New York",
+        "cap": "Summer · Central Park, New York — Wikimedia Commons"
+      },
+      "autumn": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Bow%20Bridge%20in%20Autumn%2C%20Central%20Park.jpg?width=1400",
+        "alt": "Bow Bridge in autumn, Central Park",
+        "cap": "Autumn · Central Park, New York — Wikimedia Commons"
+      },
+      "winter": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Engineers%27%20Gate%20full%20of%20snow%2C%20Central%20Park%2C%20winter%202020%2C%20Manhattan%2C%20New%20York.jpg?width=1400",
+        "alt": "Central Park in snow, New York",
+        "cap": "Winter · Central Park, New York — Wikimedia Commons"
       }
     },
-    "autumn": {
-      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/%EA%B2%BD%EB%B3%B5%EA%B6%81%20%EA%B2%BD%ED%9A%8C%EB%A3%A8%202011%EB%85%84%2011%EC%9B%94%20%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%20%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EB%AA%85%EC%86%8C%20%28Seoul%20best%20attractions%29%207.jpg?width=1400",
-      "alt": {
-        "ko": "경회루의 가을",
-        "en": "Gyeonghoeru Pavilion in autumn",
-        "ja": "慶会楼の秋"
+    "ja": {
+      "spring": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Japan%20070416%20Nara%2001.jpg?width=1400",
+        "alt": "奈良公園の春 — 桜と鹿",
+        "cap": "春 · 奈良公園の桜と鹿 — Wikimedia Commons"
       },
-      "cap": {
-        "ko": "가을 · 경복궁 경회루 — Wikimedia Commons",
-        "en": "Autumn · Gyeonghoeru, Gyeongbokgung — Wikimedia Commons",
-        "ja": "秋 · 景福宮・慶会楼 — Wikimedia Commons"
-      }
-    },
-    "winter": {
-      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/KOCIS%20Korea%20Snowfall%20in%20Gyeongbokgung%2003%20%2811318876484%29.jpg?width=1400",
-      "alt": {
-        "ko": "경복궁의 겨울 — 설경",
-        "en": "Snow at Gyeongbokgung Palace",
-        "ja": "景福宮の冬 — 雪景色"
+      "summer": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/20100716%20Nara%20Todaiji%202270.jpg?width=1400",
+        "alt": "東大寺の夏",
+        "cap": "夏 · 奈良・東大寺 — Wikimedia Commons"
       },
-      "cap": {
-        "ko": "겨울 · 눈 내린 경복궁 — Wikimedia Commons",
-        "en": "Winter · Snow at Gyeongbokgung — Wikimedia Commons",
-        "ja": "冬 · 雪の景福宮 — Wikimedia Commons"
+      "autumn": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/2016-11-12%20A%20male%20Shika%20deer%20in%20the%20park.jpg?width=1400",
+        "alt": "奈良公園の秋 — 鹿",
+        "cap": "秋 · 奈良公園の鹿 — Wikimedia Commons"
+      },
+      "winter": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/20190121%20T%C5%8Ddai-ji%20Great%20South%20Gate-1.jpg?width=1400",
+        "alt": "東大寺南大門の冬",
+        "cap": "冬 · 東大寺南大門 — Wikimedia Commons"
       }
     }
   },
@@ -143,12 +157,12 @@
         "일본어·문화 에세이"
       ],
       "en": [
-        "Physics education",
-        "Nuclear & Particle Physics",
+        "Physics Education",
+        "Nuclear &amp; Particle Physics",
         "Data Science",
         "AI Convergence Education",
         "Teacher Education",
-        "Japanese Language & Culture Essays"
+        "Japanese Language &amp; Culture Essays"
       ],
       "ja": [
         "物理教育",
@@ -158,15 +172,7 @@
         "教員養成",
         "日本語・文化エッセイ"
       ]
-    },
-    "chips_em": [
-      true,
-      true,
-      false,
-      false,
-      false,
-      false
-    ]
+    }
   },
   "sections": {
     "about": {
@@ -210,8 +216,7 @@
             "ko": "방송통신대학교 일본어번역연구회",
             "en": "Japanese Translation Study Group, Korea National Open University",
             "ja": "韓国放送通信大学 日本語翻訳研究会"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -223,8 +228,7 @@
             "ko": "컬컴(CULCOM) 대전 일본어 리더",
             "en": "Japanese Language Leader, CULCOM Daejeon",
             "ja": "カルコム(CULCOM)大田 日本語リーダー"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -236,8 +240,7 @@
             "ko": "일본 나라여자대학(奈良女子大学) 교환교수",
             "en": "Visiting Professor, Nara Women's University, Japan",
             "ja": "奈良女子大学 交換教授(日本)"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -249,8 +252,7 @@
             "ko": "국립공주대학교 교무처장",
             "en": "Dean of Academic Affairs, Kongju National University",
             "ja": "国立公州大学校 教務処長"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -262,8 +264,7 @@
             "ko": "국립공주대학교 과학영재교육원장",
             "en": "Director, Science Gifted Education Center, Kongju National University",
             "ja": "国立公州大学校 科学英才教育院長"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -275,8 +276,7 @@
             "ko": "미국 유타주립대학교(Utah State University) 교환교수",
             "en": "Visiting Professor, Utah State University, USA",
             "ja": "米国ユタ州立大学 交換教授"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -288,8 +288,7 @@
             "ko": "국립공주대학교 사범대학 부학장",
             "en": "Vice Dean, College of Education, Kongju National University",
             "ja": "国立公州大学校 師範大学 副学長"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -304,7 +303,7 @@
           },
           "memo": {
             "ko": "학부·대학원 강의, 현직 교사 연수, 과학교육 연구",
-            "en": "Undergraduate & graduate teaching, in-service teacher training, science education research",
+            "en": "Undergraduate &amp; graduate teaching, in-service teacher training, science education research",
             "ja": "学部・大学院の講義、現職教員研修、科学教育研究"
           }
         },
@@ -318,8 +317,7 @@
             "ko": "국립공주대학교 과학교육연구소 연구교수",
             "en": "Research Professor, Science Education Research Institute, Kongju National University",
             "ja": "国立公州大学校 科学教育研究所 研究教授"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -331,8 +329,7 @@
             "ko": "고리원자력발전소 환경감시센터장",
             "en": "Director, Environmental Radiation Monitoring Center, Kori Nuclear Power Plant",
             "ja": "古里(コリ)原子力発電所 環境監視センター長"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -344,8 +341,7 @@
             "ko": "한국표준과학연구원 방사선연구실 박사후연구원(Post-doc)",
             "en": "Postdoctoral Researcher, Radiation Laboratory, Korea Research Institute of Standards and Science (KRISS)",
             "ja": "韓国標準科学研究院 放射線研究室 博士研究員"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -357,8 +353,7 @@
             "ko": "일본 동경공업대학(東京工業大学) 원자로공학연구소 박사후연구원(Post-doc)",
             "en": "Postdoctoral Researcher, Research Laboratory for Nuclear Reactors, Tokyo Institute of Technology, Japan",
             "ja": "東京工業大学 原子炉工学研究所 博士研究員"
-          },
-          "memo": null
+          }
         },
         {
           "when": {
@@ -385,10 +380,9 @@
           },
           "what": {
             "ko": "부산대학교 물리학과 학사, 석사",
-            "en": "B.S. & M.S. in Physics, Pusan National University",
+            "en": "B.S. &amp; M.S. in Physics, Pusan National University",
             "ja": "釜山大学校 物理学科 学士・修士"
-          },
-          "memo": null
+          }
         }
       ]
     },
@@ -407,13 +401,13 @@
       "bullets": {
         "ko": [
           "물리교육 (Physics Education) — 개념·오개념 연구, 지식공간이론(KST)과 Rasch 모형 기반 평가 분석",
-          "핵·입자물리 (Nuclear & Particle Physics) 및 그 교육적 재구성",
+          "핵·입자물리 (Nuclear &amp; Particle Physics) 및 그 교육적 재구성",
           "교육 데이터과학 (Data Science in Education)",
           "AI 기반 교육 모델 (AI-based Education Models)"
         ],
         "en": [
           "Physics education — conceptions and misconceptions; assessment analysis based on Knowledge Space Theory (KST) and the Rasch model",
-          "Nuclear & particle physics and its educational reconstruction",
+          "Nuclear &amp; particle physics and its educational reconstruction",
           "Data science in education",
           "AI-based education models"
         ],
@@ -457,7 +451,7 @@
           "현직 교사 1급 정교사 자격연수 및 교원 역량 개발"
         ],
         "en": [
-          "Undergraduate & graduate courses in physics and physics education (Introductory Nuclear Physics, Modern Physics, etc.)",
+          "Undergraduate &amp; graduate courses in physics and physics education (Introductory Nuclear Physics, Modern Physics, etc.)",
           "Development of physics × data science × AI convergence courses",
           "Level-1 teacher certification programs and faculty development"
         ],
