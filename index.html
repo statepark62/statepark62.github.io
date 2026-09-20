@@ -165,7 +165,7 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
 .foot a{color:#FFFFFF;font-weight:700;text-decoration:none}
 
 /* 방명록 폼 */
-.gb-form{display:grid;gap:12px;max-width:560px}
+.gb-form{display:grid;gap:12px;max-width:100%}
 .gb-form input,.gb-form textarea{
   font-family:var(--sans);font-size:14px;color:var(--ink);
   background:#fff;border:1px solid var(--hair);border-radius:10px;
@@ -175,11 +175,13 @@ figure.shot figcaption b{color:var(--ink);font-size:12px;display:block;letter-sp
 .gb-form input:focus,.gb-form textarea:focus{outline:2px solid var(--pine);border-color:var(--pine)}
 .gb-form button{
   justify-self:start;cursor:pointer;
-  font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:.08em;
-  color:#F3F1E7;background:var(--pine);border:none;border-radius:99px;
-  padding:11px 30px;transition:.2s;
+  font-family:var(--sans);font-size:14px;font-weight:900;letter-spacing:.06em;
+  color:#C7D6F0;background:#0A211D;border:2px solid rgba(255,255,255,.4);border-radius:99px;
+  box-shadow:0 10px 26px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.3);
+  text-shadow:0 1px 2px rgba(0,0,0,.65);
+  padding:12px 30px;transition:.2s;
 }
-.gb-form button:hover{background:var(--pine-2)}
+.gb-form button:hover{background:var(--brass);border-color:rgba(255,255,255,.7)}
 .gb-form button:disabled{opacity:.6;cursor:wait}
 .gb-note{font-size:12px;color:var(--dim)}
 .gb-status{font-size:13.5px;font-weight:700;display:none}
