@@ -1,0 +1,588 @@
+{
+  "meta": {
+    "title": {
+      "ko": "박상태 — 이력서형 디지털 명함 | Sangtae PARK, CV Card",
+      "en": "Sangtae PARK — Digital CV Card",
+      "ja": "朴相泰(パク・サンテ)— デジタル名刺・履歴書 | Sangtae PARK"
+    },
+    "description": {
+      "ko": "국립공주대학교 물리교육과 박상태 교수 — 이력서 형식 디지털 명함",
+      "en": "Digital CV card of Professor Sangtae PARK, Dept. of Physics Education, Kongju National University, Korea",
+      "ja": "韓国・国立公州大学校 物理教育科 朴相泰教授のデジタル名刺(履歴書形式)"
+    }
+  },
+  "hero": {
+    "eyebrow": {
+      "ko": "CURRICULUM VITAE · DIGITAL CARD",
+      "en": "CURRICULUM VITAE · DIGITAL CARD",
+      "ja": "CURRICULUM VITAE · DIGITAL CARD"
+    },
+    "name_main": {
+      "ko": "박 상 태",
+      "en": "Sangtae PARK",
+      "ja": "朴 相 泰"
+    },
+    "name_sub": {
+      "ko": "Sangtae PARK",
+      "en": "박상태 · 朴相泰",
+      "ja": "パク・サンテ · Sangtae PARK"
+    },
+    "subtitle": {
+      "ko": "국립공주대학교 사범대학 물리교육과 교수",
+      "en": "Professor, Department of Physics Education, Kongju National University",
+      "ja": "国立公州大学校 師範大学 物理教育科 教授"
+    }
+  },
+  "seasons": {
+    "spring": {
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Cherry%20flowers%20during%20the%20cherry%20blossom%20at%20the%20Gyeongbokgung%20Palace%2C%20South%20Korea.jpg?width=1400",
+      "alt": {
+        "ko": "경복궁의 봄 — 벚꽃",
+        "en": "Cherry blossoms at Gyeongbokgung Palace",
+        "ja": "景福宮の春 — 桜"
+      },
+      "cap": {
+        "ko": "봄 · 경복궁 벚꽃 — Wikimedia Commons",
+        "en": "Spring · Cherry blossoms, Gyeongbokgung — Wikimedia Commons",
+        "ja": "春 · 景福宮の桜 — Wikimedia Commons"
+      }
+    },
+    "summer": {
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Baekje%20Historic%20Areas%20Gongsanseong%20Fortress.jpg?width=1400",
+      "alt": {
+        "ko": "공주 공산성의 여름",
+        "en": "Gongsanseong Fortress, Gongju, in summer",
+        "ja": "公州・公山城の夏"
+      },
+      "cap": {
+        "ko": "여름 · 공주 공산성 (유네스코 세계유산) — Wikimedia Commons",
+        "en": "Summer · Gongsanseong Fortress (UNESCO World Heritage) — Wikimedia Commons",
+        "ja": "夏 · 公州・公山城(ユネスコ世界遺産)— Wikimedia Commons"
+      }
+    },
+    "autumn": {
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/%EA%B2%BD%EB%B3%B5%EA%B6%81%20%EA%B2%BD%ED%9A%8C%EB%A3%A8%202011%EB%85%84%2011%EC%9B%94%20%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD%20%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C%20%EB%AA%85%EC%86%8C%20%28Seoul%20best%20attractions%29%207.jpg?width=1400",
+      "alt": {
+        "ko": "경회루의 가을",
+        "en": "Gyeonghoeru Pavilion in autumn",
+        "ja": "慶会楼の秋"
+      },
+      "cap": {
+        "ko": "가을 · 경복궁 경회루 — Wikimedia Commons",
+        "en": "Autumn · Gyeonghoeru, Gyeongbokgung — Wikimedia Commons",
+        "ja": "秋 · 景福宮・慶会楼 — Wikimedia Commons"
+      }
+    },
+    "winter": {
+      "src": "https://commons.wikimedia.org/wiki/Special:FilePath/KOCIS%20Korea%20Snowfall%20in%20Gyeongbokgung%2003%20%2811318876484%29.jpg?width=1400",
+      "alt": {
+        "ko": "경복궁의 겨울 — 설경",
+        "en": "Snow at Gyeongbokgung Palace",
+        "ja": "景福宮の冬 — 雪景色"
+      },
+      "cap": {
+        "ko": "겨울 · 눈 내린 경복궁 — Wikimedia Commons",
+        "en": "Winter · Snow at Gyeongbokgung — Wikimedia Commons",
+        "ja": "冬 · 雪の景福宮 — Wikimedia Commons"
+      }
+    }
+  },
+  "sidebar": {
+    "name_label": {
+      "ko": "성명",
+      "en": "Name",
+      "ja": "氏名"
+    },
+    "name_value": {
+      "ko": "박상태 (朴相泰) · Sangtae PARK",
+      "en": "Sangtae PARK (박상태 · 朴相泰)",
+      "ja": "朴相泰(パク・サンテ)· Sangtae PARK"
+    },
+    "affil_label": {
+      "ko": "소속",
+      "en": "Affiliation",
+      "ja": "所属"
+    },
+    "affil_value": {
+      "ko": "국립공주대학교 사범대학 물리교육과",
+      "en": "Dept. of Physics Education, College of Education, Kongju National University",
+      "ja": "国立公州大学校 師範大学 物理教育科"
+    },
+    "position_label": {
+      "ko": "직위",
+      "en": "Position",
+      "ja": "職位"
+    },
+    "position_value": {
+      "ko": "교수 (Professor)",
+      "en": "Professor",
+      "ja": "教授(Professor)"
+    },
+    "address_value": {
+      "ko": "충청남도 공주시 공주대학로 56<br>사범대학 물리교육과",
+      "en": "56 Kongjudaehak-ro, Gongju-si,<br>Chungcheongnam-do 32588, Korea",
+      "ja": "韓国 忠清南道公州市公州大学路56<br>師範大学 物理教育科"
+    },
+    "web_label": {
+      "ko": "네이버 카페",
+      "en": "Naver Cafe",
+      "ja": "ネイバーカフェ"
+    },
+    "column_label": {
+      "ko": "천성인어(天声人語)",
+      "en": "Tensei Jingo (天声人語)",
+      "ja": "天声人語"
+    },
+    "chips": {
+      "ko": [
+        "물리교육",
+        "핵·입자물리",
+        "데이터과학",
+        "AI융합교육",
+        "교사교육",
+        "일본어·문화 에세이"
+      ],
+      "en": [
+        "Physics Education",
+        "Nuclear &amp; Particle Physics",
+        "Data Science",
+        "AI Convergence Education",
+        "Teacher Education",
+        "Japanese Language &amp; Culture Essays"
+      ],
+      "ja": [
+        "物理教育",
+        "核・粒子物理",
+        "データサイエンス",
+        "AI融合教育",
+        "教員養成",
+        "日本語・文化エッセイ"
+      ]
+    }
+  },
+  "sections": {
+    "about": {
+      "no": "01",
+      "title": {
+        "ko": "소개",
+        "en": "About",
+        "ja": "紹介"
+      },
+      "small": {
+        "ko": "ABOUT",
+        "en": "ABOUT",
+        "ja": "ABOUT"
+      },
+      "lead_html": {
+        "ko": "<b>물리로 세상을 이해하고, 교육으로 미래를 준비합니다.</b> 물리교육과 핵·입자물리를 바탕으로, 데이터과학과 AI를 접목한 새로운 과학교육 모델을 연구하고 가르칩니다. 예비 물리교사 양성과 현직 교사 연수를 아우르며, 물리학과 인문·문화를 잇는 글쓰기 활동도 이어가고 있습니다.",
+        "en": "<b>Understanding the world through physics, preparing the future through education.</b> Building on physics education and nuclear &amp; particle physics, I study and teach new models of science education that integrate data science and AI. My work spans pre-service physics teacher training and in-service teacher development, along with writing that bridges physics with humanities and culture.",
+        "ja": "<b>物理で世界を理解し、教育で未来を準備する。</b> 物理教育と核・粒子物理を土台に、データサイエンスとAIを取り入れた新しい科学教育モデルを研究し、教えています。物理教師の養成と現職教員研修に携わるとともに、物理学と人文・文化をつなぐ執筆活動も続けています。"
+      }
+    },
+    "career": {
+      "no": "02",
+      "title": {
+        "ko": "학력 · 경력",
+        "en": "Education &amp; Career",
+        "ja": "学歴・経歴"
+      },
+      "small": {
+        "ko": "EDUCATION &amp; CAREER",
+        "en": "EDUCATION &amp; CAREER",
+        "ja": "EDUCATION &amp; CAREER"
+      },
+      "items": [
+        {
+          "when": {
+            "ko": "2026. 3 — 현재",
+            "en": "2026. 3 — Present",
+            "ja": "2026. 3 — 現在"
+          },
+          "what": {
+            "ko": "방송통신대학교 일본어번역연구회",
+            "en": "Japanese Translation Study Group, Korea National Open University",
+            "ja": "韓国放送通信大学 日本語翻訳研究会"
+          }
+        },
+        {
+          "when": {
+            "ko": "2025. 10 — 현재",
+            "en": "2025. 10 — Present",
+            "ja": "2025. 10 — 現在"
+          },
+          "what": {
+            "ko": "컬컴(CULCOM) 대전 일본어 리더",
+            "en": "Japanese Language Leader, CULCOM Daejeon",
+            "ja": "カルコム(CULCOM)大田 日本語リーダー"
+          }
+        },
+        {
+          "when": {
+            "ko": "2024. 8 — 2025. 8",
+            "en": "2024. 8 — 2025. 8",
+            "ja": "2024. 8 — 2025. 8"
+          },
+          "what": {
+            "ko": "일본 나라여자대학(奈良女子大学) 교환교수",
+            "en": "Visiting Professor, Nara Women's University, Japan",
+            "ja": "奈良女子大学 交換教授(日本)"
+          }
+        },
+        {
+          "when": {
+            "ko": "2023. 6 — 2024. 7",
+            "en": "2023. 6 — 2024. 7",
+            "ja": "2023. 6 — 2024. 7"
+          },
+          "what": {
+            "ko": "국립공주대학교 교무처장",
+            "en": "Dean of Academic Affairs, Kongju National University",
+            "ja": "国立公州大学校 教務処長"
+          }
+        },
+        {
+          "when": {
+            "ko": "2019. 3 — 2021. 2",
+            "en": "2019. 3 — 2021. 2",
+            "ja": "2019. 3 — 2021. 2"
+          },
+          "what": {
+            "ko": "국립공주대학교 과학영재교육원장",
+            "en": "Director, Science Gifted Education Center, Kongju National University",
+            "ja": "国立公州大学校 科学英才教育院長"
+          }
+        },
+        {
+          "when": {
+            "ko": "2015. 3 — 2016. 2",
+            "en": "2015. 3 — 2016. 2",
+            "ja": "2015. 3 — 2016. 2"
+          },
+          "what": {
+            "ko": "미국 유타주립대학교(Utah State University) 교환교수",
+            "en": "Visiting Professor, Utah State University, USA",
+            "ja": "米国ユタ州立大学 交換教授"
+          }
+        },
+        {
+          "when": {
+            "ko": "2013. 3 — 2015. 2",
+            "en": "2013. 3 — 2015. 2",
+            "ja": "2013. 3 — 2015. 2"
+          },
+          "what": {
+            "ko": "국립공주대학교 사범대학 부학장",
+            "en": "Vice Dean, College of Education, Kongju National University",
+            "ja": "国立公州大学校 師範大学 副学長"
+          }
+        },
+        {
+          "when": {
+            "ko": "2007. 9 — 현재",
+            "en": "2007. 9 — Present",
+            "ja": "2007. 9 — 現在"
+          },
+          "what": {
+            "ko": "국립공주대학교 사범대학 물리교육과 교수",
+            "en": "Professor, Dept. of Physics Education, Kongju National University",
+            "ja": "国立公州大学校 師範大学 物理教育科 教授"
+          },
+          "memo": {
+            "ko": "학부·대학원 강의, 현직 교사 연수, 과학교육 연구",
+            "en": "Undergraduate &amp; graduate teaching, in-service teacher training, science education research",
+            "ja": "学部・大学院の講義、現職教員研修、科学教育研究"
+          }
+        },
+        {
+          "when": {
+            "ko": "2001. 1 — 2007. 8",
+            "en": "2001. 1 — 2007. 8",
+            "ja": "2001. 1 — 2007. 8"
+          },
+          "what": {
+            "ko": "국립공주대학교 과학교육연구소 연구교수",
+            "en": "Research Professor, Science Education Research Institute, Kongju National University",
+            "ja": "国立公州大学校 科学教育研究所 研究教授"
+          }
+        },
+        {
+          "when": {
+            "ko": "1998. 12 — 2000. 12",
+            "en": "1998. 12 — 2000. 12",
+            "ja": "1998. 12 — 2000. 12"
+          },
+          "what": {
+            "ko": "고리원자력발전소 환경감시센터장",
+            "en": "Director, Environmental Radiation Monitoring Center, Kori Nuclear Power Plant",
+            "ja": "古里(コリ)原子力発電所 環境監視センター長"
+          }
+        },
+        {
+          "when": {
+            "ko": "1997. 11 — 1998. 11",
+            "en": "1997. 11 — 1998. 11",
+            "ja": "1997. 11 — 1998. 11"
+          },
+          "what": {
+            "ko": "한국표준과학연구원 방사선연구실 박사후연구원(Post-doc)",
+            "en": "Postdoctoral Researcher, Radiation Laboratory, Korea Research Institute of Standards and Science (KRISS)",
+            "ja": "韓国標準科学研究院 放射線研究室 博士研究員"
+          }
+        },
+        {
+          "when": {
+            "ko": "1996. 7 — 1997. 7",
+            "en": "1996. 7 — 1997. 7",
+            "ja": "1996. 7 — 1997. 7"
+          },
+          "what": {
+            "ko": "일본 동경공업대학(東京工業大学) 원자로공학연구소 박사후연구원(Post-doc)",
+            "en": "Postdoctoral Researcher, Research Laboratory for Nuclear Reactors, Tokyo Institute of Technology, Japan",
+            "ja": "東京工業大学 原子炉工学研究所 博士研究員"
+          }
+        },
+        {
+          "when": {
+            "ko": "1990 — 1995",
+            "en": "1990 — 1995",
+            "ja": "1990 — 1995"
+          },
+          "what": {
+            "ko": "부산대학교 대학원 박사 (핵물리학/핵분광학)",
+            "en": "Ph.D., Pusan National University (Nuclear Physics / Nuclear Spectroscopy)",
+            "ja": "釜山大学校 大学院 博士(核物理学・核分光学)"
+          },
+          "memo": {
+            "ko": "유기액체섬광검출기에 의한 중성자 스펙트럼 연구",
+            "en": "Neutron spectrum studies using an organic liquid scintillation detector",
+            "ja": "有機液体シンチレーション検出器による中性子スペクトルの研究"
+          }
+        },
+        {
+          "when": {
+            "ko": "1981 — 1987",
+            "en": "1981 — 1987",
+            "ja": "1981 — 1987"
+          },
+          "what": {
+            "ko": "부산대학교 물리학과 학사, 석사",
+            "en": "B.S. &amp; M.S. in Physics, Pusan National University",
+            "ja": "釜山大学校 物理学科 学士・修士"
+          }
+        }
+      ]
+    },
+    "research": {
+      "no": "03",
+      "title": {
+        "ko": "연구",
+        "en": "Research",
+        "ja": "研究"
+      },
+      "small": {
+        "ko": "RESEARCH",
+        "en": "RESEARCH",
+        "ja": "RESEARCH"
+      },
+      "bullets": {
+        "ko": [
+          "물리교육 (Physics Education) — 개념·오개념 연구, 지식공간이론(KST)과 Rasch 모형 기반 평가 분석",
+          "핵·입자물리 (Nuclear &amp; Particle Physics) 및 그 교육적 재구성",
+          "교육 데이터과학 (Data Science in Education)",
+          "AI 기반 교육 모델 (AI-based Education Models)"
+        ],
+        "en": [
+          "Physics education — conceptions and misconceptions; assessment analysis based on Knowledge Space Theory (KST) and the Rasch model",
+          "Nuclear &amp; particle physics and its educational reconstruction",
+          "Data science in education",
+          "AI-based education models"
+        ],
+        "ja": [
+          "物理教育 — 概念・誤概念の研究、知識空間理論(KST)とラッシュモデルに基づく評価分析",
+          "核・粒子物理と、その教育的再構成",
+          "教育データサイエンス",
+          "AIベースの教育モデル"
+        ]
+      },
+      "figure": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/HD.6D.635%20(12000265314).jpg?width=800",
+        "alt": {
+          "ko": "수소 거품상자 속 하전입자의 궤적",
+          "en": "Charged-particle tracks in a hydrogen bubble chamber",
+          "ja": "水素泡箱の中の荷電粒子の軌跡"
+        },
+        "caption_html": {
+          "ko": "<b>거품상자 속 입자의 궤적</b>자기장 속에서 휘어지는 하전입자 — 입자물리 교육의 고전적 소재. 사진: Wikimedia Commons",
+          "en": "<b>Particle tracks in a bubble chamber</b>Charged particles curving in a magnetic field — a classic subject in particle physics education. Photo: Wikimedia Commons",
+          "ja": "<b>泡箱の中の粒子の軌跡</b>磁場の中で曲がる荷電粒子 — 粒子物理教育の古典的な題材。写真: Wikimedia Commons"
+        }
+      }
+    },
+    "teaching": {
+      "no": "04",
+      "title": {
+        "ko": "강의",
+        "en": "Teaching",
+        "ja": "講義"
+      },
+      "small": {
+        "ko": "TEACHING",
+        "en": "TEACHING",
+        "ja": "TEACHING"
+      },
+      "bullets": {
+        "ko": [
+          "학부·대학원 물리학 및 물리교육 강좌 (핵물리학 기초, 현대물리 등)",
+          "물리 × 데이터과학 × AI 융합교육 강좌 개발",
+          "현직 교사 1급 정교사 자격연수 및 교원 역량 개발"
+        ],
+        "en": [
+          "Undergraduate &amp; graduate courses in physics and physics education (Introductory Nuclear Physics, Modern Physics, etc.)",
+          "Development of physics × data science × AI convergence courses",
+          "Level-1 teacher certification programs and faculty development"
+        ],
+        "ja": [
+          "物理学・物理教育の学部・大学院講義(原子核物理学基礎、現代物理など)",
+          "物理 × データサイエンス × AI 融合科目の開発",
+          "一級正教師資格研修など、現職教員の研修と力量開発"
+        ]
+      },
+      "figure": {
+        "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Standard%20Model%20of%20Elementary%20Particles.svg?width=800",
+        "alt": {
+          "ko": "입자물리 표준모형 도표",
+          "en": "Standard Model of elementary particles",
+          "ja": "素粒子の標準模型の図"
+        },
+        "caption_html": {
+          "ko": "<b>표준모형(Standard Model)</b>현대물리 강의의 뼈대가 되는 기본입자 체계. 도표: Wikimedia Commons",
+          "en": "<b>The Standard Model</b>The framework of elementary particles at the heart of modern physics courses. Diagram: Wikimedia Commons",
+          "ja": "<b>標準模型(Standard Model)</b>現代物理講義の骨格となる素粒子の体系。図: Wikimedia Commons"
+        }
+      }
+    },
+    "writing": {
+      "no": "05",
+      "title": {
+        "ko": "저술 · 문화",
+        "en": "Writing &amp; Culture",
+        "ja": "著述・文化"
+      },
+      "small": {
+        "ko": "WRITING &amp; CULTURE",
+        "en": "WRITING &amp; CULTURE",
+        "ja": "WRITING &amp; CULTURE"
+      },
+      "bullets_html": {
+        "ko": [
+          "<b>일본 속의 백제 기행</b> (Memory of Baekje in Japan) — 한·일 고대 문화 교류의 현장을 찾아서",
+          "<b>나의 이야기, 나의 수집</b> (My Story, My Collection)",
+          "일본어 해석·해설 (<a href=\"https://statepark62.github.io/tenseijingo_naver/\" target=\"_blank\" rel=\"noopener\" style=\"color:#2563EB; font-weight:700;\">천성인어(天声人語)</a> 강독 등) 및 문화·역사 에세이"
+        ],
+        "en": [
+          "<b>Memory of Baekje in Japan</b> — tracing the sites of ancient Korea–Japan cultural exchange",
+          "<b>My Story, My Collection</b>",
+          "Japanese language commentary (readings of <a href=\"https://statepark62.github.io/tenseijingo_naver/\" target=\"_blank\" rel=\"noopener\" style=\"color:#2563EB; font-weight:700;\"><i>Tensei Jingo</i> (天声人語)</a>) and essays on culture &amp; history"
+        ],
+        "ja": [
+          "<b>日本の中の百済紀行</b>(Memory of Baekje in Japan)— 韓日古代文化交流の現場を訪ねて",
+          "<b>私の物語、私のコレクション</b>(My Story, My Collection)",
+          "日本語の解釈・解説(<a href=\"https://statepark62.github.io/tenseijingo_naver/\" target=\"_blank\" rel=\"noopener\" style=\"color:#2563EB; font-weight:700;\">天声人語</a>の講読など)、文化・歴史エッセイ"
+        ]
+      },
+      "figures": [
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Boats%20on%20Geum%20River%20in%20Gongju%2001.jpg?width=800",
+          "alt": {
+            "ko": "공주 금강의 나룻배",
+            "en": "Boats on the Geum River, Gongju",
+            "ja": "公州・錦江の渡し舟"
+          },
+          "caption_html": {
+            "ko": "<b>공주 금강(錦江)</b>백제의 옛 도읍 웅진을 감싸 흐르는 물길 — 공주 문화의 젖줄. 사진: Wikimedia Commons",
+            "en": "<b>The Geum River, Gongju</b>The waterway embracing Ungjin, the old Baekje capital — the lifeline of Gongju. Photo: Wikimedia Commons",
+            "ja": "<b>公州・錦江(クムガン)</b>百済の古都・熊津を抱いて流れる川 — 公州文化の母なる流れ。写真: Wikimedia Commons"
+          }
+        },
+        {
+          "src": "https://commons.wikimedia.org/wiki/Special:FilePath/Horyu-ji11s3200.jpg?width=800",
+          "alt": {
+            "ko": "일본 나라 호류지 금당과 오층탑",
+            "en": "Horyu-ji Temple, Nara, Japan",
+            "ja": "奈良・法隆寺の金堂と五重塔"
+          },
+          "caption_html": {
+            "ko": "<b>나라(奈良) 호류지(法隆寺)</b>백제 장인의 숨결이 닿은 세계 최고(最古)의 목조 건축 — '일본 속의 백제'의 무대. 사진: Wikimedia Commons",
+            "en": "<b>Horyu-ji Temple, Nara</b>The world's oldest wooden architecture, built with the craft of Baekje artisans — the stage of \"Baekje in Japan\". Photo: Wikimedia Commons",
+            "ja": "<b>奈良・法隆寺</b>百済の工人の息吹が宿る世界最古の木造建築 —「日本の中の百済」の舞台。写真: Wikimedia Commons"
+          }
+        }
+      ]
+    },
+    "guestbook": {
+      "no": "06",
+      "title": {
+        "ko": "방명록",
+        "en": "Guestbook",
+        "ja": "芳名録"
+      },
+      "small": {
+        "ko": "LEAVE A MESSAGE",
+        "en": "LEAVE A MESSAGE",
+        "ja": "LEAVE A MESSAGE"
+      },
+      "name_ph": {
+        "ko": "성함 (선택)",
+        "en": "Your name (optional)",
+        "ja": "お名前(任意)"
+      },
+      "email_ph": {
+        "ko": "이메일 (답장 받으실 분만, 선택)",
+        "en": "Email (optional, if you would like a reply)",
+        "ja": "メールアドレス(返信をご希望の方のみ・任意)"
+      },
+      "message_ph": {
+        "ko": "간단한 메시지를 남겨 주세요",
+        "en": "Leave a short message",
+        "ja": "ひとことメッセージをどうぞ"
+      },
+      "button": {
+        "ko": "메시지 보내기",
+        "en": "Send message",
+        "ja": "メッセージを送る"
+      },
+      "note": {
+        "ko": "남겨주신 메시지는 박상태 교수의 이메일로 전달됩니다.",
+        "en": "Your message will be delivered to Professor Park's email.",
+        "ja": "メッセージは朴相泰教授のメールに届きます。"
+      },
+      "ok_msg": {
+        "ko": "메시지가 전달되었습니다. 감사합니다!",
+        "en": "Your message has been sent. Thank you!",
+        "ja": "メッセージが送信されました。ありがとうございます!"
+      },
+      "fail_msg": {
+        "ko": "전송에 실패했습니다. 잠시 후 다시 시도하시거나 이메일로 보내 주세요.",
+        "en": "Sending failed. Please try again later, or send an email instead.",
+        "ja": "送信に失敗しました。しばらくしてから再度お試しいただくか、メールでお送りください。"
+      }
+    }
+  },
+  "footer": {
+    "today_label": {
+      "ko": "오늘",
+      "en": "Today",
+      "ja": "本日"
+    },
+    "total_label": {
+      "ko": "총",
+      "en": "Total",
+      "ja": "累計"
+    }
+  },
+  "fab_label": {
+    "ko": "방명록",
+    "en": "Guestbook",
+    "ja": "芳名録"
+  }
+}
