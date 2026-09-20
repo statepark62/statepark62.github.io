@@ -509,13 +509,13 @@
       },
       "bullets_html": {
         "ko": [
-          "책제목: 영일소품. 저자: 나츠메 소세키"
+          "<b>책제목: 영일소품. 저자: 나츠메 소세키</b>"
         ],
         "en": [
-          "Book Title: Anglo-Japanese Short Stories. Author: Natsume Soseki"
+          "<b>Book Title: Anglo-Japanese Short Stories. Author: Natsume Soseki</b>"
         ],
         "ja": [
-          "ブックタイトル：英日小物。著者：夏目漱石"
+          "<b>本タイトル：英日小物。著者：夏目漱石</b>"
         ]
       },
       "figures": [
