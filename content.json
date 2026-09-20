@@ -157,12 +157,12 @@
         "일본어·문화 에세이"
       ],
       "en": [
-        "Physics Education",
-        "Nuclear &amp; Particle Physics",
+        "Physics education",
+        "Nuclear & Particle Physics",
         "Data Science",
         "AI Convergence Education",
         "Teacher Education",
-        "Japanese Language &amp; Culture Essays"
+        "Japanese Language & Culture Essays"
       ],
       "ja": [
         "物理教育",
@@ -172,7 +172,15 @@
         "教員養成",
         "日本語・文化エッセイ"
       ]
-    }
+    },
+    "chips_em": [
+      false,
+      false,
+      false,
+      true,
+      true,
+      false
+    ]
   },
   "sections": {
     "about": {
@@ -189,8 +197,8 @@
       },
       "lead_html": {
         "ko": "<b>물리로 세상을 이해하고, 교육으로 미래를 준비합니다.</b> 물리교육과 핵·입자물리를 바탕으로, 데이터과학과 AI를 접목한 새로운 과학교육 모델을 연구하고 가르칩니다. 예비 물리교사 양성과 현직 교사 연수를 아우르며, 물리학과 인문·문화를 잇는 글쓰기 활동도 이어가고 있습니다.",
-        "en": "<b>Understanding the world through physics, preparing the future through education.</b> Building on physics education and nuclear &amp; particle physics, I study and teach new models of science education that integrate data science and AI. My work spans pre-service physics teacher training and in-service teacher development, along with writing that bridges physics with humanities and culture.",
-        "ja": "<b>物理で世界を理解し、教育で未来を準備する。</b> 物理教育と核・粒子物理を土台に、データサイエンスとAIを取り入れた新しい科学教育モデルを研究し、教えています。物理教師の養成と現職教員研修に携わるとともに、物理学と人文・文化をつなぐ執筆活動も続けています。"
+        "en": "<b>Understanding the world through physics and preparing for the future through education.</b> Based on physics education and nuclear and particle physics, we research and teach a new science education model that integrates data science and AI. We encompass the training of prospective physics teachers and professional development for incumbent teachers, while also engaging in writing activities that bridge physics with the humanities and culture.",
+        "ja": "<b>物理で世界を理解し、教育で未来を準備します。</b>物理教育と核・粒子物理を基に、データ科学とAIを融合した新しい科学教育モデルを研究して教えます。予備物理教師養成と現職教師研修を交わし、物理学と人文・文化をつなぐ執筆活動も続けています。"
       }
     },
     "career": {
@@ -216,7 +224,8 @@
             "ko": "방송통신대학교 일본어번역연구회",
             "en": "Japanese Translation Study Group, Korea National Open University",
             "ja": "韓国放送通信大学 日本語翻訳研究会"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -228,7 +237,8 @@
             "ko": "컬컴(CULCOM) 대전 일본어 리더",
             "en": "Japanese Language Leader, CULCOM Daejeon",
             "ja": "カルコム(CULCOM)大田 日本語リーダー"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -240,7 +250,8 @@
             "ko": "일본 나라여자대학(奈良女子大学) 교환교수",
             "en": "Visiting Professor, Nara Women's University, Japan",
             "ja": "奈良女子大学 交換教授(日本)"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -252,7 +263,8 @@
             "ko": "국립공주대학교 교무처장",
             "en": "Dean of Academic Affairs, Kongju National University",
             "ja": "国立公州大学校 教務処長"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -264,7 +276,8 @@
             "ko": "국립공주대학교 과학영재교육원장",
             "en": "Director, Science Gifted Education Center, Kongju National University",
             "ja": "国立公州大学校 科学英才教育院長"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -276,7 +289,8 @@
             "ko": "미국 유타주립대학교(Utah State University) 교환교수",
             "en": "Visiting Professor, Utah State University, USA",
             "ja": "米国ユタ州立大学 交換教授"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -288,7 +302,8 @@
             "ko": "국립공주대학교 사범대학 부학장",
             "en": "Vice Dean, College of Education, Kongju National University",
             "ja": "国立公州大学校 師範大学 副学長"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -303,7 +318,7 @@
           },
           "memo": {
             "ko": "학부·대학원 강의, 현직 교사 연수, 과학교육 연구",
-            "en": "Undergraduate &amp; graduate teaching, in-service teacher training, science education research",
+            "en": "Undergraduate & graduate teaching, in-service teacher training, science education research",
             "ja": "学部・大学院の講義、現職教員研修、科学教育研究"
           }
         },
@@ -317,7 +332,8 @@
             "ko": "국립공주대학교 과학교육연구소 연구교수",
             "en": "Research Professor, Science Education Research Institute, Kongju National University",
             "ja": "国立公州大学校 科学教育研究所 研究教授"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -329,7 +345,8 @@
             "ko": "고리원자력발전소 환경감시센터장",
             "en": "Director, Environmental Radiation Monitoring Center, Kori Nuclear Power Plant",
             "ja": "古里(コリ)原子力発電所 環境監視センター長"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -341,7 +358,8 @@
             "ko": "한국표준과학연구원 방사선연구실 박사후연구원(Post-doc)",
             "en": "Postdoctoral Researcher, Radiation Laboratory, Korea Research Institute of Standards and Science (KRISS)",
             "ja": "韓国標準科学研究院 放射線研究室 博士研究員"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -353,7 +371,8 @@
             "ko": "일본 동경공업대학(東京工業大学) 원자로공학연구소 박사후연구원(Post-doc)",
             "en": "Postdoctoral Researcher, Research Laboratory for Nuclear Reactors, Tokyo Institute of Technology, Japan",
             "ja": "東京工業大学 原子炉工学研究所 博士研究員"
-          }
+          },
+          "memo": null
         },
         {
           "when": {
@@ -380,9 +399,10 @@
           },
           "what": {
             "ko": "부산대학교 물리학과 학사, 석사",
-            "en": "B.S. &amp; M.S. in Physics, Pusan National University",
+            "en": "B.S. & M.S. in Physics, Pusan National University",
             "ja": "釜山大学校 物理学科 学士・修士"
-          }
+          },
+          "memo": null
         }
       ]
     },
@@ -401,13 +421,13 @@
       "bullets": {
         "ko": [
           "물리교육 (Physics Education) — 개념·오개념 연구, 지식공간이론(KST)과 Rasch 모형 기반 평가 분석",
-          "핵·입자물리 (Nuclear &amp; Particle Physics) 및 그 교육적 재구성",
+          "핵·입자물리 (Nuclear & Particle Physics) 및 그 교육적 재구성",
           "교육 데이터과학 (Data Science in Education)",
           "AI 기반 교육 모델 (AI-based Education Models)"
         ],
         "en": [
           "Physics education — conceptions and misconceptions; assessment analysis based on Knowledge Space Theory (KST) and the Rasch model",
-          "Nuclear &amp; particle physics and its educational reconstruction",
+          "Nuclear & particle physics and its educational reconstruction",
           "Data science in education",
           "AI-based education models"
         ],
@@ -451,7 +471,7 @@
           "현직 교사 1급 정교사 자격연수 및 교원 역량 개발"
         ],
         "en": [
-          "Undergraduate &amp; graduate courses in physics and physics education (Introductory Nuclear Physics, Modern Physics, etc.)",
+          "Undergraduate & graduate courses in physics and physics education (Introductory Nuclear Physics, Modern Physics, etc.)",
           "Development of physics × data science × AI convergence courses",
           "Level-1 teacher certification programs and faculty development"
         ],
