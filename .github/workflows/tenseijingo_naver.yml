@@ -55,9 +55,6 @@ jobs:
       - name: (임시) index.html 강제 재생성 — 템플릿만 바뀐 날 대비
         run: python automation_naver/rebuild_index.py
 
-      - name: (임시) 옛 상세 페이지 폭 넓히기 — 1회성 정리 작업, 확인 후 삭제
-        run: python automation_naver/widen_old_pages.py
-
       - name: 오늘 날짜(KST) 계산
         id: kst_date
         run: echo "date=$(date -u -d '+9 hours' +%F)" >> "$GITHUB_OUTPUT"
