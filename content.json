@@ -197,13 +197,13 @@
       "no": "02",
       "title": {
         "ko": "학력 · 경력",
-        "en": "Education &amp; Career",
+        "en": "Education & Career",
         "ja": "学歴・経歴"
       },
       "small": {
-        "ko": "EDUCATION &amp; CAREER",
-        "en": "EDUCATION &amp; CAREER",
-        "ja": "EDUCATION &amp; CAREER"
+        "ko": "EDUCATION & CAREER",
+        "en": "EDUCATION & CAREER",
+        "ja": "EDUCATION & CAREER"
       },
       "items": [
         {
@@ -479,13 +479,13 @@
       "no": "05",
       "title": {
         "ko": "저술 · 문화",
-        "en": "Writing &amp; Culture",
+        "en": "Writing & Culture",
         "ja": "著述・文化"
       },
       "small": {
-        "ko": "WRITING &amp; CULTURE",
-        "en": "WRITING &amp; CULTURE",
-        "ja": "WRITING &amp; CULTURE"
+        "ko": "WRITING & CULTURE",
+        "en": "WRITING & CULTURE",
+        "ja": "WRITING & CULTURE"
       },
       "bullets_html": {
         "ko": [
