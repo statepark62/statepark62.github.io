@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-21",
+    "no": 76,
+    "topic_ja": "<ruby>老<rt>ろう</rt></ruby>の<ruby>呼<rt>よ</rt></ruby>び<ruby>名<rt>な</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>",
+    "topic_ko": "‘노(老)’ 호칭의 문화",
+    "url": "https://www.asahi.com/articles/DA3S16550662.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘호칭 문화’, ‘한자 의미 변이’, ‘노화와 존중’ — 한 글자가 문화에 따라 다른 존중의 규범을 만들어 내는 과정을 보여 주므로, 언어와 사회 인식의 상관관계를 다루는 장에 적합함.",
+    "pattern": "〜と<ruby>呼<rt>よ</rt></ruby>ぶ"
+  },
+  {
     "date": "2026-09-20",
     "no": 75,
     "topic_ja": "<ruby>愛<rt>あい</rt></ruby>の<ruby>真珠<rt>しんじゅ</rt></ruby>と<ruby>完全<rt>かんぜん</rt></ruby>の<ruby>罠<rt>わな</rt></ruby>",

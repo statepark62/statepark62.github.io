@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-21 天声人語로 배우는 일본어 — ‘노(老)’ 호칭의 문화</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-21</span>
+      <span>2026년 9월 21일 (월)</span>
+    </div>
+
+    <h1><ruby>老<rt>ろう</rt></ruby>の<ruby>呼<rt>よ</rt></ruby>び<ruby>名<rt>な</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby></h1>
+    <p class="topic-ko">‘노(老)’ 호칭의 문화</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>中国語<rt>ちゅうごくご</rt></ruby>では」</div>
+      <div class="ko">중국어에서는 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">このコラムは、<ruby>老<rt>ろう</rt></ruby>という<ruby>字<rt>じ</rt></ruby>が<ruby>日本語<rt>にほんご</rt></ruby>では<ruby>重<rt>おも</rt></ruby>く<ruby>否定<rt>ひてい</rt></ruby>に<ruby>聞<rt>き</rt></ruby>こえることが<ruby>多<rt>おお</rt></ruby>いと<ruby>述<rt>の</rt></ruby>べる。</p><p class="ko">이 칼럼은 한자 ‘노(老)’가 일본어에서는 무겁고 부정적으로 들리기 쉬운 지점에서 이야기를 시작한다.</p></div>
+      <div class="s-item"><p class="ja">つづいて、<ruby>中国語<rt>ちゅうごくご</rt></ruby>では『<ruby>老<rt>ろう</rt></ruby>』が<ruby>敬称<rt>けいしょう</rt></ruby>として<ruby>用<rt>もち</rt></ruby>いられ、<ruby>姓<rt>せい</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に<ruby>付<rt>つ</rt></ruby>けると<ruby>親<rt>した</rt></ruby>しみと<ruby>敬意<rt>けいい</rt></ruby>を<ruby>伝<rt>つた</rt></ruby>えると<ruby>説<rt>と</rt></ruby>く。</p><p class="ko">이어 중국어에서는 ‘老’가 존칭이나 친근한 호칭으로 기능하며, 성 앞에 붙이면 존중을 담는다는 사례를 소개한다.</p></div>
+      <div class="s-item"><p class="ja">おなじ<ruby>字<rt>じ</rt></ruby>でも<ruby>文化<rt>ぶんか</rt></ruby>で<ruby>価値<rt>かち</rt></ruby>が<ruby>変<rt>か</rt></ruby>わることを<ruby>示<rt>しめ</rt></ruby>し、<ruby>加齢<rt>かれい</rt></ruby>と<ruby>言葉<rt>ことば</rt></ruby>の<ruby>関係<rt>かんけい</rt></ruby>を<ruby>考<rt>かんが</rt></ruby>えさせる。</p><p class="ko">같은 글자라도 문화에 따라 가치가 달라짐을 보여주며, 노화와 언어의 관계를 다시 생각하게 만든다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>敬語<rt>けいご</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">경어</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>敬語<rt>けいご</rt></ruby>の<ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>を<ruby>学校<rt>がっこう</rt></ruby>で<ruby>学<rt>まな</rt></ruby>ぶ。</span><br>경어의 쓰임을 학교에서 배운다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>呼び方<rt>よびかた</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">호칭 방식</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>地方<rt>ちほう</rt></ruby>によって<ruby>呼<rt>よ</rt></ruby>び<ruby>方<rt>かた</rt></ruby>が<ruby>違<rt>ちが</rt></ruby>う。</span><br>지역에 따라 부르는 방식이 다르다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>親しみ<rt>したしみ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">친근함, 정다움</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>の<ruby>笑顔<rt>えがお</rt></ruby>には<ruby>親<rt>した</rt></ruby>しみがある。</span><br>그의 웃는 얼굴에는 친근함이 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>老衰<rt>ろうすい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">노쇠, 노화로 인한 쇠약</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>祖父<rt>そふ</rt></ruby>は<ruby>老衰<rt>ろうすい</rt></ruby>で<ruby>静<rt>しず</rt></ruby>かに<ruby>亡<rt>な</rt></ruby>くなった。</span><br>할아버지는 노쇠로 조용히 세상을 떠났다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>老獪<rt>ろうかい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">노회함, 교활함</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>老獪<rt>ろうかい</rt></ruby>な<ruby>手口<rt>てぐち</rt></ruby>で<ruby>人<rt>ひと</rt></ruby>をだます。</span><br>그는 노회한 수법으로 사람을 속인다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜と<ruby>呼<rt>よ</rt></ruby>ぶ</div>
+        <div class="pattern-ko">‘~라고 부르다’</div>
+        <p class="explain">사람이나 사물의 이름·호칭을 말할 때 쓰는 기본 표현이다. 문장체뿐 아니라 구어에서도 널리 쓰이며, 명칭의 정중함이나 친근함은 앞에 오는 표현(さん, さま, 君 등)에 따라 달라진다.</p>
+        <p class="ex"><span class="ja"><ruby>地元<rt>じもと</rt></ruby>では、<ruby>彼<rt>かれ</rt></ruby>をタナカさんと<ruby>呼<rt>よ</rt></ruby>ぶ。</span><br>고향에서는 그를 다나카 씨라고 부른다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 한 글자에서 출발해 의미망을 넓혀 가는 방식이 돋보인다. 먼저 ‘老’를 포함한 일본어 어휘를 열거해 음색의 무게와 부정성을 환기한 뒤, 시야를 돌려 중국어에서의 호칭 관습을 제시한다. 대조와 예시의 빠른 전환으로 독자의 인식을 흔들고, 짧은 단락 속에서도 언어와 가치 판단의 연결을 선명하게 드러낸다. 천성인어 특유의 응축된 서술과 리듬감 있는 단어 배치가 효과를 극대화한다.</p>
+        <p>글이 남기는 함의는 단순한 어휘 비교를 넘어선다. 같은 한자 문화권 안에서도 호칭과 존중의 방식이 얼마나 다르게 다듬어졌는지 보여 주며, 나이 듦을 둘러싼 사회적 시선을 비춰 준다. 한국 독자에게는 ‘노인’과 관련된 말맛과 예법을 돌아보게 하는 흥미로운 거울이 된다. 언어가 현실을 묘사할 뿐 아니라 태도를 형성한다는 점을, 작은 예에서 크게 생각하게 한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 ‘老’의 뉘앙스를 일본어와 중국어에서 대비해, 언어가 존중과 편견을 어떻게 빚는지 성찰하게 하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본어에서 ‘老’가 들어간 단어는 노쇠, 쇠퇴 등을 연상시키는 경우가 많아 부정적 울림을 동반하는 일이 잦다.</p>
+        <p>중국어에서는 ‘老’가 친근한 존칭으로도 쓰여 ‘老＋성(姓)’이 익숙한 호칭이며, ‘老師(교사)’, ‘老板(점주·사장)’처럼 사회적 역할을 존중하는 표현이 존재한다.</p>
+        <p>동아시아 한자어는 공통 글자를 공유하지만, 각 언어권의 역사와 문화에 따라 의미와 정서가 달리 변주된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>작은 단어 하나를 통해 문화 비교로 확장하는 ‘점에서 면으로’의 전개를 배운다.</p>
+        <p><span class="n">二</span>예시 나열과 대조를 리듬감 있게 배치해 독자의 선입견을 흔드는 구성을 익힌다.</p>
+        <p><span class="n">三</span>가치 판단이 스며 있는 어휘를 골라 ‘말의 음색’을 먼저 들려준 뒤 해석을 붙이는 순서를 참고한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>言葉<rt>ことば</rt></ruby>の<ruby>響<rt>ひび</rt></ruby>きは<ruby>時代<rt>じだい</rt></ruby>と<ruby>文化<rt>ぶんか</rt></ruby>で<ruby>変<rt>か</rt></ruby>わる。</span>
+      <span class="ko">말의 울림은 시대와 문화에 따라 달라진다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-21) — <a href="https://www.asahi.com/articles/DA3S16550662.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-21.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

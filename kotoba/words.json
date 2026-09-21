@@ -10551,5 +10551,105 @@
   "example": "彼の計画は完璧だ。",
   "exampleReading": "かれのけいかくはかんぺきだ。",
   "exampleMeaning": "그의 계획은 완벽하다."
+ },
+ {
+  "id": "news539",
+  "word": "最接近",
+  "reading": "さいせっきん",
+  "meaning": "가장 가까이 접근함, 최근접",
+  "level": "N2",
+  "example": "台風は今夜、関東地方に最接近する見込みです。",
+  "exampleReading": "たいふうは こんや、かんとうちほうに さいせっきん する みこみです。",
+  "exampleMeaning": "태풍은 오늘 밤 간토 지방에 가장 가까이 접근할 것으로 예상됩니다."
+ },
+ {
+  "id": "news540",
+  "word": "線状降水帯",
+  "reading": "せんじょうこうすいたい",
+  "meaning": "선상강수대(집중호우를 일으키는 좁고 긴 비구름 띠)",
+  "level": "N1",
+  "example": "大雨の影響で線状降水帯が発生し、河川の氾濫が心配されている。",
+  "exampleReading": "おおあめの えいきょうで せんじょうこうすいたいが はっせいし、かせんの はんらんが しんぱいされている。",
+  "exampleMeaning": "폭우의 영향으로 선상강수대가 발생하여 하천 범람이 우려되고 있다."
+ },
+ {
+  "id": "news541",
+  "word": "縮めかねない",
+  "reading": "ちぢめかねない",
+  "meaning": "(수명 등을) 단축시킬지도 모른다",
+  "level": "N2",
+  "example": "毎日の過度なストレスは寿命を縮めかねない。",
+  "exampleReading": "まいにちの かどな すとれすは じゅみょうを ちぢめかねない。",
+  "exampleMeaning": "매일의 과도한 스트레스는 수명을 단축시킬지도 모른다."
+ },
+ {
+  "id": "news542",
+  "word": "賛否",
+  "reading": "さんぴ",
+  "meaning": "찬반, 찬성과 반대",
+  "level": "N2",
+  "example": "その政策には賛否が分かれている。",
+  "exampleReading": "その せいさくには さんぴが わかれている。",
+  "exampleMeaning": "그 정책에 대해서는 찬반이 갈리고 있다."
+ },
+ {
+  "id": "news543",
+  "word": "毒親",
+  "reading": "どくおや",
+  "meaning": "독친(자녀에게 해로운 영향을 주는 부모)",
+  "level": "N2",
+  "example": "彼女は毒親に育てられたことをブログで告白した。",
+  "exampleReading": "かのじょは どくおやに そだてられた ことを ぶろぐで こくはくした。",
+  "exampleMeaning": "그녀는 독친 밑에서 자랐다는 것을 블로그에서 고백했다."
+ },
+ {
+  "id": "tj346",
+  "word": "敬語",
+  "reading": "けいご",
+  "meaning": "경어",
+  "level": "N3",
+  "example": "敬語の使い方を学校で学ぶ。",
+  "exampleReading": "けいごのつかいかたをがっこうでまなぶ。",
+  "exampleMeaning": "경어의 쓰임을 학교에서 배운다."
+ },
+ {
+  "id": "tj347",
+  "word": "呼び方",
+  "reading": "よびかた",
+  "meaning": "호칭 방식",
+  "level": "N3",
+  "example": "地方によって呼び方が違う。",
+  "exampleReading": "ちほうによってよびかたがちがう。",
+  "exampleMeaning": "지역에 따라 부르는 방식이 다르다."
+ },
+ {
+  "id": "tj348",
+  "word": "親しみ",
+  "reading": "したしみ",
+  "meaning": "친근함, 정다움",
+  "level": "N2",
+  "example": "彼の笑顔には親しみがある。",
+  "exampleReading": "かれのえがおにはしたしみがある。",
+  "exampleMeaning": "그의 웃는 얼굴에는 친근함이 있다."
+ },
+ {
+  "id": "tj349",
+  "word": "老衰",
+  "reading": "ろうすい",
+  "meaning": "노쇠, 노화로 인한 쇠약",
+  "level": "N2",
+  "example": "祖父は老衰で静かに亡くなった。",
+  "exampleReading": "そふはろうすいでしずかになくなった。",
+  "exampleMeaning": "할아버지는 노쇠로 조용히 세상을 떠났다."
+ },
+ {
+  "id": "tj350",
+  "word": "老獪",
+  "reading": "ろうかい",
+  "meaning": "노회함, 교활함",
+  "level": "N1",
+  "example": "彼は老獪な手口で人をだます。",
+  "exampleReading": "かれはろうかいなてぐちでひとをだます。",
+  "exampleMeaning": "그는 노회한 수법으로 사람을 속인다."
  }
 ]
