@@ -10651,5 +10651,65 @@
   "example": "彼は老獪な手口で人をだます。",
   "exampleReading": "かれはろうかいなてぐちでひとをだます。",
   "exampleMeaning": "그는 노회한 수법으로 사람을 속인다."
+ },
+ {
+  "id": "news544",
+  "word": "冠水",
+  "reading": "かんすい",
+  "meaning": "침수 (물에 뒤덮임)",
+  "level": "N1",
+  "example": "大雨で道路が冠水し、車が通行できなくなった。",
+  "exampleReading": "おおあめで どうろが かんすいし、くるまが つうこうできなくなった。",
+  "exampleMeaning": "폭우로 도로가 침수되어 차가 통행할 수 없게 되었다."
+ },
+ {
+  "id": "news545",
+  "word": "長寿",
+  "reading": "ちょうじゅ",
+  "meaning": "장수",
+  "level": "N2",
+  "example": "敬老の日は長寿を祝う祝日です。",
+  "exampleReading": "けいろうのひは ちょうじゅを いわう しゅくじつです。",
+  "exampleMeaning": "경로의 날은 장수를 기념하는 국경일입니다."
+ },
+ {
+  "id": "news546",
+  "word": "縮める",
+  "reading": "ちぢめる",
+  "meaning": "줄이다, 단축시키다",
+  "level": "N2",
+  "example": "過度なストレスは寿命を縮める可能性がある。",
+  "exampleReading": "かどな すとれすは じゅみょうを ちぢめる かのうせいが ある。",
+  "exampleMeaning": "과도한 스트레스는 수명을 줄일 가능성이 있다."
+ },
+ {
+  "id": "news547",
+  "word": "後を継ぐ",
+  "reading": "あとをつぐ",
+  "meaning": "뒤를 잇다, 후계자가 되다",
+  "level": "N2",
+  "example": "彼は父の後を継いで会社を経営している。",
+  "exampleReading": "かれは ちちの あとを ついで かいしゃを けいえいしている。",
+  "exampleMeaning": "그는 아버지의 뒤를 이어 회사를 경영하고 있다."
+ },
+ {
+  "id": "news548",
+  "word": "継ぐ",
+  "reading": "つぐ",
+  "meaning": "이어받다, 계승하다",
+  "level": "N2",
+  "example": "彼は父の会社を継ぐことになった。",
+  "exampleReading": "かれはちちのかいしゃをつぐことになった。",
+  "exampleMeaning": "그는 아버지의 회사를 이어받게 되었다."
+ },
+ {
+  "id": "news549",
+  "word": "土砂災害",
+  "reading": "どしゃさいがい",
+  "meaning": "산사태 등 토사 재해",
+  "level": "N2",
+  "example": "大雨により土砂災害の危険性が高まっている。",
+  "exampleReading": "おおあめによりどしゃさいがいのきけんせいがたかまっている。",
+  "exampleMeaning": "큰비로 인해 산사태 위험이 높아지고 있다."
  }
 ]
