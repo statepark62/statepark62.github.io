@@ -10711,5 +10711,125 @@
   "example": "大雨により土砂災害の危険性が高まっている。",
   "exampleReading": "おおあめによりどしゃさいがいのきけんせいがたかまっている。",
   "exampleMeaning": "큰비로 인해 산사태 위험이 높아지고 있다."
+ },
+ {
+  "id": "news550",
+  "word": "展開",
+  "reading": "てんかい",
+  "meaning": "전개, (사업 등을) 펼침",
+  "level": "N2",
+  "example": "このラーメン店は全国に店舗を展開している。",
+  "exampleReading": "このラーメンてんはぜんこくにてんぽをてんかいしている。",
+  "exampleMeaning": "이 라면 가게는 전국에 점포를 전개하고 있다."
+ },
+ {
+  "id": "news551",
+  "word": "鑑定",
+  "reading": "かんてい",
+  "meaning": "감정, 감별",
+  "level": "N1",
+  "example": "DNA鑑定の結果、容疑者が特定された。",
+  "exampleReading": "ディーエヌエーかんていのけっか、ようぎしゃがとくていされた。",
+  "exampleMeaning": "DNA 감정 결과 용의자가 특정되었다."
+ },
+ {
+  "id": "news552",
+  "word": "親分",
+  "reading": "おやぶん",
+  "meaning": "두목, 보스",
+  "level": "N2",
+  "example": "彼はその組織の親分として長年君臨してきた。",
+  "exampleReading": "かれはそのそしきのおやぶんとしてながねんくんりんしてきた。",
+  "exampleMeaning": "그는 그 조직의 두목으로서 오랜 세월 군림해왔다."
+ },
+ {
+  "id": "news553",
+  "word": "未解決",
+  "reading": "みかいけつ",
+  "meaning": "미해결",
+  "level": "N2",
+  "example": "その事件は10年間、未解決のままだった。",
+  "exampleReading": "そのじけんはじゅうねんかん、みかいけつのままだった。",
+  "exampleMeaning": "그 사건은 10년간 미해결인 채로 있었다."
+ },
+ {
+  "id": "news554",
+  "word": "再犯",
+  "reading": "さいはん",
+  "meaning": "재범, 재범죄",
+  "level": "N1",
+  "example": "彼は再犯を防ぐために更生プログラムに参加した。",
+  "exampleReading": "かれはさいはんをふせぐためにこうせいプログラムにさんかした。",
+  "exampleMeaning": "그는 재범을 막기 위해 갱생 프로그램에 참가했다."
+ },
+ {
+  "id": "news555",
+  "word": "誤爆",
+  "reading": "ごばく",
+  "meaning": "(메시지 등을) 잘못 보냄, 오폭",
+  "level": "N1",
+  "example": "彼氏に送るはずのメッセージを間違えて友達に誤爆してしまった。",
+  "exampleReading": "かれしにおくるはずのメッセージをまちがえてともだちにごばくしてしまった。",
+  "exampleMeaning": "남자친구에게 보낼 메시지를 실수로 친구에게 잘못 보내버렸다."
+ },
+ {
+  "id": "news556",
+  "word": "課金",
+  "reading": "かきん",
+  "meaning": "(게임 등에) 과금, 결제함",
+  "level": "N2",
+  "example": "息子がスマホゲームに77万円も課金していたことが発覚した。",
+  "exampleReading": "むすこがスマホゲームにななじゅうななまんえんもかきんしていたことがはっかくした。",
+  "exampleMeaning": "아들이 스마트폰 게임에 77만 엔이나 과금했다는 사실이 발각됐다."
+ },
+ {
+  "id": "tj351",
+  "word": "訃報",
+  "reading": "ふほう",
+  "meaning": "부고",
+  "level": "N1",
+  "example": "友人の父の訃報を聞いた。",
+  "exampleReading": "ゆうじんのちちのふほうをきいた。",
+  "exampleMeaning": "친구 아버지의 부고를 들었다."
+ },
+ {
+  "id": "tj352",
+  "word": "参観日",
+  "reading": "さんかんび",
+  "meaning": "수업 참관일",
+  "level": "N2",
+  "example": "参観日に母が来て、うれしかった。",
+  "exampleReading": "さんかんびにははがきて、うれしかった。",
+  "exampleMeaning": "참관일에 엄마가 와서 기뻤다."
+ },
+ {
+  "id": "tj353",
+  "word": "朗読する",
+  "reading": "ろうどくする",
+  "meaning": "낭독하다",
+  "level": "N2",
+  "example": "彼は詩を静かに朗読した.",
+  "exampleReading": "かれはしをしずかにろうどくした。",
+  "exampleMeaning": "그는 시를 조용히 낭독했다."
+ },
+ {
+  "id": "tj354",
+  "word": "患う",
+  "reading": "わずらう",
+  "meaning": "앓다",
+  "level": "N1",
+  "example": "長年病を患う。",
+  "exampleReading": "ながねんやまいをわずらう。",
+  "exampleMeaning": "오랫동안 병을 앓다."
+ },
+ {
+  "id": "tj355",
+  "word": "宇宙一",
+  "reading": "うちゅういち",
+  "meaning": "우주 최고",
+  "level": "N3",
+  "example": "君の笑顔は宇宙一だ。",
+  "exampleReading": "きみのえがおはうちゅういちだ。",
+  "exampleMeaning": "너의 미소는 우주 최고다."
  }
 ]

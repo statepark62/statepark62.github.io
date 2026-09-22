@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-22",
+    "no": 77,
+    "topic_ja": "<ruby>笑顔<rt>えがお</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
+    "topic_ko": "미소의 기억",
+    "url": "https://www.asahi.com/articles/DA3S16551253.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '추모의 언어', '미소와 회복탄력성' — 부고를 사유의 출발점으로 삼아, 광고 속 미소가 개인과 사회의 회복력으로 이어지는 과정을 조용히 짚기 때문이다.",
+    "pattern": "〜ながら"
+  },
+  {
     "date": "2026-09-21",
     "no": 76,
     "topic_ja": "<ruby>老<rt>ろう</rt></ruby>の<ruby>呼<rt>よ</rt></ruby>び<ruby>名<rt>な</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>",
