@@ -10831,5 +10831,115 @@
   "example": "君の笑顔は宇宙一だ。",
   "exampleReading": "きみのえがおはうちゅういちだ。",
   "exampleMeaning": "너의 미소는 우주 최고다."
+ },
+ {
+  "id": "news557",
+  "word": "離脱",
+  "reading": "りだつ",
+  "meaning": "이탈, 벗어남",
+  "level": "N2",
+  "example": "彼は怪我のため、途中で試合から離脱した。",
+  "exampleReading": "かれはけがのため、とちゅうでしあいからりだつした。",
+  "exampleMeaning": "그는 부상 때문에 도중에 경기에서 이탈했다."
+ },
+ {
+  "id": "news558",
+  "word": "過激",
+  "reading": "かげき",
+  "meaning": "과격함",
+  "level": "N2",
+  "example": "彼の過激な発言が物議を醸した。",
+  "exampleReading": "かれのかげきなはつげんがぶつぎをかもした。",
+  "exampleMeaning": "그의 과격한 발언이 논란을 일으켰다."
+ },
+ {
+  "id": "news559",
+  "word": "阻止",
+  "reading": "そし",
+  "meaning": "저지, 막음",
+  "level": "N2",
+  "example": "警察はデモ隊の進行を阻止した。",
+  "exampleReading": "けいさつはでもたいのしんこうをそしした。",
+  "exampleMeaning": "경찰은 시위대의 진행을 저지했다."
+ },
+ {
+  "id": "news560",
+  "word": "悪影響",
+  "reading": "あくえいきょう",
+  "meaning": "나쁜 영향, 악영향",
+  "level": "N3",
+  "example": "スマホの使いすぎは子どもに悪影響を及ぼす。",
+  "exampleReading": "すまほのつかいすぎはこどもにあくえいきょうをおよぼす。",
+  "exampleMeaning": "스마트폰을 지나치게 사용하면 아이에게 나쁜 영향을 끼친다."
+ },
+ {
+  "id": "news561",
+  "word": "徘徊",
+  "reading": "はいかい",
+  "meaning": "배회, 이리저리 돌아다님",
+  "level": "N1",
+  "example": "夜中に見知らぬ人が近所を徘徊していた。",
+  "exampleReading": "よなかにみしらぬひとがきんじょをはいかいしていた。",
+  "exampleMeaning": "한밤중에 낯선 사람이 동네를 배회하고 있었다."
+ },
+ {
+  "id": "news562",
+  "word": "絶句",
+  "reading": "ぜっく",
+  "meaning": "말문이 막힘, 말을 잇지 못함",
+  "level": "N1",
+  "example": "予想外の結果に彼は思わず絶句した。",
+  "exampleReading": "よそうがいのけっかにかれはおもわずぜっくした。",
+  "exampleMeaning": "예상 밖의 결과에 그는 저도 모르게 말문이 막혔다."
+ },
+ {
+  "id": "tj356",
+  "word": "田舎者",
+  "reading": "いなかもの",
+  "meaning": "시골뜨기",
+  "level": "N2",
+  "example": "彼は田舎者だが、仕事は丁寧だ。",
+  "exampleReading": "かれはいなかものだが、しごとはていねいだ。",
+  "exampleMeaning": "그는 시골뜨기지만 일은 꼼꼼하다."
+ },
+ {
+  "id": "tj357",
+  "word": "飢饉",
+  "reading": "ききん",
+  "meaning": "기근",
+  "level": "N1",
+  "example": "江戸時代には大きな飢饉が何度も起きた。",
+  "exampleReading": "えどじだいにはおおきなききんがなんどもおきた。",
+  "exampleMeaning": "에도 시대에는 큰 기근이 몇 차례나 일어났다."
+ },
+ {
+  "id": "tj358",
+  "word": "切り札",
+  "reading": "きりふだ",
+  "meaning": "비장의 수, 최후의 카드",
+  "level": "N2",
+  "example": "彼女は最後に切り札を切った。",
+  "exampleReading": "かのじょはさいごにきりふだをきった。",
+  "exampleMeaning": "그녀는 마지막에 비장의 카드를 꺼냈다."
+ },
+ {
+  "id": "tj359",
+  "word": "自給",
+  "reading": "じきゅう",
+  "meaning": "자급",
+  "level": "N2",
+  "example": "地域で食料を自給する仕組みを整えるべきだ。",
+  "exampleReading": "ちいきでしょくりょうをじきゅうするしくみをととのえるべきだ。",
+  "exampleMeaning": "지역에서 식량을 자급하는 구조를 갖춰야 한다."
+ },
+ {
+  "id": "tj360",
+  "word": "作付け",
+  "reading": "さくづけ",
+  "meaning": "작부(작물 재배 계획·면적)",
+  "level": "N1",
+  "example": "来年は芋類の作付を増やす方針だ。",
+  "exampleReading": "らいねんはいもるいのさくづけをふやすほうしんだ.",
+  "exampleMeaning": "내년에는 이모류의 작부를 늘릴 방침이다."
  }
 ]

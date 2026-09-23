@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-23",
+    "no": 78,
+    "topic_ja": "<ruby>芋<rt>いも</rt></ruby>と<ruby>自給<rt>じきゅう</rt></ruby>の<ruby>話<rt>はなし</rt></ruby>",
+    "topic_ko": "‘이모(芋)’와 자급의 이야기",
+    "url": "https://www.asahi.com/articles/DA3S16551850.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘식량안보’, ‘속어와 편견’, ‘생활지혜’ — 비하적 어휘를 재맥락화해 역사와 정책을 잇고, 위기 속 생존의 지혜를 현재 논의로 끌어오른 글이므로.",
+    "pattern": "〜からか"
+  },
+  {
     "date": "2026-09-22",
     "no": 77,
     "topic_ja": "<ruby>笑顔<rt>えがお</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
