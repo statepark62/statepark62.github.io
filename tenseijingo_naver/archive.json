@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-24",
+    "no": 79,
+    "topic_ja": "<ruby>瓶<rt>びん</rt></ruby>のサソリ",
+    "topic_ko": "병 속의 전갈",
+    "url": "https://www.asahi.com/articles/DA3S16552373.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘경고의 수사’, ‘기술과 책임’, ‘핵의 시대’. 상징적 비유로 공공의 위험을 환기하고, 과학기술의 발전과 윤리적 책임의 긴장을 탐구하는 글이므로 이 분류가 적절하다.",
+    "pattern": "〜に<ruby>警鐘<rt>けいしょう</rt></ruby>を<ruby>鳴<rt>な</rt></ruby>らす"
+  },
+  {
     "date": "2026-09-23",
     "no": 78,
     "topic_ja": "<ruby>芋<rt>いも</rt></ruby>と<ruby>自給<rt>じきゅう</rt></ruby>の<ruby>話<rt>はなし</rt></ruby>",

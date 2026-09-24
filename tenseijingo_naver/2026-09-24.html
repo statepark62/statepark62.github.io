@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-24 天声人語로 배우는 일본어 — 병 속의 전갈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-24</span>
+      <span>2026년 9월 24일 (목)</span>
+    </div>
+
+    <h1><ruby>瓶<rt>びん</rt></ruby>のサソリ</h1>
+    <p class="topic-ko">병 속의 전갈</p>
+
+    <div class="keyquote">
+      <div class="ja">「２<ruby>匹<rt>ひき</rt></ruby>のサソリ」</div>
+      <div class="ko">두 마리의 전갈 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>戦後<rt>せんご</rt></ruby>、<ruby>米国<rt>べいこく</rt></ruby>と<ruby>ソ連<rt>それん</rt></ruby>は<ruby>原爆<rt>げんばく</rt></ruby>から<ruby>水爆<rt>すいばく</rt></ruby>へと<ruby>開発競争<rt>かいはつきょうそう</rt></ruby>を<ruby>繰<rt>く</rt></ruby>り<ruby>広<rt>ひろ</rt></ruby>げた。</p><p class="ko">제2차 세계대전 이후 미국과 소련이 핵무기에서 수소폭탄으로 개발 경쟁을 이어간 배경을 상기시킨다.</p></div>
+      <div class="s-item"><p class="ja">その<ruby>流<rt>なが</rt></ruby>れに<ruby>警鐘<rt>けいしょう</rt></ruby>を<ruby>鳴<rt>な</rt></ruby>らしたのが、<ruby>原爆<rt>げんばく</rt></ruby>の<ruby>父<rt>ちち</rt></ruby>として<ruby>知<rt>し</rt></ruby>られるオッペンハイマーだ。</p><p class="ko">그 흐름에 경종을 울린 인물로 ‘원자폭탄의 아버지’ 오펜하이머가 소개되고, 1953년 강연의 ‘병 속의 두 전갈’ 비유가 인용된다.</p></div>
+      <div class="s-item"><p class="ja">１９５３<ruby>年<rt>ねん</rt></ruby>の<ruby>講演<rt>こうえん</rt></ruby>で、<ruby>彼<rt>かれ</rt></ruby>は「<ruby>瓶<rt>びん</rt></ruby>に<ruby>閉<rt>と</rt></ruby>じ<ruby>込<rt>こ</rt></ruby>められた２<ruby>匹<rt>ひき</rt></ruby>のサソリ」と<ruby>例<rt>たと</rt></ruby>えて、<ruby>最先端<rt>さいせんたん</rt></ruby>の<ruby>技術<rt>ぎじゅつ</rt></ruby>が<ruby>抱<rt>かか</rt></ruby>える<ruby>危険性<rt>きけんせい</rt></ruby>を<ruby>強<rt>つよ</rt></ruby>く<ruby>訴<rt>うった</rt></ruby>えた。</p><p class="ko">칼럼은 최첨단 기술이 가진 위험을 되새기게 하며, 서로를 해치려다 함께 파멸할 수 있다는 경고의 메시지를 강조한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>警鐘<rt>けいしょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">경종, 경고의 종</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>専門家<rt>せんもんか</rt></ruby>は<ruby>気候変動<rt>きこうへんどう</rt></ruby>に<ruby>警鐘<rt>けいしょう</rt></ruby>を<ruby>鳴<rt>な</rt></ruby>らす。</span><br>전문가는 기후변동에 경종을 울린다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>開発競争<rt>かいはつきょうそう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">개발 경쟁</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>各国<rt>かっこく</rt></ruby>は<ruby>新技術<rt>しんぎじゅつ</rt></ruby>の<ruby>開発競争<rt>かいはつきょうそう</rt></ruby>を<ruby>加速<rt>かそく</rt></ruby>した。</span><br>각국은 신기술의 개발 경쟁을 가속했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>水爆<rt>すいばく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수소폭탄</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>水爆<rt>すいばく</rt></ruby>の<ruby>破壊力<rt>はかいりょく</rt></ruby>は<ruby>想像<rt>そうぞう</rt></ruby>を<ruby>超<rt>こ</rt></ruby>える。</span><br>수소폭탄의 파괴력은 상상을 넘는다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>講演<rt>こうえん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">강연</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>大学<rt>だいがく</rt></ruby>で<ruby>講演<rt>こうえん</rt></ruby>を<ruby>聞<rt>き</rt></ruby>き、<ruby>多<rt>おお</rt></ruby>くを<ruby>学<rt>まな</rt></ruby>んだ。</span><br>대학에서 강연을 듣고 많은 것을 배웠다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>訴える<rt>うったえる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">호소하다, 강하게 주장하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>平和<rt>へいわ</rt></ruby>の<ruby>必要性<rt>ひつようせい</rt></ruby>を<ruby>訴<rt>うった</rt></ruby>えた。</span><br>그는 평화의 필요성을 호소했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜に<ruby>警鐘<rt>けいしょう</rt></ruby>を<ruby>鳴<rt>な</rt></ruby>らす</div>
+        <div class="pattern-ko">~에 경종을 울리다</div>
+        <p class="explain">어떤 흐름이나 사태의 위험성에 대해 강하게 경고할 때 쓰는 격식체 표현이다. 신문·논설·보고서 등 공적인 문맥에서 자주 보이며, 개인 감정보다 공공의 위험을 강조하는 뉘앙스가 있다.</p>
+        <p class="ex"><span class="ja"><ruby>研究者<rt>けんきゅうしゃ</rt></ruby>は<ruby>過度<rt>かど</rt></ruby>な<ruby>監視<rt>かんし</rt></ruby>に<ruby>警鐘<rt>けいしょう</rt></ruby>を<ruby>鳴<rt>なら</rt></ruby>らした。</span><br>연구자는 과도한 감시에 경종을 울렸다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 냉전기의 핵개발 경쟁을 첫 문단에서 압축적으로 환기하고, 오펜하이머의 비유를 전면에 세워 독자의 주의를 붙잡는다. 비유 한 줄로 위험의 구조를 시각화하는 전형적 ‘천성인어’의 방식이 돋보인다. 사건 열거보다 이미지를 통해 메시지를 응축하여, 논점을 단숨에 드러내는 효과를 노린다. 또한 서술의 리듬이 간결하여 정보와 정서가 균형 있게 전달된다.</p>
+        <p>남는 의미는 최첨단 기술의 영광과 공포가 동시에 커진다는 역설이다. 서로를 해치면 자신도 무사하지 못하다는 경고는 오늘의 기술·안보 이슈에도 그대로 겹쳐 보인다. 한국 독자에게도 핵과 억지, 기술윤리 논쟁을 함께 떠올리게 하는 흥미로운 진입로이다. 과거의 목소리를 현재의 질문으로 되살리는 신문 칼럼의 미덕이 분명하게 드러난다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 오펜하이머의 비유를 통해 핵개발 경쟁이 드러내는 최첨단 기술의 위험을 경고하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>냉전기에는 미국과 소련이 핵무기 우위를 겨루며 수소폭탄까지 개발 경쟁을 확대한 바 있다. 이는 군비경쟁과 공포의 균형 논리를 강화했다.</p>
+        <p>오펜하이머는 맨해튼 계획을 이끈 물리학자로, 전후에는 핵 확산과 대량파괴의 위험을 경고하는 발언을 이어 갔다.</p>
+        <p>‘병 속의 두 전갈’ 비유는 서로가 상대를 죽이려 들면 자신도 치명상을 입는 상황을 가리킨다. 핵 시대의 상호 위협 상태를 간명하게 설명하는 상징으로 자주 회자된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>강렬한 비유 한 구절로 복잡한 국제정세의 구조를 단번에 보여준다.</p>
+        <p><span class="n">二</span>사실 제시(개발 경쟁)와 인물 제시(오펜하이머)를 결합해 논점의 신뢰성과 흡인력을 동시에 확보한다.</p>
+        <p><span class="n">三</span>문장을 짧게 끊어 리듬을 살리고, 핵심 동사를 선택해 메시지의 방향을 선명하게 만든다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>力<rt>ちから</rt></ruby>は<ruby>制御<rt>せいぎょ</rt></ruby>されてこそ<ruby>価値<rt>かち</rt></ruby>を<ruby>持<rt>も</rt></ruby>つ。</span>
+      <span class="ko">힘은 통제될 때 비로소 가치가 있다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-24) — <a href="https://www.asahi.com/articles/DA3S16552373.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-24.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

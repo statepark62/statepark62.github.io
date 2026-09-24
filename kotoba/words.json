@@ -10971,5 +10971,105 @@
   "example": "この状況ではもう詰んでいると言わざるを得ない。",
   "exampleReading": "この じょうきょうでは もう つんでいると いわざるを えない。",
   "exampleMeaning": "이 상황에서는 이제 끝났다고 말할 수밖에 없다."
+ },
+ {
+  "id": "news566",
+  "word": "身元不明",
+  "reading": "みもとふめい",
+  "meaning": "신원 불명",
+  "level": "N1",
+  "example": "海で身元不明の遺体が発見された。",
+  "exampleReading": "うみでみもとふめいのいたいがはっけんされた。",
+  "exampleMeaning": "바다에서 신원 불명의 시신이 발견되었다."
+ },
+ {
+  "id": "news567",
+  "word": "乱入",
+  "reading": "らんにゅう",
+  "meaning": "난입",
+  "level": "N1",
+  "example": "コンサート中に観客が舞台に乱入した。",
+  "exampleReading": "こんさーとちゅうにかんきゃくがぶたいにらんにゅうした。",
+  "exampleMeaning": "콘서트 중에 관객이 무대에 난입했다."
+ },
+ {
+  "id": "news568",
+  "word": "強要",
+  "reading": "きょうよう",
+  "meaning": "강요",
+  "level": "N1",
+  "example": "上司に飲酒を強要されて困っている。",
+  "exampleReading": "じょうしにいんしゅをきょうようされてこまっている。",
+  "exampleMeaning": "상사에게 음주를 강요당해서 곤란하다."
+ },
+ {
+  "id": "news569",
+  "word": "違和感",
+  "reading": "いわかん",
+  "meaning": "위화감, 이질감",
+  "level": "N2",
+  "example": "彼の説明にどこか違和感を覚えた。",
+  "exampleReading": "かれのせつめいにどこかいわかんをおぼえた。",
+  "exampleMeaning": "그의 설명에 어딘가 위화감을 느꼈다."
+ },
+ {
+  "id": "news570",
+  "word": "損失",
+  "reading": "そんしつ",
+  "meaning": "손실",
+  "level": "N2",
+  "example": "この事故で会社は大きな損失を被った。",
+  "exampleReading": "このじこでかいしゃはおおきなそんしつをこうむった。",
+  "exampleMeaning": "이 사고로 회사는 큰 손실을 입었다."
+ },
+ {
+  "id": "tj361",
+  "word": "警鐘",
+  "reading": "けいしょう",
+  "meaning": "경종, 경고의 종",
+  "level": "N1",
+  "example": "専門家は気候変動に警鐘を鳴らす。",
+  "exampleReading": "せんもんかはきこうへんどうにけいしょうをならす。",
+  "exampleMeaning": "전문가는 기후변동에 경종을 울린다."
+ },
+ {
+  "id": "tj362",
+  "word": "開発競争",
+  "reading": "かいはつきょうそう",
+  "meaning": "개발 경쟁",
+  "level": "N1",
+  "example": "各国は新技術の開発競争を加速した。",
+  "exampleReading": "かっこくはしんぎじゅつのかいはつきょうそうをかそくした.",
+  "exampleMeaning": "각국은 신기술의 개발 경쟁을 가속했다."
+ },
+ {
+  "id": "tj363",
+  "word": "水爆",
+  "reading": "すいばく",
+  "meaning": "수소폭탄",
+  "level": "N1",
+  "example": "水爆の破壊力は想像を超える。",
+  "exampleReading": "すいばくのはかいりょくはそうぞうをこえる。",
+  "exampleMeaning": "수소폭탄의 파괴력은 상상을 넘는다."
+ },
+ {
+  "id": "tj364",
+  "word": "講演",
+  "reading": "こうえん",
+  "meaning": "강연",
+  "level": "N2",
+  "example": "大学で講演を聞き、多くを学んだ。",
+  "exampleReading": "だいがくでこうえんをきき、おおくをまなんだ。",
+  "exampleMeaning": "대학에서 강연을 듣고 많은 것을 배웠다."
+ },
+ {
+  "id": "tj365",
+  "word": "訴える",
+  "reading": "うったえる",
+  "meaning": "호소하다, 강하게 주장하다",
+  "level": "N2",
+  "example": "彼は平和の必要性を訴えた。",
+  "exampleReading": "かれはへいわのひつようせいをうったえた。",
+  "exampleMeaning": "그는 평화의 필요성을 호소했다."
  }
 ]
