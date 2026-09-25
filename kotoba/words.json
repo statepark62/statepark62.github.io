@@ -11161,5 +11161,125 @@
   "example": "無駄な浪費を減らすために家計簿をつけ始めた。",
   "exampleReading": "むだなろうひをへらすためにかけいぼをつけはじめた。",
   "exampleMeaning": "불필요한 낭비를 줄이기 위해 가계부를 쓰기 시작했다."
+ },
+ {
+  "id": "news580",
+  "word": "入党",
+  "reading": "にゅうとう",
+  "meaning": "입당",
+  "level": "N2",
+  "example": "彼は来月、新しい政党に入党する予定だ。",
+  "exampleReading": "かれはらいげつ、あたらしいせいとうににゅうとうするよていだ。",
+  "exampleMeaning": "그는 다음 달 새로운 정당에 입당할 예정이다."
+ },
+ {
+  "id": "news581",
+  "word": "代替案",
+  "reading": "だいたいあん",
+  "meaning": "대체안, 대안",
+  "level": "N1",
+  "example": "問題が起きたとき、すぐに代替案を提示できるようにしておこう。",
+  "exampleReading": "もんだいがおきたとき、すぐにだいたいあんをていじできるようにしておこう。",
+  "exampleMeaning": "문제가 생겼을 때 바로 대안을 제시할 수 있도록 해두자."
+ },
+ {
+  "id": "news582",
+  "word": "留任",
+  "reading": "りゅうにん",
+  "meaning": "유임(직책에 계속 남음)",
+  "level": "N1",
+  "example": "彼は新体制でも役員として留任することになった。",
+  "exampleReading": "かれはしんたいせいでもやくいんとしてりゅうにんすることになった。",
+  "exampleMeaning": "그는 새 체제에서도 임원으로 유임하게 되었다."
+ },
+ {
+  "id": "news583",
+  "word": "電撃",
+  "reading": "でんげき",
+  "meaning": "전격적인, 갑작스러운",
+  "level": "N1",
+  "example": "そのバンドは電撃的に解散を発表した。",
+  "exampleReading": "そのばんどはでんげきてきにかいさんをはっぴょうした。",
+  "exampleMeaning": "그 밴드는 전격적으로 해체를 발표했다."
+ },
+ {
+  "id": "news584",
+  "word": "廃止",
+  "reading": "はいし",
+  "meaning": "폐지",
+  "level": "N2",
+  "example": "赤字が続いたため、そのローカル線は来年廃止されることになった。",
+  "exampleReading": "あかじがつづいたため、そのローカルせんはらいねんはいしされることになった。",
+  "exampleMeaning": "적자가 계속되어 그 지방 노선은 내년에 폐지되게 되었다."
+ },
+ {
+  "id": "news585",
+  "word": "契約期間",
+  "reading": "けいやくきかん",
+  "meaning": "계약 기간",
+  "level": "N2",
+  "example": "この会社との契約期間はあと半年残っている。",
+  "exampleReading": "このかいしゃとのけいやくきかんはあとはんとしのこっている。",
+  "exampleMeaning": "이 회사와의 계약 기간은 아직 반년 남아 있다."
+ },
+ {
+  "id": "news586",
+  "word": "更新",
+  "reading": "こうしん",
+  "meaning": "갱신, 경신",
+  "level": "N3",
+  "example": "彼女は世界記録を更新した。",
+  "exampleReading": "かのじょはせかいきろくをこうしんした。",
+  "exampleMeaning": "그녀는 세계 기록을 경신했다."
+ },
+ {
+  "id": "tj366",
+  "word": "隔てる",
+  "reading": "へだてる",
+  "meaning": "가르다, 사이에 두다",
+  "level": "N2",
+  "example": "ふたつの町を川が隔てる。",
+  "exampleReading": "ふたつのまちをかわがへだてる。",
+  "exampleMeaning": "두 마을을 강이 갈라놓는다."
+ },
+ {
+  "id": "tj367",
+  "word": "水運",
+  "reading": "すいうん",
+  "meaning": "수운, 물길 운송",
+  "level": "N2",
+  "example": "水運はこの町の歴史を支えてきた。",
+  "exampleReading": "すいうんはこのまちのれきしをささえてきた.",
+  "exampleMeaning": "수운은 이 마을의 역사를 지탱해 왔다."
+ },
+ {
+  "id": "tj368",
+  "word": "内海",
+  "reading": "ないかい",
+  "meaning": "내해, 바다 안쪽의 호수 같은 바다",
+  "level": "N1",
+  "example": "古い地図には内海が描かれている.",
+  "exampleReading": "ふるいちずにはないかいがえがかれている.",
+  "exampleMeaning": "오래된 지도에는 내해가 그려져 있다."
+ },
+ {
+  "id": "tj369",
+  "word": "一帯",
+  "reading": "いったい",
+  "meaning": "일대, 주변 지역",
+  "level": "N2",
+  "example": "この一帯は湿地が多い。",
+  "exampleReading": "このいったいはしっちがおおい。",
+  "exampleMeaning": "이 일대는 습지가 많다."
+ },
+ {
+  "id": "tj370",
+  "word": "栄える",
+  "reading": "さかえる",
+  "meaning": "번영하다, 번성하다",
+  "level": "N2",
+  "example": "港町は交易で栄えた。",
+  "exampleReading": "みなとまちはこうえきでさかえた。",
+  "exampleMeaning": "항구 도시는 교역으로 번성했다."
  }
 ]

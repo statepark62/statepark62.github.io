@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-25",
+    "no": 80,
+    "topic_ja": "<ruby>水<rt>みず</rt></ruby>に<ruby>囲<rt>かこ</rt></ruby>まれた<ruby>千葉<rt>ちば</rt></ruby>",
+    "topic_ko": "물에 둘러싸인 치바",
+    "url": "https://www.asahi.com/articles/DA3S16553446.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘물과 지리’, ‘지명의 기억’, ‘수운과 도시’. 물길이 경계를 만들고 생활권을 바꾸는 과정을 통해, 지명·문학·경제가 얽힌 지역사의 층위를 드러내므로 적합하다.",
+    "pattern": "〜で<ruby>隔<rt>へだ</rt></ruby>てられている"
+  },
+  {
     "date": "2026-09-24",
     "no": 79,
     "topic_ja": "<ruby>瓶<rt>びん</rt></ruby>のサソリ",

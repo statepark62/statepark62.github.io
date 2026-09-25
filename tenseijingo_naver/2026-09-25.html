@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-25 天声人語로 배우는 일본어 — 물에 둘러싸인 치바</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-25</span>
+      <span>2026년 9월 25일 (금)</span>
+    </div>
+
+    <h1><ruby>水<rt>みず</rt></ruby>に<ruby>囲<rt>かこ</rt></ruby>まれた<ruby>千葉<rt>ちば</rt></ruby></h1>
+    <p class="topic-ko">물에 둘러싸인 치바</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>香取海<rt>かとりのうみ</rt></ruby>」</div>
+      <div class="ko">가토리노우미(가토리의 바다) <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>天声人語<rt>てんせいじんご</rt></ruby>は、<ruby>千葉県<rt>ちばけん</rt></ruby>を<ruby>水<rt>みず</rt></ruby>に<ruby>囲<rt>かこ</rt></ruby>まれた「<ruby>大<rt>おお</rt></ruby>きな『<ruby>島<rt>しま</rt></ruby>』」として<ruby>描<rt>えが</rt></ruby>き、<ruby>隣接<rt>りんせつ</rt></ruby>する<ruby>都県<rt>とかん</rt></ruby>との<ruby>境界<rt>きょうかい</rt></ruby>が<ruby>川<rt>かわ</rt></ruby>で<ruby>隔<rt>へだ</rt></ruby>てられていると<ruby>述<rt>の</rt></ruby>べる。</p><p class="ko">이 칼럼은 치바현을 물에 둘러싸인 ‘큰 섬’으로 바라보며, 주변과의 경계가 강과 바다였음을 환기한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>鎌倉時代<rt>かまくらじだい</rt></ruby>には「<ruby>香取海<rt>かとりのうみ</rt></ruby>」と<ruby>呼<rt>よ</rt></ruby>ばれる<ruby>内海<rt>ないかい</rt></ruby>が<ruby>銚子<rt>ちょうし</rt></ruby>から<ruby>印旛<rt>いんば</rt></ruby>のあたりまで<ruby>広<rt>ひろ</rt></ruby>がり、<ruby>東国<rt>とうごく</rt></ruby>の<ruby>物資<rt>ぶっし</rt></ruby>を<ruby>運<rt>はこ</rt></ruby>ぶ<ruby>水運<rt>すいうん</rt></ruby>が<ruby>栄<rt>さか</rt></ruby>えたという。</p><p class="ko">가마쿠라 시대에는 ‘가토리노우미’라 불린 내해가 펼쳐졌고, 그 수역을 따라 동국의 물자가 오간 수운이 번성했다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は、<ruby>水路<rt>すいろ</rt></ruby>が<ruby>地域<rt>ちいき</rt></ruby>の<ruby>歴史<rt>れきし</rt></ruby>を<ruby>形<rt>かたち</rt></ruby>づくってきたことに<ruby>目<rt>め</rt></ruby>をむけ、いまの<ruby>地形<rt>ちけい</rt></ruby>にのこる<ruby>古<rt>ふる</rt></ruby>い<ruby>海<rt>うみ</rt></ruby>の<ruby>痕跡<rt>こんせき</rt></ruby>をしずかにたどる。</p><p class="ko">필자는 물길이 지역의 역사를 만들어온 과정을 통해, 오늘의 지형 속에 남은 옛 바다의 흔적을 더듬는다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>隔てる<rt>へだてる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">가르다, 사이에 두다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">ふたつの<ruby>町<rt>まち</rt></ruby>を<ruby>川<rt>かわ</rt></ruby>が<ruby>隔<rt>へだ</rt></ruby>てる。</span><br>두 마을을 강이 갈라놓는다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>水運<rt>すいうん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수운, 물길 운송</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>水運<rt>すいうん</rt></ruby>はこの<ruby>町<rt>まち</rt></ruby>の<ruby>歴史<rt>れきし</rt></ruby>を<ruby>支<rt>ささ</rt></ruby>えてきた。</span><br>수운은 이 마을의 역사를 지탱해 왔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>内海<rt>ないかい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">내해, 바다 안쪽의 호수 같은 바다</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>古<rt>ふる</rt></ruby>い<ruby>地図<rt>ちず</rt></ruby>には<ruby>内海<rt>ないかい</rt></ruby>が<ruby>描<rt>えが</rt></ruby>かれている.</span><br>오래된 지도에는 내해가 그려져 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>一帯<rt>いったい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">일대, 주변 지역</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">この<ruby>一帯<rt>いったい</rt></ruby>は<ruby>湿地<rt>しっち</rt></ruby>が<ruby>多<rt>おお</rt></ruby>い。</span><br>이 일대는 습지가 많다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>栄える<rt>さかえる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">번영하다, 번성하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>港町<rt>みなとまち</rt></ruby>は<ruby>交易<rt>こうえき</rt></ruby>で<ruby>栄<rt>さか</rt></ruby>えた。</span><br>항구 도시는 교역으로 번성했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜で<ruby>隔<rt>へだ</rt></ruby>てられている</div>
+        <div class="pattern-ko">〜로/으로 갈라져 있다, ~에 의해 분리되어 있다</div>
+        <p class="explain">수동 형태로, 경계나 장벽이 어떤 요인(강, 벽, 도로 등)에 의해 생겨 있음을 서술하는 표현이다. 현재의 상태를 묘사할 때 자주 쓰이며, 지리·구조·관계의 단절을 중립적으로 기술하는 데 적합하다.</p>
+        <p class="ex"><span class="ja">ふたつの<ruby>町<rt>まち</rt></ruby>は<ruby>川<rt>かわ</rt></ruby>で<ruby>隔<rt>へだ</rt></ruby>てられている。</span><br>두 마을은 강으로 갈라져 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 ‘치바는 사실 큰 섬이다’라는 역설적 단정으로 문을 열어 독자의 시선을 붙잡는다. 이어 여러 강 이름을 열거해 경계가 물로 그어졌다는 사실을 촘촘히 제시하고, 가마쿠라 시대로 시간을 급격히 당겨 과거의 수면을 현재 지형 위에 겹쳐 놓는다. 고전 와카를 한 수 끼워 넣어 지역의 기억에 문학적 결을 더하는 것도 천성인어 특유의 수사다. 단정-사실-인용이 빠르게 호흡하며, 짧은 문장 전환으로 독해의 리듬을 만든다.</p>
+        <p>글이 남기는 여운은 ‘지도 읽기’의 관점 전환이다. 우리가 행정구역으로 익숙해진 경계가 사실은 물길이 만든 선이었다는 깨달음은, 도시와 생활권을 다시 보게 만든다. 한국 독자에게도 강과 갯벌, 운하의 기억이 도시사를 바꾼 사례가 겹쳐 떠오를 수 있다. 물길을 따라 쌓인 교통과 경제의 층위를 더듬게 하는 점에서, 짧지만 사유의 범위를 넓히는 글이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 강과 바다가 빚은 치바의 지리를 통해, 물이 만든 역사의 결을 더듬는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>간토 지역의 큰 하천인 도네가와와 에도가와는 흐름을 바꾸며 충적평야를 형성했고, 때로는 행정 경계의 자연적 기준이 되었다.</p>
+        <p>‘가토리노우미’는 현재의 조시에서 인바 주변까지 이어진 거대한 석호·내해로 알려져 있으며, 간척과 하천 공사로 점차 육지가 되었다고 전해진다.</p>
+        <p>에도 이전부터 일본 동부의 물자는 강과 운하를 타고 이동했고, 수운 네트워크는 항만·창고·시장 발달을 이끌었다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>독자의 상식을 비트는 한 문장으로 서두를 만들어 주제를 선명히 제시한다.</p>
+        <p><span class="n">二</span>지명과 고전 인용을 결합해 사실 설명에 문화적 깊이를 더한다.</p>
+        <p><span class="n">三</span>현재 지형과 과거 수면을 겹쳐 보는 ‘레이어링’으로 시공간을 압축한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>川<rt>かわ</rt></ruby>が<ruby>道<rt>みち</rt></ruby>をつくり、<ruby>人<rt>ひと</rt></ruby>が<ruby>町<rt>まち</rt></ruby>を<ruby>築<rt>きず</rt></ruby>く。</span>
+      <span class="ko">강이 길을 만들고, 사람이 도시를 세운다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-25) — <a href="https://www.asahi.com/articles/DA3S16553446.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-25.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
