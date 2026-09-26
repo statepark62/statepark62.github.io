@@ -11281,5 +11281,145 @@
   "example": "港町は交易で栄えた。",
   "exampleReading": "みなとまちはこうえきでさかえた。",
   "exampleMeaning": "항구 도시는 교역으로 번성했다."
+ },
+ {
+  "id": "news587",
+  "word": "交渉",
+  "reading": "こうしょう",
+  "meaning": "교섭, 협상",
+  "level": "N2",
+  "example": "彼は給料アップについて上司と直接交渉した。",
+  "exampleReading": "かれ は きゅうりょうあっぷ に ついて じょうし と ちょくせつこうしょう した。",
+  "exampleMeaning": "그는 급여 인상에 대해 상사와 직접 교섭했다."
+ },
+ {
+  "id": "news588",
+  "word": "模索",
+  "reading": "もさく",
+  "meaning": "모색",
+  "level": "N1",
+  "example": "会社は新しい経営方針を模索している。",
+  "exampleReading": "かいしゃ は あたらしい けいえいほうしん を もさく して いる。",
+  "exampleMeaning": "회사는 새로운 경영 방침을 모색하고 있다."
+ },
+ {
+  "id": "news589",
+  "word": "騒然",
+  "reading": "そうぜん",
+  "meaning": "소란함, 술렁임",
+  "level": "N1",
+  "example": "突然の発表に会場は騒然となった。",
+  "exampleReading": "とつぜん の はっぴょう に かいじょう は そうぜん と なった。",
+  "exampleMeaning": "갑작스러운 발표에 회장은 술렁였다."
+ },
+ {
+  "id": "news590",
+  "word": "提唱",
+  "reading": "ていしょう",
+  "meaning": "제창, 제안",
+  "level": "N1",
+  "example": "その学者は新しい理論を提唱した。",
+  "exampleReading": "その がくしゃ は あたらしい りろん を ていしょう した。",
+  "exampleMeaning": "그 학자는 새로운 이론을 제창했다."
+ },
+ {
+  "id": "news591",
+  "word": "刺す",
+  "reading": "さす",
+  "meaning": "찌르다",
+  "level": "N3",
+  "example": "犯人はナイフで被害者を刺した。",
+  "exampleReading": "はんにん は ないふ で ひがいしゃ を さした。",
+  "exampleMeaning": "범인은 칼로 피해자를 찔렀다."
+ },
+ {
+  "id": "news592",
+  "word": "慰留",
+  "reading": "いりゅう",
+  "meaning": "만류함 (사직 등을 말리며 붙잡음)",
+  "level": "N1",
+  "example": "退職を申し出た彼を上司が必死に慰留した。",
+  "exampleReading": "たいしょくをもうしでたかれをじょうしがひっしにいりゅうした。",
+  "exampleMeaning": "퇴직을 신청한 그를 상사가 필사적으로 만류했다."
+ },
+ {
+  "id": "news593",
+  "word": "経緯",
+  "reading": "けいい",
+  "meaning": "경위, 자세한 과정",
+  "level": "N2",
+  "example": "事件が起きた経緯を詳しく説明してください。",
+  "exampleReading": "じけんがおきたけいいをくわしくせつめいしてください。",
+  "exampleMeaning": "사건이 일어난 경위를 자세히 설명해 주세요."
+ },
+ {
+  "id": "news594",
+  "word": "激怒",
+  "reading": "げきど",
+  "meaning": "격노, 몹시 화를 냄",
+  "level": "N2",
+  "example": "彼は不誠実な対応に激怒し、すぐに帰ってしまった。",
+  "exampleReading": "かれはふせいじつなたいおうにげきどし、すぐにかえってしまった。",
+  "exampleMeaning": "그는 불성실한 대응에 격노하여 바로 돌아가 버렸다."
+ },
+ {
+  "id": "news595",
+  "word": "続投",
+  "reading": "ぞくとう",
+  "meaning": "(감독·투수 등이) 유임하여 계속함",
+  "level": "N1",
+  "example": "監督は批判を受けながらも来季の続投を決めた。",
+  "exampleReading": "かんとくはひはんをうけながらもらいきのぞくとうをきめた。",
+  "exampleMeaning": "감독은 비판을 받으면서도 다음 시즌 유임을 결정했다."
+ },
+ {
+  "id": "tj371",
+  "word": "封切り",
+  "reading": "ふうぎり",
+  "meaning": "개봉, 첫 상영",
+  "level": "N2",
+  "example": "その映画は先週封切りされた。",
+  "exampleReading": "そのえいがはせんしゅうふうぎりされた。",
+  "exampleMeaning": "그 영화는 지난주에 개봉했다."
+ },
+ {
+  "id": "tj372",
+  "word": "上映拡大",
+  "reading": "じょうえいかくだい",
+  "meaning": "상영 확대",
+  "level": "N2",
+  "example": "上映拡大を求める声が高まる。",
+  "exampleReading": "じょうえいかくだいをもとめるこえがたかまる。",
+  "exampleMeaning": "상영 확대를 요구하는 목소리가 높아진다."
+ },
+ {
+  "id": "tj373",
+  "word": "署名活動",
+  "reading": "しょめいかつどう",
+  "meaning": "서명 운동",
+  "level": "N2",
+  "example": "署名活動に参加した。",
+  "exampleReading": "しょめいかつどうにさんかした。",
+  "exampleMeaning": "서명 운동에 참여했다."
+ },
+ {
+  "id": "tj374",
+  "word": "従軍",
+  "reading": "じゅうぐん",
+  "meaning": "종군, 전쟁에 참전함",
+  "level": "N1",
+  "example": "彼は戦争に従軍した体験を語った。",
+  "exampleReading": "かれはせんそうにじゅうぐんしたたいけんをかたった.",
+  "exampleMeaning": "그는 전쟁에 종군했던 체험을 이야기했다."
+ },
+ {
+  "id": "tj375",
+  "word": "混み合う",
+  "reading": "こみあう",
+  "meaning": "붐비다, 혼잡하다",
+  "level": "N2",
+  "example": "連休明けも駅は混み合っていた。",
+  "exampleReading": "れんきゅうあけもえきはこみあっていた。",
+  "exampleMeaning": "연휴가 끝난 뒤에도 역은 붐볐다."
  }
 ]

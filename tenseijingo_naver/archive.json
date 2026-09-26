@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-26",
+    "no": 81,
+    "topic_ja": "<ruby>映画<rt>えいが</rt></ruby>と<ruby>記憶<rt>きおく</rt></ruby>",
+    "topic_ko": "영화와 기억",
+    "url": "https://www.asahi.com/articles/DA3S16554277.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '전쟁의 기억', '시민 참여', '미니시어터'. 한정 개봉과 서명 운동을 매개로 문화 소비가 어떻게 사회적 토론으로 이어지는지를 보여 주며, 전쟁 증언의 전달이라는 보편 주제로 수렴하기 때문이다.",
+    "pattern": "〜として"
+  },
+  {
     "date": "2026-09-25",
     "no": 80,
     "topic_ja": "<ruby>水<rt>みず</rt></ruby>に<ruby>囲<rt>かこ</rt></ruby>まれた<ruby>千葉<rt>ちば</rt></ruby>",
