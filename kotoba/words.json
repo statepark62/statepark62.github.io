@@ -11421,5 +11421,95 @@
   "example": "連休明けも駅は混み合っていた。",
   "exampleReading": "れんきゅうあけもえきはこみあっていた。",
   "exampleMeaning": "연휴가 끝난 뒤에도 역은 붐볐다."
+ },
+ {
+  "id": "news596",
+  "word": "続出",
+  "reading": "ぞくしゅつ",
+  "meaning": "속출, 잇달아 나옴",
+  "level": "N1",
+  "example": "その発言に対して批判の声が続出した。",
+  "exampleReading": "そのはつげんにたいしてひはんのこえがぞくしゅつした。",
+  "exampleMeaning": "그 발언에 대해 비판의 목소리가 속출했다."
+ },
+ {
+  "id": "news597",
+  "word": "注意喚起",
+  "reading": "ちゅういかんき",
+  "meaning": "주의 환기, 경각심을 촉구함",
+  "level": "N1",
+  "example": "市は台風による被害への注意喚起を行った。",
+  "exampleReading": "しはたいふうによるひがいへのちゅういかんきをおこなった。",
+  "exampleMeaning": "시는 태풍으로 인한 피해에 대해 주의를 촉구했다."
+ },
+ {
+  "id": "news598",
+  "word": "法的措置",
+  "reading": "ほうてきそち",
+  "meaning": "법적 조치",
+  "level": "N1",
+  "example": "悪質な行為には法的措置を検討する方針だ。",
+  "exampleReading": "あくしつなこういにはほうてきそちをけんとうするほうしんだ。",
+  "exampleMeaning": "악질적인 행위에는 법적 조치를 검토할 방침이다."
+ },
+ {
+  "id": "news599",
+  "word": "敗北",
+  "reading": "はいぼく",
+  "meaning": "패배",
+  "level": "N2",
+  "example": "チームは決勝戦で悔しい敗北を喫した。",
+  "exampleReading": "チームはけっしょうせんでくやしいはいぼくをきっした。",
+  "exampleMeaning": "팀은 결승전에서 분한 패배를 당했다."
+ },
+ {
+  "id": "tj376",
+  "word": "漂着",
+  "reading": "ひょうちゃく",
+  "meaning": "표착, 해변에 떠밀려 옴",
+  "level": "N2",
+  "example": "台風のあと、奇妙な物体が海岸に漂着した。",
+  "exampleReading": "たいふうのあと、きみょうなぶったいがかいがんにひょうちゃくした。",
+  "exampleMeaning": "태풍이 지난 뒤, 기묘한 물체가 해안에 표착했다."
+ },
+ {
+  "id": "tj377",
+  "word": "球形",
+  "reading": "きゅうけい",
+  "meaning": "구형, 둥근 모양",
+  "level": "N2",
+  "example": "球形の容器は転がりやすい。",
+  "exampleReading": "きゅうけいのようきはころがりやすい。",
+  "exampleMeaning": "구형의 용기는 굴러가기 쉽다."
+ },
+ {
+  "id": "tj378",
+  "word": "沖合",
+  "reading": "おきあい",
+  "meaning": "연안에서 떨어진 바다, 근해",
+  "level": "N1",
+  "example": "沖合で漁船が集まっている。",
+  "exampleReading": "おきあいでぎょせんがあつまっている。",
+  "exampleMeaning": "근해에 어선들이 모여 있다."
+ },
+ {
+  "id": "tj379",
+  "word": "伝承",
+  "reading": "でんしょう",
+  "meaning": "전승, 구전되어 내려옴",
+  "level": "N2",
+  "example": "祭りの由来は地域の伝承に根ざす。",
+  "exampleReading": "まつりのゆらいはちいきのでんしょうにねざす。",
+  "exampleMeaning": "축제의 유래는 지역 전승에 뿌리내려 있다."
+ },
+ {
+  "id": "tj380",
+  "word": "謎めく",
+  "reading": "なぞめく",
+  "meaning": "수수께끼 같은 분위기를 띠다",
+  "level": "N2",
+  "example": "彼の笑顔はどこか謎めいている。",
+  "exampleReading": "かれのえがおはどこかなぞめいている。",
+  "exampleMeaning": "그의 미소는 어딘가 수수께끼 같다."
  }
 ]

@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-27",
+    "no": 82,
+    "topic_ja": "うつろ舟の<ruby>謎<rt>なぞ</rt></ruby>",
+    "topic_ko": "우츠로부네의 수수께끼",
+    "url": "https://www.asahi.com/articles/DA3S16554984.html?iref=pc_rensai_long_61_article",
+    "memo": "‘바다와 전설’, ‘기록과 상상’ — 바다를 매개로 한 미지의 존재와 지역 전승을 통해 사실과 이야기가 교차하는 지점을 탐색하므로.",
+    "pattern": "〜をご<ruby>存知<rt>ぞんじ</rt></ruby>だろうか"
+  },
+  {
     "date": "2026-09-26",
     "no": 81,
     "topic_ja": "<ruby>映画<rt>えいが</rt></ruby>と<ruby>記憶<rt>きおく</rt></ruby>",

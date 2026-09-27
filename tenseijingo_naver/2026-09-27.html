@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-27 天声人語로 배우는 일본어 — 우츠로부네의 수수께끼</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-27</span>
+      <span>2026년 9월 27일 (일)</span>
+    </div>
+
+    <h1>うつろ舟の<ruby>謎<rt>なぞ</rt></ruby></h1>
+    <p class="topic-ko">우츠로부네의 수수께끼</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>謎多<rt>なぞおお</rt></ruby>き「うつろ<ruby>舟<rt>ぶね</rt></ruby>」」</div>
+      <div class="ko">수수께끼 많은 ‘우츠로부네’ <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">１８０３<ruby>年<rt>ねん</rt></ruby>、<ruby>常陸国<rt>ひたちのくに</rt></ruby>の<ruby>浜<rt>はま</rt></ruby>に、<ruby>丸<rt>まる</rt></ruby>い<ruby>奇妙<rt>きみょう</rt></ruby>な<ruby>舟<rt>ふね</rt></ruby>が<ruby>漂<rt>ただよ</rt></ruby>い<ruby>着<rt>つ</rt></ruby>き、<ruby>箱<rt>はこ</rt></ruby>を<ruby>抱<rt>かか</rt></ruby>えた<ruby>女<rt>おんな</rt></ruby>が<ruby>乗<rt>の</rt></ruby>っていたが、<ruby>言葉<rt>ことば</rt></ruby>は<ruby>通<rt>つう</rt></ruby>じなかったと<ruby>伝<rt>つた</rt></ruby>わる。</p><p class="ko">1803년 히타치국의 해안에 둥근 모양의 기이한 배가 떠밀려 왔고, 상자를 안은 여성이 타고 있었으나 말이 통하지 않았다는 이야기가 전해진다.</p></div>
+      <div class="s-item"><p class="ja">「うつろ<ruby>舟<rt>ぶね</rt></ruby>」という<ruby>伝説<rt>でんせつ</rt></ruby>は、<ruby>秋田<rt>あきた</rt></ruby>・<ruby>埼玉<rt>さいたま</rt></ruby>・<ruby>茨城<rt>いばらき</rt></ruby>など<ruby>各地<rt>かくち</rt></ruby>に<ruby>類似<rt>るいじ</rt></ruby>の<ruby>記録<rt>きろく</rt></ruby>が<ruby>残<rt>のこ</rt></ruby>り、<ruby>真偽<rt>しんぎ</rt></ruby>の<ruby>判定<rt>はんてい</rt></ruby>は<ruby>難<rt>むずか</rt></ruby>しい。</p><p class="ko">이른바 ‘우츠로부네’ 전설은 아키타·사이타마·이바라키 등지에 비슷한 기록이 남아 있어 사실 판단이 쉽지 않다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>コラム<rt>こらむ</rt></ruby>は<ruby>断定<rt>だんてい</rt></ruby>を<ruby>避<rt>さ</rt></ruby>け、<ruby>史料<rt>しりょう</rt></ruby>と<ruby>噂<rt>うわさ</rt></ruby>の<ruby>間<rt>あいだ</rt></ruby>にある<ruby>余白<rt>よはく</rt></ruby>を<ruby>示<rt>しめ</rt></ruby>し、<ruby>古<rt>ふる</rt></ruby>い<ruby>怪談<rt>かいだん</rt></ruby>がいまの<ruby>読者<rt>どくしゃ</rt></ruby>の<ruby>好奇心<rt>こうきしん</rt></ruby>も<ruby>刺激<rt>しげき</rt></ruby>すると<ruby>示唆<rt>しさ</rt></ruby>する。</p><p class="ko">칼럼은 단정 대신 사료와 풍문의 사이를 비추며, 오래된 기담이 오늘의 독자에게도 호기심을 불러일으킨다는 점을 시사한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>漂着<rt>ひょうちゃく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">표착, 해변에 떠밀려 옴</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>台風<rt>たいふう</rt></ruby>のあと、<ruby>奇妙<rt>きみょう</rt></ruby>な<ruby>物体<rt>ぶったい</rt></ruby>が<ruby>海岸<rt>かいがん</rt></ruby>に<ruby>漂着<rt>ひょうちゃく</rt></ruby>した。</span><br>태풍이 지난 뒤, 기묘한 물체가 해안에 표착했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>球形<rt>きゅうけい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">구형, 둥근 모양</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>球形<rt>きゅうけい</rt></ruby>の<ruby>容器<rt>ようき</rt></ruby>は<ruby>転<rt>ころ</rt></ruby>がりやすい。</span><br>구형의 용기는 굴러가기 쉽다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>沖合<rt>おきあい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">연안에서 떨어진 바다, 근해</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>沖合<rt>おきあい</rt></ruby>で<ruby>漁船<rt>ぎょせん</rt></ruby>が<ruby>集<rt>あつ</rt></ruby>まっている。</span><br>근해에 어선들이 모여 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>伝承<rt>でんしょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">전승, 구전되어 내려옴</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>祭<rt>まつ</rt></ruby>りの<ruby>由来<rt>ゆらい</rt></ruby>は<ruby>地域<rt>ちいき</rt></ruby>の<ruby>伝承<rt>でんしょう</rt></ruby>に<ruby>根<rt>ね</rt></ruby>ざす。</span><br>축제의 유래는 지역 전승에 뿌리내려 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>謎めく<rt>なぞめく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수수께끼 같은 분위기를 띠다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>の<ruby>笑顔<rt>えがお</rt></ruby>はどこか<ruby>謎<rt>なぞ</rt></ruby>めいている。</span><br>그의 미소는 어딘가 수수께끼 같다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜をご<ruby>存知<rt>ぞんじ</rt></ruby>だろうか</div>
+        <div class="pattern-ko">~을/를 알고 계신가요?</div>
+        <p class="explain">상대가 어떤 사실을 알고 있는지 공손하게 묻는 표현이다. 독자나 청자에게 화제를 던지며 관심을 유도할 때 자주 쓰인다.</p>
+        <p class="ex"><span class="ja">この<ruby>件<rt>けん</rt></ruby>をご<ruby>存知<rt>ぞんじ</rt></ruby>だろうか。</span><br>이 일을 알고 계신가요?</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 사건의 날짜와 장소를 먼저 제시해 독자의 현장감을 끌어올린 뒤, 배와 여성의 디테일을 배치해 미스터리를 점층적으로 쌓아 올린다. 이어 ‘우츠로부네’라는 고유명사를 제시하며 전설의 범위를 넓히고, 각지의 기록을 병치해 단일 사건이 아닌 집합적 현상임을 암시한다. 직접 해석을 내리기보다 질문을 던지는 구성이 독자 스스로의 상상과 추리를 유도한다. 천성인어 특유의 간결한 문장과 리듬이 호기심을 유지시키는 장치로 작동한다.</p>
+        <p>이 글이 남기는 의미는 기록과 전승, 사실과 상상 사이의 애매한 경계가 문화적 상상력을 어떻게 자극하는가에 있다. 한국 독자의 시각에서도 낯선 이가 상자를 꼭 껴안은 장면은 보편적인 상징성을 띠며, ‘알 수 없음’ 자체가 서사의 동력임을 환기한다. 또한 지역별로 유사 기록이 남는 양상은 ‘이야기 네트워크’가 형성되는 방식을 생각하게 만든다. 미해결의 여백을 남기는 태도는, 단정보다 질문이 더 오래 남는 글쓰기의 효과를 보여 준다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 전설과 기록의 경계에서 독자의 상상력을 불러내는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>에도 시대에는 괴담·기담을 모은 필기류가 유행했고, ‘우츠로부네’도 그런 맥락에서 지역 전승과 기록에 얽혀 전해진다.</p>
+        <p>일본 해안에서는 표류물과 표착의 사례가 빈번해, 바다에서 온 미지의 물체나 사람이 민속적 상상력의 촉매가 되곤 했다.</p>
+        <p>신문 칼럼 ‘천성인어’는 시사·문화·역사를 짧은 서사로 엮어 사유의 단초를 던지는 형식으로, 단정보다 여운을 중시하는 문체가 특징이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>사실의 핵심 디테일을 먼저 제시해 독자를 사건 속으로 끌어들이는 도입을 설계하라.</p>
+        <p><span class="n">二</span>서술 범위를 개인 사건에서 지역적·역사적 층위로 확장해 주제의 입체감을 키워라.</p>
+        <p><span class="n">三</span>판단을 서두르지 말고 질문과 여백을 남겨 독자의 추론을 참여시키라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>証拠<rt>しょうこ</rt></ruby>が<ruby>少<rt>すく</rt></ruby>ないほど、<ruby>物語<rt>ものがたり</rt></ruby>は<ruby>強<rt>つよ</rt></ruby>くなる。</span>
+      <span class="ko">증거가 적을수록 이야기는 더 강해진다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-27) — <a href="https://www.asahi.com/articles/DA3S16554984.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-27.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
