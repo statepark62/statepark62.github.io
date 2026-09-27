@@ -11511,5 +11511,85 @@
   "example": "彼の笑顔はどこか謎めいている。",
   "exampleReading": "かれのえがおはどこかなぞめいている。",
   "exampleMeaning": "그의 미소는 어딘가 수수께끼 같다."
+ },
+ {
+  "id": "news600",
+  "word": "国家資格",
+  "reading": "こっかしかく",
+  "meaning": "국가자격(국가에서 인정하는 자격증)",
+  "level": "N2",
+  "example": "看護師になるには国家資格が必要だ。",
+  "exampleReading": "かんごしになるにはこっかしかくがひつようだ。",
+  "exampleMeaning": "간호사가 되려면 국가자격이 필요하다."
+ },
+ {
+  "id": "news601",
+  "word": "搭乗",
+  "reading": "とうじょう",
+  "meaning": "탑승",
+  "level": "N2",
+  "example": "飛行機への搭乗は9時から始まります。",
+  "exampleReading": "ひこうきへのとうじょうはくじからはじまります。",
+  "exampleMeaning": "비행기 탑승은 9시부터 시작됩니다."
+ },
+ {
+  "id": "news602",
+  "word": "代役",
+  "reading": "だいやく",
+  "meaning": "대역, 대신 맡는 역할",
+  "level": "N1",
+  "example": "主役が病気になったので、代役が急遽決まった。",
+  "exampleReading": "しゅやくがびょうきになったので、だいやくがきゅうきょきまった。",
+  "exampleMeaning": "주연이 아파서 대역이 급히 정해졌다."
+ },
+ {
+  "id": "news603",
+  "word": "常任理事国",
+  "reading": "じょうにんりじこく",
+  "meaning": "상임이사국",
+  "level": "N1",
+  "example": "日本は国連の常任理事国入りを目指している。",
+  "exampleReading": "にほんはこくれんのじょうにんりじこくいりをめざしている。",
+  "exampleMeaning": "일본은 유엔 상임이사국 가입을 목표로 하고 있다."
+ },
+ {
+  "id": "news604",
+  "word": "推し活",
+  "reading": "おしかつ",
+  "meaning": "좋아하는 연예인/캐릭터 등을 응원하는 활동(오시카츠, 팬 활동)",
+  "level": "N2",
+  "example": "彼女は毎月給料の半分を推し活に使っている。",
+  "exampleReading": "かのじょはまいつききゅうりょうのはんぶんをおしかつにつかっている。",
+  "exampleMeaning": "그녀는 매달 월급의 절반을 팬 활동에 쓰고 있다."
+ },
+ {
+  "id": "news605",
+  "word": "多幸感",
+  "reading": "たこうかん",
+  "meaning": "다행감, 큰 행복감",
+  "level": "N1",
+  "example": "コンサートが終わった後も多幸感に包まれていた。",
+  "exampleReading": "こんさーとがおわったあともたこうかんにつつまれていた。",
+  "exampleMeaning": "콘서트가 끝난 후에도 행복감에 휩싸여 있었다."
+ },
+ {
+  "id": "news606",
+  "word": "内部崩壊",
+  "reading": "ないぶほうかい",
+  "meaning": "내부 붕괴",
+  "level": "N1",
+  "example": "組織の内部崩壊が原因で会社は倒産した。",
+  "exampleReading": "そしきのないぶほうかいがげんいんでかいしゃはとうさんした。",
+  "exampleMeaning": "조직의 내부 붕괴가 원인이 되어 회사는 도산했다."
+ },
+ {
+  "id": "news607",
+  "word": "活発化",
+  "reading": "かっぱつか",
+  "meaning": "활발화, 활동이 활발해짐",
+  "level": "N2",
+  "example": "台風の接近で前線の活発化が予想される。",
+  "exampleReading": "たいふうのせっきんでぜんせんのかっぱつかがよそうされる。",
+  "exampleMeaning": "태풍의 접근으로 전선의 활발화가 예상된다."
  }
 ]
