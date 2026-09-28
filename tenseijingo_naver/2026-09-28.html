@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-09-28 天声人語로 배우는 일본어 — 성스러운 물의 기억</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-09-28</span>
+      <span>2026년 9월 28일 (월)</span>
+    </div>
+
+    <h1><ruby>聖<rt>せい</rt></ruby>なる<ruby>水<rt>みず</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby></h1>
+    <p class="topic-ko">성스러운 물의 기억</p>
+
+    <div class="keyquote">
+      <div class="ja">「そんな<ruby>神聖<rt>しんせい</rt></ruby>な<ruby>水<rt>みず</rt></ruby>が」</div>
+      <div class="ko">그런 신성한 물이 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">コラムはネパールで<ruby>水<rt>みず</rt></ruby>と<ruby>豊穣<rt>ほうじょう</rt></ruby>の<ruby>神<rt>かみ</rt></ruby>マチェンドラを<ruby>軸<rt>じく</rt></ruby>に、<ruby>神<rt>かみ</rt></ruby>があらゆる<ruby>場所<rt>ばしょ</rt></ruby>に<ruby>宿<rt>やど</rt></ruby>るという<ruby>信仰<rt>しんこう</rt></ruby>を<ruby>紹介<rt>しょうかい</rt></ruby>する。</p><p class="ko">칼럼은 네팔에서 물과 풍요의 신 마첸드라를 중심으로, 신이 모든 곳에 깃든다는 믿음을 소개한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>干<rt>かん</rt></ruby>ばつを<ruby>避<rt>さ</rt></ruby>けるための<ruby>祭<rt>まつ</rt></ruby>りや、<ruby>川<rt>かわ</rt></ruby>・<ruby>泉<rt>いずみ</rt></ruby>での<ruby>沐浴<rt>もくよく</rt></ruby>をとおして、<ruby>水<rt>みず</rt></ruby>で<ruby>穢<rt>けが</rt></ruby>れを<ruby>落<rt>お</rt></ruby>とすという<ruby>観念<rt>かんねん</rt></ruby>が<ruby>描<rt>えが</rt></ruby>かれる。</p><p class="ko">가뭄을 막기 위한 성대한 축제와 강·샘에서의 목욕 의례를 통해 물로 부정을 씻는 관념을 그린다.</p></div>
+      <div class="s-item"><p class="ja">１９５０<ruby>年代<rt>ねんだい</rt></ruby>にネパールへ<ruby>滞在<rt>たいざい</rt></ruby>した<ruby>文化人類学者<rt>ぶんかじんるいがくしゃ</rt></ruby><ruby>川喜田二郎<rt>かわきたじろう</rt></ruby>の<ruby>記述<rt>きじゅつ</rt></ruby>をたどり、<ruby>筆者<rt>ひっしゃ</rt></ruby>は「<ruby>神聖<rt>しんせい</rt></ruby>な<ruby>水<rt>みず</rt></ruby>」を<ruby>手<rt>て</rt></ruby>がかりに<ruby>現代<rt>げんだい</rt></ruby>を<ruby>省<rt>かえり</rt></ruby>みようとしているように<ruby>読<rt>よ</rt></ruby>める。</p><p class="ko">1950년대 네팔에 머문 인류학자 가와키타 지로의 기록을 되짚으며, 필자는 ‘신성한 물’을 단서로 오늘의 현실을 돌아보려는 듯한 여운을 남긴다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>五穀豊穣<rt>ごこくほうじょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">오곡이 풍성함, 풍년</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>今年<rt>ことし</rt></ruby>は<ruby>五穀豊穣<rt>ごこくほうじょう</rt></ruby>を<ruby>祈<rt>いの</rt></ruby>る<ruby>祭<rt>まつ</rt></ruby>りが<ruby>催<rt>もよお</rt></ruby>された。</span><br>올해는 오곡풍년을 기원하는 축제가 열렸다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>沐浴<rt>もくよく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">목욕, 몸을 씻음(의례적 의미 포함)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>川<rt>かわ</rt></ruby>で<ruby>沐浴<rt>もくよく</rt></ruby>をして<ruby>気持<rt>きも</rt></ruby>ちを<ruby>整<rt>ととの</rt></ruby>える。</span><br>강에서 목욕하여 마음을 가다듬는다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>干ばつ<rt>かんばつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">가뭄</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>干<rt>かん</rt></ruby>ばつが<ruby>長<rt>なが</rt></ruby>びき、<ruby>作物<rt>さくもつ</rt></ruby>が<ruby>不作<rt>ふさく</rt></ruby>だった。</span><br>가뭄이 길어져 농작물이 흉작이었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>神様<rt>かみさま</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">신, 신님(존칭)</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>祖母<rt>そぼ</rt></ruby>は<ruby>神様<rt>かみさま</rt></ruby>に<ruby>毎朝<rt>まいあさ</rt></ruby><ruby>手<rt>て</rt></ruby>を<ruby>合<rt>あ</rt></ruby>わせる。</span><br>할머니는 매일 아침 신께 두 손을 모은다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>祭り<rt>まつり</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">축제, 제례</span><span class="level">N4</span>
+            <p class="ex"><span class="ja"><ruby>町<rt>まち</rt></ruby>の<ruby>祭<rt>まつ</rt></ruby>りは<ruby>人々<rt>ひとびと</rt></ruby>で<ruby>賑<rt>にぎ</rt></ruby>わう。</span><br>마을 축제는 사람들로 북적인다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜ないよう、</div>
+        <div class="pattern-ko">~하지 않도록, ~하지 않게</div>
+        <p class="explain">어떤 일을 피하거나 부정을 목적 삼을 때 쓰는 표현이다. 문어체에서는 뒤에 오는 행동이나 조치가 이어지며, 신문·해설문에서 이유·의도를 간결하게 제시할 때 자주 보인다.</p>
+        <p class="ex"><span class="ja"><ruby>忘<rt>わす</rt></ruby>れないよう、アラームを<ruby>二重<rt>にじゅう</rt></ruby>に<ruby>設定<rt>せってい</rt></ruby>する。</span><br>잊어버리지 않도록 알람을 이중으로 설정한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 의례와 신앙의 장면을 먼저 배치해 독자를 문화적 이미지 속으로 끌어들인다. 물과 풍요의 신, 목욕 의례 같은 감각적 요소를 통해 추상적 주제를 구체화하는 점이 돋보인다. 또한 인류학자의 관찰을 끌어와 외부자의 시선을 교차시키며 신뢰감을 높인다. 마지막에 ‘그런 신성한 물이…’라는 단서로 전환을 예고해 독서 동력을 유지한다.</p>
+        <p>글이 남기는 의미는 물을 자원·도구가 아닌 신성의 매개로 바라보는 관점의 환기이다. 한국 독자에게도 제의와 일상의 경계가 흐르는 순간을 떠올리게 하며, 환경과 신앙이 만나는 지점을 생각하게 만든다. 네팔이라는 낯선 배경이 오히려 보편적 질문을 선명하게 해 주는 효과가 있다. 결말부가 암시하듯, 전통적 경외심과 오늘의 현실 사이 간극을 성찰하도록 독자를 초대한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 네팔의 물 의례를 단초로 물을 대하는 우리의 태도를 되묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>네팔은 힌두교와 불교 전통이 공존하며, 물을 정화와 재생의 상징으로 여기는 관습이 널리 전해진다.</p>
+        <p>마첸드라(마츠첸드라ナート) 관련 축제는 비와 풍요를 비는 행렬과 의식으로 유명하다고 알려져 있다.</p>
+        <p>가와키타 지로는 일본의 문화인류학자이자 KJ법으로 알려진 발상 정리법을 제안했으며, 1950년대 네팔에서 현지 조사를 수행한 것으로 알려져 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>상징적 대상(물)을 감각적 장면으로 먼저 제시해 독자의 몰입을 유도한다.</p>
+        <p><span class="n">二</span>고유명과 인용을 절제해 배치하여 사실성과 서사의 깊이를 동시에 확보한다.</p>
+        <p><span class="n">三</span>문단 말미에 반전의 씨앗(여운 있는 단서)을 남겨 다음 전개로 자연스럽게 이끈다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>水<rt>みず</rt></ruby>を<ruby>敬<rt>うやま</rt></ruby>う<ruby>心<rt>こころ</rt></ruby>は、<ruby>渇<rt>かわ</rt></ruby>きを<ruby>知<rt>し</rt></ruby>るときほど<ruby>強<rt>つよ</rt></ruby>くなる。</span>
+      <span class="ko">물을 공경하는 마음은 목마름을 알 때일수록 더 강해진다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-09-28) — <a href="https://www.asahi.com/articles/DA3S16555063.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-09-28.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

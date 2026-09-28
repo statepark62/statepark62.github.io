@@ -11591,5 +11591,205 @@
   "example": "台風の接近で前線の活発化が予想される。",
   "exampleReading": "たいふうのせっきんでぜんせんのかっぱつかがよそうされる。",
   "exampleMeaning": "태풍의 접근으로 전선의 활발화가 예상된다."
+ },
+ {
+  "id": "news608",
+  "word": "大掃除",
+  "reading": "おおそうじ",
+  "meaning": "대청소",
+  "level": "N3",
+  "example": "年末は家族みんなで大掃除をします。",
+  "exampleReading": "ねんまつはかぞくみんなでおおそうじをします。",
+  "exampleMeaning": "연말에는 가족 모두 대청소를 합니다."
+ },
+ {
+  "id": "news609",
+  "word": "異質",
+  "reading": "いしつ",
+  "meaning": "이질적임, 성질이 다름",
+  "level": "N1",
+  "example": "彼の考え方はこのグループの中では異質だ。",
+  "exampleReading": "かれのかんがえかたはこのグループのなかではいしつだ。",
+  "exampleMeaning": "그의 사고방식은 이 그룹 안에서는 이질적이다."
+ },
+ {
+  "id": "news610",
+  "word": "更年期",
+  "reading": "こうねんき",
+  "meaning": "갱년기",
+  "level": "N1",
+  "example": "更年期になるとホルモンバランスが変化する。",
+  "exampleReading": "こうねんきになるとホルモンバランスがへんかする。",
+  "exampleMeaning": "갱년기가 되면 호르몬 균형이 변화한다."
+ },
+ {
+  "id": "news611",
+  "word": "咲き誇る",
+  "reading": "さきほこる",
+  "meaning": "만발하다, 활짝 피어나다",
+  "level": "N1",
+  "example": "春には桜が咲き誇る。",
+  "exampleReading": "はるにはさくらがさきほこる。",
+  "exampleMeaning": "봄에는 벚꽃이 만발한다."
+ },
+ {
+  "id": "news612",
+  "word": "圧倒",
+  "reading": "あっとう",
+  "meaning": "압도",
+  "level": "N2",
+  "example": "その美しい景色に圧倒された。",
+  "exampleReading": "そのうつくしいけしきにあっとうされた。",
+  "exampleMeaning": "그 아름다운 경치에 압도되었다."
+ },
+ {
+  "id": "news613",
+  "word": "目安",
+  "reading": "めやす",
+  "meaning": "기준, 대략적인 목표치",
+  "level": "N2",
+  "example": "一日の運動時間の目安は30分だ。",
+  "exampleReading": "いちにちのうんどうじかんのめやすはさんじゅっぷんだ。",
+  "exampleMeaning": "하루 운동 시간의 기준은 30분이다."
+ },
+ {
+  "id": "news614",
+  "word": "河畔",
+  "reading": "かはん",
+  "meaning": "강가, 강변",
+  "level": "N1",
+  "example": "河畔を散歩するのが好きだ。",
+  "exampleReading": "かはんをさんぽするのがすきだ。",
+  "exampleMeaning": "강변을 산책하는 것을 좋아한다."
+ },
+ {
+  "id": "news615",
+  "word": "不倫",
+  "reading": "ふりん",
+  "meaning": "불륜",
+  "level": "N1",
+  "example": "彼女は夫の不倫が発覚してショックを受けた。",
+  "exampleReading": "かのじょはおっとのふりんがはっかくしてしょっくをうけた。",
+  "exampleMeaning": "그녀는 남편의 불륜이 발각되어 충격을 받았다."
+ },
+ {
+  "id": "news616",
+  "word": "巧み",
+  "reading": "たくみ",
+  "meaning": "능숙함, 교묘함",
+  "level": "N1",
+  "example": "彼女は巧みな話術で観客を引き付けた。",
+  "exampleReading": "かのじょはたくみなわじゅつでかんきゃくをひきつけた。",
+  "exampleMeaning": "그녀는 능숙한 화술로 관객을 사로잡았다."
+ },
+ {
+  "id": "news617",
+  "word": "魅了",
+  "reading": "みりょう",
+  "meaning": "매료",
+  "level": "N1",
+  "example": "その歌手の歌声は多くのファンを魅了した。",
+  "exampleReading": "そのかしゅのうたごえはおおくのふぁんをみりょうした。",
+  "exampleMeaning": "그 가수의 노래 소리는 많은 팬을 매료시켰다."
+ },
+ {
+  "id": "news618",
+  "word": "結託",
+  "reading": "けったく",
+  "meaning": "결탁",
+  "level": "N1",
+  "example": "数人の従業員が結託して不正を行った。",
+  "exampleReading": "すうにんのじゅうぎょういんがけったくしてふせいをおこなった。",
+  "exampleMeaning": "몇 명의 종업원이 결탁하여 부정을 저질렀다."
+ },
+ {
+  "id": "news619",
+  "word": "殺害",
+  "reading": "さつがい",
+  "meaning": "살해",
+  "level": "N1",
+  "example": "彼はナイフで隣人を殺害した容疑で逮捕された。",
+  "exampleReading": "かれはナイフでりんじんをさつがいしたようぎでたいほされた。",
+  "exampleMeaning": "그는 칼로 이웃을 살해한 혐의로 체포되었다."
+ },
+ {
+  "id": "news620",
+  "word": "躊躇",
+  "reading": "ちゅうちょ",
+  "meaning": "주저, 망설임",
+  "level": "N1",
+  "example": "彼女は返事をするのを躊躇した。",
+  "exampleReading": "かのじょはへんじをするのをちゅうちょした。",
+  "exampleMeaning": "그녀는 대답하는 것을 주저했다."
+ },
+ {
+  "id": "news621",
+  "word": "全盛期",
+  "reading": "ぜんせいき",
+  "meaning": "전성기",
+  "level": "N1",
+  "example": "あの選手は全盛期には世界記録を何度も更新した。",
+  "exampleReading": "あのせんしゅはぜんせいきにはせかいきろくをなんどもこうしんした。",
+  "exampleMeaning": "그 선수는 전성기에는 세계 기록을 여러 번 경신했다."
+ },
+ {
+  "id": "news622",
+  "word": "演じる",
+  "reading": "えんじる",
+  "meaning": "연기하다",
+  "level": "N2",
+  "example": "彼はドラマで冷酷な父親を演じている。",
+  "exampleReading": "かれはドラマでれいこくなちちおやをえんじている。",
+  "exampleMeaning": "그는 드라마에서 냉혹한 아버지를 연기하고 있다."
+ },
+ {
+  "id": "tj381",
+  "word": "五穀豊穣",
+  "reading": "ごこくほうじょう",
+  "meaning": "오곡이 풍성함, 풍년",
+  "level": "N1",
+  "example": "今年は五穀豊穣を祈る祭りが催された。",
+  "exampleReading": "ことしはごこくほうじょうをいのるまつりがもよおされた。",
+  "exampleMeaning": "올해는 오곡풍년을 기원하는 축제가 열렸다."
+ },
+ {
+  "id": "tj382",
+  "word": "沐浴",
+  "reading": "もくよく",
+  "meaning": "목욕, 몸을 씻음(의례적 의미 포함)",
+  "level": "N1",
+  "example": "川で沐浴をして気持ちを整える。",
+  "exampleReading": "かわでもくよくをしてきもちをととのえる。",
+  "exampleMeaning": "강에서 목욕하여 마음을 가다듬는다."
+ },
+ {
+  "id": "tj383",
+  "word": "干ばつ",
+  "reading": "かんばつ",
+  "meaning": "가뭄",
+  "level": "N2",
+  "example": "干ばつが長びき、作物が不作だった。",
+  "exampleReading": "かんばつがながびき、さくもつがふさくだった。",
+  "exampleMeaning": "가뭄이 길어져 농작물이 흉작이었다."
+ },
+ {
+  "id": "tj384",
+  "word": "神様",
+  "reading": "かみさま",
+  "meaning": "신, 신님(존칭)",
+  "level": "N3",
+  "example": "祖母は神様に毎朝手を合わせる。",
+  "exampleReading": "そぼはかみさまにまいあさてをあわせる。",
+  "exampleMeaning": "할머니는 매일 아침 신께 두 손을 모은다."
+ },
+ {
+  "id": "tj385",
+  "word": "祭り",
+  "reading": "まつり",
+  "meaning": "축제, 제례",
+  "level": "N4",
+  "example": "町の祭りは人々で賑わう。",
+  "exampleReading": "まちのまつりはひとびとでにぎわう。",
+  "exampleMeaning": "마을 축제는 사람들로 북적인다."
  }
 ]

@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-28",
+    "no": 83,
+    "topic_ja": "<ruby>聖<rt>せい</rt></ruby>なる<ruby>水<rt>みず</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
+    "topic_ko": "성스러운 물의 기억",
+    "url": "https://www.asahi.com/articles/DA3S16555063.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '물의 성스러움', '의례와 일상', '자연과 신앙' — 물을 매개로 한 종교적 상징과 현대적 성찰을 교차시키며, 일상과 제의의 경계에서 보편적 질문을 제기하기 때문이다.",
+    "pattern": "〜ないよう、"
+  },
+  {
     "date": "2026-09-27",
     "no": 82,
     "topic_ja": "うつろ舟の<ruby>謎<rt>なぞ</rt></ruby>",
