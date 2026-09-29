@@ -11921,5 +11921,95 @@
   "example": "困難な時こそ家族で支え合うことが大切だ。",
   "exampleReading": "こんなんなときこそかぞくでささえあうことがたいせつだ。",
   "exampleMeaning": "어려운 때일수록 가족끼리 서로 돕는 것이 중요하다."
+ },
+ {
+  "id": "w1783730980113",
+  "word": "偏見",
+  "reading": "へんけん",
+  "meaning": "편견",
+  "level": "N1",
+  "example": "つまり偏見です",
+  "exampleReading": "つまりへんけんです",
+  "exampleMeaning": "즉 편견입니다."
+ },
+ {
+  "id": "w1783730980114",
+  "word": "根拠",
+  "reading": "こんきょ",
+  "meaning": "근거",
+  "level": "N1",
+  "example": "血液型で性格がわかるっていうのは、科学的には根拠がないことです",
+  "exampleReading": "けつえきがたでせいかくがわかるっていうのはかがくてきにはこんきょがないことです",
+  "exampleMeaning": "혈액형으로 성격을 알 수 있다는 것은 과학적으로는 근거가 없는 일입니다."
+ },
+ {
+  "id": "w1783730980115",
+  "word": "几帳面",
+  "reading": "きちょうめん",
+  "meaning": "꼼꼼함, 반듯함",
+  "level": "N1",
+  "example": "几帳面というのはきちんとしてるっていうことですね",
+  "exampleReading": "きちょうめんというのはきちんとしてるっていうことですね",
+  "exampleMeaning": "기초멘'이란 반듯하게 하고 있다는 뜻이지요."
+ },
+ {
+  "id": "w1783730980116",
+  "word": "可能性",
+  "reading": "かのうせい",
+  "meaning": "가능성",
+  "level": "N3",
+  "example": "まずA型の可能性がありますね",
+  "exampleReading": "まずえーがたのかのうせいがありますね",
+  "exampleMeaning": "우선 A형일 가능성이 있지요."
+ },
+ {
+  "id": "w1783730980117",
+  "word": "失礼",
+  "reading": "しつれい",
+  "meaning": "실례, 무례함",
+  "level": "N3",
+  "example": "ちょっと失礼な響きになります。",
+  "exampleReading": "ちょっとしつれいなひびきになります",
+  "exampleMeaning": "조금 무례한 느낌이 됩니다."
+ },
+ {
+  "id": "w1783730980118",
+  "word": "丁寧",
+  "reading": "ていねい",
+  "meaning": "공손함, 정중함, 정성스러움",
+  "level": "N3",
+  "example": "「どちら様ですか？」っていうていねいな言葉を使いますね。",
+  "exampleReading": "どちらさまですかっていうていねいなことばをつかいますね",
+  "exampleMeaning": "어느 분이십니까?'라는 정중한 말을 쓰지요."
+ },
+ {
+  "id": "w1783730980119",
+  "word": "親しい",
+  "reading": "したしい",
+  "meaning": "친하다, 가깝다",
+  "level": "N2",
+  "example": "はじめて会った人、親しくないですよね。",
+  "exampleReading": "はじめてあったひとしたしくないですよね",
+  "exampleMeaning": "처음 만난 사람은 친하지 않잖아요."
+ },
+ {
+  "id": "w1783730980120",
+  "word": "大事",
+  "reading": "だいじ",
+  "meaning": "중요함, 소중함",
+  "level": "N4",
+  "example": "敬語はとても大事です。",
+  "exampleReading": "けいごはとてもだいじです",
+  "exampleMeaning": "경어는 매우 중요합니다."
+ },
+ {
+  "id": "w1783730980121",
+  "word": "上司",
+  "reading": "じょうし",
+  "meaning": "상사",
+  "level": "N3",
+  "example": "会社の上司とかですね。",
+  "exampleReading": "かいしゃのじょうしとかですね",
+  "exampleMeaning": "회사 상사 같은 경우지요."
  }
 ]
