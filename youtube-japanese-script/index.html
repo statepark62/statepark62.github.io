@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YouTube 일본어 스크립트</title>
+<style>
+:root{--bg:#f6f2e8;--paper:#fffdf7;--ink:#263238;--blue:#355c7d;--brown:#8b6f47;--line:#d9d2c3}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Noto Sans JP",system-ui,sans-serif}
+.wrap{max-width:1080px;margin:38px auto;padding:0 18px}.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:0 8px 30px #0000000b}
+h1{margin:0 0 6px;color:var(--blue);font-size:28px}.sub{margin:0 0 24px;color:#667}
+label{font-weight:700;display:block;margin:14px 0 7px}
+input,select,textarea{width:100%;border:1px solid #cfc8ba;border-radius:10px;background:#fff;padding:12px;font-size:15px}
+.row{display:grid;grid-template-columns:1fr 180px;gap:12px}.buttons{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0}
+button{border:0;border-radius:10px;padding:11px 16px;font-weight:700;cursor:pointer;background:var(--blue);color:#fff}
+button.secondary{background:#79674e} button.light{background:#e9e3d7;color:#334}
+#status{padding:10px 12px;border-radius:9px;background:#eee9df;margin:10px 0;min-height:42px}
+.meta{display:grid;grid-template-columns:110px 1fr;gap:6px 12px;font-size:14px;margin:12px 0}
+textarea{height:420px;line-height:1.75;resize:vertical;font-family:"Noto Sans JP","Yu Gothic",sans-serif}
+.settings{margin-top:25px;border-top:1px solid var(--line);padding-top:16px}
+details summary{cursor:pointer;font-weight:700;color:var(--brown)}
+small{color:#777}@media(max-width:700px){.row{grid-template-columns:1fr}.card{padding:18px}}
+</style>
+</head>
+<body><main class="wrap"><section class="card">
+<h1>YouTube 일본어 스크립트</h1>
+<p class="sub">YouTube 주소를 넣고 일본어 자막을 읽기 좋은 텍스트로 가져옵니다.</p>
+<label>YouTube URL</label>
+<div class="row"><input id="url" placeholder="https://www.youtube.com/watch?v=..."><select id="lang"><option value="ja">일본어 (ja)</option><option value="en">영어 (en)</option><option value="ko">한국어 (ko)</option></select></div>
+<div class="buttons"><button id="fetchBtn">스크립트 가져오기</button><button class="light" id="copyBtn">전체 복사</button><button class="light" id="txtBtn">TXT 저장</button><button class="secondary" id="sheetBtn">Google Sheets 저장</button></div>
+<div id="status">준비되었습니다.</div>
+<div class="meta"><b>제목</b><span id="title">-</span><b>채널</b><span id="channel">-</span><b>문장 수</b><span id="count">-</span></div>
+<label>정리된 스크립트</label><textarea id="script" placeholder="여기에 스크립트가 표시됩니다."></textarea>
+
+<div class="settings"><details><summary>⚙ 최초 1회 설정</summary>
+<label>자막 추출 API 주소</label><input id="api" placeholder="https://내-백엔드.onrender.com">
+<label>Google Apps Script 웹앱 URL</label><input id="gas" placeholder="https://script.google.com/macros/s/.../exec">
+<div class="buttons"><button class="light" id="saveCfg">설정 저장</button></div>
+<small>주소는 이 브라우저에만 저장됩니다. GitHub 저장소에는 계정 정보나 비밀키를 넣지 마세요.</small>
+</details></div>
+</section></main>
+<script>
+const $=id=>document.getElementById(id);
+const setStatus=(s,err=false)=>{ $('status').textContent=s; $('status').style.background=err?'#f9dddd':'#eee9df'; };
+$('api').value=localStorage.getItem('yt_api')||'';
+$('gas').value=localStorage.getItem('gas_url')||'';
+$('saveCfg').onclick=()=>{localStorage.setItem('yt_api',$('api').value.trim().replace(/\/$/,''));localStorage.setItem('gas_url',$('gas').value.trim());setStatus('설정을 저장했습니다.');};
+
+$('fetchBtn').onclick=async()=>{
+  const api=$('api').value.trim().replace(/\/$/,''); const url=$('url').value.trim(); const lang=$('lang').value;
+  if(!api) return setStatus('먼저 ⚙ 설정에서 자막 추출 API 주소를 입력하세요.',true);
+  if(!url) return setStatus('YouTube 주소를 입력하세요.',true);
+  setStatus('자막을 가져오는 중입니다…');
+  try{
+    const r=await fetch(api+'/transcript?url='+encodeURIComponent(url)+'&lang='+encodeURIComponent(lang));
+    const d=await r.json(); if(!r.ok) throw new Error(d.detail||d.error||'가져오기에 실패했습니다.');
+    $('title').textContent=d.title||'-'; $('channel').textContent=d.channel||'-'; $('count').textContent=d.count??'-'; $('script').value=d.text||'';
+    setStatus('완료되었습니다.');
+  }catch(e){setStatus('오류: '+e.message,true);}
+};
+$('copyBtn').onclick=async()=>{await navigator.clipboard.writeText($('script').value);setStatus('스크립트를 클립보드에 복사했습니다.');};
+$('txtBtn').onclick=()=>{
+ const blob=new Blob([$('script').value],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a');
+ a.href=URL.createObjectURL(blob); a.download=(($('title').textContent||'script').replace(/[\\/:*?"<>|]/g,'_'))+'.txt'; a.click(); URL.revokeObjectURL(a.href);
+};
+$('sheetBtn').onclick=async()=>{
+ const gas=$('gas').value.trim(); if(!gas) return setStatus('먼저 Google Apps Script 웹앱 URL을 설정하세요.',true);
+ if(!$('script').value.trim()) return setStatus('먼저 스크립트를 가져오세요.',true);
+ setStatus('Google Sheets로 보내는 중입니다…');
+ const form=new URLSearchParams({video_url:$('url').value,title:$('title').textContent,channel:$('channel').textContent,language:$('lang').value,script:$('script').value});
+ try{ await fetch(gas,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:form}); setStatus('Google Sheets로 전송했습니다. 시트에서 확인해 주세요.');}
+ catch(e){setStatus('Sheets 전송 오류: '+e.message,true);}
+};
+</script></body></html>
