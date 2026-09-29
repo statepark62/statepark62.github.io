@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-29",
+    "no": 84,
+    "topic_ja": "<ruby>鼻歌<rt>はなうた</rt></ruby>と<ruby>外交<rt>がいこう</rt></ruby>",
+    "topic_ko": "콧노래와 외교",
+    "url": "https://www.asahi.com/articles/DA3S16556281.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '외교의 순간', '장면의 힘' — 역사적 결정을 인간적 제스처로 보여 주며, 작은 장면이 거대한 맥락을 비추는 글쓰기의 미학을 보여주기 때문임.",
+    "pattern": "〜でのことだった"
+  },
+  {
     "date": "2026-09-28",
     "no": 83,
     "topic_ja": "<ruby>聖<rt>せい</rt></ruby>なる<ruby>水<rt>みず</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",

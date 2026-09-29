@@ -11791,5 +11791,95 @@
   "example": "町の祭りは人々で賑わう。",
   "exampleReading": "まちのまつりはひとびとでにぎわう。",
   "exampleMeaning": "마을 축제는 사람들로 북적인다."
+ },
+ {
+  "id": "news623",
+  "word": "出没",
+  "reading": "しゅつぼつ",
+  "meaning": "출몰",
+  "level": "N1",
+  "example": "最近、この地域にクマが出没しているという情報が相次いでいる。",
+  "exampleReading": "さいきん、このちいきにくまがしゅつぼつしているというじょうほうがあいついでいる。",
+  "exampleMeaning": "최근 이 지역에 곰이 출몰한다는 정보가 잇따르고 있다."
+ },
+ {
+  "id": "news624",
+  "word": "法廷",
+  "reading": "ほうてい",
+  "meaning": "법정",
+  "level": "N1",
+  "example": "被告人は法廷で自らの無実を主張した。",
+  "exampleReading": "ひこくにんはほうていでみずからのむじつをしゅちょうした。",
+  "exampleMeaning": "피고인은 법정에서 자신의 무죄를 주장했다."
+ },
+ {
+  "id": "news625",
+  "word": "無許可",
+  "reading": "むきょか",
+  "meaning": "무허가",
+  "level": "N2",
+  "example": "彼は無許可で危険な動物を飼育していた。",
+  "exampleReading": "かれはむきょかできけんなどうぶつをしいくしていた。",
+  "exampleMeaning": "그는 무허가로 위험한 동물을 사육하고 있었다."
+ },
+ {
+  "id": "news626",
+  "word": "供述",
+  "reading": "きょうじゅつ",
+  "meaning": "진술",
+  "level": "N1",
+  "example": "容疑者は取り調べで犯行の詳細を供述した。",
+  "exampleReading": "ようぎしゃはとりしらべではんこうのしょうさいをきょうじゅつした。",
+  "exampleMeaning": "용의자는 조사에서 범행의 상세 내용을 진술했다."
+ },
+ {
+  "id": "tj386",
+  "word": "首脳会談",
+  "reading": "しゅのうかいだん",
+  "meaning": "정상회담",
+  "level": "N1",
+  "example": "両国は来週首脳会談を開く。",
+  "exampleReading": "りょうこくはらいしゅうしゅのうかいだんをひらく。",
+  "exampleMeaning": "양국은 다음 주 정상회담을 연다."
+ },
+ {
+  "id": "tj387",
+  "word": "外相",
+  "reading": "がいしょう",
+  "meaning": "외무장관, 외상",
+  "level": "N2",
+  "example": "新しい外相が方針を発表した。",
+  "exampleReading": "あたらしいがいしょうがほうしんをはっぴょうした。",
+  "exampleMeaning": "새 외상이 방침을 발표했다."
+ },
+ {
+  "id": "tj388",
+  "word": "鼻歌",
+  "reading": "はなうた",
+  "meaning": "콧노래",
+  "level": "N2",
+  "example": "彼は帰り道で鼻歌を口ずさんだ。",
+  "exampleReading": "かれはかえりみちではなうたをくちずさんだ。",
+  "exampleMeaning": "그는 돌아오는 길에 콧노래를 흥얼거렸다."
+ },
+ {
+  "id": "tj389",
+  "word": "お墨付き",
+  "reading": "おすみつき",
+  "meaning": "공인, 보증",
+  "level": "N1",
+  "example": "政府のお墨付きを得て計画が動き出す。",
+  "exampleReading": "せいふのおすみつきをえてけいかくがうごきだす。",
+  "exampleMeaning": "정부의 공인을 받아 계획이 움직이기 시작한다."
+ },
+ {
+  "id": "tj390",
+  "word": "車中",
+  "reading": "しゃちゅう",
+  "meaning": "차 안, 차중",
+  "level": "N2",
+  "example": "車中で本を読むのが日課だ。",
+  "exampleReading": "しゃちゅうでほんをよむのがにっかだ。",
+  "exampleMeaning": "차 안에서 책을 읽는 것이 일과이다."
  }
 ]
