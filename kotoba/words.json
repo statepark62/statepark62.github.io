@@ -11881,5 +11881,45 @@
   "example": "車中で本を読むのが日課だ。",
   "exampleReading": "しゃちゅうでほんをよむのがにっかだ。",
   "exampleMeaning": "차 안에서 책을 읽는 것이 일과이다."
+ },
+ {
+  "id": "news627",
+  "word": "挑発",
+  "reading": "ちょうはつ",
+  "meaning": "도발",
+  "level": "N2",
+  "example": "彼は相手を挑発するような態度を取った。",
+  "exampleReading": "かれはあいてをちょうはつするようなたいどをとった。",
+  "exampleMeaning": "그는 상대를 도발하는 듯한 태도를 취했다."
+ },
+ {
+  "id": "news628",
+  "word": "公表",
+  "reading": "こうひょう",
+  "meaning": "공표, 공개 발표",
+  "level": "N2",
+  "example": "会社は新しい方針を公表した。",
+  "exampleReading": "かいしゃはあたらしいほうしんをこうひょうした。",
+  "exampleMeaning": "회사는 새로운 방침을 공표했다."
+ },
+ {
+  "id": "news629",
+  "word": "空回り",
+  "reading": "からまわり",
+  "meaning": "헛돎, 헛수고 (노력이 결실을 맺지 못함)",
+  "level": "N1",
+  "example": "彼の努力は空回りに終わってしまった。",
+  "exampleReading": "かれのどりょくはからまわりにおわってしまった。",
+  "exampleMeaning": "그의 노력은 헛수고로 끝나 버렸다."
+ },
+ {
+  "id": "news630",
+  "word": "支え合う",
+  "reading": "ささえあう",
+  "meaning": "서로 돕다, 서로 의지하다",
+  "level": "N2",
+  "example": "困難な時こそ家族で支え合うことが大切だ。",
+  "exampleReading": "こんなんなときこそかぞくでささえあうことがたいせつだ。",
+  "exampleMeaning": "어려운 때일수록 가족끼리 서로 돕는 것이 중요하다."
  }
 ]
