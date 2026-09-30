@@ -12101,5 +12101,55 @@
   "example": "記者は銃撃の一部始終を目撃した。",
   "exampleReading": "きしゃはじゅうげきのいちぶしじゅうをもくげきした。",
   "exampleMeaning": "기자는 총격의 전말을 목격했다."
+ },
+ {
+  "id": "news635",
+  "word": "被害",
+  "reading": "ひがい",
+  "meaning": "피해",
+  "level": "N3",
+  "example": "大雨による被害は予想以上に大きかった。",
+  "exampleReading": "おおあめによるひがいはよそういじょうにおおきかった。",
+  "exampleMeaning": "폭우로 인한 피해는 예상보다 컸다."
+ },
+ {
+  "id": "news636",
+  "word": "熱望",
+  "reading": "ねつぼう",
+  "meaning": "열망, 간절히 바람",
+  "level": "N1",
+  "example": "ファンたちは新しい監督の就任を熱望している。",
+  "exampleReading": "ふぁんたちはあたらしいかんとくのしゅうにんをねつぼうしている。",
+  "exampleMeaning": "팬들은 새로운 감독의 취임을 간절히 바라고 있다."
+ },
+ {
+  "id": "news637",
+  "word": "改定",
+  "reading": "かいてい",
+  "meaning": "개정, (요금·제도 등을) 새로 고침",
+  "level": "N2",
+  "example": "来月から電車の運賃が改定される予定です。",
+  "exampleReading": "らいげつからでんしゃのうんちんがかいていされるよていです。",
+  "exampleMeaning": "다음 달부터 전철 요금이 개정될 예정입니다."
+ },
+ {
+  "id": "news638",
+  "word": "行く末",
+  "reading": "ゆくすえ",
+  "meaning": "장래, 앞날",
+  "level": "N1",
+  "example": "この計画の行く末を誰も予測できない。",
+  "exampleReading": "このけいかくのゆくすえをだれもよそくできない。",
+  "exampleMeaning": "이 계획의 앞날을 아무도 예측할 수 없다."
+ },
+ {
+  "id": "news639",
+  "word": "くすぶる",
+  "reading": "くすぶる",
+  "meaning": "(문제 등이) 계속 남아 있다, 잠재하다",
+  "level": "N1",
+  "example": "その問題は解決されず、いまだにくすぶっている。",
+  "exampleReading": "そのもんだいはかいけつされず、いまだにくすぶっている。",
+  "exampleMeaning": "그 문제는 해결되지 않고 아직까지 잠재해 있다."
  }
 ]
