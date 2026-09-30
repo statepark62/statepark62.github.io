@@ -12011,5 +12011,95 @@
   "example": "会社の上司とかですね。",
   "exampleReading": "かいしゃのじょうしとかですね",
   "exampleMeaning": "회사 상사 같은 경우지요."
+ },
+ {
+  "id": "news631",
+  "word": "抗議",
+  "reading": "こうぎ",
+  "meaning": "항의",
+  "level": "N3",
+  "example": "市民たちは政府の決定に抗議するためデモを行った。",
+  "exampleReading": "しみんたちはせいふのけっていにこうぎするためでもをおこなった。",
+  "exampleMeaning": "시민들은 정부의 결정에 항의하기 위해 시위를 벌였다."
+ },
+ {
+  "id": "news632",
+  "word": "拘束",
+  "reading": "こうそく",
+  "meaning": "구속, 억류",
+  "level": "N2",
+  "example": "警察は容疑者を拘束して事情を聞いた。",
+  "exampleReading": "けいさつはようぎしゃをこうそくしてじじょうをきいた。",
+  "exampleMeaning": "경찰은 용의자를 구속하여 사정을 물었다."
+ },
+ {
+  "id": "news633",
+  "word": "犠牲",
+  "reading": "ぎせい",
+  "meaning": "희생",
+  "level": "N2",
+  "example": "彼は家族のために自分の時間を犠牲にした。",
+  "exampleReading": "かれはかぞくのためにじぶんのじかんをぎせいにした。",
+  "exampleMeaning": "그는 가족을 위해 자신의 시간을 희생했다."
+ },
+ {
+  "id": "news634",
+  "word": "辞任",
+  "reading": "じにん",
+  "meaning": "사임",
+  "level": "N2",
+  "example": "大臣は不祥事の責任を取って辞任した。",
+  "exampleReading": "だいじんはふしょうじのせきにんをとってじにんした。",
+  "exampleMeaning": "장관은 불상사의 책임을 지고 사임했다."
+ },
+ {
+  "id": "tj391",
+  "word": "権利",
+  "reading": "けんり",
+  "meaning": "권리",
+  "level": "N3",
+  "example": "誰にも学ぶ権利がある。",
+  "exampleReading": "だれにもまなぶけんりがある。",
+  "exampleMeaning": "누구에게나 배울 권리가 있다."
+ },
+ {
+  "id": "tj392",
+  "word": "訴える",
+  "reading": "うったえる",
+  "meaning": "호소하다",
+  "level": "N3",
+  "example": "彼女は教育の必要性を訴えた。",
+  "exampleReading": "かのじょはきょういくのひつようせいをうったえた。",
+  "exampleMeaning": "그녀는 교육의 필요성을 호소했다."
+ },
+ {
+  "id": "tj393",
+  "word": "信念",
+  "reading": "しんねん",
+  "meaning": "신념",
+  "level": "N2",
+  "example": "逆風でも、彼の信念は揺るがない。",
+  "exampleReading": "ぎゃくふうでも、かれのしんねんはゆるがない。",
+  "exampleMeaning": "역풍 속에서도 그의 신념은 흔들리지 않는다."
+ },
+ {
+  "id": "tj394",
+  "word": "座り込み",
+  "reading": "すわりこみ",
+  "meaning": "농성(좌시)",
+  "level": "N2",
+  "example": "学生たちは議会前で座り込みを続けた。",
+  "exampleReading": "がくせいたちはぎかいまえですわりこみをつづけた。",
+  "exampleMeaning": "학생들은 의회 앞에서 농성을 이어갔다."
+ },
+ {
+  "id": "tj395",
+  "word": "銃撃",
+  "reading": "じゅうげき",
+  "meaning": "총격",
+  "level": "N1",
+  "example": "記者は銃撃の一部始終を目撃した。",
+  "exampleReading": "きしゃはじゅうげきのいちぶしじゅうをもくげきした。",
+  "exampleMeaning": "기자는 총격의 전말을 목격했다."
  }
 ]

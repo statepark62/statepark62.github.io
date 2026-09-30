@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-09-30",
+    "no": 85,
+    "topic_ja": "<ruby>若者<rt>わかもの</rt></ruby>の<ruby>声<rt>こえ</rt></ruby>が<ruby>世界<rt>せかい</rt></ruby>を<ruby>動<rt>うご</rt></ruby>かす",
+    "topic_ko": "젊은 목소리가 세계를 움직인다",
+    "url": "https://www.asahi.com/articles/DA3S16556987.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘청년 행동’, ‘교육의 권리’, ‘기후위기’. 두 상징적 인물을 통해 개인의 목소리가 공적 의제로 확장되는 과정을 보여 주어, 시민성과 연대의 주제 아래 묶기에 적합하다.",
+    "pattern": "〜のは〜の<ruby>時<rt>とき</rt></ruby>だ"
+  },
+  {
     "date": "2026-09-29",
     "no": 84,
     "topic_ja": "<ruby>鼻歌<rt>はなうた</rt></ruby>と<ruby>外交<rt>がいこう</rt></ruby>",
