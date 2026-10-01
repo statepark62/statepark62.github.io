@@ -11,6 +11,8 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2d6a4f">
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root {
     --primary: #2d6a4f; --primary-light: #74c69d; --bg: #f8f9fa; --card-bg: #ffffff;
@@ -47,7 +49,6 @@
   .modal-footer { display: flex; justify-content: flex-end; margin-top: 8px; }
   .btn-primary { background: var(--primary); color: white; border: none; padding: 10px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600; }
   .btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
-  .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 8px 18px; border-radius: 8px; font-size: 14px; cursor: pointer; }
 
   .month-tabs { display: flex; overflow-x: auto; gap: 6px; padding: 12px 0; scrollbar-width: none; }
   .month-tabs::-webkit-scrollbar { display: none; }
@@ -67,8 +68,7 @@
   .card-body { padding: 14px; }
   .card-body-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .card-date { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
-  .card-rating { font-size: 13px; color: var(--star); margin-bottom: 8px; }
+  .card-date { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
   .card-summary { font-size: 14px; color: var(--text); margin-bottom: 10px; }
   .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
   .tag { background: #e8f5e9; color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 10px; }
@@ -83,9 +83,11 @@
   .detail-section h3 { font-size: 14px; color: var(--primary); margin-bottom: 6px; }
   .detail-section p { font-size: 14px; }
   .detail-section ul { padding-left: 18px; font-size: 14px; }
+  .detail-map { width: 100%; height: 220px; border-radius: 8px; margin-bottom: 8px; background: var(--bg); }
+  .map-links { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .map-link-btn { font-size: 13px; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); text-decoration: none; display: inline-block; }
   .close-btn { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted); }
 
-  /* 리뷰 영역 */
   .review-summary { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
   .review-summary .avg-score { font-size: 22px; font-weight: 700; color: var(--text); }
   .review-summary .stars { color: var(--star); font-size: 18px; letter-spacing: 1px; }
@@ -106,7 +108,6 @@
   .review-item-date { font-size: 12px; color: var(--text-muted); }
   .review-item-comment { font-size: 14px; color: var(--text); }
   .review-loading { font-size: 13px; color: var(--text-muted); padding: 10px 0; }
-  .review-empty { font-size: 13px; color: var(--text-muted); padding: 10px 0; }
 
   .empty-state { text-align: center; padding: 40px 16px; color: var(--text-muted); }
   .loading { text-align: center; padding: 40px; color: var(--text-muted); }
@@ -172,7 +173,7 @@ const REVIEW_API_URL = 'https://script.google.com/macros/s/AKfycbzhr-oGRN_EcoAeC
 let accessToken = null;
 let driveFileId = null;
 let tokenClient = null;
-let currentUser = null; // { id, name }
+let currentUser = null;
 
 const DATA_URL = 'https://statepark62.github.io/festival/data/festivals.json';
 const STORAGE_KEY = 'festival_app_prefs';
@@ -230,7 +231,7 @@ const UI_TEXT = {
     access: '교통 안내', background: '유래·배경', activities: '추천 활동', allRegions: '전체지역',
     myScraps: '내 찜', noScraps: '아직 찜한 축제가 없습니다',
     login: '로그인', loggedIn: '동기화됨', syncing: '동기화 중...',
-    reviews: '방문 후기', writeReview: '후기 남기기', reviewPlaceholder: '다녀오신 느낌을 남겨주세요',
+    reviews: '방문 후기', reviewPlaceholder: '다녀오신 느낌을 남겨주세요',
     submit: '등록', loginToReview: '로그인하시면 후기를 남기실 수 있어요', noReviews: '아직 후기가 없습니다. 첫 후기를 남겨보세요!',
     reviewLoading: '후기 불러오는 중...' },
   en: { onboardTitle: 'What are you interested in?', onboardSub: "We'll prioritize festivals matching your taste",
@@ -239,7 +240,7 @@ const UI_TEXT = {
     access: 'Getting There', background: 'Background', activities: 'Recommended Activities', allRegions: 'All Regions',
     myScraps: 'Saved', noScraps: 'No saved festivals yet',
     login: 'Sign in', loggedIn: 'Synced', syncing: 'Syncing...',
-    reviews: 'Reviews', writeReview: 'Write a review', reviewPlaceholder: 'Share your experience',
+    reviews: 'Reviews', reviewPlaceholder: 'Share your experience',
     submit: 'Post', loginToReview: 'Sign in to leave a review', noReviews: 'No reviews yet. Be the first!',
     reviewLoading: 'Loading reviews...' },
   ja: { onboardTitle: '興味のあるジャンルを選んでください', onboardSub: 'お好みに合ったお祭りを優先的にご紹介します',
@@ -248,7 +249,7 @@ const UI_TEXT = {
     access: 'アクセス', background: '由来・背景', activities: 'おすすめの楽しみ方', allRegions: '全地域',
     myScraps: '保存済み', noScraps: 'まだ保存したお祭りがありません',
     login: 'ログイン', loggedIn: '同期済み', syncing: '同期中...',
-    reviews: 'レビュー', writeReview: 'レビューを書く', reviewPlaceholder: '感想を共有してください',
+    reviews: 'レビュー', reviewPlaceholder: '感想を共有してください',
     submit: '投稿', loginToReview: 'ログインするとレビューを投稿できます', noReviews: 'まだレビューがありません。最初のレビューを！',
     reviewLoading: 'レビュー読み込み中...' },
   zh: { onboardTitle: '请选择您感兴趣的类别', onboardSub: '我们将优先为您推荐符合您喜好的节日',
@@ -257,7 +258,7 @@ const UI_TEXT = {
     access: '交通指南', background: '由来·背景', activities: '推荐活动', allRegions: '全部地区',
     myScraps: '已收藏', noScraps: '还没有收藏的节日',
     login: '登录', loggedIn: '已同步', syncing: '同步中...',
-    reviews: '评价', writeReview: '写评价', reviewPlaceholder: '分享您的体验',
+    reviews: '评价', reviewPlaceholder: '分享您的体验',
     submit: '发布', loginToReview: '登录后即可发表评价', noReviews: '暂无评价，快来抢沙发！',
     reviewLoading: '评价加载中...' }
 };
@@ -271,7 +272,8 @@ let userCompanion = null;
 let selectedRegions = [];
 let scrapedIds = [];
 let showScrapsOnly = false;
-let currentReviewRating = 0; // 리뷰 작성 폼에서 선택 중인 별점
+let currentReviewRating = 0;
+let detailMapInstance = null;
 
 async function init() {
   loadPrefs();
@@ -440,6 +442,55 @@ async function syncOnLogin() {
   } catch (e) { console.error('동기화 실패:', e); }
 }
 
+/* ---------- 지도 ---------- */
+function renderMapSection(festival) {
+  const lat = parseFloat(festival.latitude);
+  const lng = parseFloat(festival.longitude);
+  if (!lat || !lng || isNaN(lat) || isNaN(lng)) return '';
+
+  const naverUrl = `https://map.naver.com/p/search/${encodeURIComponent(festival.name_ko)}?c=${lng},${lat},15,0,0,0,dh`;
+  const kakaoUrl = `https://map.kakao.com/link/map/${encodeURIComponent(festival.name_ko)},${lat},${lng}`;
+  const googleUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+
+  return `
+    <div class="detail-section">
+      <div id="detailMap" class="detail-map"></div>
+      <div class="map-links">
+        <a class="map-link-btn" href="${naverUrl}" target="_blank">네이버지도</a>
+        <a class="map-link-btn" href="${kakaoUrl}" target="_blank">카카오맵</a>
+        <a class="map-link-btn" href="${googleUrl}" target="_blank">Google Maps</a>
+      </div>
+    </div>
+  `;
+}
+
+function initDetailMap(festival) {
+  const lat = parseFloat(festival.latitude);
+  const lng = parseFloat(festival.longitude);
+  if (!lat || !lng || isNaN(lat) || isNaN(lng)) return;
+
+  const mapEl = document.getElementById('detailMap');
+  if (!mapEl) return;
+
+  if (detailMapInstance) {
+    detailMapInstance.remove();
+    detailMapInstance = null;
+  }
+
+  detailMapInstance = L.map('detailMap', { zoomControl: true, scrollWheelZoom: false }).setView([lat, lng], 14);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(detailMapInstance);
+
+  L.marker([lat, lng]).addTo(detailMapInstance)
+    .bindPopup(festival.name_ko)
+    .openPopup();
+
+  setTimeout(() => { if (detailMapInstance) detailMapInstance.invalidateSize(); }, 150);
+}
+
 /* ---------- 리뷰 기능 ---------- */
 function renderStarsDisplay(score) {
   const rounded = Math.round(score);
@@ -459,7 +510,7 @@ async function loadReviews(festivalId) {
 async function submitReview(festivalId, rating, comment) {
   await fetch(REVIEW_API_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // CORS 프리플라이트 회피
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({
       festival_id: festivalId, user_id: currentUser.id, user_name: currentUser.name,
       rating: rating, comment: comment, lang: currentLang
@@ -501,7 +552,7 @@ function renderReviewSection(festival, reviewData) {
           <div class="review-item-stars">${renderStarsDisplay(r.rating)}</div>
           <div class="review-item-comment">${r.comment || ''}</div>
         </div>`).join('')
-    : `<div class="review-empty">${count === 0 ? '' : ''}</div>`;
+    : '';
 
   return `
     <div class="detail-section">
@@ -511,8 +562,6 @@ function renderReviewSection(festival, reviewData) {
       ${listHtml}
     </div>
   `;
-
-  // 참고: 별점 클릭, 등록 버튼 이벤트는 showDetail()에서 DOM 삽입 후 별도 바인딩
 }
 
 /* ---------- 온보딩 ---------- */
@@ -742,6 +791,7 @@ async function showDetail(festival) {
     ${trans.recommended_activities && trans.recommended_activities.length ? `<div class="detail-section"><h3>${t.activities}</h3><ul>${trans.recommended_activities.map(a => `<li>${a}</li>`).join('')}</ul></div>` : ''}
     ${trans.access_info ? `<div class="detail-section"><h3>${t.access}</h3><p>${trans.access_info}</p></div>` : ''}
     ${festival.homepage_url ? `<p><a href="${festival.homepage_url}" target="_blank">공식 홈페이지 →</a></p>` : ''}
+    ${renderMapSection(festival)}
     <div class="detail-section" id="reviewSection"><div class="review-loading">${t.reviewLoading}</div></div>
   `;
 
@@ -755,16 +805,15 @@ async function showDetail(festival) {
   });
 
   document.getElementById('detailModal').style.display = 'flex';
+  initDetailMap(festival);
 
-  // 리뷰는 비동기로 불러와서 해당 섹션만 갱신 (상세보기 자체는 즉시 열림)
   const reviewData = await loadReviews(festival.festival_id);
   const reviewSection = document.getElementById('reviewSection');
-  if (!reviewSection) return; // 그 사이 모달이 닫혔을 수 있음
+  if (!reviewSection) return;
 
   currentReviewRating = 0;
   reviewSection.innerHTML = renderReviewSection(festival, reviewData);
 
-  // 별점 입력 UI 바인딩
   const starInput = document.getElementById('starInput');
   if (starInput) {
     const stars = starInput.querySelectorAll('span');
@@ -774,7 +823,6 @@ async function showDetail(festival) {
         stars.forEach(s => s.classList.toggle('active', Number(s.dataset.star) <= currentReviewRating));
       });
     });
-    // 기존에 남긴 리뷰가 있으면 별점 미리 표시
     const myExisting = currentUser ? reviewData.reviews.find(r => r.user_id === currentUser.id) : null;
     if (myExisting) {
       currentReviewRating = myExisting.rating;
@@ -790,13 +838,17 @@ async function showDetail(festival) {
       submitBtn.disabled = true;
       submitBtn.textContent = '...';
       await submitReview(festival.festival_id, currentReviewRating, comment);
-      showDetail(festival); // 등록 후 리뷰 섹션 새로고침
+      showDetail(festival);
     });
   }
 }
 
-document.getElementById('detailClose').addEventListener('click', () => { document.getElementById('detailModal').style.display = 'none'; });
-document.getElementById('detailModal').addEventListener('click', (e) => { if (e.target.id === 'detailModal') document.getElementById('detailModal').style.display = 'none'; });
+function closeDetailModal() {
+  document.getElementById('detailModal').style.display = 'none';
+  if (detailMapInstance) { detailMapInstance.remove(); detailMapInstance = null; }
+}
+document.getElementById('detailClose').addEventListener('click', closeDetailModal);
+document.getElementById('detailModal').addEventListener('click', (e) => { if (e.target.id === 'detailModal') closeDetailModal(); });
 
 init();
 </script>
