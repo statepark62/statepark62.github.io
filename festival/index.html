@@ -165,10 +165,11 @@
 
 <script>
 /* ===== Google 로그인 설정 ===== */
-const GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com'; // ← 본인의 OAuth 클라이언트 ID
+const GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com';
 const LOGIN_SCOPE = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.profile';
 const SCRAP_FILE_NAME = 'festival_scraps.json';
 const REVIEW_API_URL = 'https://script.google.com/macros/s/AKfycbzhr-oGRN_EcoAeCk99k3rxdg4_td62FBa4hoePKrtMJgUyUuGuxAvqfiDeYRu6L2Tp/exec';
+const LOGIN_FLAG_KEY = 'festival_app_was_logged_in';
 
 let accessToken = null;
 let driveFileId = null;
@@ -363,6 +364,7 @@ function renderLoginButton() {
     callback: async (response) => {
       if (response.error) { console.error(response); return; }
       accessToken = response.access_token;
+      localStorage.setItem(LOGIN_FLAG_KEY, '1');
       btn.textContent = `✓ ${UI_TEXT[currentLang].syncing}`;
       btn.classList.add('logged-in');
       await fetchUserInfo();
@@ -370,6 +372,11 @@ function renderLoginButton() {
       btn.textContent = `✓ ${currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn}`;
     }
   });
+
+  // 이전에 로그인한 적 있으면, 팝업 없이 조용히 재로그인 시도 (세션이 남아있으면 자동 성공)
+  if (localStorage.getItem(LOGIN_FLAG_KEY) === '1') {
+    tokenClient.requestAccessToken({ prompt: '' });
+  }
 
   btn.addEventListener('click', () => {
     if (!accessToken) tokenClient.requestAccessToken();
