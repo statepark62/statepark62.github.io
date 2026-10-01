@@ -168,8 +168,56 @@
 const DATA_URL = 'https://statepark62.github.io/festival/data/festivals.json';
 const STORAGE_KEY = 'festival_app_prefs';
 
+/* 내부적으로는 항상 한국어 값(INTEREST_OPTIONS/COMPANION_OPTIONS)을 기준으로 필터링하고,
+   화면 표시만 TAG_NAME_MAP / SIDO_NAME_MAP으로 번역해서 보여준다. */
 const INTEREST_OPTIONS = ['전통민속','먹거리','공연예술','자연생태','체험형','야간축제'];
 const COMPANION_OPTIONS = ['가족','연인','친구','나홀로','시니어'];
+
+const TAG_NAME_MAP = {
+  '전통민속':   { en: 'Traditional',    ja: '伝統民俗',     zh: '传统民俗' },
+  '먹거리':     { en: 'Food',           ja: 'グルメ',       zh: '美食' },
+  '공연예술':   { en: 'Performance',    ja: '公演芸術',     zh: '演艺' },
+  '자연생태':   { en: 'Nature',         ja: '自然生態',     zh: '自然生态' },
+  '체험형':     { en: 'Hands-on',       ja: '体験型',       zh: '体验型' },
+  '야간축제':   { en: 'Night Festival', ja: '夜間祭り',     zh: '夜间节庆' },
+  '가족':       { en: 'Family',         ja: '家族',         zh: '家庭' },
+  '연인':       { en: 'Couples',        ja: 'カップル',     zh: '情侣' },
+  '친구':       { en: 'Friends',        ja: '友人',         zh: '朋友' },
+  '나홀로':     { en: 'Solo',           ja: 'ひとり',       zh: '独自' },
+  '시니어':     { en: 'Seniors',        ja: 'シニア',       zh: '长者' }
+};
+
+const SIDO_NAME_MAP = {
+  '서울특별시':     { en: 'Seoul',           ja: 'ソウル特別市',       zh: '首尔特别市' },
+  '부산광역시':     { en: 'Busan',           ja: '釜山広域市',         zh: '釜山广域市' },
+  '대구광역시':     { en: 'Daegu',           ja: '大邱広域市',         zh: '大邱广域市' },
+  '인천광역시':     { en: 'Incheon',         ja: '仁川広域市',         zh: '仁川广域市' },
+  '광주광역시':     { en: 'Gwangju',         ja: '光州広域市',         zh: '光州广域市' },
+  '대전광역시':     { en: 'Daejeon',         ja: '大田広域市',         zh: '大田广域市' },
+  '울산광역시':     { en: 'Ulsan',           ja: '蔚山広域市',         zh: '蔚山广域市' },
+  '세종특별자치시': { en: 'Sejong',          ja: '世宗特別自治市',     zh: '世宗特别自治市' },
+  '경기도':         { en: 'Gyeonggi-do',     ja: '京畿道',             zh: '京畿道' },
+  '강원특별자치도': { en: 'Gangwon-do',      ja: '江原特別自治道',     zh: '江原特别自治道' },
+  '충청북도':       { en: 'Chungcheongbuk-do', ja: '忠清北道',         zh: '忠清北道' },
+  '충청남도':       { en: 'Chungcheongnam-do', ja: '忠清南道',         zh: '忠清南道' },
+  '전라북도특별자치도': { en: 'Jeonbuk-do',  ja: '全羅北道特別自治道', zh: '全罗北道特别自治道' },
+  '전라남도':       { en: 'Jeollanam-do',    ja: '全羅南道',           zh: '全罗南道' },
+  '경상북도':       { en: 'Gyeongsangbuk-do', ja: '慶尚北道',          zh: '庆尚北道' },
+  '경상남도':       { en: 'Gyeongsangnam-do', ja: '慶尚南道',          zh: '庆尚南道' },
+  '제주특별자치도': { en: 'Jeju-do',         ja: '済州特別自治道',     zh: '济州特别自治道' }
+};
+
+function translateTag(koreanTag, lang) {
+  if (lang === 'ko') return koreanTag;
+  const entry = TAG_NAME_MAP[koreanTag];
+  return entry ? (entry[lang] || koreanTag) : koreanTag;
+}
+
+function translateSido(koreanSido, lang) {
+  if (lang === 'ko' || !koreanSido) return koreanSido;
+  const entry = SIDO_NAME_MAP[koreanSido];
+  return entry ? (entry[lang] || koreanSido) : koreanSido;
+}
 
 const MONTH_LABELS = {
   ko: m => `${m}월`,
@@ -207,8 +255,8 @@ const UI_TEXT = {
 
 let allFestivals = [];
 let currentLang = 'ko';
-let currentYearMonth = null; // { year, month } — init()에서 오늘 기준으로 설정
-let monthWindow = [];        // 오늘부터 앞으로 12개월치 { year, month } 배열
+let currentYearMonth = null;
+let monthWindow = [];
 let userInterests = [];
 let userCompanion = null;
 let selectedRegion = null;
@@ -225,7 +273,6 @@ async function init() {
   renderCards();
 }
 
-/* 오늘 기준으로 앞으로 12개월(연-월) 목록 생성 */
 function buildMonthWindow() {
   const today = new Date();
   const baseYear = today.getFullYear();
@@ -237,7 +284,7 @@ function buildMonthWindow() {
     const y = baseYear + Math.floor((baseMonth - 1 + i) / 12);
     monthWindow.push({ year: y, month: m });
   }
-  currentYearMonth = monthWindow[0]; // 이번 달을 기본 선택
+  currentYearMonth = monthWindow[0];
 }
 
 function loadPrefs() {
@@ -269,12 +316,12 @@ function renderOnboardingIfNeeded() {
 
   const interestChips = document.getElementById('interestChips');
   interestChips.innerHTML = INTEREST_OPTIONS.map(opt =>
-    `<div class="chip" data-value="${opt}">${opt}</div>`
+    `<div class="chip" data-value="${opt}">${translateTag(opt, currentLang)}</div>`
   ).join('');
 
   const companionChips = document.getElementById('companionChips');
   companionChips.innerHTML = COMPANION_OPTIONS.map(opt =>
-    `<div class="chip" data-value="${opt}">${opt}</div>`
+    `<div class="chip" data-value="${opt}">${translateTag(opt, currentLang)}</div>`
   ).join('');
 
   interestChips.querySelectorAll('.chip').forEach(chip => {
@@ -309,14 +356,14 @@ function renderLangToggle() {
       savePrefs();
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderMonthTabs();  // 언어 바뀌면 월 라벨(영문 Jan/Feb 등)도 갱신
+      renderMonthTabs();
       renderRegionBar();
+      renderFilterBar();
       renderCards();
     });
   });
 }
 
-/* 고정 1~12월 대신, monthWindow(오늘부터 앞으로 12개월)로 탭 생성 */
 function renderMonthTabs() {
   const container = document.getElementById('monthTabs');
   container.innerHTML = '';
@@ -337,6 +384,7 @@ function renderMonthTabs() {
   });
 }
 
+/* 지역 칩: 화면 표시는 translateSido()로 번역, 필터링용 data-value는 한국어 그대로 유지 */
 function renderRegionBar() {
   const t = UI_TEXT[currentLang];
   const uniqueSidos = [...new Set(allFestivals.map(f => f.sido).filter(Boolean))].sort();
@@ -346,7 +394,7 @@ function renderRegionBar() {
     `<div class="chip ${selectedRegion === null ? 'selected' : ''}" data-value="">${t.allRegions}</div>` +
     uniqueSidos.map(sido => {
       const active = selectedRegion === sido ? 'selected' : '';
-      return `<div class="chip ${active}" data-value="${sido}">${sido}</div>`;
+      return `<div class="chip ${active}" data-value="${sido}">${translateSido(sido, currentLang)}</div>`;
     }).join('');
 
   container.querySelectorAll('.chip').forEach(chip => {
@@ -360,11 +408,12 @@ function renderRegionBar() {
   });
 }
 
+/* 관심사 칩: 화면 표시는 translateTag()로 번역, data-value(필터링 기준)는 한국어 그대로 유지 */
 function renderFilterBar() {
   const container = document.getElementById('filterBar');
   container.innerHTML = INTEREST_OPTIONS.map(opt => {
     const active = userInterests.includes(opt) ? 'selected' : '';
-    return `<div class="chip ${active}" data-value="${opt}">${opt}</div>`;
+    return `<div class="chip ${active}" data-value="${opt}">${translateTag(opt, currentLang)}</div>`;
   }).join('');
 
   container.querySelectorAll('.chip').forEach(chip => {
@@ -393,7 +442,6 @@ async function loadData() {
   }
 }
 
-/* "YYYY-MM-DD" 문자열 → { year, month } */
 function getYearMonth(dateStr) {
   if (!dateStr) return null;
   const parts = dateStr.split('-');
@@ -401,10 +449,9 @@ function getYearMonth(dateStr) {
   return { year: parseInt(parts[0], 10), month: parseInt(parts[1], 10) };
 }
 
-/* 오늘보다 이전에 완전히 끝난 축제인지 확인 (날짜 비교는 문자열 그대로 가능: YYYY-MM-DD 형식) */
 function isAlreadyEnded(endDateStr) {
   if (!endDateStr) return false;
-  const todayStr = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+  const todayStr = new Date().toISOString().slice(0, 10);
   return endDateStr < todayStr;
 }
 
@@ -415,7 +462,7 @@ function renderCards() {
     const ym = getYearMonth(f.start_date);
     if (!ym) return false;
     if (ym.year !== currentYearMonth.year || ym.month !== currentYearMonth.month) return false;
-    if (isAlreadyEnded(f.end_date)) return false; // 이미 종료된 축제는 제외
+    if (isAlreadyEnded(f.end_date)) return false;
     return true;
   });
 
@@ -439,15 +486,19 @@ function renderCards() {
 
   container.innerHTML = filtered.map(f => {
     const trans = (f.translations && f.translations[currentLang]) || {};
-    const tags = (trans.tags_interest || []).concat(trans.tags_companion || []);
+    const rawTags = (trans.tags_interest || []).concat(trans.tags_companion || []);
+    const displayTags = rawTags.map(tag => translateTag(tag, currentLang));
+    const sidoDisplay = translateSido(f.sido, currentLang);
+    const sigunguDisplay = f.sigungu; // 시군구는 코드표가 커서 당장은 원문 유지
+
     return `
       <div class="card" data-id="${f.festival_id}">
         ${f.image_url ? `<img class="card-image" src="${f.image_url}" loading="lazy">` : ''}
         <div class="card-body">
           <div class="card-title">${f.name_ko}</div>
-          <div class="card-date">📍 ${f.sido} ${f.sigungu} · ${f.start_date} ~ ${f.end_date}</div>
+          <div class="card-date">📍 ${sidoDisplay} ${sigunguDisplay} · ${f.start_date} ~ ${f.end_date}</div>
           <div class="card-summary">${trans.summary || ''}</div>
-          <div class="card-tags">${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+          <div class="card-tags">${displayTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
         </div>
       </div>`;
   }).join('');
@@ -463,11 +514,12 @@ function renderCards() {
 function showDetail(festival) {
   const t = UI_TEXT[currentLang];
   const trans = (festival.translations && festival.translations[currentLang]) || {};
+  const sidoDisplay = translateSido(festival.sido, currentLang);
 
   document.getElementById('detailContent').innerHTML = `
     ${festival.image_url ? `<img class="detail-image" src="${festival.image_url}">` : ''}
     <h2>${festival.name_ko}</h2>
-    <div class="card-date" style="margin:8px 0 16px;">📍 ${festival.sido} ${festival.sigungu} · ${festival.start_date} ~ ${festival.end_date}</div>
+    <div class="card-date" style="margin:8px 0 16px;">📍 ${sidoDisplay} ${festival.sigungu} · ${festival.start_date} ~ ${festival.end_date}</div>
 
     <div class="detail-section"><p>${trans.summary || ''}</p></div>
 
