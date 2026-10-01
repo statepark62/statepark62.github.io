@@ -168,8 +168,6 @@
 const DATA_URL = 'https://statepark62.github.io/festival/data/festivals.json';
 const STORAGE_KEY = 'festival_app_prefs';
 
-/* 내부적으로는 항상 한국어 값(INTEREST_OPTIONS/COMPANION_OPTIONS)을 기준으로 필터링하고,
-   화면 표시만 TAG_NAME_MAP / SIDO_NAME_MAP으로 번역해서 보여준다. */
 const INTEREST_OPTIONS = ['전통민속','먹거리','공연예술','자연생태','체험형','야간축제'];
 const COMPANION_OPTIONS = ['가족','연인','친구','나홀로','시니어'];
 
@@ -259,7 +257,7 @@ let currentYearMonth = null;
 let monthWindow = [];
 let userInterests = [];
 let userCompanion = null;
-let selectedRegion = null;
+let selectedRegions = []; // ← 배열로 변경: 복수 선택. 빈 배열이면 전체지역
 
 async function init() {
   loadPrefs();
@@ -384,31 +382,39 @@ function renderMonthTabs() {
   });
 }
 
-/* 지역 칩: 화면 표시는 translateSido()로 번역, 필터링용 data-value는 한국어 그대로 유지 */
+/* 지역 필터: 복수 선택. "전체지역" 클릭 시 선택 전부 해제, 개별 지역은 토글 방식 */
 function renderRegionBar() {
   const t = UI_TEXT[currentLang];
   const uniqueSidos = [...new Set(allFestivals.map(f => f.sido).filter(Boolean))].sort();
   const container = document.getElementById('regionBar');
 
+  const allActive = selectedRegions.length === 0 ? 'selected' : '';
   container.innerHTML =
-    `<div class="chip ${selectedRegion === null ? 'selected' : ''}" data-value="">${t.allRegions}</div>` +
+    `<div class="chip ${allActive}" data-value="">${t.allRegions}</div>` +
     uniqueSidos.map(sido => {
-      const active = selectedRegion === sido ? 'selected' : '';
+      const active = selectedRegions.includes(sido) ? 'selected' : '';
       return `<div class="chip ${active}" data-value="${sido}">${translateSido(sido, currentLang)}</div>`;
     }).join('');
 
   container.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
       const val = chip.dataset.value;
-      selectedRegion = val === '' ? null : val;
-      container.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-      chip.classList.add('selected');
+
+      if (val === '') {
+        // "전체지역" 클릭 → 모든 선택 해제
+        selectedRegions = [];
+      } else if (selectedRegions.includes(val)) {
+        selectedRegions = selectedRegions.filter(s => s !== val);
+      } else {
+        selectedRegions.push(val);
+      }
+
+      renderRegionBar(); // 선택 상태(전체지역 포함) 다시 그리기
       renderCards();
     });
   });
 }
 
-/* 관심사 칩: 화면 표시는 translateTag()로 번역, data-value(필터링 기준)는 한국어 그대로 유지 */
 function renderFilterBar() {
   const container = document.getElementById('filterBar');
   container.innerHTML = INTEREST_OPTIONS.map(opt => {
@@ -466,8 +472,8 @@ function renderCards() {
     return true;
   });
 
-  if (selectedRegion) {
-    filtered = filtered.filter(f => f.sido === selectedRegion);
+  if (selectedRegions.length > 0) {
+    filtered = filtered.filter(f => selectedRegions.includes(f.sido));
   }
 
   if (userInterests.length > 0) {
@@ -489,7 +495,7 @@ function renderCards() {
     const rawTags = (trans.tags_interest || []).concat(trans.tags_companion || []);
     const displayTags = rawTags.map(tag => translateTag(tag, currentLang));
     const sidoDisplay = translateSido(f.sido, currentLang);
-    const sigunguDisplay = f.sigungu; // 시군구는 코드표가 커서 당장은 원문 유지
+    const sigunguDisplay = f.sigungu;
 
     return `
       <div class="card" data-id="${f.festival_id}">
