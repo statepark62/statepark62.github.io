@@ -10,6 +10,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#2d6a4f">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   :root {
     --primary: #2d6a4f;
@@ -39,7 +40,7 @@
     gap: 8px; flex-wrap: wrap;
   }
   header h1 { font-size: 18px; color: var(--primary); }
-  .header-right { display: flex; align-items: center; gap: 8px; }
+  .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .lang-toggle { display: flex; gap: 4px; }
   .lang-toggle button {
     border: 1px solid var(--border); background: var(--card-bg);
@@ -58,7 +59,15 @@
     background: var(--accent); color: white; font-size: 11px;
     border-radius: 10px; padding: 1px 6px; min-width: 16px; text-align: center;
   }
-  .scrap-toggle-btn.active .count { background: var(--accent); }
+
+  .login-btn {
+    display: flex; align-items: center; gap: 6px;
+    border: 1px solid var(--border); background: var(--card-bg);
+    padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px;
+    color: var(--text);
+  }
+  .login-btn.logged-in { background: #e8f5e9; border-color: var(--primary); color: var(--primary); }
+  .sync-status { font-size: 11px; color: var(--text-muted); }
 
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.5);
@@ -86,7 +95,6 @@
     background: var(--primary); color: white; border: none;
     padding: 10px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600;
   }
-  .btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
 
   .month-tabs {
     display: flex; overflow-x: auto; gap: 6px; padding: 12px 0;
@@ -163,6 +171,7 @@
 <header>
   <h1>🎪 전국 축제 캘린더</h1>
   <div class="header-right">
+    <button class="login-btn" id="loginBtn">👤 로그인</button>
     <button class="scrap-toggle-btn" id="scrapToggleBtn">
       <span>❤️</span><span id="scrapToggleLabel">내 찜</span><span class="count" id="scrapCount">0</span>
     </button>
@@ -186,17 +195,14 @@
   <div class="modal">
     <h2 id="onboardTitle">관심사를 선택해주세요</h2>
     <p class="sub" id="onboardSub">선택하신 취향에 맞는 축제를 우선적으로 보여드려요</p>
-
     <div class="modal-section">
       <label class="title" id="interestLabel">관심 카테고리 (복수 선택 가능)</label>
       <div class="chip-group" id="interestChips"></div>
     </div>
-
     <div class="modal-section">
       <label class="title" id="companionLabel">누구와 함께 가시나요?</label>
       <div class="chip-group" id="companionChips"></div>
     </div>
-
     <div class="modal-footer">
       <button class="btn-primary" id="onboardSubmit">시작하기</button>
     </div>
@@ -211,9 +217,18 @@
 </div>
 
 <script>
+/* ===== Google 로그인 설정 ===== */
+const GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com'; // ← 본인의 OAuth 클라이언트 ID로 교체
+const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.appdata';
+const SCRAP_FILE_NAME = 'festival_scraps.json';
+
+let accessToken = null;
+let driveFileId = null;
+let tokenClient = null;
+
 const DATA_URL = 'https://statepark62.github.io/festival/data/festivals.json';
 const STORAGE_KEY = 'festival_app_prefs';
-const SCRAP_STORAGE_KEY = 'festival_app_scraps'; // 찜한 festival_id 배열 저장
+const SCRAP_STORAGE_KEY = 'festival_app_scraps';
 
 const INTEREST_OPTIONS = ['전통민속','먹거리','공연예술','자연생태','체험형','야간축제'];
 const COMPANION_OPTIONS = ['가족','연인','친구','나홀로','시니어'];
@@ -252,54 +267,39 @@ const SIDO_NAME_MAP = {
   '제주특별자치도': { en: 'Jeju-do',         ja: '済州特別自治道',     zh: '济州特别自治道' }
 };
 
-function translateTag(koreanTag, lang) {
-  if (lang === 'ko') return koreanTag;
-  const entry = TAG_NAME_MAP[koreanTag];
-  return entry ? (entry[lang] || koreanTag) : koreanTag;
-}
-
-function translateSido(koreanSido, lang) {
-  if (lang === 'ko' || !koreanSido) return koreanSido;
-  const entry = SIDO_NAME_MAP[koreanSido];
-  return entry ? (entry[lang] || koreanSido) : koreanSido;
-}
+function translateTag(k, lang) { if (lang === 'ko') return k; const e = TAG_NAME_MAP[k]; return e ? (e[lang] || k) : k; }
+function translateSido(k, lang) { if (lang === 'ko' || !k) return k; const e = SIDO_NAME_MAP[k]; return e ? (e[lang] || k) : k; }
 
 const MONTH_LABELS = {
-  ko: m => `${m}월`,
-  en: m => new Date(2000, m - 1, 1).toLocaleString('en-US', { month: 'short' }),
-  ja: m => `${m}月`,
-  zh: m => `${m}月`
+  ko: m => `${m}월`, en: m => new Date(2000, m - 1, 1).toLocaleString('en-US', { month: 'short' }),
+  ja: m => `${m}月`, zh: m => `${m}月`
 };
 
 const UI_TEXT = {
-  ko: {
-    onboardTitle: '관심사를 선택해주세요', onboardSub: '선택하신 취향에 맞는 축제를 우선적으로 보여드려요',
+  ko: { onboardTitle: '관심사를 선택해주세요', onboardSub: '선택하신 취향에 맞는 축제를 우선적으로 보여드려요',
     interestLabel: '관심 카테고리 (복수 선택 가능)', companionLabel: '누구와 함께 가시나요?',
     start: '시작하기', noResult: '조건에 맞는 축제가 없습니다', loading: '불러오는 중...',
     access: '교통 안내', background: '유래·배경', activities: '추천 활동', allRegions: '전체지역',
-    myScraps: '내 찜', noScraps: '아직 찜한 축제가 없습니다'
-  },
-  en: {
-    onboardTitle: 'What are you interested in?', onboardSub: "We'll prioritize festivals matching your taste",
+    myScraps: '내 찜', noScraps: '아직 찜한 축제가 없습니다',
+    login: '로그인', loggedIn: '동기화됨', syncing: '동기화 중...' },
+  en: { onboardTitle: 'What are you interested in?', onboardSub: "We'll prioritize festivals matching your taste",
     interestLabel: 'Interest categories (select multiple)', companionLabel: 'Who are you going with?',
     start: 'Get Started', noResult: 'No festivals match your filters', loading: 'Loading...',
     access: 'Getting There', background: 'Background', activities: 'Recommended Activities', allRegions: 'All Regions',
-    myScraps: 'Saved', noScraps: 'No saved festivals yet'
-  },
-  ja: {
-    onboardTitle: '興味のあるジャンルを選んでください', onboardSub: 'お好みに合ったお祭りを優先的にご紹介します',
+    myScraps: 'Saved', noScraps: 'No saved festivals yet',
+    login: 'Sign in', loggedIn: 'Synced', syncing: 'Syncing...' },
+  ja: { onboardTitle: '興味のあるジャンルを選んでください', onboardSub: 'お好みに合ったお祭りを優先的にご紹介します',
     interestLabel: '興味のあるカテゴリー（複数選択可）', companionLabel: '誰と一緒に行きますか？',
     start: 'はじめる', noResult: '条件に合うお祭りがありません', loading: '読み込み中...',
     access: 'アクセス', background: '由来・背景', activities: 'おすすめの楽しみ方', allRegions: '全地域',
-    myScraps: '保存済み', noScraps: 'まだ保存したお祭りがありません'
-  },
-  zh: {
-    onboardTitle: '请选择您感兴趣的类别', onboardSub: '我们将优先为您推荐符合您喜好的节日',
+    myScraps: '保存済み', noScraps: 'まだ保存したお祭りがありません',
+    login: 'ログイン', loggedIn: '同期済み', syncing: '同期中...' },
+  zh: { onboardTitle: '请选择您感兴趣的类别', onboardSub: '我们将优先为您推荐符合您喜好的节日',
     interestLabel: '兴趣类别（可多选）', companionLabel: '您打算和谁一起去？',
     start: '开始', noResult: '没有符合条件的节日', loading: '加载中...',
     access: '交通指南', background: '由来·背景', activities: '推荐活动', allRegions: '全部地区',
-    myScraps: '已收藏', noScraps: '还没有收藏的节日'
-  }
+    myScraps: '已收藏', noScraps: '还没有收藏的节日',
+    login: '登录', loggedIn: '已同步', syncing: '同步中...' }
 };
 
 let allFestivals = [];
@@ -309,8 +309,8 @@ let monthWindow = [];
 let userInterests = [];
 let userCompanion = null;
 let selectedRegions = [];
-let scrapedIds = [];       // 찜한 festival_id 목록
-let showScrapsOnly = false; // 찜 목록만 보기 모드
+let scrapedIds = [];
+let showScrapsOnly = false;
 
 async function init() {
   loadPrefs();
@@ -319,6 +319,7 @@ async function init() {
   renderOnboardingIfNeeded();
   renderLangToggle();
   renderScrapToggle();
+  renderLoginButton();
   renderMonthTabs();
   await loadData();
   renderRegionBar();
@@ -330,7 +331,6 @@ function buildMonthWindow() {
   const today = new Date();
   const baseYear = today.getFullYear();
   const baseMonth = today.getMonth() + 1;
-
   monthWindow = [];
   for (let i = 0; i < 12; i++) {
     const m = ((baseMonth - 1 + i) % 12) + 1;
@@ -349,30 +349,21 @@ function loadPrefs() {
     currentLang = prefs.lang || 'ko';
   }
 }
-
 function savePrefs() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    interests: userInterests, companion: userCompanion, lang: currentLang
-  }));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ interests: userInterests, companion: userCompanion, lang: currentLang }));
 }
 
-/* ---------- 찜 기능 ---------- */
+/* ---------- 찜 기능 (로컬) ---------- */
 function loadScraps() {
   try {
     const saved = localStorage.getItem(SCRAP_STORAGE_KEY);
     scrapedIds = saved ? JSON.parse(saved) : [];
-  } catch (e) {
-    scrapedIds = [];
-  }
+  } catch (e) { scrapedIds = []; }
 }
-
-function saveScraps() {
+function saveScrapsLocal() {
   localStorage.setItem(SCRAP_STORAGE_KEY, JSON.stringify(scrapedIds));
 }
-
-function isScraped(festivalId) {
-  return scrapedIds.includes(festivalId);
-}
+function isScraped(id) { return scrapedIds.includes(id); }
 
 function toggleScrap(festivalId) {
   if (isScraped(festivalId)) {
@@ -380,8 +371,11 @@ function toggleScrap(festivalId) {
   } else {
     scrapedIds.push(festivalId);
   }
-  saveScraps();
+  saveScrapsLocal();
   updateScrapCount();
+  if (accessToken) {
+    driveWriteScraps(scrapedIds); // 로그인 상태면 클라우드에도 반영
+  }
 }
 
 function updateScrapCount() {
@@ -390,10 +384,8 @@ function updateScrapCount() {
 }
 
 function renderScrapToggle() {
-  const t = UI_TEXT[currentLang];
-  document.getElementById('scrapToggleLabel').textContent = t.myScraps;
+  document.getElementById('scrapToggleLabel').textContent = UI_TEXT[currentLang].myScraps;
   updateScrapCount();
-
   const btn = document.getElementById('scrapToggleBtn');
   btn.classList.toggle('active', showScrapsOnly);
   btn.addEventListener('click', () => {
@@ -403,11 +395,106 @@ function renderScrapToggle() {
   });
 }
 
+/* ---------- Google 로그인 + Drive appDataFolder 동기화 ---------- */
+function renderLoginButton() {
+  const btn = document.getElementById('loginBtn');
+  btn.textContent = `👤 ${UI_TEXT[currentLang].login}`;
+
+  if (typeof google === 'undefined' || !google.accounts) {
+    // 스크립트 로드 전이면 잠시 후 재시도
+    setTimeout(renderLoginButton, 300);
+    return;
+  }
+
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: GOOGLE_CLIENT_ID,
+    scope: DRIVE_SCOPE,
+    callback: async (response) => {
+      if (response.error) { console.error(response); return; }
+      accessToken = response.access_token;
+      btn.textContent = `✓ ${UI_TEXT[currentLang].syncing}`;
+      btn.classList.add('logged-in');
+      await syncOnLogin();
+      btn.textContent = `✓ ${UI_TEXT[currentLang].loggedIn}`;
+    }
+  });
+
+  btn.addEventListener('click', () => {
+    if (!accessToken) {
+      tokenClient.requestAccessToken();
+    }
+  });
+}
+
+async function driveFindOrCreateFile() {
+  // appDataFolder 안에서 파일 검색
+  const listRes = await fetch(
+    `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=name='${SCRAP_FILE_NAME}'&fields=files(id,name)`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  );
+  const listData = await listRes.json();
+
+  if (listData.files && listData.files.length > 0) {
+    driveFileId = listData.files[0].id;
+    return;
+  }
+
+  // 없으면 새로 생성 (빈 배열로 시작)
+  const metadata = { name: SCRAP_FILE_NAME, parents: ['appDataFolder'] };
+  const boundary = 'festival_app_boundary';
+  const body =
+    `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n` +
+    `--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify({ ids: [] })}\r\n--${boundary}--`;
+
+  const createRes = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': `multipart/related; boundary=${boundary}` },
+    body
+  });
+  const createData = await createRes.json();
+  driveFileId = createData.id;
+}
+
+async function driveReadScraps() {
+  const res = await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`, {
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+  if (!res.ok) return [];
+  try {
+    const data = await res.json();
+    return data.ids || [];
+  } catch (e) { return []; }
+}
+
+async function driveWriteScraps(ids) {
+  if (!driveFileId) return;
+  await fetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`, {
+    method: 'PATCH',
+    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ids })
+  });
+}
+
+async function syncOnLogin() {
+  try {
+    await driveFindOrCreateFile();
+    const cloudIds = await driveReadScraps();
+    // 로컬 + 클라우드 합집합으로 병합 (기기 간 자료를 서로 잃지 않도록)
+    const merged = [...new Set([...scrapedIds, ...cloudIds])];
+    scrapedIds = merged;
+    saveScrapsLocal();
+    await driveWriteScraps(merged);
+    updateScrapCount();
+    renderCards();
+  } catch (e) {
+    console.error('동기화 실패:', e);
+  }
+}
+
 /* ---------- 온보딩 ---------- */
 function renderOnboardingIfNeeded() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) return;
-
   const t = UI_TEXT[currentLang];
   document.getElementById('onboardTitle').textContent = t.onboardTitle;
   document.getElementById('onboardSub').textContent = t.onboardSub;
@@ -416,29 +503,20 @@ function renderOnboardingIfNeeded() {
   document.getElementById('onboardSubmit').textContent = t.start;
 
   const interestChips = document.getElementById('interestChips');
-  interestChips.innerHTML = INTEREST_OPTIONS.map(opt =>
-    `<div class="chip" data-value="${opt}">${translateTag(opt, currentLang)}</div>`
-  ).join('');
-
+  interestChips.innerHTML = INTEREST_OPTIONS.map(opt => `<div class="chip" data-value="${opt}">${translateTag(opt, currentLang)}</div>`).join('');
   const companionChips = document.getElementById('companionChips');
-  companionChips.innerHTML = COMPANION_OPTIONS.map(opt =>
-    `<div class="chip" data-value="${opt}">${translateTag(opt, currentLang)}</div>`
-  ).join('');
+  companionChips.innerHTML = COMPANION_OPTIONS.map(opt => `<div class="chip" data-value="${opt}">${translateTag(opt, currentLang)}</div>`).join('');
 
-  interestChips.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => chip.classList.toggle('selected'));
-  });
-  companionChips.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      companionChips.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-      chip.classList.add('selected');
-    });
-  });
+  interestChips.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => c.classList.toggle('selected')));
+  companionChips.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+    companionChips.querySelectorAll('.chip').forEach(x => x.classList.remove('selected'));
+    c.classList.add('selected');
+  }));
 
   document.getElementById('onboardSubmit').addEventListener('click', () => {
     userInterests = [...interestChips.querySelectorAll('.chip.selected')].map(c => c.dataset.value);
-    const companionSelected = companionChips.querySelector('.chip.selected');
-    userCompanion = companionSelected ? companionSelected.dataset.value : null;
+    const sel = companionChips.querySelector('.chip.selected');
+    userCompanion = sel ? sel.dataset.value : null;
     savePrefs();
     document.getElementById('onboardingModal').style.display = 'none';
     renderFilterBar();
@@ -458,6 +536,7 @@ function renderLangToggle() {
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('scrapToggleLabel').textContent = UI_TEXT[currentLang].myScraps;
+      document.getElementById('loginBtn').textContent = accessToken ? `✓ ${UI_TEXT[currentLang].loggedIn}` : `👤 ${UI_TEXT[currentLang].login}`;
       renderMonthTabs();
       renderRegionBar();
       renderFilterBar();
@@ -470,7 +549,6 @@ function renderMonthTabs() {
   const container = document.getElementById('monthTabs');
   container.innerHTML = '';
   const labelFn = MONTH_LABELS[currentLang];
-
   monthWindow.forEach(ym => {
     const tab = document.createElement('div');
     const isActive = ym.year === currentYearMonth.year && ym.month === currentYearMonth.month;
@@ -492,25 +570,16 @@ function renderRegionBar() {
   const t = UI_TEXT[currentLang];
   const uniqueSidos = [...new Set(allFestivals.map(f => f.sido).filter(Boolean))].sort();
   const container = document.getElementById('regionBar');
-
   const allActive = selectedRegions.length === 0 ? 'selected' : '';
-  container.innerHTML =
-    `<div class="chip ${allActive}" data-value="">${t.allRegions}</div>` +
-    uniqueSidos.map(sido => {
-      const active = selectedRegions.includes(sido) ? 'selected' : '';
-      return `<div class="chip ${active}" data-value="${sido}">${translateSido(sido, currentLang)}</div>`;
-    }).join('');
+  container.innerHTML = `<div class="chip ${allActive}" data-value="">${t.allRegions}</div>` +
+    uniqueSidos.map(sido => `<div class="chip ${selectedRegions.includes(sido) ? 'selected' : ''}" data-value="${sido}">${translateSido(sido, currentLang)}</div>`).join('');
 
   container.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
       const val = chip.dataset.value;
-      if (val === '') {
-        selectedRegions = [];
-      } else if (selectedRegions.includes(val)) {
-        selectedRegions = selectedRegions.filter(s => s !== val);
-      } else {
-        selectedRegions.push(val);
-      }
+      if (val === '') selectedRegions = [];
+      else if (selectedRegions.includes(val)) selectedRegions = selectedRegions.filter(s => s !== val);
+      else selectedRegions.push(val);
       renderRegionBar();
       renderCards();
     });
@@ -519,19 +588,12 @@ function renderRegionBar() {
 
 function renderFilterBar() {
   const container = document.getElementById('filterBar');
-  container.innerHTML = INTEREST_OPTIONS.map(opt => {
-    const active = userInterests.includes(opt) ? 'selected' : '';
-    return `<div class="chip ${active}" data-value="${opt}">${translateTag(opt, currentLang)}</div>`;
-  }).join('');
-
+  container.innerHTML = INTEREST_OPTIONS.map(opt => `<div class="chip ${userInterests.includes(opt) ? 'selected' : ''}" data-value="${opt}">${translateTag(opt, currentLang)}</div>`).join('');
   container.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
       const val = chip.dataset.value;
-      if (userInterests.includes(val)) {
-        userInterests = userInterests.filter(i => i !== val);
-      } else {
-        userInterests.push(val);
-      }
+      if (userInterests.includes(val)) userInterests = userInterests.filter(i => i !== val);
+      else userInterests.push(val);
       chip.classList.toggle('selected');
       savePrefs();
       renderCards();
@@ -546,7 +608,6 @@ async function loadData() {
     allFestivals = await res.json();
   } catch (e) {
     document.getElementById('cardList').innerHTML = '<div class="empty-state">데이터를 불러오지 못했습니다.</div>';
-    console.error(e);
   }
 }
 
@@ -556,11 +617,9 @@ function getYearMonth(dateStr) {
   if (parts.length < 2) return null;
   return { year: parseInt(parts[0], 10), month: parseInt(parts[1], 10) };
 }
-
 function isAlreadyEnded(endDateStr) {
   if (!endDateStr) return false;
-  const todayStr = new Date().toISOString().slice(0, 10);
-  return endDateStr < todayStr;
+  return endDateStr < new Date().toISOString().slice(0, 10);
 }
 
 function renderCards() {
@@ -568,9 +627,7 @@ function renderCards() {
   let filtered;
 
   if (showScrapsOnly) {
-    /* 찜 목록 모드: 월/지역/관심사 필터 무시, 찜한 것만 날짜순 정렬 */
-    filtered = allFestivals
-      .filter(f => scrapedIds.includes(f.festival_id))
+    filtered = allFestivals.filter(f => scrapedIds.includes(f.festival_id))
       .sort((a, b) => (a.start_date || '').localeCompare(b.start_date || ''));
   } else {
     filtered = allFestivals.filter(f => {
@@ -580,15 +637,11 @@ function renderCards() {
       if (isAlreadyEnded(f.end_date)) return false;
       return true;
     });
-
-    if (selectedRegions.length > 0) {
-      filtered = filtered.filter(f => selectedRegions.includes(f.sido));
-    }
-
+    if (selectedRegions.length > 0) filtered = filtered.filter(f => selectedRegions.includes(f.sido));
     if (userInterests.length > 0) {
       filtered = filtered.filter(f => {
         const trans = f.translations && f.translations[currentLang];
-        if (!trans || !trans.tags_interest) return true; // 번역 없으면 일단 통과
+        if (!trans || !trans.tags_interest) return true;
         return trans.tags_interest.some(tag => userInterests.includes(tag));
       });
     }
@@ -605,51 +658,39 @@ function renderCards() {
     const rawTags = (trans.tags_interest || []).concat(trans.tags_companion || []);
     const displayTags = rawTags.map(tag => translateTag(tag, currentLang));
     const sidoDisplay = translateSido(f.sido, currentLang);
-    const sigunguDisplay = f.sigungu;
     const scrapped = isScraped(f.festival_id);
     const heart = scrapped ? '❤️' : '🤍';
 
     const imageBlock = f.image_url
-      ? `<div class="card-image-wrap">
-           <img class="card-image" src="${f.image_url}" loading="lazy">
-           <button class="scrap-btn" data-scrap-id="${f.festival_id}">${heart}</button>
-         </div>`
+      ? `<div class="card-image-wrap"><img class="card-image" src="${f.image_url}" loading="lazy"><button class="scrap-btn" data-scrap-id="${f.festival_id}">${heart}</button></div>`
       : '';
-
     const topRow = f.image_url
       ? `<div class="card-title">${f.name_ko}</div>`
-      : `<div class="card-body-top">
-           <div class="card-title">${f.name_ko}</div>
-           <button class="scrap-btn no-image" data-scrap-id="${f.festival_id}">${heart}</button>
-         </div>`;
+      : `<div class="card-body-top"><div class="card-title">${f.name_ko}</div><button class="scrap-btn no-image" data-scrap-id="${f.festival_id}">${heart}</button></div>`;
 
-    return `
-      <div class="card" data-id="${f.festival_id}">
+    return `<div class="card" data-id="${f.festival_id}">
         ${imageBlock}
         <div class="card-body">
           ${topRow}
-          <div class="card-date">📍 ${sidoDisplay} ${sigunguDisplay} · ${f.start_date} ~ ${f.end_date}</div>
+          <div class="card-date">📍 ${sidoDisplay} ${f.sigungu} · ${f.start_date} ~ ${f.end_date}</div>
           <div class="card-summary">${trans.summary || ''}</div>
           <div class="card-tags">${displayTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
         </div>
       </div>`;
   }).join('');
 
-  // 카드 클릭 → 상세보기
   container.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', (e) => {
-      if (e.target.closest('.scrap-btn')) return; // 찜 버튼 클릭은 상세보기로 안 이어짐
+      if (e.target.closest('.scrap-btn')) return;
       const festival = allFestivals.find(f => f.festival_id === card.dataset.id);
       showDetail(festival);
     });
   });
-
-  // 찜 버튼 클릭 → 토글 (이벤트 버블링 막고 카드 리렌더)
   container.querySelectorAll('.scrap-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleScrap(btn.dataset.scrapId);
-      renderCards(); // 하트 아이콘 갱신 + 찜목록 모드였다면 즉시 목록에서 빠지도록
+      renderCards();
     });
   });
 }
@@ -662,44 +703,20 @@ function showDetail(festival) {
   const heart = scrapped ? '❤️' : '🤍';
 
   const imageBlock = festival.image_url
-    ? `<div class="detail-image-wrap">
-         <img class="detail-image" src="${festival.image_url}">
-         <button class="detail-scrap-btn" data-scrap-id="${festival.festival_id}">${heart}</button>
-       </div>`
+    ? `<div class="detail-image-wrap"><img class="detail-image" src="${festival.image_url}"><button class="detail-scrap-btn" data-scrap-id="${festival.festival_id}">${heart}</button></div>`
     : '';
-
   const titleRow = festival.image_url
     ? `<h2>${festival.name_ko}</h2>`
-    : `<div class="detail-title-row">
-         <h2>${festival.name_ko}</h2>
-         <button class="detail-scrap-btn-inline" data-scrap-id="${festival.festival_id}">${heart}</button>
-       </div>`;
+    : `<div class="detail-title-row"><h2>${festival.name_ko}</h2><button class="detail-scrap-btn-inline" data-scrap-id="${festival.festival_id}">${heart}</button></div>`;
 
   document.getElementById('detailContent').innerHTML = `
     ${imageBlock}
     ${titleRow}
     <div class="card-date" style="margin:8px 0 16px;">📍 ${sidoDisplay} ${festival.sigungu} · ${festival.start_date} ~ ${festival.end_date}</div>
-
     <div class="detail-section"><p>${trans.summary || ''}</p></div>
-
-    ${trans.cultural_background ? `
-    <div class="detail-section">
-      <h3>${t.background}</h3>
-      <p>${trans.cultural_background}</p>
-    </div>` : ''}
-
-    ${trans.recommended_activities && trans.recommended_activities.length ? `
-    <div class="detail-section">
-      <h3>${t.activities}</h3>
-      <ul>${trans.recommended_activities.map(a => `<li>${a}</li>`).join('')}</ul>
-    </div>` : ''}
-
-    ${trans.access_info ? `
-    <div class="detail-section">
-      <h3>${t.access}</h3>
-      <p>${trans.access_info}</p>
-    </div>` : ''}
-
+    ${trans.cultural_background ? `<div class="detail-section"><h3>${t.background}</h3><p>${trans.cultural_background}</p></div>` : ''}
+    ${trans.recommended_activities && trans.recommended_activities.length ? `<div class="detail-section"><h3>${t.activities}</h3><ul>${trans.recommended_activities.map(a => `<li>${a}</li>`).join('')}</ul></div>` : ''}
+    ${trans.access_info ? `<div class="detail-section"><h3>${t.access}</h3><p>${trans.access_info}</p></div>` : ''}
     ${festival.homepage_url ? `<p><a href="${festival.homepage_url}" target="_blank">공식 홈페이지 →</a></p>` : ''}
   `;
 
@@ -707,20 +724,16 @@ function showDetail(festival) {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleScrap(btn.dataset.scrapId);
-      showDetail(festival); // 상세보기 안의 하트 즉시 갱신
-      renderCards();         // 뒤에 깔린 카드 목록도 갱신
+      showDetail(festival);
+      renderCards();
     });
   });
 
   document.getElementById('detailModal').style.display = 'flex';
 }
 
-document.getElementById('detailClose').addEventListener('click', () => {
-  document.getElementById('detailModal').style.display = 'none';
-});
-document.getElementById('detailModal').addEventListener('click', (e) => {
-  if (e.target.id === 'detailModal') document.getElementById('detailModal').style.display = 'none';
-});
+document.getElementById('detailClose').addEventListener('click', () => { document.getElementById('detailModal').style.display = 'none'; });
+document.getElementById('detailModal').addEventListener('click', (e) => { if (e.target.id === 'detailModal') document.getElementById('detailModal').style.display = 'none'; });
 
 init();
 </script>
