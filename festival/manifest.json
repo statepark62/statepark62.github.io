@@ -1,0 +1,37 @@
+{
+  "name": "전국 축제 캘린더",
+  "short_name": "축제캘린더",
+  "description": "전국 지역축제를 월별로 모아보는 다국어 축제 정보 서비스",
+  "start_url": "/festival/",
+  "scope": "/festival/",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#2d6a4f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
