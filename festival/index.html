@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전국 축제 캘린더</title>
+<style>
+  :root {
+    --primary: #2d6a4f;
+    --primary-light: #74c69d;
+    --bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --text: #212529;
+    --text-muted: #6c757d;
+    --border: #e9ecef;
+    --accent: #e76f51;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .container { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+  /* 헤더 */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  header h1 { font-size: 18px; color: var(--primary); }
+  .lang-toggle { display: flex; gap: 4px; }
+  .lang-toggle button {
+    border: 1px solid var(--border); background: var(--card-bg);
+    padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 13px;
+  }
+  .lang-toggle button.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  /* 온보딩 모달 */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center; z-index: 100;
+    padding: 16px;
+  }
+  .modal {
+    background: var(--card-bg); border-radius: 16px; padding: 24px;
+    max-width: 420px; width: 100%; max-height: 85vh; overflow-y: auto;
+  }
+  .modal h2 { font-size: 20px; margin-bottom: 8px; }
+  .modal p.sub { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+  .modal-section { margin-bottom: 20px; }
+  .modal-section label.title { font-weight: 600; font-size: 14px; margin-bottom: 8px; display: block; }
+  .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    border: 1.5px solid var(--border); background: var(--card-bg);
+    padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 14px;
+    transition: all 0.15s;
+  }
+  .chip.selected { background: var(--primary); color: white; border-color: var(--primary); }
+  .modal-footer { display: flex; justify-content: flex-end; margin-top: 8px; }
+  .btn-primary {
+    background: var(--primary); color: white; border: none;
+    padding: 10px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600;
+  }
+  .btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
+  /* 월 탭 */
+  .month-tabs {
+    display: flex; overflow-x: auto; gap: 6px; padding: 12px 0;
+    scrollbar-width: none;
+  }
+  .month-tabs::-webkit-scrollbar { display: none; }
+  .month-tab {
+    flex-shrink: 0; border: 1px solid var(--border); background: var(--card-bg);
+    padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 14px; white-space: nowrap;
+  }
+  .month-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  /* 필터 바 */
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .filter-bar .chip { font-size: 13px; padding: 6px 12px; }
+
+  /* 카드 */
+  .card-list { display: flex; flex-direction: column; gap: 12px; }
+  .card {
+    background: var(--card-bg); border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: box-shadow 0.15s;
+  }
+  .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+  .card-image { width: 100%; height: 160px; object-fit: cover; background: var(--border); }
+  .card-body { padding: 14px; }
+  .card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .card-date { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+  .card-summary { font-size: 14px; color: var(--text); margin-bottom: 10px; }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { background: #e8f5e9; color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 10px; }
+
+  /* 상세 모달 */
+  .detail-modal .modal { max-width: 560px; }
+  .detail-image { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 16px; }
+  .detail-section { margin-bottom: 16px; }
+  .detail-section h3 { font-size: 14px; color: var(--primary); margin-bottom: 6px; }
+  .detail-section p { font-size: 14px; }
+  .detail-section ul { padding-left: 18px; font-size: 14px; }
+  .close-btn {
+    position: absolute; top: 16px; right: 16px; background: none; border: none;
+    font-size: 24px; cursor: pointer; color: var(--text-muted);
+  }
+  .modal { position: relative; }
+
+  .empty-state { text-align: center; padding: 40px 16px; color: var(--text-muted); }
+  .loading { text-align: center; padding: 40px; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎪 전국 축제 캘린더</h1>
+  <div class="lang-toggle" id="langToggle">
+    <button data-lang="ko" class="active">한국어</button>
+    <button data-lang="en">EN</button>
+    <button data-lang="ja">日本語</button>
+    <button data-lang="zh">中文</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="month-tabs" id="monthTabs"></div>
+  <div class="filter-bar" id="filterBar"></div>
+  <div id="cardList" class="card-list"></div>
+</div>
+
+<!-- 온보딩 모달 -->
+<div class="modal-overlay" id="onboardingModal" style="display:none;">
+  <div class="modal">
+    <h2 id="onboardTitle">관심사를 선택해주세요</h2>
+    <p class="sub" id="onboardSub">선택하신 취향에 맞는 축제를 우선적으로 보여드려요</p>
+
+    <div class="modal-section">
+      <label class="title" id="interestLabel">관심 카테고리 (복수 선택 가능)</label>
+      <div class="chip-group" id="interestChips"></div>
+    </div>
+
+    <div class="modal-section">
+      <label class="title" id="companionLabel">누구와 함께 가시나요?</label>
+      <div class="chip-group" id="companionChips"></div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-primary" id="onboardSubmit">시작하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 상세 모달 -->
+<div class="modal-overlay detail-modal" id="detailModal" style="display:none;">
+  <div class="modal">
+    <button class="close-btn" id="detailClose">×</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<script>
+const DATA_URL = 'https://statepark62.github.io/festival/data/festivals.json';
+const STORAGE_KEY = 'festival_app_prefs';
+
+const INTEREST_OPTIONS = ['전통민속','먹거리','공연예술','자연생태','체험형','야간축제'];
+const COMPANION_OPTIONS = ['가족','연인','친구','나홀로','시니어'];
+
+const UI_TEXT = {
+  ko: {
+    onboardTitle: '관심사를 선택해주세요', onboardSub: '선택하신 취향에 맞는 축제를 우선적으로 보여드려요',
+    interestLabel: '관심 카테고리 (복수 선택 가능)', companionLabel: '누구와 함께 가시나요?',
+    start: '시작하기', noResult: '조건에 맞는 축제가 없습니다', loading: '불러오는 중...',
+    access: '교통 안내', background: '유래·배경', activities: '추천 활동'
+  },
+  en: {
+    onboardTitle: 'What are you interested in?', onboardSub: "We'll prioritize festivals matching your taste",
+    interestLabel: 'Interest categories (select multiple)', companionLabel: 'Who are you going with?',
+    start: 'Get Started', noResult: 'No festivals match your filters', loading: 'Loading...',
+    access: 'Getting There', background: 'Background', activities: 'Recommended Activities'
+  },
+  ja: {
+    onboardTitle: '興味のあるジャンルを選んでください', onboardSub: 'お好みに合ったお祭りを優先的にご紹介します',
+    interestLabel: '興味のあるカテゴリー（複数選択可）', companionLabel: '誰と一緒に行きますか？',
+    start: 'はじめる', noResult: '条件に合うお祭りがありません', loading: '読み込み中...',
+    access: 'アクセス', background: '由来・背景', activities: 'おすすめの楽しみ方'
+  },
+  zh: {
+    onboardTitle: '请选择您感兴趣的类别', onboardSub: '我们将优先为您推荐符合您喜好的节日',
+    interestLabel: '兴趣类别（可多选）', companionLabel: '您打算和谁一起去？',
+    start: '开始', noResult: '没有符合条件的节日', loading: '加载中...',
+    access: '交通指南', background: '由来·背景', activities: '推荐活动'
+  }
+};
+
+let allFestivals = [];
+let currentLang = 'ko';
+let currentMonth = new Date().getMonth() + 1;
+let userInterests = [];
+let userCompanion = null;
+
+/* ---------- 초기화 ---------- */
+async function init() {
+  loadPrefs();
+  renderOnboardingIfNeeded();
+  renderLangToggle();
+  renderMonthTabs();
+  await loadData();
+  renderFilterBar();
+  renderCards();
+}
+
+function loadPrefs() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    const prefs = JSON.parse(saved);
+    userInterests = prefs.interests || [];
+    userCompanion = prefs.companion || null;
+    currentLang = prefs.lang || 'ko';
+  }
+}
+
+function savePrefs() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    interests: userInterests, companion: userCompanion, lang: currentLang
+  }));
+}
+
+/* ---------- 온보딩 ---------- */
+function renderOnboardingIfNeeded() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) return; // 이미 온보딩 완료
+
+  const t = UI_TEXT[currentLang];
+  document.getElementById('onboardTitle').textContent = t.onboardTitle;
+  document.getElementById('onboardSub').textContent = t.onboardSub;
+  document.getElementById('interestLabel').textContent = t.interestLabel;
+  document.getElementById('companionLabel').textContent = t.companionLabel;
+  document.getElementById('onboardSubmit').textContent = t.start;
+
+  const interestChips = document.getElementById('interestChips');
+  interestChips.innerHTML = INTEREST_OPTIONS.map(opt =>
+    `<div class="chip" data-value="${opt}">${opt}</div>`
+  ).join('');
+
+  const companionChips = document.getElementById('companionChips');
+  companionChips.innerHTML = COMPANION_OPTIONS.map(opt =>
+    `<div class="chip" data-value="${opt}">${opt}</div>`
+  ).join('');
+
+  interestChips.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('selected'));
+  });
+  companionChips.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      companionChips.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+    });
+  });
+
+  document.getElementById('onboardSubmit').addEventListener('click', () => {
+    userInterests = [...interestChips.querySelectorAll('.chip.selected')].map(c => c.dataset.value);
+    const companionSelected = companionChips.querySelector('.chip.selected');
+    userCompanion = companionSelected ? companionSelected.dataset.value : null;
+    savePrefs();
+    document.getElementById('onboardingModal').style.display = 'none';
+    renderFilterBar();
+    renderCards();
+  });
+
+  document.getElementById('onboardingModal').style.display = 'flex';
+}
+
+/* ---------- 언어 토글 ---------- */
+function renderLangToggle() {
+  const buttons = document.querySelectorAll('.lang-toggle button');
+  buttons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === currentLang);
+    btn.addEventListener('click', () => {
+      currentLang = btn.dataset.lang;
+      savePrefs();
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderCards();
+    });
+  });
+}
+
+/* ---------- 월 탭 ---------- */
+function renderMonthTabs() {
+  const container = document.getElementById('monthTabs');
+  container.innerHTML = '';
+  for (let m = 1; m <= 12; m++) {
+    const tab = document.createElement('div');
+    tab.className = 'month-tab' + (m === currentMonth ? ' active' : '');
+    tab.textContent = `${m}월`;
+    tab.addEventListener('click', () => {
+      currentMonth = m;
+      document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderCards();
+    });
+    container.appendChild(tab);
+  }
+}
+
+/* ---------- 필터 바 (선택한 관심사 표시, 토글 가능) ---------- */
+function renderFilterBar() {
+  const container = document.getElementById('filterBar');
+  container.innerHTML = INTEREST_OPTIONS.map(opt => {
+    const active = userInterests.includes(opt) ? 'selected' : '';
+    return `<div class="chip ${active}" data-value="${opt}">${opt}</div>`;
+  }).join('');
+
+  container.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chip.dataset.value;
+      if (userInterests.includes(val)) {
+        userInterests = userInterests.filter(i => i !== val);
+      } else {
+        userInterests.push(val);
+      }
+      chip.classList.toggle('selected');
+      savePrefs();
+      renderCards();
+    });
+  });
+}
+
+/* ---------- 데이터 로드 ---------- */
+async function loadData() {
+  document.getElementById('cardList').innerHTML = `<div class="loading">${UI_TEXT[currentLang].loading}</div>`;
+  try {
+    const res = await fetch(DATA_URL);
+    allFestivals = await res.json();
+  } catch (e) {
+    document.getElementById('cardList').innerHTML = '<div class="empty-state">데이터를 불러오지 못했습니다.</div>';
+    console.error(e);
+  }
+}
+
+/* ---------- 카드 렌더링 ---------- */
+function getMonthFromDate(dateStr) {
+  if (!dateStr) return null;
+  const parts = dateStr.split('-');
+  return parseInt(parts[1], 10);
+}
+
+function renderCards() {
+  const t = UI_TEXT[currentLang];
+  let filtered = allFestivals.filter(f => getMonthFromDate(f.start_date) === currentMonth);
+
+  // 관심사 필터 적용 (선택된 게 있으면 교집합 우선, 없으면 전체)
+  if (userInterests.length > 0) {
+    filtered = filtered.filter(f => {
+      const trans = f.translations && f.translations[currentLang];
+      if (!trans || !trans.tags_interest) return false;
+      return trans.tags_interest.some(tag => userInterests.includes(tag));
+    });
+  }
+
+  const container = document.getElementById('cardList');
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="empty-state">${t.noResult}</div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(f => {
+    const trans = (f.translations && f.translations[currentLang]) || {};
+    const tags = (trans.tags_interest || []).concat(trans.tags_companion || []);
+    return `
+      <div class="card" data-id="${f.festival_id}">
+        ${f.image_url ? `<img class="card-image" src="${f.image_url}" loading="lazy">` : ''}
+        <div class="card-body">
+          <div class="card-title">${f.name_ko}</div>
+          <div class="card-date">📍 ${f.sido} ${f.sigungu} · ${f.start_date} ~ ${f.end_date}</div>
+          <div class="card-summary">${trans.summary || ''}</div>
+          <div class="card-tags">${tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  container.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => {
+      const festival = allFestivals.find(f => f.festival_id === card.dataset.id);
+      showDetail(festival);
+    });
+  });
+}
+
+/* ---------- 상세 모달 ---------- */
+function showDetail(festival) {
+  const t = UI_TEXT[currentLang];
+  const trans = (festival.translations && festival.translations[currentLang]) || {};
+
+  document.getElementById('detailContent').innerHTML = `
+    ${festival.image_url ? `<img class="detail-image" src="${festival.image_url}">` : ''}
+    <h2>${festival.name_ko}</h2>
+    <div class="card-date" style="margin:8px 0 16px;">📍 ${festival.sido} ${festival.sigungu} · ${festival.start_date} ~ ${festival.end_date}</div>
+
+    <div class="detail-section"><p>${trans.summary || ''}</p></div>
+
+    ${trans.cultural_background ? `
+    <div class="detail-section">
+      <h3>${t.background}</h3>
+      <p>${trans.cultural_background}</p>
+    </div>` : ''}
+
+    ${trans.recommended_activities && trans.recommended_activities.length ? `
+    <div class="detail-section">
+      <h3>${t.activities}</h3>
+      <ul>${trans.recommended_activities.map(a => `<li>${a}</li>`).join('')}</ul>
+    </div>` : ''}
+
+    ${trans.access_info ? `
+    <div class="detail-section">
+      <h3>${t.access}</h3>
+      <p>${trans.access_info}</p>
+    </div>` : ''}
+
+    ${festival.homepage_url ? `<p><a href="${festival.homepage_url}" target="_blank">공식 홈페이지 →</a></p>` : ''}
+  `;
+  document.getElementById('detailModal').style.display = 'flex';
+}
+
+document.getElementById('detailClose').addEventListener('click', () => {
+  document.getElementById('detailModal').style.display = 'none';
+});
+document.getElementById('detailModal').addEventListener('click', (e) => {
+  if (e.target.id === 'detailModal') document.getElementById('detailModal').style.display = 'none';
+});
+
+init();
+</script>
+</body>
+</html>
