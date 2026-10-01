@@ -24,7 +24,6 @@
   }
   .container { max-width: 800px; margin: 0 auto; padding: 16px; }
 
-  /* 헤더 */
   header {
     position: sticky; top: 0; z-index: 10;
     background: var(--card-bg);
@@ -40,7 +39,6 @@
   }
   .lang-toggle button.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-  /* 온보딩 모달 */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.5);
     display: flex; align-items: center; justify-content: center; z-index: 100;
@@ -49,6 +47,7 @@
   .modal {
     background: var(--card-bg); border-radius: 16px; padding: 24px;
     max-width: 420px; width: 100%; max-height: 85vh; overflow-y: auto;
+    position: relative;
   }
   .modal h2 { font-size: 20px; margin-bottom: 8px; }
   .modal p.sub { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
@@ -68,7 +67,6 @@
   }
   .btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
 
-  /* 월 탭 */
   .month-tabs {
     display: flex; overflow-x: auto; gap: 6px; padding: 12px 0;
     scrollbar-width: none;
@@ -80,12 +78,11 @@
   }
   .month-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-  /* 필터 바 */
-  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
-  .filter-bar .chip { font-size: 13px; padding: 6px 12px; }
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; overflow-x: auto; }
+  .filter-bar .chip { font-size: 13px; padding: 6px 12px; flex-shrink: 0; }
+  .filter-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
 
-  /* 카드 */
-  .card-list { display: flex; flex-direction: column; gap: 12px; }
+  .card-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
   .card {
     background: var(--card-bg); border-radius: 12px; overflow: hidden;
     border: 1px solid var(--border); cursor: pointer;
@@ -100,7 +97,6 @@
   .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
   .tag { background: #e8f5e9; color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 10px; }
 
-  /* 상세 모달 */
   .detail-modal .modal { max-width: 560px; }
   .detail-image { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 16px; }
   .detail-section { margin-bottom: 16px; }
@@ -111,7 +107,6 @@
     position: absolute; top: 16px; right: 16px; background: none; border: none;
     font-size: 24px; cursor: pointer; color: var(--text-muted);
   }
-  .modal { position: relative; }
 
   .empty-state { text-align: center; padding: 40px 16px; color: var(--text-muted); }
   .loading { text-align: center; padding: 40px; color: var(--text-muted); }
@@ -131,11 +126,11 @@
 
 <div class="container">
   <div class="month-tabs" id="monthTabs"></div>
-  <div class="filter-bar" id="filterBar"></div>
+  <div id="regionBar" class="filter-bar"></div>
+  <div id="filterBar" class="filter-bar"></div>
   <div id="cardList" class="card-list"></div>
 </div>
 
-<!-- 온보딩 모달 -->
 <div class="modal-overlay" id="onboardingModal" style="display:none;">
   <div class="modal">
     <h2 id="onboardTitle">관심사를 선택해주세요</h2>
@@ -157,7 +152,6 @@
   </div>
 </div>
 
-<!-- 상세 모달 -->
 <div class="modal-overlay detail-modal" id="detailModal" style="display:none;">
   <div class="modal">
     <button class="close-btn" id="detailClose">×</button>
@@ -177,25 +171,25 @@ const UI_TEXT = {
     onboardTitle: '관심사를 선택해주세요', onboardSub: '선택하신 취향에 맞는 축제를 우선적으로 보여드려요',
     interestLabel: '관심 카테고리 (복수 선택 가능)', companionLabel: '누구와 함께 가시나요?',
     start: '시작하기', noResult: '조건에 맞는 축제가 없습니다', loading: '불러오는 중...',
-    access: '교통 안내', background: '유래·배경', activities: '추천 활동'
+    access: '교통 안내', background: '유래·배경', activities: '추천 활동', allRegions: '전체지역'
   },
   en: {
     onboardTitle: 'What are you interested in?', onboardSub: "We'll prioritize festivals matching your taste",
     interestLabel: 'Interest categories (select multiple)', companionLabel: 'Who are you going with?',
     start: 'Get Started', noResult: 'No festivals match your filters', loading: 'Loading...',
-    access: 'Getting There', background: 'Background', activities: 'Recommended Activities'
+    access: 'Getting There', background: 'Background', activities: 'Recommended Activities', allRegions: 'All Regions'
   },
   ja: {
     onboardTitle: '興味のあるジャンルを選んでください', onboardSub: 'お好みに合ったお祭りを優先的にご紹介します',
     interestLabel: '興味のあるカテゴリー（複数選択可）', companionLabel: '誰と一緒に行きますか？',
     start: 'はじめる', noResult: '条件に合うお祭りがありません', loading: '読み込み中...',
-    access: 'アクセス', background: '由来・背景', activities: 'おすすめの楽しみ方'
+    access: 'アクセス', background: '由来・背景', activities: 'おすすめの楽しみ方', allRegions: '全地域'
   },
   zh: {
     onboardTitle: '请选择您感兴趣的类别', onboardSub: '我们将优先为您推荐符合您喜好的节日',
     interestLabel: '兴趣类别（可多选）', companionLabel: '您打算和谁一起去？',
     start: '开始', noResult: '没有符合条件的节日', loading: '加载中...',
-    access: '交通指南', background: '由来·背景', activities: '推荐活动'
+    access: '交通指南', background: '由来·背景', activities: '推荐活动', allRegions: '全部地区'
   }
 };
 
@@ -204,14 +198,15 @@ let currentLang = 'ko';
 let currentMonth = new Date().getMonth() + 1;
 let userInterests = [];
 let userCompanion = null;
+let selectedRegion = null; // 선택된 시/도. null이면 전체지역
 
-/* ---------- 초기화 ---------- */
 async function init() {
   loadPrefs();
   renderOnboardingIfNeeded();
   renderLangToggle();
   renderMonthTabs();
   await loadData();
+  renderRegionBar();
   renderFilterBar();
   renderCards();
 }
@@ -232,10 +227,9 @@ function savePrefs() {
   }));
 }
 
-/* ---------- 온보딩 ---------- */
 function renderOnboardingIfNeeded() {
   const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) return; // 이미 온보딩 완료
+  if (saved) return;
 
   const t = UI_TEXT[currentLang];
   document.getElementById('onboardTitle').textContent = t.onboardTitle;
@@ -277,7 +271,6 @@ function renderOnboardingIfNeeded() {
   document.getElementById('onboardingModal').style.display = 'flex';
 }
 
-/* ---------- 언어 토글 ---------- */
 function renderLangToggle() {
   const buttons = document.querySelectorAll('.lang-toggle button');
   buttons.forEach(btn => {
@@ -287,12 +280,12 @@ function renderLangToggle() {
       savePrefs();
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      renderRegionBar();
       renderCards();
     });
   });
 }
 
-/* ---------- 월 탭 ---------- */
 function renderMonthTabs() {
   const container = document.getElementById('monthTabs');
   container.innerHTML = '';
@@ -310,7 +303,30 @@ function renderMonthTabs() {
   }
 }
 
-/* ---------- 필터 바 (선택한 관심사 표시, 토글 가능) ---------- */
+/* 지역(시/도) 필터 — 데이터에 실제 존재하는 지역만 자동 추출, 단일 선택 */
+function renderRegionBar() {
+  const t = UI_TEXT[currentLang];
+  const uniqueSidos = [...new Set(allFestivals.map(f => f.sido).filter(Boolean))].sort();
+  const container = document.getElementById('regionBar');
+
+  container.innerHTML =
+    `<div class="chip ${selectedRegion === null ? 'selected' : ''}" data-value="">${t.allRegions}</div>` +
+    uniqueSidos.map(sido => {
+      const active = selectedRegion === sido ? 'selected' : '';
+      return `<div class="chip ${active}" data-value="${sido}">${sido}</div>`;
+    }).join('');
+
+  container.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const val = chip.dataset.value;
+      selectedRegion = val === '' ? null : val;
+      container.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      renderCards();
+    });
+  });
+}
+
 function renderFilterBar() {
   const container = document.getElementById('filterBar');
   container.innerHTML = INTEREST_OPTIONS.map(opt => {
@@ -333,7 +349,6 @@ function renderFilterBar() {
   });
 }
 
-/* ---------- 데이터 로드 ---------- */
 async function loadData() {
   document.getElementById('cardList').innerHTML = `<div class="loading">${UI_TEXT[currentLang].loading}</div>`;
   try {
@@ -345,7 +360,6 @@ async function loadData() {
   }
 }
 
-/* ---------- 카드 렌더링 ---------- */
 function getMonthFromDate(dateStr) {
   if (!dateStr) return null;
   const parts = dateStr.split('-');
@@ -356,7 +370,10 @@ function renderCards() {
   const t = UI_TEXT[currentLang];
   let filtered = allFestivals.filter(f => getMonthFromDate(f.start_date) === currentMonth);
 
-  // 관심사 필터 적용 (선택된 게 있으면 교집합 우선, 없으면 전체)
+  if (selectedRegion) {
+    filtered = filtered.filter(f => f.sido === selectedRegion);
+  }
+
   if (userInterests.length > 0) {
     filtered = filtered.filter(f => {
       const trans = f.translations && f.translations[currentLang];
@@ -394,7 +411,6 @@ function renderCards() {
   });
 }
 
-/* ---------- 상세 모달 ---------- */
 function showDetail(festival) {
   const t = UI_TEXT[currentLang];
   const trans = (festival.translations && festival.translations[currentLang]) || {};
