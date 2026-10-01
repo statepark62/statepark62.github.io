@@ -80,7 +80,6 @@
 
   .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; overflow-x: auto; }
   .filter-bar .chip { font-size: 13px; padding: 6px 12px; flex-shrink: 0; }
-  .filter-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
 
   .card-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
   .card {
@@ -166,6 +165,13 @@ const STORAGE_KEY = 'festival_app_prefs';
 const INTEREST_OPTIONS = ['전통민속','먹거리','공연예술','자연생태','체험형','야간축제'];
 const COMPANION_OPTIONS = ['가족','연인','친구','나홀로','시니어'];
 
+const MONTH_LABELS = {
+  ko: m => `${m}월`,
+  en: m => new Date(2000, m - 1, 1).toLocaleString('en-US', { month: 'short' }),
+  ja: m => `${m}月`,
+  zh: m => `${m}月`
+};
+
 const UI_TEXT = {
   ko: {
     onboardTitle: '관심사를 선택해주세요', onboardSub: '선택하신 취향에 맞는 축제를 우선적으로 보여드려요',
@@ -195,13 +201,15 @@ const UI_TEXT = {
 
 let allFestivals = [];
 let currentLang = 'ko';
-let currentMonth = new Date().getMonth() + 1;
+let currentYearMonth = null; // { year, month } — init()에서 오늘 기준으로 설정
+let monthWindow = [];        // 오늘부터 앞으로 12개월치 { year, month } 배열
 let userInterests = [];
 let userCompanion = null;
-let selectedRegion = null; // 선택된 시/도. null이면 전체지역
+let selectedRegion = null;
 
 async function init() {
   loadPrefs();
+  buildMonthWindow();
   renderOnboardingIfNeeded();
   renderLangToggle();
   renderMonthTabs();
@@ -209,6 +217,21 @@ async function init() {
   renderRegionBar();
   renderFilterBar();
   renderCards();
+}
+
+/* 오늘 기준으로 앞으로 12개월(연-월) 목록 생성 */
+function buildMonthWindow() {
+  const today = new Date();
+  const baseYear = today.getFullYear();
+  const baseMonth = today.getMonth() + 1;
+
+  monthWindow = [];
+  for (let i = 0; i < 12; i++) {
+    const m = ((baseMonth - 1 + i) % 12) + 1;
+    const y = baseYear + Math.floor((baseMonth - 1 + i) / 12);
+    monthWindow.push({ year: y, month: m });
+  }
+  currentYearMonth = monthWindow[0]; // 이번 달을 기본 선택
 }
 
 function loadPrefs() {
@@ -280,30 +303,34 @@ function renderLangToggle() {
       savePrefs();
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      renderMonthTabs();  // 언어 바뀌면 월 라벨(영문 Jan/Feb 등)도 갱신
       renderRegionBar();
       renderCards();
     });
   });
 }
 
+/* 고정 1~12월 대신, monthWindow(오늘부터 앞으로 12개월)로 탭 생성 */
 function renderMonthTabs() {
   const container = document.getElementById('monthTabs');
   container.innerHTML = '';
-  for (let m = 1; m <= 12; m++) {
+  const labelFn = MONTH_LABELS[currentLang];
+
+  monthWindow.forEach(ym => {
     const tab = document.createElement('div');
-    tab.className = 'month-tab' + (m === currentMonth ? ' active' : '');
-    tab.textContent = `${m}월`;
+    const isActive = ym.year === currentYearMonth.year && ym.month === currentYearMonth.month;
+    tab.className = 'month-tab' + (isActive ? ' active' : '');
+    tab.textContent = labelFn(ym.month);
     tab.addEventListener('click', () => {
-      currentMonth = m;
+      currentYearMonth = ym;
       document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       renderCards();
     });
     container.appendChild(tab);
-  }
+  });
 }
 
-/* 지역(시/도) 필터 — 데이터에 실제 존재하는 지역만 자동 추출, 단일 선택 */
 function renderRegionBar() {
   const t = UI_TEXT[currentLang];
   const uniqueSidos = [...new Set(allFestivals.map(f => f.sido).filter(Boolean))].sort();
@@ -360,15 +387,31 @@ async function loadData() {
   }
 }
 
-function getMonthFromDate(dateStr) {
+/* "YYYY-MM-DD" 문자열 → { year, month } */
+function getYearMonth(dateStr) {
   if (!dateStr) return null;
   const parts = dateStr.split('-');
-  return parseInt(parts[1], 10);
+  if (parts.length < 2) return null;
+  return { year: parseInt(parts[0], 10), month: parseInt(parts[1], 10) };
+}
+
+/* 오늘보다 이전에 완전히 끝난 축제인지 확인 (날짜 비교는 문자열 그대로 가능: YYYY-MM-DD 형식) */
+function isAlreadyEnded(endDateStr) {
+  if (!endDateStr) return false;
+  const todayStr = new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
+  return endDateStr < todayStr;
 }
 
 function renderCards() {
   const t = UI_TEXT[currentLang];
-  let filtered = allFestivals.filter(f => getMonthFromDate(f.start_date) === currentMonth);
+
+  let filtered = allFestivals.filter(f => {
+    const ym = getYearMonth(f.start_date);
+    if (!ym) return false;
+    if (ym.year !== currentYearMonth.year || ym.month !== currentYearMonth.month) return false;
+    if (isAlreadyEnded(f.end_date)) return false; // 이미 종료된 축제는 제외
+    return true;
+  });
 
   if (selectedRegion) {
     filtered = filtered.filter(f => f.sido === selectedRegion);
