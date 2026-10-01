@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-01",
+    "no": 86,
+    "topic_ja": "<ruby>四<rt>よっ</rt></ruby>つの<ruby>電話<rt>でんわ</rt></ruby>",
+    "topic_ko": "네 개의 전화",
+    "url": "https://www.asahi.com/articles/DA3S16557675.html?iref=pc_rensai_long_61_article",
+    "memo": "‘권력의 상징’, ‘오키나와와 미군’ — 일상의 물건으로 권력 비대칭을 환기하고, 지역사가 국제정치와 만나는 지점을 포착하기 때문.",
+    "pattern": "〜という"
+  },
+  {
     "date": "2026-09-30",
     "no": 85,
     "topic_ja": "<ruby>若者<rt>わかもの</rt></ruby>の<ruby>声<rt>こえ</rt></ruby>が<ruby>世界<rt>せかい</rt></ruby>を<ruby>動<rt>うご</rt></ruby>かす",

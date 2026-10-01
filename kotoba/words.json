@@ -12151,5 +12151,105 @@
   "example": "その問題は解決されず、いまだにくすぶっている。",
   "exampleReading": "そのもんだいはかいけつされず、いまだにくすぶっている。",
   "exampleMeaning": "그 문제는 해결되지 않고 아직까지 잠재해 있다."
+ },
+ {
+  "id": "news640",
+  "word": "墜落",
+  "reading": "ついらく",
+  "meaning": "추락",
+  "level": "N2",
+  "example": "エンジントラブルにより小型機が墜落した。",
+  "exampleReading": "えんじんとらぶるによりこがたきがついらくした。",
+  "exampleMeaning": "엔진 고장으로 소형기가 추락했다."
+ },
+ {
+  "id": "news641",
+  "word": "食い止める",
+  "reading": "くいとめる",
+  "meaning": "저지하다, 막아내다",
+  "level": "N1",
+  "example": "医師たちの努力で感染拡大を食い止めることができた。",
+  "exampleReading": "いしたちのどりょくでかんせんかくだいをくいとめることができた。",
+  "exampleMeaning": "의사들의 노력으로 감염 확산을 막아낼 수 있었다."
+ },
+ {
+  "id": "news642",
+  "word": "認知",
+  "reading": "にんち",
+  "meaning": "인지",
+  "level": "N2",
+  "example": "新しい制度に対する国民の認知度はまだ低い。",
+  "exampleReading": "あたらしいせいどにたいするこくみんのにんちどはまだひくい。",
+  "exampleMeaning": "새로운 제도에 대한 국민의 인지도는 아직 낮다."
+ },
+ {
+  "id": "news643",
+  "word": "手数料",
+  "reading": "てすうりょう",
+  "meaning": "수수료",
+  "level": "N2",
+  "example": "銀行の振込には手数料がかかる。",
+  "exampleReading": "ぎんこうのふりこみにはてすうりょうがかかる。",
+  "exampleMeaning": "은행 송금에는 수수료가 든다."
+ },
+ {
+  "id": "news644",
+  "word": "移転",
+  "reading": "いてん",
+  "meaning": "이전",
+  "level": "N3",
+  "example": "会社が来月、新しいビルに移転する予定だ。",
+  "exampleReading": "かいしゃがらいげつ、あたらしいびるにいてんするよていだ。",
+  "exampleMeaning": "회사가 다음 달 새 건물로 이전할 예정이다."
+ },
+ {
+  "id": "tj396",
+  "word": "復帰",
+  "reading": "ふっき",
+  "meaning": "복귀",
+  "level": "N2",
+  "example": "沖縄の復帰は歴史の転機だった。",
+  "exampleReading": "おきなわのふっきはれきしのてんきだった。",
+  "exampleMeaning": "오키나와의 복귀는 역사적 전환점이었다."
+ },
+ {
+  "id": "tj397",
+  "word": "直通",
+  "reading": "ちょくつう",
+  "meaning": "직통",
+  "level": "N2",
+  "example": "部長室へ直通の番号は限られている。",
+  "exampleReading": "ぶちょうしつへちょくつうのばんごうはかぎられている.",
+  "exampleMeaning": "부장실로 직통되는 번호는 제한되어 있다."
+ },
+ {
+  "id": "tj398",
+  "word": "統治",
+  "reading": "とうち",
+  "meaning": "통치",
+  "level": "N2",
+  "example": "外国による統治の時代を振り返る。",
+  "exampleReading": "がいこくによるとうちのじだいをふりかえる。",
+  "exampleMeaning": "외국에 의한 통치의 시대를 되돌아본다."
+ },
+ {
+  "id": "tj399",
+  "word": "高等弁務官",
+  "reading": "こうとうべんむかん",
+  "meaning": "고등변무관(미군 고위 행정책임자)",
+  "level": "N1",
+  "example": "高等弁務官は会見で方針を示した。",
+  "exampleReading": "こうとうべんむかんはかいけんでほうしんをしめした。",
+  "exampleMeaning": "고등변무관은 회견에서 방침을 밝혔다."
+ },
+ {
+  "id": "tj400",
+  "word": "行政主席",
+  "reading": "ぎょうせいしゅせき",
+  "meaning": "행정주석(류큐정부 수반)",
+  "level": "N1",
+  "example": "当時の行政主席は難しい決断を迫られた。",
+  "exampleReading": "とうじのぎょうせいしゅせきはむずかしいけつだんをせまられた。",
+  "exampleMeaning": "당시의 행정주석은 어려운 결단을 강요받았다."
  }
 ]

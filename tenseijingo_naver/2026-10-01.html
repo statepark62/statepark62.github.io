@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-01 天声人語로 배우는 일본어 — 네 개의 전화</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-01</span>
+      <span>2026년 10월 1일 (목)</span>
+    </div>
+
+    <h1><ruby>四<rt>よっ</rt></ruby>つの<ruby>電話<rt>でんわ</rt></ruby></h1>
+    <p class="topic-ko">네 개의 전화</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>四<rt>よっ</rt></ruby>つの<ruby>電話機<rt>でんわき</rt></ruby>」</div>
+      <div class="ko">네 대의 전화기 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>沖縄<rt>おきなわ</rt></ruby>が<ruby>日本<rt>にほん</rt></ruby>に<ruby>復帰<rt>ふっき</rt></ruby>する<ruby>前<rt>まえ</rt></ruby>、<ruby>琉球政府<rt>りゅうきゅうせいふ</rt></ruby>の<ruby>行政主席<rt>ぎょうせいしゅせき</rt></ruby>の<ruby>執務室<rt>しつむしつ</rt></ruby>には<ruby>四<rt>よっ</rt></ruby>つの<ruby>電話<rt>でんわ</rt></ruby>があったという。</p><p class="ko">오키나와가 일본에 복귀하기 전, 류큐정부 행정주석의 집무실에는 네 대의 전화기가 있었다고 소개한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>内線<rt>ないせん</rt></ruby>・<ruby>外線<rt>がいせん</rt></ruby>・<ruby>警察局<rt>けいさつきょく</rt></ruby><ruby>直通<rt>ちょくつう</rt></ruby>・<ruby>米軍<rt>べいぐん</rt></ruby>につながる<ruby>回線<rt>かいせん</rt></ruby>があり、<ruby>記者<rt>きしゃ</rt></ruby>はその<ruby>配置<rt>はいち</rt></ruby>を<ruby>伝<rt>つた</rt></ruby>えている。</p><p class="ko">내선과 외선, 경찰국 직통, 그리고 미군과 연결되는 회선이 있었다고 하며, 당시 취재 기사의 전언을 통해 그 구도를 전한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>四番目<rt>よんばんめ</rt></ruby>の<ruby>電話<rt>でんわ</rt></ruby>の<ruby>存在<rt>そんざい</rt></ruby>から、<ruby>当時<rt>とうじ</rt></ruby>の<ruby>統治<rt>とうち</rt></ruby>の<ruby>力学<rt>りきがく</rt></ruby>を<ruby>示唆<rt>しさ</rt></ruby>しているようだ。</p><p class="ko">필자는 마지막 전화의 존재를 통해 당시 통치의 비대칭과 권력의 방향을 암시하는 듯한 여운을 남긴다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>復帰<rt>ふっき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">복귀</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>沖縄<rt>おきなわ</rt></ruby>の<ruby>復帰<rt>ふっき</rt></ruby>は<ruby>歴史<rt>れきし</rt></ruby>の<ruby>転機<rt>てんき</rt></ruby>だった。</span><br>오키나와의 복귀는 역사적 전환점이었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>直通<rt>ちょくつう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">직통</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>部長室<rt>ぶちょうしつ</rt></ruby>へ<ruby>直通<rt>ちょくつう</rt></ruby>の<ruby>番号<rt>ばんごう</rt></ruby>は<ruby>限<rt>かぎ</rt></ruby>られている。</span><br>부장실로 직통되는 번호는 제한되어 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>統治<rt>とうち</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">통치</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>外国<rt>がいこく</rt></ruby>による<ruby>統治<rt>とうち</rt></ruby>の<ruby>時代<rt>じだい</rt></ruby>を<ruby>振<rt>ふ</rt></ruby>り<ruby>返<rt>かえ</rt></ruby>る。</span><br>외국에 의한 통치의 시대를 되돌아본다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>高等弁務官<rt>こうとうべんむかん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">고등변무관(미군 고위 행정책임자)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>高等弁務官<rt>こうとうべんむかん</rt></ruby>は<ruby>会見<rt>かいけん</rt></ruby>で<ruby>方針<rt>ほうしん</rt></ruby>を<ruby>示<rt>しめ</rt></ruby>した。</span><br>고등변무관은 회견에서 방침을 밝혔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>行政主席<rt>ぎょうせいしゅせき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">행정주석(류큐정부 수반)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>当時<rt>とうじ</rt></ruby>の<ruby>行政主席<rt>ぎょうせいしゅせき</rt></ruby>は<ruby>難<rt>むずか</rt></ruby>しい<ruby>決断<rt>けつだん</rt></ruby>を<ruby>迫<rt>せま</rt></ruby>られた。</span><br>당시의 행정주석은 어려운 결단을 강요받았다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜という</div>
+        <div class="pattern-ko">…라고 한다/…라는</div>
+        <p class="explain">전언, 정의, 명명 등을 나타낼 때 쓰는 표현이다. 신문 문장에서는 ‘~라고 전해진다’처럼 정보의 출처를 흐리거나 객관화할 때 자주 등장한다.</p>
+        <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>はその<ruby>話<rt>はなし</rt></ruby>は<ruby>真実<rt>しんじつ</rt></ruby>だという。</span><br>그는 그 이야기가 사실이라고 한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 ‘네 대의 전화기’라는 구체적 사물을 전면에 내세워 독자를 단번에 과거의 한 장면으로 데려간다. 내선·외선·직통·미군 회선이라는 배열은 설명 없이도 권력 구조를 상징적으로 보여 준다. 또한 ‘기자가 이렇게 썼다’는 전언 형식을 끼워 넣어 사실감을 높이고, 정보의 출처를 드러내면서도 감정적 평가를 자제한다. 문장이 아끼듯 멈추는 지점에서 독자는 다음 문맥을 스스로 상상하게 된다.</p>
+        <p>칼럼이 남기는 의미는 단순한 과거 회상이 아니라, 통치의 비대칭이 일상 도구에 어떻게 스며드는지를 묻는 데 있다. 한국 독자에게는 외세와 지역 사회의 긴장, 그리고 권력의 ‘직통선’이 상징하는 불균형이 낯설지 않다. 작은 사물로 큰 구조를 비추는 방식은 시대와 장소를 넘어 보편적 울림을 가진다. 글은 결론을 단정하지 않고 암시로 마무리해, 독자가 스스로 역사와 현재를 연결해 보도록 유도한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 ‘네 대의 전화’를 통해 오키나와 미군 통치기의 권력 비대칭을 은근히 드러내는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>오키나와는 1945년 이후 미군정의 영향을 받았고, 1972년 일본으로 복귀했다. 이 시기에는 미군 고등변무관이 실질적 최종 권한을 쥐었다.</p>
+        <p>류큐정부는 지역 자치 행정기구로서 행정주석이 수반이었지만, 치안과 군사 등 핵심 권한은 미군 측이 좌우하는 구조였다.</p>
+        <p>복귀 이후에도 미군 기지는 대규모로 남아 있으며, 미일 안전보장체제와 지역 주민의 생활 사이 긴장이 지속되어 왔다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 사물(전화기) 나열로 시대의 권력 구도를 직관적으로 제시한다.</p>
+        <p><span class="n">二</span>전언형 문장(〜という)으로 사실감을 높이면서도 평가를 절제한다.</p>
+        <p><span class="n">三</span>결말을 암시로 남겨 독자의 사유를 확장시키는 여지를 둔다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>受話器<rt>じゅわき</rt></ruby>の<ruby>先<rt>さき</rt></ruby>にある<ruby>権力<rt>けんりょく</rt></ruby>が、<ruby>日常<rt>にちじょう</rt></ruby>を<ruby>左右<rt>さゆう</rt></ruby>することもある。</span>
+      <span class="ko">수화기 너머의 권력이 일상을 좌우할 때도 있다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-01) — <a href="https://www.asahi.com/articles/DA3S16557675.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-01.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
