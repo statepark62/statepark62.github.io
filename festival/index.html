@@ -13,125 +13,62 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
   :root {
-    --primary: #2d6a4f;
-    --primary-light: #74c69d;
-    --bg: #f8f9fa;
-    --card-bg: #ffffff;
-    --text: #212529;
-    --text-muted: #6c757d;
-    --border: #e9ecef;
-    --accent: #e76f51;
+    --primary: #2d6a4f; --primary-light: #74c69d; --bg: #f8f9fa; --card-bg: #ffffff;
+    --text: #212529; --text-muted: #6c757d; --border: #e9ecef; --accent: #e76f51;
+    --star: #f4a261;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
   .container { max-width: 800px; margin: 0 auto; padding: 16px; }
 
-  header {
-    position: sticky; top: 0; z-index: 10;
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 16px;
-    display: flex; justify-content: space-between; align-items: center;
-    gap: 8px; flex-wrap: wrap;
-  }
+  header { position: sticky; top: 0; z-index: 10; background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
   header h1 { font-size: 18px; color: var(--primary); }
   .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .lang-toggle { display: flex; gap: 4px; }
-  .lang-toggle button {
-    border: 1px solid var(--border); background: var(--card-bg);
-    padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 13px;
-  }
+  .lang-toggle button { border: 1px solid var(--border); background: var(--card-bg); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 13px; }
   .lang-toggle button.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-  .scrap-toggle-btn {
-    display: flex; align-items: center; gap: 4px;
-    border: 1px solid var(--border); background: var(--card-bg);
-    padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px;
-    color: var(--text);
-  }
+  .scrap-toggle-btn { display: flex; align-items: center; gap: 4px; border: 1px solid var(--border); background: var(--card-bg); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px; color: var(--text); }
   .scrap-toggle-btn.active { background: #fdecec; border-color: var(--accent); color: var(--accent); }
-  .scrap-toggle-btn .count {
-    background: var(--accent); color: white; font-size: 11px;
-    border-radius: 10px; padding: 1px 6px; min-width: 16px; text-align: center;
-  }
+  .scrap-toggle-btn .count { background: var(--accent); color: white; font-size: 11px; border-radius: 10px; padding: 1px 6px; min-width: 16px; text-align: center; }
 
-  .login-btn {
-    display: flex; align-items: center; gap: 6px;
-    border: 1px solid var(--border); background: var(--card-bg);
-    padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px;
-    color: var(--text);
-  }
+  .login-btn { display: flex; align-items: center; gap: 6px; border: 1px solid var(--border); background: var(--card-bg); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px; color: var(--text); }
   .login-btn.logged-in { background: #e8f5e9; border-color: var(--primary); color: var(--primary); }
-  .sync-status { font-size: 11px; color: var(--text-muted); }
 
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-    display: flex; align-items: center; justify-content: center; z-index: 100;
-    padding: 16px;
-  }
-  .modal {
-    background: var(--card-bg); border-radius: 16px; padding: 24px;
-    max-width: 420px; width: 100%; max-height: 85vh; overflow-y: auto;
-    position: relative;
-  }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
+  .modal { background: var(--card-bg); border-radius: 16px; padding: 24px; max-width: 420px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; }
   .modal h2 { font-size: 20px; margin-bottom: 8px; }
   .modal p.sub { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
   .modal-section { margin-bottom: 20px; }
   .modal-section label.title { font-weight: 600; font-size: 14px; margin-bottom: 8px; display: block; }
   .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    border: 1.5px solid var(--border); background: var(--card-bg);
-    padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 14px;
-    transition: all 0.15s;
-  }
+  .chip { border: 1.5px solid var(--border); background: var(--card-bg); padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 14px; transition: all 0.15s; }
   .chip.selected { background: var(--primary); color: white; border-color: var(--primary); }
   .modal-footer { display: flex; justify-content: flex-end; margin-top: 8px; }
-  .btn-primary {
-    background: var(--primary); color: white; border: none;
-    padding: 10px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600;
-  }
+  .btn-primary { background: var(--primary); color: white; border: none; padding: 10px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600; }
+  .btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+  .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 8px 18px; border-radius: 8px; font-size: 14px; cursor: pointer; }
 
-  .month-tabs {
-    display: flex; overflow-x: auto; gap: 6px; padding: 12px 0;
-    scrollbar-width: none;
-  }
+  .month-tabs { display: flex; overflow-x: auto; gap: 6px; padding: 12px 0; scrollbar-width: none; }
   .month-tabs::-webkit-scrollbar { display: none; }
-  .month-tab {
-    flex-shrink: 0; border: 1px solid var(--border); background: var(--card-bg);
-    padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 14px; white-space: nowrap;
-  }
+  .month-tab { flex-shrink: 0; border: 1px solid var(--border); background: var(--card-bg); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 14px; white-space: nowrap; }
   .month-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
 
   .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; overflow-x: auto; }
   .filter-bar .chip { font-size: 13px; padding: 6px 12px; flex-shrink: 0; }
 
   .card-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
-  .card {
-    background: var(--card-bg); border-radius: 12px; overflow: hidden;
-    border: 1px solid var(--border); cursor: pointer;
-    transition: box-shadow 0.15s; position: relative;
-  }
+  .card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; transition: box-shadow 0.15s; position: relative; }
   .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
   .card-image-wrap { position: relative; }
   .card-image { width: 100%; height: 160px; object-fit: cover; background: var(--border); display: block; }
-  .scrap-btn {
-    position: absolute; top: 10px; right: 10px;
-    width: 34px; height: 34px; border-radius: 50%;
-    background: rgba(255,255,255,0.9); border: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 18px; line-height: 1;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-  }
+  .scrap-btn { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
   .scrap-btn.no-image { position: static; margin-left: auto; background: transparent; box-shadow: none; }
   .card-body { padding: 14px; }
   .card-body-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .card-date { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
+  .card-date { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
+  .card-rating { font-size: 13px; color: var(--star); margin-bottom: 8px; }
   .card-summary { font-size: 14px; color: var(--text); margin-bottom: 10px; }
   .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
   .tag { background: #e8f5e9; color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 10px; }
@@ -139,28 +76,37 @@
   .detail-modal .modal { max-width: 560px; }
   .detail-image-wrap { position: relative; margin-bottom: 16px; }
   .detail-image { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; display: block; }
-  .detail-scrap-btn {
-    position: absolute; top: 10px; right: 10px;
-    width: 38px; height: 38px; border-radius: 50%;
-    background: rgba(255,255,255,0.9); border: none;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-  }
+  .detail-scrap-btn { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
   .detail-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
-  .detail-scrap-btn-inline {
-    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-    background: var(--bg); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 18px;
-  }
+  .detail-scrap-btn-inline { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
   .detail-section { margin-bottom: 16px; }
   .detail-section h3 { font-size: 14px; color: var(--primary); margin-bottom: 6px; }
   .detail-section p { font-size: 14px; }
   .detail-section ul { padding-left: 18px; font-size: 14px; }
-  .close-btn {
-    position: absolute; top: 16px; right: 16px; background: none; border: none;
-    font-size: 24px; cursor: pointer; color: var(--text-muted);
-  }
+  .close-btn { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-muted); }
+
+  /* 리뷰 영역 */
+  .review-summary { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .review-summary .avg-score { font-size: 22px; font-weight: 700; color: var(--text); }
+  .review-summary .stars { color: var(--star); font-size: 18px; letter-spacing: 1px; }
+  .review-summary .count { font-size: 13px; color: var(--text-muted); }
+
+  .star-input { display: flex; gap: 4px; font-size: 28px; cursor: pointer; margin-bottom: 10px; }
+  .star-input span { color: var(--border); transition: color 0.1s; }
+  .star-input span.active { color: var(--star); }
+
+  .review-textarea { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-size: 14px; font-family: inherit; resize: vertical; min-height: 60px; margin-bottom: 10px; }
+  .review-form-footer { display: flex; justify-content: flex-end; gap: 8px; }
+  .review-login-hint { font-size: 13px; color: var(--text-muted); background: var(--bg); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+
+  .review-item { border-top: 1px solid var(--border); padding: 12px 0; }
+  .review-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .review-item-name { font-weight: 600; font-size: 14px; }
+  .review-item-stars { color: var(--star); font-size: 13px; }
+  .review-item-date { font-size: 12px; color: var(--text-muted); }
+  .review-item-comment { font-size: 14px; color: var(--text); }
+  .review-loading { font-size: 13px; color: var(--text-muted); padding: 10px 0; }
+  .review-empty { font-size: 13px; color: var(--text-muted); padding: 10px 0; }
 
   .empty-state { text-align: center; padding: 40px 16px; color: var(--text-muted); }
   .loading { text-align: center; padding: 40px; color: var(--text-muted); }
@@ -218,13 +164,15 @@
 
 <script>
 /* ===== Google 로그인 설정 ===== */
-const GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com'; // ← 본인의 OAuth 클라이언트 ID로 교체
-const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.appdata';
+const GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com'; // ← 본인의 OAuth 클라이언트 ID
+const LOGIN_SCOPE = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.profile';
 const SCRAP_FILE_NAME = 'festival_scraps.json';
+const REVIEW_API_URL = 'https://script.google.com/macros/s/AKfycbzhr-oGRN_EcoAeCk99k3rxdg4_td62FBa4hoePKrtMJgUyUuGuxAvqfiDeYRu6L2Tp/exec';
 
 let accessToken = null;
 let driveFileId = null;
 let tokenClient = null;
+let currentUser = null; // { id, name }
 
 const DATA_URL = 'https://statepark62.github.io/festival/data/festivals.json';
 const STORAGE_KEY = 'festival_app_prefs';
@@ -234,37 +182,37 @@ const INTEREST_OPTIONS = ['전통민속','먹거리','공연예술','자연생�
 const COMPANION_OPTIONS = ['가족','연인','친구','나홀로','시니어'];
 
 const TAG_NAME_MAP = {
-  '전통민속':   { en: 'Traditional',    ja: '伝統民俗',     zh: '传统民俗' },
-  '먹거리':     { en: 'Food',           ja: 'グルメ',       zh: '美食' },
-  '공연예술':   { en: 'Performance',    ja: '公演芸術',     zh: '演艺' },
-  '자연생태':   { en: 'Nature',         ja: '自然生態',     zh: '自然生态' },
-  '체험형':     { en: 'Hands-on',       ja: '体験型',       zh: '体验型' },
-  '야간축제':   { en: 'Night Festival', ja: '夜間祭り',     zh: '夜间节庆' },
-  '가족':       { en: 'Family',         ja: '家族',         zh: '家庭' },
-  '연인':       { en: 'Couples',        ja: 'カップル',     zh: '情侣' },
-  '친구':       { en: 'Friends',        ja: '友人',         zh: '朋友' },
-  '나홀로':     { en: 'Solo',           ja: 'ひとり',       zh: '独自' },
-  '시니어':     { en: 'Seniors',        ja: 'シニア',       zh: '长者' }
+  '전통민속': { en: 'Traditional', ja: '伝統民俗', zh: '传统民俗' },
+  '먹거리': { en: 'Food', ja: 'グルメ', zh: '美食' },
+  '공연예술': { en: 'Performance', ja: '公演芸術', zh: '演艺' },
+  '자연생태': { en: 'Nature', ja: '自然生態', zh: '自然生态' },
+  '체험형': { en: 'Hands-on', ja: '体験型', zh: '体验型' },
+  '야간축제': { en: 'Night Festival', ja: '夜間祭り', zh: '夜间节庆' },
+  '가족': { en: 'Family', ja: '家族', zh: '家庭' },
+  '연인': { en: 'Couples', ja: 'カップル', zh: '情侣' },
+  '친구': { en: 'Friends', ja: '友人', zh: '朋友' },
+  '나홀로': { en: 'Solo', ja: 'ひとり', zh: '独自' },
+  '시니어': { en: 'Seniors', ja: 'シニア', zh: '长者' }
 };
 
 const SIDO_NAME_MAP = {
-  '서울특별시':     { en: 'Seoul',           ja: 'ソウル特別市',       zh: '首尔特别市' },
-  '부산광역시':     { en: 'Busan',           ja: '釜山広域市',         zh: '釜山广域市' },
-  '대구광역시':     { en: 'Daegu',           ja: '大邱広域市',         zh: '大邱广域市' },
-  '인천광역시':     { en: 'Incheon',         ja: '仁川広域市',         zh: '仁川广域市' },
-  '광주광역시':     { en: 'Gwangju',         ja: '光州広域市',         zh: '光州广域市' },
-  '대전광역시':     { en: 'Daejeon',         ja: '大田広域市',         zh: '大田广域市' },
-  '울산광역시':     { en: 'Ulsan',           ja: '蔚山広域市',         zh: '蔚山广域市' },
-  '세종특별자치시': { en: 'Sejong',          ja: '世宗特別自治市',     zh: '世宗特别自治市' },
-  '경기도':         { en: 'Gyeonggi-do',     ja: '京畿道',             zh: '京畿道' },
-  '강원특별자치도': { en: 'Gangwon-do',      ja: '江原特別自治道',     zh: '江原特别自治道' },
-  '충청북도':       { en: 'Chungcheongbuk-do', ja: '忠清北道',         zh: '忠清北道' },
-  '충청남도':       { en: 'Chungcheongnam-do', ja: '忠清南道',         zh: '忠清南道' },
-  '전라북도특별자치도': { en: 'Jeonbuk-do',  ja: '全羅北道特別自治道', zh: '全罗北道特别自治道' },
-  '전라남도':       { en: 'Jeollanam-do',    ja: '全羅南道',           zh: '全罗南道' },
-  '경상북도':       { en: 'Gyeongsangbuk-do', ja: '慶尚北道',          zh: '庆尚北道' },
-  '경상남도':       { en: 'Gyeongsangnam-do', ja: '慶尚南道',          zh: '庆尚南道' },
-  '제주특별자치도': { en: 'Jeju-do',         ja: '済州特別自治道',     zh: '济州特别自治道' }
+  '서울특별시': { en: 'Seoul', ja: 'ソウル特別市', zh: '首尔特别市' },
+  '부산광역시': { en: 'Busan', ja: '釜山広域市', zh: '釜山广域市' },
+  '대구광역시': { en: 'Daegu', ja: '大邱広域市', zh: '大邱广域市' },
+  '인천광역시': { en: 'Incheon', ja: '仁川広域市', zh: '仁川广域市' },
+  '광주광역시': { en: 'Gwangju', ja: '光州広域市', zh: '光州广域市' },
+  '대전광역시': { en: 'Daejeon', ja: '大田広域市', zh: '大田广域市' },
+  '울산광역시': { en: 'Ulsan', ja: '蔚山広域市', zh: '蔚山广域市' },
+  '세종특별자치시': { en: 'Sejong', ja: '世宗特別自治市', zh: '世宗特别自治市' },
+  '경기도': { en: 'Gyeonggi-do', ja: '京畿道', zh: '京畿道' },
+  '강원특별자치도': { en: 'Gangwon-do', ja: '江原特別自治道', zh: '江原特别自治道' },
+  '충청북도': { en: 'Chungcheongbuk-do', ja: '忠清北道', zh: '忠清北道' },
+  '충청남도': { en: 'Chungcheongnam-do', ja: '忠清南道', zh: '忠清南道' },
+  '전라북도특별자치도': { en: 'Jeonbuk-do', ja: '全羅北道特別自治道', zh: '全罗北道特别自治道' },
+  '전라남도': { en: 'Jeollanam-do', ja: '全羅南道', zh: '全罗南道' },
+  '경상북도': { en: 'Gyeongsangbuk-do', ja: '慶尚北道', zh: '庆尚北道' },
+  '경상남도': { en: 'Gyeongsangnam-do', ja: '慶尚南道', zh: '庆尚南道' },
+  '제주특별자치도': { en: 'Jeju-do', ja: '済州特別自治道', zh: '济州特别自治道' }
 };
 
 function translateTag(k, lang) { if (lang === 'ko') return k; const e = TAG_NAME_MAP[k]; return e ? (e[lang] || k) : k; }
@@ -281,25 +229,37 @@ const UI_TEXT = {
     start: '시작하기', noResult: '조건에 맞는 축제가 없습니다', loading: '불러오는 중...',
     access: '교통 안내', background: '유래·배경', activities: '추천 활동', allRegions: '전체지역',
     myScraps: '내 찜', noScraps: '아직 찜한 축제가 없습니다',
-    login: '로그인', loggedIn: '동기화됨', syncing: '동기화 중...' },
+    login: '로그인', loggedIn: '동기화됨', syncing: '동기화 중...',
+    reviews: '방문 후기', writeReview: '후기 남기기', reviewPlaceholder: '다녀오신 느낌을 남겨주세요',
+    submit: '등록', loginToReview: '로그인하시면 후기를 남기실 수 있어요', noReviews: '아직 후기가 없습니다. 첫 후기를 남겨보세요!',
+    reviewLoading: '후기 불러오는 중...' },
   en: { onboardTitle: 'What are you interested in?', onboardSub: "We'll prioritize festivals matching your taste",
     interestLabel: 'Interest categories (select multiple)', companionLabel: 'Who are you going with?',
     start: 'Get Started', noResult: 'No festivals match your filters', loading: 'Loading...',
     access: 'Getting There', background: 'Background', activities: 'Recommended Activities', allRegions: 'All Regions',
     myScraps: 'Saved', noScraps: 'No saved festivals yet',
-    login: 'Sign in', loggedIn: 'Synced', syncing: 'Syncing...' },
+    login: 'Sign in', loggedIn: 'Synced', syncing: 'Syncing...',
+    reviews: 'Reviews', writeReview: 'Write a review', reviewPlaceholder: 'Share your experience',
+    submit: 'Post', loginToReview: 'Sign in to leave a review', noReviews: 'No reviews yet. Be the first!',
+    reviewLoading: 'Loading reviews...' },
   ja: { onboardTitle: '興味のあるジャンルを選んでください', onboardSub: 'お好みに合ったお祭りを優先的にご紹介します',
     interestLabel: '興味のあるカテゴリー（複数選択可）', companionLabel: '誰と一緒に行きますか？',
     start: 'はじめる', noResult: '条件に合うお祭りがありません', loading: '読み込み中...',
     access: 'アクセス', background: '由来・背景', activities: 'おすすめの楽しみ方', allRegions: '全地域',
     myScraps: '保存済み', noScraps: 'まだ保存したお祭りがありません',
-    login: 'ログイン', loggedIn: '同期済み', syncing: '同期中...' },
+    login: 'ログイン', loggedIn: '同期済み', syncing: '同期中...',
+    reviews: 'レビュー', writeReview: 'レビューを書く', reviewPlaceholder: '感想を共有してください',
+    submit: '投稿', loginToReview: 'ログインするとレビューを投稿できます', noReviews: 'まだレビューがありません。最初のレビューを！',
+    reviewLoading: 'レビュー読み込み中...' },
   zh: { onboardTitle: '请选择您感兴趣的类别', onboardSub: '我们将优先为您推荐符合您喜好的节日',
     interestLabel: '兴趣类别（可多选）', companionLabel: '您打算和谁一起去？',
     start: '开始', noResult: '没有符合条件的节日', loading: '加载中...',
     access: '交通指南', background: '由来·背景', activities: '推荐活动', allRegions: '全部地区',
     myScraps: '已收藏', noScraps: '还没有收藏的节日',
-    login: '登录', loggedIn: '已同步', syncing: '同步中...' }
+    login: '登录', loggedIn: '已同步', syncing: '同步中...',
+    reviews: '评价', writeReview: '写评价', reviewPlaceholder: '分享您的体验',
+    submit: '发布', loginToReview: '登录后即可发表评价', noReviews: '暂无评价，快来抢沙发！',
+    reviewLoading: '评价加载中...' }
 };
 
 let allFestivals = [];
@@ -311,6 +271,7 @@ let userCompanion = null;
 let selectedRegions = [];
 let scrapedIds = [];
 let showScrapsOnly = false;
+let currentReviewRating = 0; // 리뷰 작성 폼에서 선택 중인 별점
 
 async function init() {
   loadPrefs();
@@ -353,36 +314,25 @@ function savePrefs() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify({ interests: userInterests, companion: userCompanion, lang: currentLang }));
 }
 
-/* ---------- 찜 기능 (로컬) ---------- */
+/* ---------- 찜 기능 ---------- */
 function loadScraps() {
-  try {
-    const saved = localStorage.getItem(SCRAP_STORAGE_KEY);
-    scrapedIds = saved ? JSON.parse(saved) : [];
-  } catch (e) { scrapedIds = []; }
+  try { const saved = localStorage.getItem(SCRAP_STORAGE_KEY); scrapedIds = saved ? JSON.parse(saved) : []; }
+  catch (e) { scrapedIds = []; }
 }
-function saveScrapsLocal() {
-  localStorage.setItem(SCRAP_STORAGE_KEY, JSON.stringify(scrapedIds));
-}
+function saveScrapsLocal() { localStorage.setItem(SCRAP_STORAGE_KEY, JSON.stringify(scrapedIds)); }
 function isScraped(id) { return scrapedIds.includes(id); }
 
 function toggleScrap(festivalId) {
-  if (isScraped(festivalId)) {
-    scrapedIds = scrapedIds.filter(id => id !== festivalId);
-  } else {
-    scrapedIds.push(festivalId);
-  }
+  if (isScraped(festivalId)) scrapedIds = scrapedIds.filter(id => id !== festivalId);
+  else scrapedIds.push(festivalId);
   saveScrapsLocal();
   updateScrapCount();
-  if (accessToken) {
-    driveWriteScraps(scrapedIds); // 로그인 상태면 클라우드에도 반영
-  }
+  if (accessToken) driveWriteScraps(scrapedIds);
 }
-
 function updateScrapCount() {
   const el = document.getElementById('scrapCount');
   if (el) el.textContent = scrapedIds.length;
 }
-
 function renderScrapToggle() {
   document.getElementById('scrapToggleLabel').textContent = UI_TEXT[currentLang].myScraps;
   updateScrapCount();
@@ -395,51 +345,56 @@ function renderScrapToggle() {
   });
 }
 
-/* ---------- Google 로그인 + Drive appDataFolder 동기화 ---------- */
+/* ---------- Google 로그인 + Drive 동기화 + 프로필 정보 ---------- */
 function renderLoginButton() {
   const btn = document.getElementById('loginBtn');
   btn.textContent = `👤 ${UI_TEXT[currentLang].login}`;
 
   if (typeof google === 'undefined' || !google.accounts) {
-    // 스크립트 로드 전이면 잠시 후 재시도
     setTimeout(renderLoginButton, 300);
     return;
   }
 
   tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: GOOGLE_CLIENT_ID,
-    scope: DRIVE_SCOPE,
+    scope: LOGIN_SCOPE,
     callback: async (response) => {
       if (response.error) { console.error(response); return; }
       accessToken = response.access_token;
       btn.textContent = `✓ ${UI_TEXT[currentLang].syncing}`;
       btn.classList.add('logged-in');
+      await fetchUserInfo();
       await syncOnLogin();
-      btn.textContent = `✓ ${UI_TEXT[currentLang].loggedIn}`;
+      btn.textContent = `✓ ${currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn}`;
     }
   });
 
   btn.addEventListener('click', () => {
-    if (!accessToken) {
-      tokenClient.requestAccessToken();
-    }
+    if (!accessToken) tokenClient.requestAccessToken();
   });
 }
 
+async function fetchUserInfo() {
+  try {
+    const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: `Bearer ${accessToken}` }
+    });
+    const data = await res.json();
+    currentUser = { id: data.sub, name: data.name || '익명' };
+  } catch (e) {
+    console.error('사용자 정보 조회 실패:', e);
+    currentUser = { id: 'unknown', name: '익명' };
+  }
+}
+
 async function driveFindOrCreateFile() {
-  // appDataFolder 안에서 파일 검색
   const listRes = await fetch(
     `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=name='${SCRAP_FILE_NAME}'&fields=files(id,name)`,
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   const listData = await listRes.json();
+  if (listData.files && listData.files.length > 0) { driveFileId = listData.files[0].id; return; }
 
-  if (listData.files && listData.files.length > 0) {
-    driveFileId = listData.files[0].id;
-    return;
-  }
-
-  // 없으면 새로 생성 (빈 배열로 시작)
   const metadata = { name: SCRAP_FILE_NAME, parents: ['appDataFolder'] };
   const boundary = 'festival_app_boundary';
   const body =
@@ -460,10 +415,7 @@ async function driveReadScraps() {
     headers: { Authorization: `Bearer ${accessToken}` }
   });
   if (!res.ok) return [];
-  try {
-    const data = await res.json();
-    return data.ids || [];
-  } catch (e) { return []; }
+  try { const data = await res.json(); return data.ids || []; } catch (e) { return []; }
 }
 
 async function driveWriteScraps(ids) {
@@ -479,16 +431,88 @@ async function syncOnLogin() {
   try {
     await driveFindOrCreateFile();
     const cloudIds = await driveReadScraps();
-    // 로컬 + 클라우드 합집합으로 병합 (기기 간 자료를 서로 잃지 않도록)
     const merged = [...new Set([...scrapedIds, ...cloudIds])];
     scrapedIds = merged;
     saveScrapsLocal();
     await driveWriteScraps(merged);
     updateScrapCount();
     renderCards();
+  } catch (e) { console.error('동기화 실패:', e); }
+}
+
+/* ---------- 리뷰 기능 ---------- */
+function renderStarsDisplay(score) {
+  const rounded = Math.round(score);
+  return '★'.repeat(rounded) + '☆'.repeat(5 - rounded);
+}
+
+async function loadReviews(festivalId) {
+  try {
+    const res = await fetch(`${REVIEW_API_URL}?festivalId=${encodeURIComponent(festivalId)}`);
+    return await res.json();
   } catch (e) {
-    console.error('동기화 실패:', e);
+    console.error('리뷰 로드 실패:', e);
+    return { reviews: [], average: 0, count: 0 };
   }
+}
+
+async function submitReview(festivalId, rating, comment) {
+  await fetch(REVIEW_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // CORS 프리플라이트 회피
+    body: JSON.stringify({
+      festival_id: festivalId, user_id: currentUser.id, user_name: currentUser.name,
+      rating: rating, comment: comment, lang: currentLang
+    })
+  });
+}
+
+function renderReviewSection(festival, reviewData) {
+  const t = UI_TEXT[currentLang];
+  const { reviews, average, count } = reviewData;
+
+  const summaryHtml = count > 0
+    ? `<div class="review-summary">
+         <span class="avg-score">${average}</span>
+         <span class="stars">${renderStarsDisplay(average)}</span>
+         <span class="count">(${count})</span>
+       </div>`
+    : `<div class="review-summary"><span class="count">${t.noReviews}</span></div>`;
+
+  const myExisting = currentUser ? reviews.find(r => r.user_id === currentUser.id) : null;
+
+  const formHtml = currentUser
+    ? `<div class="star-input" id="starInput">
+         ${[1,2,3,4,5].map(n => `<span data-star="${n}">★</span>`).join('')}
+       </div>
+       <textarea class="review-textarea" id="reviewComment" placeholder="${t.reviewPlaceholder}">${myExisting ? myExisting.comment : ''}</textarea>
+       <div class="review-form-footer">
+         <button class="btn-primary" id="submitReviewBtn">${t.submit}</button>
+       </div>`
+    : `<div class="review-login-hint">${t.loginToReview}</div>`;
+
+  const listHtml = reviews.length > 0
+    ? reviews.map(r => `
+        <div class="review-item">
+          <div class="review-item-head">
+            <span class="review-item-name">${r.user_name}</span>
+            <span class="review-item-date">${new Date(r.created_at).toLocaleDateString()}</span>
+          </div>
+          <div class="review-item-stars">${renderStarsDisplay(r.rating)}</div>
+          <div class="review-item-comment">${r.comment || ''}</div>
+        </div>`).join('')
+    : `<div class="review-empty">${count === 0 ? '' : ''}</div>`;
+
+  return `
+    <div class="detail-section">
+      <h3>${t.reviews}</h3>
+      ${summaryHtml}
+      ${formHtml}
+      ${listHtml}
+    </div>
+  `;
+
+  // 참고: 별점 클릭, 등록 버튼 이벤트는 showDetail()에서 DOM 삽입 후 별도 바인딩
 }
 
 /* ---------- 온보딩 ---------- */
@@ -536,7 +560,7 @@ function renderLangToggle() {
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('scrapToggleLabel').textContent = UI_TEXT[currentLang].myScraps;
-      document.getElementById('loginBtn').textContent = accessToken ? `✓ ${UI_TEXT[currentLang].loggedIn}` : `👤 ${UI_TEXT[currentLang].login}`;
+      document.getElementById('loginBtn').textContent = accessToken ? `✓ ${currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn}` : `👤 ${UI_TEXT[currentLang].login}`;
       renderMonthTabs();
       renderRegionBar();
       renderFilterBar();
@@ -695,7 +719,7 @@ function renderCards() {
   });
 }
 
-function showDetail(festival) {
+async function showDetail(festival) {
   const t = UI_TEXT[currentLang];
   const trans = (festival.translations && festival.translations[currentLang]) || {};
   const sidoDisplay = translateSido(festival.sido, currentLang);
@@ -718,6 +742,7 @@ function showDetail(festival) {
     ${trans.recommended_activities && trans.recommended_activities.length ? `<div class="detail-section"><h3>${t.activities}</h3><ul>${trans.recommended_activities.map(a => `<li>${a}</li>`).join('')}</ul></div>` : ''}
     ${trans.access_info ? `<div class="detail-section"><h3>${t.access}</h3><p>${trans.access_info}</p></div>` : ''}
     ${festival.homepage_url ? `<p><a href="${festival.homepage_url}" target="_blank">공식 홈페이지 →</a></p>` : ''}
+    <div class="detail-section" id="reviewSection"><div class="review-loading">${t.reviewLoading}</div></div>
   `;
 
   document.getElementById('detailContent').querySelectorAll('[data-scrap-id]').forEach(btn => {
@@ -730,6 +755,44 @@ function showDetail(festival) {
   });
 
   document.getElementById('detailModal').style.display = 'flex';
+
+  // 리뷰는 비동기로 불러와서 해당 섹션만 갱신 (상세보기 자체는 즉시 열림)
+  const reviewData = await loadReviews(festival.festival_id);
+  const reviewSection = document.getElementById('reviewSection');
+  if (!reviewSection) return; // 그 사이 모달이 닫혔을 수 있음
+
+  currentReviewRating = 0;
+  reviewSection.innerHTML = renderReviewSection(festival, reviewData);
+
+  // 별점 입력 UI 바인딩
+  const starInput = document.getElementById('starInput');
+  if (starInput) {
+    const stars = starInput.querySelectorAll('span');
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        currentReviewRating = Number(star.dataset.star);
+        stars.forEach(s => s.classList.toggle('active', Number(s.dataset.star) <= currentReviewRating));
+      });
+    });
+    // 기존에 남긴 리뷰가 있으면 별점 미리 표시
+    const myExisting = currentUser ? reviewData.reviews.find(r => r.user_id === currentUser.id) : null;
+    if (myExisting) {
+      currentReviewRating = myExisting.rating;
+      stars.forEach(s => s.classList.toggle('active', Number(s.dataset.star) <= currentReviewRating));
+    }
+  }
+
+  const submitBtn = document.getElementById('submitReviewBtn');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', async () => {
+      if (currentReviewRating === 0) { alert('별점을 선택해주세요.'); return; }
+      const comment = document.getElementById('reviewComment').value;
+      submitBtn.disabled = true;
+      submitBtn.textContent = '...';
+      await submitReview(festival.festival_id, currentReviewRating, comment);
+      showDetail(festival); // 등록 후 리뷰 섹션 새로고침
+    });
+  }
 }
 
 document.getElementById('detailClose').addEventListener('click', () => { document.getElementById('detailModal').style.display = 'none'; });
