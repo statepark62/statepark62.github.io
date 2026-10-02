@@ -198,23 +198,23 @@ const TAG_NAME_MAP = {
 };
 
 const SIDO_NAME_MAP = {
-  '서울특별시': { en: 'Seoul', ja: 'ソウル特別市', zh: '首尔特别市' },
-  '부산광역시': { en: 'Busan', ja: '釜山広域市', zh: '釜山广域市' },
-  '대구광역시': { en: 'Daegu', ja: '大邱広域市', zh: '大邱广域市' },
-  '인천광역시': { en: 'Incheon', ja: '仁川広域市', zh: '仁川广域市' },
-  '광주광역시': { en: 'Gwangju', ja: '光州広域市', zh: '光州广域市' },
-  '대전광역시': { en: 'Daejeon', ja: '大田広域市', zh: '大田广域市' },
-  '울산광역시': { en: 'Ulsan', ja: '蔚山広域市', zh: '蔚山广域市' },
-  '세종특별자치시': { en: 'Sejong', ja: '世宗特別自治市', zh: '世宗特别自治市' },
-  '경기도': { en: 'Gyeonggi-do', ja: '京畿道', zh: '京畿道' },
-  '강원특별자치도': { en: 'Gangwon-do', ja: '江原特別自治道', zh: '江原特别自治道' },
-  '충청북도': { en: 'Chungcheongbuk-do', ja: '忠清北道', zh: '忠清北道' },
-  '충청남도': { en: 'Chungcheongnam-do', ja: '忠清南道', zh: '忠清南道' },
-  '전라북도특별자치도': { en: 'Jeonbuk-do', ja: '全羅北道特別自治道', zh: '全罗北道特别自治道' },
-  '전라남도': { en: 'Jeollanam-do', ja: '全羅南道', zh: '全罗南道' },
-  '경상북도': { en: 'Gyeongsangbuk-do', ja: '慶尚北道', zh: '庆尚北道' },
-  '경상남도': { en: 'Gyeongsangnam-do', ja: '慶尚南道', zh: '庆尚南道' },
-  '제주특별자치도': { en: 'Jeju-do', ja: '済州特別自治道', zh: '济州特别自治道' }
+  '서울특별시':     { en: 'Seoul',           ja: 'ソウル特別市',       zh: '首尔特别市' },
+  '부산광역시':     { en: 'Busan',           ja: '釜山広域市',         zh: '釜山广域市' },
+  '대구광역시':     { en: 'Daegu',           ja: 'テグ広域市',         zh: '大邱广域市' },
+  '인천광역시':     { en: 'Incheon',         ja: 'インチョン広域市',   zh: '仁川广域市' },
+  '광주광역시':     { en: 'Gwangju',         ja: 'クァンジュ広域市',   zh: '光州广域市' },
+  '대전광역시':     { en: 'Daejeon',         ja: 'テジョン広域市',     zh: '大田广域市' },
+  '울산광역시':     { en: 'Ulsan',           ja: 'ウルサン広域市',     zh: '蔚山广域市' },
+  '세종특별자치시': { en: 'Sejong',          ja: 'セジョン特別自治市', zh: '世宗特别自治市' },
+  '경기도':         { en: 'Gyeonggi-do',     ja: '京畿道',             zh: '京畿道' },
+  '강원특별자치도': { en: 'Gangwon-do',      ja: '江原特別自治道',     zh: '江原特别自治道' },
+  '충청북도':       { en: 'Chungcheongbuk-do', ja: 'チュンチョンブクド', zh: '忠清北道' },
+  '충청남도':       { en: 'Chungcheongnam-do', ja: 'チュンチョンナムド', zh: '忠清南道' },
+  '전라북도특별자치도': { en: 'Jeonbuk-do',  ja: 'チョルラブクド特別自治道', zh: '全罗北道特别自治道' },
+  '전라남도':       { en: 'Jeollanam-do',    ja: 'チョルラナムド',     zh: '全罗南道' },
+  '경상북도':       { en: 'Gyeongsangbuk-do', ja: 'キョンサンブクド',  zh: '庆尚北道' },
+  '경상남도':       { en: 'Gyeongsangnam-do', ja: 'キョンサンナムド',  zh: '庆尚南道' },
+  '제주특별자치도': { en: 'Jeju-do',         ja: 'チェジュ特別自治道', zh: '济州特别自治道' }
 };
 
 function translateTag(k, lang) { if (lang === 'ko') return k; const e = TAG_NAME_MAP[k]; return e ? (e[lang] || k) : k; }
@@ -373,9 +373,8 @@ function renderLoginButton() {
     }
   });
 
-  // 이전에 로그인한 적 있으면, 팝업 없이 조용히 재로그인 시도 (세션이 남아있으면 자동 성공)
   if (localStorage.getItem(LOGIN_FLAG_KEY) === '1') {
-    tokenClient.requestAccessToken({ prompt: '' });
+    setTimeout(() => { tokenClient.requestAccessToken({ prompt: '' }); }, 800);
   }
 
   btn.addEventListener('click', () => {
