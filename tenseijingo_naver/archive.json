@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-02",
+    "no": 87,
+    "topic_ja": "<ruby>豆腐屋<rt>とうふや</rt></ruby>と<ruby>青春<rt>せいしゅん</rt></ruby>",
+    "topic_ko": "두부 가게와 청춘",
+    "url": "https://www.asahi.com/articles/DA3S16558450.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘노동의 존엄’, ‘가업과 청춘’, ‘사계의 서사’ — 계절의 틀로 청춘의 고민과 손노동의 무게를 함께 드러내므로, 인생의 구조와 감정을 결합해 읽는 장에 적합하다.",
+    "pattern": "〜に<ruby>始<rt>はじ</rt></ruby>まって、〜に<ruby>終<rt>お</rt></ruby>わる"
+  },
+  {
     "date": "2026-10-01",
     "no": 86,
     "topic_ja": "<ruby>四<rt>よっ</rt></ruby>つの<ruby>電話<rt>でんわ</rt></ruby>",

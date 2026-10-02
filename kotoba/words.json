@@ -12351,5 +12351,55 @@
   "example": "このサービスは若者の間で急拡大している。",
   "exampleReading": "このサービスはわかもののあいだできゅうかくだいしている。",
   "exampleMeaning": "이 서비스는 젊은이들 사이에서 급속히 확대되고 있다."
+ },
+ {
+  "id": "tj401",
+  "word": "断念",
+  "reading": "だんねん",
+  "meaning": "단념, 포기",
+  "level": "N2",
+  "example": "彼は夢を断念せず、道を探し続けた。",
+  "exampleReading": "かれはゆめをだんねんせず、みちをさがしつづけた。",
+  "exampleMeaning": "그는 꿈을 단념하지 않고 길을 계속 찾았다."
+ },
+ {
+  "id": "tj402",
+  "word": "家業",
+  "reading": "かぎょう",
+  "meaning": "가업",
+  "level": "N2",
+  "example": "家業を継ぐか、進学するかで悩んでいる。",
+  "exampleReading": "かぎょうをつぐか、しんがくするかでなやんでいる。",
+  "exampleMeaning": "가업을 이을지, 진학을 할지 고민하고 있다."
+ },
+ {
+  "id": "tj403",
+  "word": "急死",
+  "reading": "きゅうし",
+  "meaning": "급사, 갑작스런 죽음",
+  "level": "N2",
+  "example": "恩師の急死に、言葉を失った。",
+  "exampleReading": "おんしのきゅうしに、ことばをうしなった。",
+  "exampleMeaning": "은사의 급사에 말을 잃었다."
+ },
+ {
+  "id": "tj404",
+  "word": "随筆",
+  "reading": "ずいひつ",
+  "meaning": "수필",
+  "level": "N1",
+  "example": "旅の記憶を綴った随筆が評判だ。",
+  "exampleReading": "たびのきおくをつづったずいひつがひょうばんだ。",
+  "exampleMeaning": "여행의 기억을 적은 수필이 평판이 좋다."
+ },
+ {
+  "id": "tj405",
+  "word": "苦悩",
+  "reading": "くのう",
+  "meaning": "고뇌, 괴로움",
+  "level": "N1",
+  "example": "進路のことで苦悩を深めたが、前に進んだ。",
+  "exampleReading": "しんろのことでくのうをふかめたが、まえにすすんだ。",
+  "exampleMeaning": "진로 문제로 고뇌가 깊어졌지만, 앞으로 나아갔다."
  }
 ]

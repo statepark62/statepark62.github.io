@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-02 天声人語로 배우는 일본어 — 두부 가게와 청춘</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-02</span>
+      <span>2026년 10월 2일 (금)</span>
+    </div>
+
+    <h1><ruby>豆腐屋<rt>とうふや</rt></ruby>と<ruby>青春<rt>せいしゅん</rt></ruby></h1>
+    <p class="topic-ko">두부 가게와 청춘</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>冬<rt>ふゆ</rt></ruby>に<ruby>始<rt>はじ</rt></ruby>まって<ruby>秋<rt>あき</rt></ruby>に<ruby>終<rt>お</rt></ruby>わる」</div>
+      <div class="ko">겨울에 시작해 가을에 끝난다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">コラムは、<ruby>松下竜一<rt>まつしたりゅういち</rt></ruby>の<ruby>随筆<rt>ずいひつ</rt></ruby>『<ruby>豆腐屋<rt>とうふや</rt></ruby>の<ruby>四季<rt>しき</rt></ruby>』をてがかりに、<ruby>季節<rt>きせつ</rt></ruby>のめぐりのなかに<ruby>置<rt>お</rt></ruby>かれた<ruby>青春<rt>せいしゅん</rt></ruby>の<ruby>時間<rt>じかん</rt></ruby>を<ruby>紹介<rt>しょうかい</rt></ruby>する。</p><p class="ko">칼럼은 마쓰시타 류이치의 수필집 ‘두부 가게의 사계’를 단서로, 계절의 순환 속에 배치된 청춘의 시간을 소개한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>作家<rt>さっか</rt></ruby>は<ruby>母親<rt>ははおや</rt></ruby>の<ruby>急死<rt>きゅうし</rt></ruby>をきっかけに、<ruby>大学受験<rt>だいがくじゅけん</rt></ruby>を<ruby>断念<rt>だんねん</rt></ruby>し、<ruby>家業<rt>かぎょう</rt></ruby>の<ruby>豆腐屋<rt>とうふや</rt></ruby>を<ruby>継<rt>つ</rt></ruby>いで、<ruby>毎朝<rt>まいあさ</rt></ruby><ruby>三時<rt>さんじ</rt></ruby>におきて<ruby>豆腐<rt>とうふ</rt></ruby>をつくった<ruby>日々<rt>ひび</rt></ruby>を<ruby>記<rt>しる</rt></ruby>した。</p><p class="ko">작가는 어머니의 급작스러운 죽음으로 대학 시험을 포기하고 가업을 이었으며, 새벽 3시에 일어나 두부를 만들던 나날을 기록했다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>短<rt>みじか</rt></ruby>い<ruby>抒情<rt>じょじょう</rt></ruby>の<ruby>句<rt>く</rt></ruby>と<ruby>労働<rt>ろうどう</rt></ruby>の<ruby>時間割<rt>じかんわり</rt></ruby>を<ruby>並<rt>なら</rt></ruby>べ、<ruby>失敗<rt>しっぱい</rt></ruby>や<ruby>怒<rt>いか</rt></ruby>りの<ruby>夜<rt>よる</rt></ruby>をこえ、<ruby>成熟<rt>せいじゅく</rt></ruby>へむかう<ruby>心<rt>こころ</rt></ruby>を<ruby>映<rt>うつ</rt></ruby>す。</p><p class="ko">짧은 서정 구절과 노동의 시간표를 병치하며, 실패와 분노의 밤을 통과해 성숙으로 향하는 마음을 비춘다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>断念<rt>だんねん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">단념, 포기</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>夢<rt>ゆめ</rt></ruby>を<ruby>断念<rt>だんねん</rt></ruby>せず、<ruby>道<rt>みち</rt></ruby>を<ruby>探<rt>さが</rt></ruby>し<ruby>続<rt>つづ</rt></ruby>けた。</span><br>그는 꿈을 단념하지 않고 길을 계속 찾았다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>家業<rt>かぎょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">가업</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>家業<rt>かぎょう</rt></ruby>を<ruby>継<rt>つ</rt></ruby>ぐか、<ruby>進学<rt>しんがく</rt></ruby>するかで<ruby>悩<rt>なや</rt></ruby>んでいる。</span><br>가업을 이을지, 진학을 할지 고민하고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>急死<rt>きゅうし</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">급사, 갑작스런 죽음</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>恩師<rt>おんし</rt></ruby>の<ruby>急死<rt>きゅうし</rt></ruby>に、<ruby>言葉<rt>ことば</rt></ruby>を<ruby>失<rt>うしな</rt></ruby>った。</span><br>은사의 급사에 말을 잃었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>随筆<rt>ずいひつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수필</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>旅<rt>たび</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>を<ruby>綴<rt>つづ</rt></ruby>った<ruby>随筆<rt>ずいひつ</rt></ruby>が<ruby>評判<rt>ひょうばん</rt></ruby>だ。</span><br>여행의 기억을 적은 수필이 평판이 좋다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>苦悩<rt>くのう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">고뇌, 괴로움</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>進路<rt>しんろ</rt></ruby>のことで<ruby>苦悩<rt>くのう</rt></ruby>を<ruby>深<rt>ふか</rt></ruby>めたが、<ruby>前<rt>まえ</rt></ruby>に<ruby>進<rt>すす</rt></ruby>んだ。</span><br>진로 문제로 고뇌가 깊어졌지만, 앞으로 나아갔다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜に<ruby>始<rt>はじ</rt></ruby>まって、〜に<ruby>終<rt>お</rt></ruby>わる</div>
+        <div class="pattern-ko">~에서 시작해 ~에서 끝나다</div>
+        <p class="explain">시간·장소·범위의 시작점과 종점을 짝지어 서술하는 문형이다. 작품 구성이나 행사 일정처럼 구간이 명확할 때 간결하게 구조를 제시하는 뉘앙스를 준다.</p>
+        <p class="ex"><span class="ja"><ruby>会議<rt>かいぎ</rt></ruby>は<ruby>午前<rt>ごぜん</rt></ruby>に<ruby>始<rt>はじ</rt></ruby>まって、<ruby>夕方<rt>ゆうがた</rt></ruby>に<ruby>終<rt>お</rt></ruby>わる。</span><br>회의는 오전에 시작해 저녁 무렵에 끝난다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 한 권의 수필집을 첫머리에 놓고, 계절의 순환이라는 프레임을 통해 인물의 시간을 압축해 보여준다. 새벽 3시의 기계적 리듬과 손의 감각을 떠올리게 하는 묘사가, 인용된 짧은 시구와 맞물려 촉각적 긴장을 만든다. ‘천성인어’ 특유의 기법인 인용-설명-전환의 리듬이 살아 있어, 독자는 정보와 감정의 결을 동시에 따라가게 된다. 결과적으로 사실의 나열을 넘어서, 한 장면의 온도와 냄새까지 환기하는 효과가 난다.</p>
+        <p>칼럼이 남기는 의미는 ‘성장의 시간은 종종 노동의 시간과 겹친다’는 자명하지만 잊기 쉬운 진실이다. 실패가 잦고 분노가 치밀던 밤을 언급함으로써, 노력의 미화가 아니라 그 질감까지 드러낸 점이 설득력을 더한다. 한국 독자에게도 가업 승계와 입시의 갈림길이라는 현실은 낯설지 않다. 계절을 구조로 삼아 개인의 결단과 감정의 흔적을 담아내는 방식은, 한 편의 짧은 칼럼이 가질 수 있는 서사적 깊이를 잘 보여 준다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 계절의 틀과 노동의 리듬 속에서 실패를 견디며 성숙해 가는 한 청춘을 비추는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본의 전통 두부 가게는 새벽부터 시작되는 수작업 공정이 많아, 하루의 리듬 자체가 노동의 시간표로 굳어지곤 한다.</p>
+        <p>지역 상점가에서는 부모 세대의 일을 자녀가 잇는 관습이 여전히 보이며, 개인의 진로 선택과 가족 책임이 충돌하는 장면이 자주 나타난다.</p>
+        <p>일본 수필에서는 사계절의 변화가 자주 서사의 틀로 쓰이며, 계절감으로 감정의 기복과 시간을 압축해 표현하는 경향이 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>사실 정보(연표·시각)와 감정의 언어(시구)를 교차 배치해 독자의 감각을 깨운다.</p>
+        <p><span class="n">二</span>큰 구조를 먼저 제시(겨울에 시작, 가을에 끝)해 독해의 지도(map)를 제공한다.</p>
+        <p><span class="n">三</span>구체적 시간표(새벽 3시) 같은 수치를 넣어 삶의 리듬을 생생하게 만든다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>失敗<rt>しっぱい</rt></ruby>の<ruby>夜<rt>よる</rt></ruby>も、<ruby>明日<rt>あした</rt></ruby>のために<ruby>手<rt>て</rt></ruby>を<ruby>洗<rt>あら</rt></ruby>い、<ruby>心<rt>こころ</rt></ruby>をととのえる。</span>
+      <span class="ko">실패의 밤에도, 내일을 위해 손을 씻고 마음을 가다듬는다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-02) — <a href="https://www.asahi.com/articles/DA3S16558450.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-02.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
