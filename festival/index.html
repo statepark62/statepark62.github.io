@@ -177,12 +177,12 @@ const LOGIN_SCOPE = 'https://www.googleapis.com/auth/drive.appdata https://www.g
 const SCRAP_FILE_NAME = 'festival_scraps.json';
 const REVIEW_API_URL = 'https://script.google.com/macros/s/AKfycbzhr-oGRN_EcoAeCk99k3rxdg4_td62FBa4hoePKrtMJgUyUuGuxAvqfiDeYRu6L2Tp/exec';
 const LOGIN_FLAG_KEY = 'festival_app_was_logged_in';
+const TOKEN_CACHE_KEY = 'festival_app_token_cache';
 
 let accessToken = null;
 let driveFileId = null;
 let tokenClient = null;
 let currentUser = null;
-const TOKEN_CACHE_KEY = 'festival_app_token_cache'; // { access_token, expires_at }
 
 const DATA_URL = 'https://statepark62.github.io/festival/data/festivals.json';
 const STORAGE_KEY = 'festival_app_prefs';
@@ -239,7 +239,7 @@ const UI_TEXT = {
     start: '시작하기', noResult: '조건에 맞는 축제가 없습니다', loading: '불러오는 중...',
     access: '교통 안내', background: '유래·배경', activities: '추천 활동', allRegions: '전체지역',
     myScraps: '내 찜', noScraps: '아직 찜한 축제가 없습니다',
-    login: '로그인', loggedIn: '동기화됨', syncing: '동기화 중...',
+    login: '로그인', loggedIn: '동기화됨',
     reviews: '방문 후기', reviewPlaceholder: '다녀오신 느낌을 남겨주세요',
     submit: '등록', loginToReview: '로그인하시면 후기를 남기실 수 있어요', noReviews: '아직 후기가 없습니다. 첫 후기를 남겨보세요!',
     reviewLoading: '후기 불러오는 중...' },
@@ -248,7 +248,7 @@ const UI_TEXT = {
     start: 'Get Started', noResult: 'No festivals match your filters', loading: 'Loading...',
     access: 'Getting There', background: 'Background', activities: 'Recommended Activities', allRegions: 'All Regions',
     myScraps: 'Saved', noScraps: 'No saved festivals yet',
-    login: 'Sign in', loggedIn: 'Synced', syncing: 'Syncing...',
+    login: 'Sign in', loggedIn: 'Synced',
     reviews: 'Reviews', reviewPlaceholder: 'Share your experience',
     submit: 'Post', loginToReview: 'Sign in to leave a review', noReviews: 'No reviews yet. Be the first!',
     reviewLoading: 'Loading reviews...' },
@@ -257,7 +257,7 @@ const UI_TEXT = {
     start: 'はじめる', noResult: '条件に合うお祭りがありません', loading: '読み込み中...',
     access: 'アクセス', background: '由来・背景', activities: 'おすすめの楽しみ方', allRegions: '全地域',
     myScraps: '保存済み', noScraps: 'まだ保存したお祭りがありません',
-    login: 'ログイン', loggedIn: '同期済み', syncing: '同期中...',
+    login: 'ログイン', loggedIn: '同期済み',
     reviews: 'レビュー', reviewPlaceholder: '感想を共有してください',
     submit: '投稿', loginToReview: 'ログインするとレビューを投稿できます', noReviews: 'まだレビューがありません。最初のレビューを！',
     reviewLoading: 'レビュー読み込み中...' },
@@ -266,7 +266,7 @@ const UI_TEXT = {
     start: '开始', noResult: '没有符合条件的节日', loading: '加载中...',
     access: '交通指南', background: '由来·背景', activities: '推荐活动', allRegions: '全部地区',
     myScraps: '已收藏', noScraps: '还没有收藏的节日',
-    login: '登录', loggedIn: '已同步', syncing: '同步中...',
+    login: '登录', loggedIn: '已同步',
     reviews: '评价', reviewPlaceholder: '分享您的体验',
     submit: '发布', loginToReview: '登录后即可发表评价', noReviews: '暂无评价，快来抢沙发！',
     reviewLoading: '评价加载中...' }
@@ -356,6 +356,7 @@ function renderScrapToggle() {
   });
 }
 
+/* ---------- Google 로그인 (토큰 캐싱으로 깜빡임 최소화) ---------- */
 function renderLoginButton() {
   const btn = document.getElementById('loginBtn');
   btn.textContent = `👤 ${UI_TEXT[currentLang].login}`;
@@ -368,7 +369,7 @@ function renderLoginButton() {
   tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: GOOGLE_CLIENT_ID,
     scope: LOGIN_SCOPE,
-    callback: async (response) => {
+    callback: async function (response) {
       if (response.error) { console.error(response); return; }
       accessToken = response.access_token;
 
@@ -379,38 +380,40 @@ function renderLoginButton() {
       btn.classList.add('logged-in');
       await fetchUserInfo();
       await syncOnLogin();
-      btn.textContent = `✓ ${currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn}`;
+      btn.textContent = '✓ ' + (currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn);
     }
+  });
 
-  // 캐시된 토큰이 아직 유효하면, 재로그인 시도 자체를 건너뜀 (깜빡임 없음)
-  const cachedRaw = localStorage.getItem(TOKEN_CACHE_KEY);
-  if (cachedRaw) {
-    try {
-      const cached = JSON.parse(cachedRaw);
-      const BUFFER_MS = 60 * 1000; // 만료 1분 전부터는 캐시를 안 믿고 새로 받음
-      if (cached.access_token && cached.expires_at > Date.now() + BUFFER_MS) {
-        accessToken = cached.access_token;
-        btn.textContent = `✓ ${UI_TEXT[currentLang].syncing}`;
-        btn.classList.add('logged-in');
-        (async () => {
-          await fetchUserInfo();
-          await syncOnLogin();
-          btn.textContent = `✓ ${currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn}`;
-        })();
-      } else if (localStorage.getItem(LOGIN_FLAG_KEY) === '1') {
-        // 캐시가 만료됐으면 그때만 조용한 재로그인 (이때만 깜빡임 발생)
-        setTimeout(() => { tokenClient.requestAccessToken({ prompt: '' }); }, 800);
-      }
-    } catch (e) {
-      if (localStorage.getItem(LOGIN_FLAG_KEY) === '1') {
-        setTimeout(() => { tokenClient.requestAccessToken({ prompt: '' }); }, 800);
-      }
+  function silentReauth() {
+    if (localStorage.getItem(LOGIN_FLAG_KEY) === '1') {
+      setTimeout(function () {
+        tokenClient.requestAccessToken({ prompt: '' });
+      }, 800);
     }
-  } else if (localStorage.getItem(LOGIN_FLAG_KEY) === '1') {
-    setTimeout(() => { tokenClient.requestAccessToken({ prompt: '' }); }, 800);
   }
 
-  btn.addEventListener('click', () => {
+  const cachedRaw = localStorage.getItem(TOKEN_CACHE_KEY);
+  if (cachedRaw) {
+    let cached = null;
+    try { cached = JSON.parse(cachedRaw); } catch (e) { cached = null; }
+
+    const BUFFER_MS = 60 * 1000;
+    if (cached && cached.access_token && cached.expires_at > Date.now() + BUFFER_MS) {
+      accessToken = cached.access_token;
+      btn.classList.add('logged-in');
+      (async function () {
+        await fetchUserInfo();
+        await syncOnLogin();
+        btn.textContent = '✓ ' + (currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn);
+      })();
+    } else {
+      silentReauth();
+    }
+  } else {
+    silentReauth();
+  }
+
+  btn.addEventListener('click', function () {
     if (!accessToken) tokenClient.requestAccessToken();
   });
 }
