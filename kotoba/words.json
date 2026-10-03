@@ -12481,5 +12481,125 @@
   "example": "台風は今後、速度を上げながら北上する見込みだ。",
   "exampleReading": "たいふうはこんご、そくどをあげながらほくじょうするみこみだ。",
   "exampleMeaning": "태풍은 앞으로 속도를 높이며 북상할 전망이다."
+ },
+ {
+  "id": "news663",
+  "word": "不正利用",
+  "reading": "ふせいりよう",
+  "meaning": "부정 이용, 부정 사용",
+  "level": "N2",
+  "example": "彼のクレジットカードが何者かに不正利用された。",
+  "exampleReading": "かれのクレジットカードがなにものかにふせいりようされた。",
+  "exampleMeaning": "그의 신용카드가 누군가에 의해 부정 이용되었다."
+ },
+ {
+  "id": "news664",
+  "word": "引退",
+  "reading": "いんたい",
+  "meaning": "은퇴",
+  "level": "N3",
+  "example": "彼は今年限りで現役を引退することを発表した。",
+  "exampleReading": "かれはことしかぎりでげんえきをいんたいすることをはっぴょうした。",
+  "exampleMeaning": "그는 올해를 끝으로 현역에서 은퇴한다고 발표했다."
+ },
+ {
+  "id": "news665",
+  "word": "流出",
+  "reading": "りゅうしゅつ",
+  "meaning": "유출",
+  "level": "N2",
+  "example": "システムの不備で顧客情報が外部に流出した。",
+  "exampleReading": "システムのふびでこきゃくじょうほうががいぶにりゅうしゅつした。",
+  "exampleMeaning": "시스템 결함으로 고객 정보가 외부로 유출되었다."
+ },
+ {
+  "id": "news666",
+  "word": "連行",
+  "reading": "れんこう",
+  "meaning": "연행",
+  "level": "N1",
+  "example": "容疑者はその場で警察に連行された。",
+  "exampleReading": "ようぎしゃはそのばでけいさつにれんこうされた。",
+  "exampleMeaning": "용의자는 그 자리에서 경찰에 연행되었다."
+ },
+ {
+  "id": "news667",
+  "word": "壮絶",
+  "reading": "そうぜつ",
+  "meaning": "처절함, 치열함",
+  "level": "N1",
+  "example": "彼は壮絶な努力の末、夢を実現させた。",
+  "exampleReading": "かれはそうぜつなどりょくのすえ、ゆめをじつげんさせた。",
+  "exampleMeaning": "그는 처절한 노력 끝에 꿈을 실현시켰다."
+ },
+ {
+  "id": "news668",
+  "word": "集結",
+  "reading": "しゅうけつ",
+  "meaning": "집결, 한 곳에 모임",
+  "level": "N2",
+  "example": "全国から集まったボランティアが会場に集結した。",
+  "exampleReading": "ぜんこくからあつまったボランティアがかいじょうにしゅうけつした。",
+  "exampleMeaning": "전국에서 모인 자원봉사자들이 회장에 집결했다."
+ },
+ {
+  "id": "news669",
+  "word": "孤島",
+  "reading": "ことう",
+  "meaning": "고도, 외딴 섬",
+  "level": "N1",
+  "example": "その村は陸の孤島と呼ばれるほど交通が不便だ。",
+  "exampleReading": "そのむらはりくのことうとよばれるほどこうつうがふべんだ。",
+  "exampleMeaning": "그 마을은 육지의 고도라고 불릴 정도로 교통이 불편하다."
+ },
+ {
+  "id": "tj406",
+  "word": "経済危機",
+  "reading": "けいざいきき",
+  "meaning": "경제 위기",
+  "level": "N2",
+  "example": "その国は経済危機に直面している。",
+  "exampleReading": "そのくにはけいざいききにちょくめんしている。",
+  "exampleMeaning": "그 나라는 경제 위기에 직면해 있다."
+ },
+ {
+  "id": "tj407",
+  "word": "取材",
+  "reading": "しゅざい",
+  "meaning": "취재",
+  "level": "N3",
+  "example": "記者は現場を取材した。",
+  "exampleReading": "きしゃはげんばをしゅざいした。",
+  "exampleMeaning": "기자는 현장을 취재했다."
+ },
+ {
+  "id": "tj408",
+  "word": "発泡酒",
+  "reading": "はっぽうしゅ",
+  "meaning": "발포주",
+  "level": "N2",
+  "example": "彼はやすい発泡酒を好む。",
+  "exampleReading": "かれはやすいはっぽうしゅをこのむ。",
+  "exampleMeaning": "그는 값싼 발포주를 선호한다."
+ },
+ {
+  "id": "tj409",
+  "word": "税率",
+  "reading": "ぜいりつ",
+  "meaning": "세율",
+  "level": "N2",
+  "example": "度数が高いほど税率も上がる。",
+  "exampleReading": "どすうがたかいほどぜいりつもあがる。",
+  "exampleMeaning": "도수가 높을수록 세율도 오른다."
+ },
+ {
+  "id": "tj410",
+  "word": "庶民",
+  "reading": "しょみん",
+  "meaning": "서민",
+  "level": "N2",
+  "example": "庶民の暮らしに身近な酒を考える。",
+  "exampleReading": "しょみんのくらしにみぢかなさけをかんがえる。",
+  "exampleMeaning": "서민의 삶에 가까운 술을 생각해 본다."
  }
 ]
