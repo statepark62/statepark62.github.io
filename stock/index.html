@@ -1,1 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>매매 타이밍 보드</title>
+<style>
+  :root {
+    --bg: #0b1320;
+    --panel: #121d30;
+    --panel-border: #1f2e47;
+    --ink: #e8edf6;
+    --ink-dim: #8291a8;
+    --amber: #e8a33d;
+    --green: #4caf7d;
+    --red: #e05a5a;
+    --blue: #4a90d9;
+    --purple: #a06fd1;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Noto Sans KR", sans-serif;
+  }
+  body { padding: 28px 20px 60px; }
 
+  .masthead {
+    max-width: 1100px;
+    margin: 0 auto 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 18px;
+  }
+  .masthead h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .masthead p {
+    margin: 0;
+    color: var(--ink-dim);
+    font-size: 13.5px;
+  }
+  .refresh-btn {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    color: var(--ink);
+    padding: 9px 16px;
+    border-radius: 7px;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .refresh-btn:hover { border-color: var(--amber); }
+  .refresh-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  .legend {
+    max-width: 1100px;
+    margin: 0 auto 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    font-size: 12.5px;
+    color: var(--ink-dim);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+  .section-label {
+    max-width: 1100px;
+    margin: 32px auto 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-dim);
+  }
+
+  .grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--card-accent, transparent);
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .ticker { font-weight: 700; font-size: 15px; }
+  .ticker-sub { color: var(--ink-dim); font-size: 12px; margin-top: 1px; }
+  .price { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .price-unit { font-size: 11px; color: var(--ink-dim); margin-left: 3px; }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px 12px;
+    font-size: 12.5px;
+    margin: 12px 0 14px;
+  }
+  .metric-label { color: var(--ink-dim); }
+  .metric-value { font-variant-numeric: tabular-nums; text-align: right; }
+
+  .signal-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .signal-chip {
+    font-size: 11.5px;
+    padding: 3px 9px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+  .signal-none {
+    font-size: 11.5px;
+    color: var(--ink-dim);
+  }
+
+  .updated {
+    font-size: 10.5px;
+    color: var(--ink-dim);
+    margin-top: 12px;
+  }
+
+  .state-msg {
+    max-width: 1100px;
+    margin: 60px auto;
+    text-align: center;
+    color: var(--ink-dim);
+    font-size: 14px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .card { transition: transform 0.15s ease; }
+    .card:hover { transform: translateY(-2px); }
+  }
+</style>
+</head>
+<body>
+
+  <div class="masthead">
+    <div>
+      <h1>매매 타이밍 보드</h1>
+      <p id="subtitle">데이터를 불러오는 중...</p>
+    </div>
+    <button class="refresh-btn" id="refreshBtn">새로고침</button>
+  </div>
+
+  <div class="legend">
+    <span><span class="dot" style="background:var(--green)"></span>저평가</span>
+    <span><span class="dot" style="background:var(--red)"></span>배당위험</span>
+    <span><span class="dot" style="background:var(--blue)"></span>과매도</span>
+    <span><span class="dot" style="background:var(--amber)"></span>과매수</span>
+    <span><span class="dot" style="background:var(--purple)"></span>200일선하회</span>
+  </div>
+
+  <div id="content">
+    <div class="state-msg">불러오는 중...</div>
+  </div>
+
+<script>
+  // ⚠️ Apps Script에서 '웹 앱'으로 배포한 뒤 나오는 URL을 여기에 붙여넣으세요.
+  const WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyeD_ghq6ai6u3otsyJd97sdwi-BfiTryZOiFKnRON35K2OyrLdhw-K_tvtYhNkdiYl/exec';
+
+  const SIGNAL_META = {
+    '저평가':      { color: 'var(--green)'  },
+    '배당위험':    { color: 'var(--red)'    },
+    '과매도':      { color: 'var(--blue)'   },
+    '과매수':      { color: 'var(--amber)'  },
+    '200일선하회': { color: 'var(--purple)' }
+  };
+
+  function fmt(value, suffix) {
+    if (value === null || value === undefined || value === '' || value === '-') return '-';
+    const num = typeof value === 'number' ? value : parseFloat(value);
+    if (isNaN(num)) return String(value);
+    return num.toLocaleString('ko-KR', { maximumFractionDigits: 2 }) + (suffix || '');
+  }
+
+  function priceLabel(stock) {
+    if (stock.price === '-' || stock.price === null) return '-';
+    const num = typeof stock.price === 'number' ? stock.price : parseFloat(stock.price);
+    if (isNaN(num)) return '-';
+    if (stock.market === 'KR') return num.toLocaleString('ko-KR') + '원';
+    return '$' + num.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  }
+
+  function cardAccent(signalText) {
+    if (!signalText || signalText === '-') return 'transparent';
+    const first = signalText.split(',')[0].trim();
+    return (SIGNAL_META[first] && SIGNAL_META[first].color) || 'transparent';
+  }
+
+  function renderSignals(signalText) {
+    if (!signalText || signalText === '-') {
+      return '<span class="signal-none">평상시 — 특별 신호 없음</span>';
+    }
+    return signalText.split(',').map(s => {
+      const name = s.trim();
+      const meta = SIGNAL_META[name];
+      const color = meta ? meta.color : 'var(--ink-dim)';
+      return `<span class="signal-chip" style="color:${color}; border-color:${color}">${name}</span>`;
+    }).join('');
+  }
+
+  function renderCard(stock) {
+    const accent = cardAccent(stock.signal);
+    return `
+      <div class="card" style="--card-accent:${accent}">
+        <div class="card-top">
+          <div>
+            <div class="ticker">${stock.ticker}</div>
+            <div class="ticker-sub">${stock.name !== stock.ticker ? stock.name : (stock.market === 'US' ? '미국' : '')}</div>
+          </div>
+          <div class="price">${priceLabel(stock)}</div>
+        </div>
+        <div class="metrics">
+          <div class="metric-label">PER</div><div class="metric-value">${fmt(stock.per)}</div>
+          <div class="metric-label">배당수익률</div><div class="metric-value">${fmt(stock.divYield, '%')}</div>
+          <div class="metric-label">배당성향</div><div class="metric-value">${fmt(stock.payoutRatio, '%')}</div>
+          <div class="metric-label">RSI(14)</div><div class="metric-value">${fmt(stock.rsi)}</div>
+        </div>
+        <div class="signal-row">${renderSignals(stock.signal)}</div>
+        <div class="updated">갱신 ${stock.updatedAt || '-'}</div>
+      </div>
+    `;
+  }
+
+  async function loadData() {
+    const content = document.getElementById('content');
+    const subtitle = document.getElementById('subtitle');
+
+    if (WEBAPP_URL === 'YOUR_WEB_APP_URL_HERE') {
+      content.innerHTML = '<div class="state-msg">아직 WEBAPP_URL이 설정되지 않았습니다.<br>Apps Script에서 웹 앱으로 배포한 뒤, 코드 상단 WEBAPP_URL 값을 채워주세요.</div>';
+      subtitle.textContent = '설정 필요';
+      return;
+    }
+
+    content.innerHTML = '<div class="state-msg">불러오는 중...</div>';
+    try {
+      const res = await fetch(WEBAPP_URL, { cache: 'no-store' });
+      if (!res.ok) throw new Error('응답 오류: ' + res.status);
+      const data = await res.json();
+      const stocks = data.stocks || [];
+
+      if (stocks.length === 0) {
+        content.innerHTML = '<div class="state-msg">표시할 종목이 없습니다. 구글시트에 데이터가 채워져 있는지 확인해주세요.</div>';
+        subtitle.textContent = '데이터 없음';
+        return;
+      }
+
+      const us = stocks.filter(s => s.market === 'US');
+      const kr = stocks.filter(s => s.market === 'KR');
+      const signalCount = stocks.filter(s => s.signal && s.signal !== '-').length;
+
+      subtitle.textContent = `총 ${stocks.length}종목 · 신호 ${signalCount}건 · ${new Date(data.generatedAt).toLocaleString('ko-KR')} 기준`;
+
+      let html = '';
+      if (us.length) {
+        html += '<div class="section-label">미국 종목</div><div class="grid">' + us.map(renderCard).join('') + '</div>';
+      }
+      if (kr.length) {
+        html += '<div class="section-label">국내 종목</div><div class="grid">' + kr.map(renderCard).join('') + '</div>';
+      }
+      content.innerHTML = html;
+    } catch (err) {
+      content.innerHTML = '<div class="state-msg">데이터를 불러오지 못했습니다: ' + err.message + '<br>웹 앱 URL과 배포 상태(액세스: 전체)를 확인해주세요.</div>';
+      subtitle.textContent = '오류 발생';
+    }
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', loadData);
+  loadData();
+</script>
+
+</body>
+</html>
