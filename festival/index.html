@@ -373,17 +373,20 @@ function renderLoginButton() {
       if (response.error) { console.error(response); return; }
       accessToken = response.access_token;
 
-      const expiresAt = Date.now() + (Number(response.expires_in || 3600) * 1000);
-      localStorage.setItem(TOKEN_CACHE_KEY, JSON.stringify({ access_token: accessToken, expires_at: expiresAt }));
-      localStorage.setItem(LOGIN_FLAG_KEY, '1');
-
       btn.classList.add('logged-in');
       await fetchUserInfo();
-      await syncOnLogin();
-      btn.textContent = '✓ ' + (currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn);
-    }
-  });
 
+      const expiresAt = Date.now() + (Number(response.expires_in || 3600) * 1000);
+      localStorage.setItem(TOKEN_CACHE_KEY, JSON.stringify({
+        access_token: accessToken, expires_at: expiresAt,
+        user_id: currentUser ? currentUser.id : null,
+        user_name: currentUser ? currentUser.name : null
+      }));
+      localStorage.setItem(LOGIN_FLAG_KEY, '1');
+
+      btn.textContent = '✓ ' + (currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn);
+      syncOnLogin(); // await 없이 백그라운드로 실행 (버튼 표시를 기다리게 하지 않음)
+    }
   function silentReauth() {
     if (localStorage.getItem(LOGIN_FLAG_KEY) === '1') {
       setTimeout(function () {
@@ -392,7 +395,7 @@ function renderLoginButton() {
     }
   }
 
-  const cachedRaw = localStorage.getItem(TOKEN_CACHE_KEY);
+    const cachedRaw = localStorage.getItem(TOKEN_CACHE_KEY);
   if (cachedRaw) {
     let cached = null;
     try { cached = JSON.parse(cachedRaw); } catch (e) { cached = null; }
@@ -401,10 +404,25 @@ function renderLoginButton() {
     if (cached && cached.access_token && cached.expires_at > Date.now() + BUFFER_MS) {
       accessToken = cached.access_token;
       btn.classList.add('logged-in');
+
+      // 캐시된 이름이 있으면 네트워크 요청 없이 즉시 표시 (체감 속도 개선 핵심)
+      if (cached.user_name) {
+        currentUser = { id: cached.user_id, name: cached.user_name };
+        btn.textContent = '✓ ' + cached.user_name;
+      } else {
+        btn.textContent = `✓ ${UI_TEXT[currentLang].loggedIn}`;
+      }
+
+      // 실제 최신 정보 확인 + 찜 동기화는 화면을 막지 않고 뒤에서 처리
       (async function () {
         await fetchUserInfo();
-        await syncOnLogin();
-        btn.textContent = '✓ ' + (currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn);
+        if (currentUser) {
+          cached.user_id = currentUser.id;
+          cached.user_name = currentUser.name;
+          localStorage.setItem(TOKEN_CACHE_KEY, JSON.stringify(cached));
+          btn.textContent = '✓ ' + currentUser.name;
+        }
+        syncOnLogin();
       })();
     } else {
       silentReauth();
