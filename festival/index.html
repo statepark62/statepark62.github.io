@@ -372,18 +372,15 @@ function renderLoginButton() {
       if (response.error) { console.error(response); return; }
       accessToken = response.access_token;
 
-      // 토큰과 만료시각을 캐싱 (expires_in은 보통 3600초 = 1시간)
       const expiresAt = Date.now() + (Number(response.expires_in || 3600) * 1000);
       localStorage.setItem(TOKEN_CACHE_KEY, JSON.stringify({ access_token: accessToken, expires_at: expiresAt }));
       localStorage.setItem(LOGIN_FLAG_KEY, '1');
 
-      btn.textContent = `✓ ${UI_TEXT[currentLang].syncing}`;
       btn.classList.add('logged-in');
       await fetchUserInfo();
       await syncOnLogin();
       btn.textContent = `✓ ${currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn}`;
     }
-  });
 
   // 캐시된 토큰이 아직 유효하면, 재로그인 시도 자체를 건너뜀 (깜빡임 없음)
   const cachedRaw = localStorage.getItem(TOKEN_CACHE_KEY);
