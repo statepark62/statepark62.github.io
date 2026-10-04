@@ -214,12 +214,6 @@ const GOOGLE_ENABLED = GOOGLE_CLIENT_ID.indexOf('REPLACE_WITH') === -1;
 const SPREADSHEET_TITLE = '지금여기_여행일정_데이터';
 let tokenClient = null, googleAccessToken = null, googleSignedIn = false, spreadsheetId = null;
 let memoryStore = {}; // window.storage와 구글 로그인 둘 다 없을 때의 임시(새로고침시 소실) 저장소
-// 제작자가 직접 입력하는 Gemini API 키. 기본은 현재 탭(sessionStorage)에만 유지, 원하면 이 브라우저(localStorage)에 기억.
-// 이 키로 '브라우저에서 Gemini를 직접 호출'하므로 Cloudflare Worker의 지역(홍콩 등) 제한을 받지 않습니다.
-let userGeminiKey = (function(){
-  try{ return sessionStorage.getItem('trip_gemini_key') || localStorage.getItem('trip_gemini_key') || null; }catch(e){ return null; }
-})();
-const GEMINI_MODEL = 'gemini-2.5-flash';
 // Apps Script 웹 앱 주소(제작자 시트에 붙인 Gemini 중계). 배포 후 이 값을 실제 URL로 바꿔주세요.
 // 구글에 연결(로그인)되어 있으면 이 주소로 요청하고, 키는 Apps Script의 스크립트 속성에만 보관됩니다.
 const AI_GAS_URL = 'https://script.google.com/macros/s/AKfycbxypRrYn-dhO0WVlgKCo1oid28buaIOSHXLXATLSGtpoHJh8G5qXBL3jpCl8dd3k-Aj/exec';
@@ -864,7 +858,6 @@ function render(){
         <button class="btn btn-primary" id="newTripBtn">+ 새 여행 만들기</button>
         ${isDevMode()?`<button class="btn btn-line" id="pdfImportBtnEmpty" style="margin-left:8px;">PDF로 가져오기</button>
         <button class="btn btn-line" id="photoImportBtnEmpty" style="margin-left:8px;">사진으로 가져오기</button>
-        <button class="btn btn-line" id="apiKeyBtnEmpty" style="margin-left:8px;">🔑 AI 키</button>
         <div class="pdf-hint">여행사·항공사에서 받은 일정표 PDF·사진을 올리면<br>날짜·시간·장소를 자동으로 읽어와요.</div>`:''}
         ${state.trips.length?`<div style="margin-top:16px;"><button class="btn btn-line btn-sm" id="pastTripsBtn">지난 여행 목록 보기</button>
         <button class="btn btn-line btn-sm" id="refreshBtnEmpty" title="새로고침" style="margin-left:8px;">↻ 새로고침</button></div>`:''}
@@ -872,7 +865,6 @@ function render(){
     $('#newTripBtn').onclick = ()=>openTripForm();
     const pib = $('#pdfImportBtnEmpty'); if(pib) pib.onclick = ()=>triggerPdfPick('new');
     const phib = $('#photoImportBtnEmpty'); if(phib) phib.onclick = ()=>triggerPhotoPick('new');
-    const akE = $('#apiKeyBtnEmpty'); if(akE) akE.onclick = ()=>openApiKeyModal();
     const ptb = $('#pastTripsBtn'); if(ptb) ptb.onclick = ()=>openPastTripsModal();
     const rfbe = $('#refreshBtnEmpty'); if(rfbe) rfbe.onclick = ()=>refreshData();
     const gcb = $('#googleConnectBtn'); if(gcb) gcb.onclick = ()=>connectGoogle();
@@ -889,8 +881,7 @@ function render(){
         <button class="btn btn-line btn-sm" id="deleteTripBtn" title="현재 여행 삭제">이 여행 삭제</button>
         <button class="btn btn-line btn-sm" id="newTripBtn2">+ 새 여행</button>
         ${isDevMode()?`<button class="btn btn-line btn-sm" id="pdfImportBtn2">PDF로 추가</button>
-        <button class="btn btn-line btn-sm" id="photoImportBtn2">사진으로 추가</button>
-        <button class="btn btn-line btn-sm" id="apiKeyBtn">🔑 AI 키</button>`:''}
+        <button class="btn btn-line btn-sm" id="photoImportBtn2">사진으로 추가</button>`:''}
         <button class="btn btn-line btn-sm" id="exportPdfBtn">PDF로 내보내기</button>
         <button class="btn btn-line btn-sm" id="refreshBtn" title="새로고침">↻ 새로고침</button>
         ${googleSignedIn?`<button class="btn btn-line btn-sm" id="shareLinkBtn">일행에게 공유</button>`:''}
@@ -912,7 +903,6 @@ function bindEvents(){
   const ex = $('#exportPdfBtn'); if(ex) ex.onclick = ()=>exportPdf();
   const rfb = $('#refreshBtn'); if(rfb) rfb.onclick = ()=>refreshData();
   const slb = $('#shareLinkBtn'); if(slb) slb.onclick = ()=>createShareLink();
-  const ak = $('#apiKeyBtn'); if(ak) ak.onclick = ()=>openApiKeyModal();
   const dtb = $('#deleteTripBtn'); if(dtb) dtb.onclick = ()=>deleteCurrentTrip();
   const sw = $('#tripSwitch'); if(sw) sw.onchange = async e=>{
     const newId = e.target.value;
@@ -1224,23 +1214,17 @@ async function callGeminiForItinerary(parts, onRetry){
     generationConfig: { maxOutputTokens: 8192, responseMimeType: 'application/json' }
   };
 
-  // 호출 방식 선택
-  //  1) 구글 연결됨 + Apps Script 주소 설정됨 → Apps Script가 (소유자 확인 후) Gemini 호출. 기기마다 키 입력 불필요.
-  //  2) 그 외 직접 입력한 키가 있으면 → 브라우저에서 Gemini 직접 호출(한국 IP라 지역 제한 없음)
-  let mode, endpoint, body;
-  if(googleSignedIn && googleAccessToken && AI_GAS_URL.indexOf('REPLACE')===-1){
-    mode = 'gas';
-    endpoint = AI_GAS_URL;
-    headers['Content-Type'] = 'text/plain;charset=utf-8'; // 사전요청(preflight) 없이 보내기 위함
-    body = JSON.stringify({ token: googleAccessToken, body: geminiBody });
-  } else if(userGeminiKey){
-    mode = 'direct';
-    endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
-    headers['x-goog-api-key'] = userGeminiKey;
-    body = JSON.stringify(geminiBody);
-  } else {
-    throw new Error('AI 호출 설정이 없어요. Google에 연결하거나(Apps Script 설정 시), 상단의 "🔑 AI 키" 버튼으로 Gemini 키를 입력해주세요.');
+  // Google에 연결된 상태에서만 사용: Apps Script가 (시트 소유자 확인 후) Gemini를 호출합니다.
+  if(!(googleSignedIn && googleAccessToken)){
+    throw new Error('PDF·사진 인식은 Google에 연결된 상태에서만 쓸 수 있어요. 상단의 "Google 연결"을 눌러 연결한 뒤 다시 시도해주세요.');
   }
+  if(AI_GAS_URL.indexOf('REPLACE')!==-1){
+    throw new Error('Apps Script 주소(AI_GAS_URL)가 설정되지 않았어요.');
+  }
+  const mode = 'gas';
+  const endpoint = AI_GAS_URL;
+  headers['Content-Type'] = 'text/plain;charset=utf-8'; // 사전요청(preflight) 없이 보내기 위함
+  const body = JSON.stringify({ token: googleAccessToken, body: geminiBody });
 
   // 일시적 오류(429/5xx 등)는 몇 초 간격으로 최대 3번 자동 재시도합니다.
   const delays = [2000, 5000, 10000]; // 2초 → 5초 → 10초
@@ -1317,39 +1301,6 @@ async function callAIExtractFromImage(file){
     { inlineData: { mimeType, data: base64 } },
     { text:'위 이미지는 여행 일정표(캡처·사진)입니다. 여기서 정보를 추출하세요.' }
   ], setPdfProgressRetryMsg);
-}
-
-function openApiKeyModal(){
-  const overlay = document.createElement('div');
-  overlay.className='overlay';
-  let remembered = false;
-  try{ remembered = !!localStorage.getItem('trip_gemini_key'); }catch(e){}
-  overlay.innerHTML = `<div class="sheet">
-    <h3>Gemini API 키 설정</h3>
-    <p style="font-size:14px;color:var(--ink-soft);line-height:1.6;"><b>보조 방법</b>입니다. Google에 연결되어 있고 Apps Script가 설정돼 있으면 키를 입력할 필요가 없어요. 그렇지 않을 때만, Google AI Studio 키(<b>AIza…</b>)를 입력하면 이 브라우저에서 Gemini를 직접 호출합니다. 기본적으로 <b>이 탭이 열려있는 동안만</b> 유지돼요.</p>
-    <div class="field"><label>API 키</label><input id="k_input" type="password" placeholder="AIza..." value="${userGeminiKey||''}"></div>
-    <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink-soft);margin:4px 0 6px;">
-      <input type="checkbox" id="k_remember" ${remembered?'checked':''} style="width:auto;"> 이 컴퓨터(브라우저)에 계속 기억하기 (본인 기기에서만 권장)
-    </label>
-    <div class="sheet-actions">
-      <button class="btn btn-line" id="k_cancel">취소</button>
-      <button class="btn btn-primary" id="k_save">저장</button>
-    </div>
-  </div>`;
-  document.body.appendChild(overlay);
-  $('#k_cancel').onclick = ()=>overlay.remove();
-  overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
-  $('#k_save').onclick = ()=>{
-    const v = $('#k_input').value.trim() || null;
-    const remember = $('#k_remember').checked;
-    userGeminiKey = v;
-    try{
-      sessionStorage.removeItem('trip_gemini_key'); localStorage.removeItem('trip_gemini_key');
-      if(v){ (remember ? localStorage : sessionStorage).setItem('trip_gemini_key', v); }
-    }catch(e){}
-    overlay.remove();
-    showToast(v ? (remember ? 'API 키를 이 브라우저에 저장했어요' : 'API 키가 설정됐어요(이 탭이 열려있는 동안)') : 'API 키를 지웠어요');
-  };
 }
 
 async function handlePdfFile(file, mode){
