@@ -219,10 +219,10 @@ let memoryStore = {}; // window.storage와 구글 로그인 둘 다 없을 때�
 let userGeminiKey = (function(){
   try{ return sessionStorage.getItem('trip_gemini_key') || localStorage.getItem('trip_gemini_key') || null; }catch(e){ return null; }
 })();
-// PDF 자동 인식을 위한 Cloudflare Worker 프록시 주소(Gemini API로 전달). 설정되어 있으면 이 주소로 요청하고,
-// (REPLACE 문자열이 남아있으면) 설정 전이라는 뜻이라 기존 "API 키 직접 입력" 방식으로 대체 동작합니다.
 const GEMINI_MODEL = 'gemini-2.5-flash';
-const AI_PROXY_URL = 'https://royal-rice-4501.statepark62.workers.dev';
+// Apps Script 웹 앱 주소(제작자 시트에 붙인 Gemini 중계). 배포 후 이 값을 실제 URL로 바꿔주세요.
+// 구글에 연결(로그인)되어 있으면 이 주소로 요청하고, 키는 Apps Script의 스크립트 속성에만 보관됩니다.
+const AI_GAS_URL = 'https://script.google.com/macros/s/AKfycbxypRrYn-dhO0WVlgKCo1oid28buaIOSHXLXATLSGtpoHJh8G5qXBL3jpCl8dd3k-Aj/exec';
 // PDF 자동 인식은 개발자 전용 기능입니다. 주소 뒤에 ?dev=1 을 붙였을 때만 관련 버튼이 보입니다.
 // 예: https://statepark62.github.io/trip-planner/?dev=1
 function _devFlagPresent(){
@@ -1218,30 +1218,35 @@ async function callGeminiForItinerary(parts, onRetry){
   const todayStr = fmtDate(new Date());
   const systemText = EXTRACT_SYSTEM_PROMPT(todayStr);
   const headers = {'Content-Type':'application/json'};
-  let endpoint;
-  if(userGeminiKey){
-    // 브라우저(한국 IP)에서 Gemini로 직접 호출 — 가장 안정적
-    endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
-    headers['x-goog-api-key'] = userGeminiKey;
-  } else if(AI_PROXY_URL && AI_PROXY_URL.indexOf('REPLACE')===-1){
-    // 키가 없으면 Worker 프록시로 시도(Worker 실행 위치가 홍콩이면 지역 제한 오류가 날 수 있음)
-    endpoint = AI_PROXY_URL;
-  } else {
-    throw new Error('Gemini API 키가 설정되지 않았어요. 상단의 "🔑 AI 키" 버튼으로 키를 입력해주세요.');
-  }
-  const viaProxy = (endpoint === AI_PROXY_URL);
-  const body = JSON.stringify({
+  const geminiBody = {
     systemInstruction: { parts: [{ text: systemText }] },
     contents: [{ role:'user', parts: Array.isArray(parts) ? parts : [{ text: parts }] }],
     generationConfig: { maxOutputTokens: 8192, responseMimeType: 'application/json' }
-  });
+  };
 
-  // Cloudflare의 workers.dev 공유 도메인에서 가끔 요청이 일시적으로 막히는 경우(403 등)가 있어,
-  // 몇 초 간격으로 최대 3번까지 자동 재시도합니다. 사용자가 직접 '취소' 후 다시 시도할 필요가 없도록 하기 위함입니다.
+  // 호출 방식 선택
+  //  1) 구글 연결됨 + Apps Script 주소 설정됨 → Apps Script가 (소유자 확인 후) Gemini 호출. 기기마다 키 입력 불필요.
+  //  2) 그 외 직접 입력한 키가 있으면 → 브라우저에서 Gemini 직접 호출(한국 IP라 지역 제한 없음)
+  let mode, endpoint, body;
+  if(googleSignedIn && googleAccessToken && AI_GAS_URL.indexOf('REPLACE')===-1){
+    mode = 'gas';
+    endpoint = AI_GAS_URL;
+    headers['Content-Type'] = 'text/plain;charset=utf-8'; // 사전요청(preflight) 없이 보내기 위함
+    body = JSON.stringify({ token: googleAccessToken, body: geminiBody });
+  } else if(userGeminiKey){
+    mode = 'direct';
+    endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+    headers['x-goog-api-key'] = userGeminiKey;
+    body = JSON.stringify(geminiBody);
+  } else {
+    throw new Error('AI 호출 설정이 없어요. Google에 연결하거나(Apps Script 설정 시), 상단의 "🔑 AI 키" 버튼으로 Gemini 키를 입력해주세요.');
+  }
+
+  // 일시적 오류(429/5xx 등)는 몇 초 간격으로 최대 3번 자동 재시도합니다.
   const delays = [2000, 5000, 10000]; // 2초 → 5초 → 10초
   let lastErr = null;
   for(let attempt=0; attempt<=delays.length; attempt++){
-    let resp, data;
+    let resp, data, status, ok;
     try{
       resp = await fetch(endpoint, { method:'POST', headers, body });
       data = await resp.json().catch(()=>null);
@@ -1250,14 +1255,19 @@ async function callGeminiForItinerary(parts, onRetry){
       if(attempt<delays.length){ if(onRetry) onRetry(attempt+1, delays.length+1); await sleep(delays[attempt]); continue; }
       throw lastErr;
     }
-    if(resp.ok){
+    if(mode==='gas'){
+      // Apps Script 웹 앱은 HTTP 상태코드를 못 바꾸므로 본문의 error.code로 판단
+      if(data==null){ status = 502; ok = false; }
+      else if(data.error){ status = data.error.code || 500; ok = false; }
+      else { status = 200; ok = resp.ok; }
+    } else { status = resp.status; ok = resp.ok; }
+    if(ok){
       return finishItineraryResponse(data);
     }
-    const msg = (data && data.error && data.error.message) ? data.error.message : ('HTTP '+resp.status);
-    let hint = '';
-    if(/location is not supported/i.test(msg) && !userGeminiKey) hint = ' → 상단 "🔑 AI 키" 버튼으로 Gemini 키를 입력하면 이 브라우저에서 직접 호출해 해결돼요.';
-    lastErr = new Error('API 오류: '+msg+hint);
-    if((RETRYABLE_STATUS.has(resp.status) || (viaProxy && resp.status===403)) && attempt<delays.length){
+    const msg = (data && data.error && data.error.message) ? data.error.message
+              : (mode==='gas' && data==null ? 'Apps Script 응답을 읽지 못했어요(배포 URL·권한을 확인해주세요)' : ('HTTP '+status));
+    lastErr = new Error('API 오류: '+msg);
+    if(RETRYABLE_STATUS.has(status) && attempt<delays.length){
       if(onRetry) onRetry(attempt+1, delays.length+1);
       await sleep(delays[attempt]);
       continue;
@@ -1316,7 +1326,7 @@ function openApiKeyModal(){
   try{ remembered = !!localStorage.getItem('trip_gemini_key'); }catch(e){}
   overlay.innerHTML = `<div class="sheet">
     <h3>Gemini API 키 설정</h3>
-    <p style="font-size:14px;color:var(--ink-soft);line-height:1.6;">PDF·사진 자동 인식은 <b>이 브라우저에서 Gemini를 직접 호출</b>합니다. Google AI Studio에서 발급한 키(<b>AIza…</b>)를 입력하세요. 기본적으로 <b>이 탭이 열려있는 동안만</b> 유지돼요.</p>
+    <p style="font-size:14px;color:var(--ink-soft);line-height:1.6;"><b>보조 방법</b>입니다. Google에 연결되어 있고 Apps Script가 설정돼 있으면 키를 입력할 필요가 없어요. 그렇지 않을 때만, Google AI Studio 키(<b>AIza…</b>)를 입력하면 이 브라우저에서 Gemini를 직접 호출합니다. 기본적으로 <b>이 탭이 열려있는 동안만</b> 유지돼요.</p>
     <div class="field"><label>API 키</label><input id="k_input" type="password" placeholder="AIza..." value="${userGeminiKey||''}"></div>
     <label style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink-soft);margin:4px 0 6px;">
       <input type="checkbox" id="k_remember" ${remembered?'checked':''} style="width:auto;"> 이 컴퓨터(브라우저)에 계속 기억하기 (본인 기기에서만 권장)
