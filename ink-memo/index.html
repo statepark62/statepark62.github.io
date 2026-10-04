@@ -100,8 +100,8 @@
   }
 
   /* ---------- Main App ---------- */
-  #app{ display:none; max-width: 100%; margin: 0 auto;
-    padding: calc(16px + env(safe-area-inset-top)) 20px calc(80px + env(safe-area-inset-bottom)); }
+  #app{ display:none; width: 67%; max-width: 900px; min-width: 320px; margin: 0 auto;
+    padding: calc(16px + env(safe-area-inset-top)) 24px calc(80px + env(safe-area-inset-bottom)); }
   header.top{
     display:flex; align-items:center; justify-content:space-between;
     margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #33333B;
@@ -217,6 +217,7 @@
 
   ::selection{ background: var(--gold); color: var(--ink); }
   @media (max-width: 420px){ .app-title{ font-size: 26px; } }
+  @media (max-width: 600px){ #app{ width: 100%; padding-left: 16px; padding-right: 16px; } }
 </style>
 </head>
 <body>
@@ -387,11 +388,12 @@
 
   // ---------- Google 로그인 & Sheets API 저장소 ----------
   // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
-  const CLIENT_ID = "736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com";
+   const CLIENT_ID = "736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com";
 ;
   // 배포한 Cloudflare Worker 주소 (끝에 슬래시 없이). 예: https://ink-memo-auth.<계정>.workers.dev
   const WORKER_URL = "https://ink-memo-auth.statepark62.workers.dev";
 
+  const WORKER_URL = "여기에_배포된_Worker_주소를_입력하세요";
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
