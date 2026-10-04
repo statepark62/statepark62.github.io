@@ -214,10 +214,11 @@ const GOOGLE_ENABLED = GOOGLE_CLIENT_ID.indexOf('REPLACE_WITH') === -1;
 const SPREADSHEET_TITLE = '지금여기_여행일정_데이터';
 let tokenClient = null, googleAccessToken = null, googleSignedIn = false, spreadsheetId = null;
 let memoryStore = {}; // window.storage와 구글 로그인 둘 다 없을 때의 임시(새로고침시 소실) 저장소
-let userAnthropicKey = null; // GitHub 등 외부 배포 시 사용자가 직접 입력하는 API 키(세션 동안만 메모리 유지)
-// PDF 자동 인식을 위한 Cloudflare Worker 프록시 주소. 설정되어 있으면 이 주소로 요청하고,
+let userGeminiKey = null; // GitHub 등 외부 배포 시 사용자가 직접 입력하는 Gemini API 키(세션 동안만 메모리 유지)
+// PDF 자동 인식을 위한 Cloudflare Worker 프록시 주소(Gemini API로 전달). 설정되어 있으면 이 주소로 요청하고,
 // (REPLACE 문자열이 남아있으면) 설정 전이라는 뜻이라 기존 "API 키 직접 입력" 방식으로 대체 동작합니다.
-const CLAUDE_PROXY_URL = 'https://royal-rice-4501.statepark62.workers.dev';
+const GEMINI_MODEL = 'gemini-2.5-flash';
+const AI_PROXY_URL = 'https://royal-rice-4501.statepark62.workers.dev';
 // PDF 자동 인식은 개발자 전용 기능입니다. 주소 뒤에 ?dev=1 을 붙였을 때만 관련 버튼이 보입니다.
 // 예: https://statepark62.github.io/trip-planner/?dev=1
 function _devFlagPresent(){
@@ -1206,23 +1207,25 @@ const EXTRACT_SYSTEM_PROMPT = (todayStr)=>`당신은 여행 일정표(텍스트 
 const RETRYABLE_STATUS = new Set([403, 408, 409, 429, 500, 502, 503, 504, 529]);
 function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
 
-async function callClaudeForItinerary(userContent, onRetry){
+async function callGeminiForItinerary(parts, onRetry){
   const todayStr = fmtDate(new Date());
-  const system = EXTRACT_SYSTEM_PROMPT(todayStr);
+  const systemText = EXTRACT_SYSTEM_PROMPT(todayStr);
   const headers = {'Content-Type':'application/json'};
-  let endpoint = 'https://api.anthropic.com/v1/messages';
-  if(CLAUDE_PROXY_URL && CLAUDE_PROXY_URL.indexOf('REPLACE')===-1){
-    endpoint = CLAUDE_PROXY_URL;
-  } else if(userAnthropicKey){
-    headers['x-api-key'] = userAnthropicKey;
-    headers['anthropic-version'] = '2023-06-01';
-    headers['anthropic-dangerous-direct-browser-access'] = 'true';
+  let endpoint;
+  if(AI_PROXY_URL && AI_PROXY_URL.indexOf('REPLACE')===-1){
+    // Worker가 모델명·키를 서버 쪽에서 붙여 Gemini로 전달합니다. 클라이언트는 Gemini 요청 형식의
+    // 본문(body)만 그대로 Worker로 보냅니다.
+    endpoint = AI_PROXY_URL;
+  } else if(userGeminiKey){
+    endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+    headers['x-goog-api-key'] = userGeminiKey;
+  } else {
+    throw new Error('API 키가 설정되지 않았어요. 설정 버튼으로 Gemini API 키를 입력해주세요.');
   }
   const body = JSON.stringify({
-    model:'claude-sonnet-5',
-    max_tokens:8192,
-    system,
-    messages:[{role:'user', content:userContent}]
+    systemInstruction: { parts: [{ text: systemText }] },
+    contents: [{ role:'user', parts: Array.isArray(parts) ? parts : [{ text: parts }] }],
+    generationConfig: { maxOutputTokens: 8192, responseMimeType: 'application/json' }
   });
 
   // Cloudflare의 workers.dev 공유 도메인에서 가끔 요청이 일시적으로 막히는 경우(403 등)가 있어,
@@ -1255,14 +1258,16 @@ async function callClaudeForItinerary(userContent, onRetry){
 }
 
 function finishItineraryResponse(data){
-  const textBlocks = (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+  const cand = (data && data.candidates && data.candidates[0]) || null;
+  const textBlocks = (cand && cand.content && cand.content.parts)
+    ? cand.content.parts.map(p=>p.text||'').join('\n') : '';
   const cleaned = textBlocks.replace(/```json|```/g,'').trim();
   let parsed;
   try{
     parsed = JSON.parse(cleaned);
   }catch(e){
     console.error('JSON 파싱 실패, 원본 응답:', textBlocks);
-    const truncatedHint = data.stop_reason==='max_tokens' ? ' (응답이 길이 제한에 걸려 중간에 잘렸을 수 있어요)' : '';
+    const truncatedHint = (cand && cand.finishReason==='MAX_TOKENS') ? ' (응답이 길이 제한에 걸려 중간에 잘렸을 수 있어요)' : '';
     throw new Error('응답을 이해하지 못했어요'+truncatedHint);
   }
   if(!parsed.title || !parsed.startDate || !parsed.endDate || !Array.isArray(parsed.items)){
@@ -1271,9 +1276,9 @@ function finishItineraryResponse(data){
   return parsed;
 }
 
-async function callClaudeExtract(text){
+async function callAIExtract(text){
   const truncated = text.slice(0, 12000);
-  return callClaudeForItinerary(`다음은 여행 일정표에서 추출한 텍스트입니다:\n\n${truncated}`, setPdfProgressRetryMsg);
+  return callGeminiForItinerary(`다음은 여행 일정표에서 추출한 텍스트입니다:\n\n${truncated}`, setPdfProgressRetryMsg);
 }
 
 async function readFileAsBase64(file){
@@ -1285,12 +1290,12 @@ async function readFileAsBase64(file){
   });
 }
 
-async function callClaudeExtractFromImage(file){
+async function callAIExtractFromImage(file){
   const base64 = await readFileAsBase64(file);
-  const mediaType = file.type || 'image/jpeg';
-  return callClaudeForItinerary([
-    { type:'image', source:{ type:'base64', media_type: mediaType, data: base64 } },
-    { type:'text', text:'위 이미지는 여행 일정표(캡처·사진)입니다. 여기서 정보를 추출하세요.' }
+  const mimeType = file.type || 'image/jpeg';
+  return callGeminiForItinerary([
+    { inlineData: { mimeType, data: base64 } },
+    { text:'위 이미지는 여행 일정표(캡처·사진)입니다. 여기서 정보를 추출하세요.' }
   ], setPdfProgressRetryMsg);
 }
 
@@ -1298,9 +1303,9 @@ function openApiKeyModal(){
   const overlay = document.createElement('div');
   overlay.className='overlay';
   overlay.innerHTML = `<div class="sheet">
-    <h3>Anthropic API 키 설정</h3>
-    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.6;">GitHub 등 외부에 배포했다면, PDF 자동 인식을 쓰기 위해 본인의 Anthropic API 키가 필요해요. 이 키는 저장되지 않고 <b>현재 탭이 열려있는 동안에만</b> 메모리에 유지돼요.</p>
-    <div class="field"><label>API 키</label><input id="k_input" type="password" placeholder="sk-ant-..." value="${userAnthropicKey||''}"></div>
+    <h3>Gemini API 키 설정</h3>
+    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.6;">GitHub 등 외부에 배포했다면, PDF 자동 인식을 쓰기 위해 본인의 Gemini API 키가 필요해요. 이 키는 저장되지 않고 <b>현재 탭이 열려있는 동안에만</b> 메모리에 유지돼요.</p>
+    <div class="field"><label>API 키</label><input id="k_input" type="password" placeholder="AIza..." value="${userGeminiKey||''}"></div>
     <div class="sheet-actions">
       <button class="btn btn-line" id="k_cancel">취소</button>
       <button class="btn btn-primary" id="k_save">저장</button>
@@ -1310,9 +1315,9 @@ function openApiKeyModal(){
   $('#k_cancel').onclick = ()=>overlay.remove();
   overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
   $('#k_save').onclick = ()=>{
-    userAnthropicKey = $('#k_input').value.trim() || null;
+    userGeminiKey = $('#k_input').value.trim() || null;
     overlay.remove();
-    showToast(userAnthropicKey ? 'API 키가 설정됐어요(이 세션 동안만)' : 'API 키를 비웠어요');
+    showToast(userGeminiKey ? 'API 키가 설정됐어요(이 세션 동안만)' : 'API 키를 비웠어요');
   };
 }
 
@@ -1325,7 +1330,7 @@ async function handlePdfFile(file, mode){
       openImportErrorModal('PDF에서 텍스트를 읽지 못했어요.', '스캔한 이미지 PDF일 가능성이 높아요. 이 경우 텍스트 레이어가 없어서 자동으로 읽을 수 없으니, 직접 입력해주세요.');
       return;
     }
-    const parsed = await callClaudeExtract(text);
+    const parsed = await callAIExtract(text);
     if(!parsed.items || parsed.items.length===0){
       overlay.remove();
       openImportErrorModal(
@@ -1542,7 +1547,7 @@ function triggerPhotoPick(mode){
 async function handlePhotoFile(file, mode){
   const overlay = openPdfProgressModal();
   try{
-    const parsed = await callClaudeExtractFromImage(file);
+    const parsed = await callAIExtractFromImage(file);
     overlay.remove();
     if(!parsed.items || parsed.items.length===0){
       openImportErrorModal('세부 일정을 찾지 못했어요.', `날짜(${parsed.startDate} ~ ${parsed.endDate})는 인식했지만, 시간대별 개별 일정은 찾지 못했어요. 더 선명한 사진으로 다시 시도해주세요.`);
