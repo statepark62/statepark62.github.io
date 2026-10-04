@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-04 天声人語로 배우는 일본어 — 기록적인 장기 강우</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-04</span>
+      <span>2026년 10월 4일 (일)</span>
+    </div>
+
+    <h1><ruby>記録的<rt>きろくてき</rt></ruby><ruby>長雨<rt>ながあめ</rt></ruby></h1>
+    <p class="topic-ko">기록적인 장기 강우</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>旧約聖書<rt>きゅうやくせいしょ</rt></ruby>」</div>
+      <div class="ko">구약성서 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>旧約聖書<rt>きゅうやくせいしょ</rt></ruby>のノアの<ruby>物語<rt>ものがたり</rt></ruby>を<ruby>導入<rt>どうにゅう</rt></ruby>に、９<ruby>月<rt>がつ</rt></ruby>の<ruby>雨<rt>あめ</rt></ruby>を<ruby>主題<rt>しゅだい</rt></ruby>とする<ruby>論考<rt>ろんこう</rt></ruby>だ。</p><p class="ko">칼럼은 구약성서 ‘노아의 방주’를 서두에 불러와, 하늘의 무정함까지 떠오르게 한 9월의 비를 화제로 삼는다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>東京都心<rt>とうきょうとしん</rt></ruby>では１０<ruby>月<rt>がつ</rt></ruby>２<ruby>日<rt>ふつか</rt></ruby>まで３７<ruby>日<rt>にち</rt></ruby><ruby>連続<rt>れんぞく</rt></ruby>で<ruby>雨<rt>あめ</rt></ruby>が<ruby>観測<rt>かんそく</rt></ruby>され、９<ruby>月<rt>がつ</rt></ruby>の<ruby>降雨量<rt>こううりょう</rt></ruby>も<ruby>過去<rt>かこ</rt></ruby><ruby>最多<rt>さいた</rt></ruby>と<ruby>伝<rt>つた</rt></ruby>える。</p><p class="ko">도쿄 도심에서는 10월 2일까지 37일 연속으로 비가 기록되었고, 9월 강수량도 역대 최고 수준에 달했다고 전한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>数字<rt>すうじ</rt></ruby>の<ruby>記録<rt>きろく</rt></ruby>だけでなく、<ruby>生活<rt>せいかつ</rt></ruby>の<ruby>揺<rt>ゆ</rt></ruby>らぎや<ruby>不安<rt>ふあん</rt></ruby>にも<ruby>目<rt>め</rt></ruby>を<ruby>向<rt>む</rt></ruby>け、<ruby>季節感<rt>きせつかん</rt></ruby>の<ruby>変化<rt>へんか</rt></ruby>を<ruby>省<rt>かえり</rt></ruby>みている。</p><p class="ko">필자는 숫자 기록을 넘어 체감되는 불안과 일상의 균열을 짚으며, 계절감마저 흐려지는 현실을 성찰한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>連続<rt>れんぞく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">연속</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">３<ruby>日<rt>か</rt></ruby><ruby>連続<rt>れんぞく</rt></ruby>で<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>った。</span><br>사흘 연속으로 비가 내렸다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>記録更新<rt>きろくこうしん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">기록 경신</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>台風<rt>たいふう</rt></ruby>で<ruby>降水量<rt>こうすいりょう</rt></ruby>が<ruby>記録更新<rt>きろくこうしん</rt></ruby>となった。</span><br>태풍으로 강수량이 기록을 경신했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>降雨量<rt>こううりょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">강우량</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>今日<rt>きょう</rt></ruby>の<ruby>降雨量<rt>こううりょう</rt></ruby>は<ruby>予想<rt>よそう</rt></ruby>を<ruby>上回<rt>うわまわ</rt></ruby>った。</span><br>오늘 강우량은 예상을 웃돌았다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>不安<rt>ふあん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">불안</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>長雨<rt>ながあめ</rt></ruby>が<ruby>続<rt>つづ</rt></ruby>き、<ruby>住民<rt>じゅうみん</rt></ruby>は<ruby>不安<rt>ふあん</rt></ruby>を<ruby>抱<rt>いだ</rt></ruby>いた。</span><br>장마가 계속되어 주민들이 불안을 느꼈다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>気象<rt>きしょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">기상</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>気象<rt>きしょう</rt></ruby><ruby>庁<rt>ちょう</rt></ruby>は<ruby>異例<rt>いれい</rt></ruby>の<ruby>会見<rt>かいけん</rt></ruby>を<ruby>開<rt>ひら</rt></ruby>いた。</span><br>기상청이 이례적인 기자회견을 열었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜すら</div>
+        <div class="pattern-ko">~조차, ~마저</div>
+        <p class="explain">극단적인 예까지 포함해 &#x27;심지어 ~까지도&#x27;라는 뜻을 강조한다. 보통 부정 표현과 함께 쓰여 상황의 심각함이나 의외성을 드러낸다.</p>
+        <p class="ex"><span class="ja"><ruby>忙<rt>いそが</rt></ruby>しすぎて、<ruby>昼食<rt>ちゅうしょく</rt></ruby>を<ruby>食<rt>た</rt></ruby>べる<ruby>時間<rt>じかん</rt></ruby>すらなかった。</span><br>너무 바빠서 점심을 먹을 시간조차 없었다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 종교적 인용으로 시작해 현실의 기상 기록으로 자연스럽게 전환한다. 거대한 서사의 비유를 통해 독자가 즉시 정서적 스케일을 체감하게 만들고, 곧바로 수치와 사실로 논점을 안정시킨다. ‘천성인어’ 특유의 압축과 전환이 살아 있으며, 문장 간의 대비가 여운을 만든다. 결과적으로 감성과 데이터가 균형을 이루어 설득력이 높아진다.</p>
+        <p>칼럼은 단순한 이상 기후 소식을 넘어, 일상성의 흔들림과 계절감의 변화라는 생활 세계의 문제를 제기한다. 한국 독자에게도 장마 패턴의 변화와 국지성 호우는 익숙한 경험이어서 공감 폭이 넓다. 성서적 이미지를 빌려 현재를 비춰보는 방식은 문화 간 공통의 상징 자원을 활용하는 흥미로운 글쓰기 전략이다. 비의 길어짐을 ‘기록’으로만 보지 않고 ‘감각의 변화’로까지 확장한 점이 인상적이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 기록적인 장기 강우를 성서의 비유와 함께 짚으며, 수치와 체감의 간극을 성찰하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본은 여름 장마(梅雨) 이후에도 태풍과 전선의 영향으로 가을철 집중호우가 이어지곤 한다. 해마다 강수 패턴의 변동성이 커졌다는 지적이 나오고 있다.</p>
+        <p>도쿄는 장기 관측 기록이 축적된 도시로, ‘연속 강우 일수’나 ‘월별 강수량’ 같은 지표가 언론 보도에서 자주 사용된다. 이러한 수치는 생활 리듬과 도시 인프라의 취약성을 드러내는 단서가 된다.</p>
+        <p>일본 신문 칼럼은 종종 신화나 경전의 이미지를 인용해 시의적 문제를 비춘다. 성서 인용은 종교적 선전이 아니라 보편적 상징을 통해 독자의 상상력을 환기하는 장치로 기능하는 경우가 많다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>큰 비유로 정서적 스케일을 제시한 뒤, 구체적 수치로 현실 감각을 고정하는 구성력을 배운다.</p>
+        <p><span class="n">二</span>‘기록’과 ‘체감’을 나란히 두어 독자의 삶과 바로 연결되게 만드는 시각을 취한다.</p>
+        <p><span class="n">三</span>문장 간 대비(비유↔사실, 수치↔생활)를 통해 여운과 사고의 폭을 넓힌다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>記録的<rt>きろくてき</rt></ruby>な<ruby>長雨<rt>ながあめ</rt></ruby>が<ruby>日常<rt>にちじょう</rt></ruby>の<ruby>景色<rt>けしき</rt></ruby>を<ruby>変<rt>か</rt></ruby>えた。</span>
+      <span class="ko">기록적인 장기 강우가 일상의 풍경을 바꾸었다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-04) — <a href="https://www.asahi.com/articles/DA3S16559989.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-04.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

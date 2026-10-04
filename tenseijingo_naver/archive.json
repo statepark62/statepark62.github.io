@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-04",
+    "no": 89,
+    "topic_ja": "<ruby>記録的<rt>きろくてき</rt></ruby><ruby>長雨<rt>ながあめ</rt></ruby>",
+    "topic_ko": "기록적인 장기 강우",
+    "url": "https://www.asahi.com/articles/DA3S16559989.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘이상기후’, ‘도시의 일상’ — 장기간 강우라는 기상 기록을 출발점으로, 도시 생활의 감각 변화와 불안을 함께 다뤄 시대적 과제를 드러내므로.",
+    "pattern": "〜すら"
+  },
+  {
     "date": "2026-10-03",
     "no": 88,
     "topic_ja": "<ruby>酒税<rt>しゅぜい</rt></ruby>と<ruby>庶民<rt>しょみん</rt></ruby>の<ruby>選択<rt>せんたく</rt></ruby>",

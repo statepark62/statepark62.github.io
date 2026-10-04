@@ -12601,5 +12601,55 @@
   "example": "庶民の暮らしに身近な酒を考える。",
   "exampleReading": "しょみんのくらしにみぢかなさけをかんがえる。",
   "exampleMeaning": "서민의 삶에 가까운 술을 생각해 본다."
+ },
+ {
+  "id": "tj411",
+  "word": "連続",
+  "reading": "れんぞく",
+  "meaning": "연속",
+  "level": "N3",
+  "example": "３日連続で雨が降った。",
+  "exampleReading": "みっかれんぞくであめがふった。",
+  "exampleMeaning": "사흘 연속으로 비가 내렸다."
+ },
+ {
+  "id": "tj412",
+  "word": "記録更新",
+  "reading": "きろくこうしん",
+  "meaning": "기록 경신",
+  "level": "N2",
+  "example": "台風で降水量が記録更新となった。",
+  "exampleReading": "たいふうでこうすいりょうがきろくこうしんとなった。",
+  "exampleMeaning": "태풍으로 강수량이 기록을 경신했다."
+ },
+ {
+  "id": "tj413",
+  "word": "降雨量",
+  "reading": "こううりょう",
+  "meaning": "강우량",
+  "level": "N2",
+  "example": "今日の降雨量は予想を上回った。",
+  "exampleReading": "きょうのこううりょうはよそうをうわまわった。",
+  "exampleMeaning": "오늘 강우량은 예상을 웃돌았다."
+ },
+ {
+  "id": "tj414",
+  "word": "不安",
+  "reading": "ふあん",
+  "meaning": "불안",
+  "level": "N3",
+  "example": "長雨が続き、住民は不安を抱いた。",
+  "exampleReading": "ながあめがつづき、じゅうみんはふあんをいだいた。",
+  "exampleMeaning": "장마가 계속되어 주민들이 불안을 느꼈다."
+ },
+ {
+  "id": "tj415",
+  "word": "気象",
+  "reading": "きしょう",
+  "meaning": "기상",
+  "level": "N2",
+  "example": "気象庁は異例の会見を開いた。",
+  "exampleReading": "きしょうちょうはいれいのかいけんをひらいた。",
+  "exampleMeaning": "기상청이 이례적인 기자회견을 열었다."
  }
 ]
