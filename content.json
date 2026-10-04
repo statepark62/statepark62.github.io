@@ -221,9 +221,9 @@
             "ja": "2026. 3 — 現在"
           },
           "what": {
-            "ko": "방송통신대학교 일본어번역연구회",
-            "en": "Japanese Translation Study Group, Korea National Open University",
-            "ja": "韓国放送通信大学 日本語翻訳研究会"
+            "ko": "방송통신대학교 일본어번역연구회(방일연)",
+            "en": "Korea Open University Japanese Translation Research Association (Bangilyeon)",
+            "ja": "放送通信大学日本語翻訳研究会（バン・イルヨン）"
           },
           "memo": null
         },
@@ -509,13 +509,13 @@
       },
       "bullets_html": {
         "ko": [
-          "<b>책제목: 영일소품. 저자: 나츠메 소세키</b>"
+          "<b>책제목: 영일소품. 저자: 나츠메 소세키. 번역: 방일연(박상태)</b>"
         ],
         "en": [
-          "<b>Book Title: Anglo-Japanese Short Stories. Author: Natsume Soseki</b>"
+          "<b>Book Title: Anglo-Japanese Short Stories. Author: Natsume Soseki. Translator: Bang Il-yeon (Park Sang-tae)</b>"
         ],
         "ja": [
-          "<b>本タイトル：英日小物。著者：夏目漱石</b>"
+          "<b>本タイトル：英日小物。著者：夏目漱石。翻訳：バン・イルヨン（パク・ステータス）</b>"
         ]
       },
       "figures": [
