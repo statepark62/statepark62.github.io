@@ -1,20 +1,34 @@
 # 여행 전광판 (지금 여기)
 
-날짜·시간별 여행 일정을 입력해두면, 지금 이 순간 무엇을 하기로 했는지 실시간으로 보여주는 여행 일정 관리 웹앱입니다. 서버 없이 GitHub Pages + 사용자 개인 Google Sheets만으로 동작합니다.
+날짜·시간별 여행 일정을 입력해두면, **지금 이 순간 무엇을 하기로 했는지**를 실시간으로 크게 보여주는 여행 일정 웹앱(PWA)입니다.
+서버 없이 **GitHub Pages + 사용자 본인의 Google Sheets**만으로 동작하며, 개발자는 사용자의 일정 데이터를 볼 수 없습니다.
+
+---
 
 ## 주요 기능
 
-- **실시간 전광판**: 현재 시각 기준 "지금 할 일 / 다음 할 일"을 자동 표시
-- **날짜별 일정 관리**: 여행 기간을 날짜 탭으로 나눠 시간대별 일정 CRUD (추가/수정/삭제, 삭제 시 확인창)
-- **아침 일정 확인**: 앱을 열면 오늘 등록된 일정을 모아서 보여주는 팝업
-- **브라우저 알림**: 일정 시작 10분 전 알림 (탭이 열려있는 동안)
-- **Google Sheets 연동**: 구글 로그인 시 사용자 본인 소유의 스프레드시트에 자동 저장·동기화. 날짜/시간순으로 정리된 사람이 읽기 좋은 탭도 함께 생성
-- **로컬 저장 폴백**: 로그인하지 않아도 브라우저(localStorage)에 저장되어 새로고침에도 유지
-- **지난 여행 목록**: 여행 종료 시 자동으로 초기 화면으로 돌아가되, 과거 여행을 다시 열람 가능
-- **일행에게 실시간 공유**: 로그인 없이도 일행이 링크 하나로 지금 여행을 읽기 전용·실시간(약 30초 간격 자동 갱신)으로 볼 수 있음
-- **PDF로 내보내기**: 브라우저 인쇄 기능으로 일정표를 PDF/인쇄물로 저장
-- **PDF·사진 자동 인식** *(제작자 전용)*: 여행사 PDF나 일정표 사진을 올리면 Claude AI가 날짜·시간·장소를 자동으로 읽어 일정을 생성/추가
-- **PWA 지원**: 홈 화면에 추가해 앱처럼 실행 (오프라인 캐싱 포함), Android는 Google Play 배포 진행 중
+### 공통
+- **실시간 전광판**: 현재 시각 기준 "지금 할 일 / 다음 할 일" 자동 표시
+- **날짜별 일정 관리**: 날짜 탭(줄바꿈 방식이라 며칠짜리 여행이든 잘리지 않음)과 시간대별 일정 추가·수정·삭제 (삭제 시 확인창)
+- **아침 일정 확인**: 앱을 열면 오늘 일정을 모아 보여주는 팝업
+- **브라우저 알림**: 일정 시작 10분 전 (탭이 열려 있는 동안)
+- **Google Sheets 연동**: 구글 로그인 시 본인 소유 스프레드시트에 자동 저장·동기화 (사람이 읽기 좋은 여행별 탭도 함께 생성)
+- **로컬 저장 폴백**: 로그인하지 않아도 브라우저(localStorage)에 저장
+- **지난 여행 목록**, **일행에게 실시간 공유**(로그인 없이 링크로 읽기 전용, 약 30초 간격 갱신), **PDF로 내보내기**(인쇄)
+- **넓은 화면·큰 글자**: 본문 최대 폭 1180px, 모바일 우선 큰 글자
+- **PWA**: 홈 화면에 추가 (Android는 Google Play 배포 진행)
+
+### 일반 사용자용 (`trip-planner-public.html`)
+- **다국어 20개**: 한국어·English·日本語·中文·Deutsch·Français·Italiano·Español·Português(BR)·Русский·العربية(RTL)·Nederlands·Polski·Svenska·Українська·Türkçe·Tiếng Việt·Bahasa Indonesia·ไทย·हिन्दी
+  - 🌐 지구본 아이콘으로 선택, 브라우저 언어 자동 감지, 일행 공유 화면에서도 선택 가능
+  - 언어 추가: `I18N`에 번역 세트 추가 → `DAY_LABELS`에 요일 추가 → `LANG_META`에 이름 추가
+
+### 제작자용 (`trip-live-planner.html`)
+- **PDF·사진 자동 인식**: 여행사 PDF나 일정표 사진을 올리면 Gemini가 날짜·시간·장소를 읽어 일정 생성/추가
+- **중복 건너뛰기**: 기존 여행에 추가할 때 같은 날짜·시작시간·제목의 일정은 자동 제외
+- **자동 재시도**: 일시 오류(429/5xx 등)는 2→5→10초 간격으로 최대 3번 자동 재시도
+
+---
 
 ## 아키텍처
 
@@ -23,130 +37,174 @@
    │
    ▼
 GitHub Pages (정적 호스팅, 서버 없음)
-   ├── /trip-planner/      → 일반 사용자용 (trip-planner-public.html)
-   └── /trip-planner-dev/  → 제작자 전용 (trip-live-planner.html, ?dev=1 또는 로컬 저장된 플래그로 활성화)
-        │                │                                │
-        │ 구글 로그인 시   │ 링크만 열면(로그인 불필요)         │ PDF·사진 인식 시 (제작자 전용)
-        ▼                ▼                                ▼
-   Google Sheets/Drive   Google Sheets API             Cloudflare Worker
-   (사용자 본인 소유,      (공개 API 키로 읽기 전용 조회)    → Anthropic Claude API (claude-sonnet-5)
-    쓰기 권한)                                             (API 키는 Worker Secret에만 보관)
+   ├── /trip-planner/      → 일반 사용자용 (trip-planner-public.html, 다국어)
+   └── /trip-planner-dev/  → 제작자용 (trip-live-planner.html, ?dev=1 로 AI 버튼 표시)
+        │                 │                              │
+        │ 구글 로그인 시    │ 링크만 열면(로그인 불필요)       │ PDF·사진 인식 (제작자 전용, 구글 연결 필수)
+        ▼                 ▼                              ▼
+  Google Sheets/Drive   Google Sheets API              Apps Script 웹 앱 (데이터 시트에 부착)
+  (사용자 본인 소유)      (공개 API 키, 읽기 전용)           ① 호출자가 시트 소유자인지 확인(Drive API)
+                                                         ② Gemini API(gemini-2.5-flash) 호출
+                                                         (Gemini 키는 스크립트 속성에만 보관)
 ```
 
-핵심 설계 원칙: **개발자가 운영하는 서버/DB가 없습니다.** 모든 사용자 데이터는 각자의 Google 계정(Sheets) 또는 각자의 브라우저(localStorage) 안에만 존재합니다. AI 인식 기능만 예외적으로 Cloudflare Worker를 거치며, 이는 제작자(`?dev=1`)만 사용합니다.
+핵심 원칙: **개발자가 운영하는 서버/DB가 없습니다.** 사용자 데이터는 각자의 Google 계정(Sheets) 또는 브라우저(localStorage)에만 존재합니다. AI 인식은 제작자 본인의 시트에 붙인 Apps Script만 거칩니다.
+
+> 이전에는 Cloudflare Worker로 AI API를 중계했으나, Worker가 홍콩 데이터센터에서 실행되면 Gemini가 `User location is not supported`를 반환하고 `workers.dev` 공유 도메인에서 간헐적 403이 발생해 Apps Script 방식으로 교체했습니다. Worker는 더 이상 쓰지 않습니다.
+
+---
 
 ## 파일 구성
 
 | 파일 | 용도 |
 |---|---|
-| `trip-live-planner.html` | 제작자용 전체 소스 (PDF·사진 인식 포함) → `trip-planner-dev/index.html`로 배포 |
-| `trip-planner-public.html` | 일반 사용자용 소스 (AI 인식 코드 제거, PWA 적용) → `trip-planner/index.html`로 배포 |
-| `manifest.json` | PWA 매니페스트 (일반용에만 필요) |
-| `service-worker.js` | 오프라인 캐싱용 서비스워커 (일반용에만 필요) |
-| `icon-192.png` / `icon-512.png` | PWA 아이콘 |
-| `apple-touch-icon.png` | iOS 홈 화면 추가용 아이콘 (양쪽 폴더 모두 필요) |
-| `privacy.html` | 개인정보처리방침 (Google OAuth 심사·Play 스토어 등록에 필요) |
-| `feature-graphic.png` | Play 스토어 피처 그래픽 (1024×500) |
-| `play-store-listing.txt` | Play 스토어 등록 문구 초안 |
+| `trip-planner-public.html` | 일반 사용자용 소스 (다국어·PWA) → `trip-planner/index.html`로 배포 |
+| `trip-live-planner.html` | 제작자용 소스 (PDF·사진 인식) → `trip-planner-dev/index.html`로 배포 |
+| `Code.gs` | Gemini 중계 Apps Script (데이터 시트에 붙여넣기) |
+| `manifest.json`, `service-worker.js` | PWA 매니페스트·오프라인 캐싱 (일반용 폴더에만) |
+| `icon-192.png`, `icon-512.png` | PWA 아이콘 |
+| `apple-touch-icon.png` | iOS 홈 화면 아이콘 (양쪽 폴더 모두) |
+| `privacy.html` | 개인정보처리방침 (OAuth 심사·Play 등록에 필요) |
+| `feature-graphic.png`, `play-store-listing.txt` | Play 스토어 그래픽·등록 문구 초안 |
 
-두 HTML 파일은 기능 추가 시 **양쪽 다 동일하게 수정**해야 합니다 (AI 인식 관련 코드 제외).
+### 두 HTML 파일의 차이 (수정 시 주의)
+| 항목 | 일반용 | 제작자용 |
+|---|---|---|
+| 다국어(20개)·🌐 선택 | ✅ | ❌ (한국어만) |
+| PDF·사진 인식 (Apps Script+Gemini) | ❌ | ✅ |
+| 중복 건너뛰기·자동 재시도 | ❌ | ✅ |
+| 날짜 탭 줄바꿈·큰 글자·넓은 폭 | ✅ | ✅ |
+| `?dev=1` 플래그 저장 | 세션 동안만(sessionStorage) | 브라우저에 영구 저장(localStorage) |
+
+- 공통 기능(일정 CRUD, 전광판, 공유 등)을 고칠 때는 **양쪽 파일을 함께** 수정하세요.
+- 일반용 파일에 남아 있는 `?dev=1` 가져오기 코드는 예전(Cloudflare/Claude) 방식이라 **동작하지 않습니다**. AI 가져오기는 제작자용 파일만 사용하세요.
+- 일반용 페이지를 열면 예전 영구 플래그(`trip_dev_mode`)가 지워집니다. 같은 도메인을 쓰므로, 제작자용은 **`?dev=1`이 붙은 주소를 북마크**해 두세요.
+
+---
 
 ## 초기 설정 (한 번만)
 
-### 1. Google OAuth (Google Sheets 저장·로그인용)
+### 1. Google OAuth (Sheets 저장·로그인용)
 
 1. [Google Cloud Console](https://console.cloud.google.com)에서 프로젝트 생성
 2. "API 및 서비스 → 라이브러리"에서 **Google Sheets API**, **Google Drive API** 사용 설정
 3. "OAuth 동의 화면" 설정 (외부, 테스트 사용자에 본인 이메일 추가)
-4. "사용자 인증 정보 → OAuth 클라이언트 ID 만들기 → 웹 애플리케이션" 생성
+4. "사용자 인증 정보 → OAuth 클라이언트 ID → 웹 애플리케이션" 생성
 5. **승인된 자바스크립트 원본**: `https://<GitHub 사용자명>.github.io`
-6. **승인된 리디렉션 URI**: 실제 배포 경로 각각 등록
-   - `https://<사용자명>.github.io/trip-planner/`
-   - `https://<사용자명>.github.io/trip-planner-dev/`
-7. 발급된 클라이언트 ID를 두 HTML 파일의 `GOOGLE_CLIENT_ID` 상수에 반영
+6. **승인된 리디렉션 URI**: `https://<사용자명>.github.io/trip-planner/`, `https://<사용자명>.github.io/trip-planner-dev/`
+7. 발급된 클라이언트 ID를 두 HTML 파일의 `GOOGLE_CLIENT_ID`에 반영
 
-로그인은 팝업이 아닌 **전체 페이지 리디렉션 방식**입니다 (브라우저 팝업 차단을 피하기 위함). `?dev=1` 등 쿼리스트링은 OAuth의 `state` 파라미터에 실어 왕복 후 복원됩니다. 홈 화면 독립실행 앱(iOS)에서는 자동 재연결 리디렉션을 시도하지 않습니다(왕복 도중 멈추는 iOS 특성 때문).
+로그인은 팝업이 아닌 **전체 페이지 리디렉션 방식**입니다 (팝업 차단 회피). 요청 스코프는 `spreadsheets`, `drive.file`입니다.
 
 ### 2. Google API 키 (일행 공유 보기용, 로그인 불필요)
 
-1. Google Cloud Console → "사용자 인증 정보 → + 사용자 인증 정보 만들기 → API 키"
+1. Cloud Console → 사용자 인증 정보 → API 키 만들기
 2. **API 제한사항**: Google Sheets API만 체크
-3. **애플리케이션 제한사항**: "웹사이트" 선택 → `https://<사용자명>.github.io/*` 추가
-4. 발급된 키를 두 HTML 파일의 `GOOGLE_API_KEY` 상수에 반영
+3. **애플리케이션 제한사항: 웹사이트** → 아래 항목을 등록
 
-이 키는 "일행에게 공유" 기능에서, 로그인하지 않은 사람이 공개로 전환된 시트를 읽기 전용으로 조회할 때 사용됩니다. OAuth 클라이언트 ID와는 완전히 별개입니다.
+   ```
+   <사용자명>.github.io/*
+   ```
 
-### 3. Cloudflare Worker (AI 인식용, 제작자 전용)
+   > ⚠️ 브라우저가 다른 도메인(googleapis.com)으로 요청을 보낼 때 referrer에는 **경로 없이 도메인만** 실립니다.
+   > `.../trip-planner/*`처럼 경로를 붙인 항목만 등록하면 `API_KEY_HTTP_REFERRER_BLOCKED`(403)가 납니다.
+4. 발급된 키를 두 HTML 파일의 `GOOGLE_API_KEY`에 반영
 
-1. [Cloudflare 대시보드](https://dash.cloudflare.com) → Workers & Pages → 새 Worker 생성 (Hello World 템플릿, **무료 요금제로 충분**)
-2. Worker 코드를 Anthropic API 프록시로 교체 (아래 `worker.js` 참고)
-3. Settings → Variables and Secrets → `ANTHROPIC_API_KEY`를 **Secret** 유형으로 등록 (이 프로젝트 전용 키를 새로 발급해 사용 — 다른 프로젝트 키와 공유하면 사용량 제한이 얽혀 원인불명 오류가 날 수 있음)
-4. Worker 주소를 `trip-live-planner.html`의 `CLAUDE_PROXY_URL` 상수에 반영
+이 키는 공개 페이지에 들어가는 키입니다. Sheets 읽기 전용 + 웹사이트 제한으로 보호하며, 실제 접근 권한은 각 시트의 공유 설정이 결정합니다.
 
-```js
-export default {
-  async fetch(request, env) {
-    const ALLOWED_ORIGIN = 'https://<사용자명>.github.io';
-    const cors = {
-      'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    };
-    if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
-    if (request.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: cors });
+### 3. Gemini 키 + Apps Script 중계 (제작자용 AI 인식)
 
-    const body = await request.text();
-    const upstream = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body,
-    });
-    const respBody = await upstream.text();
-    return new Response(respBody, { status: upstream.status, headers: { ...cors, 'content-type': 'application/json' } });
-  },
-};
-```
+1. [Google AI Studio](https://aistudio.google.com/apikey)에서 Gemini API 키 발급
+   (⚠️ Cloud Console "사용자 인증 정보"의 키가 아니라 **AI Studio 목록의 키**를 사용)
+2. 앱에 구글 로그인하면 `지금여기_여행일정_데이터` 시트가 만들어집니다. 이 시트를 열고 **확장 프로그램 → Apps Script**
+3. `Code.gs` 내용을 붙여넣고 맨 위 `SHEET_ID`를 이 시트의 ID(주소의 `/d/` 뒤 문자열)로 바꿔 저장
+4. **프로젝트 설정(톱니) → 스크립트 속성**: `GEMINI_API_KEY` = (1번에서 발급한 키)
+5. **배포 → 새 배포 → 웹 앱**: 실행 사용자 **나**, 액세스 권한 **모든 사용자** → 권한 승인 후 웹 앱 URL(`…/exec`) 복사
+   - 소유자 확인은 스크립트가 직접 하므로 "모든 사용자"가 필요합니다.
+6. `trip-live-planner.html`의 `AI_GAS_URL`에 URL을 넣고 배포
 
-일반 사용자에게 AI 기능을 공개할 계획이라면, 남용 방지를 위해 IP당 요청 수 제한을 추가하는 것을 권장합니다.
+동작 방식: 제작자용 페이지가 **구글 로그인 토큰**과 요청 본문을 Apps Script로 보냄 → 스크립트가 Drive API로 "이 토큰의 주인이 시트 소유자인가(`ownedByMe`)"를 확인 → 맞을 때만 Gemini 호출. 중계 주소가 공개 페이지에 노출되어도 소유자 외에는 사용할 수 없습니다.
+
+- 키만 바꿀 때는 스크립트 속성만 수정하면 됩니다(재배포 불필요). `Code.gs`를 고쳤다면 **새 버전으로 다시 배포**해야 반영됩니다.
+- 모델은 `Code.gs`의 `GEMINI_MODEL`(현재 `gemini-2.5-flash`)에서 바꿉니다.
 
 ### 4. GitHub Pages 배포
 
 - 저장소를 **Public**으로 설정
 - `trip-planner/index.html`, `trip-planner-dev/index.html` 각각 배포
-- PWA 관련 파일(`manifest.json`, `service-worker.js`, 아이콘)은 `trip-planner/` 폴더에만 필요
-- `apple-touch-icon.png`는 두 폴더 모두에 필요
-- 캐시가 종종 끈질기므로 배포 후 강력 새로고침(Ctrl+Shift+R) 또는 아이폰은 설정 > Safari > 기록 및 웹사이트 데이터 지우기로 확인
+- PWA 관련 파일은 `trip-planner/`에만, `apple-touch-icon.png`는 두 폴더 모두에 필요
+- 캐시가 끈질기므로 배포 후 **강력 새로고침(`Ctrl+Shift+R`)**. 아이폰은 설정 > Safari > 기록 및 웹사이트 데이터 지우기
+
+---
 
 ## 제작자 모드 (`?dev=1`)
 
-PDF·사진 인식 기능은 API 비용이 발생하므로 제작자만 사용하도록 게이팅되어 있습니다.
+`https://<사용자명>.github.io/trip-planner-dev/?dev=1`로 접속하면 "PDF로 가져오기/추가", "사진으로 가져오기/추가" 버튼이 나타납니다.
 
-- `https://<사용자명>.github.io/trip-planner-dev/?dev=1`로 한 번 접속하면 이 브라우저에 플래그가 저장되어, 이후 `?dev=1` 없이도 계속 유지됩니다
-- 홈 화면 독립실행 앱(아이콘)은 **만들 당시 주소에 `?dev=1`이 포함되어 있어야** 합니다
+- **구글에 연결된 상태에서만** AI 인식이 동작합니다 (소유자 확인에 로그인 토큰을 사용).
+- 기존 여행에 "추가"할 때 이미 있는 일정(같은 날짜·시작시간·제목)은 자동 제외되고, 미리보기에 제외 개수가 표시됩니다. 제목이 조금이라도 다르면 별개 일정으로 봅니다.
+- 추가를 확정한 뒤에는 되돌리기가 없으니(일정 옆 ✕로 개별 삭제), 미리보기에서 확인하세요.
 
 ## 일행에게 실시간 공유하기
 
-1. 구글 로그인 상태에서 여행을 연 뒤, 상단 **"일행에게 공유"** 버튼 클릭 (로그인 안 되어 있으면 버튼 자체가 안 보임)
-2. 앱이 자동으로 그 여행의 구글 시트를 "링크가 있는 모든 사용자 - 뷰어"로 전환하고, `?share=<스프레드시트ID>` 형태의 링크를 생성
-3. 이 링크를 받은 사람은 **로그인 없이** 실시간(약 30초 간격 자동 새로고침) 읽기 전용으로 일정을 볼 수 있음 (수정 불가)
-4. 이 기능은 위 "2. Google API 키" 설정이 되어 있어야 작동함
+1. 구글 로그인 상태에서 여행을 연 뒤 **"일행에게 공유"** 클릭
+2. 앱이 그 시트를 "링크가 있는 모든 사용자 - 뷰어"로 전환하고 `?share=<스프레드시트ID>` 링크를 생성
+3. 링크를 받은 사람은 **로그인 없이** 약 30초 간격으로 갱신되는 읽기 전용 화면을 봄 (🌐로 언어 선택 가능)
+4. 위 "2. Google API 키" 설정이 되어 있어야 작동
+
+---
 
 ## Android 앱 (Google Play)
 
-일반 사용자용 PWA를 [PWABuilder](https://www.pwabuilder.com)로 감싸 Android TWA(`.aab`)로 패키징해 Google Play Console에 등록 진행 중입니다.
+일반용 PWA를 [PWABuilder](https://www.pwabuilder.com)로 Android TWA(`.aab`)로 패키징해 등록합니다.
 
 - 패키지 ID: `io.github.statepark62.twa`
-- 신규 개인 개발자 계정은 프로덕션 공개 전 **비공개 테스트를 12명 이상 테스터로 14일 이상** 진행해야 합니다 (Google 정책, 사업자 계정은 면제) — 현재 테스터 모집 진행 중
-- **Android 16(API 36) 타겟팅 요건**: 2026년 8월 31일부터 시행되는 정책으로, 이 시점 기준 PWABuilder 기본 생성 패키지는 API 35라 미달. Play Console의 "기한 연장 요청"으로 2026년 11월 1일까지 유예 신청함. 그 전에 PWABuilder가 API 36 지원을 패치하면 재패키징 후 새 버전 업로드 필요
-- 서명 키(zip)는 최초 생성 시 받은 것을 계속 재사용해야 합니다 (업데이트 시 필수)
+- **서명 키(zip)는 최초 생성본을 계속 재사용**해야 합니다 (업데이트 시 필수, 분실 금지)
+- **Android 16(API 36) 타겟팅 요건**: 2026-08-31 시행. PWABuilder 기본 패키지가 API 35라 "기한 연장 요청"으로 **2026-11-01까지 유예** 신청함. 그 전에 PWABuilder가 API 36을 지원하면 재패키징 후 새 버전 업로드
+
+### 출시 절차 요약
+1. **비공개 테스트(Alpha) 트랙**에 `.aab` 업로드 → 테스터 이메일 목록 등록 → 게시
+2. 신규 개인 개발자 계정은 **테스터 12명 이상이 14일 이상 연속 참여**해야 프로덕션 신청 가능 (사업자 계정은 면제)
+3. 대시보드에서 프로덕션 액세스 신청 → Google 심사(평균 7일 이내) → 정식 출시
+
+### 테스터 안내 (테스터가 해야 할 일)
+1. **개발자가 먼저 테스터의 구글 계정 이메일을 목록에 등록** (Play Console → 비공개 테스트 → 트랙 관리 → 테스터)
+2. 테스터가 안드로이드 폰에서 참여 링크를 열고 **같은 구글 계정으로 로그인**: `https://play.google.com/apps/testing/io.github.statepark62.twa`
+3. "Become a tester" → Play 스토어에서 설치 → **14일간 삭제하지 않고 유지** (매일 사용할 필요 없음)
+
+> 참여 링크는 `?...&ah=...` 같은 토큰이 붙은 스토어 상세 주소가 아니라, **위의 순수한 `testing/` 링크**를 배포하세요.
+
+---
+
+## 문제 해결
+
+| 증상 / 메시지 | 원인 | 해결 |
+|---|---|---|
+| 공유 링크에서 "공유 일정을 불러올 수 없어요" (콘솔 403 `API_KEY_HTTP_REFERRER_BLOCKED`) | API 키 웹사이트 제한에 도메인 단독 패턴이 없음 | 제한 목록에 `<사용자명>.github.io/*` 추가 후 최대 5분 대기 |
+| "이 시트의 소유자만 사용할 수 있어요" | 구글 로그인 토큰 만료 또는 다른 계정 | 새로고침 후 같은 계정으로 다시 연결 |
+| "PDF·사진 인식은 Google에 연결된 상태에서만…" | 로그인하지 않음 | 상단 "Google 연결" 후 재시도 |
+| "Apps Script 응답을 읽지 못했어요" | 배포 URL 오류, 권한 미승인, 액세스 권한이 "모든 사용자"가 아님 | 배포 설정(실행: 나 / 액세스: 모든 사용자) 및 `AI_GAS_URL` 확인 |
+| "GEMINI_API_KEY 스크립트 속성이 설정되지 않았어요" | 스크립트 속성 누락 | 이름을 정확히 `GEMINI_API_KEY`로 추가 |
+| "Gemini API has not been used in project … or it is disabled" | 스크립트 속성에 **Cloud Console의 다른 키**가 들어감 | AI Studio 키로 교체 (재배포 불필요) |
+| "응답이 길이 제한에 걸려 중간에 잘렸을 수 있어요" | 일정이 많아 출력 토큰 초과 | 제작자용 HTML의 `maxOutputTokens`(현재 8192) 상향 |
+| `User location is not supported` | (Cloudflare Worker 사용 시) Worker가 홍콩에서 실행 | Apps Script 중계 사용 (현재 구조에서는 발생하지 않음) |
+| 새 파일을 올렸는데 화면이 그대로 | 캐시/배포 지연 | 1~2분 후 `Ctrl+Shift+R` (iOS는 Safari 데이터 삭제) |
+| Play 링크에서 "App not available" | ① 테스터 목록에 계정 미등록 ② 로그인 계정 불일치 ③ 최초 제출 심사 대기 ④ 국가/지역 미설정 | 게시 개요의 "검토 중인 변경사항" 확인, 시크릿/InPrivate 창에서 테스터 계정으로만 로그인 |
+| 같은 PDF를 다시 올렸더니 일정이 두 배 | (구버전) 중복 확인 없음 | 최신 제작자용 파일 사용 (자동 제외) |
+
+---
+
+## 보안 메모
+
+- **공개해도 되는 것**: OAuth 클라이언트 ID, Sheets 읽기 전용 API 키(웹사이트 제한 적용)
+- **코드·저장소에 절대 넣지 않는 것**: Gemini 키 (Apps Script 스크립트 속성에만 보관)
+- Apps Script 중계는 시트 소유자만 사용 가능(구글 로그인 토큰으로 검증)
+- "일행에게 공유"는 시트를 링크 공개로 전환합니다 → **메모에 비밀번호·현금 액수 등 민감정보를 적지 마세요.**
 
 ## 알려진 제한 사항
 
-- 브라우저 알림은 탭이 열려있는 동안만 동작 (진짜 푸시 알림 아님)
-- iOS는 위치 기반 도착 알림 미지원 (필요 시 아이폰 "미리 알림" 앱의 위치 알림 기능과 병행 권장)
+- 브라우저 알림은 탭이 열려 있는 동안만 동작 (진짜 푸시 아님). 캘린더 연동으로 보완 가능
+- iOS는 위치 기반 도착 알림 미지원 (아이폰 "미리 알림"의 위치 알림 병행 권장)
 - 로그인하지 않은 사용자의 데이터는 기기·브라우저 단위로만 저장되며 기기 간 동기화 불가
-- "일행에게 공유" 링크는 읽기 전용이며, 시트가 공개로 전환되므로 URL(스프레드시트 ID)을 아는 사람은 누구나 열람 가능 — 민감한 개인정보를 메모에 적지 않도록 주의
+- PDF·사진 인식은 제작자 본인(시트 소유자) 전용이며 구글 연결이 필요
+- 제작자용 화면은 현재 한국어만 지원
