@@ -32,6 +32,7 @@
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
+    font-size: 17px;
     background: var(--ink);
     color: var(--text-on-ink);
     font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
@@ -53,16 +54,16 @@
   .lock-icon svg{ width:100%; height:100%; }
   .lock-icon .shackle{ transform-origin: 28px 24px; transition: transform 0.5s cubic-bezier(.4,0,.2,1); }
   .lock-icon.open .shackle{ transform: translateY(-6px) rotate(-18deg); }
-  .app-title{ font-size: 28px; letter-spacing: 0.5px; margin-bottom: 6px; color: var(--text-on-ink); }
-  .app-subtitle{ font-size: 13px; color: var(--text-on-ink-dim); margin-bottom: 32px; }
-  .lock-form{ width: 100%; max-width: 320px; display:flex; flex-direction:column; gap: 12px; }
+  .app-title{ font-size: 32px; letter-spacing: 0.5px; margin-bottom: 6px; color: var(--text-on-ink); }
+  .app-subtitle{ font-size: 15px; color: var(--text-on-ink-dim); margin-bottom: 32px; }
+  .lock-form{ width: 100%; max-width: 420px; display:flex; flex-direction:column; gap: 12px; }
   input[type="password"], input[type="text"], textarea{
     background: var(--ink-2);
     border: 1px solid #3A3A42;
     color: var(--text-on-ink);
     border-radius: var(--radius);
-    padding: 12px 14px;
-    font-size: 16px;
+    padding: 14px 16px;
+    font-size: 17px;
     font-family: inherit;
     outline: none;
     transition: border-color 0.2s;
@@ -91,25 +92,25 @@
   }
   .btn-ghost:hover{ color: var(--text-on-ink); border-color: var(--text-on-ink-dim); }
   .btn-danger{ background: var(--danger); color: #F2ECDD; }
-  .lock-error{ color: #E08A7D; font-size: 12.5px; min-height: 16px; }
-  .lock-toggle{ font-size: 12.5px; color: var(--text-on-ink-dim); cursor:pointer; text-decoration: underline; margin-top: 8px; }
+  .lock-error{ color: #E08A7D; font-size: 14px; min-height: 16px; }
+  .lock-toggle{ font-size: 13.5px; color: var(--text-on-ink-dim); cursor:pointer; text-decoration: underline; margin-top: 8px; }
   .security-note{
-    margin-top: 28px; max-width: 320px; font-size: 11.5px; line-height: 1.6;
+    margin-top: 28px; max-width: 420px; font-size: 13px; line-height: 1.6;
     color: var(--text-on-ink-dim); border-top: 1px solid #3A3A42; padding-top: 16px;
   }
 
   /* ---------- Main App ---------- */
-  #app{ display:none; max-width: 640px; margin: 0 auto;
-    padding: calc(20px + env(safe-area-inset-top)) 16px calc(80px + env(safe-area-inset-bottom)); }
+  #app{ display:none; max-width: 100%; margin: 0 auto;
+    padding: calc(16px + env(safe-area-inset-top)) 20px calc(80px + env(safe-area-inset-bottom)); }
   header.top{
     display:flex; align-items:center; justify-content:space-between;
     margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #33333B;
   }
-  header.top h1{ font-size: 19px; color: var(--text-on-ink); }
+  header.top h1{ font-size: 22px; color: var(--text-on-ink); }
   header.top .top-actions{ display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
   .icon-btn{
     background: none; border: 1px solid #3A3A42; color: var(--text-on-ink-dim);
-    border-radius: var(--radius); padding: 7px 10px; font-size: 12px; cursor:pointer; font-family: inherit;
+    border-radius: var(--radius); padding: 9px 13px; font-size: 14px; cursor:pointer; font-family: inherit;
   }
   .icon-btn:hover{ color: var(--text-on-ink); border-color: var(--text-on-ink-dim); }
 
@@ -119,21 +120,21 @@
   }
   .composer textarea{
     width:100%; background: transparent; border: none; color: var(--text-on-paper);
-    resize: none; overflow: hidden; min-height: 24px; font-size: 16px; line-height: 1.55;
+    resize: none; overflow: hidden; min-height: 28px; font-size: 17px; line-height: 1.6;
   }
   .composer textarea:focus{ outline:none; }
   .composer-footer{ display:flex; justify-content:space-between; align-items:center; margin-top: 8px; }
-  .composer-hint{ font-size: 11px; color: var(--text-on-paper-dim); }
+  .composer-hint{ font-size: 13px; color: var(--text-on-paper-dim); }
   .composer-left{ display:flex; align-items:center; gap:8px; }
   .attach-btn{
     background: transparent; border: 1px solid var(--paper-shadow); color: var(--text-on-paper-dim);
-    border-radius: var(--radius); padding: 7px 11px; font-size: 13px; cursor: pointer; font-family: inherit;
+    border-radius: var(--radius); padding: 9px 13px; font-size: 14px; cursor: pointer; font-family: inherit;
   }
   .attach-btn:hover{ color: var(--text-on-paper); border-color: var(--text-on-paper-dim); }
 
   .attach-preview{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px; }
   .attach-preview:empty{ display:none; }
-  .attach-thumb{ position: relative; width: 72px; height: 72px; border-radius: var(--radius); overflow: hidden; }
+  .attach-thumb{ position: relative; width: 88px; height: 88px; border-radius: var(--radius); overflow: hidden; }
   .attach-thumb img{ width:100%; height:100%; object-fit: cover; display:block; }
   .attach-thumb .remove{
     position:absolute; top:2px; right:2px; width:20px; height:20px; border-radius:50%;
@@ -146,7 +147,7 @@
 
   .memo-images{ display:flex; flex-wrap:wrap; gap:6px; margin-top: 10px; }
   .memo-images img{
-    width: 96px; height: 96px; object-fit: cover; border-radius: var(--radius);
+    width: 120px; height: 120px; object-fit: cover; border-radius: var(--radius);
     cursor: zoom-in; display:block; background: var(--paper-shadow);
   }
   .memo-images .img-failed{
@@ -161,14 +162,14 @@
   }
   .lightbox.show{ display:flex; }
   .lightbox img{ max-width:100%; max-height:100%; object-fit:contain; }
-  .composer .btn{ padding: 8px 14px; font-size: 13px; }
+  .composer .btn{ padding: 10px 18px; font-size: 15px; }
 
   .search-row{ display:flex; gap:8px; margin-bottom: 12px; }
   .search-row input{ flex:1; }
 
   .tag-bar{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 18px; }
   .tag-chip{
-    font-size: 11.5px; padding: 5px 10px; border-radius: 20px; cursor:pointer;
+    font-size: 13.5px; padding: 7px 13px; border-radius: 20px; cursor:pointer;
     border: 1px solid #3A3A42; color: var(--text-on-ink-dim); background: transparent;
     font-family: 'IBM Plex Mono', monospace;
   }
@@ -176,7 +177,7 @@
 
   .date-group{ margin-bottom: 22px; }
   .date-label{
-    font-size: 11.5px; color: var(--gold); letter-spacing: 1px; margin-bottom: 10px;
+    font-size: 13.5px; color: var(--gold); letter-spacing: 1px; margin-bottom: 10px;
     font-family: 'IBM Plex Mono', monospace;
   }
   .memo-card{
@@ -185,37 +186,37 @@
     position: relative;
   }
   .memo-card.pinned{ box-shadow: 0 2px 0 var(--gold); }
-  .memo-text{ font-size: 14.5px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+  .memo-text{ font-size: 17px; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
   .memo-meta{
     display:flex; justify-content:space-between; align-items:center; margin-top: 10px;
-    font-size: 11px; color: var(--text-on-paper-dim);
+    font-size: 13px; color: var(--text-on-paper-dim);
   }
   .memo-tags{ display:flex; gap:6px; flex-wrap:wrap; }
   .memo-tag{ font-family: 'IBM Plex Mono', monospace; color: var(--teal); }
   .memo-actions{ display:flex; gap:10px; }
-  .memo-actions span{ cursor:pointer; }
+  .memo-actions span{ cursor:pointer; font-size: 13px; }
   .memo-actions span:hover{ color: var(--text-on-paper); }
   .edit-textarea{
     width: 100%; background: rgba(0,0,0,0.05); border: 1px solid var(--paper-shadow);
     border-radius: var(--radius); padding: 8px; color: var(--text-on-paper);
-    font-family: inherit; font-size: 16px; line-height: 1.55; resize: none; overflow: hidden; min-height: 24px;
+    font-family: inherit; font-size: 17px; line-height: 1.65; resize: none; overflow: hidden; min-height: 28px;
   }
   .edit-textarea:focus{ outline: none; border-color: var(--teal); }
 
   .empty-state{ text-align:center; padding: 60px 20px; color: var(--text-on-ink-dim); }
-  .empty-state .serif{ font-size: 16px; margin-bottom: 8px; color: var(--text-on-ink); }
-  .empty-state p{ font-size: 13px; line-height: 1.6; }
+  .empty-state .serif{ font-size: 19px; margin-bottom: 8px; color: var(--text-on-ink); }
+  .empty-state p{ font-size: 15px; line-height: 1.6; }
 
   .toast{
     position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
     background: var(--ink-2); border: 1px solid #3A3A42; color: var(--text-on-ink);
-    padding: 10px 16px; border-radius: var(--radius); font-size: 13px; opacity:0;
+    padding: 12px 20px; border-radius: var(--radius); font-size: 15px; opacity:0;
     transition: opacity 0.3s; pointer-events:none; z-index: 100;
   }
   .toast.show{ opacity: 1; }
 
   ::selection{ background: var(--gold); color: var(--ink); }
-  @media (max-width: 420px){ .app-title{ font-size: 24px; } }
+  @media (max-width: 420px){ .app-title{ font-size: 26px; } }
 </style>
 </head>
 <body>
@@ -387,8 +388,10 @@
   // ---------- Google 로그인 & Sheets API 저장소 ----------
   // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
   const CLIENT_ID = "736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com";
+;
   // 배포한 Cloudflare Worker 주소 (끝에 슬래시 없이). 예: https://ink-memo-auth.<계정>.workers.dev
   const WORKER_URL = "https://ink-memo-auth.statepark62.workers.dev";
+
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
