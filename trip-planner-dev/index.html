@@ -1412,6 +1412,22 @@ async function mergeIntoCurrentTrip(parsed){
   }
 }
 
+// 중복 판단: 같은 날짜 + 같은 시작시간 + 같은 제목(공백·대소문자 무시)
+function dupKey_(date, time, title){
+  return [date, (time||'09:00'), String(title||'').replace(/\s+/g,' ').trim().toLowerCase()].join('|');
+}
+function splitDuplicates(items){
+  const seen = new Set();
+  const days = (state.trip && state.trip.days) || {};
+  Object.keys(days).forEach(d=>(days[d]||[]).forEach(b=>seen.add(dupKey_(d, b.time, b.title))));
+  const fresh = [], dup = [];
+  items.forEach(it=>{
+    const k = dupKey_(it.date, it.time, it.title||'일정');
+    if(seen.has(k)) dup.push(it); else { seen.add(k); fresh.push(it); }
+  });
+  return {fresh, dup};
+}
+
 function openImportPreview(parsed, mode){
   const overlay = document.createElement('div');
   overlay.className='overlay';
@@ -1420,10 +1436,28 @@ function openImportPreview(parsed, mode){
   const days = Object.keys(dayCounts).sort();
 
   if(mode==='merge' && state.trip){
+    // 이미 있는 일정(같은 날짜·시작시간·제목)은 제외하고 새 일정만 추가
+    const {fresh, dup} = splitDuplicates(parsed.items);
+    const freshCounts = {};
+    fresh.forEach(it=>{ freshCounts[it.date]=(freshCounts[it.date]||0)+1; });
+    const freshDays = Object.keys(freshCounts).sort();
+    const dupNote = dup.length ? `<p style="font-size:14px;color:var(--coral);margin:6px 0;">이미 있는 일정 ${dup.length}개는 중복이라 제외했어요.</p>` : '';
+    if(fresh.length===0){
+      overlay.innerHTML = `<div class="sheet">
+        <h3>"${escapeHtml(state.trip.title)}"에 추가</h3>
+        <p style="font-size:15px;color:var(--ink-soft);line-height:1.6;">불러온 일정 ${parsed.items.length}개가 모두 이미 들어 있어요. 추가할 새 일정이 없습니다.</p>
+        <div class="sheet-actions"><button class="btn btn-primary" id="p_cancel">닫기</button></div>
+      </div>`;
+      document.body.appendChild(overlay);
+      $('#p_cancel').onclick = ()=>overlay.remove();
+      overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
+      return;
+    }
     overlay.innerHTML = `<div class="sheet">
       <h3>"${escapeHtml(state.trip.title)}"에 추가</h3>
-      <div class="morning-list">${days.map(d=>`<div class="morning-item"><span class="mono">${d}</span><span>일정 ${dayCounts[d]}개 추가</span></div>`).join('')}</div>
-      <p style="font-size:12px;color:var(--ink-soft);">총 ${parsed.items.length}개 일정이 현재 여행에 날짜·시간순으로 합쳐집니다.</p>
+      <div class="morning-list">${freshDays.map(d=>`<div class="morning-item"><span class="mono">${d}</span><span>일정 ${freshCounts[d]}개 추가</span></div>`).join('')}</div>
+      ${dupNote}
+      <p style="font-size:13px;color:var(--ink-soft);">새 일정 ${fresh.length}개가 현재 여행에 날짜·시간순으로 합쳐집니다.</p>
       <div class="sheet-actions">
         <button class="btn btn-line" id="p_cancel">취소</button>
         <button class="btn btn-primary" id="p_save">기존 여행에 추가</button>
@@ -1433,12 +1467,12 @@ function openImportPreview(parsed, mode){
     $('#p_cancel').onclick = ()=>overlay.remove();
     overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
     $('#p_save').onclick = async ()=>{
-      await mergeIntoCurrentTrip(parsed);
+      await mergeIntoCurrentTrip({...parsed, items: fresh});
       overlay.remove();
       const todayStr = fmtDate(new Date());
       if(state.trip.days[todayStr]!==undefined) state.selectedDate = todayStr;
       render();
-      showToast('일정이 추가됐어요');
+      showToast(dup.length ? `새 일정 ${fresh.length}개를 추가했어요(중복 ${dup.length}개 제외)` : '일정이 추가됐어요');
     };
     return;
   }
