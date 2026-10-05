@@ -211,6 +211,44 @@
       .form-grid { grid-template-columns: 1fr; }
       .work-preview { flex-direction: column; align-items: center; text-align: center; }
     }
+
+    /* ===== 로그인 / 계정 영역 ===== */
+    header { flex-wrap: wrap; }
+    .auth-area { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .user-pic { width: 28px; height: 28px; border-radius: 50%; background: #232f48; }
+    .user-name { font-size: 0.85rem; color: var(--text-muted); max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .link-btn {
+      background: none; border: 1px solid var(--border); color: var(--text-muted);
+      padding: 5px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer;
+      text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .link-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    .login-view {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 32px 24px; text-align: center; margin-top: 8px;
+    }
+    .login-view h2 { font-size: 1.2rem; margin-bottom: 12px; }
+    .login-view p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
+    .login-view .btn { max-width: 360px; }
+    .login-view .sub-link { display: block; margin: 14px auto 0; background: none; border: none; color: var(--text-muted); font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+
+    .sheet-status { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; display: none; }
+    .sheet-status.error { color: #fecaca; }
+
+    /* ===== 최근 기록 ===== */
+    .recent { margin-top: 36px; }
+    .recent h3 { font-size: 1.05rem; margin-bottom: 12px; }
+    .recent-item {
+      display: flex; gap: 14px; align-items: baseline; padding: 12px 14px;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px;
+    }
+    .recent-item .r-date { color: var(--text-muted); font-size: 0.8rem; flex-shrink: 0; }
+    .recent-item .r-main { flex: 1; min-width: 0; }
+    .recent-item .r-title { font-weight: 600; }
+    .recent-item .r-theme { color: #cbd5e1; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .recent-item .r-rating { color: var(--accent); font-weight: 600; flex-shrink: 0; }
+    .recent-empty { color: var(--text-muted); font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -219,87 +257,356 @@
     <header>
       <img class="brand-icon" src="./icon/favicon.svg" alt="아이콘" />
       <h1>영화 · 드라마 감상 아카이브</h1>
+      <div id="authArea" class="auth-area" style="display:none">
+        <img id="userPic" class="user-pic" referrerpolicy="no-referrer" alt="" />
+        <span id="userName" class="user-name"></span>
+        <a id="sheetLink" class="link-btn" href="#" target="_blank" rel="noopener">내 시트 열기</a>
+        <button type="button" id="logoutBtn" class="link-btn">로그아웃</button>
+      </div>
     </header>
 
     <div id="statusAlert" class="alert"></div>
 
-    <!-- 검색 영역 -->
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="영화나 드라마 제목을 입력하세요 (예: 인터스텔라, 나의 아저씨)..." onkeydown="if(event.key==='Enter') searchWorks()" />
-      <button class="btn" id="searchBtn" onclick="searchWorks()">검색</button>
-    </div>
+    <!-- 로그인 화면 -->
+    <section id="loginView" class="login-view">
+      <h2>내 감상 기록을 시작해 보세요</h2>
+      <p>
+        Google 계정으로 로그인하면 내 Google Drive에 <b>'영화·드라마 감상 기록'</b> 시트가 자동으로 만들어지고,
+        감상 기록이 그 시트에 저장됩니다.<br />
+        이 앱은 앱이 만든 파일에만 접근하며, Drive의 다른 파일은 볼 수 없습니다.
+      </p>
+      <button type="button" class="btn btn-block" id="loginBtn">Google 계정으로 로그인</button>
+      <button type="button" class="sub-link" id="switchBtn" style="display:none">다른 계정으로 로그인</button>
+    </section>
 
-    <!-- 검색 결과 카드 목록 -->
-    <div id="searchResults" class="search-results"></div>
+    <!-- 로그인 후 화면 -->
+    <div id="appView" style="display:none">
+      <div id="sheetStatus" class="sheet-status"></div>
 
-    <!-- 감상 기록 입력 폼 -->
-    <div id="logForm" class="log-form">
-      <div class="work-preview">
-        <img id="previewPoster" src="" alt="포스터" />
-        <div class="work-meta">
-          <h2 id="previewTitle"></h2>
-          <p id="previewSub"></p>
-          <p id="previewCrew"></p>
-          <p id="previewGenres"></p>
-          <p id="previewOverview" class="overview"></p>
-        </div>
+      <!-- 검색 영역 -->
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="영화나 드라마 제목을 입력하세요 (예: 인터스텔라, 나의 아저씨)..." onkeydown="if(event.key==='Enter') searchWorks()" />
+        <button class="btn" id="searchBtn" onclick="searchWorks()">검색</button>
       </div>
 
-      <form id="recordForm" onsubmit="submitRecord(event)">
-        <div class="form-grid">
-          <div class="form-group">
-            <label for="watchDate">관람 일자</label>
-            <input type="date" id="watchDate" required />
-          </div>
-          <div class="form-group">
-            <label for="rating">나의 평점</label>
-            <select id="rating" required>
-              <option value="5.0">⭐⭐⭐⭐⭐ (5.0 / 5.0) - 인생작</option>
-              <option value="4.5">⭐⭐⭐⭐☆ (4.5 / 5.0) - 적극 추천</option>
-              <option value="4.0">⭐⭐⭐⭐ (4.0 / 5.0) - 수작</option>
-              <option value="3.5">⭐⭐⭐☆ (3.5 / 5.0) - 꽤 좋음</option>
-              <option value="3.0" selected>⭐⭐⭐ (3.0 / 5.0) - 볼만함</option>
-              <option value="2.5">⭐⭐☆ (2.5 / 5.0) - 조금 아쉬움</option>
-              <option value="2.0">⭐⭐ (2.0 / 5.0) - 아쉬움</option>
-              <option value="1.0">⭐ (1.0 / 5.0) - 추천하지 않음</option>
-            </select>
+      <!-- 검색 결과 카드 목록 -->
+      <div id="searchResults" class="search-results"></div>
+
+      <!-- 감상 기록 입력 폼 -->
+      <div id="logForm" class="log-form">
+        <div class="work-preview">
+          <img id="previewPoster" src="" alt="포스터" />
+          <div class="work-meta">
+            <h2 id="previewTitle"></h2>
+            <p id="previewSub"></p>
+            <p id="previewCrew"></p>
+            <p id="previewGenres"></p>
+            <p id="previewOverview" class="overview"></p>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="theme">주요 테마 / 한줄평</label>
-          <input type="text" id="theme" placeholder="작품을 관통하는 화두 또는 한 줄 요약..." required />
-        </div>
+        <form id="recordForm" onsubmit="submitRecord(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="watchDate">관람 일자</label>
+              <input type="date" id="watchDate" required />
+            </div>
+            <div class="form-group">
+              <label for="rating">나의 평점</label>
+              <select id="rating" required>
+                <option value="5.0">⭐⭐⭐⭐⭐ (5.0 / 5.0) - 인생작</option>
+                <option value="4.5">⭐⭐⭐⭐☆ (4.5 / 5.0) - 적극 추천</option>
+                <option value="4.0">⭐⭐⭐⭐ (4.0 / 5.0) - 수작</option>
+                <option value="3.5">⭐⭐⭐☆ (3.5 / 5.0) - 꽤 좋음</option>
+                <option value="3.0" selected>⭐⭐⭐ (3.0 / 5.0) - 볼만함</option>
+                <option value="2.5">⭐⭐☆ (2.5 / 5.0) - 조금 아쉬움</option>
+                <option value="2.0">⭐⭐ (2.0 / 5.0) - 아쉬움</option>
+                <option value="1.0">⭐ (1.0 / 5.0) - 추천하지 않음</option>
+              </select>
+            </div>
+          </div>
 
-        <div class="form-group">
-          <label for="review">상세 감상평 및 사유</label>
-          <textarea id="review" placeholder="작품이 남긴 여운, 인상 깊었던 장면이나 대사, 내 삶과 연결된 사유를 자유롭게 남겨보세요..."></textarea>
-        </div>
+          <div class="form-group">
+            <label for="theme">주요 테마 / 한줄평</label>
+            <input type="text" id="theme" placeholder="작품을 관통하는 화두 또는 한 줄 요약..." required />
+          </div>
 
-        <button type="submit" id="submitBtn" class="btn btn-block">구글 시트에 감상 기록 저장하기</button>
-      </form>
+          <div class="form-group">
+            <label for="review">상세 감상평 및 사유</label>
+            <textarea id="review" placeholder="작품이 남긴 여운, 인상 깊었던 장면이나 대사, 내 삶과 연결된 사유를 자유롭게 남겨보세요..."></textarea>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn btn-block">내 구글 시트에 감상 기록 저장하기</button>
+        </form>
+      </div>
+
+      <!-- 최근 기록 -->
+      <section class="recent">
+        <h3>최근 감상 기록</h3>
+        <div id="recentList"><p class="recent-empty">불러오는 중...</p></div>
+      </section>
     </div>
   </div>
 
   <script>
-    // ⚙️ 여기에 발행하신 구글 Apps Script 웹 앱 URL을 붙여넣으시면 됩니다.
+    // ============================================================
+    // ⚙️ 설정
+    // ============================================================
+    // 1) Google Cloud Console에서 만든 OAuth 클라이언트 ID (웹 애플리케이션)
+    //    경조사비 앱에서 쓰는 클라이언트 ID를 그대로 써도 됩니다.
+    const CLIENT_ID = "YOUR_CLIENT_ID.apps.googleusercontent.com";
+
+    // 2) 영화/드라마 검색(TMDB) 전용 Apps Script 웹 앱 URL (TMDB 키를 숨기는 용도, 시트에는 쓰지 않음)
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxIpIx_JwdW7uQ1AhvTi-ELq4yQDpJLCCl5bE-Q7W3mXv_4gM7fW9xHzdmXhEa1N13A/exec";
 
+    // drive.file: 이 앱이 만든 파일만 접근 가능한 최소 권한 (구글 검수 불필요)
+    const SCOPES = "openid email profile https://www.googleapis.com/auth/drive.file";
+    const DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file";
+
+    const SHEET_TITLE = "영화·드라마 감상 기록";
+    const HEADERS = ["관람일자", "제목", "원제(연도)", "구분", "장르", "감독/연출", "주연", "평점", "주요 테마/한줄평", "상세 감상평", "TMDB ID", "기록 시각"];
+    const COL_WIDTHS = [95, 180, 220, 60, 140, 120, 200, 60, 260, 420, 80, 140];
+
+    const NO_POSTER = "data:image/svg+xml;utf8," + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450"><rect width="300" height="450" fill="#232f48"/>' +
+      '<text x="150" y="230" fill="#94a3b8" font-size="22" text-anchor="middle" font-family="sans-serif">No Poster</text></svg>');
+
+    // ============================================================
+    // 상태
+    // ============================================================
+    const USER_KEY = "movieArchive.user";
+    const TOKEN_KEY = "movieArchive.token";
+    let tokenClient = null;
+    let pendingToken = null;
+    let accessToken = null;
+    let tokenExpiry = 0;
+    let user = null;
+    let sheetId = null;
     let currentWork = null;
 
-    window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('watchDate').value = new Date().toISOString().split('T')[0];
-    });
+    const $ = (id) => document.getElementById(id);
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
 
     function showAlert(msg, type) {
-      const el = document.getElementById('statusAlert');
+      const el = $('statusAlert');
       el.className = 'alert ' + (type === 'success' ? 'alert-success' : 'alert-error');
       el.innerText = msg;
       el.style.display = 'block';
-      setTimeout(() => { el.style.display = 'none'; }, 4000);
+      setTimeout(() => { el.style.display = 'none'; }, 5000);
     }
 
-    // JSONP 헬퍼: CORS 제한을 원천 우회하는 구글 웹 앱 전용 호출기
+    function setStatus(msg, isError) {
+      const el = $('sheetStatus');
+      el.textContent = msg || '';
+      el.className = 'sheet-status' + (isError ? ' error' : '');
+      el.style.display = msg ? 'block' : 'none';
+    }
+
+    // ============================================================
+    // 구글 로그인 (Google Identity Services, 토큰 방식)
+    // ============================================================
+    function onGsiLoad() {
+      if (CLIENT_ID.startsWith("YOUR_CLIENT_ID")) {
+        showAlert('설정 필요: 코드 상단의 CLIENT_ID에 OAuth 클라이언트 ID를 입력해 주세요.', 'error');
+        return;
+      }
+      tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        callback: (resp) => {
+          if (!pendingToken) return;
+          const p = pendingToken; pendingToken = null;
+          if (resp.error) { p.reject(new Error(resp.error_description || resp.error)); return; }
+          if (!google.accounts.oauth2.hasGrantedAllScopes(resp, DRIVE_SCOPE)) {
+            p.reject(new Error('Google Drive 파일 권한이 허용되지 않았습니다. 로그인 시 해당 항목을 체크해 주세요.'));
+            return;
+          }
+          accessToken = resp.access_token;
+          tokenExpiry = Date.now() + (Number(resp.expires_in) - 60) * 1000;
+          sessionStorage.setItem(TOKEN_KEY, JSON.stringify({ token: accessToken, expiry: tokenExpiry }));
+          p.resolve(accessToken);
+        },
+        error_callback: (err) => {
+          if (!pendingToken) return;
+          const p = pendingToken; pendingToken = null;
+          const msg = err && err.type === 'popup_failed_to_open'
+            ? '로그인 팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.'
+            : (err && err.type === 'popup_closed' ? '로그인 창이 닫혔습니다.' : '로그인에 실패했습니다.');
+          p.reject(new Error(msg));
+        }
+      });
+    }
+
+    function requestToken(prompt) {
+      return new Promise((resolve, reject) => {
+        if (!tokenClient) { reject(new Error('Google 로그인 모듈을 아직 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.')); return; }
+        pendingToken = { resolve, reject };
+        const opts = { prompt: prompt };
+        if (user && user.email && prompt === '') opts.hint = user.email;
+        tokenClient.requestAccessToken(opts);
+      });
+    }
+
+    async function ensureToken() {
+      if (accessToken && Date.now() < tokenExpiry) return accessToken;
+      return requestToken('');
+    }
+
+    async function gfetch(url, opts = {}, retry = true) {
+      const token = await ensureToken();
+      const headers = Object.assign({ Authorization: 'Bearer ' + token }, opts.headers || {});
+      if (opts.body) headers['Content-Type'] = 'application/json';
+      const res = await fetch(url, Object.assign({}, opts, { headers }));
+      if (res.status === 401 && retry) {
+        accessToken = null; tokenExpiry = 0; sessionStorage.removeItem(TOKEN_KEY);
+        return gfetch(url, opts, false);
+      }
+      if (!res.ok) {
+        const t = await res.text();
+        throw new Error('Google API ' + res.status + ': ' + t.slice(0, 160));
+      }
+      return res.json();
+    }
+
+    async function login(prompt) {
+      const btn = $('loginBtn');
+      btn.disabled = true;
+      try {
+        await requestToken(prompt);
+        const info = await gfetch('https://www.googleapis.com/oauth2/v3/userinfo');
+        user = { sub: info.sub, name: info.name || '', email: info.email || '', picture: info.picture || '' };
+        localStorage.setItem(USER_KEY, JSON.stringify(user));
+        await enterApp();
+      } catch (err) {
+        showAlert(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function logout() {
+      if (accessToken && window.google && google.accounts) {
+        try { google.accounts.oauth2.revoke(accessToken, () => {}); } catch (e) {}
+      }
+      accessToken = null; tokenExpiry = 0; sheetId = null; user = null; currentWork = null;
+      sessionStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
+      $('appView').style.display = 'none';
+      $('authArea').style.display = 'none';
+      $('logForm').style.display = 'none';
+      $('searchResults').innerHTML = '';
+      $('loginBtn').innerText = 'Google 계정으로 로그인';
+      $('switchBtn').style.display = 'none';
+      $('loginView').style.display = 'block';
+    }
+
+    // ============================================================
+    // 내 구글 시트 준비 (없으면 자동 생성)
+    // ============================================================
+    async function ensureSheet() {
+      const cacheKey = 'movieArchive.sheetId.' + user.sub;
+      let id = localStorage.getItem(cacheKey);
+
+      if (id) {
+        try {
+          const f = await gfetch('https://www.googleapis.com/drive/v3/files/' + id + '?fields=id,trashed');
+          if (!f.trashed) return id;
+        } catch (e) {
+          if (!/ 404| 403/.test(e.message)) throw e;
+        }
+        localStorage.removeItem(cacheKey);
+        id = null;
+      }
+
+      // 다른 기기에서 이미 만들었는지 Drive에서 찾기 (이 앱이 만든 파일만 검색됨)
+      const q = encodeURIComponent("name='" + SHEET_TITLE + "' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false");
+      const list = await gfetch('https://www.googleapis.com/drive/v3/files?q=' + q + '&orderBy=createdTime&fields=files(id,name)');
+      if (list.files && list.files.length > 0) {
+        id = list.files[0].id;
+      } else {
+        id = await createSheet();
+      }
+      localStorage.setItem(cacheKey, id);
+      return id;
+    }
+
+    async function createSheet() {
+      const headerCells = HEADERS.map(h => ({
+        userEnteredValue: { stringValue: h },
+        userEnteredFormat: {
+          backgroundColor: { red: 0.059, green: 0.09, blue: 0.165 },
+          textFormat: { bold: true, foregroundColor: { red: 1, green: 1, blue: 1 } },
+          horizontalAlignment: 'CENTER'
+        }
+      }));
+      const body = {
+        properties: { title: SHEET_TITLE, locale: 'ko_KR' },
+        sheets: [{
+          properties: { title: '감상기록', gridProperties: { frozenRowCount: 1 } },
+          data: [{
+            startRow: 0, startColumn: 0,
+            rowData: [{ values: headerCells }],
+            columnMetadata: COL_WIDTHS.map(w => ({ pixelSize: w }))
+          }]
+        }]
+      };
+      const created = await gfetch('https://sheets.googleapis.com/v4/spreadsheets', { method: 'POST', body: JSON.stringify(body) });
+      return created.spreadsheetId;
+    }
+
+    async function enterApp() {
+      $('loginView').style.display = 'none';
+      $('appView').style.display = 'block';
+      $('authArea').style.display = 'flex';
+      $('userName').textContent = user.name || user.email;
+      const pic = $('userPic');
+      if (user.picture) { pic.src = user.picture; pic.style.display = 'block'; } else { pic.style.display = 'none'; }
+
+      setStatus('내 구글 시트를 준비하는 중...');
+      try {
+        sheetId = await ensureSheet();
+        $('sheetLink').href = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/edit';
+        setStatus('');
+        await loadRecent();
+      } catch (err) {
+        setStatus('시트를 준비하지 못했습니다: ' + err.message, true);
+      }
+    }
+
+    // ============================================================
+    // 최근 기록 불러오기
+    // ============================================================
+    async function loadRecent() {
+      const box = $('recentList');
+      try {
+        const data = await gfetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A2:L');
+        const rows = (data.values || []).filter(r => r && r.length > 1);
+        if (rows.length === 0) {
+          box.innerHTML = '<p class="recent-empty">아직 기록이 없습니다. 작품을 검색해서 첫 감상을 남겨 보세요.</p>';
+          return;
+        }
+        box.innerHTML = '';
+        rows.slice(-10).reverse().forEach(r => {
+          const item = document.createElement('div');
+          item.className = 'recent-item';
+          item.innerHTML =
+            '<div class="r-date">' + esc(r[0]) + '</div>' +
+            '<div class="r-main"><div class="r-title">' + esc(r[1]) + ' <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem">' + esc(r[3]) + '</span></div>' +
+            '<div class="r-theme">' + esc(r[8]) + '</div></div>' +
+            '<div class="r-rating">★ ' + esc(r[7]) + '</div>';
+          box.appendChild(item);
+        });
+      } catch (err) {
+        box.innerHTML = '<p class="recent-empty">기록을 불러오지 못했습니다: ' + esc(err.message) + '</p>';
+      }
+    }
+
+    // ============================================================
+    // TMDB 검색 (Apps Script 프록시, JSONP)
+    // ============================================================
     function callGasApi(params) {
       return new Promise((resolve, reject) => {
         const callbackName = 'gas_callback_' + Math.round(100000 * Math.random());
@@ -328,12 +635,11 @@
       });
     }
 
-    // Apps Script 프록시를 통한 영화/드라마 검색
     async function searchWorks() {
-      const query = document.getElementById('searchInput').value.trim();
+      const query = $('searchInput').value.trim();
       if (!query) return;
 
-      const searchBtn = document.getElementById('searchBtn');
+      const searchBtn = $('searchBtn');
       searchBtn.innerText = '검색 중...';
       searchBtn.disabled = true;
 
@@ -353,7 +659,7 @@
     }
 
     function renderResults(results) {
-      const container = document.getElementById('searchResults');
+      const container = $('searchResults');
       container.innerHTML = '';
 
       const filtered = results.filter(item => item.media_type === 'movie' || item.media_type === 'tv');
@@ -366,17 +672,15 @@
         const title = item.title || item.name;
         const date = item.release_date || item.first_air_date || '';
         const year = date ? date.split('-')[0] : '';
-        const poster = item.poster_path 
-          ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
-          : 'https://via.placeholder.com/300x450?text=No+Poster';
+        const poster = item.poster_path ? `https://image.tmdb.org/t/p/w300${item.poster_path}` : NO_POSTER;
 
         const card = document.createElement('div');
         card.className = 'result-card';
         card.innerHTML = `
-          <img src="${poster}" alt="${title}" loading="lazy" />
+          <img src="${esc(poster)}" alt="${esc(title)}" loading="lazy" />
           <div class="info">
-            <div class="title" title="${title}">${title}</div>
-            <div class="year">${item.media_type === 'movie' ? '영화' : '드라마'} · ${year}</div>
+            <div class="title" title="${esc(title)}">${esc(title)}</div>
+            <div class="year">${item.media_type === 'movie' ? '영화' : '드라마'} · ${esc(year)}</div>
           </div>
         `;
         card.onclick = () => selectWork(item);
@@ -384,7 +688,6 @@
       });
     }
 
-    // 작품 선택 시 상세 메타데이터 로드
     async function selectWork(item) {
       const mediaType = item.media_type;
       const id = item.id;
@@ -423,22 +726,24 @@
           overview: detail.overview || ''
         };
 
-        document.getElementById('previewPoster').src = poster || 'https://via.placeholder.com/300x450?text=No+Poster';
-        document.getElementById('previewTitle').innerText = title;
-        document.getElementById('previewSub').innerText = `${currentWork.mediaType} · ${currentWork.originalTitleAndYear}`;
-        document.getElementById('previewCrew').innerText = `연출: ${currentWork.director} | 주연: ${currentWork.cast}`;
-        document.getElementById('previewGenres').innerText = `장르: ${genres}`;
-        document.getElementById('previewOverview').innerText = currentWork.overview || '줄거리 정보가 제공되지 않습니다.';
+        $('previewPoster').src = poster || NO_POSTER;
+        $('previewTitle').innerText = title;
+        $('previewSub').innerText = `${currentWork.mediaType} · ${currentWork.originalTitleAndYear}`;
+        $('previewCrew').innerText = `연출: ${currentWork.director} | 주연: ${currentWork.cast}`;
+        $('previewGenres').innerText = `장르: ${genres}`;
+        $('previewOverview').innerText = currentWork.overview || '줄거리 정보가 제공되지 않습니다.';
 
-        document.getElementById('logForm').style.display = 'block';
-        document.getElementById('logForm').scrollIntoView({ behavior: 'smooth' });
+        $('logForm').style.display = 'block';
+        $('logForm').scrollIntoView({ behavior: 'smooth' });
 
       } catch (err) {
         showAlert('상세 정보를 가져오지 못했습니다: ' + err.message, 'error');
       }
     }
 
-    // 구글 시트로 최종 기록 전송 (POST)
+    // ============================================================
+    // 내 구글 시트에 기록 저장 (Sheets API append)
+    // ============================================================
     async function submitRecord(e) {
       e.preventDefault();
       if (!currentWork) {
@@ -446,46 +751,74 @@
         return;
       }
 
-      const submitBtn = document.getElementById('submitBtn');
+      const submitBtn = $('submitBtn');
       submitBtn.disabled = true;
-      submitBtn.innerText = '구글 시트에 저장하는 중... ⏳';
+      submitBtn.innerText = '내 구글 시트에 저장하는 중... ⏳';
 
-      const payload = {
-        watchDate: document.getElementById('watchDate').value,
-        title: currentWork.title,
-        originalTitleAndYear: currentWork.originalTitleAndYear,
-        mediaType: currentWork.mediaType,
-        genres: currentWork.genres,
-        director: currentWork.director,
-        cast: currentWork.cast,
-        rating: document.getElementById('rating').value,
-        theme: document.getElementById('theme').value,
-        review: document.getElementById('review').value,
-        tmdbId: currentWork.tmdbId
-      };
+      const row = [
+        $('watchDate').value,
+        currentWork.title,
+        currentWork.originalTitleAndYear,
+        currentWork.mediaType,
+        currentWork.genres,
+        currentWork.director,
+        currentWork.cast,
+        Number($('rating').value),
+        $('theme').value,
+        $('review').value,
+        currentWork.tmdbId,
+        new Date().toLocaleString('sv-SE')
+      ];
 
       try {
-        await fetch(GAS_WEB_APP_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
+        await ensureToken();                       // 만료됐다면 여기서 재로그인(사용자 클릭 직후라 팝업 허용)
+        if (!sheetId) sheetId = await ensureSheet();
 
-        showAlert(`'${currentWork.title}' 감상 기록이 구글 시트에 안전하게 저장되었습니다!`, 'success');
-        
-        document.getElementById('theme').value = '';
-        document.getElementById('review').value = '';
-        document.getElementById('logForm').style.display = 'none';
+        await gfetch(
+          'https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS',
+          { method: 'POST', body: JSON.stringify({ values: [row] }) }
+        );
+
+        showAlert(`'${currentWork.title}' 감상 기록이 내 구글 시트에 저장되었습니다!`, 'success');
+
+        $('theme').value = '';
+        $('review').value = '';
+        $('logForm').style.display = 'none';
+        currentWork = null;
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        loadRecent();
 
       } catch (err) {
         showAlert('저장 중 오류가 발생했습니다: ' + err.message, 'error');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.innerText = '구글 시트에 감상 기록 저장하기';
+        submitBtn.innerText = '내 구글 시트에 감상 기록 저장하기';
       }
     }
+
+    // ============================================================
+    // 시작
+    // ============================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      $('watchDate').value = new Date().toISOString().split('T')[0];
+
+      $('loginBtn').addEventListener('click', () => login(user ? '' : 'select_account'));
+      $('switchBtn').addEventListener('click', () => login('select_account'));
+      $('logoutBtn').addEventListener('click', logout);
+
+      try { user = JSON.parse(localStorage.getItem(USER_KEY) || 'null'); } catch (e) { user = null; }
+      let saved = null;
+      try { saved = JSON.parse(sessionStorage.getItem(TOKEN_KEY) || 'null'); } catch (e) {}
+
+      if (user && saved && saved.expiry > Date.now()) {
+        accessToken = saved.token; tokenExpiry = saved.expiry;
+        enterApp();
+      } else if (user) {
+        $('loginBtn').innerText = (user.name || user.email) + ' 계정으로 계속하기';
+        $('switchBtn').style.display = 'block';
+      }
+    });
   </script>
+  <script src="https://accounts.google.com/gsi/client" async defer onload="onGsiLoad()"></script>
 </body>
 </html>
