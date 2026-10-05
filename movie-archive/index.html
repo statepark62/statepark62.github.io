@@ -4,20 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>영화 & 드라마 감상 아카이브</title>
-  
-  <!-- 브라우저 즐겨찾기(파비콘) 및 탭 아이콘 -->
+
+  <!-- 파비콘 및 앱 아이콘 설정 -->
   <link rel="icon" type="image/svg+xml" href="./icon/favicon.svg" />
-
-  <!-- iOS 아이폰/아이패드 '홈 화면에 추가' 아이콘 -->
   <link rel="apple-touch-icon" href="./icon/favicon.svg" />
-
-  <!-- 모바일 웹 앱 설정 -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="영화기록" />
-  <meta name="application-name" content="영화기록" />
   <meta name="theme-color" content="#0f172a" />
-  
+
   <style>
     :root {
       --bg: #0f172a;
@@ -41,61 +36,32 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 860px;
       margin: 0 auto;
     }
 
     header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 12px;
       margin-bottom: 24px;
       padding-bottom: 16px;
       border-bottom: 1px solid var(--border);
     }
 
-    h1 { font-size: 1.5rem; font-weight: 700; color: #fff; }
-    .btn-settings {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.9rem;
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: block;
     }
-    .btn-settings:hover { color: var(--text); border-color: var(--text-muted); }
 
-    /* 모달 */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-    .modal-content {
-      background: var(--card-bg);
-      padding: 24px;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 480px;
-      border: 1px solid var(--border);
-    }
-    .modal-content h2 { font-size: 1.2rem; margin-bottom: 16px; }
+    h1 { font-size: 1.35rem; font-weight: 700; color: #fff; }
 
-    /* 검색창 */
-    .search-box {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
+    /* 입력 요소 공통 */
     input[type="text"], input[type="date"], select, textarea {
       width: 100%;
-      padding: 10px 14px;
+      padding: 12px 14px;
       border-radius: 8px;
       border: 1px solid var(--border);
       background: #0b1120;
@@ -107,8 +73,14 @@
       border-color: var(--primary);
     }
 
+    /* 검색 영역 */
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
     .btn {
-      padding: 10px 20px;
+      padding: 10px 22px;
       background: var(--primary);
       color: #0f172a;
       border: none;
@@ -121,13 +93,13 @@
     .btn:hover { background: var(--primary-hover); }
     .btn-block { width: 100%; padding: 14px; font-size: 1.05rem; }
 
-    /* 검색 결과 리스트 */
+    /* 검색 결과 카드 */
     .search-results {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 28px;
-      max-height: 380px;
+      max-height: 420px;
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -145,7 +117,7 @@
     }
     .result-card img {
       width: 100%;
-      height: 180px;
+      height: 185px;
       object-fit: cover;
       display: block;
       background: #232f48;
@@ -162,7 +134,7 @@
     }
     .result-card .year { color: var(--text-muted); font-size: 0.75rem; }
 
-    /* 선택된 작품 상세 & 기록 폼 */
+    /* 감상 기록 폼 */
     .log-form {
       display: none;
       background: var(--card-bg);
@@ -214,14 +186,14 @@
     }
     textarea {
       resize: vertical;
-      min-height: 120px;
+      min-height: 110px;
     }
     #review {
-      min-height: 200px;
+      min-height: 220px;
     }
 
     .alert {
-      padding: 12px;
+      padding: 12px 16px;
       border-radius: 8px;
       margin-bottom: 16px;
       display: none;
@@ -239,22 +211,22 @@
 
   <div class="container">
     <header>
-      <h1>🎬 영화 · 드라마 감상 아카이브</h1>
-      <button class="btn-settings" onclick="openSettings()">설정 ⚙️</button>
+      <img class="brand-icon" src="./icon/favicon.svg" alt="아이콘" />
+      <h1>영화 · 드라마 감상 아카이브</h1>
     </header>
 
     <div id="statusAlert" class="alert"></div>
 
-    <!-- 검색 영역 -->
+    <!-- 검색창 -->
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="영화 또는 드라마 제목을 입력하세요 (예: 인터스텔라, 나의 아저씨)..." onkeydown="if(event.key==='Enter') searchWorks()" />
+      <input type="text" id="searchInput" placeholder="영화나 드라마 제목을 입력하세요 (예: 인터스텔라, 나의 아저씨)..." onkeydown="if(event.key==='Enter') searchWorks()" />
       <button class="btn" onclick="searchWorks()">검색</button>
     </div>
 
-    <!-- 검색 결과 목록 -->
+    <!-- 검색 결과 카드 목록 -->
     <div id="searchResults" class="search-results"></div>
 
-    <!-- 감상 기록 작성 폼 -->
+    <!-- 감상 기록 입력 폼 -->
     <div id="logForm" class="log-form">
       <div class="work-preview">
         <img id="previewPoster" src="" alt="포스터" />
@@ -290,12 +262,12 @@
 
         <div class="form-group">
           <label for="theme">주요 테마 / 한줄평</label>
-          <input type="text" id="theme" placeholder="작품을 관통하는 키워드 또는 한 줄 평을 적어보세요..." required />
+          <input type="text" id="theme" placeholder="작품을 관통하는 화두 또는 한 줄 요약..." required />
         </div>
 
         <div class="form-group">
           <label for="review">상세 감상평 및 사유</label>
-          <textarea id="review" placeholder="작품이 남긴 정서, 인상 깊었던 장면이나 대사, 내 삶과 연결된 사유 등을 자유롭게 남겨보세요..."></textarea>
+          <textarea id="review" placeholder="작품이 남긴 여운, 인상 깊었던 장면이나 대사, 내 삶과 연결된 사유를 자유롭게 남겨보세요..."></textarea>
         </div>
 
         <button type="submit" id="submitBtn" class="btn btn-block">구글 시트에 감상 기록 저장하기</button>
@@ -303,56 +275,15 @@
     </div>
   </div>
 
-  <!-- 설정 모달 -->
-  <div id="settingsModal" class="modal">
-    <div class="modal-content">
-      <h2>연동 설정</h2>
-      <div class="form-group">
-  <label for="tmdbApiKey">TMDB API Key (v3 auth)</label>
-  <input type="password" id="tmdbApiKey" placeholder="32자리 TMDB API Key 입력" />
-</div>
-<div class="form-group">
-  <label for="gasUrl">Google Apps Script 웹 앱 URL</label>
-  <input type="password" id="gasUrl" placeholder="https://script.google.com/macros/s/.../exec" />
-</div>
-      <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:16px;">
-        <button class="btn-settings" onclick="closeSettings()">취소</button>
-        <button class="btn" onclick="saveSettings()">설정 저장</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    // 현재 선택된 작품의 메타데이터 캐시
+    // ⚙️ 여기에 발행하신 구글 Apps Script 웹 앱 URL을 붙여넣으시면 됩니다.
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwEzTHeW-sJN6HYtQpZTUT2eknfxGuyj5ysZdhFLZC0byCldOVJEnbkrQjPTcpZLwYD/exec";
+
     let currentWork = null;
 
-    // 초기화: 오늘 날짜 및 설정값 불러오기
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('watchDate').value = new Date().toISOString().split('T')[0];
-      const savedKey = localStorage.getItem('tmdb_api_key');
-      const savedGas = localStorage.getItem('gas_web_app_url');
-      if (savedKey) document.getElementById('tmdbApiKey').value = savedKey;
-      if (savedGas) document.getElementById('gasUrl').value = savedGas;
-
-      if (!savedKey || !savedGas) {
-        openSettings();
-      }
     });
-
-    function openSettings() {
-      document.getElementById('settingsModal').style.display = 'flex';
-    }
-    function closeSettings() {
-      document.getElementById('settingsModal').style.display = 'none';
-    }
-    function saveSettings() {
-      const key = document.getElementById('tmdbApiKey').value.trim();
-      const gas = document.getElementById('gasUrl').value.trim();
-      localStorage.setItem('tmdb_api_key', key);
-      localStorage.setItem('gas_web_app_url', gas);
-      closeSettings();
-      showAlert('설정이 로컬 브라우저에 저장되었습니다.', 'success');
-    }
 
     function showAlert(msg, type) {
       const el = document.getElementById('statusAlert');
@@ -362,19 +293,16 @@
       setTimeout(() => { el.style.display = 'none'; }, 4000);
     }
 
-    // TMDB 다중 검색 (영화 + TV)
+    // Apps Script 프록시를 통한 영화/드라마 검색
     async function searchWorks() {
-      const apiKey = localStorage.getItem('tmdb_api_key');
-      if (!apiKey) {
-        showAlert('우측 상단 [설정 ⚙️]에서 TMDB API Key를 먼저 입력해 주세요.', 'error');
-        openSettings();
-        return;
-      }
-
       const query = document.getElementById('searchInput').value.trim();
       if (!query) return;
 
-      const url = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&language=ko-KR&query=${encodeURIComponent(query)}&page=1&include_adult=false`;
+      const submitBtn = document.querySelector('.search-box .btn');
+      submitBtn.innerText = '검색 중...';
+      submitBtn.disabled = true;
+
+      const url = `${GAS_WEB_APP_URL}?action=search&query=${encodeURIComponent(query)}`;
 
       try {
         const res = await fetch(url);
@@ -382,6 +310,9 @@
         renderResults(data.results || []);
       } catch (err) {
         showAlert('검색 중 오류가 발생했습니다: ' + err.message, 'error');
+      } finally {
+        submitBtn.innerText = '검색';
+        submitBtn.disabled = false;
       }
     }
 
@@ -417,19 +348,17 @@
       });
     }
 
-    // 선택된 작품 상세 정보(감독, 출연진, 장르 등) 조회
+    // 작품 선택 시 상세 메타데이터 로드
     async function selectWork(item) {
-      const apiKey = localStorage.getItem('tmdb_api_key');
-      const mediaType = item.media_type; // 'movie' or 'tv'
+      const mediaType = item.media_type;
       const id = item.id;
 
-      const detailUrl = `https://api.themoviedb.org/3/${mediaType}/${id}?api_key=${apiKey}&language=ko-KR&append_to_response=credits`;
+      const detailUrl = `${GAS_WEB_APP_URL}?action=detail&mediaType=${mediaType}&id=${id}`;
 
       try {
         const res = await fetch(detailUrl);
         const detail = await res.json();
 
-        // 감독 및 주요 출연진 파싱
         let director = '';
         if (detail.credits && detail.credits.crew) {
           const dirObj = detail.credits.crew.find(c => c.job === 'Director');
@@ -461,7 +390,6 @@
           overview: detail.overview || ''
         };
 
-        // UI 폼 렌더링
         document.getElementById('previewPoster').src = poster || 'https://via.placeholder.com/300x450?text=No+Poster';
         document.getElementById('previewTitle').innerText = title;
         document.getElementById('previewSub').innerText = `${currentWork.mediaType} · ${currentWork.originalTitleAndYear}`;
@@ -473,19 +401,13 @@
         document.getElementById('logForm').scrollIntoView({ behavior: 'smooth' });
 
       } catch (err) {
-        showAlert('작품 상세 정보를 가져오지 못했습니다: ' + err.message, 'error');
+        showAlert('상세 정보를 가져오지 못했습니다: ' + err.message, 'error');
       }
     }
 
-    // 구글 시트로 최종 데이터 전송
+    // 구글 시트로 최종 기록 전송
     async function submitRecord(e) {
       e.preventDefault();
-      const gasUrl = localStorage.getItem('gas_web_app_url');
-      if (!gasUrl) {
-        showAlert('우측 상단 [설정 ⚙️]에서 구글 Apps Script 웹 앱 URL을 먼저 입력해 주세요.', 'error');
-        openSettings();
-        return;
-      }
       if (!currentWork) {
         showAlert('작품을 먼저 검색하고 선택해 주세요.', 'error');
         return;
@@ -510,24 +432,22 @@
       };
 
       try {
-        // Apps Script 웹 앱 전송 (CORS 우회를 위해 text/plain 방식 전송)
-        await fetch(gasUrl, {
+        await fetch(GAS_WEB_APP_URL, {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload)
         });
 
-        showAlert(`'${currentWork.title}' 감상 기록이 구글 시트에 성공적으로 저장되었습니다!`, 'success');
+        showAlert(`'${currentWork.title}' 감상 기록이 구글 시트에 안전하게 저장되었습니다!`, 'success');
         
-        // 폼 초기화
         document.getElementById('theme').value = '';
         document.getElementById('review').value = '';
         document.getElementById('logForm').style.display = 'none';
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
       } catch (err) {
-        showAlert('시트 저장 중 오류가 발생했습니다: ' + err.message, 'error');
+        showAlert('저장 중 오류가 발생했습니다: ' + err.message, 'error');
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerText = '구글 시트에 감상 기록 저장하기';
