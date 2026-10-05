@@ -249,6 +249,13 @@
     .recent-item .r-theme { color: #cbd5e1; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .recent-item .r-rating { color: var(--accent); font-weight: 600; flex-shrink: 0; }
     .recent-empty { color: var(--text-muted); font-size: 0.9rem; }
+    .recent-item .r-edit { flex-shrink: 0; align-self: center; }
+    .more-btn { display: block; margin: 12px auto 0; padding: 8px 20px; }
+    .edit-banner {
+      display: none; margin-bottom: 20px; padding: 10px 14px; border-radius: 8px;
+      background: #422006; border: 1px solid #b45309; color: #fde68a; font-size: 0.9rem;
+    }
+    .cancel-edit { display: none; width: 100%; margin-top: 12px; padding: 12px; font-size: 0.95rem; }
   </style>
 </head>
 <body>
@@ -295,6 +302,7 @@
 
       <!-- 감상 기록 입력 폼 -->
       <div id="logForm" class="log-form">
+        <div id="editBanner" class="edit-banner">✏️ 저장된 기록을 수정하는 중입니다. 관람 일자, 평점, 한줄평, 감상평을 고칠 수 있습니다.</div>
         <div class="work-preview">
           <img id="previewPoster" src="" alt="포스터" />
           <div class="work-meta">
@@ -338,6 +346,7 @@
           </div>
 
           <button type="submit" id="submitBtn" class="btn btn-block">내 구글 시트에 감상 기록 저장하기</button>
+          <button type="button" id="cancelEditBtn" class="link-btn cancel-edit">수정 취소</button>
         </form>
       </div>
 
@@ -517,6 +526,7 @@
         try { google.accounts.oauth2.revoke(accessToken, () => {}); } catch (e) {}
       }
       accessToken = null; tokenExpiry = 0; sheetId = null; user = null; currentWork = null;
+      recentRows = []; recentLimit = 10; exitEditMode();
       sessionStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_KEY);
       $('appView').style.display = 'none';
@@ -604,28 +614,135 @@
     // ============================================================
     // 최근 기록 불러오기
     // ============================================================
+    let recentRows = [];
+    let recentLimit = 10;
+    let editingRow = null;
+    let editingKey = null;
+    const SUBMIT_LABEL = '내 구글 시트에 감상 기록 저장하기';
+
     async function loadRecent() {
       const box = $('recentList');
       try {
         const data = await gfetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A2:L');
-        const rows = (data.values || []).filter(r => r && r.length > 1);
-        if (rows.length === 0) {
-          box.innerHTML = '<p class="recent-empty">아직 기록이 없습니다. 작품을 검색해서 첫 감상을 남겨 보세요.</p>';
-          return;
-        }
-        box.innerHTML = '';
-        rows.slice(-10).reverse().forEach(r => {
-          const item = document.createElement('div');
-          item.className = 'recent-item';
-          item.innerHTML =
-            '<div class="r-date">' + esc(r[0]) + '</div>' +
-            '<div class="r-main"><div class="r-title">' + esc(r[1]) + ' <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem">' + esc(r[3]) + '</span></div>' +
-            '<div class="r-theme">' + esc(r[8]) + '</div></div>' +
-            '<div class="r-rating">★ ' + esc(r[7]) + '</div>';
-          box.appendChild(item);
-        });
+        // 시트 행 번호(2행부터)를 함께 보관: 수정할 때 이 행을 갱신한다
+        recentRows = (data.values || []).map((v, i) => ({ row: i + 2, v: v })).filter(r => r.v && r.v.length > 1);
+        renderRecent();
       } catch (err) {
         box.innerHTML = '<p class="recent-empty">기록을 불러오지 못했습니다: ' + esc(err.message) + '</p>';
+      }
+    }
+
+    function renderRecent() {
+      const box = $('recentList');
+      if (recentRows.length === 0) {
+        box.innerHTML = '<p class="recent-empty">아직 기록이 없습니다. 작품을 검색해서 첫 감상을 남겨 보세요.</p>';
+        return;
+      }
+      box.innerHTML = '';
+      const shown = recentRows.slice().reverse().slice(0, recentLimit);
+      shown.forEach(rec => {
+        const r = rec.v;
+        const item = document.createElement('div');
+        item.className = 'recent-item';
+        item.innerHTML =
+          '<div class="r-date">' + esc(r[0]) + '</div>' +
+          '<div class="r-main"><div class="r-title">' + esc(r[1]) + ' <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem">' + esc(r[3]) + '</span></div>' +
+          '<div class="r-theme">' + esc(r[8]) + '</div></div>' +
+          '<div class="r-rating">★ ' + esc(r[7]) + '</div>';
+        const editBtn = document.createElement('button');
+        editBtn.type = 'button';
+        editBtn.className = 'link-btn r-edit';
+        editBtn.textContent = '수정';
+        editBtn.onclick = () => startEdit(rec);
+        item.appendChild(editBtn);
+        box.appendChild(item);
+      });
+      if (recentRows.length > recentLimit) {
+        const more = document.createElement('button');
+        more.type = 'button';
+        more.className = 'link-btn more-btn';
+        more.textContent = '더 보기 (' + (recentRows.length - recentLimit) + '건 남음)';
+        more.onclick = () => { recentLimit += 10; renderRecent(); };
+        box.appendChild(more);
+      }
+    }
+
+    // ============================================================
+    // 기록 수정
+    // ============================================================
+    function normalizeDate(v) {
+      v = String(v || '').trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+      const m = v.match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
+      if (m) return m[1] + '-' + m[2].padStart(2, '0') + '-' + m[3].padStart(2, '0');
+      return '';
+    }
+
+    function updateSubmitLabel() {
+      $('submitBtn').innerText = editingRow ? '수정 내용 저장하기' : SUBMIT_LABEL;
+    }
+
+    function exitEditMode() {
+      editingRow = null;
+      editingKey = null;
+      $('editBanner').style.display = 'none';
+      $('cancelEditBtn').style.display = 'none';
+      updateSubmitLabel();
+    }
+
+    function cancelEdit() {
+      exitEditMode();
+      currentWork = null;
+      $('theme').value = '';
+      $('review').value = '';
+      $('logForm').style.display = 'none';
+    }
+
+    function startEdit(rec) {
+      const v = rec.v;
+      const mediaKey = v[3] === '드라마' ? 'tv' : 'movie';
+      currentWork = {
+        title: v[1] || '',
+        originalTitleAndYear: v[2] || '',
+        mediaType: v[3] || '',
+        genres: v[4] || '',
+        director: v[5] || '',
+        cast: v[6] || '',
+        tmdbId: String(v[10] || ''),
+        overview: ''
+      };
+      editingRow = rec.row;
+      editingKey = { title: currentWork.title, tmdbId: currentWork.tmdbId };
+
+      $('previewPoster').src = NO_POSTER;
+      $('previewTitle').innerText = currentWork.title;
+      $('previewSub').innerText = `${currentWork.mediaType} · ${currentWork.originalTitleAndYear}`;
+      $('previewCrew').innerText = `연출: ${currentWork.director} | 주연: ${currentWork.cast}`;
+      $('previewGenres').innerText = `장르: ${currentWork.genres}`;
+      $('previewOverview').innerText = '';
+
+      $('watchDate').value = normalizeDate(v[0]) || new Date().toISOString().split('T')[0];
+      const ratingVal = Number(v[7]);
+      const ratingStr = isNaN(ratingVal) ? '3.0' : ratingVal.toFixed(1);
+      $('rating').value = ratingStr;
+      if ($('rating').value !== ratingStr) $('rating').value = '3.0';
+      $('theme').value = v[8] || '';
+      $('review').value = v[9] || '';
+
+      $('editBanner').style.display = 'block';
+      $('cancelEditBtn').style.display = 'block';
+      updateSubmitLabel();
+      $('logForm').style.display = 'block';
+      $('logForm').scrollIntoView({ behavior: 'smooth' });
+
+      // 포스터·줄거리는 시트에 없으므로 TMDB에서 다시 가져온다 (실패해도 수정에는 지장 없음)
+      if (currentWork.tmdbId) {
+        const myRow = rec.row;
+        callGasApi({ action: 'detail', mediaType: mediaKey, id: currentWork.tmdbId }).then(d => {
+          if (editingRow !== myRow || !d || d.error) return;
+          if (d.poster_path) $('previewPoster').src = `https://image.tmdb.org/t/p/w300${d.poster_path}`;
+          $('previewOverview').innerText = d.overview || '';
+        }).catch(() => {});
       }
     }
 
@@ -714,6 +831,7 @@
     }
 
     async function selectWork(item) {
+      exitEditMode();
       const mediaType = item.media_type;
       const id = item.id;
 
@@ -777,35 +895,63 @@
       }
 
       const submitBtn = $('submitBtn');
+      const isEdit = editingRow !== null;
       submitBtn.disabled = true;
-      submitBtn.innerText = '내 구글 시트에 저장하는 중... ⏳';
+      submitBtn.innerText = isEdit ? '수정 내용을 저장하는 중... ⏳' : '내 구글 시트에 저장하는 중... ⏳';
 
-      const row = [
-        $('watchDate').value,
-        currentWork.title,
-        currentWork.originalTitleAndYear,
-        currentWork.mediaType,
-        currentWork.genres,
-        currentWork.director,
-        currentWork.cast,
-        Number($('rating').value),
-        $('theme').value,
-        $('review').value,
-        currentWork.tmdbId,
-        new Date().toLocaleString('sv-SE')
-      ];
+      const date = $('watchDate').value;
+      const rating = Number($('rating').value);
+      const theme = $('theme').value;
+      const review = $('review').value;
+      const base = 'https://sheets.googleapis.com/v4/spreadsheets/' + sheetId;
 
       try {
         await ensureToken();                       // 만료됐다면 여기서 재로그인(사용자 클릭 직후라 팝업 허용)
         if (!sheetId) sheetId = await ensureSheet();
 
-        await gfetch(
-          'https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS',
-          { method: 'POST', body: JSON.stringify({ values: [row] }) }
-        );
+        if (isEdit) {
+          const row = editingRow;
+          // 그 사이 시트에서 행이 정렬·삭제되어 번호가 어긋나지 않았는지 확인
+          const cur = await gfetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A' + row + ':L' + row);
+          const v = (cur.values && cur.values[0]) || [];
+          if (String(v[1] || '') !== editingKey.title || String(v[10] || '') !== editingKey.tmdbId) {
+            await loadRecent();
+            throw new Error('시트의 행이 바뀐 것 같습니다. 최근 기록을 새로 불러왔으니 다시 수정해 주세요.');
+          }
+          await gfetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values:batchUpdate', {
+            method: 'POST',
+            body: JSON.stringify({
+              valueInputOption: 'RAW',
+              data: [
+                { range: 'A' + row, values: [[date]] },
+                { range: 'H' + row + ':J' + row, values: [[rating, theme, review]] }
+              ]
+            })
+          });
+          showAlert(`'${currentWork.title}' 기록이 수정되었습니다!`, 'success');
+        } else {
+          const row = [
+            date,
+            currentWork.title,
+            currentWork.originalTitleAndYear,
+            currentWork.mediaType,
+            currentWork.genres,
+            currentWork.director,
+            currentWork.cast,
+            rating,
+            theme,
+            review,
+            currentWork.tmdbId,
+            new Date().toLocaleString('sv-SE')
+          ];
+          await gfetch(
+            'https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS',
+            { method: 'POST', body: JSON.stringify({ values: [row] }) }
+          );
+          showAlert(`'${currentWork.title}' 감상 기록이 내 구글 시트에 저장되었습니다!`, 'success');
+        }
 
-        showAlert(`'${currentWork.title}' 감상 기록이 내 구글 시트에 저장되었습니다!`, 'success');
-
+        exitEditMode();
         $('theme').value = '';
         $('review').value = '';
         $('logForm').style.display = 'none';
@@ -817,7 +963,7 @@
         showAlert('저장 중 오류가 발생했습니다: ' + err.message, 'error');
       } finally {
         submitBtn.disabled = false;
-        submitBtn.innerText = '내 구글 시트에 감상 기록 저장하기';
+        updateSubmitLabel();
       }
     }
 
@@ -830,6 +976,7 @@
       $('loginBtn').addEventListener('click', () => login(user ? '' : 'select_account'));
       $('switchBtn').addEventListener('click', () => login('select_account'));
       $('logoutBtn').addEventListener('click', logout);
+      $('cancelEditBtn').addEventListener('click', cancelEdit);
 
       try { user = JSON.parse(localStorage.getItem(USER_KEY) || 'null'); } catch (e) { user = null; }
       let saved = null;
