@@ -2,943 +2,733 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>전국 축제 캘린더</title>
+<meta name="description" content="앞으로 6개월 동안 전국에서 열리는 축제를 월별·지역별로 찾아보세요.">
+<meta name="theme-color" content="#2d6a4f">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#2d6a4f">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #2d6a4f; --primary-light: #74c69d; --bg: #f8f9fa; --card-bg: #ffffff;
-    --text: #212529; --text-muted: #6c757d; --border: #e9ecef; --accent: #e76f51;
-    --star: #f4a261;
+    --paper: #f3f5f1;
+    --ink: #1d2b25;
+    --muted: #53635b;
+    --line: #c9d4cc;
+    --jade: #2d6a4f;
+    --lantern: #cf3a1f;
+    --gold: #e2a72e;
+    --display: "Black Han Sans", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    --text: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Hiragino Sans", "Yu Gothic", "Microsoft YaHei", "PingFang SC", sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-  .container { max-width: 800px; margin: 0 auto; padding: 16px; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { font-family: var(--text); font-size: 18.5px; line-height: 1.65; color: var(--ink); background: var(--paper); }
+  :focus-visible { outline: 3px solid var(--lantern); outline-offset: 2px; }
+  button { font-family: inherit; }
 
-  header { position: sticky; top: 0; z-index: 10; background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
-  header h1 { font-size: 18px; color: var(--primary); }
-  .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .lang-toggle { display: flex; gap: 4px; }
-  .lang-toggle button { border: 1px solid var(--border); background: var(--card-bg); padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 13px; }
-  .lang-toggle button.active { background: var(--primary); color: white; border-color: var(--primary); }
+  /* 일본어·중국어는 현수막 글꼴 대신 굵은 고딕으로 */
+  html[lang="ja"] .display, html[lang="zh-CN"] .display { font-family: var(--text); font-weight: 900; }
 
-  .scrap-toggle-btn { display: flex; align-items: center; gap: 4px; border: 1px solid var(--border); background: var(--card-bg); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px; color: var(--text); }
-  .scrap-toggle-btn.active { background: #fdecec; border-color: var(--accent); color: var(--accent); }
-  .scrap-toggle-btn .count { background: var(--accent); color: white; font-size: 11px; border-radius: 10px; padding: 1px 6px; min-width: 16px; text-align: center; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+  .ribbon { height: 8px; background: repeating-linear-gradient(90deg, #2457a6 0 48px, #cf3a1f 48px 96px, #e2a72e 96px 144px, #ffffff 144px 192px, #1d2b25 192px 240px); }
 
-  .login-btn { display: flex; align-items: center; gap: 6px; border: 1px solid var(--border); background: var(--card-bg); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 13px; color: var(--text); }
-  .login-btn.logged-in { background: #e8f5e9; border-color: var(--primary); color: var(--primary); }
+  /* 머리글 */
+  .top { text-align: center; padding: 34px 20px 4px; }
+  .lantern svg { width: 54px; height: auto; display: inline-block; }
+  h1.display { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 7vw, 50px); line-height: 1.2; margin-top: 8px; }
+  .tagline { font-size: 19.5px; margin-top: 10px; }
+  .metaline { font-size: 16.5px; color: var(--muted); margin-top: 2px; }
+  .langs { display: inline-flex; margin-top: 20px; border: 2px solid var(--ink); border-radius: 4px; overflow: hidden; }
+  .langs button { font-size: 16.5px; padding: 9px 16px; min-height: 44px; background: transparent; color: var(--ink); border: 0; border-right: 2px solid var(--ink); cursor: pointer; }
+  .langs button:last-child { border-right: 0; }
+  .langs button[aria-pressed="true"] { background: var(--ink); color: #fff; }
 
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px; }
-  .modal { background: var(--card-bg); border-radius: 16px; padding: 24px; max-width: 420px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; }
-  .modal h2 { font-size: 20px; margin-bottom: 8px; }
-  .modal p.sub { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
-  .modal-section { margin-bottom: 20px; }
-  .modal-section label.title { font-weight: 600; font-size: 14px; margin-bottom: 8px; display: block; }
-  .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip { border: 1.5px solid var(--border); background: var(--card-bg); padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 14px; transition: all 0.15s; }
-  .chip.selected { background: var(--primary); color: white; border-color: var(--primary); }
-  .modal-footer { display: flex; justify-content: flex-end; margin-top: 8px; }
-  .btn-primary { background: var(--primary); color: white; border: none; padding: 10px 24px; border-radius: 8px; font-size: 15px; cursor: pointer; font-weight: 600; }
-  .btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+  /* 6개월 분포 띠 */
+  .strip { display: flex; gap: 6px; margin-top: 26px; }
+  .seg { flex: 1 1 0; min-width: 0; color: inherit; background: transparent; border: 2px solid transparent; border-radius: 4px; padding: 8px 4px 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+  .seg .mname { font-family: var(--display); font-weight: 400; font-size: 22px; line-height: 1.15; }
+  html[lang="ja"] .seg .mname, html[lang="zh-CN"] .seg .mname { font-family: var(--text); font-weight: 900; }
+  .seg .myear { font-size: 12.5px; color: var(--muted); line-height: 1.2; }
+  .seg .mcount { font-size: 15px; color: var(--muted); margin-bottom: 6px; line-height: 1.3; }
+  .seg .bars { display: flex; align-items: flex-end; gap: 1px; width: 100%; height: 72px; }
+  .seg .bar { display: block; flex: 1 1 0; min-width: 0; border-radius: 1px 1px 0 0; opacity: .55; }
+  .seg[aria-selected="true"] { background: #fff; border-color: var(--jade); }
+  .seg[aria-selected="true"] .bar { opacity: 1; }
+  .seg[aria-selected="true"] .mname { color: var(--jade); }
+  .intro .bar { transform-origin: bottom; animation: grow .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i) * 3ms); }
+  @keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @media (prefers-reduced-motion: reduce) { .intro .bar { animation: none; } }
+  .cap { text-align: center; font-size: 15.5px; color: var(--muted); margin-top: 8px; }
 
-  .month-tabs { display: flex; overflow-x: auto; gap: 6px; padding: 12px 0; scrollbar-width: none; }
-  .month-tabs::-webkit-scrollbar { display: none; }
-  .month-tab { flex-shrink: 0; border: 1px solid var(--border); background: var(--card-bg); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 14px; white-space: nowrap; }
-  .month-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+  /* 검색·지역 */
+  .filters { margin-top: 26px; text-align: center; }
+  #q { width: min(100%, 520px); font: inherit; font-size: 18px; padding: 12px 16px; border: 2px solid var(--ink); border-radius: 4px; background: #fff; color: var(--ink); text-align: center; }
+  .regions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+  .rchip { font-size: 16.5px; padding: 7px 14px; border: 1.5px solid #8ea196; border-radius: 3px; background: #fff; color: var(--ink); cursor: pointer; }
+  .rchip[aria-pressed="true"] { background: var(--jade); border-color: var(--jade); color: #fff; }
+  .rchip .n { margin-left: 6px; font-size: 14px; opacity: .75; }
+  .linkbtn { font-size: 16px; margin-top: 10px; background: none; border: 0; color: var(--jade); text-decoration: underline; cursor: pointer; padding: 6px 10px; }
 
-  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; overflow-x: auto; }
-  .filter-bar .chip { font-size: 13px; padding: 6px 12px; flex-shrink: 0; }
+  /* 목록 */
+  #list { margin-top: 34px; }
+  #listTitle { font-family: var(--display); font-weight: 400; font-size: 28px; text-align: center; line-height: 1.3; margin-bottom: 22px; }
+  html[lang="ja"] #listTitle, html[lang="zh-CN"] #listTitle { font-family: var(--text); font-weight: 900; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; }
+  .card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 4px; cursor: pointer; overflow: hidden; }
+  .card:hover { border-color: var(--jade); }
+  .band { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 10px; padding: 11px 14px; background: var(--jade); color: #fff; font-family: var(--display); font-weight: 400; font-size: 20px; line-height: 1.25; text-align: center; }
+  html[lang="ja"] .band, html[lang="zh-CN"] .band { font-family: var(--text); font-weight: 900; }
+  .card.live .band, .dlg-band.live { background: var(--lantern); }
+  .flag { font-family: var(--text); font-weight: 700; font-size: 14px; border: 1.5px solid #fff; border-radius: 3px; padding: 0 7px; line-height: 1.5; }
+  .cbody { padding: 18px 18px 20px; text-align: center; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .cname { font-size: 21px; font-weight: 700; line-height: 1.35; overflow-wrap: anywhere; }
+  .cloc { font-size: 16px; color: var(--muted); }
+  .csum { font-size: 17px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: auto; padding-top: 6px; }
+  .tag { font-size: 15px; line-height: 1.4; color: var(--jade); border: 1px solid var(--jade); border-radius: 3px; padding: 2px 9px; max-width: 100%; overflow-wrap: anywhere; }
+  .more { text-align: center; margin-top: 26px; }
+  .status, .empty { text-align: center; color: var(--muted); padding: 34px 10px; font-size: 18px; }
+  .btn { font-size: 17px; padding: 11px 18px; min-height: 44px; border: 2px solid var(--ink); border-radius: 4px; background: #fff; color: var(--ink); cursor: pointer; text-decoration: none; display: inline-block; line-height: 1.3; }
+  .btn.primary { background: var(--jade); border-color: var(--jade); color: #fff; }
 
-  .card-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
-  .card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; transition: box-shadow 0.15s; position: relative; }
-  .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-  .card-image-wrap { position: relative; }
-  .card-image { width: 100%; height: 160px; object-fit: cover; background: var(--border); display: block; }
-  .scrap-btn { position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; line-height: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
-  .scrap-btn.no-image { position: static; margin-left: auto; background: transparent; box-shadow: none; }
-  .card-body { padding: 14px; }
-  .card-body-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-  .card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-  .card-date { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
-  .card-summary { font-size: 14px; color: var(--text); margin-bottom: 10px; }
-  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-  .tag { background: #e8f5e9; color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 10px; }
+  .foot { margin-top: 56px; padding: 22px 20px 40px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 15.5px; }
 
-  .detail-modal .modal { max-width: 560px; }
-  .detail-image-wrap { position: relative; margin-bottom: 16px; }
-  .detail-image { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; display: block; }
-  .detail-scrap-btn { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
-  .detail-title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
-  .detail-scrap-btn-inline { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
-  .detail-section { margin-bottom: 16px; }
-  .detail-section h3 { font-size: 14px; color: var(--primary); margin-bottom: 6px; }
-  .detail-section p { font-size: 14px; }
-  .detail-section ul { padding-left: 18px; font-size: 14px; }
-  .detail-map { width: 100%; height: 220px; border-radius: 8px; margin-bottom: 8px; background: var(--bg); }
-  .map-links { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-  .map-link-btn { font-size: 13px; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text); text-decoration: none; display: inline-block; }
-  .close-btn {
-    position: absolute; top: 14px; right: 14px; z-index: 20;
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,0.95); border: none;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; line-height: 1; cursor: pointer; color: var(--text);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  /* 상세 */
+  dialog { border: 0; padding: 0; background: #fff; color: var(--ink); width: min(720px, calc(100vw - 20px)); max-height: calc(100vh - 24px); border-radius: 4px; overflow: auto; margin: auto; }
+  dialog::backdrop { background: rgba(18, 30, 24, .66); }
+  .dlg-bar { position: sticky; top: 0; height: 0; z-index: 5; text-align: right; }
+  .dlg-close { position: relative; top: 10px; right: 10px; width: 44px; height: 44px; border: 2px solid var(--ink); border-radius: 4px; background: #fff; color: var(--ink); font-size: 26px; line-height: 1; cursor: pointer; }
+  .dlg-band { font-size: 22px; padding: 18px 64px; }
+  .dbody { padding: 26px 28px 32px; }
+  .dname { font-size: 28px; font-weight: 700; line-height: 1.35; text-align: center; overflow-wrap: anywhere; }
+  .dloc { text-align: center; color: var(--ink); font-size: 18px; margin-top: 8px; }
+  .dsub { text-align: center; color: var(--muted); font-size: 16px; margin-top: 2px; overflow-wrap: anywhere; }
+  .notice { background: #eaf0eb; border: 1px solid var(--line); border-radius: 3px; text-align: center; font-size: 15.5px; padding: 8px 12px; margin-top: 18px; }
+  .dsec { margin-top: 26px; }
+  .dsec h3 { font-size: 21px; text-align: center; margin-bottom: 12px; }
+  .ov { white-space: pre-line; font-size: 18.5px; line-height: 1.85; text-align: left; overflow-wrap: anywhere; }
+  .dsec .tags { margin-top: 0; padding-top: 0; }
+  .dsec .tag { font-size: 16.5px; padding: 4px 12px; }
+  .map { height: 280px; margin-top: 26px; border: 1px solid var(--line); border-radius: 3px; }
+  .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 24px; }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 0 14px; }
+    .seg .mname { font-size: 18px; }
+    .seg .mcount { font-size: 13px; }
+    .seg .myear { font-size: 11px; }
+    .seg .bars { height: 56px; }
+    .strip { gap: 3px; }
+    .dbody { padding: 22px 18px 28px; }
+    .dname { font-size: 25px; }
+    .grid { grid-template-columns: 1fr; }
   }
-
-  .review-summary { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-  .review-summary .avg-score { font-size: 22px; font-weight: 700; color: var(--text); }
-  .review-summary .stars { color: var(--star); font-size: 18px; letter-spacing: 1px; }
-  .review-summary .count { font-size: 13px; color: var(--text-muted); }
-
-  .star-input { display: flex; gap: 4px; font-size: 28px; cursor: pointer; margin-bottom: 10px; }
-  .star-input span { color: var(--border); transition: color 0.1s; }
-  .star-input span.active { color: var(--star); }
-
-  .review-textarea { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-size: 14px; font-family: inherit; resize: vertical; min-height: 60px; margin-bottom: 10px; }
-  .review-form-footer { display: flex; justify-content: flex-end; gap: 8px; }
-  .review-login-hint { font-size: 13px; color: var(--text-muted); background: var(--bg); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
-
-  .review-item { border-top: 1px solid var(--border); padding: 12px 0; }
-  .review-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-  .review-item-name { font-weight: 600; font-size: 14px; }
-  .review-item-stars { color: var(--star); font-size: 13px; }
-  .review-item-date { font-size: 12px; color: var(--text-muted); }
-  .review-item-comment { font-size: 14px; color: var(--text); }
-  .review-loading { font-size: 13px; color: var(--text-muted); padding: 10px 0; }
-
-  .empty-state { text-align: center; padding: 40px 16px; color: var(--text-muted); }
-  .loading { text-align: center; padding: 40px; color: var(--text-muted); }
 </style>
 </head>
 <body>
+<div class="ribbon" aria-hidden="true"></div>
 
-<header>
-  <h1>🎪 전국 축제 캘린더</h1>
-  <div class="header-right">
-    <button class="login-btn" id="loginBtn">👤 로그인</button>
-    <button class="scrap-toggle-btn" id="scrapToggleBtn">
-      <span>❤️</span><span id="scrapToggleLabel">내 찜</span><span class="count" id="scrapCount">0</span>
-    </button>
-    <div class="lang-toggle" id="langToggle">
-      <button data-lang="ko" class="active">한국어</button>
-      <button data-lang="en">EN</button>
-      <button data-lang="ja">日本語</button>
-      <button data-lang="zh">中文</button>
-    </div>
+<header class="top wrap">
+  <div class="lantern" aria-hidden="true">
+    <svg viewBox="0 0 64 84" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f4a261"/><stop offset=".55" stop-color="#e76f51"/><stop offset="1" stop-color="#cf3a1f"/>
+        </linearGradient>
+      </defs>
+      <line x1="32" y1="1" x2="32" y2="12" stroke="#1d2b25" stroke-width="2" stroke-linecap="round"/>
+      <path d="M22 14 Q32 8 42 14 L40 20 Q32 16 24 20 Z" fill="#1d2b25"/>
+      <path d="M13 20 C13 16 51 16 51 20 C60 32 60 52 51 62 C51 66 13 66 13 62 C4 52 4 32 13 20 Z" fill="url(#lg)"/>
+      <ellipse cx="32" cy="20" rx="19" ry="4" fill="none" stroke="#e2a72e" stroke-width="2"/>
+      <ellipse cx="32" cy="62" rx="19" ry="4" fill="none" stroke="#e2a72e" stroke-width="2"/>
+      <path d="M32 18 C27 32 27 50 32 64" stroke="#8c1f0e" stroke-opacity=".45" stroke-width="1.5" fill="none"/>
+      <path d="M22 19 C14 32 14 50 22 63 M42 19 C50 32 50 50 42 63" stroke="#8c1f0e" stroke-opacity=".35" stroke-width="1.2" fill="none"/>
+      <g stroke="#e2a72e" stroke-width="2" stroke-linecap="round">
+        <line x1="26" y1="67" x2="26" y2="80"/><line x1="30" y1="68" x2="30" y2="83"/>
+        <line x1="34" y1="68" x2="34" y2="83"/><line x1="38" y1="67" x2="38" y2="80"/>
+      </g>
+    </svg>
   </div>
+  <h1 id="title" class="display">전국 축제 캘린더</h1>
+  <p id="tagline" class="tagline"></p>
+  <p id="metaline" class="metaline"></p>
+  <div id="langs" class="langs" role="group" aria-label="Language"></div>
 </header>
 
-<div class="container">
-  <div class="month-tabs" id="monthTabs"></div>
-  <div id="regionBar" class="filter-bar"></div>
-  <div id="filterBar" class="filter-bar"></div>
-  <div id="cardList" class="card-list"></div>
-</div>
+<main class="wrap">
+  <noscript><p class="status">이 페이지는 JavaScript가 필요합니다. / This page requires JavaScript.</p></noscript>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
 
-<div class="modal-overlay" id="onboardingModal" style="display:none;">
-  <div class="modal">
-    <h2 id="onboardTitle">관심사를 선택해주세요</h2>
-    <p class="sub" id="onboardSub">선택하신 취향에 맞는 축제를 우선적으로 보여드려요</p>
-    <div class="modal-section">
-      <label class="title" id="interestLabel">관심 카테고리 (복수 선택 가능)</label>
-      <div class="chip-group" id="interestChips"></div>
-    </div>
-    <div class="modal-section">
-      <label class="title" id="companionLabel">누구와 함께 가시나요?</label>
-      <div class="chip-group" id="companionChips"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-primary" id="onboardSubmit">시작하기</button>
-    </div>
-  </div>
-</div>
+  <section id="stripSection" hidden>
+    <div id="strip" class="strip" role="tablist"></div>
+    <p id="stripCap" class="cap"></p>
+  </section>
 
-<div class="modal-overlay detail-modal" id="detailModal" style="display:none;">
-  <div class="modal">
-    <button class="close-btn" id="detailClose">×</button>
-    <div id="detailContent"></div>
-  </div>
-</div>
+  <section id="filters" class="filters" hidden>
+    <input id="q" type="search" autocomplete="off">
+    <div id="regions" class="regions"></div>
+    <button id="clearRegions" class="linkbtn" type="button" hidden></button>
+  </section>
+
+  <section id="list" role="tabpanel" hidden>
+    <h2 id="listTitle"></h2>
+    <div id="grid" class="grid"></div>
+    <p id="empty" class="empty" hidden></p>
+    <div class="more"><button id="more" class="btn" type="button" hidden></button></div>
+  </section>
+</main>
+
+<footer id="foot" class="foot wrap"></footer>
+
+<dialog id="dlg" aria-labelledby="dlgName">
+  <div class="dlg-bar"><button id="dlgClose" class="dlg-close" type="button" aria-label="Close">&times;</button></div>
+  <div id="dlgBody"></div>
+</dialog>
 
 <script>
-/* ===== Google 로그인 설정 ===== */
-const GOOGLE_CLIENT_ID = '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com';
-const LOGIN_SCOPE = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.profile';
-const SCRAP_FILE_NAME = 'festival_scraps.json';
-const REVIEW_API_URL = 'https://script.google.com/macros/s/AKfycbzhr-oGRN_EcoAeCk99k3rxdg4_td62FBa4hoePKrtMJgUyUuGuxAvqfiDeYRu6L2Tp/exec';
-const LOGIN_FLAG_KEY = 'festival_app_was_logged_in';
-const TOKEN_CACHE_KEY = 'festival_app_token_cache';
+(function () {
+  'use strict';
 
-let accessToken = null;
-let driveFileId = null;
-let tokenClient = null;
-let currentUser = null;
+  var DATA_URLS = ['data/festivals.json', 'https://statepark62.github.io/festival/data/festivals.json'];
+  var PAGE_SIZE = 45;
 
-const DATA_URL = 'https://statepark62.github.io/festival/data/festivals.json';
-const STORAGE_KEY = 'festival_app_prefs';
-const SCRAP_STORAGE_KEY = 'festival_app_scraps';
+  var LANGS = [
+    { code: 'ko', label: '한국어', loc: 'ko-KR', html: 'ko' },
+    { code: 'en', label: 'English', loc: 'en-US', html: 'en' },
+    { code: 'ja', label: '日本語', loc: 'ja-JP', html: 'ja' },
+    { code: 'cn', label: '简体中文', loc: 'zh-CN', html: 'zh-CN' }
+  ];
 
-const INTEREST_OPTIONS = ['전통민속','먹거리','공연예술','자연생태','체험형','야간축제'];
-const COMPANION_OPTIONS = ['가족','연인','친구','나홀로','시니어'];
-
-const TAG_NAME_MAP = {
-  '전통민속': { en: 'Traditional', ja: '伝統民俗', zh: '传统民俗' },
-  '먹거리': { en: 'Food', ja: 'グルメ', zh: '美食' },
-  '공연예술': { en: 'Performance', ja: '公演芸術', zh: '演艺' },
-  '자연생태': { en: 'Nature', ja: '自然生態', zh: '自然生态' },
-  '체험형': { en: 'Hands-on', ja: '体験型', zh: '体验型' },
-  '야간축제': { en: 'Night Festival', ja: '夜間祭り', zh: '夜间节庆' },
-  '가족': { en: 'Family', ja: '家族', zh: '家庭' },
-  '연인': { en: 'Couples', ja: 'カップル', zh: '情侣' },
-  '친구': { en: 'Friends', ja: '友人', zh: '朋友' },
-  '나홀로': { en: 'Solo', ja: 'ひとり', zh: '独自' },
-  '시니어': { en: 'Seniors', ja: 'シニア', zh: '长者' }
-};
-
-const SIDO_NAME_MAP = {
-  '서울특별시':     { en: 'Seoul',           ja: 'ソウル特別市',       zh: '首尔特别市' },
-  '부산광역시':     { en: 'Busan',           ja: '釜山広域市',         zh: '釜山广域市' },
-  '대구광역시':     { en: 'Daegu',           ja: 'テグ広域市',         zh: '大邱广域市' },
-  '인천광역시':     { en: 'Incheon',         ja: 'インチョン広域市',   zh: '仁川广域市' },
-  '광주광역시':     { en: 'Gwangju',         ja: 'クァンジュ広域市',   zh: '光州广域市' },
-  '대전광역시':     { en: 'Daejeon',         ja: 'テジョン広域市',     zh: '大田广域市' },
-  '울산광역시':     { en: 'Ulsan',           ja: 'ウルサン広域市',     zh: '蔚山广域市' },
-  '세종특별자치시': { en: 'Sejong',          ja: 'セジョン特別自治市', zh: '世宗特别自治市' },
-  '경기도':         { en: 'Gyeonggi-do',     ja: '京畿道',             zh: '京畿道' },
-  '강원특별자치도': { en: 'Gangwon-do',      ja: '江原特別自治道',     zh: '江原特别自治道' },
-  '충청북도':       { en: 'Chungcheongbuk-do', ja: 'チュンチョンブクド', zh: '忠清北道' },
-  '충청남도':       { en: 'Chungcheongnam-do', ja: 'チュンチョンナムド', zh: '忠清南道' },
-  '전라북도특별자치도': { en: 'Jeonbuk-do',  ja: 'チョルラブクド特別自治道', zh: '全罗北道特别自治道' },
-  '전라남도':       { en: 'Jeollanam-do',    ja: 'チョルラナムド',     zh: '全罗南道' },
-  '경상북도':       { en: 'Gyeongsangbuk-do', ja: 'キョンサンブクド',  zh: '庆尚北道' },
-  '경상남도':       { en: 'Gyeongsangnam-do', ja: 'キョンサンナムド',  zh: '庆尚南道' },
-  '제주특별자치도': { en: 'Jeju-do',         ja: 'チェジュ特別自治道', zh: '济州特别自治道' }
-};
-
-function translateTag(k, lang) { if (lang === 'ko') return k; const e = TAG_NAME_MAP[k]; return e ? (e[lang] || k) : k; }
-function translateSido(k, lang) { if (lang === 'ko' || !k) return k; const e = SIDO_NAME_MAP[k]; return e ? (e[lang] || k) : k; }
-
-const MONTH_LABELS = {
-  ko: m => `${m}월`, en: m => new Date(2000, m - 1, 1).toLocaleString('en-US', { month: 'short' }),
-  ja: m => `${m}月`, zh: m => `${m}月`
-};
-
-const UI_TEXT = {
-  ko: { onboardTitle: '관심사를 선택해주세요', onboardSub: '선택하신 취향에 맞는 축제를 우선적으로 보여드려요',
-    interestLabel: '관심 카테고리 (복수 선택 가능)', companionLabel: '누구와 함께 가시나요?',
-    start: '시작하기', noResult: '조건에 맞는 축제가 없습니다', loading: '불러오는 중...',
-    access: '교통 안내', background: '유래·배경', activities: '추천 활동', allRegions: '전체지역',
-    myScraps: '내 찜', noScraps: '아직 찜한 축제가 없습니다',
-    login: '로그인', loggedIn: '동기화됨',
-    reviews: '방문 후기', reviewPlaceholder: '다녀오신 느낌을 남겨주세요',
-    submit: '등록', loginToReview: '로그인하시면 후기를 남기실 수 있어요', noReviews: '아직 후기가 없습니다. 첫 후기를 남겨보세요!',
-    reviewLoading: '후기 불러오는 중...' },
-  en: { onboardTitle: 'What are you interested in?', onboardSub: "We'll prioritize festivals matching your taste",
-    interestLabel: 'Interest categories (select multiple)', companionLabel: 'Who are you going with?',
-    start: 'Get Started', noResult: 'No festivals match your filters', loading: 'Loading...',
-    access: 'Getting There', background: 'Background', activities: 'Recommended Activities', allRegions: 'All Regions',
-    myScraps: 'Saved', noScraps: 'No saved festivals yet',
-    login: 'Sign in', loggedIn: 'Synced',
-    reviews: 'Reviews', reviewPlaceholder: 'Share your experience',
-    submit: 'Post', loginToReview: 'Sign in to leave a review', noReviews: 'No reviews yet. Be the first!',
-    reviewLoading: 'Loading reviews...' },
-  ja: { onboardTitle: '興味のあるジャンルを選んでください', onboardSub: 'お好みに合ったお祭りを優先的にご紹介します',
-    interestLabel: '興味のあるカテゴリー（複数選択可）', companionLabel: '誰と一緒に行きますか？',
-    start: 'はじめる', noResult: '条件に合うお祭りがありません', loading: '読み込み中...',
-    access: 'アクセス', background: '由来・背景', activities: 'おすすめの楽しみ方', allRegions: '全地域',
-    myScraps: '保存済み', noScraps: 'まだ保存したお祭りがありません',
-    login: 'ログイン', loggedIn: '同期済み',
-    reviews: 'レビュー', reviewPlaceholder: '感想を共有してください',
-    submit: '投稿', loginToReview: 'ログインするとレビューを投稿できます', noReviews: 'まだレビューがありません。最初のレビューを！',
-    reviewLoading: 'レビュー読み込み中...' },
-  zh: { onboardTitle: '请选择您感兴趣的类别', onboardSub: '我们将优先为您推荐符合您喜好的节日',
-    interestLabel: '兴趣类别（可多选）', companionLabel: '您打算和谁一起去？',
-    start: '开始', noResult: '没有符合条件的节日', loading: '加载中...',
-    access: '交通指南', background: '由来·背景', activities: '推荐活动', allRegions: '全部地区',
-    myScraps: '已收藏', noScraps: '还没有收藏的节日',
-    login: '登录', loggedIn: '已同步',
-    reviews: '评价', reviewPlaceholder: '分享您的体验',
-    submit: '发布', loginToReview: '登录后即可发表评价', noReviews: '暂无评价，快来抢沙发！',
-    reviewLoading: '评价加载中...' }
-};
-
-let allFestivals = [];
-let currentLang = 'ko';
-let currentYearMonth = null;
-let monthWindow = [];
-let userInterests = [];
-let userCompanion = null;
-let selectedRegions = [];
-let scrapedIds = [];
-let showScrapsOnly = false;
-let currentReviewRating = 0;
-let detailMapInstance = null;
-
-async function init() {
-  loadPrefs();
-  loadScraps();
-  buildMonthWindow();
-  renderOnboardingIfNeeded();
-  renderLangToggle();
-  renderScrapToggle();
-  renderLoginButton();
-  renderMonthTabs();
-  await loadData();
-  renderRegionBar();
-  renderFilterBar();
-  renderCards();
-}
-
-function buildMonthWindow() {
-  const today = new Date();
-  const baseYear = today.getFullYear();
-  const baseMonth = today.getMonth() + 1;
-  monthWindow = [];
-  for (let i = 0; i < 12; i++) {
-    const m = ((baseMonth - 1 + i) % 12) + 1;
-    const y = baseYear + Math.floor((baseMonth - 1 + i) / 12);
-    monthWindow.push({ year: y, month: m });
-  }
-  currentYearMonth = monthWindow[0];
-}
-
-function loadPrefs() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) {
-    const prefs = JSON.parse(saved);
-    userInterests = prefs.interests || [];
-    userCompanion = prefs.companion || null;
-    currentLang = prefs.lang || 'ko';
-  }
-}
-function savePrefs() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ interests: userInterests, companion: userCompanion, lang: currentLang }));
-}
-
-/* ---------- 찜 기능 ---------- */
-function loadScraps() {
-  try { const saved = localStorage.getItem(SCRAP_STORAGE_KEY); scrapedIds = saved ? JSON.parse(saved) : []; }
-  catch (e) { scrapedIds = []; }
-}
-function saveScrapsLocal() { localStorage.setItem(SCRAP_STORAGE_KEY, JSON.stringify(scrapedIds)); }
-function isScraped(id) { return scrapedIds.includes(id); }
-
-function toggleScrap(festivalId) {
-  if (isScraped(festivalId)) scrapedIds = scrapedIds.filter(id => id !== festivalId);
-  else scrapedIds.push(festivalId);
-  saveScrapsLocal();
-  updateScrapCount();
-  if (accessToken) driveWriteScraps(scrapedIds);
-}
-function updateScrapCount() {
-  const el = document.getElementById('scrapCount');
-  if (el) el.textContent = scrapedIds.length;
-}
-function renderScrapToggle() {
-  document.getElementById('scrapToggleLabel').textContent = UI_TEXT[currentLang].myScraps;
-  updateScrapCount();
-  const btn = document.getElementById('scrapToggleBtn');
-  btn.classList.toggle('active', showScrapsOnly);
-  btn.addEventListener('click', () => {
-    showScrapsOnly = !showScrapsOnly;
-    btn.classList.toggle('active', showScrapsOnly);
-    renderCards();
-  });
-}
-
-/* ---------- Google 로그인 ---------- */
-function setLoggedOutUI() {
-  const btn = document.getElementById('loginBtn');
-  btn.classList.remove('logged-in');
-  btn.textContent = '👤 ' + UI_TEXT[currentLang].login;
-}
-
-function setLoggedInUI() {
-  const btn = document.getElementById('loginBtn');
-  btn.classList.add('logged-in');
-  btn.textContent = '✓ ' + (currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn);
-}
-
-async function fetchUserInfo() {
-  try {
-    const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: { Authorization: 'Bearer ' + accessToken }
-    });
-    if (!res.ok) return false;
-    const data = await res.json();
-    currentUser = { id: data.sub, name: data.name || '익명' };
-    return true;
-  } catch (e) {
-    console.error('사용자 정보 조회 실패:', e);
-    return false;
-  }
-}
-
-function renderLoginButton() {
-  const btn = document.getElementById('loginBtn');
-  btn.textContent = '👤 ' + UI_TEXT[currentLang].login;
-
-  if (typeof google === 'undefined' || !google.accounts) {
-    setTimeout(renderLoginButton, 300);
-    return;
-  }
-
-  tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: GOOGLE_CLIENT_ID,
-    scope: LOGIN_SCOPE,
-    callback: async function (response) {
-      if (response.error) { console.error(response); return; }
-      accessToken = response.access_token;
-
-      const ok = await fetchUserInfo();
-      if (!ok) {
-        accessToken = null;
-        currentUser = null;
-        setLoggedOutUI();
-        return;
-      }
-
-      const expiresAt = Date.now() + (Number(response.expires_in || 3600) * 1000);
-      localStorage.setItem(TOKEN_CACHE_KEY, JSON.stringify({
-        access_token: accessToken,
-        expires_at: expiresAt,
-        user_id: currentUser.id,
-        user_name: currentUser.name
-      }));
-      localStorage.setItem(LOGIN_FLAG_KEY, '1');
-
-      setLoggedInUI();
-      syncOnLogin();
+  var T = {
+    ko: {
+      title: '전국 축제 캘린더',
+      tagline: '앞으로 6개월 동안 전국에서 열리는 축제',
+      meta: function (n, t) { return t + ' 기준 ' + n + '건의 축제'; },
+      stripCap: '막대가 높을수록 그날 열리는 축제가 많습니다. 월을 누르면 목록이 바뀝니다.',
+      stripLabel: '앞으로 6개월 축제 분포',
+      search: '축제 이름·지역 검색',
+      clearRegions: '지역 선택 해제',
+      ongoing: '진행 중',
+      monthList: function (m, n) { return m + ' 축제 ' + n + '건'; },
+      empty: '조건에 맞는 축제가 없습니다. 검색어를 지우거나 다른 달·지역을 선택해 보세요.',
+      more: function (n) { return n + '건 더 보기'; },
+      overview: '소개', activities: '추천 활동', address: '주소',
+      google: 'Google 지도', naver: '네이버 지도', kakao: '카카오맵', homepage: '공식 홈페이지', call: '전화 문의',
+      close: '닫기', untranslated: '',
+      loading: '축제 데이터를 불러오는 중입니다…',
+      error: '축제 데이터를 불러오지 못했습니다. 인터넷 연결을 확인한 뒤 다시 시도하세요.',
+      retry: '다시 시도',
+      source: '데이터: 한국관광공사, 전국문화축제표준데이터(공공데이터포털). 일정은 주최 측 사정으로 바뀔 수 있으니 방문 전에 공식 안내를 확인하세요.'
     },
-    error_callback: function (err) {
-      console.warn('로그인 요청이 완료되지 않았습니다:', err);
+    en: {
+      title: 'Korea Festival Calendar',
+      tagline: 'Festivals across Korea in the next six months',
+      meta: function (n, t) { return n + ' festivals, updated ' + t; },
+      stripCap: 'Taller bars mean more festivals on that day. Tap a month to change the list.',
+      stripLabel: 'Festival density over the next six months',
+      search: 'Search by name or region',
+      clearRegions: 'Clear regions',
+      ongoing: 'Ongoing',
+      monthList: function (m, n) { return n + ' festivals in ' + m; },
+      empty: 'No festivals match. Clear the search or choose another month or region.',
+      more: function (n) { return 'Show ' + n + ' more'; },
+      overview: 'About', activities: 'Things to do', address: 'Address',
+      google: 'Google Maps', naver: 'Naver Map', kakao: 'KakaoMap', homepage: 'Official website', call: 'Call',
+      close: 'Close', untranslated: 'This festival has not been translated yet, so the Korean text is shown.',
+      loading: 'Loading festival data…',
+      error: 'Could not load the festival data. Check your connection and try again.',
+      retry: 'Try again',
+      source: 'Data: Korea Tourism Organization and the National Cultural Festival Standard Data (data.go.kr). Dates may change, so please check the official announcement before you go.'
+    },
+    ja: {
+      title: '全国お祭りカレンダー',
+      tagline: '今後6か月に韓国各地で開催されるお祭り',
+      meta: function (n, t) { return t + ' 時点 ' + n + '件のお祭り'; },
+      stripCap: '棒が高いほど、その日に開催されるお祭りが多くなります。月を選ぶと一覧が切り替わります。',
+      stripLabel: '今後6か月の開催分布',
+      search: 'お祭り名・地域で検索',
+      clearRegions: '地域の選択を解除',
+      ongoing: '開催中',
+      monthList: function (m, n) { return m + 'のお祭り ' + n + '件'; },
+      empty: '条件に合うお祭りがありません。検索語を消すか、別の月・地域を選んでください。',
+      more: function (n) { return 'さらに' + n + '件を表示'; },
+      overview: '紹介', activities: 'おすすめの楽しみ方', address: '住所',
+      google: 'Googleマップ', naver: 'NAVERマップ', kakao: 'カカオマップ', homepage: '公式サイト', call: '電話で問い合わせ',
+      close: '閉じる', untranslated: 'このお祭りはまだ翻訳されていないため、韓国語で表示しています。',
+      loading: 'お祭りのデータを読み込んでいます…',
+      error: 'お祭りのデータを読み込めませんでした。接続を確認して、もう一度お試しください。',
+      retry: '再試行',
+      source: 'データ：韓国観光公社、全国文化祭標準データ（公共データポータル）。日程は主催者の都合で変わることがあります。訪問前に公式案内をご確認ください。'
+    },
+    cn: {
+      title: '韩国节庆日历',
+      tagline: '未来六个月内韩国各地的节庆活动',
+      meta: function (n, t) { return '截至 ' + t + '，共 ' + n + ' 项节庆'; },
+      stripCap: '柱子越高，当天举办的节庆越多。点击月份可切换列表。',
+      stripLabel: '未来六个月节庆分布',
+      search: '按名称或地区搜索',
+      clearRegions: '清除地区选择',
+      ongoing: '进行中',
+      monthList: function (m, n) { return m + '节庆 ' + n + ' 项'; },
+      empty: '没有符合条件的节庆。请清除搜索词，或选择其他月份、地区。',
+      more: function (n) { return '再显示 ' + n + ' 项'; },
+      overview: '介绍', activities: '推荐活动', address: '地址',
+      google: '谷歌地图', naver: 'Naver 地图', kakao: 'KakaoMap', homepage: '官方网站', call: '电话咨询',
+      close: '关闭', untranslated: '该节庆尚未翻译，因此显示韩语原文。',
+      loading: '正在加载节庆数据…',
+      error: '无法加载节庆数据。请检查网络连接后重试。',
+      retry: '重试',
+      source: '数据：韩国观光公社、全国文化节庆标准数据（公共数据门户）。日程可能因主办方情况变动，出行前请以官方公告为准。'
     }
-  });
+  };
 
-  function silentReauth() {
-    if (localStorage.getItem(LOGIN_FLAG_KEY) === '1') {
-      setTimeout(function () {
-        tokenClient.requestAccessToken({ prompt: '' });
-      }, 800);
+  var state = {
+    lang: 'ko', today: '', windowEnd: '', months: [], month: 0,
+    festivals: [], generatedAt: '', sidoMap: { en: {}, ja: {}, cn: {} },
+    regions: new Set(), q: '', limit: PAGE_SIZE, ready: false, segEls: []
+  };
+  var leafletPromise = null, mapInstance = null, searchTimer = null;
+
+  function $(id) { return document.getElementById(id); }
+  function tx() { return T[state.lang]; }
+  function langCfg() { return LANGS.filter(function (l) { return l.code === state.lang; })[0]; }
+
+  /* ---------- 작은 DOM 도우미 (데이터는 항상 textContent로 넣음) ---------- */
+  function h(tag, props) {
+    var el = document.createElement(tag);
+    if (props) {
+      Object.keys(props).forEach(function (k) {
+        var v = props[k];
+        if (v === null || v === undefined || v === false) return;
+        if (k === 'class') el.className = v;
+        else if (k === 'text') el.textContent = v;
+        else if (k === 'style') el.style.cssText = v;
+        else if (k.indexOf('on') === 0) el.addEventListener(k.slice(2), v);
+        else el.setAttribute(k, v === true ? '' : v);
+      });
     }
+    for (var i = 2; i < arguments.length; i++) {
+      var kids = Array.isArray(arguments[i]) ? arguments[i] : [arguments[i]];
+      kids.forEach(function (c) {
+        if (c === null || c === undefined || c === false) return;
+        el.append(c.nodeType ? c : document.createTextNode(String(c)));
+      });
+    }
+    return el;
   }
 
-  const cachedRaw = localStorage.getItem(TOKEN_CACHE_KEY);
-  let cached = null;
-  if (cachedRaw) {
-    try { cached = JSON.parse(cachedRaw); } catch (e) { cached = null; }
+  /* ---------- 날짜 (문자열 yyyy-MM-dd 기준) ---------- */
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function isoLocal(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function parseISO(s) { var p = s.split('-'); return { y: +p[0], m: +p[1], d: +p[2] }; }
+  function utcDay(s) { var p = parseISO(s); return Date.UTC(p.y, p.m - 1, p.d) / 864e5; }
+  function dayOffset(s) { return utcDay(s) - utcDay(state.today); }
+  function daysIn(y, m) { return new Date(y, m, 0).getDate(); }
+  function dateObj(s) { var p = parseISO(s); return new Date(p.y, p.m - 1, p.d); }
+  function addMonthsISO(s, n) {
+    var p = parseISO(s);
+    var first = new Date(Date.UTC(p.y, p.m - 1 + n, 1));
+    var y = first.getUTCFullYear(), m = first.getUTCMonth() + 1;
+    return y + '-' + pad(m) + '-' + pad(Math.min(p.d, daysIn(y, m)));
+  }
+  function fmtDate(s) {
+    var opt = { month: 'short', day: 'numeric' };
+    if (parseISO(s).y !== parseISO(state.today).y) opt.year = 'numeric';
+    return new Intl.DateTimeFormat(langCfg().loc, opt).format(dateObj(s));
+  }
+  function rangeText(a, b) { return a === b ? fmtDate(a) : fmtDate(a) + ' – ' + fmtDate(b); }
+  function monthName(y, m) { return new Intl.DateTimeFormat(langCfg().loc, { month: 'short' }).format(new Date(y, m - 1, 1)); }
+
+  function buildMonths() {
+    var t = parseISO(state.today), e = parseISO(state.windowEnd);
+    var arr = [], y = t.y, m = t.m;
+    while (y * 12 + m <= e.y * 12 + e.m) {
+      var first = y + '-' + pad(m) + '-01';
+      var last = y + '-' + pad(m) + '-' + pad(daysIn(y, m));
+      arr.push({
+        y: y, m: m, first: first, last: last,
+        from: (y === t.y && m === t.m) ? state.today : first,
+        to: (y === e.y && m === e.m) ? state.windowEnd : last
+      });
+      m++; if (m > 12) { m = 1; y++; }
+    }
+    return arr;
   }
 
-  const BUFFER_MS = 60 * 1000;
-  if (cached && cached.access_token && cached.expires_at > Date.now() + BUFFER_MS) {
-    accessToken = cached.access_token;
+  /* ---------- 현지어 값 (번역이 없으면 한국어로 대체) ---------- */
+  function L(f, lang) {
+    var t = lang === 'ko' ? null : (f.i18n && f.i18n[lang]);
+    return {
+      translated: !!t,
+      name: (t && t.name) || f.name,
+      sido: (t && t.sido) || f.sido,
+      sigungu: (t && t.sigungu) || f.sigungu,
+      place: (t && t.place) || f.place,
+      overview: (t && t.overview) || f.overview,
+      activities: (t && t.activities && t.activities.length) ? t.activities : (f.activities || [])
+    };
+  }
+  function sidoLabel(ko) { return state.lang === 'ko' ? ko : (state.sidoMap[state.lang][ko] || ko); }
 
-    if (cached.user_name) {
-      currentUser = { id: cached.user_id, name: cached.user_name };
-      setLoggedInUI();
-    } else {
-      btn.classList.add('logged-in');
-      btn.textContent = '✓ ' + UI_TEXT[currentLang].loggedIn;
-    }
+  function validCoord(f) {
+    var la = f.lat, ln = f.lng;
+    return typeof la === 'number' && typeof ln === 'number' && la >= 33 && la <= 39 && ln >= 124 && ln <= 132;
+  }
 
-    (async function () {
-      const ok = await fetchUserInfo();
-      if (!ok) {
-        // 캐시된 토큰이 무효 → 정리하고 로그아웃 상태로 복귀 (버튼이 다시 동작하도록)
-        localStorage.removeItem(TOKEN_CACHE_KEY);
-        accessToken = null;
-        currentUser = null;
-        setLoggedOutUI();
-        silentReauth();
-        return;
+  /* ---------- 필터 ---------- */
+  function matches(f) {
+    if (f.end < state.today) return false;
+    if (state.regions.size && !state.regions.has(f.sido)) return false;
+    if (state.q && f._search.indexOf(state.q) < 0) return false;
+    return true;
+  }
+  function overlaps(f, mo) { return f.start <= mo.to && f.end >= mo.from; }
+  function currentList() {
+    var mo = state.months[state.month];
+    return state.festivals.filter(function (f) { return matches(f) && overlaps(f, mo); })
+      .sort(function (a, b) { return a.start < b.start ? -1 : a.start > b.start ? 1 : (a.name < b.name ? -1 : a.name > b.name ? 1 : 0); });
+  }
+
+  /* ---------- 6개월 분포 띠 ---------- */
+  function barColor(t) {
+    var a = [226, 167, 46], b = [207, 58, 31];
+    var c = a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); });
+    return 'rgb(' + c.join(',') + ')';
+  }
+  function renderStrip(intro) {
+    var strip = $('strip');
+    strip.textContent = '';
+    strip.className = 'strip' + (intro ? ' intro' : '');
+    strip.setAttribute('aria-label', tx().stripLabel);
+
+    var total = dayOffset(state.windowEnd) + 1;
+    var counts = new Array(total).fill(0);
+    var monthCounts = state.months.map(function () { return 0; });
+    state.festivals.forEach(function (f) {
+      if (!matches(f)) return;
+      state.months.forEach(function (mo, i) { if (overlaps(f, mo)) monthCounts[i]++; });
+      var s = Math.max(dayOffset(f.start), 0), e = Math.min(dayOffset(f.end), total - 1);
+      for (var d = s; d <= e; d++) counts[d]++;
+    });
+    var max = 1;
+    counts.forEach(function (c) { if (c > max) max = c; });
+
+    state.segEls = [];
+    state.months.forEach(function (mo, i) {
+      var bars = h('div', { class: 'bars', 'aria-hidden': 'true' });
+      var from = dayOffset(mo.from), to = dayOffset(mo.to);
+      for (var d = from; d <= to; d++) {
+        var c = counts[d] || 0;
+        var pct = c === 0 ? 3 : 12 + 88 * c / max;
+        var iso = new Date(dateObj(state.today).getTime());
+        iso.setDate(iso.getDate() + d);
+        bars.append(h('span', {
+          class: 'bar', style: '--i:' + d + ';height:' + pct + '%;background:' + (c === 0 ? 'var(--line)' : barColor(c / max)),
+          title: fmtDate(isoLocal(iso)) + ': ' + c
+        }));
       }
-      cached.user_id = currentUser.id;
-      cached.user_name = currentUser.name;
-      localStorage.setItem(TOKEN_CACHE_KEY, JSON.stringify(cached));
-      setLoggedInUI();
-      syncOnLogin();
-    })();
-  } else {
-    silentReauth();
+      var showYear = i === 0 || mo.m === 1;
+      var seg = h('button', {
+        type: 'button', class: 'seg', role: 'tab', id: 'seg' + i,
+        'aria-selected': i === state.month ? 'true' : 'false', 'aria-controls': 'list',
+        onclick: function () { selectMonth(i); }
+      },
+        h('span', { class: 'mname', text: monthName(mo.y, mo.m) }),
+        h('span', { class: 'myear', text: showYear ? String(mo.y) : '\u00a0' }),
+        h('span', { class: 'mcount', text: String(monthCounts[i]) }),
+        bars);
+      strip.append(seg);
+      state.segEls.push(seg);
+    });
+  }
+  function selectMonth(i) {
+    state.month = i; state.limit = PAGE_SIZE;
+    state.segEls.forEach(function (el, j) { el.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+    renderList();
   }
 
-  btn.addEventListener('click', function () {
-    if (!accessToken) tokenClient.requestAccessToken();
-  });
-}
-
-async function driveFindOrCreateFile() {
-  const listRes = await fetch(
-    `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=name='${SCRAP_FILE_NAME}'&fields=files(id,name)`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  );
-  const listData = await listRes.json();
-  if (listData.files && listData.files.length > 0) { driveFileId = listData.files[0].id; return; }
-
-  const metadata = { name: SCRAP_FILE_NAME, parents: ['appDataFolder'] };
-  const boundary = 'festival_app_boundary';
-  const body =
-    `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n` +
-    `--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify({ ids: [] })}\r\n--${boundary}--`;
-
-  const createRes = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': `multipart/related; boundary=${boundary}` },
-    body
-  });
-  const createData = await createRes.json();
-  driveFileId = createData.id;
-}
-
-async function driveReadScraps() {
-  const res = await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`, {
-    headers: { Authorization: `Bearer ${accessToken}` }
-  });
-  if (!res.ok) return [];
-  try { const data = await res.json(); return data.ids || []; } catch (e) { return []; }
-}
-
-async function driveWriteScraps(ids) {
-  if (!driveFileId) return;
-  await fetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`, {
-    method: 'PATCH',
-    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ids })
-  });
-}
-
-async function syncOnLogin() {
-  try {
-    await driveFindOrCreateFile();
-    const cloudIds = await driveReadScraps();
-    const merged = [...new Set([...scrapedIds, ...cloudIds])];
-    scrapedIds = merged;
-    saveScrapsLocal();
-    await driveWriteScraps(merged);
-    updateScrapCount();
-    renderCards();
-  } catch (e) { console.error('동기화 실패:', e); }
-}
-
-/* ---------- 지도 ---------- */
-function renderMapSection(festival) {
-  const lat = parseFloat(festival.latitude);
-  const lng = parseFloat(festival.longitude);
-  if (!lat || !lng || isNaN(lat) || isNaN(lng)) return '';
-
-  const naverUrl = `https://map.naver.com/p/search/${encodeURIComponent(festival.name_ko)}?c=${lng},${lat},15,0,0,0,dh`;
-  const kakaoUrl = `https://map.kakao.com/link/map/${encodeURIComponent(festival.name_ko)},${lat},${lng}`;
-  const googleUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-
-  return `
-    <div class="detail-section">
-      <div id="detailMap" class="detail-map"></div>
-      <div class="map-links">
-        <a class="map-link-btn" href="${naverUrl}" target="_blank">네이버지도</a>
-        <a class="map-link-btn" href="${kakaoUrl}" target="_blank">카카오맵</a>
-        <a class="map-link-btn" href="${googleUrl}" target="_blank">Google Maps</a>
-      </div>
-    </div>
-  `;
-}
-
-function initDetailMap(festival) {
-  const lat = parseFloat(festival.latitude);
-  const lng = parseFloat(festival.longitude);
-  if (!lat || !lng || isNaN(lat) || isNaN(lng)) return;
-
-  const mapEl = document.getElementById('detailMap');
-  if (!mapEl) return;
-
-  if (detailMapInstance) {
-    detailMapInstance.remove();
-    detailMapInstance = null;
-  }
-
-  detailMapInstance = L.map('detailMap', { zoomControl: true, scrollWheelZoom: false }).setView([lat, lng], 14);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-    maxZoom: 19
-  }).addTo(detailMapInstance);
-
-  L.marker([lat, lng]).addTo(detailMapInstance)
-    .bindPopup(festival.name_ko)
-    .openPopup();
-
-  setTimeout(() => { if (detailMapInstance) detailMapInstance.invalidateSize(); }, 150);
-}
-
-/* ---------- 리뷰 기능 ---------- */
-function renderStarsDisplay(score) {
-  const rounded = Math.round(score);
-  return '★'.repeat(rounded) + '☆'.repeat(5 - rounded);
-}
-
-async function loadReviews(festivalId) {
-  try {
-    const res = await fetch(`${REVIEW_API_URL}?festivalId=${encodeURIComponent(festivalId)}`);
-    return await res.json();
-  } catch (e) {
-    console.error('리뷰 로드 실패:', e);
-    return { reviews: [], average: 0, count: 0 };
-  }
-}
-
-async function submitReview(festivalId, rating, comment) {
-  await fetch(REVIEW_API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({
-      festival_id: festivalId, user_id: currentUser.id, user_name: currentUser.name,
-      rating: rating, comment: comment, lang: currentLang
-    })
-  });
-}
-
-function renderReviewSection(festival, reviewData) {
-  const t = UI_TEXT[currentLang];
-  const { reviews, average, count } = reviewData;
-
-  const summaryHtml = count > 0
-    ? `<div class="review-summary">
-         <span class="avg-score">${average}</span>
-         <span class="stars">${renderStarsDisplay(average)}</span>
-         <span class="count">(${count})</span>
-       </div>`
-    : `<div class="review-summary"><span class="count">${t.noReviews}</span></div>`;
-
-  const myExisting = currentUser ? reviews.find(r => r.user_id === currentUser.id) : null;
-
-  const formHtml = currentUser
-    ? `<div class="star-input" id="starInput">
-         ${[1,2,3,4,5].map(n => `<span data-star="${n}">★</span>`).join('')}
-       </div>
-       <textarea class="review-textarea" id="reviewComment" placeholder="${t.reviewPlaceholder}">${myExisting ? myExisting.comment : ''}</textarea>
-       <div class="review-form-footer">
-         <button class="btn-primary" id="submitReviewBtn">${t.submit}</button>
-       </div>`
-    : `<div class="review-login-hint">${t.loginToReview}</div>`;
-
-  const listHtml = reviews.length > 0
-    ? reviews.map(r => `
-        <div class="review-item">
-          <div class="review-item-head">
-            <span class="review-item-name">${r.user_name}</span>
-            <span class="review-item-date">${new Date(r.created_at).toLocaleDateString()}</span>
-          </div>
-          <div class="review-item-stars">${renderStarsDisplay(r.rating)}</div>
-          <div class="review-item-comment">${r.comment || ''}</div>
-        </div>`).join('')
-    : '';
-
-  return `
-    <div class="detail-section">
-      <h3>${t.reviews}</h3>
-      ${summaryHtml}
-      ${formHtml}
-      ${listHtml}
-    </div>
-  `;
-}
-
-/* ---------- 온보딩 ---------- */
-function renderOnboardingIfNeeded() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved) return;
-  const t = UI_TEXT[currentLang];
-  document.getElementById('onboardTitle').textContent = t.onboardTitle;
-  document.getElementById('onboardSub').textContent = t.onboardSub;
-  document.getElementById('interestLabel').textContent = t.interestLabel;
-  document.getElementById('companionLabel').textContent = t.companionLabel;
-  document.getElementById('onboardSubmit').textContent = t.start;
-
-  const interestChips = document.getElementById('interestChips');
-  interestChips.innerHTML = INTEREST_OPTIONS.map(opt => `<div class="chip" data-value="${opt}">${translateTag(opt, currentLang)}</div>`).join('');
-  const companionChips = document.getElementById('companionChips');
-  companionChips.innerHTML = COMPANION_OPTIONS.map(opt => `<div class="chip" data-value="${opt}">${translateTag(opt, currentLang)}</div>`).join('');
-
-  interestChips.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => c.classList.toggle('selected')));
-  companionChips.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
-    companionChips.querySelectorAll('.chip').forEach(x => x.classList.remove('selected'));
-    c.classList.add('selected');
-  }));
-
-  document.getElementById('onboardSubmit').addEventListener('click', () => {
-    userInterests = [...interestChips.querySelectorAll('.chip.selected')].map(c => c.dataset.value);
-    const sel = companionChips.querySelector('.chip.selected');
-    userCompanion = sel ? sel.dataset.value : null;
-    savePrefs();
-    document.getElementById('onboardingModal').style.display = 'none';
-    renderFilterBar();
-    renderCards();
-  });
-
-  document.getElementById('onboardingModal').style.display = 'flex';
-}
-
-function renderLangToggle() {
-  const buttons = document.querySelectorAll('.lang-toggle button');
-  buttons.forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === currentLang);
-    btn.addEventListener('click', () => {
-      currentLang = btn.dataset.lang;
-      savePrefs();
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('scrapToggleLabel').textContent = UI_TEXT[currentLang].myScraps;
-      if (accessToken) setLoggedInUI(); else setLoggedOutUI();
-      renderMonthTabs();
-      renderRegionBar();
-      renderFilterBar();
-      renderCards();
-    });
-  });
-}
-
-function renderMonthTabs() {
-  const container = document.getElementById('monthTabs');
-  container.innerHTML = '';
-  const labelFn = MONTH_LABELS[currentLang];
-  monthWindow.forEach(ym => {
-    const tab = document.createElement('div');
-    const isActive = ym.year === currentYearMonth.year && ym.month === currentYearMonth.month;
-    tab.className = 'month-tab' + (isActive ? ' active' : '');
-    tab.textContent = labelFn(ym.month);
-    tab.addEventListener('click', () => {
-      currentYearMonth = ym;
-      showScrapsOnly = false;
-      document.getElementById('scrapToggleBtn').classList.remove('active');
-      document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      renderCards();
-    });
-    container.appendChild(tab);
-  });
-}
-
-function renderRegionBar() {
-  const t = UI_TEXT[currentLang];
-  const uniqueSidos = [...new Set(allFestivals.map(f => f.sido).filter(Boolean))].sort();
-  const container = document.getElementById('regionBar');
-  const allActive = selectedRegions.length === 0 ? 'selected' : '';
-  container.innerHTML = `<div class="chip ${allActive}" data-value="">${t.allRegions}</div>` +
-    uniqueSidos.map(sido => `<div class="chip ${selectedRegions.includes(sido) ? 'selected' : ''}" data-value="${sido}">${translateSido(sido, currentLang)}</div>`).join('');
-
-  container.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const val = chip.dataset.value;
-      if (val === '') selectedRegions = [];
-      else if (selectedRegions.includes(val)) selectedRegions = selectedRegions.filter(s => s !== val);
-      else selectedRegions.push(val);
-      renderRegionBar();
-      renderCards();
-    });
-  });
-}
-
-function renderFilterBar() {
-  const container = document.getElementById('filterBar');
-  container.innerHTML = INTEREST_OPTIONS.map(opt => `<div class="chip ${userInterests.includes(opt) ? 'selected' : ''}" data-value="${opt}">${translateTag(opt, currentLang)}</div>`).join('');
-  container.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const val = chip.dataset.value;
-      if (userInterests.includes(val)) userInterests = userInterests.filter(i => i !== val);
-      else userInterests.push(val);
-      chip.classList.toggle('selected');
-      savePrefs();
-      renderCards();
-    });
-  });
-}
-
-async function loadData() {
-  document.getElementById('cardList').innerHTML = `<div class="loading">${UI_TEXT[currentLang].loading}</div>`;
-  try {
-    const res = await fetch(DATA_URL);
-    allFestivals = await res.json();
-  } catch (e) {
-    document.getElementById('cardList').innerHTML = '<div class="empty-state">데이터를 불러오지 못했습니다.</div>';
-  }
-}
-
-function getYearMonth(dateStr) {
-  if (!dateStr) return null;
-  const parts = dateStr.split('-');
-  if (parts.length < 2) return null;
-  return { year: parseInt(parts[0], 10), month: parseInt(parts[1], 10) };
-}
-function isAlreadyEnded(endDateStr) {
-  if (!endDateStr) return false;
-  return endDateStr < new Date().toISOString().slice(0, 10);
-}
-
-function renderCards() {
-  const t = UI_TEXT[currentLang];
-  let filtered;
-
-  if (showScrapsOnly) {
-    filtered = allFestivals.filter(f => scrapedIds.includes(f.festival_id))
-      .sort((a, b) => (a.start_date || '').localeCompare(b.start_date || ''));
-  } else {
-    filtered = allFestivals.filter(f => {
-      const ym = getYearMonth(f.start_date);
-      if (!ym) return false;
-      if (ym.year !== currentYearMonth.year || ym.month !== currentYearMonth.month) return false;
-      if (isAlreadyEnded(f.end_date)) return false;
-      return true;
-    });
-    if (selectedRegions.length > 0) filtered = filtered.filter(f => selectedRegions.includes(f.sido));
-    if (userInterests.length > 0) {
-      filtered = filtered.filter(f => {
-        const trans = f.translations && f.translations[currentLang];
-        if (!trans || !trans.tags_interest) return true;
-        return trans.tags_interest.some(tag => userInterests.includes(tag));
+  /* ---------- 지역 칩 ---------- */
+  function renderRegions() {
+    var box = $('regions');
+    box.textContent = '';
+    var counts = {};
+    state.festivals.forEach(function (f) { if (f.end >= state.today && f.sido) counts[f.sido] = (counts[f.sido] || 0) + 1; });
+    Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a] || a.localeCompare(b, 'ko'); }).forEach(function (ko) {
+      var b = h('button', { type: 'button', class: 'rchip', 'aria-pressed': state.regions.has(ko) ? 'true' : 'false' },
+        sidoLabel(ko), h('span', { class: 'n', text: String(counts[ko]) }));
+      b.addEventListener('click', function () {
+        if (state.regions.has(ko)) state.regions.delete(ko); else state.regions.add(ko);
+        b.setAttribute('aria-pressed', state.regions.has(ko) ? 'true' : 'false');
+        filtersChanged();
       });
+      box.append(b);
+    });
+    $('clearRegions').hidden = state.regions.size === 0;
+  }
+  function filtersChanged() {
+    state.limit = PAGE_SIZE;
+    $('clearRegions').hidden = state.regions.size === 0;
+    renderStrip(false);
+    renderList();
+  }
+
+  /* ---------- 목록 ---------- */
+  function renderList() {
+    var t = tx(), mo = state.months[state.month];
+    var list = currentList();
+    $('listTitle').textContent = t.monthList(monthName(mo.y, mo.m), list.length);
+    $('list').setAttribute('aria-labelledby', 'seg' + state.month);
+    var grid = $('grid');
+    grid.textContent = '';
+    list.slice(0, state.limit).forEach(function (f) { grid.append(card(f)); });
+    $('empty').hidden = list.length > 0;
+    $('empty').textContent = t.empty;
+    var remain = list.length - state.limit;
+    var more = $('more');
+    more.hidden = remain <= 0;
+    if (remain > 0) more.textContent = t.more(remain);
+  }
+
+  function card(f) {
+    var x = L(f, state.lang), t = tx();
+    var live = f.start <= state.today && f.end >= state.today;
+    var summary = (x.overview || '').replace(/\s+/g, ' ').slice(0, 220);
+    var loc = [x.sido, x.sigungu].filter(Boolean).join(' ');
+    var el = h('article', { class: 'card' + (live ? ' live' : ''), role: 'button', tabindex: '0', 'aria-haspopup': 'dialog' },
+      h('div', { class: 'band' }, h('span', { text: rangeText(f.start, f.end) }), live ? h('span', { class: 'flag', text: t.ongoing }) : null),
+      h('div', { class: 'cbody' },
+        h('h3', { class: 'cname', text: x.name }),
+        loc ? h('p', { class: 'cloc', text: loc }) : null,
+        summary ? h('p', { class: 'csum', text: summary }) : null,
+        x.activities.length ? h('div', { class: 'tags' }, x.activities.slice(0, 3).map(function (a) { return h('span', { class: 'tag', text: a }); })) : null));
+    el.addEventListener('click', function () { openDetail(f); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetail(f); }
+    });
+    return el;
+  }
+
+  /* ---------- 상세 ---------- */
+  function safeUrl(u) { return /^https?:\/\//i.test(String(u || '')) ? u : ''; }
+  function firstPhone(s) {
+    var m = String(s || '').match(/\+?\d[\d\-\s()]{6,}\d/);
+    return m ? m[0].trim() : '';
+  }
+
+  function openDetail(f) {
+    var t = tx(), x = L(f, state.lang);
+    var live = f.start <= state.today && f.end >= state.today;
+    var coords = validCoord(f);
+    var loc = [x.sido, x.sigungu].filter(Boolean).join(' ');
+    var q = encodeURIComponent(f.name);
+    var gmap = coords
+      ? 'https://www.google.com/maps/search/?api=1&query=' + f.lat + ',' + f.lng
+      : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(f.address || f.name);
+    var links = [h('a', { class: 'btn', href: gmap, target: '_blank', rel: 'noopener', text: t.google })];
+    links.push(h('a', { class: 'btn', href: 'https://map.naver.com/p/search/' + q, target: '_blank', rel: 'noopener', text: t.naver }));
+    if (coords) links.push(h('a', { class: 'btn', href: 'https://map.kakao.com/link/map/' + q + ',' + f.lat + ',' + f.lng, target: '_blank', rel: 'noopener', text: t.kakao }));
+    var home = safeUrl(f.homepage);
+    if (home) links.unshift(h('a', { class: 'btn primary', href: home, target: '_blank', rel: 'noopener', text: t.homepage }));
+    var phone = firstPhone(f.tel);
+    if (phone) links.push(h('a', { class: 'btn', href: 'tel:' + phone.replace(/[^\d+]/g, ''), text: t.call + ' ' + phone }));
+
+    var body = $('dlgBody');
+    body.textContent = '';
+    body.append(
+      h('div', { class: 'band dlg-band' + (live ? ' live' : '') }, h('span', { text: rangeText(f.start, f.end) }), live ? h('span', { class: 'flag', text: t.ongoing }) : null),
+      h('div', { class: 'dbody' },
+        h('h2', { class: 'dname', id: 'dlgName', text: x.name }),
+        loc ? h('p', { class: 'dloc', text: loc }) : null,
+        x.place ? h('p', { class: 'dsub', text: x.place }) : null,
+        f.address ? h('p', { class: 'dsub', text: t.address + ': ' + f.address }) : null,
+        (state.lang !== 'ko' && !x.translated) ? h('p', { class: 'notice', text: t.untranslated }) : null,
+        x.overview ? h('div', { class: 'dsec' }, h('h3', { text: t.overview }), h('p', { class: 'ov', text: x.overview })) : null,
+        x.activities.length ? h('div', { class: 'dsec' }, h('h3', { text: t.activities }),
+          h('div', { class: 'tags' }, x.activities.map(function (a) { return h('span', { class: 'tag', text: a }); }))) : null,
+        coords ? h('div', { class: 'map', id: 'map', role: 'img', 'aria-label': x.name }) : null,
+        h('div', { class: 'links' }, links)));
+
+    $('dlgClose').setAttribute('aria-label', t.close);
+    var dlg = $('dlg');
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+    document.body.style.overflow = 'hidden';
+    dlg.scrollTop = 0;
+    if (coords) initMap(f.lat, f.lng, x.name);
+  }
+
+  function closeDetail() {
+    var dlg = $('dlg');
+    if (typeof dlg.close === 'function') { if (dlg.open) dlg.close(); } else dlg.removeAttribute('open');
+    onDialogClosed();
+  }
+  function onDialogClosed() {
+    document.body.style.overflow = '';
+    if (mapInstance) { mapInstance.remove(); mapInstance = null; }
+  }
+
+  function loadLeaflet() {
+    if (window.L) return Promise.resolve();
+    if (leafletPromise) return leafletPromise;
+    leafletPromise = new Promise(function (resolve, reject) {
+      document.head.append(h('link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css' }));
+      document.head.append(h('script', {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js',
+        onload: function () { resolve(); },
+        onerror: function () { leafletPromise = null; reject(new Error('leaflet')); }
+      }));
+    });
+    return leafletPromise;
+  }
+  function initMap(lat, lng, name) {
+    loadLeaflet().then(function () {
+      var el = $('map');
+      if (!el || !$('dlg').open) return;
+      if (mapInstance) { mapInstance.remove(); mapInstance = null; }
+      mapInstance = window.L.map(el, { scrollWheelZoom: false }).setView([lat, lng], 15);
+      window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(mapInstance);
+      var pop = document.createElement('div');
+      pop.textContent = name;
+      window.L.marker([lat, lng]).addTo(mapInstance).bindPopup(pop);
+      setTimeout(function () { if (mapInstance) mapInstance.invalidateSize(); }, 120);
+    }).catch(function () {
+      var el = $('map');
+      if (el) el.remove();
+    });
+  }
+
+  /* ---------- 언어 ---------- */
+  function initialLang() {
+    try { var s = localStorage.getItem('festival_lang'); if (s && T[s]) return s; } catch (e) { /* 저장소 사용 불가 */ }
+    var n = (navigator.language || 'ko').toLowerCase();
+    if (n.indexOf('ko') === 0) return 'ko';
+    if (n.indexOf('ja') === 0) return 'ja';
+    if (n.indexOf('zh') === 0) return 'cn';
+    return 'en';
+  }
+  function setLang(code) {
+    state.lang = code;
+    try { localStorage.setItem('festival_lang', code); } catch (e) { /* 무시 */ }
+    applyLang();
+  }
+  function applyLang() {
+    var t = tx();
+    document.documentElement.lang = langCfg().html;
+    document.title = t.title;
+    $('title').textContent = t.title;
+    $('tagline').textContent = t.tagline;
+    $('q').placeholder = t.search;
+    $('q').setAttribute('aria-label', t.search);
+    $('clearRegions').textContent = t.clearRegions;
+    $('foot').textContent = t.source;
+    Array.prototype.forEach.call($('langs').children, function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-code') === state.lang ? 'true' : 'false');
+    });
+    if (!state.ready) { $('metaline').textContent = ''; return; }
+    $('metaline').textContent = t.meta(state.festivals.filter(function (f) { return f.end >= state.today; }).length, state.generatedAt);
+    $('stripCap').textContent = t.stripCap;
+    renderRegions();
+    renderStrip(false);
+    renderList();
+  }
+
+  /* ---------- 데이터 ---------- */
+  function fetchData() {
+    var i = 0;
+    function next(lastErr) {
+      if (i >= DATA_URLS.length) return Promise.reject(lastErr || new Error('no source'));
+      var url = DATA_URLS[i++];
+      return fetch(url).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      }).then(function (d) {
+        if (!d || !Array.isArray(d.festivals)) throw new Error('bad format');
+        return d;
+      }).catch(next);
+    }
+    return next();
+  }
+
+  function prepare(d) {
+    state.generatedAt = d.generatedAt || '';
+    state.festivals = d.festivals.filter(function (f) { return f && f.name && /^\d{4}-\d{2}-\d{2}$/.test(f.start || ''); }).map(function (f) {
+      f.end = /^\d{4}-\d{2}-\d{2}$/.test(f.end || '') ? f.end : f.start;
+      f.activities = Array.isArray(f.activities) ? f.activities : [];
+      var names = [f.name, f.sido, f.sigungu];
+      Object.keys(f.i18n || {}).forEach(function (lg) {
+        var t = f.i18n[lg] || {};
+        names.push(t.name, t.sido, t.sigungu);
+        if (t.sido && f.sido && state.sidoMap[lg] && !state.sidoMap[lg][f.sido]) state.sidoMap[lg][f.sido] = t.sido;
+      });
+      f._search = names.filter(Boolean).join(' ').toLowerCase();
+      return f;
+    });
+  }
+
+  function setStatus(msg, withRetry) {
+    var el = $('status');
+    el.textContent = '';
+    el.hidden = !msg;
+    if (msg) el.append(msg);
+    if (msg && withRetry) {
+      el.append(document.createElement('br'));
+      el.append(h('button', { class: 'btn', type: 'button', text: tx().retry, onclick: boot }));
     }
   }
 
-  const container = document.getElementById('cardList');
-  if (filtered.length === 0) {
-    container.innerHTML = `<div class="empty-state">${showScrapsOnly ? t.noScraps : t.noResult}</div>`;
-    return;
-  }
-
-  container.innerHTML = filtered.map(f => {
-    const trans = (f.translations && f.translations[currentLang]) || {};
-    const rawTags = (trans.tags_interest || []).concat(trans.tags_companion || []);
-    const displayTags = rawTags.map(tag => translateTag(tag, currentLang));
-    const sidoDisplay = translateSido(f.sido, currentLang);
-    const scrapped = isScraped(f.festival_id);
-    const heart = scrapped ? '❤️' : '🤍';
-
-    const imageBlock = f.image_url
-      ? `<div class="card-image-wrap"><img class="card-image" src="${f.image_url}" loading="lazy"><button class="scrap-btn" data-scrap-id="${f.festival_id}">${heart}</button></div>`
-      : '';
-    const topRow = f.image_url
-      ? `<div class="card-title">${f.name_ko}</div>`
-      : `<div class="card-body-top"><div class="card-title">${f.name_ko}</div><button class="scrap-btn no-image" data-scrap-id="${f.festival_id}">${heart}</button></div>`;
-
-    return `<div class="card" data-id="${f.festival_id}">
-        ${imageBlock}
-        <div class="card-body">
-          ${topRow}
-          <div class="card-date">📍 ${sidoDisplay} ${f.sigungu} · ${f.start_date} ~ ${f.end_date}</div>
-          <div class="card-summary">${trans.summary || ''}</div>
-          <div class="card-tags">${displayTags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
-        </div>
-      </div>`;
-  }).join('');
-
-  container.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('.scrap-btn')) return;
-      const festival = allFestivals.find(f => f.festival_id === card.dataset.id);
-      showDetail(festival);
-    });
-  });
-  container.querySelectorAll('.scrap-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleScrap(btn.dataset.scrapId);
-      renderCards();
-    });
-  });
-}
-
-async function showDetail(festival) {
-  const t = UI_TEXT[currentLang];
-  const trans = (festival.translations && festival.translations[currentLang]) || {};
-  const sidoDisplay = translateSido(festival.sido, currentLang);
-  const scrapped = isScraped(festival.festival_id);
-  const heart = scrapped ? '❤️' : '🤍';
-
-  const imageBlock = festival.image_url
-    ? `<div class="detail-image-wrap"><img class="detail-image" src="${festival.image_url}"><button class="detail-scrap-btn" data-scrap-id="${festival.festival_id}">${heart}</button></div>`
-    : '';
-  const titleRow = festival.image_url
-    ? `<h2>${festival.name_ko}</h2>`
-    : `<div class="detail-title-row"><h2>${festival.name_ko}</h2><button class="detail-scrap-btn-inline" data-scrap-id="${festival.festival_id}">${heart}</button></div>`;
-
-  document.getElementById('detailContent').innerHTML = `
-    ${imageBlock}
-    ${titleRow}
-    <div class="card-date" style="margin:8px 0 16px;">📍 ${sidoDisplay} ${festival.sigungu} · ${festival.start_date} ~ ${festival.end_date}</div>
-    <div class="detail-section"><p>${trans.summary || ''}</p></div>
-    ${trans.cultural_background ? `<div class="detail-section"><h3>${t.background}</h3><p>${trans.cultural_background}</p></div>` : ''}
-    ${trans.recommended_activities && trans.recommended_activities.length ? `<div class="detail-section"><h3>${t.activities}</h3><ul>${trans.recommended_activities.map(a => `<li>${a}</li>`).join('')}</ul></div>` : ''}
-    ${trans.access_info ? `<div class="detail-section"><h3>${t.access}</h3><p>${trans.access_info}</p></div>` : ''}
-    ${festival.homepage_url ? `<p><a href="${festival.homepage_url}" target="_blank">공식 홈페이지 →</a></p>` : ''}
-    ${renderMapSection(festival)}
-    <div class="detail-section" id="reviewSection"><div class="review-loading">${t.reviewLoading}</div></div>
-  `;
-
-  document.getElementById('detailContent').querySelectorAll('[data-scrap-id]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleScrap(btn.dataset.scrapId);
-      showDetail(festival);
-      renderCards();
-    });
-  });
-
-  document.getElementById('detailModal').style.display = 'flex';
-  initDetailMap(festival);
-
-  const reviewData = await loadReviews(festival.festival_id);
-  const reviewSection = document.getElementById('reviewSection');
-  if (!reviewSection) return;
-
-  currentReviewRating = 0;
-  reviewSection.innerHTML = renderReviewSection(festival, reviewData);
-
-  const starInput = document.getElementById('starInput');
-  if (starInput) {
-    const stars = starInput.querySelectorAll('span');
-    stars.forEach(star => {
-      star.addEventListener('click', () => {
-        currentReviewRating = Number(star.dataset.star);
-        stars.forEach(s => s.classList.toggle('active', Number(s.dataset.star) <= currentReviewRating));
-      });
-    });
-    const myExisting = currentUser ? reviewData.reviews.find(r => r.user_id === currentUser.id) : null;
-    if (myExisting) {
-      currentReviewRating = myExisting.rating;
-      stars.forEach(s => s.classList.toggle('active', Number(s.dataset.star) <= currentReviewRating));
-    }
-  }
-
-  const submitBtn = document.getElementById('submitReviewBtn');
-  if (submitBtn) {
-    submitBtn.addEventListener('click', async () => {
-      if (currentReviewRating === 0) { alert('별점을 선택해주세요.'); return; }
-      const comment = document.getElementById('reviewComment').value;
-      submitBtn.disabled = true;
-      submitBtn.textContent = '...';
-      await submitReview(festival.festival_id, currentReviewRating, comment);
-      showDetail(festival);
+  function boot() {
+    setStatus(tx().loading, false);
+    fetchData().then(function (d) {
+      prepare(d);
+      state.months = buildMonths();
+      state.month = 0;
+      state.ready = true;
+      setStatus('', false);
+      $('stripSection').hidden = false;
+      $('filters').hidden = false;
+      $('list').hidden = false;
+      applyLang();
+      renderStrip(true);
+    }).catch(function () {
+      setStatus(tx().error, true);
     });
   }
-}
 
-function closeDetailModal() {
-  document.getElementById('detailModal').style.display = 'none';
-  if (detailMapInstance) { detailMapInstance.remove(); detailMapInstance = null; }
-}
-document.getElementById('detailClose').addEventListener('click', closeDetailModal);
-document.getElementById('detailModal').addEventListener('click', (e) => { if (e.target.id === 'detailModal') closeDetailModal(); });
+  function start() {
+    state.today = isoLocal(new Date());
+    state.windowEnd = addMonthsISO(state.today, 6);
+    state.lang = initialLang();
 
-init();
+    var langs = $('langs');
+    LANGS.forEach(function (l) {
+      langs.append(h('button', { type: 'button', 'data-code': l.code, lang: l.html, text: l.label, 'aria-pressed': 'false', onclick: function () { setLang(l.code); } }));
+    });
+    $('q').addEventListener('input', function (e) {
+      var v = e.target.value.trim().toLowerCase();
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(function () { state.q = v; filtersChanged(); }, 150);
+    });
+    $('clearRegions').addEventListener('click', function () {
+      state.regions.clear();
+      Array.prototype.forEach.call($('regions').children, function (b) { b.setAttribute('aria-pressed', 'false'); });
+      filtersChanged();
+    });
+    $('more').addEventListener('click', function () { state.limit += PAGE_SIZE; renderList(); });
+    $('dlgClose').addEventListener('click', closeDetail);
+    $('dlg').addEventListener('click', function (e) { if (e.target === $('dlg')) closeDetail(); });
+    $('dlg').addEventListener('close', onDialogClosed);
+
+    applyLang();
+    boot();
+  }
+
+  start();
+})();
 </script>
 </body>
 </html>
