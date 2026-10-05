@@ -356,10 +356,37 @@ function renderScrapToggle() {
   });
 }
 
-/* ---------- Google 로그인 (토큰 캐싱으로 깜빡임 최소화) ---------- */
+/* ---------- Google 로그인 ---------- */
+function setLoggedOutUI() {
+  const btn = document.getElementById('loginBtn');
+  btn.classList.remove('logged-in');
+  btn.textContent = '👤 ' + UI_TEXT[currentLang].login;
+}
+
+function setLoggedInUI() {
+  const btn = document.getElementById('loginBtn');
+  btn.classList.add('logged-in');
+  btn.textContent = '✓ ' + (currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn);
+}
+
+async function fetchUserInfo() {
+  try {
+    const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: 'Bearer ' + accessToken }
+    });
+    if (!res.ok) return false;
+    const data = await res.json();
+    currentUser = { id: data.sub, name: data.name || '익명' };
+    return true;
+  } catch (e) {
+    console.error('사용자 정보 조회 실패:', e);
+    return false;
+  }
+}
+
 function renderLoginButton() {
   const btn = document.getElementById('loginBtn');
-  btn.textContent = `👤 ${UI_TEXT[currentLang].login}`;
+  btn.textContent = '👤 ' + UI_TEXT[currentLang].login;
 
   if (typeof google === 'undefined' || !google.accounts) {
     setTimeout(renderLoginButton, 300);
@@ -373,20 +400,31 @@ function renderLoginButton() {
       if (response.error) { console.error(response); return; }
       accessToken = response.access_token;
 
-      btn.classList.add('logged-in');
-      await fetchUserInfo();
+      const ok = await fetchUserInfo();
+      if (!ok) {
+        accessToken = null;
+        currentUser = null;
+        setLoggedOutUI();
+        return;
+      }
 
       const expiresAt = Date.now() + (Number(response.expires_in || 3600) * 1000);
       localStorage.setItem(TOKEN_CACHE_KEY, JSON.stringify({
-        access_token: accessToken, expires_at: expiresAt,
-        user_id: currentUser ? currentUser.id : null,
-        user_name: currentUser ? currentUser.name : null
+        access_token: accessToken,
+        expires_at: expiresAt,
+        user_id: currentUser.id,
+        user_name: currentUser.name
       }));
       localStorage.setItem(LOGIN_FLAG_KEY, '1');
 
-      btn.textContent = '✓ ' + (currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn);
-      syncOnLogin(); // await 없이 백그라운드로 실행 (버튼 표시를 기다리게 하지 않음)
+      setLoggedInUI();
+      syncOnLogin();
+    },
+    error_callback: function (err) {
+      console.warn('로그인 요청이 완료되지 않았습니다:', err);
     }
+  });
+
   function silentReauth() {
     if (localStorage.getItem(LOGIN_FLAG_KEY) === '1') {
       setTimeout(function () {
@@ -395,38 +433,41 @@ function renderLoginButton() {
     }
   }
 
-    const cachedRaw = localStorage.getItem(TOKEN_CACHE_KEY);
+  const cachedRaw = localStorage.getItem(TOKEN_CACHE_KEY);
+  let cached = null;
   if (cachedRaw) {
-    let cached = null;
     try { cached = JSON.parse(cachedRaw); } catch (e) { cached = null; }
+  }
 
-    const BUFFER_MS = 60 * 1000;
-    if (cached && cached.access_token && cached.expires_at > Date.now() + BUFFER_MS) {
-      accessToken = cached.access_token;
-      btn.classList.add('logged-in');
+  const BUFFER_MS = 60 * 1000;
+  if (cached && cached.access_token && cached.expires_at > Date.now() + BUFFER_MS) {
+    accessToken = cached.access_token;
 
-      // 캐시된 이름이 있으면 네트워크 요청 없이 즉시 표시 (체감 속도 개선 핵심)
-      if (cached.user_name) {
-        currentUser = { id: cached.user_id, name: cached.user_name };
-        btn.textContent = '✓ ' + cached.user_name;
-      } else {
-        btn.textContent = `✓ ${UI_TEXT[currentLang].loggedIn}`;
-      }
-
-      // 실제 최신 정보 확인 + 찜 동기화는 화면을 막지 않고 뒤에서 처리
-      (async function () {
-        await fetchUserInfo();
-        if (currentUser) {
-          cached.user_id = currentUser.id;
-          cached.user_name = currentUser.name;
-          localStorage.setItem(TOKEN_CACHE_KEY, JSON.stringify(cached));
-          btn.textContent = '✓ ' + currentUser.name;
-        }
-        syncOnLogin();
-      })();
+    if (cached.user_name) {
+      currentUser = { id: cached.user_id, name: cached.user_name };
+      setLoggedInUI();
     } else {
-      silentReauth();
+      btn.classList.add('logged-in');
+      btn.textContent = '✓ ' + UI_TEXT[currentLang].loggedIn;
     }
+
+    (async function () {
+      const ok = await fetchUserInfo();
+      if (!ok) {
+        // 캐시된 토큰이 무효 → 정리하고 로그아웃 상태로 복귀 (버튼이 다시 동작하도록)
+        localStorage.removeItem(TOKEN_CACHE_KEY);
+        accessToken = null;
+        currentUser = null;
+        setLoggedOutUI();
+        silentReauth();
+        return;
+      }
+      cached.user_id = currentUser.id;
+      cached.user_name = currentUser.name;
+      localStorage.setItem(TOKEN_CACHE_KEY, JSON.stringify(cached));
+      setLoggedInUI();
+      syncOnLogin();
+    })();
   } else {
     silentReauth();
   }
@@ -434,19 +475,6 @@ function renderLoginButton() {
   btn.addEventListener('click', function () {
     if (!accessToken) tokenClient.requestAccessToken();
   });
-}
-
-async function fetchUserInfo() {
-  try {
-    const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: { Authorization: `Bearer ${accessToken}` }
-    });
-    const data = await res.json();
-    currentUser = { id: data.sub, name: data.name || '익명' };
-  } catch (e) {
-    console.error('사용자 정보 조회 실패:', e);
-    currentUser = { id: 'unknown', name: '익명' };
-  }
 }
 
 async function driveFindOrCreateFile() {
@@ -669,7 +697,7 @@ function renderLangToggle() {
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('scrapToggleLabel').textContent = UI_TEXT[currentLang].myScraps;
-      document.getElementById('loginBtn').textContent = accessToken ? `✓ ${currentUser ? currentUser.name : UI_TEXT[currentLang].loggedIn}` : `👤 ${UI_TEXT[currentLang].login}`;
+      if (accessToken) setLoggedInUI(); else setLoggedOutUI();
       renderMonthTabs();
       renderRegionBar();
       renderFilterBar();
