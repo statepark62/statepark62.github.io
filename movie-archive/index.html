@@ -11,6 +11,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="영화기록" />
+  <meta name="application-name" content="영화기록" />
   <meta name="theme-color" content="#0f172a" />
 
   <style>
@@ -91,6 +92,7 @@
       transition: background 0.2s;
     }
     .btn:hover { background: var(--primary-hover); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
     .btn-block { width: 100%; padding: 14px; font-size: 1.05rem; }
 
     /* 검색 결과 카드 */
@@ -217,10 +219,10 @@
 
     <div id="statusAlert" class="alert"></div>
 
-    <!-- 검색창 -->
+    <!-- 검색 영역 -->
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="영화나 드라마 제목을 입력하세요 (예: 인터스텔라, 나의 아저씨)..." onkeydown="if(event.key==='Enter') searchWorks()" />
-      <button class="btn" onclick="searchWorks()">검색</button>
+      <button class="btn" id="searchBtn" onclick="searchWorks()">검색</button>
     </div>
 
     <!-- 검색 결과 카드 목록 -->
@@ -293,26 +295,56 @@
       setTimeout(() => { el.style.display = 'none'; }, 4000);
     }
 
+    // JSONP 헬퍼: CORS 제한을 원천 우회하는 구글 웹 앱 전용 호출기
+    function callGasApi(params) {
+      return new Promise((resolve, reject) => {
+        const callbackName = 'gas_callback_' + Math.round(100000 * Math.random());
+        const queryParts = [];
+        for (const key in params) {
+          queryParts.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+        }
+        queryParts.push('callback=' + callbackName);
+
+        const script = document.createElement('script');
+        script.src = `${GAS_WEB_APP_URL}?${queryParts.join('&')}`;
+
+        window[callbackName] = function(data) {
+          delete window[callbackName];
+          if (document.body.contains(script)) document.body.removeChild(script);
+          resolve(data);
+        };
+
+        script.onerror = function() {
+          delete window[callbackName];
+          if (document.body.contains(script)) document.body.removeChild(script);
+          reject(new Error('네트워크 연결 또는 웹 앱 주소를 확인해 주세요.'));
+        };
+
+        document.body.appendChild(script);
+      });
+    }
+
     // Apps Script 프록시를 통한 영화/드라마 검색
     async function searchWorks() {
       const query = document.getElementById('searchInput').value.trim();
       if (!query) return;
 
-      const submitBtn = document.querySelector('.search-box .btn');
-      submitBtn.innerText = '검색 중...';
-      submitBtn.disabled = true;
-
-      const url = `${GAS_WEB_APP_URL}?action=search&query=${encodeURIComponent(query)}`;
+      const searchBtn = document.getElementById('searchBtn');
+      searchBtn.innerText = '검색 중...';
+      searchBtn.disabled = true;
 
       try {
-        const res = await fetch(url);
-        const data = await res.json();
-        renderResults(data.results || []);
+        const data = await callGasApi({ action: 'search', query: query });
+        if (data.error) {
+          showAlert('조회 오류: ' + data.message, 'error');
+        } else {
+          renderResults(data.results || []);
+        }
       } catch (err) {
         showAlert('검색 중 오류가 발생했습니다: ' + err.message, 'error');
       } finally {
-        submitBtn.innerText = '검색';
-        submitBtn.disabled = false;
+        searchBtn.innerText = '검색';
+        searchBtn.disabled = false;
       }
     }
 
@@ -353,11 +385,8 @@
       const mediaType = item.media_type;
       const id = item.id;
 
-      const detailUrl = `${GAS_WEB_APP_URL}?action=detail&mediaType=${mediaType}&id=${id}`;
-
       try {
-        const res = await fetch(detailUrl);
-        const detail = await res.json();
+        const detail = await callGasApi({ action: 'detail', mediaType: mediaType, id: id });
 
         let director = '';
         if (detail.credits && detail.credits.crew) {
@@ -405,7 +434,7 @@
       }
     }
 
-    // 구글 시트로 최종 기록 전송
+    // 구글 시트로 최종 기록 전송 (POST)
     async function submitRecord(e) {
       e.preventDefault();
       if (!currentWork) {
