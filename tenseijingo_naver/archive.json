@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-05",
+    "no": 90,
+    "topic_ja": "<ruby>日仏<rt>にちふつ</rt></ruby><ruby>共作<rt>きょうさく</rt></ruby>の<ruby>旅<rt>たび</rt></ruby>",
+    "topic_ko": "일불 공동작의 여행",
+    "url": "https://www.asahi.com/articles/DA3S16560120.html?iref=pc_rensai_long_61_article",
+    "memo": "‘경계의 서사’, ‘협업과 번역’ — 문화와 언어의 경계를 넘나드는 인물 설정을 통해 다국적 공동 창작의 의미를 탐색하므로, 경계 통과와 협업의 장에 배치하기 적합함.",
+    "pattern": "〜を<ruby>機<rt>き</rt></ruby>に"
+  },
+  {
     "date": "2026-10-04",
     "no": 89,
     "topic_ja": "<ruby>記録的<rt>きろくてき</rt></ruby><ruby>長雨<rt>ながあめ</rt></ruby>",

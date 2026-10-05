@@ -12651,5 +12651,55 @@
   "example": "気象庁は異例の会見を開いた。",
   "exampleReading": "きしょうちょうはいれいのかいけんをひらいた。",
   "exampleMeaning": "기상청이 이례적인 기자회견을 열었다."
+ },
+ {
+  "id": "tj416",
+  "word": "計画",
+  "reading": "けいかく",
+  "meaning": "계획",
+  "level": "N3",
+  "example": "新しい計画は来月始動する。",
+  "exampleReading": "あたらしいけいかくはらいげつしどうする",
+  "exampleMeaning": "새로운 계획은 다음 달에 가동된다."
+ },
+ {
+  "id": "tj417",
+  "word": "主人公",
+  "reading": "しゅじんこう",
+  "meaning": "주인공",
+  "level": "N3",
+  "example": "主人公の選択が物語を動かす。",
+  "exampleReading": "しゅじんこうのせんたくがものがたりをうごかす",
+  "exampleMeaning": "주인공의 선택이 이야기를 움직인다."
+ },
+ {
+  "id": "tj418",
+  "word": "行き来する",
+  "reading": "いききする",
+  "meaning": "오가다",
+  "level": "N2",
+  "example": "ふるさとと都市を行き来する生活が続く。",
+  "exampleReading": "ふるさとととしをいききするせいかつがつづく",
+  "exampleMeaning": "고향과 도시를 오가는 생활이 이어진다."
+ },
+ {
+  "id": "tj419",
+  "word": "設定",
+  "reading": "せってい",
+  "meaning": "설정",
+  "level": "N2",
+  "example": "精密な設定が世界観を支える。",
+  "exampleReading": "せいみつなせっていがせかいかんをささえる",
+  "exampleMeaning": "정밀한 설정이 세계관을 떠받친다."
+ },
+ {
+  "id": "tj420",
+  "word": "寝台列車",
+  "reading": "しんだいれっしゃ",
+  "meaning": "침대열차",
+  "level": "N2",
+  "example": "寝台列車で夜明けの景色を眺めた。",
+  "exampleReading": "しんだいれっしゃでよあけのけしきをながめた",
+  "exampleMeaning": "침대열차에서 새벽 풍경을 바라보았다."
  }
 ]
