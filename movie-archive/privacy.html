@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>개인정보처리방침 - 영화기록</title>
+  <link rel="icon" type="image/svg+xml" href="./icon/favicon.svg" />
+  <style>
+    :root { --bg: #ffffff; --text: #1e293b; --muted: #64748b; --line: #e2e8f0; --accent: #0369a1; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0f172a; --text: #e2e8f0; --muted: #94a3b8; --line: #334155; --accent: #38bdf8; }
+    }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; line-height: 1.75; }
+    main { max-width: 760px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { font-size: 1.6rem; margin-bottom: 4px; }
+    .date { color: var(--muted); font-size: 0.9rem; margin-bottom: 32px; }
+    h2 { font-size: 1.1rem; margin-top: 32px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 6px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>개인정보처리방침</h1>
+  <p class="date">서비스: 영화기록(영화 · 드라마 감상 아카이브) · 시행일: 2026년 10월 6일</p>
+
+  <p>
+    '영화기록'(이하 "앱")은 사용자가 본 영화와 드라마의 감상을 기록하는 개인용 웹앱입니다.
+    이 방침은 앱이 어떤 정보에 접근하고, 어떻게 사용하며, 어디에 저장하는지 설명합니다.
+  </p>
+
+  <h2>1. 앱이 접근하는 정보</h2>
+  <ul>
+    <li><b>Google 계정 기본 정보</b>: 이름, 이메일 주소, 프로필 사진. 로그인한 계정을 화면에 표시하고 사용자별 시트를 구분하는 용도로만 사용합니다.</li>
+    <li><b>Google Drive 파일(drive.file 권한)</b>: 앱이 사용자의 Drive에 직접 만든 시트('영화·드라마 감상 기록')에만 접근합니다. 사용자의 다른 Drive 파일은 보거나 변경할 수 없습니다.</li>
+  </ul>
+
+  <h2>2. 감상 기록의 저장 위치</h2>
+  <ul>
+    <li>사용자가 입력한 관람 일자, 평점, 한줄평, 감상평 등은 <b>사용자 본인의 Google Drive에 있는 시트</b>에만 저장됩니다.</li>
+    <li>앱 운영자의 서버나 데이터베이스에는 감상 기록이 저장되지 않으며, 운영자는 이 기록을 열람하거나 수집하지 않습니다.</li>
+    <li>로그인 편의를 위해 브라우저(로컬 저장소)에 계정 이름, 이메일, 시트 식별자를 보관합니다. 로그아웃하면 삭제됩니다.</li>
+  </ul>
+
+  <h2>3. 작품 검색(TMDB)</h2>
+  <ul>
+    <li>작품을 검색하면 입력한 검색어와 선택한 작품 번호가 TMDB(The Movie Database) 조회를 위해 중계 서버(Google Apps Script)를 거쳐 TMDB로 전달됩니다.</li>
+    <li>이 요청에는 사용자의 이름이나 이메일 같은 개인 식별 정보가 포함되지 않으며, 검색어를 사용자와 연결해 저장하지 않습니다.</li>
+    <li>This product uses the TMDB API but is not endorsed or certified by TMDB.</li>
+  </ul>
+
+  <h2>4. 정보의 제공과 이용</h2>
+  <ul>
+    <li>앱은 사용자의 정보를 제3자에게 판매, 공유, 제공하지 않습니다. 광고에도 사용하지 않습니다.</li>
+    <li>Google API로 받은 정보의 사용은 제한적 사용(Limited Use) 요건을 포함하여 <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API 서비스 사용자 데이터 정책</a>을 준수합니다.</li>
+  </ul>
+
+  <h2>5. 권한 철회와 삭제</h2>
+  <ul>
+    <li>앱 상단의 <b>로그아웃</b>을 누르면 앱이 받은 접근 권한이 폐기되고 브라우저에 보관된 정보가 삭제됩니다.</li>
+    <li>언제든 <a href="https://myaccount.google.com/connections" target="_blank" rel="noopener">Google 계정의 서드 파티 앱 및 서비스</a>에서 이 앱의 접근 권한을 삭제할 수 있습니다.</li>
+    <li>감상 기록은 사용자의 Drive에 있으므로, 해당 시트를 직접 삭제하면 기록이 모두 지워집니다.</li>
+  </ul>
+
+  <h2>6. 문의</h2>
+  <p>이 방침이나 앱에 대한 문의는 <a href="mailto:statepark62@gmail.com">statepark62@gmail.com</a>으로 보내 주세요.</p>
+
+  <h2>7. 방침의 변경</h2>
+  <p>내용이 바뀌면 이 페이지에 변경된 시행일과 함께 게시합니다.</p>
+</main>
+</body>
+</html>
