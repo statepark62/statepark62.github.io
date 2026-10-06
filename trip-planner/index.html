@@ -1304,7 +1304,12 @@ function consumeGoogleRedirectToken(){
     ls_set('trip_google_connected','1');
     return true;
   }
-  if(error){ console.log('Google 재연결 실패(정상 폴백):', error); }
+  if(error){
+    console.log('Google 재연결 실패(정상 폴백):', error);
+    // 조용한 재연결이 실패하면 '연결됨' 표시를 지워서 같은 시도를 되풀이(무한 로딩)하지 않게 함.
+    // 이후에는 상단의 "Google 연결" 버튼으로 직접 연결하면 됩니다.
+    try{ localStorage.removeItem('trip_google_connected'); }catch(e){}
+  }
   return false;
 }
 async function gApi(url, opts={}){
@@ -1648,6 +1653,10 @@ function openShareLinkModal(url){
   };
 }
 
+// 안전장치: 최근 60초 안에 조용한 재연결을 이미 시도했다면 다시 시도하지 않음(리디렉션 반복 방지)
+function recentSilentAttempt_(){
+  try{ return Date.now() - (Number(sessionStorage.getItem('trip_silent_ts'))||0) < 60000; }catch(e){ return false; }
+}
 async function init(){
   const shareId = new URLSearchParams(location.search).get('share');
   if(shareId){
@@ -1658,7 +1667,8 @@ async function init(){
   if(gotToken){
     try{ await ensureSpreadsheet(); await migrateAndReload(); }
     catch(e){ console.error(e); googleSignedIn = false; await loadState(); }
-  } else if(GOOGLE_ENABLED && ls_get('trip_google_connected')==='1' && !isStandaloneApp()){
+  } else if(GOOGLE_ENABLED && ls_get('trip_google_connected')==='1' && !isStandaloneApp() && !recentSilentAttempt_()){
+    try{ sessionStorage.setItem('trip_silent_ts', String(Date.now())); }catch(e){}
     // 이전에 연결한 적이 있으면: 페이지가 구글로 조용히 이동했다 바로 돌아옵니다(팝업 아님, 차단 안 됨)
     location.href = buildGoogleAuthUrl('none');
     return;
