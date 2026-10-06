@@ -343,6 +343,55 @@ function showConnectingOverlay(){
   return o;
 }
 
+
+/* ---- 로그인 유지: 새로고침해도 다시 로그인하지 않도록 토큰을 이 탭(sessionStorage)에 만료 시각까지 보관 ---- */
+const TOKEN_KEY = 'trip_gtoken', TOKEN_EXP_KEY = 'trip_gtoken_exp';
+function saveToken_(tok, expiresInSec){
+  try{
+    sessionStorage.setItem(TOKEN_KEY, tok);
+    sessionStorage.setItem(TOKEN_EXP_KEY, String(Date.now() + Math.max(60, (Number(expiresInSec) || 3600) - 120) * 1000));   // 만료 2분 전까지만 사용
+  }catch(e){}
+}
+function loadSavedToken_(){
+  try{
+    const t = sessionStorage.getItem(TOKEN_KEY), exp = Number(sessionStorage.getItem(TOKEN_EXP_KEY)) || 0;
+    if(t && Date.now() < exp) return t;
+  }catch(e){}
+  return null;
+}
+function clearSavedToken_(){ try{ sessionStorage.removeItem(TOKEN_KEY); sessionStorage.removeItem(TOKEN_EXP_KEY); }catch(e){} }
+function reconnectNow(){
+  if(isStandaloneApp()){ connectGoogle(); return; }   // 홈 화면 앱(iOS)은 조용한 재연결이 멈출 수 있어 직접 연결
+  try{ sessionStorage.setItem('trip_silent_ts', String(Date.now())); }catch(e){}
+  location.href = buildGoogleAuthUrl('none');
+}
+function openReconnectModal(){
+  if(document.getElementById('reconnectModal')) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay'; overlay.id = 'reconnectModal';
+  overlay.innerHTML = `<div class="sheet">
+    <h3>${L('Google 연결이 만료됐어요', 'Your Google session expired')}</h3>
+    <p style="font-size:15px;color:var(--ink-soft);line-height:1.6;">${L('보안을 위해 연결은 약 1시간 뒤 끊어져요. 아래 버튼을 누르면 자동으로 다시 연결돼요. 방금 한 변경은 저장되지 않았을 수 있으니, 연결 후 확인해 주세요.', 'For security the connection lasts about an hour. Press the button to reconnect automatically. Your last change may not have been saved — please check after reconnecting.')}</p>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="rc_close">${L('닫기', 'Close')}</button>
+      <button class="btn btn-primary" id="rc_go">${L('다시 연결', 'Reconnect')}</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('rc_close').onclick = ()=>overlay.remove();
+  document.getElementById('rc_go').onclick = ()=>{ overlay.remove(); reconnectNow(); };
+}
+function disconnectGoogle(){
+  clearSavedToken_();
+  try{ localStorage.removeItem('trip_google_connected'); sessionStorage.removeItem('trip_silent_ts'); }catch(e){}
+  googleSignedIn = false; googleAccessToken = null; spreadsheetId = null;
+  (async()=>{
+    try{ await loadState(); }catch(e){}
+    render();
+    showToast(L('Google 연결을 해제했어요. 구글 시트의 일정은 그대로 남아 있어요.', 'Disconnected from Google. Your data in the sheet is untouched.'));
+  })();
+}
+
 function connectGoogle(){
   if(!GOOGLE_ENABLED){ openGoogleSetupInfo(); return; }
   // 팝업 대신 페이지 자체가 구글로 이동했다 돌아오는 방식 — 팝업 차단의 영향을 받지 않음
@@ -359,6 +408,7 @@ function consumeGoogleRedirectToken(){
   history.replaceState(null, '', location.pathname + restoredSearch);
   if(token){
     try{ sessionStorage.removeItem('trip_silent_ts'); }catch(e){}   // 재연결 성공 → 다음 새로고침에서도 정상적으로 다시 연결
+    saveToken_(token, params.get('expires_in'));
     googleAccessToken = token;
     googleSignedIn = true;
     ls_set('trip_google_connected','1');
@@ -380,7 +430,12 @@ async function gApi(url, opts={}){
     ...opts,
     headers:{ 'Authorization':'Bearer '+googleAccessToken, 'Content-Type':'application/json', ...(opts.headers||{}) }
   });
-  if(!resp.ok){ const t = await resp.text(); throw new Error('Google API 오류: '+t); }
+  if(!resp.ok){
+    const t = await resp.text();
+    const err = new Error('Google API 오류: '+t);
+    if(resp.status === 401){ clearSavedToken_(); err.authExpired = true; }
+    throw err;
+  }
   return resp.json();
 }
 async function ensureSpreadsheet(){
@@ -549,7 +604,7 @@ function openGoogleSetupInfo(){
 }
 function renderGoogleStatus(){
   if(googleSignedIn){
-    return `<div class="notif-banner"><span>📊 이 기기의 Google Sheets에 저장되고 있어요.</span></div>`;
+    return `<div class="notif-banner"><span>📊 이 기기의 Google Sheets에 저장되고 있어요.</span><button class="btn btn-sm btn-ghost" id="googleDisconnectBtn">${L('연결 해제','Disconnect')}</button></div>`;
   }
   if(localStorageAvailable()){
     return `<div class="notif-banner">
@@ -592,7 +647,7 @@ async function safeSet(key,val){
     if(window.storage){ await window.storage.set(key, JSON.stringify(val), false); return; }
     if(ls_trySet('tripdata:'+key, JSON.stringify(val))) return;
     memoryStore[key]=val;
-  }catch(e){ console.error('storage set failed', e); showToast('저장 중 문제가 발생했어요'); }
+  }catch(e){ console.error('storage set failed', e); if(e && e.authExpired){ openReconnectModal(); return; } showToast('저장 중 문제가 발생했어요'); }
 }
 
 function dateRange(start,end){
@@ -604,7 +659,7 @@ function uid(){ return Math.random().toString(36).slice(2,9); }
 
 async function refreshData(){
   showToast('새로고침 중…');
-  try{ await loadState(); }catch(e){ console.error(e); showToast(L('새로고침 중 문제가 발생했어요: ', 'Refresh failed: ') + googleErrText(e)); return; }
+  try{ await loadState(); }catch(e){ console.error(e); if(e && e.authExpired){ openReconnectModal(); return; } showToast(L('새로고침 중 문제가 발생했어요: ', 'Refresh failed: ') + googleErrText(e)); return; }
   render();
   showToast('새로고침 완료');
 }
@@ -766,6 +821,7 @@ async function init(){
     return;
   }
   const gotToken = consumeGoogleRedirectToken();
+  const savedTok = (!gotToken && GOOGLE_ENABLED && ls_get('trip_google_connected')==='1') ? loadSavedToken_() : null;
   if(gotToken){
     try{ sessionStorage.removeItem('trip_interactive_connect'); }catch(e){}
     const connectingOv = showConnectingOverlay();
@@ -778,6 +834,24 @@ async function init(){
       try{ await loadState(); }catch(_){}
     }
     finally{ connectingOv.remove(); }
+  } else if(savedTok){
+    // 새로고침: 이 탭에 보관된 토큰이 아직 유효하면 구글에 다녀오지 않고 바로 이어서 사용
+    googleAccessToken = savedTok; googleSignedIn = true;
+    try{ await ensureSpreadsheet(); await sheetsReadAll(); await migrateAndReload(); }
+    catch(e){
+      console.error(e);
+      googleSignedIn = false; googleAccessToken = null; clearSavedToken_();
+      if(e && e.authExpired && !isStandaloneApp() && !recentSilentAttempt_()){
+        try{ sessionStorage.setItem('trip_silent_ts', String(Date.now())); }catch(_){}
+        location.href = buildGoogleAuthUrl('none');
+        return;
+      }
+      if(!(e && e.authExpired)){
+        try{ localStorage.removeItem('trip_google_connected'); }catch(_){}
+        pendingGoogleError = { code: '', desc: googleErrText(e) };
+      }
+      try{ await loadState(); }catch(_){}
+    }
   } else if(GOOGLE_ENABLED && ls_get('trip_google_connected')==='1' && !isStandaloneApp() && !recentSilentAttempt_()){
     try{ sessionStorage.setItem('trip_silent_ts', String(Date.now())); }catch(e){}
     // 이전에 연결한 적이 있으면: 페이지가 구글로 조용히 이동했다 바로 돌아옵니다(팝업 아님, 차단 안 됨)
@@ -985,6 +1059,7 @@ function render(){
     const ptb = $('#pastTripsBtn'); if(ptb) ptb.onclick = ()=>openPastTripsModal();
     const rfbe = $('#refreshBtnEmpty'); if(rfbe) rfbe.onclick = ()=>refreshData();
     const gcb = $('#googleConnectBtn'); if(gcb) gcb.onclick = ()=>connectGoogle();
+    const gdb = $('#googleDisconnectBtn'); if(gdb) gdb.onclick = ()=>disconnectGoogle();
     return;
   }
   app.innerHTML = `
@@ -1048,6 +1123,7 @@ function bindEvents(){
   };
   const en = $('#enableNotif'); if(en) en.onclick = requestNotifPermission;
   const gcb2 = $('#googleConnectBtn'); if(gcb2) gcb2.onclick = ()=>connectGoogle();
+  const gdb2 = $('#googleDisconnectBtn'); if(gdb2) gdb2.onclick = ()=>disconnectGoogle();
   document.querySelectorAll('.tab').forEach(el=>{
     el.onclick = ()=>{ state.selectedDate = el.dataset.date; render(); };
   });
