@@ -609,6 +609,27 @@ async function refreshData(){
   showToast('새로고침 완료');
 }
 
+// 현재 여행이 이미 끝났다면(예: 지난 여행을 눌러 본 뒤 그대로 저장된 경우) 진행 중인 여행 → 가장 가까운 예정 여행 순으로 자동 선택
+async function pickCurrentTripIfEnded(){
+  if(state.viewingPastTrip || !state.trip || !tripHasEnded(state.trip)) return;
+  const today = fmtDate(new Date());
+  const live = (state.trips||[]).filter(tr => tr.endDate && tr.endDate >= today && tr.id !== state.activeTripId);
+  if(!live.length) return;                        // 남은 여행이 없으면 기존처럼 시작 화면
+  live.sort((a,b)=>{
+    const ao = a.startDate <= today, bo = b.startDate <= today;
+    if(ao !== bo) return ao ? -1 : 1;             // 진행 중인 여행이 먼저
+    return (a.startDate||'').localeCompare(b.startDate||'');   // 그다음 가장 빨리 시작하는 여행
+  });
+  for(const cand of live){
+    const data = await safeGet('trip:'+cand.id, !!googleSignedIn);
+    if(!data) continue;
+    state.activeTripId = cand.id;
+    state.trip = data;
+    state.selectedDate = data.days[today] !== undefined ? today : Object.keys(data.days)[0];
+    await safeSet('active-trip', cand.id);
+    return;
+  }
+}
 async function loadState(){
   const strict = !!googleSignedIn;   // 구글 연결 중에는 읽기 실패를 '데이터 없음'으로 오해하지 않고 오류로 처리
   state.trips = (await safeGet('trips-list', strict)) || [];
@@ -637,6 +658,7 @@ async function loadState(){
     const todayStr = fmtDate(new Date());
     state.selectedDate = state.trip.days[todayStr] !== undefined ? todayStr : Object.keys(state.trip.days)[0];
   }
+  await pickCurrentTripIfEnded();
 }
 
 /* ---- 실시간 공유 보기 (읽기 전용, 로그인 불필요) ---- */
