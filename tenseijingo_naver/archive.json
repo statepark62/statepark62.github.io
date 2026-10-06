@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-06",
+    "no": 91,
+    "topic_ja": "<ruby>反戦<rt>はんせん</rt></ruby>と<ruby>歌<rt>うた</rt></ruby>",
+    "topic_ko": "반전과 노래",
+    "url": "https://www.asahi.com/articles/DA3S16561052.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘반전의 목소리’, ‘구호와 현실’, ‘교차 참조’. 전쟁의 추상적 명분과 개인의 신체적 현실을 대비시키고, 소설-음악을 넘나드는 인용으로 메시지를 증폭하기 때문이다.",
+    "pattern": "〜と<ruby>言<rt>い</rt></ruby>われたら"
+  },
+  {
     "date": "2026-10-05",
     "no": 90,
     "topic_ja": "<ruby>日仏<rt>にちふつ</rt></ruby><ruby>共作<rt>きょうさく</rt></ruby>の<ruby>旅<rt>たび</rt></ruby>",

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-06 天声人語로 배우는 일본어 — 반전과 노래</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-06</span>
+      <span>2026년 10월 6일 (화)</span>
+    </div>
+
+    <h1><ruby>反戦<rt>はんせん</rt></ruby>と<ruby>歌<rt>うた</rt></ruby></h1>
+    <p class="topic-ko">반전과 노래</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>四肢<rt>しし</rt></ruby>も<ruby>失<rt>うしな</rt></ruby>う」</div>
+      <div class="ko">사지도 잃는다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">このコラムは、1939<ruby>年<rt>ねん</rt></ruby>に<ruby>刊行<rt>かんこう</rt></ruby>された『ジョニーは<ruby>戦場<rt>せんじょう</rt></ruby>へ<ruby>行<rt>い</rt></ruby>った』を、<ruby>強烈<rt>きょうれつ</rt></ruby>な<ruby>反戦<rt>はんせん</rt></ruby><ruby>小説<rt>しょうせつ</rt></ruby>として<ruby>取<rt>と</rt></ruby>り<ruby>上<rt>あ</rt></ruby>げる。</p><p class="ko">이 칼럼은 1939년에 발표된 『조니는 전장으로 갔다』를 강렬한 반전 소설로 소개한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>愛国心<rt>あいこくしん</rt></ruby>を<ruby>煽<rt>あお</rt></ruby>られて<ruby>戦場<rt>せんじょう</rt></ruby>に<ruby>赴<rt>おもむ</rt></ruby>いた<ruby>米兵<rt>べいへい</rt></ruby>が、<ruby>砲撃<rt>ほうげき</rt></ruby>で<ruby>負傷<rt>ふしょう</rt></ruby>し<ruby>感覚<rt>かんかく</rt></ruby>と<ruby>四肢<rt>しし</rt></ruby>を<ruby>失<rt>うしな</rt></ruby>う<ruby>経過<rt>けいか</rt></ruby>が<ruby>描<rt>えが</rt></ruby>かれる。</p><p class="ko">애국심 선동에 이끌려 전장에 간 미군 병사가 포격으로 감각과 사지를 잃는 과정을 짚는다.</p></div>
+      <div class="s-item"><p class="ja">その<ruby>物語<rt>ものがたり</rt></ruby>は<ruby>Metallica<rt>めたりか</rt></ruby>の“One”とも<ruby>響<rt>ひび</rt></ruby>き<ruby>合<rt>あ</rt></ruby>い、<ruby>戦争<rt>せんそう</rt></ruby>が<ruby>払<rt>はら</rt></ruby>わせる<ruby>代償<rt>だいしょう</rt></ruby>を<ruby>考<rt>かんが</rt></ruby>えさせる。</p><p class="ko">필자는 이 서사와 메탈리카의 ‘One’을 겹쳐 보이며, 전쟁이 치르게 하는 대가를 성찰하게 한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>反戦<rt>はんせん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">반전, 전쟁 반대</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>反戦<rt>はんせん</rt></ruby>の<ruby>声<rt>こえ</rt></ruby>が<ruby>広<rt>ひろ</rt></ruby>がった。</span><br>반전의 목소리가 퍼졌다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>砲撃<rt>ほうげき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">포격</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>砲撃<rt>ほうげき</rt></ruby>が<ruby>続<rt>つづ</rt></ruby>き、<ruby>町<rt>まち</rt></ruby>は<ruby>静<rt>しず</rt></ruby>まり<ruby>返<rt>かえ</rt></ruby>った。</span><br>포격이 이어져 마을은 고요해졌다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>病床<rt>びょうしょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">병상</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>病床<rt>びょうしょう</rt></ruby>で<ruby>彼<rt>かれ</rt></ruby>は<ruby>日記<rt>にっき</rt></ruby>を<ruby>綴<rt>つづ</rt></ruby>った。</span><br>병상에서 그는 일기를 써 내려갔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>愛国心<rt>あいこくしん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">애국심</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>愛国心<rt>あいこくしん</rt></ruby>を<ruby>煽<rt>あお</rt></ruby>る<ruby>演説<rt>えんぜつ</rt></ruby>が<ruby>行<rt>おこな</rt></ruby>われた。</span><br>애국심을 부추기는 연설이 이루어졌다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>赴く<rt>おもむく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">향하다,赴任하다</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>任地<rt>にんち</rt></ruby>へ<ruby>赴<rt>おもむ</rt></ruby>いた。</span><br>그는 부임지로 향했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜と<ruby>言<rt>い</rt></ruby>われたら</div>
+        <div class="pattern-ko">…라고 하라고 하면/…라고 들으면</div>
+        <p class="explain">누군가에게 어떤 말을 ‘하라’고 지시받거나 그런 말을 들었을 때의 가정·조건을 나타낸다. 상황에 대한 화자의 대응이나 판단이 뒤에 이어지며, 다소 압박·강요의 뉘앙스를 내포할 수 있다.</p>
+        <p class="ex"><span class="ja"><ruby>急<rt>いそ</rt></ruby>げと<ruby>言<rt>い</rt></ruby>われたら、まず<ruby>落<rt>お</rt></ruby>ち<ruby>着<rt>つ</rt></ruby>いて<ruby>状況<rt>じょうきょう</rt></ruby>を<ruby>確<rt>たし</rt></ruby>かめる。</span><br>서두르라고 하면, 우선 침착하게 상황을 확인한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 문학 작품을 전면에 세워 주제를 즉시 명료화한다. 주인공이 감각과 사지를 잃는 묘사를 압축적으로 제시해, 전쟁의 폭력을 논리보다 체감으로 납득시키는 방식이다. 이어지는 짧은 인용은 ‘대의명분을 위해 죽으라’는 구호의 빈 약속을 겨냥하며 윤리적 질문을 던진다. 마지막에 대중음악을 연결해 감상의 접점을 넓히는 구성은 천성인어 특유의 교차 참조 기법을 보여 준다.</p>
+        <p>이 칼럼이 남기는 울림은 구호와 현실 사이의 간극을 직시하라는 경고이다. 한국 독자에게도 ‘애국’을 내세운 언어가 개인의 몸과 삶을 어떻게 소모시키는지 돌아보게 한다. 문학과 록 음악을 함께 소환하는 장치는 세대와 문화권을 넘어 공감의 회로를 만든다. 일본의 일상 칼럼이 전쟁·윤리 문제를 이렇게 간결하게 묻는 점이 특히 흥미롭다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 반전 서사와 록 음악을 겹쳐 전쟁의 대가를 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>1930년대 말은 세계대전의 전운이 짙어지던 시기로, 전쟁과 개인의 존엄을 둘러싼 반전 문학이 유럽·미국에서 잇따라 나왔다.</p>
+        <p>『조니는 전장으로 갔다』는 미국 작가 돌턴 트럼보의 소설로 알려져 있으며, 1971년에 영화화되어 반전 아이콘으로 재소환되었다.</p>
+        <p>메탈리카의 곡 ‘One’(1988)은 이 소설에서 영감을 받은 것으로 널리 알려져 있고, 뮤직비디오는 영화 장면을 활용해 메시지를 강화했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>주제를 단번에 제시하는 선언형 첫문장으로 독자의 주의를 붙잡는다.</p>
+        <p><span class="n">二</span>구체적 신체 감각의 상실을 묘사해 추상적 명제를 체감 가능한 이미지로 전환한다.</p>
+        <p><span class="n">三</span>문학과 대중음악을 교차 인용하여 메시지의 공명 범위를 확장한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>言葉<rt>ことば</rt></ruby>の<ruby>熱<rt>ねつ</rt></ruby>が<ruby>人々<rt>ひとびと</rt></ruby>を<ruby>戦場<rt>せんじょう</rt></ruby>へと<ruby>駆<rt>か</rt></ruby>り<ruby>立<rt>た</rt></ruby>てることがある。</span>
+      <span class="ko">말의 열기가 사람들을 전장으로 내몰 때가 있다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-06) — <a href="https://www.asahi.com/articles/DA3S16561052.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-06.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

@@ -12701,5 +12701,55 @@
   "example": "寝台列車で夜明けの景色を眺めた。",
   "exampleReading": "しんだいれっしゃでよあけのけしきをながめた",
   "exampleMeaning": "침대열차에서 새벽 풍경을 바라보았다."
+ },
+ {
+  "id": "tj421",
+  "word": "反戦",
+  "reading": "はんせん",
+  "meaning": "반전, 전쟁 반대",
+  "level": "N1",
+  "example": "反戦の声が広がった。",
+  "exampleReading": "はんせんのこえがひろがった。",
+  "exampleMeaning": "반전의 목소리가 퍼졌다."
+ },
+ {
+  "id": "tj422",
+  "word": "砲撃",
+  "reading": "ほうげき",
+  "meaning": "포격",
+  "level": "N1",
+  "example": "砲撃が続き、町は静まり返った。",
+  "exampleReading": "ほうげきがつづき、まちはしずまりかえった。",
+  "exampleMeaning": "포격이 이어져 마을은 고요해졌다."
+ },
+ {
+  "id": "tj423",
+  "word": "病床",
+  "reading": "びょうしょう",
+  "meaning": "병상",
+  "level": "N1",
+  "example": "病床で彼は日記を綴った。",
+  "exampleReading": "びょうしょうでかれはにっきをつづった.",
+  "exampleMeaning": "병상에서 그는 일기를 써 내려갔다."
+ },
+ {
+  "id": "tj424",
+  "word": "愛国心",
+  "reading": "あいこくしん",
+  "meaning": "애국심",
+  "level": "N2",
+  "example": "愛国心を煽る演説が行われた。",
+  "exampleReading": "あいこくしんをあおるえんぜつがおこなわれた。",
+  "exampleMeaning": "애국심을 부추기는 연설이 이루어졌다."
+ },
+ {
+  "id": "tj425",
+  "word": "赴く",
+  "reading": "おもむく",
+  "meaning": "향하다,赴任하다",
+  "level": "N1",
+  "example": "彼は任地へ赴いた。",
+  "exampleReading": "かれはにんちへおもむいた。",
+  "exampleMeaning": "그는 부임지로 향했다."
  }
 ]
