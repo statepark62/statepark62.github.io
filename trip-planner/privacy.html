@@ -1,70 +1,138 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>개인정보처리방침 · 지금 여기 여행 전광판</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>여행 전광판 개인정보처리방침 · Privacy Policy</title>
 <style>
-  body{
-    font-family:'Noto Sans KR',-apple-system,sans-serif;
-    max-width:720px;margin:0 auto;padding:40px 20px 80px;
-    color:#1C2230;line-height:1.75;background:#FAF7F1;
-  }
-  h1{font-size:24px;margin-bottom:4px;}
-  .updated{color:#5B6474;font-size:13px;margin-bottom:32px;}
-  h2{font-size:17px;margin-top:36px;margin-bottom:10px;border-bottom:2px solid #12172A;padding-bottom:6px;}
-  p,li{font-size:14.5px;color:#333;}
-  ul{padding-left:20px;}
-  li{margin-bottom:6px;}
-  .box{background:#E7EEF5;border-radius:10px;padding:14px 16px;font-size:13.5px;color:#3E6AA8;margin:14px 0;}
-  a{color:#3E6AA8;}
-  footer{margin-top:48px;font-size:12.5px;color:#5B6474;}
+  :root{ --ink:#1C2230; --soft:#5B6474; --line:#DFE3EA; --paper:#FAF7F0; --navy:#12172A; --accent:#E2582A; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+        font-size:18.5px; line-height:1.75; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:48px 24px 90px; }
+  h1{ text-align:center; font-size:clamp(30px,5vw,50px); margin:0 0 6px; letter-spacing:-0.02em; }
+  .sub{ text-align:center; color:var(--soft); font-size:19.5px; margin:0 0 36px; }
+  h2{ text-align:center; font-size:28px; margin:52px 0 16px; }
+  h3{ font-size:21px; margin:26px 0 6px; }
+  .card{ background:#fff; border:1px solid var(--line); border-radius:16px; padding:26px 30px; margin:16px 0; }
+  .card p{ margin:8px 0; }
+  ul{ margin:8px 0; padding-left:1.4em; }
+  li{ margin:5px 0; }
+  table{ width:100%; border-collapse:collapse; font-size:17px; margin:12px 0; }
+  th,td{ border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top; }
+  th{ background:#EEF2F8; }
+  .note{ background:#FFF4EC; border:1px solid #F4C9B0; border-radius:12px; padding:14px 18px; margin:16px 0; }
+  .center{ text-align:center; }
+  hr{ border:none; border-top:2px dashed var(--line); margin:60px 0 10px; }
+  a{ color:#2F5E9E; }
 </style>
 </head>
 <body>
-  <h1>개인정보처리방침</h1>
-  <div class="updated">지금 여기 · 여행 전광판 · 최종 수정일: 2026년 8월</div>
+<div class="wrap">
 
-  <p>"지금 여기 · 여행 전광판"(이하 "이 앱")은 개인이 만들어 무료로 제공하는 여행 일정 관리 도구입니다. 이 앱은 별도의 서버나 데이터베이스를 운영하지 않으며, 아래와 같은 방식으로만 정보를 다룹니다.</p>
+<h1>여행 전광판 개인정보처리방침</h1>
+<p class="sub">Privacy Policy for “여행 전광판 (지금 여기)” · 시행일 2026년 10월 6일</p>
 
-  <h2>1. 수집하는 정보</h2>
-  <p>이 앱 자체는 어떤 개인정보도 개발자에게 전송하거나 수집하지 않습니다. 사용자가 입력한 여행 일정(날짜, 시간, 장소, 메모 등)은 다음 두 곳 중 하나에만 저장됩니다.</p>
+<div class="card center">
+  <p><b>한 줄 요약</b></p>
+  <p>이 앱에는 개발자가 운영하는 서버가 없습니다. 입력하신 여행 일정은 <b>사용자 본인의 Google 계정(Google 시트) 또는 본인 기기의 브라우저</b>에만 저장되며, 개발자는 그 내용을 볼 수 없습니다.</p>
+</div>
+
+<h2>1. 수집·처리하는 정보</h2>
+<div class="card">
+  <table>
+    <tr><th>정보</th><th>어디에 저장되나요</th><th>목적</th></tr>
+    <tr><td>사용자가 직접 입력한 여행 이름, 날짜, 일정(시간·할 일·장소·메모)</td>
+        <td>① Google 로그인 시: <b>사용자 본인 Google Drive의 스프레드시트</b><br>② 로그인하지 않은 경우: 본인 기기 브라우저(localStorage)</td>
+        <td>일정 표시·저장·다른 기기에서 이어보기</td></tr>
+    <tr><td>사용 언어 선택값</td><td>본인 기기 브라우저(localStorage)</td><td>다음 접속 시 언어 유지</td></tr>
+  </table>
+  <p>이름, 이메일, 프로필 사진 등 <b>Google 계정의 개인 프로필 정보는 읽거나 저장하지 않습니다.</b> 앱에는 회원가입, 광고, 방문 분석(애널리틱스) 도구가 없습니다.</p>
+</div>
+
+<h2>2. Google 사용자 데이터 사용 (OAuth 권한)</h2>
+<div class="card">
+  <p>Google로 로그인하면 아래 권한 <b>한 가지</b>만 요청합니다.</p>
   <ul>
-    <li><b>Google 계정으로 로그인한 경우</b>: 사용자 본인의 Google Drive 안에 생성되는 개인 소유의 Google Sheets 문서에 저장됩니다.</li>
-    <li><b>Google 계정으로 로그인하지 않은 경우</b>: 사용 중인 기기(브라우저)에만 저장되며, 다른 곳으로 전송되지 않습니다.</li>
+    <li><code>https://www.googleapis.com/auth/drive.file</code> — “이 앱으로 만들거나 연 파일에만” 접근합니다. 사용자의 다른 Drive 파일, Gmail, 연락처 등에는 접근할 수 없습니다.</li>
   </ul>
-  <div class="box">개발자는 사용자가 Google 계정으로 로그인한 뒤 생성되는 개인 Google Sheets 문서의 내용을 열람하거나 수집할 수 없습니다. 해당 문서는 전적으로 사용자 본인의 Google 계정 권한 안에 있습니다.</div>
+  <p>이 권한으로 앱은 사용자 Drive에 <b>“지금여기_여행일정_데이터”</b> 스프레드시트 1개를 만들고, 그 안의 일정 데이터를 읽고 쓰고 정리합니다. 이 데이터는 사용자 본인에게 일정을 보여주는 용도로만 쓰이며, 개발자나 제3자에게 전송·판매·공유되지 않고 광고나 신용 평가 등에도 사용되지 않습니다.</p>
+  <p>여행 전광판의 Google API 정보 사용 및 다른 앱으로의 전송은 <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">제한된 사용(Limited Use) 요건을 포함한 Google API 서비스 사용자 데이터 정책</a>을 준수합니다.</p>
+</div>
 
-  <h2>2. Google 계정 접근 권한(OAuth) 안내</h2>
-  <p>이 앱은 Google 로그인을 통해 다음 두 가지 권한만 요청합니다.</p>
+<h2>3. “일행에게 공유” 기능</h2>
+<div class="card">
+  <p>사용자가 <b>“일행에게 공유”</b> 버튼을 직접 누르면, 해당 스프레드시트가 <b>“링크가 있는 모든 사용자 – 뷰어(읽기 전용)”</b>로 전환되고 공유 링크가 만들어집니다.</p>
   <ul>
-    <li><b>Google Sheets 접근 권한</b>: 여행 일정을 저장할 개인 스프레드시트를 만들고 읽고 쓰기 위해 사용됩니다.</li>
-    <li><b>Google Drive 파일 접근 권한(제한적)</b>: 이 앱이 생성한 파일에만 접근하는 범위로 제한되어 있으며, 사용자의 다른 Drive 파일에는 접근하지 않습니다.</li>
+    <li>링크를 아는 사람은 누구나 그 여행 일정을 <b>읽을 수 있습니다</b>(수정 불가).</li>
+    <li>공유한 시트에는 <b>비밀번호, 결제 정보, 주민등록번호 등 민감한 내용을 메모에 적지 마세요.</b></li>
+    <li>공유를 끊으려면 Google Drive에서 해당 시트의 공유 설정을 “제한됨”으로 바꾸세요.</li>
   </ul>
-  <p>이 권한은 언제든지 <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google 계정 &gt; 보안 &gt; 타사 앱 및 서비스 액세스</a>에서 직접 철회하실 수 있습니다.</p>
+</div>
 
-  <h2>3. 기기 저장 정보(로컬 저장소)</h2>
-  <p>Google 계정으로 로그인하지 않은 경우, 입력한 일정과 일부 설정(예: 브라우저 알림 허용 여부)은 사용 중인 브라우저의 로컬 저장소(localStorage)에만 남습니다. 이 정보는 외부로 전송되지 않으며, 브라우저 데이터를 삭제하면 함께 삭제됩니다.</p>
+<h2>4. 외부 서비스</h2>
+<div class="card">
+  <ul>
+    <li><b>Google API(Sheets·Drive)</b>: 위 2번 목적에 한해 사용합니다.</li>
+    <li><b>Google Fonts</b>: 글꼴을 불러올 때 사용자의 IP 주소 등 기본 접속 정보가 Google에 전달될 수 있습니다.</li>
+    <li><b>제작자 전용 AI 기능</b>: 개발자 본인만 쓰는 PDF·사진 일정 인식 기능이 있으나 일반 사용자에게는 제공·노출되지 않으며, <b>일반 사용자의 일정 데이터는 AI 서비스로 전송되지 않습니다.</b></li>
+  </ul>
+</div>
 
-  <h2>4. 브라우저 알림</h2>
-  <p>사용자가 알림을 허용한 경우, 일정 시작 전 알림을 보여주는 기능은 전적으로 사용자 기기(브라우저) 안에서만 동작합니다. 이 과정에서 어떤 정보도 외부 서버로 전송되지 않습니다.</p>
+<h2>5. 보관과 삭제</h2>
+<div class="card">
+  <ul>
+    <li><b>데이터 삭제</b>: Google Drive에서 “지금여기_여행일정_데이터” 스프레드시트를 삭제하면 클라우드 저장분이 모두 사라집니다. 앱 안의 “이 여행 삭제”로 여행별 삭제도 가능합니다.</li>
+    <li><b>기기 저장분 삭제</b>: 브라우저의 사이트 데이터를 지우면 localStorage 데이터가 삭제됩니다.</li>
+    <li><b>권한 철회</b>: <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">Google 계정 > 보안 > 서드파티 앱 및 서비스</a>에서 “여행 전광판” 접근 권한을 언제든 해제할 수 있습니다.</li>
+  </ul>
+  <p>개발자는 사용자 데이터를 별도로 보관하지 않으므로, 삭제 요청을 받더라도 개발자 쪽에 삭제할 사용자 데이터가 없습니다.</p>
+</div>
 
-  <h2>5. 광고 및 추적</h2>
-  <p>이 앱은 광고를 표시하지 않으며, 별도의 분석(애널리틱스)·추적 도구를 사용하지 않습니다. 쿠키를 이용한 사용자 추적도 하지 않습니다.</p>
+<h2>6. 아동</h2>
+<div class="card"><p>이 앱은 만 13세 미만 아동을 대상으로 하지 않으며, 아동의 개인정보를 의도적으로 수집하지 않습니다.</p></div>
 
-  <h2>6. 제3자 제공</h2>
-  <p>이 앱은 어떠한 개인정보도 제3자에게 판매, 공유, 제공하지 않습니다.</p>
+<h2>7. 방침 변경 및 문의</h2>
+<div class="card">
+  <p>방침이 바뀌면 이 페이지에 시행일과 함께 게시합니다.</p>
+  <p>문의: <a href="mailto:statepark62@gmail.com">statepark62@gmail.com</a> (개발자 박상태)</p>
+</div>
 
-  <h2>7. 아동의 개인정보</h2>
-  <p>이 앱은 특정 연령층을 대상으로 하지 않으며, 만 14세 미만 아동으로부터 개인정보를 의도적으로 수집하지 않습니다.</p>
+<hr>
 
-  <h2>8. 문의</h2>
-  <p>이 개인정보처리방침에 대해 궁금하신 점이 있으시면 아래 이메일로 문의해 주세요.</p>
-  <p><b>statepark62@gmail.com</b></p>
+<h1 style="font-size:clamp(26px,4vw,40px);margin-top:40px;">Privacy Policy (English)</h1>
+<p class="sub">“여행 전광판 / Trip Board (Jigeum Yeogi)” · Effective October 6, 2026</p>
 
-  <h2>9. 방침 변경</h2>
-  <p>이 개인정보처리방침은 앱 기능 변경에 따라 수정될 수 있으며, 변경 시 이 페이지에 반영됩니다.</p>
+<div class="card">
+  <h3>Summary</h3>
+  <p>This app has <b>no developer-operated server</b>. The trips you enter are stored only in <b>your own Google account (a Google Sheet in your Drive)</b> or in <b>your device's browser storage</b>. The developer cannot see your data.</p>
 
-  <footer>© 2026 지금 여기 · 여행 전광판</footer>
+  <h3>Data we handle</h3>
+  <ul>
+    <li>Trip names, dates and schedule items you type in (time, activity, place, notes) and your language preference.</li>
+    <li>We do <b>not</b> read your name, email address, or profile photo, and the app has no ads or analytics.</li>
+  </ul>
+
+  <h3>Google user data &amp; OAuth scope</h3>
+  <p>The app requests a single, non-sensitive scope: <code>https://www.googleapis.com/auth/drive.file</code>, which only lets the app access files it creates or opens. It creates one spreadsheet named “지금여기_여행일정_데이터” in your Drive and reads/writes your schedule there. This data is used only to show your own schedule to you; it is not transferred to the developer or third parties, sold, or used for advertising. The app's use of Google user data complies with the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+  <h3>Sharing</h3>
+  <p>If you press “Share with group”, that spreadsheet is set to “Anyone with the link – Viewer”. Anyone with the link can read (not edit) that trip. Do not put passwords or other sensitive information in notes of a shared trip. You can stop sharing in Google Drive at any time.</p>
+
+  <h3>Third-party services</h3>
+  <p>Google APIs (Sheets, Drive) for the purposes above, and Google Fonts for web fonts (your IP address may be sent to Google when fonts load). A developer-only AI import feature exists but is not available to general users; general users' data is never sent to AI services.</p>
+
+  <h3>Retention, deletion and revocation</h3>
+  <p>Delete the spreadsheet in Google Drive to remove cloud data, or clear your browser's site data to remove on-device data. You can revoke the app's access at <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a>. The developer holds no copy of your data.</p>
+
+  <h3>Children</h3>
+  <p>The app is not directed to children under 13.</p>
+
+  <h3>Contact</h3>
+  <p><a href="mailto:statepark62@gmail.com">statepark62@gmail.com</a></p>
+</div>
+
+</div>
 </body>
 </html>
