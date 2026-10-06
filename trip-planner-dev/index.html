@@ -267,7 +267,9 @@ function loadScript(src){
   });
 }
 const GOOGLE_REDIRECT_URI = location.origin + location.pathname;
-const GOOGLE_SCOPE = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file';
+// 민감하지 않은 범위(drive.file)만 요청합니다: 이 앱이 만든 시트에만 접근하며, Sheets API도 이 범위로 동작합니다.
+// 'spreadsheets'(민감 범위)를 쓰지 않아야 게시 후에도 "확인되지 않은 앱" 경고와 100명 제한이 없습니다.
+const GOOGLE_SCOPE = 'https://www.googleapis.com/auth/drive.file';
 function ls_get(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
 function isStandaloneApp(){
   try{
