@@ -438,7 +438,15 @@ async function gApi(url, opts={}){
   }
   return resp.json();
 }
-async function ensureSpreadsheet(){
+async function ensureSpreadsheet(fast){
+  if(fast){
+    let rid = null;
+    try{ rid = localStorage.getItem('trip_sheet_id'); }catch(e){}
+    if(rid){
+      try{ spreadsheetId = rid; await sheetsReadAll(true); return; }    // 읽기가 되면 그 시트가 맞음 → 목록 조회 생략
+      catch(e){ spreadsheetId = null; kvCache = null; if(e && e.authExpired) throw e; }   // 시트를 못 찾으면 아래에서 다시 검색
+    }
+  }
   const q = encodeURIComponent(`name='${SPREADSHEET_TITLE}' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false`);
   const list = await gApi(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name,createdTime,modifiedTime)&orderBy=${encodeURIComponent('modifiedTime desc')}`);
   const files = list.files || [];
@@ -474,11 +482,14 @@ async function ensureSpreadsheet(){
   }
   try{ localStorage.setItem('trip_sheet_id', spreadsheetId); }catch(e){}
 }
-async function sheetsReadAll(){
+let kvCache = null;   // {id, ts, map} — 같은 시트를 짧은 시간 안에 여러 번 내려받지 않도록 잠깐 보관
+async function sheetsReadAll(force){
+  if(!force && kvCache && kvCache.id === spreadsheetId && Date.now() - kvCache.ts < 4000) return kvCache.map;
   const resp = await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/kv!A2:B100000`);
   const rows = resp.values || [];
   const map = {};
   rows.forEach(r=>{ if(r[0]!==undefined) map[r[0]] = r[1]; });
+  kvCache = { id: spreadsheetId, ts: Date.now(), map };
   return map;
 }
 async function sheetsGet(key){
@@ -486,6 +497,7 @@ async function sheetsGet(key){
   return map[key]!==undefined ? JSON.parse(map[key]) : null;
 }
 async function sheetsSet(key, val){
+  kvCache = null;   // 쓰기 전후로 캐시를 비워 항상 최신 값을 읽게 함
   const resp = await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/kv!A2:A100000`);
   const rows = resp.values || [];
   const idx = rows.findIndex(r=>r[0]===key);
@@ -500,6 +512,7 @@ async function sheetsSet(key, val){
       method:'PUT', body: JSON.stringify({values:[[valueStr]]})
     });
   }
+  kvCache = null;
 }
 function sanitizeTabName(title, tripId){
   let name = (title||'여행').replace(/[\[\]\*\?\/\\:']/g,'').trim();
@@ -658,6 +671,7 @@ function dateRange(start,end){
 function uid(){ return Math.random().toString(36).slice(2,9); }
 
 async function refreshData(){
+  kvCache = null;
   showToast('새로고침 중…');
   try{ await loadState(); }catch(e){ console.error(e); if(e && e.authExpired){ openReconnectModal(); return; } showToast(L('새로고침 중 문제가 발생했어요: ', 'Refresh failed: ') + googleErrText(e)); return; }
   render();
@@ -815,6 +829,7 @@ function recentSilentAttempt_(){
   try{ return Date.now() - (Number(sessionStorage.getItem('trip_silent_ts'))||0) < 60000; }catch(e){ return false; }
 }
 async function init(){
+  const loadingHint = setTimeout(()=>{ if(app && !app.innerHTML.trim()) app.innerHTML = `<div class="setup-empty"><p style="color:var(--ink-soft);">${L('불러오는 중…','Loading…')}</p></div>`; }, 600);
   const shareId = new URLSearchParams(location.search).get('share');
   if(shareId){
     await initShareView(shareId);
@@ -823,8 +838,9 @@ async function init(){
   const gotToken = consumeGoogleRedirectToken();
   const savedTok = (!gotToken && GOOGLE_ENABLED && ls_get('trip_google_connected')==='1') ? loadSavedToken_() : null;
   if(gotToken){
-    try{ sessionStorage.removeItem('trip_interactive_connect'); }catch(e){}
-    const connectingOv = showConnectingOverlay();
+    let wasInteractive = false;
+    try{ wasInteractive = sessionStorage.getItem('trip_interactive_connect')==='1'; sessionStorage.removeItem('trip_interactive_connect'); }catch(e){}
+    const connectingOv = wasInteractive ? showConnectingOverlay() : { remove(){} };   // 새로고침·자동 재연결 때는 창을 띄우지 않음
     try{ await ensureSpreadsheet(); await sheetsReadAll(); await migrateAndReload(); }
     catch(e){
       console.error(e);
@@ -837,7 +853,7 @@ async function init(){
   } else if(savedTok){
     // 새로고침: 이 탭에 보관된 토큰이 아직 유효하면 구글에 다녀오지 않고 바로 이어서 사용
     googleAccessToken = savedTok; googleSignedIn = true;
-    try{ await ensureSpreadsheet(); await sheetsReadAll(); await migrateAndReload(); }
+    try{ await ensureSpreadsheet(true); await sheetsReadAll(); await migrateAndReload(); }
     catch(e){
       console.error(e);
       googleSignedIn = false; googleAccessToken = null; clearSavedToken_();
@@ -860,6 +876,7 @@ async function init(){
   } else {
     await loadState();
   }
+  clearTimeout(loadingHint);
   render();
   if(pendingGoogleError){ const pe = pendingGoogleError; pendingGoogleError = null; openGoogleErrorModal(pe.code, pe.desc); }
   checkMorningPopup();
