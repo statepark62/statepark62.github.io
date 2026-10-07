@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-07",
+    "no": 92,
+    "topic_ja": "ガザの<ruby>声<rt>こえ</rt></ruby>を<ruby>聴<rt>き</rt></ruby>く",
+    "topic_ko": "가자의 목소리를 듣다",
+    "url": "https://www.asahi.com/articles/DA3S16561739.html?iref=pc_rensai_long_61_article",
+    "memo": "‘전쟁과 구호’, ‘목소리의 윤리’, ‘미디어와 현장’ — 현장의 영상 대신 음성을 통해 전쟁의 현실과 구조의 한계를 조명하며, 듣기의 책임을 묻는 글이므로.",
+    "pattern": "〜と<ruby>声<rt>こえ</rt></ruby>を<ruby>上<rt>あ</rt></ruby>げる"
+  },
+  {
     "date": "2026-10-06",
     "no": 91,
     "topic_ja": "<ruby>反戦<rt>はんせん</rt></ruby>と<ruby>歌<rt>うた</rt></ruby>",

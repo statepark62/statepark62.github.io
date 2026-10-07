@@ -12751,5 +12751,55 @@
   "example": "彼は任地へ赴いた。",
   "exampleReading": "かれはにんちへおもむいた。",
   "exampleMeaning": "그는 부임지로 향했다."
+ },
+ {
+  "id": "tj426",
+  "word": "救急隊",
+  "reading": "きゅうきゅうたい",
+  "meaning": "구급대",
+  "level": "N2",
+  "example": "通報を受け、救急隊がすぐ出動した。",
+  "exampleReading": "つうほうをうけ、きゅうきゅうたいがすぐしゅつどうした。",
+  "exampleMeaning": "신고를 받고 구급대가 곧장 출동했다."
+ },
+ {
+  "id": "tj427",
+  "word": "人道支援",
+  "reading": "じんどうしえん",
+  "meaning": "인도적 지원",
+  "level": "N2",
+  "example": "人道支援の物資が国境を越えた。",
+  "exampleReading": "じんどうしえんのぶっしがこっきょうをこえた。",
+  "exampleMeaning": "인도적 지원 물자가 국경을 넘었다."
+ },
+ {
+  "id": "tj428",
+  "word": "叫ぶ",
+  "reading": "さけぶ",
+  "meaning": "외치다",
+  "level": "N3",
+  "example": "彼は助けを叫んだ。",
+  "exampleReading": "かれはたすけをさけんだ。",
+  "exampleMeaning": "그는 살려 달라고 외쳤다."
+ },
+ {
+  "id": "tj429",
+  "word": "遺体",
+  "reading": "いたい",
+  "meaning": "시신",
+  "level": "N2",
+  "example": "砂浜で遺体が発見された。",
+  "exampleReading": "すなはまでいたいがはっけんされた。",
+  "exampleMeaning": "모래사장에서 시신이 발견되었다."
+ },
+ {
+  "id": "tj430",
+  "word": "親族",
+  "reading": "しんぞく",
+  "meaning": "친족",
+  "level": "N3",
+  "example": "親族が集まり、葬儀の準備をした。",
+  "exampleReading": "しんぞくがあつまり、そうぎのじゅんびをした。",
+  "exampleMeaning": "친족들이 모여 장례 준비를 했다."
  }
 ]
