@@ -282,6 +282,9 @@
         감상 기록이 그 시트에 저장됩니다.<br />
         이 앱은 앱이 만든 파일에만 접근하며, Drive의 다른 파일은 볼 수 없습니다.
       </p>
+      <p style="background:#16233b; border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:0.85rem; color:var(--text); margin:0 auto 18px; max-width:420px; line-height:1.6;">
+        💡 로그인 창에서 <b>Google Drive</b> 항목의 체크박스에 꼭 체크해 주세요. 맨 위 <b>'모두 선택'</b>을 누르면 한 번에 체크됩니다. 체크하지 않으면 로그인이 되지 않습니다.
+      </p>
       <div id="loginNotice" class="alert alert-error" style="display:none; text-align:left"></div>
       <button type="button" class="btn btn-block" id="loginBtn">Google 계정으로 로그인</button>
       <button type="button" class="sub-link" id="switchBtn" style="display:none">다른 계정으로 로그인</button>
@@ -442,7 +445,9 @@
           const p = pendingToken; pendingToken = null;
           if (resp.error) { p.reject(new Error(resp.error_description || resp.error)); return; }
           if (!google.accounts.oauth2.hasGrantedAllScopes(resp, DRIVE_SCOPE)) {
-            p.reject(new Error('Google Drive 파일 권한이 허용되지 않았습니다. 로그인 시 해당 항목을 체크해 주세요.'));
+            const e = new Error('Google Drive 권한에 체크가 되지 않아 로그인이 완료되지 않았습니다. 아래 \'Google 계정으로 로그인\' 버튼을 다시 누르고, 권한 화면에서 Google Drive 항목(앱에서 사용하는 특정 파일…)의 체크박스를 눌러 체크한 뒤 \'계속\'을 눌러 주세요.');
+            e.code = 'DRIVE_SCOPE_MISSING';
+            p.reject(e);
             return;
           }
           accessToken = resp.access_token;
@@ -509,6 +514,7 @@
     async function login(prompt) {
       const btn = $('loginBtn');
       btn.disabled = true;
+      showLoginNotice('');
       try {
         await requestToken(prompt);
         const info = await gfetch('https://www.googleapis.com/oauth2/v3/userinfo');
@@ -516,7 +522,8 @@
         localStorage.setItem(USER_KEY, JSON.stringify(user));
         await enterApp();
       } catch (err) {
-        showAlert(err.message, 'error');
+        if (err.code === 'DRIVE_SCOPE_MISSING') showLoginNotice(err.message);
+        else showAlert(err.message, 'error');
       } finally {
         btn.disabled = false;
       }
