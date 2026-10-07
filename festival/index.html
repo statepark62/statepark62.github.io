@@ -5,129 +5,150 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>전국 축제 캘린더</title>
 <meta name="description" content="앞으로 6개월 동안 전국에서 열리는 축제를 월별·지역별로 찾아보세요.">
-<meta name="theme-color" content="#2d6a4f">
+<meta name="theme-color" content="#256049">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
 <style>
   :root {
-    --paper: #f3f5f1;
-    --ink: #1d2b25;
-    --muted: #53635b;
-    --line: #c9d4cc;
-    --jade: #2d6a4f;
+    --paper: #f4f6f3;
+    --surface: #ffffff;
+    --ink: #14211b;
+    --text2: #34443c;
+    --muted: #5b6b63;
+    --line: #d8dfda;
+    --line-soft: #e6ebe7;
+    --jade: #256049;
+    --jade-deep: #1b4a38;
+    --jade-tint: #e8f0eb;
     --lantern: #cf3a1f;
-    --gold: #e2a72e;
-    --display: "Black Han Sans", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-    --text: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Hiragino Sans", "Yu Gothic", "Microsoft YaHei", "PingFang SC", sans-serif;
+    --lantern-tint: #fcebe6;
+    --display: "Hahmlet", "Noto Serif KR", "Yu Mincho", "Hiragino Mincho ProN", "Songti SC", "Noto Serif CJK SC", "SimSun", serif;
+    --text: "Pretendard Variable", Pretendard, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Hiragino Sans", "Yu Gothic UI", "Microsoft YaHei", "PingFang SC", sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   [hidden] { display: none !important; }
   html { -webkit-text-size-adjust: 100%; }
-  body { font-family: var(--text); font-size: 18.5px; line-height: 1.65; color: var(--ink); background: var(--paper); }
+  body { font-family: var(--text); font-size: 18.5px; line-height: 1.65; color: var(--ink); background: var(--paper); overflow-wrap: break-word; }
+  html[lang="ko"] body { word-break: keep-all; }
   :focus-visible { outline: 3px solid var(--lantern); outline-offset: 2px; }
   button { font-family: inherit; }
 
-  /* 일본어·중국어는 현수막 글꼴 대신 굵은 고딕으로 */
-  html[lang="ja"] .display, html[lang="zh-CN"] .display { font-family: var(--text); font-weight: 900; }
-
   .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
-  .ribbon { height: 8px; background: repeating-linear-gradient(90deg, #2457a6 0 48px, #cf3a1f 48px 96px, #e2a72e 96px 144px, #ffffff 144px 192px, #1d2b25 192px 240px); }
+  .ribbon { height: 6px; background: repeating-linear-gradient(90deg, #2457a6 0 36px, #cf3a1f 36px 72px, #e0a22a 72px 108px, #ffffff 108px 144px, #14211b 144px 180px); }
 
   /* 머리글 */
-  .top { text-align: center; padding: 34px 20px 4px; }
-  .lantern svg { width: 54px; height: auto; display: inline-block; }
-  h1.display { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 7vw, 50px); line-height: 1.2; margin-top: 8px; }
-  .tagline { font-size: 19.5px; margin-top: 10px; }
-  .metaline { font-size: 16.5px; color: var(--muted); margin-top: 2px; }
-  .langs { display: inline-flex; margin-top: 20px; border: 2px solid var(--ink); border-radius: 4px; overflow: hidden; }
-  .langs button { font-size: 16.5px; padding: 9px 16px; min-height: 44px; background: transparent; color: var(--ink); border: 0; border-right: 2px solid var(--ink); cursor: pointer; }
-  .langs button:last-child { border-right: 0; }
+  .top { position: relative; text-align: center; padding: 40px 20px 0; }
+  .lantern svg { width: 46px; height: auto; display: inline-block; }
+  h1 { font-family: var(--display); font-weight: 800; font-size: clamp(34px, 6.4vw, 50px); line-height: 1.18; letter-spacing: -.02em; margin-top: 10px; }
+  .tagline { font-size: 19.5px; font-weight: 500; color: var(--text2); margin-top: 12px; }
+  .metaline { font-size: 16px; color: var(--muted); margin-top: 4px; }
+  .langs { display: inline-flex; gap: 2px; margin-top: 22px; padding: 4px; background: #e6ebe7; border-radius: 999px; }
+  .langs button { font-size: 15.5px; font-weight: 500; padding: 7px 17px; min-height: 40px; background: transparent; color: var(--text2); border: 0; border-radius: 999px; cursor: pointer; }
   .langs button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+  @media (min-width: 1000px) { .langs { position: absolute; top: 26px; right: 20px; margin-top: 0; } }
 
   /* 6개월 분포 띠 */
-  .strip { display: flex; gap: 6px; margin-top: 26px; }
-  .seg { flex: 1 1 0; min-width: 0; color: inherit; background: transparent; border: 2px solid transparent; border-radius: 4px; padding: 8px 4px 6px; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
-  .seg .mname { font-family: var(--display); font-weight: 400; font-size: 22px; line-height: 1.15; }
-  html[lang="ja"] .seg .mname, html[lang="zh-CN"] .seg .mname { font-family: var(--text); font-weight: 900; }
-  .seg .myear { font-size: 12.5px; color: var(--muted); line-height: 1.2; }
-  .seg .mcount { font-size: 15px; color: var(--muted); margin-bottom: 6px; line-height: 1.3; }
-  .seg .bars { display: flex; align-items: flex-end; gap: 1px; width: 100%; height: 72px; }
-  .seg .bar { display: block; flex: 1 1 0; min-width: 0; border-radius: 1px 1px 0 0; opacity: .55; }
-  .seg[aria-selected="true"] { background: #fff; border-color: var(--jade); }
-  .seg[aria-selected="true"] .bar { opacity: 1; }
+  .strip { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; margin-top: 30px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .seg { position: relative; display: flex; flex-direction: column; align-items: center; min-width: 0; padding: 14px 8px 12px; background: transparent; border: 0; border-right: 1px solid var(--line-soft); color: inherit; cursor: pointer; }
+  .seg:last-child { border-right: 0; }
+  .seg .mname { font-family: var(--display); font-weight: 700; font-size: 21px; line-height: 1.2; }
+  .seg .mcount { font-size: 14.5px; color: var(--muted); line-height: 1.3; margin: 2px 0 10px; }
+  .seg .bars { display: flex; align-items: flex-end; gap: 1px; width: 100%; height: 64px; }
+  .seg .bar { display: block; flex: 1 1 0; min-width: 0; border-radius: 1px 1px 0 0; opacity: .6; }
+  .seg .pad { display: block; flex-basis: 0; }
+  .seg[aria-selected="true"] { background: var(--jade-tint); }
+  .seg[aria-selected="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--jade); }
   .seg[aria-selected="true"] .mname { color: var(--jade); }
+  .seg[aria-selected="true"] .bar { opacity: 1; }
   .intro .bar { transform-origin: bottom; animation: grow .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i) * 3ms); }
   @keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
   @media (prefers-reduced-motion: reduce) { .intro .bar { animation: none; } }
-  .cap { text-align: center; font-size: 15.5px; color: var(--muted); margin-top: 8px; }
+  .cap { text-align: center; font-size: 15px; color: var(--muted); margin-top: 10px; }
 
   /* 검색·지역 */
-  .filters { margin-top: 26px; text-align: center; }
-  #q { width: min(100%, 520px); font: inherit; font-size: 18px; padding: 12px 16px; border: 2px solid var(--ink); border-radius: 4px; background: #fff; color: var(--ink); text-align: center; }
-  .regions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
-  .rchip { font-size: 16.5px; padding: 7px 14px; border: 1.5px solid #8ea196; border-radius: 3px; background: #fff; color: var(--ink); cursor: pointer; }
+  .filters { margin-top: 28px; text-align: center; }
+  .searchbox { position: relative; width: min(100%, 520px); margin: 0 auto; }
+  .searchbox svg { position: absolute; left: 20px; top: 50%; width: 20px; height: 20px; margin-top: -10px; color: var(--muted); pointer-events: none; }
+  #q { width: 100%; height: 52px; font: inherit; font-size: 17.5px; padding: 0 48px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); text-align: center; }
+  #q::placeholder { color: #7d8b84; }
+  #q:focus-visible { outline: none; border-color: var(--jade); box-shadow: 0 0 0 4px rgba(37, 96, 73, .18); }
+  .regions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 18px; }
+  .rchip { font-size: 15.5px; font-weight: 500; line-height: 1.4; padding: 7px 15px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--text2); cursor: pointer; }
   .rchip[aria-pressed="true"] { background: var(--jade); border-color: var(--jade); color: #fff; }
-  .rchip .n { margin-left: 6px; font-size: 14px; opacity: .75; }
-  .linkbtn { font-size: 16px; margin-top: 10px; background: none; border: 0; color: var(--jade); text-decoration: underline; cursor: pointer; padding: 6px 10px; }
+  .rchip .n { margin-left: 6px; font-size: 13.5px; opacity: .7; }
+  .linkbtn { font-size: 15.5px; margin-top: 10px; background: none; border: 0; color: var(--jade); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 6px 10px; }
 
   /* 목록 */
-  #list { margin-top: 34px; }
-  #listTitle { font-family: var(--display); font-weight: 400; font-size: 28px; text-align: center; line-height: 1.3; margin-bottom: 22px; }
-  html[lang="ja"] #listTitle, html[lang="zh-CN"] #listTitle { font-family: var(--text); font-weight: 900; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 20px; }
-  .card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: 4px; cursor: pointer; overflow: hidden; }
+  #list { margin-top: 40px; }
+  #listTitle { font-family: var(--display); font-weight: 700; font-size: 28px; line-height: 1.3; letter-spacing: -.01em; text-align: center; margin-bottom: 24px; }
+  #listTitle .hc { font-family: var(--text); font-weight: 500; font-size: 17px; letter-spacing: 0; color: var(--muted); margin-left: 10px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 22px; }
+  .card { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; overflow: hidden; }
+  .card::before { content: ""; display: block; height: 4px; background: var(--jade); }
+  .card.live::before { background: var(--lantern); }
   .card:hover { border-color: var(--jade); }
-  .band { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 10px; padding: 11px 14px; background: var(--jade); color: #fff; font-family: var(--display); font-weight: 400; font-size: 20px; line-height: 1.25; text-align: center; }
-  html[lang="ja"] .band, html[lang="zh-CN"] .band { font-family: var(--text); font-weight: 900; }
-  .card.live .band, .dlg-band.live { background: var(--lantern); }
-  .flag { font-family: var(--text); font-weight: 700; font-size: 14px; border: 1.5px solid #fff; border-radius: 3px; padding: 0 7px; line-height: 1.5; }
-  .cbody { padding: 18px 18px 20px; text-align: center; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-  .cname { font-size: 21px; font-weight: 700; line-height: 1.35; overflow-wrap: anywhere; }
-  .cloc { font-size: 16px; color: var(--muted); }
-  .csum { font-size: 17px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .chead { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 20px 0; }
+  .cdate { font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.3; color: var(--jade); letter-spacing: -.01em; }
+  .card.live .cdate, .dhead.live .cdate { color: var(--lantern); }
+  .flag { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 700; line-height: 1.5; color: var(--lantern); background: var(--lantern-tint); border-radius: 999px; padding: 1px 11px; }
+  .flag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--lantern); }
+  .cbody { display: flex; flex-direction: column; gap: 8px; flex: 1; padding: 12px 22px 22px; text-align: center; }
+  .cname { font-size: 21px; font-weight: 700; line-height: 1.38; letter-spacing: -.01em; }
+  .cloc { font-size: 15.5px; color: var(--muted); }
+  .csum { font-size: 16.5px; line-height: 1.65; color: var(--text2); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: auto; padding-top: 6px; }
-  .tag { font-size: 15px; line-height: 1.4; color: var(--jade); border: 1px solid var(--jade); border-radius: 3px; padding: 2px 9px; max-width: 100%; overflow-wrap: anywhere; }
-  .more { text-align: center; margin-top: 26px; }
-  .status, .empty { text-align: center; color: var(--muted); padding: 34px 10px; font-size: 18px; }
-  .btn { font-size: 17px; padding: 11px 18px; min-height: 44px; border: 2px solid var(--ink); border-radius: 4px; background: #fff; color: var(--ink); cursor: pointer; text-decoration: none; display: inline-block; line-height: 1.3; }
+  .tag { font-size: 14.5px; font-weight: 500; line-height: 1.45; color: var(--jade-deep); background: var(--jade-tint); border-radius: 999px; padding: 3px 12px; max-width: 100%; }
+  .more { text-align: center; margin-top: 28px; }
+  .status, .empty { text-align: center; color: var(--muted); padding: 40px 10px; font-size: 18px; }
+  .btn { display: inline-block; font-size: 16.5px; font-weight: 500; line-height: 1.3; padding: 12px 20px; min-height: 46px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); cursor: pointer; text-decoration: none; }
+  .btn:hover { border-color: var(--jade); }
   .btn.primary { background: var(--jade); border-color: var(--jade); color: #fff; }
 
-  .foot { margin-top: 56px; padding: 22px 20px 40px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 15.5px; }
+  .foot { margin-top: 56px; padding: 24px 20px 44px; border-top: 1px solid var(--line); text-align: center; color: var(--muted); font-size: 14.5px; line-height: 1.7; }
 
   /* 상세 */
-  dialog { border: 0; padding: 0; background: #fff; color: var(--ink); width: min(720px, calc(100vw - 20px)); max-height: calc(100vh - 24px); border-radius: 4px; overflow: auto; margin: auto; }
-  dialog::backdrop { background: rgba(18, 30, 24, .66); }
+  dialog { border: 0; padding: 0; background: var(--surface); color: var(--ink); width: min(720px, calc(100vw - 20px)); max-height: calc(100vh - 24px); border-radius: 14px; overflow: auto; margin: auto; }
+  dialog::backdrop { background: rgba(14, 26, 20, .62); }
   .dlg-bar { position: sticky; top: 0; height: 0; z-index: 5; text-align: right; }
-  .dlg-close { position: relative; top: 10px; right: 10px; width: 44px; height: 44px; border: 2px solid var(--ink); border-radius: 4px; background: #fff; color: var(--ink); font-size: 26px; line-height: 1; cursor: pointer; }
-  .dlg-band { font-size: 22px; padding: 18px 64px; }
-  .dbody { padding: 26px 28px 32px; }
-  .dname { font-size: 28px; font-weight: 700; line-height: 1.35; text-align: center; overflow-wrap: anywhere; }
-  .dloc { text-align: center; color: var(--ink); font-size: 18px; margin-top: 8px; }
-  .dsub { text-align: center; color: var(--muted); font-size: 16px; margin-top: 2px; overflow-wrap: anywhere; }
-  .notice { background: #eaf0eb; border: 1px solid var(--line); border-radius: 3px; text-align: center; font-size: 15.5px; padding: 8px 12px; margin-top: 18px; }
-  .dsec { margin-top: 26px; }
-  .dsec h3 { font-size: 21px; text-align: center; margin-bottom: 12px; }
-  .ov { white-space: pre-line; font-size: 18.5px; line-height: 1.85; text-align: left; overflow-wrap: anywhere; }
+  .dlg-close { position: relative; top: 14px; right: 14px; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--ink); font-size: 26px; line-height: 1; cursor: pointer; }
+  .dhead { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 28px 72px 0; border-top: 6px solid var(--jade); text-align: center; }
+  .dhead.live { border-top-color: var(--lantern); }
+  .dhead .cdate { font-size: 21px; }
+  .dbody { padding: 12px 30px 34px; }
+  .dname { font-size: 28px; font-weight: 700; line-height: 1.35; letter-spacing: -.015em; text-align: center; }
+  .dloc { text-align: center; font-size: 18px; margin-top: 8px; }
+  .dsub { text-align: center; color: var(--muted); font-size: 15.5px; margin-top: 2px; }
+  .notice { background: var(--jade-tint); border-radius: 8px; text-align: center; font-size: 15px; padding: 9px 14px; margin-top: 18px; }
+  .dsec { margin-top: 28px; }
+  .dsec h3 { font-size: 21px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+  .ov { white-space: pre-line; font-size: 18.5px; line-height: 1.85; text-align: left; color: var(--text2); }
   .dsec .tags { margin-top: 0; padding-top: 0; }
-  .dsec .tag { font-size: 16.5px; padding: 4px 12px; }
-  .map { height: 280px; margin-top: 26px; border: 1px solid var(--line); border-radius: 3px; }
-  .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 24px; }
+  .dsec .tag { font-size: 16px; padding: 5px 14px; }
+  .map { height: 280px; margin-top: 28px; border: 1px solid var(--line); border-radius: 10px; }
+  .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
 
   @media (max-width: 640px) {
     .wrap { padding: 0 14px; }
-    .seg .mname { font-size: 18px; }
-    .seg .mcount { font-size: 13px; }
-    .seg .myear { font-size: 11px; }
-    .seg .bars { height: 56px; }
-    .strip { gap: 3px; }
-    .dbody { padding: 22px 18px 28px; }
-    .dname { font-size: 25px; }
+    .top { padding-top: 32px; }
+    .seg { padding: 12px 2px 10px; }
+    .seg .mname { font-size: 17px; }
+    .seg .mcount { font-size: 12.5px; margin-bottom: 8px; }
+    .seg .bars { height: 48px; }
+    .regions { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; margin: 18px -14px 0; padding: 2px 14px 6px; scrollbar-width: none; }
+    .regions::-webkit-scrollbar { display: none; }
+    .rchip { flex: 0 0 auto; }
     .grid { grid-template-columns: 1fr; }
+    #listTitle { font-size: 25px; }
+    .dhead { padding: 26px 62px 0; }
+    .dbody { padding: 12px 18px 28px; }
+    .dname { font-size: 25px; }
   }
 </style>
 </head>
@@ -142,20 +163,20 @@
           <stop offset="0" stop-color="#f4a261"/><stop offset=".55" stop-color="#e76f51"/><stop offset="1" stop-color="#cf3a1f"/>
         </linearGradient>
       </defs>
-      <line x1="32" y1="1" x2="32" y2="12" stroke="#1d2b25" stroke-width="2" stroke-linecap="round"/>
-      <path d="M22 14 Q32 8 42 14 L40 20 Q32 16 24 20 Z" fill="#1d2b25"/>
+      <line x1="32" y1="1" x2="32" y2="12" stroke="#14211b" stroke-width="2" stroke-linecap="round"/>
+      <path d="M22 14 Q32 8 42 14 L40 20 Q32 16 24 20 Z" fill="#14211b"/>
       <path d="M13 20 C13 16 51 16 51 20 C60 32 60 52 51 62 C51 66 13 66 13 62 C4 52 4 32 13 20 Z" fill="url(#lg)"/>
-      <ellipse cx="32" cy="20" rx="19" ry="4" fill="none" stroke="#e2a72e" stroke-width="2"/>
-      <ellipse cx="32" cy="62" rx="19" ry="4" fill="none" stroke="#e2a72e" stroke-width="2"/>
+      <ellipse cx="32" cy="20" rx="19" ry="4" fill="none" stroke="#e0a22a" stroke-width="2"/>
+      <ellipse cx="32" cy="62" rx="19" ry="4" fill="none" stroke="#e0a22a" stroke-width="2"/>
       <path d="M32 18 C27 32 27 50 32 64" stroke="#8c1f0e" stroke-opacity=".45" stroke-width="1.5" fill="none"/>
       <path d="M22 19 C14 32 14 50 22 63 M42 19 C50 32 50 50 42 63" stroke="#8c1f0e" stroke-opacity=".35" stroke-width="1.2" fill="none"/>
-      <g stroke="#e2a72e" stroke-width="2" stroke-linecap="round">
+      <g stroke="#e0a22a" stroke-width="2" stroke-linecap="round">
         <line x1="26" y1="67" x2="26" y2="80"/><line x1="30" y1="68" x2="30" y2="83"/>
         <line x1="34" y1="68" x2="34" y2="83"/><line x1="38" y1="67" x2="38" y2="80"/>
       </g>
     </svg>
   </div>
-  <h1 id="title" class="display">전국 축제 캘린더</h1>
+  <h1 id="title">전국 축제 캘린더</h1>
   <p id="tagline" class="tagline"></p>
   <p id="metaline" class="metaline"></p>
   <div id="langs" class="langs" role="group" aria-label="Language"></div>
@@ -171,7 +192,10 @@
   </section>
 
   <section id="filters" class="filters" hidden>
-    <input id="q" type="search" autocomplete="off">
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      <input id="q" type="search" autocomplete="off">
+    </div>
     <div id="regions" class="regions"></div>
     <button id="clearRegions" class="linkbtn" type="button" hidden></button>
   </section>
@@ -215,7 +239,9 @@
       search: '축제 이름·지역 검색',
       clearRegions: '지역 선택 해제',
       ongoing: '진행 중',
-      monthList: function (m, n) { return m + ' 축제 ' + n + '건'; },
+      monthTitle: function (m) { return m + ' 축제'; },
+      count: function (n) { return n + '건'; },
+      cnt: function (n) { return n + '건'; },
       empty: '조건에 맞는 축제가 없습니다. 검색어를 지우거나 다른 달·지역을 선택해 보세요.',
       more: function (n) { return n + '건 더 보기'; },
       overview: '소개', activities: '추천 활동', address: '주소',
@@ -235,7 +261,9 @@
       search: 'Search by name or region',
       clearRegions: 'Clear regions',
       ongoing: 'Ongoing',
-      monthList: function (m, n) { return n + ' festivals in ' + m; },
+      monthTitle: function (m) { return 'Festivals in ' + m; },
+      count: function (n) { return n + (n === 1 ? ' festival' : ' festivals'); },
+      cnt: function (n) { return String(n); },
       empty: 'No festivals match. Clear the search or choose another month or region.',
       more: function (n) { return 'Show ' + n + ' more'; },
       overview: 'About', activities: 'Things to do', address: 'Address',
@@ -255,7 +283,9 @@
       search: 'お祭り名・地域で検索',
       clearRegions: '地域の選択を解除',
       ongoing: '開催中',
-      monthList: function (m, n) { return m + 'のお祭り ' + n + '件'; },
+      monthTitle: function (m) { return m + 'のお祭り'; },
+      count: function (n) { return n + '件'; },
+      cnt: function (n) { return n + '件'; },
       empty: '条件に合うお祭りがありません。検索語を消すか、別の月・地域を選んでください。',
       more: function (n) { return 'さらに' + n + '件を表示'; },
       overview: '紹介', activities: 'おすすめの楽しみ方', address: '住所',
@@ -275,7 +305,9 @@
       search: '按名称或地区搜索',
       clearRegions: '清除地区选择',
       ongoing: '进行中',
-      monthList: function (m, n) { return m + '节庆 ' + n + ' 项'; },
+      monthTitle: function (m) { return m + '节庆'; },
+      count: function (n) { return n + ' 项'; },
+      cnt: function (n) { return n + '项'; },
       empty: '没有符合条件的节庆。请清除搜索词，或选择其他月份、地区。',
       more: function (n) { return '再显示 ' + n + ' 项'; },
       overview: '介绍', activities: '推荐活动', address: '地址',
@@ -344,6 +376,14 @@
   }
   function rangeText(a, b) { return a === b ? fmtDate(a) : fmtDate(a) + ' – ' + fmtDate(b); }
   function monthName(y, m) { return new Intl.DateTimeFormat(langCfg().loc, { month: 'short' }).format(new Date(y, m - 1, 1)); }
+  function headingMonth(mo) {
+    var opt = { month: 'long' };
+    var withYear = mo.y !== parseISO(state.today).y;
+    if (withYear) opt.year = 'numeric';
+    // 중국어는 Intl이 '十二月'처럼 한자 숫자를 쓰므로 월 탭과 맞추어 직접 만듦
+    if (state.lang === 'cn') return (withYear ? mo.y + '年' : '') + mo.m + '月';
+    return new Intl.DateTimeFormat(langCfg().loc, opt).format(new Date(mo.y, mo.m - 1, 1));
+  }
 
   function buildMonths() {
     var t = parseISO(state.today), e = parseISO(state.windowEnd);
@@ -397,7 +437,7 @@
 
   /* ---------- 6개월 분포 띠 ---------- */
   function barColor(t) {
-    var a = [226, 167, 46], b = [207, 58, 31];
+    var a = [224, 162, 42], b = [207, 58, 31];
     var c = a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); });
     return 'rgb(' + c.join(',') + ')';
   }
@@ -421,27 +461,29 @@
 
     state.segEls = [];
     state.months.forEach(function (mo, i) {
+      var dim = daysIn(mo.y, mo.m), fromD = parseISO(mo.from).d, toD = parseISO(mo.to).d;
       var bars = h('div', { class: 'bars', 'aria-hidden': 'true' });
+      // 날짜 위치대로 놓기: 시작 전·종료 후 날은 비워 둠 (달마다 막대 굵기가 같아짐)
+      if (fromD > 1) bars.append(h('span', { class: 'pad', style: 'flex:' + (fromD - 1) }));
       var from = dayOffset(mo.from), to = dayOffset(mo.to);
       for (var d = from; d <= to; d++) {
         var c = counts[d] || 0;
-        var pct = c === 0 ? 3 : 12 + 88 * c / max;
-        var iso = new Date(dateObj(state.today).getTime());
-        iso.setDate(iso.getDate() + d);
+        var pct = c === 0 ? 3 : 10 + 90 * c / max;
+        var dt = dateObj(state.today);
+        dt.setDate(dt.getDate() + d);
         bars.append(h('span', {
           class: 'bar', style: '--i:' + d + ';height:' + pct + '%;background:' + (c === 0 ? 'var(--line)' : barColor(c / max)),
-          title: fmtDate(isoLocal(iso)) + ': ' + c
+          title: fmtDate(isoLocal(dt)) + ': ' + c
         }));
       }
-      var showYear = i === 0 || mo.m === 1;
+      if (toD < dim) bars.append(h('span', { class: 'pad', style: 'flex:' + (dim - toD) }));
       var seg = h('button', {
         type: 'button', class: 'seg', role: 'tab', id: 'seg' + i,
         'aria-selected': i === state.month ? 'true' : 'false', 'aria-controls': 'list',
         onclick: function () { selectMonth(i); }
       },
         h('span', { class: 'mname', text: monthName(mo.y, mo.m) }),
-        h('span', { class: 'myear', text: showYear ? String(mo.y) : '\u00a0' }),
-        h('span', { class: 'mcount', text: String(monthCounts[i]) }),
+        h('span', { class: 'mcount', text: tx().cnt(monthCounts[i]) }),
         bars);
       strip.append(seg);
       state.segEls.push(seg);
@@ -482,7 +524,9 @@
   function renderList() {
     var t = tx(), mo = state.months[state.month];
     var list = currentList();
-    $('listTitle').textContent = t.monthList(monthName(mo.y, mo.m), list.length);
+    var title = $('listTitle');
+    title.textContent = '';
+    title.append(t.monthTitle(headingMonth(mo)), h('span', { class: 'hc', text: t.count(list.length) }));
     $('list').setAttribute('aria-labelledby', 'seg' + state.month);
     var grid = $('grid');
     grid.textContent = '';
@@ -501,12 +545,12 @@
     var summary = (x.overview || '').replace(/\s+/g, ' ').slice(0, 220);
     var loc = [x.sido, x.sigungu].filter(Boolean).join(' ');
     var el = h('article', { class: 'card' + (live ? ' live' : ''), role: 'button', tabindex: '0', 'aria-haspopup': 'dialog' },
-      h('div', { class: 'band' }, h('span', { text: rangeText(f.start, f.end) }), live ? h('span', { class: 'flag', text: t.ongoing }) : null),
+      h('div', { class: 'chead' }, h('span', { class: 'cdate', text: rangeText(f.start, f.end) }), live ? h('span', { class: 'flag', text: t.ongoing }) : null),
       h('div', { class: 'cbody' },
         h('h3', { class: 'cname', text: x.name }),
         loc ? h('p', { class: 'cloc', text: loc }) : null,
         summary ? h('p', { class: 'csum', text: summary }) : null,
-        x.activities.length ? h('div', { class: 'tags' }, x.activities.slice(0, 3).map(function (a) { return h('span', { class: 'tag', text: a }); })) : null));
+        x.activities.length ? h('div', { class: 'tags' }, x.activities.slice(0, 2).map(function (a) { return h('span', { class: 'tag', text: a }); })) : null));
     el.addEventListener('click', function () { openDetail(f); });
     el.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetail(f); }
@@ -541,7 +585,7 @@
     var body = $('dlgBody');
     body.textContent = '';
     body.append(
-      h('div', { class: 'band dlg-band' + (live ? ' live' : '') }, h('span', { text: rangeText(f.start, f.end) }), live ? h('span', { class: 'flag', text: t.ongoing }) : null),
+      h('div', { class: 'dhead' + (live ? ' live' : '') }, h('span', { class: 'cdate', text: rangeText(f.start, f.end) }), live ? h('span', { class: 'flag', text: t.ongoing }) : null),
       h('div', { class: 'dbody' },
         h('h2', { class: 'dname', id: 'dlgName', text: x.name }),
         loc ? h('p', { class: 'dloc', text: loc }) : null,
