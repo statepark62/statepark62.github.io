@@ -303,6 +303,7 @@
 
       <!-- 검색 결과 카드 목록 -->
       <div id="searchResults" class="search-results"></div>
+      <div id="detailLoading" style="display:none; text-align:center; color:var(--text-muted); font-size:0.9rem; margin:14px 0 4px;">⏳ 작품 정보를 불러오는 중입니다...</div>
 
       <!-- 감상 기록 입력 폼 -->
       <div id="logForm" class="log-form">
@@ -746,7 +747,7 @@
       // 포스터·줄거리는 시트에 없으므로 TMDB에서 다시 가져온다 (실패해도 수정에는 지장 없음)
       if (currentWork.tmdbId) {
         const myRow = rec.row;
-        callGasApi({ action: 'detail', mediaType: mediaKey, id: currentWork.tmdbId }).then(d => {
+        getDetail(mediaKey, currentWork.tmdbId).then(d => {
           if (editingRow !== myRow || !d || d.error) return;
           if (d.poster_path) $('previewPoster').src = `https://image.tmdb.org/t/p/w300${d.poster_path}`;
           $('previewOverview').innerText = d.overview || '';
@@ -783,6 +784,21 @@
 
         document.body.appendChild(script);
       });
+    }
+
+    // 상세정보 캐시: 미리 불러온 결과나 이미 본 작품은 다시 눌러도 즉시 표시하고, 진행 중인 요청은 함께 기다린다
+    const detailCache = new Map();
+    function getDetail(mediaType, id) {
+      const key = mediaType + ':' + id;
+      if (!detailCache.has(key)) {
+        const p = callGasApi({ action: 'detail', mediaType: mediaType, id: id }).then(d => {
+          if (!d || d.error) throw new Error((d && d.message) || '상세 정보를 가져오지 못했습니다.');
+          return d;
+        });
+        p.catch(() => detailCache.delete(key));   // 실패한 요청은 캐시에 남기지 않는다
+        detailCache.set(key, p);
+      }
+      return detailCache.get(key);
     }
 
     async function searchWorks() {
@@ -836,15 +852,23 @@
         card.onclick = () => selectWork(item);
         container.appendChild(card);
       });
+
+      // 결과가 뜨자마자 앞쪽 작품의 상세정보를 백그라운드로 미리 불러온다 (눌렀을 때 바로 표시)
+      filtered.slice(0, 6).forEach(item => { getDetail(item.media_type, item.id).catch(() => {}); });
     }
 
+    let selectSeq = 0;
     async function selectWork(item) {
       exitEditMode();
+      const mySeq = ++selectSeq;
       const mediaType = item.media_type;
       const id = item.id;
+      const loading = $('detailLoading');
+      loading.style.display = 'block';
 
       try {
-        const detail = await callGasApi({ action: 'detail', mediaType: mediaType, id: id });
+        const detail = await getDetail(mediaType, id);
+        if (mySeq !== selectSeq) return;          // 그 사이 다른 작품을 눌렀다면 이 응답은 버린다
 
         let director = '';
         if (detail.credits && detail.credits.crew) {
@@ -888,7 +912,9 @@
         $('logForm').scrollIntoView({ behavior: 'smooth' });
 
       } catch (err) {
-        showAlert('상세 정보를 가져오지 못했습니다: ' + err.message, 'error');
+        if (mySeq === selectSeq) showAlert('상세 정보를 가져오지 못했습니다: ' + err.message, 'error');
+      } finally {
+        if (mySeq === selectSeq) loading.style.display = 'none';
       }
     }
 
