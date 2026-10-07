@@ -374,6 +374,10 @@
     // 2) 영화/드라마 검색(TMDB) 전용 Apps Script 웹 앱 URL (TMDB 키를 숨기는 용도, 시트에는 쓰지 않음)
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwHmf_iQRbCN6AzTv-7F2krh4d1GFzgkMyw6umNZotyUxpDjJ_2kDwarm4ozU9bMYVe/exec";
 
+    // 2-1) (선택) 더 빠른 TMDB 중계: Cloudflare Worker 주소. 예) "https://movie-tmdb.내계정.workers.dev"
+    //      비워 두면("") 위의 Apps Script를 사용한다. 끝에 "/"는 붙이지 않는다.
+    const TMDB_PROXY_URL = "https://movie-tmdb.statepark62.workers.dev";
+
     // drive.file: 이 앱이 만든 파일만 접근 가능한 최소 권한 (구글 검수 불필요)
     const SCOPES = "openid email profile https://www.googleapis.com/auth/drive.file";
     const DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file";
@@ -786,12 +790,36 @@
       });
     }
 
+    // TMDB 검색·상세 조회: Worker 주소가 있으면 fetch(빠름), 없으면 Apps Script(JSONP)
+    async function workerGet(path, params) {
+      const qs = Object.keys(params).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k])).join('&');
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 20000);
+      try {
+        const res = await fetch(TMDB_PROXY_URL + path + '?' + qs, { signal: ctrl.signal });
+        const data = await res.json();
+        if (!res.ok || data.error) throw new Error(data.message || ('요청 실패 (' + res.status + ')'));
+        return data;
+      } catch (err) {
+        if (err.name === 'AbortError') throw new Error('응답이 너무 늦어 중단했습니다. 잠시 후 다시 시도해 주세요.');
+        throw err;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    function apiSearch(query) {
+      return TMDB_PROXY_URL ? workerGet('/search', { query: query }) : callGasApi({ action: 'search', query: query });
+    }
+    function apiDetail(mediaType, id) {
+      return TMDB_PROXY_URL ? workerGet('/detail', { mediaType: mediaType, id: id }) : callGasApi({ action: 'detail', mediaType: mediaType, id: id });
+    }
+
     // 상세정보 캐시: 미리 불러온 결과나 이미 본 작품은 다시 눌러도 즉시 표시하고, 진행 중인 요청은 함께 기다린다
     const detailCache = new Map();
     function getDetail(mediaType, id) {
       const key = mediaType + ':' + id;
       if (!detailCache.has(key)) {
-        const p = callGasApi({ action: 'detail', mediaType: mediaType, id: id }).then(d => {
+        const p = apiDetail(mediaType, id).then(d => {
           if (!d || d.error) throw new Error((d && d.message) || '상세 정보를 가져오지 못했습니다.');
           return d;
         });
@@ -810,7 +838,7 @@
       searchBtn.disabled = true;
 
       try {
-        const data = await callGasApi({ action: 'search', query: query });
+        const data = await apiSearch(query);
         if (data.error) {
           showAlert('조회 오류: ' + data.message, 'error');
         } else {
