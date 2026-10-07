@@ -98,6 +98,8 @@
     .btn:hover { background: var(--primary-hover); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
     .btn-block { width: 100%; padding: 14px; font-size: 1.05rem; }
+    .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+    .btn-ghost:hover { background: transparent; border-color: var(--primary); color: var(--primary); }
 
     /* 검색 결과 카드 */
     .search-results {
@@ -299,6 +301,7 @@
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="영화나 드라마 제목을 입력하세요 (예: 인터스텔라, 나의 아저씨)..." onkeydown="if(event.key==='Enter') searchWorks()" />
         <button class="btn" id="searchBtn" onclick="searchWorks()">검색</button>
+        <button class="btn btn-ghost" id="clearBtn" type="button" onclick="clearSearch()">지우기</button>
       </div>
 
       <!-- 검색 결과 카드 목록 -->
@@ -829,9 +832,34 @@
       return detailCache.get(key);
     }
 
+    let searchSeq = 0;
+
+    // 검색창·검색 결과·작품 입력 폼을 처음 상태로 되돌린다
+    function clearSearch() {
+      const form = $('logForm');
+      const hasInput = $('theme').value.trim() || $('review').value.trim();
+      if (form.style.display === 'block' && hasInput && !confirm('열려 있는 입력 내용(한줄평·감상평)이 사라집니다. 그래도 지울까요?')) return;
+
+      searchSeq++;            // 진행 중이던 검색 응답은 버린다
+      selectSeq++;            // 진행 중이던 작품 선택 응답도 버린다
+      exitEditMode();
+      currentWork = null;
+
+      $('searchInput').value = '';
+      $('searchResults').innerHTML = '';
+      $('detailLoading').style.display = 'none';
+      $('theme').value = '';
+      $('review').value = '';
+      $('rating').value = '3.0';
+      $('watchDate').value = new Date().toISOString().split('T')[0];
+      form.style.display = 'none';
+      $('searchInput').focus();
+    }
+
     async function searchWorks() {
       const query = $('searchInput').value.trim();
       if (!query) return;
+      const mySearch = ++searchSeq;
 
       const searchBtn = $('searchBtn');
       searchBtn.innerText = '검색 중...';
@@ -839,6 +867,7 @@
 
       try {
         const data = await apiSearch(query);
+        if (mySearch !== searchSeq) return;       // 그 사이 '지우기'나 새 검색이 있었다면 이 응답은 버린다
         if (data.error) {
           showAlert('조회 오류: ' + data.message, 'error');
         } else {
