@@ -30,7 +30,7 @@ from bs4 import BeautifulSoup
 from threads_publish import publish_to_threads, ThreadsPublishError
 
 # Threads 본문에 붙는 고정 안내 문구 (필요에 맞게 수정 가능)
-HASHTAGS = "#天声人語 #일본어공부 #日本語勉強"
+HASHTAGS = "#일본어 #천성인어 #日本語 #天声人語"
 
 DEFAULT_BASE_URL = "https://statepark62.github.io/tenseijingo_naver"
 
