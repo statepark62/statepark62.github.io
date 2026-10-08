@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-08",
+    "no": 93,
+    "topic_ja": "<ruby>手書<rt>てが</rt></ruby>きの<ruby>余韻<rt>よいん</rt></ruby>",
+    "topic_ko": "손글씨의 여운",
+    "url": "https://www.asahi.com/articles/DA3S16562440.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘손글씨’, ‘디지털 전환’, ‘말과 문자’ — 사적인 체험과 공적 조사 사이를 오가며, 속도 중심의 시대에 아날로그 글씨의 의미를 되묻는 글이라서.",
+    "pattern": "〜に<ruby>関<rt>かん</rt></ruby>する"
+  },
+  {
     "date": "2026-10-07",
     "no": 92,
     "topic_ja": "ガザの<ruby>声<rt>こえ</rt></ruby>を<ruby>聴<rt>き</rt></ruby>く",

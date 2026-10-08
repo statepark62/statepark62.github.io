@@ -12801,5 +12801,55 @@
   "example": "親族が集まり、葬儀の準備をした。",
   "exampleReading": "しんぞくがあつまり、そうぎのじゅんびをした。",
   "exampleMeaning": "친족들이 모여 장례 준비를 했다."
+ },
+ {
+  "id": "tj431",
+  "word": "達筆",
+  "reading": "たっぴつ",
+  "meaning": "필체가 뛰어남",
+  "level": "N2",
+  "example": "祖父は達筆で年賀状を書く。",
+  "exampleReading": "そふはたっぴつでねんがじょうをかく。",
+  "exampleMeaning": "할아버지는 뛰어난 필체로 연하장을 쓴다."
+ },
+ {
+  "id": "tj432",
+  "word": "便箋",
+  "reading": "びんせん",
+  "meaning": "편지지",
+  "level": "N3",
+  "example": "便箋に青いインクで手紙を綴った。",
+  "exampleReading": "びんせんにあおいいんくでてがみをつづった。",
+  "exampleMeaning": "편지지에 파란 잉크로 편지를 적었다."
+ },
+ {
+  "id": "tj433",
+  "word": "滲む",
+  "reading": "にじむ",
+  "meaning": "번지다, 배어 나오다",
+  "level": "N2",
+  "example": "雨で文字が滲んでしまった。",
+  "exampleReading": "あめでもじがにじんでしまった。",
+  "exampleMeaning": "비에 글자가 번져 버렸다."
+ },
+ {
+  "id": "tj434",
+  "word": "見とれる",
+  "reading": "みとれる",
+  "meaning": "넋을 잃고 보다, 반하다",
+  "level": "N2",
+  "example": "舞台の演技に見とれて時を忘れた。",
+  "exampleReading": "ぶたいのえんぎにみとれてときをわすれた。",
+  "exampleMeaning": "무대 연기에 넋을 잃고 시간을 잊었다."
+ },
+ {
+  "id": "tj435",
+  "word": "調査結果",
+  "reading": "ちょうさけっか",
+  "meaning": "조사 결과",
+  "level": "N2",
+  "example": "調査結果は予想と異なっていた。",
+  "exampleReading": "ちょうさけっかはよそうとことなっていた。",
+  "exampleMeaning": "조사 결과는 예상과 달랐다."
  }
 ]
