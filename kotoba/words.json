@@ -12851,5 +12851,55 @@
   "example": "調査結果は予想と異なっていた。",
   "exampleReading": "ちょうさけっかはよそうとことなっていた。",
   "exampleMeaning": "조사 결과는 예상과 달랐다."
+ },
+ {
+  "id": "tj436",
+  "word": "恩恵",
+  "reading": "おんけい",
+  "meaning": "은혜, 혜택",
+  "level": "N2",
+  "example": "あの制度は多くの市民に恩恵をもたらした。",
+  "exampleReading": "あのせいどはおおくのしみんにおんけいをもたらした。",
+  "exampleMeaning": "그 제도는 많은 시민에게 혜택을 가져왔다."
+ },
+ {
+  "id": "tj437",
+  "word": "偶然",
+  "reading": "ぐうぜん",
+  "meaning": "우연",
+  "level": "N2",
+  "example": "偶然にも同じ電車で友人に会った。",
+  "exampleReading": "ぐうぜんにおなじでんしゃでゆうじんにあった。",
+  "exampleMeaning": "우연히 같은 전철에서 친구를 만났다."
+ },
+ {
+  "id": "tj438",
+  "word": "受賞",
+  "reading": "じゅしょう",
+  "meaning": "수상(상을 받음)",
+  "level": "N2",
+  "example": "彼は国際賞を受賞した。",
+  "exampleReading": "かれはこくさいしょうをじゅしょうした。",
+  "exampleMeaning": "그는 국제상을 수상했다."
+ },
+ {
+  "id": "tj439",
+  "word": "左右",
+  "reading": "さゆう",
+  "meaning": "좌우, 양쪽",
+  "level": "N2",
+  "example": "靴は左右を間違えないように並べておく。",
+  "exampleReading": "くつはさゆうをまちがえないようにならべておく。",
+  "exampleMeaning": "신발은 좌우를 헷갈리지 않게 나란히 두어 둔다."
+ },
+ {
+  "id": "tj440",
+  "word": "触媒",
+  "reading": "しょくばい",
+  "meaning": "촉매",
+  "level": "N1",
+  "example": "触媒があると反応は速く進む。",
+  "exampleReading": "しょくばいがあるとはんのうははやくすすむ。",
+  "exampleMeaning": "촉매가 있으면 반응은 더 빨리 진행된다."
  }
 ]

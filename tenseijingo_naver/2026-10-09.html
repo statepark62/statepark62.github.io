@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-09 天声人語로 배우는 일본어 — 우연과 준비</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-09</span>
+      <span>2026년 10월 9일 (금)</span>
+    </div>
+
+    <h1><ruby>偶然<rt>ぐうぜん</rt></ruby>と<ruby>準備<rt>じゅんび</rt></ruby></h1>
+    <p class="topic-ko">우연과 준비</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>準備<rt>じゅんび</rt></ruby>された<ruby>人<rt>ひと</rt></ruby>にだけ」</div>
+      <div class="ko">준비된 사람에게만 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">パスツールの<ruby>言葉<rt>ことば</rt></ruby>を<ruby>手<rt>て</rt></ruby>がかりに、「<ruby>偶然<rt>ぐうぜん</rt></ruby>は<ruby>準備<rt>じゅんび</rt></ruby>された<ruby>者<rt>もの</rt></ruby>にほほえむ」という<ruby>主題<rt>しゅだい</rt></ruby>を<ruby>示<rt>しめ</rt></ruby>す。</p><p class="ko">파스퇴르의 경구를 출발점으로, ‘우연은 준비된 자에게만 웃는다’는 주제를 제시한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>例<rt>れい</rt></ruby>として<ruby>東京理科大<rt>とうきょうりかだい</rt></ruby><ruby>名誉<rt>めいよ</rt></ruby><ruby>教授<rt>きょうじゅ</rt></ruby>の<ruby>硤合憲三<rt>そあいけんそう</rt></ruby>さんを<ruby>挙<rt>あ</rt></ruby>げ、<ruby>今年<rt>ことし</rt></ruby>のノーベル<ruby>化学賞<rt>かがくしょう</rt></ruby>に<ruby>通<rt>つう</rt></ruby>じる<ruby>分子<rt>ぶんし</rt></ruby>のキラリティを<ruby>紹介<rt>しょうかい</rt></ruby>する。</p><p class="ko">필자는 그 사례로 도쿄리카대 명예교수 소아이 겐조를 들며, 올해 노벨화학상과 맞닿은 분자 키랄성(오른손·왼손 비유)을 소개한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>結局<rt>けっきょく</rt></ruby>、<ruby>観察力<rt>かんさつりょく</rt></ruby>と<ruby>蓄積<rt>ちくせき</rt></ruby>した<ruby>準備<rt>じゅんび</rt></ruby>が<ruby>思<rt>おも</rt></ruby>わぬ<ruby>発見<rt>はっけん</rt></ruby>を<ruby>成果<rt>せいか</rt></ruby>へと<ruby>変<rt>か</rt></ruby>えるという<ruby>含意<rt>がんい</rt></ruby>を<ruby>残<rt>のこ</rt></ruby>す。</p><p class="ko">결국 관찰력과 축적된 준비가 뜻밖의 발견을 성과로 바꾼다는 메시지를 남긴다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>恩恵<rt>おんけい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">은혜, 혜택</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">あの<ruby>制度<rt>せいど</rt></ruby>は<ruby>多<rt>おお</rt></ruby>くの<ruby>市民<rt>しみん</rt></ruby>に<ruby>恩恵<rt>おんけい</rt></ruby>をもたらした。</span><br>그 제도는 많은 시민에게 혜택을 가져왔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>偶然<rt>ぐうぜん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">우연</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>偶然<rt>ぐうぜん</rt></ruby>にも<ruby>同<rt>おな</rt></ruby>じ<ruby>電車<rt>でんしゃ</rt></ruby>で<ruby>友人<rt>ゆうじん</rt></ruby>に<ruby>会<rt>あ</rt></ruby>った。</span><br>우연히 같은 전철에서 친구를 만났다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>受賞<rt>じゅしょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수상(상을 받음)</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>国際<rt>こくさい</rt></ruby><ruby>賞<rt>しょう</rt></ruby>を<ruby>受賞<rt>じゅしょう</rt></ruby>した。</span><br>그는 국제상을 수상했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>左右<rt>さゆう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">좌우, 양쪽</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>靴<rt>くつ</rt></ruby>は<ruby>左右<rt>さゆう</rt></ruby>を<ruby>間違<rt>まちが</rt></ruby>えないように<ruby>並<rt>なら</rt></ruby>べておく。</span><br>신발은 좌우를 헷갈리지 않게 나란히 두어 둔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>触媒<rt>しょくばい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">촉매</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>触媒<rt>しょくばい</rt></ruby>があると<ruby>反応<rt>はんのう</rt></ruby>は<ruby>速<rt>はや</rt></ruby>く<ruby>進<rt>すす</rt></ruby>む。</span><br>촉매가 있으면 반응은 더 빨리 진행된다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜で<ruby>知<rt>し</rt></ruby>られる</div>
+        <div class="pattern-ko">~로 알려져 있다</div>
+        <p class="explain">인물이나 장소가 특정 업적·특징으로 널리 알려졌음을 간결하게 말할 때 쓴다. 신문 기사나 해설문에서 배경 설명을 덧붙일 때 자연스럽다.</p>
+        <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>はワクチンの<ruby>研究<rt>けんきゅう</rt></ruby>で<ruby>知<rt>し</rt></ruby>られている。</span><br>그는 백신 연구로 알려져 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 고전 과학자의 촌철을 맨 앞에 배치해 주제를 단번에 세팅한다. 이어 동시대의 인물(소아이 겐조)을 연결하고, ‘올해 노벨화학상’이라는 시의성을 얹어 독자의 관심을 끌어당긴다. 전문 개념인 키랄성을 오른손·왼손 비유로 번역해 부담을 낮추고, 설명을 길게 끌지 않으며 전환을 빠르게 가져간다. ‘짧은 인용—구체 사례—쉬운 비유’로 압축하는 천성인어의 전형이 잘 드러난다.</p>
+        <p>글이 남기는 핵심은 우연과 준비의 상호작용이다. 한국 독자에게도 연구 현장의 행운이 사실은 축적된 관찰과 시행착오에서 비롯된다는 점을 상기시킨다. 과학 뉴스와 인물 서사를 가볍게 엮는 일본 신문 칼럼의 문법을 엿볼 수 있다는 점도 흥미롭다. 결과적으로 ‘준비된 시선이 기회를 만든다’는 메시지가 문화권을 넘어 설득력을 가진다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 파스퇴르의 말을 발화점으로 삼아 노벨상 화제를 거쳐, 준비가 우연을 성과로 바꾸는 과정을 비춘 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>노벨상 수상자는 매년 10월 발표되며, 화학상은 화학·재료·생명과학 경계의 혁신적 공헌을 넓게 포괄한다.</p>
+        <p>키랄성은 분자가 거울상 쌍을 이룬다는 개념으로, 오른손·왼손의 비유가 일본 매체에서도 이해를 돕는 상투적 설명으로 자주 쓰인다.</p>
+        <p>도쿄리카대 명예교수 소아이 겐조는 일본의 유기화학자이며, 칼럼은 그를 ‘준비된 우연’을 상징하는 사례로 소환한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>유명한 인용으로 주제를 즉시 제시해 독자의 주의를 잡아끈다.</p>
+        <p><span class="n">二</span>전문 용어를 일상의 비유로 치환해 이해 장벽을 낮춘다.</p>
+        <p><span class="n">三</span>시의성(노벨상 뉴스)과 보편성(우연과 준비)을 교차 배치해 메시지의 확장성을 확보한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>準備<rt>じゅんび</rt></ruby>は<ruby>偶然<rt>ぐうぜん</rt></ruby>を<ruby>味方<rt>みかた</rt></ruby>に<ruby>変<rt>か</rt></ruby>える。</span>
+      <span class="ko">준비는 우연을 내 편으로 바꾼다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-09) — <a href="https://www.asahi.com/articles/DA3S16563288.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-09.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

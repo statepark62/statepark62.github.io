@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-09",
+    "no": 94,
+    "topic_ja": "<ruby>偶然<rt>ぐうぜん</rt></ruby>と<ruby>準備<rt>じゅんび</rt></ruby>",
+    "topic_ko": "우연과 준비",
+    "url": "https://www.asahi.com/articles/DA3S16563288.html?iref=pc_rensai_long_61_article",
+    "memo": "‘우연과 발견’, ‘과학과 인물’, ‘노벨상’ — 준비와 행운의 상호작용을 과학자 이야기와 시사 뉴스로 엮어 보여 주므로 해당 장에 적합함.",
+    "pattern": "〜で<ruby>知<rt>し</rt></ruby>られる"
+  },
+  {
     "date": "2026-10-08",
     "no": 93,
     "topic_ja": "<ruby>手書<rt>てが</rt></ruby>きの<ruby>余韻<rt>よいん</rt></ruby>",
