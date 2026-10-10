@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-11",
+    "no": 96,
+    "topic_ja": "<ruby>生命保険<rt>せいめいほけん</rt></ruby>と<ruby>勧誘<rt>かんゆう</rt></ruby>",
+    "topic_ko": "생명보험과 권유",
+    "url": "https://www.asahi.com/articles/DA3S16564683.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘보험과 윤리’, ‘세일즈의 말’ — 제도적 선의와 영업 현실 사이의 균열, 설득 언어의 심리적 압박을 탐색하므로.",
+    "pattern": "〜かねる"
+  },
+  {
     "date": "2026-10-10",
     "no": 95,
     "topic_ja": "<ruby>評価<rt>ひょうか</rt></ruby>と<ruby>行動<rt>こうどう</rt></ruby>",

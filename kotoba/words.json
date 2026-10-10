@@ -12951,5 +12951,55 @@
   "example": "静寂は喧騒と対比される。",
   "exampleReading": "せいじゃくはけんそうとたいひされる。",
   "exampleMeaning": "고요함은 소란과 대비된다."
+ },
+ {
+  "id": "tj446",
+  "word": "言いくるめる",
+  "reading": "いいくるめる",
+  "meaning": "구슬리다, 말로 구워삶다",
+  "level": "N2",
+  "example": "彼は店員に返品を言いくるめた。",
+  "exampleReading": "かれはてんいんにへんぴんをいいくるめた。",
+  "exampleMeaning": "그는 점원을 구슬려 반품을 받아냈다."
+ },
+ {
+  "id": "tj447",
+  "word": "勧誘員",
+  "reading": "かんゆういん",
+  "meaning": "권유원, 모집원",
+  "level": "N2",
+  "example": "その会社の勧誘員が自宅にやってきた。",
+  "exampleReading": "そのかいしゃのかんゆういんがじたくにやってきた。",
+  "exampleMeaning": "그 회사의 권유원이 집까지 찾아왔다."
+ },
+ {
+  "id": "tj448",
+  "word": "据えかねる",
+  "reading": "すえかねる",
+  "meaning": "도저히 참기 어렵다",
+  "level": "N1",
+  "example": "理不尽な発言は腹に据えかねる。",
+  "exampleReading": "りふじんなはつげんははらにすえかねる。",
+  "exampleMeaning": "불합리한 발언은 도저히 참기 어렵다."
+ },
+ {
+  "id": "tj449",
+  "word": "残忍",
+  "reading": "ざんにん",
+  "meaning": "잔인함",
+  "level": "N1",
+  "example": "残忍な行為は許されない。",
+  "exampleReading": "ざんにんなこういはゆるされない。",
+  "exampleMeaning": "잔인한 행위는 용서받지 못한다."
+ },
+ {
+  "id": "tj450",
+  "word": "酷薄",
+  "reading": "こくはく",
+  "meaning": "각박함, 박정함",
+  "level": "N1",
+  "example": "酷薄な言葉に胸が痛んだ。",
+  "exampleReading": "こくはくなことばにむねがいたんだ。",
+  "exampleMeaning": "각박한 말에 가슴이 아팠다."
  }
 ]
