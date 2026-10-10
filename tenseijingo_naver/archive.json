@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-10",
+    "no": 95,
+    "topic_ja": "<ruby>評価<rt>ひょうか</rt></ruby>と<ruby>行動<rt>こうどう</rt></ruby>",
+    "topic_ko": "평가와 행동",
+    "url": "https://www.asahi.com/articles/DA3S16564024.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘세계의 시선’, ‘행동의 기준’, ‘노벨상과 사회’ — 외부 평가에 흔들리는 심리와 자율적 행동 규범을 대비시키며, 노벨상이라는 시사 계기를 통해 보편적 질문을 제기하기 때문이다.",
+    "pattern": "〜をより<ruby>大事<rt>だいじ</rt></ruby>にする"
+  },
+  {
     "date": "2026-10-09",
     "no": 94,
     "topic_ja": "<ruby>偶然<rt>ぐうぜん</rt></ruby>と<ruby>準備<rt>じゅんび</rt></ruby>",

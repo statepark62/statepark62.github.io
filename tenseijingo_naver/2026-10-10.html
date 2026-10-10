@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-10 天声人語로 배우는 일본어 — 평가와 행동</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-10</span>
+      <span>2026년 10월 10일 (토)</span>
+    </div>
+
+    <h1><ruby>評価<rt>ひょうか</rt></ruby>と<ruby>行動<rt>こうどう</rt></ruby></h1>
+    <p class="topic-ko">평가와 행동</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>海外<rt>かいがい</rt></ruby>の<ruby>評価<rt>ひょうか</rt></ruby>」</div>
+      <div class="ko">해외의 평가 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">このコラムは、<ruby>日本<rt>にほん</rt></ruby><ruby>社会<rt>しゃかい</rt></ruby>がノーベル<ruby>賞<rt>しょう</rt></ruby>に<ruby>並外<rt>なみはず</rt></ruby>れて<ruby>関心<rt>かんしん</rt></ruby>を<ruby>寄<rt>よ</rt></ruby>せる<ruby>理由<rt>りゆう</rt></ruby>を、<ruby>海外<rt>かいがい</rt></ruby>の<ruby>記者<rt>きしゃ</rt></ruby>のまなざしから<ruby>問<rt>と</rt></ruby>いかける。</p><p class="ko">이 칼럼은 일본 사회가 노벨상에 유난히 큰 관심을 보이는 까닭을 해외 기자의 시선에서 묻는다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>英国<rt>えいこく</rt></ruby>の<ruby>記者<rt>きしゃ</rt></ruby>は、日本は<ruby>外部<rt>がいぶ</rt></ruby>の<ruby>評価<rt>ひょうか</rt></ruby>を<ruby>気<rt>き</rt></ruby>にしがちだと<ruby>指摘<rt>してき</rt></ruby>し、「どう<ruby>見<rt>み</rt></ruby>られるか」より「どう<ruby>動<rt>うご</rt></ruby>くか」を<ruby>重視<rt>じゅうし</rt></ruby>すると<ruby>対比<rt>たいひ</rt></ruby>する。</p><p class="ko">영국 기자는 일본이 외부의 평가를 신경 쓰는 경향을 지적하며, 영국은 &#x27;어떻게 보이는가&#x27;보다 &#x27;어떻게 움직이는가&#x27;를 더 중시한다고 대비한다.</p></div>
+      <div class="s-item"><p class="ja">ノーベル<ruby>平和賞<rt>へいわしょう</rt></ruby>の<ruby>話題<rt>わだい</rt></ruby>を<ruby>契機<rt>けいき</rt></ruby>に、<ruby>他者<rt>たしゃ</rt></ruby>の<ruby>視線<rt>しせん</rt></ruby>と<ruby>自分<rt>じぶん</rt></ruby>の<ruby>行動<rt>こうどう</rt></ruby>のあいだで、どんな<ruby>基準<rt>きじゅん</rt></ruby>を<ruby>持<rt>も</rt></ruby>つべきかを<ruby>考<rt>かんが</rt></ruby>えさせる。</p><p class="ko">글은 노벨 평화상 관련 화제를 계기로, 타인의 시선과 스스로의 행동 사이에서 일본이 어떤 기준을 세울지 사유를 촉구한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>重視する<rt>じゅうしする</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">중시하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">わたしたちは<ruby>結果<rt>けっか</rt></ruby>より<ruby>過程<rt>かてい</rt></ruby>を<ruby>重視<rt>じゅうし</rt></ruby>する。</span><br>우리는 결과보다 과정을 중시한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>評価<rt>ひょうか</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">평가</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>作品<rt>さくひん</rt></ruby>は<ruby>高<rt>たか</rt></ruby>く<ruby>評価<rt>ひょうか</rt></ruby>された。</span><br>그 작품은 높이 평가되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>関心<rt>かんしん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">관심</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>学生<rt>がくせい</rt></ruby>の<ruby>関心<rt>かんしん</rt></ruby>が<ruby>高<rt>たか</rt></ruby>まっている。</span><br>학생들의 관심이 높아지고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>取材<rt>しゅざい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">취재</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>記者<rt>きしゃ</rt></ruby>が<ruby>現場<rt>げんば</rt></ruby>で<ruby>取材<rt>しゅざい</rt></ruby>を<ruby>行<rt>おこな</rt></ruby>った。</span><br>기자가 현장에서 취재를 했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>対比<rt>たいひ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">대비, 대조</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>静寂<rt>せいじゃく</rt></ruby>は<ruby>喧騒<rt>けんそう</rt></ruby>と<ruby>対比<rt>たいひ</rt></ruby>される。</span><br>고요함은 소란과 대비된다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜をより<ruby>大事<rt>だいじ</rt></ruby>にする</div>
+        <div class="pattern-ko">~을/를 더 중요하게 여기다</div>
+        <p class="explain">둘 이상의 선택지 중 무엇을 더 우선시하는지 분명히 밝힐 때 쓰는 비교 표현이다. 가치 판단이나 우선순위를 담담하게 드러내며, 정책·경영·일상 판단 모두에 폭넓게 사용된다.</p>
+        <p class="ex"><span class="ja">わたしたちは<ruby>数字<rt>すうじ</rt></ruby>より<ruby>現場<rt>げんば</rt></ruby>の<ruby>声<rt>こえ</rt></ruby>をより<ruby>大事<rt>だいじ</rt></ruby>にする。</span><br>우리는 숫자보다 현장의 목소리를 더 중요하게 여긴다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 글은 질문으로 시작해 사유의 공간을 연다. ‘왜 이렇게까지 노벨상에 열광하는가’라는 물음을 던진 뒤, 영국 기자의 관찰을 거울처럼 들이대 독자의 시선을 바깥으로 이동시킨다. ‘어떻게 보이는가’와 ‘어떻게 움직이는가’의 대비는 논지의 축을 간결하게 세운다. 이어지는 평화상 소식의 언급은 화제를 시사와 접속시키며, 구체적 사건으로 추상적 문제를 붙잡게 만든다.</p>
+        <p>칼럼이 남기는 질문은 외부의 인정과 스스로의 기준 사이에서 무엇을 택할 것인가이다. 한국 독자에게도 수상 뉴스에 과도하게 반응하는 미디어 풍경은 낯설지 않다. 이 글은 국가 성향을 단정하지 않으면서도, 시선과 행동의 균형을 고민하게 하는 점에서 설득력이 있다. 개인의 커리어 관리나 조직의 평판 전략에도 곧장 적용 가능한 보편적 통찰을 제공한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 외부의 평가와 스스로의 행동 사이의 균형을 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본에서는 매년 가을 노벨상 발표 시즌이 되면 방송과 신문이 후보와 연구 성과를 크게 다루며 ‘노벨상 특집’을 자주 편성한다.</p>
+        <p>아사히신문의 칼럼 ‘천성인어’는 일상의 작은 단서에서 출발해 사회·정치 이슈로 자연스럽게 확장하는 짧은 산문으로 유명하다.</p>
+        <p>영국을 ‘보이는가보다 움직이는가를 중시한다’고 묘사하는 담론이 있으며, 자기 행동의 일관성을 강조하는 문화적 이미지가 있다. 다만 이는 일반화에 가까워 맥락에 따라 달라질 수 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>핵심 질문을 서두에 던져 독자의 문제의식을 깨운다.</p>
+        <p><span class="n">二</span>이항 대비(보이는가/움직이는가)로 관점을 선명하게 만든다.</p>
+        <p><span class="n">三</span>구체적 시사 뉴스(노벨 평화상)를 연결해 추상적 논의를 현실에 고정한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>他人<rt>たにん</rt></ruby>の<ruby>視線<rt>しせん</rt></ruby>より、いま<ruby>自分<rt>じぶん</rt></ruby>が<ruby>何<rt>なに</rt></ruby>を<ruby>為<rt>な</rt></ruby>すかを<ruby>選<rt>えら</rt></ruby>ぼう。</span>
+      <span class="ko">남의 시선보다, 지금 내가 무엇을 할지 선택하자.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-10) — <a href="https://www.asahi.com/articles/DA3S16564024.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-10.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

@@ -12901,5 +12901,55 @@
   "example": "触媒があると反応は速く進む。",
   "exampleReading": "しょくばいがあるとはんのうははやくすすむ。",
   "exampleMeaning": "촉매가 있으면 반응은 더 빨리 진행된다."
+ },
+ {
+  "id": "tj441",
+  "word": "重視する",
+  "reading": "じゅうしする",
+  "meaning": "중시하다",
+  "level": "N2",
+  "example": "わたしたちは結果より過程を重視する。",
+  "exampleReading": "わたしたちはけっかよりかていをじゅうしする。",
+  "exampleMeaning": "우리는 결과보다 과정을 중시한다."
+ },
+ {
+  "id": "tj442",
+  "word": "評価",
+  "reading": "ひょうか",
+  "meaning": "평가",
+  "level": "N3",
+  "example": "作品は高く評価された。",
+  "exampleReading": "さくひんはたかくひょうかされた.",
+  "exampleMeaning": "그 작품은 높이 평가되었다."
+ },
+ {
+  "id": "tj443",
+  "word": "関心",
+  "reading": "かんしん",
+  "meaning": "관심",
+  "level": "N3",
+  "example": "学生の関心が高まっている。",
+  "exampleReading": "がくせいのかんしんがたかまっている。",
+  "exampleMeaning": "학생들의 관심이 높아지고 있다."
+ },
+ {
+  "id": "tj444",
+  "word": "取材",
+  "reading": "しゅざい",
+  "meaning": "취재",
+  "level": "N2",
+  "example": "記者が現場で取材を行った。",
+  "exampleReading": "きしゃがげんばでしゅざいをおこなった。",
+  "exampleMeaning": "기자가 현장에서 취재를 했다."
+ },
+ {
+  "id": "tj445",
+  "word": "対比",
+  "reading": "たいひ",
+  "meaning": "대비, 대조",
+  "level": "N2",
+  "example": "静寂は喧騒と対比される。",
+  "exampleReading": "せいじゃくはけんそうとたいひされる。",
+  "exampleMeaning": "고요함은 소란과 대비된다."
  }
 ]
