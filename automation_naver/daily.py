@@ -346,7 +346,7 @@ def build_calendar_html(records):
 
         weekdays = "".join(f'<span class="wd">{w}</span>' for w in WEEKDAY_HEADER_KO)
         blocks.append(
-            f'    <section class="cal-month">\n'
+            f'    <section class="cal-month" id="m-{ym}" data-label="{year}년 {month}월">\n'
             f'      <h2>{year}년 {month}월</h2>\n'
             f'      <div class="cal-weekdays">{weekdays}</div>\n'
             f'      <div class="cal-grid">{"".join(cells)}</div>\n'

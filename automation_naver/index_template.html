@@ -35,6 +35,22 @@
   h1{font-family:var(--ja);font-weight:800;font-size:clamp(26px,5vw,36px);letter-spacing:4px}
   .sub{font-size:14px;color:var(--ink-soft);margin-bottom:34px}
 
+
+  /* 월 넘김 */
+  .js .cal-month{display:none}
+  .js .cal-month.on{display:block}
+  .js .cal-month h2{display:none}
+  .pager{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 0 18px}
+  .pager button{
+    font-family:var(--ja);font-size:16px;font-weight:700;padding:8px 16px;
+    background:var(--card);color:var(--ink);border:1.5px solid var(--ink);
+    border-radius:4px;cursor:pointer;
+  }
+  .pager button:disabled{opacity:.3;cursor:default}
+  .pager select{
+    font-family:var(--ja);font-size:19px;font-weight:700;padding:7px 10px;
+    background:var(--card);color:var(--ink);border:1.5px solid var(--ink);border-radius:4px;
+  }
   .cal-month{margin-bottom:40px}
   .cal-month h2{
     font-family:var(--ja);font-weight:700;font-size:19px;letter-spacing:1px;
@@ -122,6 +138,11 @@
     </div>
   <p class="sub">아사히신문 칼럼으로 매일 배우는 일본어</p>
 
+  <div class="pager" id="pager" style="display:none">
+    <button id="prev" type="button">◀ 이전 달</button>
+    <select id="msel" aria-label="월 선택"></select>
+    <button id="next" type="button">다음 달 ▶</button>
+  </div>
   <div class="cal-wrap">
 <!--CALENDAR-->
   </div>
@@ -132,6 +153,31 @@
     <p><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페 「여행하며 일본어 공부하기」</a></p>
   </footer>
 </div>
+<script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('.cal-month'));
+  if(!secs.length)return;
+  document.documentElement.classList.add('js');
+  var sel=document.getElementById('msel'),prev=document.getElementById('prev'),next=document.getElementById('next');
+  secs.forEach(function(s,i){var o=document.createElement('option');o.value=i;o.textContent=s.getAttribute('data-label');sel.appendChild(o);});
+  var cur=0; // secs는 최신순: 0이 가장 최근 달
+  var h=(location.hash||'').replace('#','');
+  secs.forEach(function(s,i){if(s.id==='m-'+h)cur=i;});
+  function show(i){
+    cur=Math.max(0,Math.min(secs.length-1,i));
+    secs.forEach(function(s,k){s.classList.toggle('on',k===cur);});
+    sel.value=cur;
+    prev.disabled=(cur>=secs.length-1);  // 더 오래된 달 없음
+    next.disabled=(cur<=0);              // 더 최근 달 없음
+    try{history.replaceState(null,'','#'+secs[cur].id.slice(2));}catch(e){}
+  }
+  prev.onclick=function(){show(cur+1);};
+  next.onclick=function(){show(cur-1);};
+  sel.onchange=function(){show(parseInt(sel.value,10));};
+  document.getElementById('pager').style.display='';
+  show(cur);
+})();
+</script>
 <script>
 (function(){
   var GAS_URL = "https://script.google.com/macros/s/AKfycbzzsK1vQDlffHyzt6se264eGravJdfOik-kYtEOrFuN7inaXw2CKg2ryXSAP8MLSFehxA/exec";   // ← Apps Script 배포 URL(/exec)로 교체
