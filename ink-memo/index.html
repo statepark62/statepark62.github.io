@@ -388,9 +388,9 @@
 
   // ---------- Google 로그인 & Sheets API 저장소 ----------
   // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
-  const CLIENT_ID = "736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com";
+  const CLIENT_ID = "여기에_OAuth_클라이언트_ID를_입력하세요.apps.googleusercontent.com";
   // 배포한 Cloudflare Worker 주소 (끝에 슬래시 없이). 예: https://ink-memo-auth.<계정>.workers.dev
-  const WORKER_URL = "https://ink-memo-auth.statepark62.workers.dev";
+  const WORKER_URL = "여기에_배포된_Worker_주소를_입력하세요";
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
@@ -1042,7 +1042,7 @@
     const q = el("searchInput").value.trim().toLowerCase();
 
     let filtered = memos.filter(m => {
-      if(activeTags.size > 0 && !m.tags.some(t => activeTags.has(t))) return false;
+      if(activeTags.size > 0 && ![...activeTags].every(t => m.tags.includes(t))) return false;
       if(q && !(m.text || "").toLowerCase().includes(q) && !m.tags.some(t => t.toLowerCase().includes(q))) return false;
       return true;
     });
