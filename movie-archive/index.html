@@ -258,6 +258,12 @@
       background: #422006; border: 1px solid #b45309; color: #fde68a; font-size: 0.9rem;
     }
     .cancel-edit { display: none; width: 100%; margin-top: 12px; padding: 12px; font-size: 0.95rem; }
+    .delete-btn {
+      display: none; width: 100%; margin-top: 12px; padding: 12px; font-size: 0.95rem; cursor: pointer;
+      background: transparent; color: #fca5a5; border: 1px solid #7f1d1d; border-radius: 8px;
+    }
+    .delete-btn:hover { background: #7f1d1d; color: #fff; }
+    .delete-btn:disabled { opacity: 0.6; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -355,6 +361,7 @@
 
           <button type="submit" id="submitBtn" class="btn btn-block">내 구글 시트에 감상 기록 저장하기</button>
           <button type="button" id="cancelEditBtn" class="link-btn cancel-edit">수정 취소</button>
+          <button type="button" id="deleteBtn" class="delete-btn">🗑️ 이 기록 삭제하기</button>
         </form>
       </div>
 
@@ -703,7 +710,62 @@
       editingKey = null;
       $('editBanner').style.display = 'none';
       $('cancelEditBtn').style.display = 'none';
+      $('deleteBtn').style.display = 'none';
       updateSubmitLabel();
+    }
+
+    // 시트에서 현재 수정 중인 행이 처음 불러온 기록과 같은지 확인하고 그 행을 돌려준다
+    async function verifyEditingRow() {
+      const row = editingRow;
+      const cur = await gfetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A' + row + ':L' + row);
+      const v = (cur.values && cur.values[0]) || [];
+      if (String(v[1] || '') !== editingKey.title || String(v[10] || '') !== editingKey.tmdbId) {
+        await loadRecent();
+        throw new Error('시트의 행이 바뀐 것 같습니다. 최근 기록을 새로 불러왔으니 다시 시도해 주세요.');
+      }
+      return row;
+    }
+
+    // 현재 수정 중인 기록을 시트에서 삭제 (해당 행만 지운다)
+    async function deleteRecord() {
+      if (editingRow === null) return;
+      const title = currentWork ? currentWork.title : '이 작품';
+      if (!confirm("'" + title + "' 기록을 삭제할까요?\n내 구글 시트에서 이 행이 지워지며 앱에서는 되돌릴 수 없습니다.")) return;
+
+      const btn = $('deleteBtn');
+      btn.disabled = true;
+      btn.innerText = '삭제하는 중... ⏳';
+      try {
+        await ensureToken();
+        if (!sheetId) sheetId = await ensureSheet();
+        const row = await verifyEditingRow();
+
+        // 첫 번째 탭의 내부 번호(gid)를 조회해서 그 탭의 해당 행만 삭제한다
+        const meta = await gfetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '?fields=sheets.properties(sheetId,index)');
+        const tabs = (meta.sheets || []).map(t => t.properties).sort((a, b) => a.index - b.index);
+        if (tabs.length === 0) throw new Error('시트의 탭을 찾지 못했습니다.');
+
+        await gfetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + ':batchUpdate', {
+          method: 'POST',
+          body: JSON.stringify({
+            requests: [{ deleteDimension: { range: { sheetId: tabs[0].sheetId, dimension: 'ROWS', startIndex: row - 1, endIndex: row } } }]
+          })
+        });
+
+        showAlert("'" + title + "' 기록이 삭제되었습니다.", 'success');
+        exitEditMode();
+        currentWork = null;
+        $('theme').value = '';
+        $('review').value = '';
+        $('logForm').style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        loadRecent();
+      } catch (err) {
+        showAlert('삭제 중 오류가 발생했습니다: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '🗑️ 이 기록 삭제하기';
+      }
     }
 
     function cancelEdit() {
@@ -747,6 +809,7 @@
 
       $('editBanner').style.display = 'block';
       $('cancelEditBtn').style.display = 'block';
+      $('deleteBtn').style.display = 'block';
       updateSubmitLabel();
       $('logForm').style.display = 'block';
       $('logForm').scrollIntoView({ behavior: 'smooth' });
@@ -1001,14 +1064,7 @@
         if (!sheetId) sheetId = await ensureSheet();
 
         if (isEdit) {
-          const row = editingRow;
-          // 그 사이 시트에서 행이 정렬·삭제되어 번호가 어긋나지 않았는지 확인
-          const cur = await gfetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A' + row + ':L' + row);
-          const v = (cur.values && cur.values[0]) || [];
-          if (String(v[1] || '') !== editingKey.title || String(v[10] || '') !== editingKey.tmdbId) {
-            await loadRecent();
-            throw new Error('시트의 행이 바뀐 것 같습니다. 최근 기록을 새로 불러왔으니 다시 수정해 주세요.');
-          }
+          const row = await verifyEditingRow();      // 그 사이 시트에서 행이 정렬·삭제되어 번호가 어긋나지 않았는지 확인
           await gfetch('https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values:batchUpdate', {
             method: 'POST',
             body: JSON.stringify({
@@ -1068,6 +1124,7 @@
       $('switchBtn').addEventListener('click', () => login('select_account'));
       $('logoutBtn').addEventListener('click', logout);
       $('cancelEditBtn').addEventListener('click', cancelEdit);
+      $('deleteBtn').addEventListener('click', deleteRecord);
 
       try { user = JSON.parse(localStorage.getItem(USER_KEY) || 'null'); } catch (e) { user = null; }
       let saved = null;
