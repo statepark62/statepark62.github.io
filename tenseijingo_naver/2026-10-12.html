@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-12 天声人語로 배우는 일본어 — 누마카게에 남은 여름</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-12</span>
+      <span>2026년 10월 12일 (월)</span>
+    </div>
+
+    <h1><ruby>沼影<rt>ぬまかげ</rt></ruby>に<ruby>残<rt>のこ</rt></ruby>る<ruby>夏<rt>なつ</rt></ruby></h1>
+    <p class="topic-ko">누마카게에 남은 여름</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>最後<rt>さいご</rt></ruby>の４９<ruby>日間<rt>にちかん</rt></ruby>」</div>
+      <div class="ko">마지막 49일간 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>秋<rt>あき</rt></ruby>の<ruby>夜<rt>よる</rt></ruby>、<ruby>筆者<rt>ひっしゃ</rt></ruby>は『<ruby>沼影<rt>ぬまかげ</rt></ruby><ruby>市民<rt>しみん</rt></ruby>プール』というドキュメンタリーを<ruby>見<rt>み</rt></ruby>に<ruby>映画館<rt>えいがかん</rt></ruby>へ<ruby>足<rt>あし</rt></ruby>を<ruby>運<rt>はこ</rt></ruby>んだ<ruby>場面<rt>ばめん</rt></ruby>から<ruby>始<rt>はじ</rt></ruby>まる。</p><p class="ko">칼럼은 가을밤에 필자가 영화관을 찾아 다큐멘터리 ‘沼影市民プール’를 본 이야기로 시작한다.</p></div>
+      <div class="s-item"><p class="ja">この<ruby>作品<rt>さくひん</rt></ruby>は、<ruby>半世紀<rt>はんせいき</rt></ruby>にわたり<ruby>愛<rt>あい</rt></ruby>された<ruby>市民<rt>しみん</rt></ruby>プールの<ruby>解体<rt>かいたい</rt></ruby>を<ruby>前<rt>まえ</rt></ruby>に、<ruby>最後<rt>さいご</rt></ruby>の49<ruby>日間<rt>にちかん</rt></ruby>を<ruby>追<rt>お</rt></ruby>い、<ruby>子<rt>こ</rt></ruby>の「また<ruby>来<rt>き</rt></ruby>たい」という<ruby>願<rt>ねが</rt></ruby>いから<ruby>反対<rt>はんたい</rt></ruby><ruby>署名<rt>しょめい</rt></ruby>までを<ruby>映<rt>うつ</rt></ruby>しだす。</p><p class="ko">반세기 동안 사랑받아온 사이타마시의 시민 풀 철거를 앞두고, 작품은 마지막 49일의 사람들과 풍경을 따라간다.</p></div>
+      <div class="s-item"><p class="ja">そして、<ruby>公共<rt>こうきょう</rt></ruby><ruby>施設<rt>しせつ</rt></ruby>が<ruby>消<rt>き</rt></ruby>えるときに<ruby>残<rt>のこ</rt></ruby>る<ruby>記憶<rt>きおく</rt></ruby>と<ruby>共同体<rt>きょうどうたい</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>を<ruby>考<rt>かんが</rt></ruby>えさせる<ruby>余韻<rt>よいん</rt></ruby>で<ruby>結<rt>むす</rt></ruby>ぶ。</p><p class="ko">아이의 재방문 소망과 폐쇄 반대 서명 등 장면들을 통해, 공공장소가 지닌 기억과 공동체의 의미를 성찰하게 한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>解体<rt>かいたい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">해체, 철거</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>老朽<rt>ろうきゅう</rt></ruby>ビルを<ruby>解体<rt>かいたい</rt></ruby>する。</span><br>노후 빌딩을 철거하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>署名<rt>しょめい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">서명</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>閉鎖<rt>へいさ</rt></ruby>に<ruby>反対<rt>はんたい</rt></ruby>する<ruby>署名<rt>しょめい</rt></ruby>を<ruby>集<rt>あつ</rt></ruby>めた。</span><br>폐쇄에 반대하는 서명을 모았다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>愛される<rt>あいされる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">사랑받다</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>長<rt>なが</rt></ruby>く<ruby>愛<rt>あい</rt></ruby>されてきた<ruby>店<rt>みせ</rt></ruby>だ。</span><br>오래 사랑받아 온 가게다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>足を運ぶ<rt>あしをはこぶ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">발걸음을 옮기다, 찾아가다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>友人<rt>ゆうじん</rt></ruby>の<ruby>個展<rt>こてん</rt></ruby>に<ruby>足<rt>あし</rt></ruby>を<ruby>運<rt>はこ</rt></ruby>んだ。</span><br>친구의 개인전에 다녀왔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>余韻<rt>よいん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">여운</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>映画<rt>えいが</rt></ruby>の<ruby>余韻<rt>よいん</rt></ruby>が<ruby>胸<rt>むね</rt></ruby>に<ruby>残<rt>のこ</rt></ruby>る。</span><br>영화의 여운이 가슴에 남다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜ことになり</div>
+        <div class="pattern-ko">~하게 되어서, ~하게 되다</div>
+        <p class="explain">외부 결정이나 상황의 귀결로 일정한 결과가 정해졌음을 나타낸다. 화자가 직접 내린 결정이라기보다 절차나 합의, 사정에 의해 그렇게 되었다는 뉘앙스를 갖는다.</p>
+        <p class="ex"><span class="ja"><ruby>工事<rt>こうじ</rt></ruby>は<ruby>来月<rt>らいげつ</rt></ruby><ruby>始<rt>はじ</rt></ruby>まることになり、<ruby>周辺<rt>しゅうへん</rt></ruby>はしばらく<ruby>騒<rt>さわ</rt></ruby>がしくなる。</span><br>공사는 다음 달에 시작하게 되어, 주변은 당분간 시끄러워진다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 ‘가을밤 영화관으로 향했다’는 간결한 도입으로 독자를 현장에 데려온다. 이후 영화가 담아낸 시민 풀의 마지막 나날을 따라가며, 아이의 조르기와 서명 운동 같은 작은 장면을 정교하게 배치한다. 직접적 논평 대신 관찰을 쌓아 정서를 환기하는 것이 ‘천성인어’ 특유의 작법이다. 말수를 아끼되 이미지와 리듬으로 주제를 드러내며, 결말의 여운을 남긴다.</p>
+        <p>글이 남기는 물음은 단순한 찬반을 넘어 ‘공공의 장소가 개인과 공동체의 기억에 어떤 자리를 차지하는가’이다. 인구구조 변화와 재정 압박 속에서 공공시설이 사라지는 현실은 한국 독자에게도 낯설지 않다. 반대 서명이라는 시민의 행동과 마지막 날의 풍경이 공공성을 새로 정의하게 한다. 결과를 단정하지 않고 감정의 스펙트럼을 보여주는 방식이 독자 스스로 답을 찾게 만든다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 철거를 앞둔 시민 풀의 마지막 49일을 따라가며 공공의 기억과 공동체의 의미를 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본의 지자체는 고도성장기에 지은 수영장·체육관 등 공공시설의 노후화와 유지비 증가로 폐쇄나 통합을 검토하는 경우가 늘고 있다.</p>
+        <p>사이타마시는 도쿄 인근의 대도시로, 생활권 인프라가 지역 정체성과 일상 기억에 큰 영향을 주어 왔다.</p>
+        <p>일본에서 정책에 대한 주민 의사를 표명할 때 ‘署名運動(서명 운동)’과 ‘陳情(진정)’이 흔히 활용되며, 서명은 법적 구속력은 약하지만 여론 형성과 논의 촉발에 의미가 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>현장으로 독자를 이끄는 구체 동작(영화관에 발걸음을 옮김)으로 서사를 시작한다.</p>
+        <p><span class="n">二</span>작고 다양한 목소리(아이, 서명자, 마지막 날의 사람들)를 모아 감정의 스펙트럼을 구성한다.</p>
+        <p><span class="n">三</span>판단을 서두르지 않고 이미지를 중첩해 끝에 여운으로 의미를 떠올리게 한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>施設<rt>しせつ</rt></ruby>は<ruby>消<rt>き</rt></ruby>えても、<ruby>記憶<rt>きおく</rt></ruby>は<ruby>人<rt>ひと</rt></ruby>の<ruby>中<rt>なか</rt></ruby>に<ruby>生<rt>い</rt></ruby>き<ruby>続<rt>つづ</rt></ruby>く。</span>
+      <span class="ko">시설은 사라져도 기억은 사람들 마음속에 계속 살아간다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-12) — <a href="https://www.asahi.com/articles/DA3S16564831.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-12.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

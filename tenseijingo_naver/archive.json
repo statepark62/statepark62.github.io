@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-12",
+    "no": 97,
+    "topic_ja": "<ruby>沼影<rt>ぬまかげ</rt></ruby>に<ruby>残<rt>のこ</rt></ruby>る<ruby>夏<rt>なつ</rt></ruby>",
+    "topic_ko": "누마카게에 남은 여름",
+    "url": "https://www.asahi.com/articles/DA3S16564831.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘사라지는 장소’, ‘공공과 기억’, ‘지역 커뮤니티’ — 한 도시의 시민 풀이 남긴 집단 기억과 주민의 행동을 통해, 공간과 공동체의 관계를 사유하게 만드는 글이므로.",
+    "pattern": "〜ことになり"
+  },
+  {
     "date": "2026-10-11",
     "no": 96,
     "topic_ja": "<ruby>生命保険<rt>せいめいほけん</rt></ruby>と<ruby>勧誘<rt>かんゆう</rt></ruby>",

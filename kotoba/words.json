@@ -13001,5 +13001,55 @@
   "example": "酷薄な言葉に胸が痛んだ。",
   "exampleReading": "こくはくなことばにむねがいたんだ。",
   "exampleMeaning": "각박한 말에 가슴이 아팠다."
+ },
+ {
+  "id": "tj451",
+  "word": "解体",
+  "reading": "かいたい",
+  "meaning": "해체, 철거",
+  "level": "N2",
+  "example": "老朽ビルを解体する。",
+  "exampleReading": "ろうきゅうびるをかいたいする",
+  "exampleMeaning": "노후 빌딩을 철거하다."
+ },
+ {
+  "id": "tj452",
+  "word": "署名",
+  "reading": "しょめい",
+  "meaning": "서명",
+  "level": "N3",
+  "example": "閉鎖に反対する署名を集めた。",
+  "exampleReading": "へいさにはんたいするしょめいをあつめた",
+  "exampleMeaning": "폐쇄에 반대하는 서명을 모았다."
+ },
+ {
+  "id": "tj453",
+  "word": "愛される",
+  "reading": "あいされる",
+  "meaning": "사랑받다",
+  "level": "N3",
+  "example": "長く愛されてきた店だ。",
+  "exampleReading": "ながくあいされてきたみせだ",
+  "exampleMeaning": "오래 사랑받아 온 가게다."
+ },
+ {
+  "id": "tj454",
+  "word": "足を運ぶ",
+  "reading": "あしをはこぶ",
+  "meaning": "발걸음을 옮기다, 찾아가다",
+  "level": "N2",
+  "example": "友人の個展に足を運んだ。",
+  "exampleReading": "ゆうじんのこてんにあしをはこんだ",
+  "exampleMeaning": "친구의 개인전에 다녀왔다."
+ },
+ {
+  "id": "tj455",
+  "word": "余韻",
+  "reading": "よいん",
+  "meaning": "여운",
+  "level": "N1",
+  "example": "映画の余韻が胸に残る。",
+  "exampleReading": "えいがのよいんがむねにのこる",
+  "exampleMeaning": "영화의 여운이 가슴에 남다."
  }
 ]
