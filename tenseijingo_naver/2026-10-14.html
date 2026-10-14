@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-14 天声人語로 배우는 일본어 — 수도 기능 이전을 둘러싼 기억</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-14</span>
+      <span>2026년 10월 14일 (수)</span>
+    </div>
+
+    <h1><ruby>首都<rt>しゅと</rt></ruby><ruby>機能<rt>きのう</rt></ruby><ruby>移転<rt>いてん</rt></ruby>を<ruby>巡<rt>めぐ</rt></ruby>る<ruby>記憶<rt>きおく</rt></ruby></h1>
+    <p class="topic-ko">수도 기능 이전을 둘러싼 기억</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>平坦<rt>へいたん</rt></ruby>な<ruby>地域<rt>ちいき</rt></ruby>」</div>
+      <div class="ko">평탄한 지역 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">1990<ruby>年代<rt>ねんだい</rt></ruby>に<ruby>論<rt>ろん</rt></ruby>じられた<ruby>首都<rt>しゅと</rt></ruby><ruby>機能<rt>きのう</rt></ruby><ruby>移転<rt>いてん</rt></ruby>を<ruby>背景<rt>はいけい</rt></ruby>に、<ruby>元<rt>もと</rt></ruby><ruby>官房<rt>かんぼう</rt></ruby><ruby>副長官<rt>ふくちょうかん</rt></ruby>が<ruby>展望台<rt>てんぼうだい</rt></ruby>から<ruby>景色<rt>けしき</rt></ruby>を<ruby>称賛<rt>しょうさん</rt></ruby>した<ruby>逸話<rt>いつわ</rt></ruby>が<ruby>語<rt>かた</rt></ruby>られる。</p><p class="ko">수도 기능 이전이 거론되던 1990년대의 논의를 배경으로, 한 전직 관료가 전망대에서 본 풍경을 칭찬한 일화가 소환된다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>広<rt>こう</rt></ruby>く<ruby>緑<rt>みどり</rt></ruby>に<ruby>恵<rt>めぐ</rt></ruby>まれた<ruby>平坦<rt>へいたん</rt></ruby>な<ruby>地形<rt>ちけい</rt></ruby>は、<ruby>栃木県<rt>とちぎけん</rt></ruby>の<ruby>那須<rt>なす</rt></ruby><ruby>地域<rt>ちいき</rt></ruby>が<ruby>検討<rt>けんとう</rt></ruby>されていた<ruby>当時<rt>とうじ</rt></ruby>の<ruby>空気<rt>くうき</rt></ruby>を<ruby>伝<rt>つた</rt></ruby>える。</p><p class="ko">푸른 초목과 평탄한 지형의 인상은 도치기현 나스 지역이 검토 대상에 오르던 당시의 분위기를 환기한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>過去<rt>かこ</rt></ruby>の<ruby>判断<rt>はんだん</rt></ruby>を<ruby>手繰<rt>たぐ</rt></ruby>り、<ruby>現在<rt>げんざい</rt></ruby>の<ruby>過密<rt>かみつ</rt></ruby>や<ruby>災害<rt>さいがい</rt></ruby>を<ruby>想起<rt>そうき</rt></ruby>させる<ruby>問い<rt>とい</rt></ruby>を<ruby>読者<rt>どくしゃ</rt></ruby>に<ruby>投<rt>な</rt></ruby>げかける。</p><p class="ko">필자는 과거의 결정을 되짚으며, 오늘의 과밀과 재해 대응을 떠올리게 하는 물음을 조용히 던지는 듯하다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>首都機能移転<rt>しゅときのういてん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수도 기능 이전</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">かつて<ruby>首都<rt>しゅと</rt></ruby><ruby>機能<rt>きのう</rt></ruby><ruby>移転<rt>いてん</rt></ruby>が<ruby>議論<rt>ぎろん</rt></ruby>された。</span><br>한때 수도 기능 이전이 논의되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>審議会<rt>しんぎかい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">심의회</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>国会<rt>こっかい</rt></ruby>の<ruby>審議会<rt>しんぎかい</rt></ruby>が<ruby>報告書<rt>ほうこくしょ</rt></ruby>を<ruby>公表<rt>こうひょう</rt></ruby>した。</span><br>국회의 심의회가 보고서를 공표했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>視察する<rt>しさつする</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">시찰하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>委員<rt>いいん</rt></ruby>たちは<ruby>現地<rt>げんち</rt></ruby>を<ruby>視察<rt>しさつ</rt></ruby>した。</span><br>위원들은 현지를 시찰했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>展望台<rt>てんぼうだい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">전망대</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>展望台<rt>てんぼうだい</rt></ruby>から<ruby>平野<rt>へいや</rt></ruby>を<ruby>見渡<rt>みわた</rt></ruby>した。</span><br>전망대에서 평야를 굽어보았다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>平坦<rt>へいたん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">평탄하다; 평평함</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>平坦<rt>へいたん</rt></ruby>な<ruby>道<rt>みち</rt></ruby>は<ruby>歩<rt>ある</rt></ruby>きやすい。</span><br>평탄한 길은 걷기 쉽다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜<ruby>以上<rt>いじょう</rt></ruby>に</div>
+        <div class="pattern-ko">~보다 더; ~이상으로</div>
+        <p class="explain">기대치나 기준선을 넘어섰음을 강조하는 표현이다. 수치·평가·인상 등 다양한 비교 대상과 함께 쓰이며, 놀람이나 강조의 뉘앙스를 담을 수 있다.</p>
+        <p class="ex"><span class="ja">きょうは<ruby>予想<rt>よそう</rt></ruby>した<ruby>以上<rt>いじょう</rt></ruby>に<ruby>寒<rt>さむ</rt></ruby>い。</span><br>오늘은 예상한 것보다 더 춥다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>칼럼은 전망대에서 내려다본 풍경이라는 생생한 장면으로 시작해 독자를 현장에 세운다. 이어 전직 관료의 평가를 인용해 감탄의 톤을 더하고, 이야기의 초점을 자연스레 정책 논의인 수도 기능 이전으로 확장한다. ‘평탄함’과 ‘광대함’ 같은 대비적 어휘를 반복해 인상과 논지를 연결하는 수법이 돋보인다. 개인적 기억에서 공적 의제로 미끄러지듯 넘어가는 전개는 천성인어 특유의 속도감과 함축을 드러낸다.</p>
+        <p>글이 남기는 질문은 결국 ‘집중과 분산’이라는 오래된 딜레마다. 한국 독자에게도 수도권 과밀, 재난 대비, 지역 균형 발전이라는 맥락이 겹쳐 읽힌다. 특정 결론을 강하게 밀지 않고 ‘예상보다 더’라는 어법으로 판단의 여지를 남김으로써 독자의 사유를 유도한다. 장소의 매력과 정책의 현실 사이 긴장을 끝까지 유지하는 구성이 여운을 만든다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 과거의 수도 기능 이전 논의를 현재의 과밀·재해 문제와 겹쳐 보이게 하며, 집중과 분산의 균형을 다시 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>1990년대 일본에서는 도쿄 일극집중 완화와 대규모 재난 리스크 대비가 사회적 화두로 떠오르며, 수도 기능 이전이 국가적 의제로 논의됐다.</p>
+        <p>정부 산하 ‘국회 등 이전 심의회’가 설치되어 후보지와 검토 기준을 정리하는 작업이 이루어졌고, 여러 지역이 비교 대상으로 거론됐다.</p>
+        <p>도치기현 나스 지역은 광활한 평야와 리조트 이미지로 알려져 있으며, 접근성과 지형적 조건이 이전 논의에서 장점으로 자주 언급되곤 했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 장면(전망대의 시야)으로 시작해 정책 논의로 확장하는 ‘현장→의제’ 전개를 배운다.</p>
+        <p><span class="n">二</span>대비적 형용(광대함/평탄함)을 반복 배치해 인상을 논지와 직결시키는 어휘 설계를 참고한다.</p>
+        <p><span class="n">三</span>과거의 한 순간을 징검다리로 삼아 현재의 문제의식으로 연결하는 시간 점프 구성을 익힌다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>集<rt>しゅう</rt></ruby><ruby>中<rt>ちゅう</rt></ruby>は<ruby>便益<rt>べんえき</rt></ruby>を<ruby>生<rt>う</rt></ruby>むが、<ruby>偏<rt>かたよ</rt></ruby>りは<ruby>脆弱<rt>ぜいじゃく</rt></ruby>さも<ruby>招<rt>まね</rt></ruby>く。</span>
+      <span class="ko">집중은 이익을 낳지만, 치우침은 취약함도 부른다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-14) — <a href="https://www.asahi.com/articles/DA3S16565962.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-14.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

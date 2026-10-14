@@ -13051,5 +13051,55 @@
   "example": "映画の余韻が胸に残る。",
   "exampleReading": "えいがのよいんがむねにのこる",
   "exampleMeaning": "영화의 여운이 가슴에 남다."
+ },
+ {
+  "id": "tj456",
+  "word": "首都機能移転",
+  "reading": "しゅときのういてん",
+  "meaning": "수도 기능 이전",
+  "level": "N1",
+  "example": "かつて首都機能移転が議論された。",
+  "exampleReading": "かつてしゅときのういてんがぎろんされた。",
+  "exampleMeaning": "한때 수도 기능 이전이 논의되었다."
+ },
+ {
+  "id": "tj457",
+  "word": "審議会",
+  "reading": "しんぎかい",
+  "meaning": "심의회",
+  "level": "N1",
+  "example": "国会の審議会が報告書を公表した。",
+  "exampleReading": "こっかいのしんぎかいがほうこくしょをこうひょうした。",
+  "exampleMeaning": "국회의 심의회가 보고서를 공표했다."
+ },
+ {
+  "id": "tj458",
+  "word": "視察する",
+  "reading": "しさつする",
+  "meaning": "시찰하다",
+  "level": "N2",
+  "example": "委員たちは現地を視察した。",
+  "exampleReading": "いいんたちはげんちをしさつした.",
+  "exampleMeaning": "위원들은 현지를 시찰했다."
+ },
+ {
+  "id": "tj459",
+  "word": "展望台",
+  "reading": "てんぼうだい",
+  "meaning": "전망대",
+  "level": "N2",
+  "example": "展望台から平野を見渡した。",
+  "exampleReading": "てんぼうだいからへいやをみわたした。",
+  "exampleMeaning": "전망대에서 평야를 굽어보았다."
+ },
+ {
+  "id": "tj460",
+  "word": "平坦",
+  "reading": "へいたん",
+  "meaning": "평탄하다; 평평함",
+  "level": "N2",
+  "example": "平坦な道は歩きやすい。",
+  "exampleReading": "へいたんなみちはあるきやすい。",
+  "exampleMeaning": "평탄한 길은 걷기 쉽다."
  }
 ]
