@@ -196,8 +196,20 @@
       resize: vertical;
       min-height: 110px;
     }
+    /* 한줄평: 입력한 내용이 모두 보이도록 높이가 자동으로 늘어난다 */
+    #theme {
+      min-height: 0;
+      resize: none;
+      overflow: hidden;
+      line-height: 1.5;
+      font-family: inherit;
+    }
+    /* 감상평: 크기는 고정하고, 내용이 길면 상자 안에서 스크롤된다 */
     #review {
+      height: 220px;
       min-height: 220px;
+      resize: none;
+      overflow-y: auto;
     }
 
     .alert {
@@ -252,6 +264,41 @@
     .recent-item .r-rating { color: var(--accent); font-weight: 600; flex-shrink: 0; }
     .recent-empty { color: var(--text-muted); font-size: 0.9rem; }
     .recent-item .r-edit { flex-shrink: 0; align-self: center; }
+    .recent-hint { color: var(--text-muted); font-size: 0.8rem; margin: -6px 0 12px; }
+    .recent-item { cursor: pointer; transition: border-color 0.15s; }
+    .recent-item:hover { border-color: var(--primary); }
+    .recent-item:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+    /* ===== 기록 보기 창 ===== */
+    .modal {
+      position: fixed; inset: 0; z-index: 50; display: none; overflow-y: auto;
+      background: rgba(2, 6, 23, 0.72); padding: 24px 14px;
+    }
+    .modal-box {
+      position: relative; max-width: 640px; margin: 0 auto; padding: 24px;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+    }
+    .modal-x {
+      position: absolute; top: 10px; right: 12px; width: 34px; height: 34px; border-radius: 50%;
+      background: transparent; color: var(--text-muted); border: 1px solid var(--border); font-size: 1rem; cursor: pointer;
+    }
+    .modal-x:hover { color: var(--primary); border-color: var(--primary); }
+    .view-head { display: flex; gap: 18px; margin: 0 0 18px; padding-right: 30px; }
+    .view-head img { width: 96px; height: 140px; border-radius: 6px; object-fit: cover; flex-shrink: 0; background: #232f48; }
+    .view-meta h2 { font-size: 1.25rem; margin-bottom: 6px; }
+    .view-meta p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 3px; }
+    .view-meta .view-when { color: var(--accent); font-weight: 600; margin-top: 6px; }
+    .view-label { font-size: 0.8rem; color: var(--text-muted); margin: 16px 0 6px; font-weight: 500; }
+    .view-text {
+      background: #0b1120; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px;
+      white-space: pre-wrap; word-break: break-word; line-height: 1.7; font-size: 0.95rem;
+    }
+    .view-text.review { max-height: 260px; overflow-y: auto; }
+    .view-text.empty { color: var(--text-muted); }
+    @media (max-width: 640px) {
+      .view-head { flex-direction: column; align-items: center; text-align: center; padding-right: 0; }
+      .modal-box { padding: 20px 16px; }
+    }
     .more-btn { display: block; margin: 12px auto 0; padding: 8px 20px; }
     .edit-banner {
       display: none; margin-bottom: 20px; padding: 10px 14px; border-radius: 8px;
@@ -351,7 +398,7 @@
 
           <div class="form-group">
             <label for="theme">주요 테마 / 한줄평</label>
-            <input type="text" id="theme" placeholder="작품을 관통하는 화두 또는 한 줄 요약..." required />
+            <textarea id="theme" rows="1" placeholder="작품을 관통하는 화두 또는 한 줄 요약..." required></textarea>
           </div>
 
           <div class="form-group">
@@ -368,8 +415,31 @@
       <!-- 최근 기록 -->
       <section class="recent">
         <h3>최근 감상 기록</h3>
+        <p class="recent-hint">기록을 누르면 전체 내용을 볼 수 있습니다. 고치려면 오른쪽의 '수정'을 누르세요.</p>
         <div id="recentList"><p class="recent-empty">불러오는 중...</p></div>
       </section>
+    </div>
+  </div>
+
+  <!-- 기록 보기 창 (읽기 전용) -->
+  <div id="viewModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="viewTitle">
+    <div class="modal-box">
+      <button type="button" id="viewX" class="modal-x" aria-label="닫기">✕</button>
+      <div class="view-head">
+        <img id="viewPoster" src="" alt="포스터" />
+        <div class="view-meta">
+          <h2 id="viewTitle"></h2>
+          <p id="viewSub"></p>
+          <p id="viewCrew"></p>
+          <p id="viewGenres"></p>
+          <p id="viewWhen" class="view-when"></p>
+        </div>
+      </div>
+      <div class="view-label">주요 테마 / 한줄평</div>
+      <div id="viewTheme" class="view-text"></div>
+      <div class="view-label">상세 감상평</div>
+      <div id="viewReview" class="view-text review"></div>
+      <button type="button" id="viewClose" class="btn btn-block" style="margin-top:20px">닫기</button>
     </div>
   </div>
 
@@ -549,7 +619,7 @@
         try { google.accounts.oauth2.revoke(accessToken, () => {}); } catch (e) {}
       }
       accessToken = null; tokenExpiry = 0; sheetId = null; user = null; currentWork = null;
-      recentRows = []; recentLimit = 10; exitEditMode();
+      recentRows = []; recentLimit = 10; exitEditMode(); closeView();
       sessionStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_KEY);
       $('appView').style.display = 'none';
@@ -655,6 +725,58 @@
       }
     }
 
+    // ============================================================
+    // 기록 보기 (읽기 전용)
+    // ============================================================
+    let viewSeq = 0;
+
+    function setViewText(el, text, emptyMsg) {
+      const t = String(text == null ? '' : text).trim();
+      el.textContent = t || emptyMsg;
+      el.classList.toggle('empty', !t);
+    }
+
+    function openView(rec) {
+      const v = rec.v;
+      const mySeq = ++viewSeq;
+      $('viewPoster').src = NO_POSTER;
+      $('viewTitle').textContent = v[1] || '';
+      $('viewSub').textContent = [v[3], v[2]].filter(Boolean).join(' · ');
+      $('viewCrew').textContent = '연출: ' + (v[5] || '정보 없음') + ' | 주연: ' + (v[6] || '정보 없음');
+      $('viewGenres').textContent = v[4] ? '장르: ' + v[4] : '';
+      const ratingNum = Number(v[7]);
+      $('viewWhen').textContent = '관람일 ' + (v[0] || '-') + '  ·  ★ ' + (v[7] === '' || v[7] == null || isNaN(ratingNum) ? '-' : ratingNum.toFixed(1)) + ' / 5.0';
+      setViewText($('viewTheme'), v[8], '(입력한 한줄평이 없습니다)');
+      setViewText($('viewReview'), v[9], '(작성한 감상평이 없습니다)');
+      $('viewReview').scrollTop = 0;
+
+      $('viewModal').style.display = 'block';
+      $('viewModal').scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+      $('viewClose').focus();
+
+      // 포스터는 시트에 없으므로 TMDB에서 가져온다 (실패해도 내용 보기에는 지장 없음)
+      if (v[10]) {
+        getDetail(v[3] === '드라마' ? 'tv' : 'movie', v[10]).then(d => {
+          if (mySeq !== viewSeq || !d || !d.poster_path) return;
+          $('viewPoster').src = 'https://image.tmdb.org/t/p/w300' + d.poster_path;
+        }).catch(() => {});
+      }
+    }
+
+    function closeView() {
+      viewSeq++;
+      $('viewModal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // 한줄평 입력칸: 내용 길이에 맞춰 높이를 자동으로 맞춘다 (화면에 보이지 않는 동안에는 계산하지 않는다)
+    function fitTheme() {
+      const el = $('theme');
+      el.style.height = 'auto';
+      if (el.scrollHeight > 0) el.style.height = (el.scrollHeight + (el.offsetHeight - el.clientHeight)) + 'px';
+    }
+
     function renderRecent() {
       const box = $('recentList');
       if (recentRows.length === 0) {
@@ -676,8 +798,17 @@
         editBtn.type = 'button';
         editBtn.className = 'link-btn r-edit';
         editBtn.textContent = '수정';
-        editBtn.onclick = () => startEdit(rec);
+        editBtn.onclick = (e) => { e.stopPropagation(); startEdit(rec); };   // 수정 버튼은 보기 창과 별개로 동작
         item.appendChild(editBtn);
+
+        // 기록(수정 버튼 이외의 부분)을 누르면 전체 내용을 볼 수 있다
+        item.tabIndex = 0;
+        item.setAttribute('role', 'button');
+        item.setAttribute('aria-label', (r[1] || '') + ' 기록 보기');
+        item.addEventListener('click', () => openView(rec));
+        item.addEventListener('keydown', (e) => {
+          if (e.target === item && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openView(rec); }
+        });
         box.appendChild(item);
       });
       if (recentRows.length > recentLimit) {
@@ -812,6 +943,7 @@
       $('deleteBtn').style.display = 'block';
       updateSubmitLabel();
       $('logForm').style.display = 'block';
+      fitTheme();
       $('logForm').scrollIntoView({ behavior: 'smooth' });
 
       // 포스터·줄거리는 시트에 없으므로 TMDB에서 다시 가져온다 (실패해도 수정에는 지장 없음)
@@ -1029,6 +1161,7 @@
         $('previewOverview').innerText = currentWork.overview || '줄거리 정보가 제공되지 않습니다.';
 
         $('logForm').style.display = 'block';
+        fitTheme();
         $('logForm').scrollIntoView({ behavior: 'smooth' });
 
       } catch (err) {
@@ -1125,6 +1258,21 @@
       $('logoutBtn').addEventListener('click', logout);
       $('cancelEditBtn').addEventListener('click', cancelEdit);
       $('deleteBtn').addEventListener('click', deleteRecord);
+
+      // 한줄평: 한 줄 입력칸처럼 쓰되 길면 줄바꿈되어 모두 보인다 (Enter로 줄을 나누거나 저장되지 않게 막는다)
+      $('theme').addEventListener('input', () => {
+        const t = $('theme');
+        if (/[\r\n]/.test(t.value)) t.value = t.value.replace(/[\r\n]+/g, ' ');
+        fitTheme();
+      });
+      $('theme').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.isComposing) e.preventDefault(); });
+      window.addEventListener('resize', fitTheme);
+
+      // 기록 보기 창 닫기: 닫기 버튼, 바깥 영역, Esc 키
+      $('viewClose').addEventListener('click', closeView);
+      $('viewX').addEventListener('click', closeView);
+      $('viewModal').addEventListener('click', (e) => { if (e.target === $('viewModal')) closeView(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('viewModal').style.display === 'block') closeView(); });
 
       try { user = JSON.parse(localStorage.getItem(USER_KEY) || 'null'); } catch (e) { user = null; }
       let saved = null;
