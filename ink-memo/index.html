@@ -388,18 +388,15 @@
   // ---------- Google 로그인 & Sheets API 저장소 ----------
   // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
   const CLIENT_ID = "736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com";
-  // 배포한 Cloudflare Worker 주소 (끝에 슬래시 없이). 예: https://ink-memo-auth.<계정>.workers.dev
-  const WORKER_URL = "https://ink-memo-auth.statepark62.workers.dev";
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
-  const SESSION_KEY = "inkmemo:sessionId";
 
   let accessToken = null;
+  let tokenClient = null;
   let spreadsheetId = null;
-  let sheetName = "Sheet1"; // 실제 시트 이름은 로그인 후 조회해서 채움 (한국어 계정은 "시트1")
+  let sheetName = "Sheet1";
   let lastStorageError = null;
-  let codeClient = null;
 
   function rawFetch(url, opts = {}){
     opts.headers = Object.assign(
