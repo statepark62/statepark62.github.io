@@ -13101,5 +13101,55 @@
   "example": "平坦な道は歩きやすい。",
   "exampleReading": "へいたんなみちはあるきやすい。",
   "exampleMeaning": "평탄한 길은 걷기 쉽다."
+ },
+ {
+  "id": "tj461",
+  "word": "書斎",
+  "reading": "しょさい",
+  "meaning": "서재, 서실",
+  "level": "N2",
+  "example": "彼は毎朝書斎でコーヒーを飲む。",
+  "exampleReading": "かれはまいあさしょさいでこーひーをのむ。",
+  "exampleMeaning": "그는 매일 아침 서재에서 커피를 마신다."
+ },
+ {
+  "id": "tj462",
+  "word": "儀式",
+  "reading": "ぎしき",
+  "meaning": "의식, 의례",
+  "level": "N2",
+  "example": "小さな儀式が集中を呼ぶ。",
+  "exampleReading": "ちいさなぎしきがしゅうちゅうをよぶ。",
+  "exampleMeaning": "작은 의식이 집중을 불러온다."
+ },
+ {
+  "id": "tj463",
+  "word": "打ち明ける",
+  "reading": "うちあける",
+  "meaning": "털어놓다, 고백하다",
+  "level": "N2",
+  "example": "彼女は不安を友人に打ち明けた。",
+  "exampleReading": "かのじょはふあんをゆうじんにうちあけた。",
+  "exampleMeaning": "그녀는 불안을 친구에게 털어놓았다."
+ },
+ {
+  "id": "tj464",
+  "word": "神がかり",
+  "reading": "かみがかり",
+  "meaning": "신들린 상태, 초자연적 기운",
+  "level": "N1",
+  "example": "神がかりのような閃きが訪れる。",
+  "exampleReading": "かみがかりのようなひらめきがおとずれる。",
+  "exampleMeaning": "신들린 듯한 번뜩임이 찾아온다."
+ },
+ {
+  "id": "tj465",
+  "word": "発想",
+  "reading": "はっそう",
+  "meaning": "발상, 아이디어",
+  "level": "N2",
+  "example": "新しい発想は沈黙から生まれる。",
+  "exampleReading": "あたらしいはっそうはちんもくからうまれる。",
+  "exampleMeaning": "새로운 발상은 침묵에서 태어난다."
  }
 ]

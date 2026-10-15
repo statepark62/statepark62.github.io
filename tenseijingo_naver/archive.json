@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-15",
+    "no": 100,
+    "topic_ja": "<ruby>執筆<rt>しっぴつ</rt></ruby>の<ruby>儀式<rt>ぎしき</rt></ruby>",
+    "topic_ko": "집필의 의식",
+    "url": "https://www.asahi.com/articles/DA3S16566791.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘창작의 습관’, ‘영감의 조건’ — 작가의 루틴을 통해 아이디어가 오는 과정을 구체화하며, 재능보다 습관의 힘을 강조하기 때문.",
+    "pattern": "〜と<ruby>打<rt>う</rt></ruby>ち<ruby>明<rt>あ</rt></ruby>ける"
+  },
+  {
     "date": "2026-10-14",
     "no": 99,
     "topic_ja": "<ruby>首都<rt>しゅと</rt></ruby><ruby>機能<rt>きのう</rt></ruby><ruby>移転<rt>いてん</rt></ruby>を<ruby>巡<rt>めぐ</rt></ruby>る<ruby>記憶<rt>きおく</rt></ruby>",
