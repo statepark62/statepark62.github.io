@@ -390,6 +390,8 @@
   const REDIRECT_URI = "https://statepark62.github.io/ink-memo/";
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
+  // 기존 메모가 들어 있는 시트 ID (고정). 비워두면 appDataFolder 포인터로 자동 탐색.
+  const FIXED_SPREADSHEET_ID = "1sqqdoV036IDzVGMTUR5Oxi8etHASBnJVWbJGgI_hCzU";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
   const TOKEN_KEY = "inkmemo:access_token";
   const TOKEN_EXP_KEY = "inkmemo:token_exp";
@@ -508,6 +510,16 @@
   // 포인터 파일을 찾고, 없으면 새 스프레드시트를 만들어 포인터를 남긴다.
   async function ensureSpreadsheet(){
     try{
+      if(FIXED_SPREADSHEET_ID){
+        spreadsheetId = FIXED_SPREADSHEET_ID;
+        const fixedMetaRes = await gapiFetch(
+          `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets.properties.title`
+        );
+        const fixedMeta = await fixedMetaRes.json();
+        if(!fixedMetaRes.ok) throw new Error(fixedMeta.error?.message || "fixed sheet metadata failed");
+        sheetName = fixedMeta.sheets[0].properties.title;
+        return true;
+      }
       const listUrl = "https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q="
         + encodeURIComponent(`name='${POINTER_FILENAME}'`) + "&fields=files(id,name)";
       const listRes = await gapiFetch(listUrl);
