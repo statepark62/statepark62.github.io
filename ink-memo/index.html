@@ -413,9 +413,9 @@
   async function gapiFetch(url, opts = {}){
     let res = await rawFetch(url, Object.assign({}, opts));
     if(res.status === 401){
-      // 토큰 만료 — 다시 로그인
+      // 토큰 만료 — 화면 조작 없이 조용히 재발급 시도
       clearToken();
-      showLoginButton("세션이 만료되었습니다. 다시 로그인해주세요.");
+      startOAuthRedirect(true);
     }
     return res;
   }
@@ -424,6 +424,7 @@
     try{
       localStorage.setItem(TOKEN_KEY, token);
       localStorage.setItem(TOKEN_EXP_KEY, Date.now() + (expiresIn - 60) * 1000);
+      localStorage.setItem("inkmemo:signed_in", "1"); // 로그아웃 전까지 자동 재로그인 허용
     }catch(e){}
   }
   function loadToken(){
@@ -459,7 +460,7 @@
   }
 
   // OAuth 리디렉션으로 로그인 시작
-  function startOAuthRedirect(){
+  function startOAuthRedirect(silent){
     const params = new URLSearchParams({
       client_id: CLIENT_ID,
       redirect_uri: REDIRECT_URI,
@@ -467,6 +468,10 @@
       scope: SCOPES,
       include_granted_scopes: "true",
     });
+    if(silent === true){
+      params.set("prompt", "none"); // 이미 로그인·동의된 경우 화면 없이 토큰만 반환
+      try{ sessionStorage.setItem("inkmemo:silent_try", String(Date.now())); }catch(e){}
+    }
     location.href = "https://accounts.google.com/o/oauth2/v2/auth?" + params.toString();
   }
 
@@ -495,14 +500,32 @@
       await afterAuthenticated();
       return;
     }
-    // 2) localStorage에 유효한 토큰이 남아있는 경우
+    // 2) 조용한 재발급이 실패한 경우(#error=...) — 로그인 버튼 표시
+    if(location.hash.indexOf("error=") !== -1){
+      history.replaceState(null, "", location.pathname);
+      try{ localStorage.removeItem("inkmemo:signed_in"); }catch(e){}
+      showLoginButton("자동 로그인에 실패했습니다. 다시 로그인해주세요.");
+      return;
+    }
+    // 3) localStorage에 유효한 토큰이 남아있는 경우
     const saved = loadToken();
     if(saved){
       accessToken = saved;
       await afterAuthenticated();
       return;
     }
-    // 3) 로그인 버튼 표시
+    // 4) 이전에 로그인한 적이 있고 로그아웃하지 않았다면 조용히 재발급 (무한 반복 방지: 10초 내 재시도 금지)
+    let signedIn = false, recent = false;
+    try{
+      signedIn = localStorage.getItem("inkmemo:signed_in") === "1";
+      recent = Date.now() - parseInt(sessionStorage.getItem("inkmemo:silent_try") || "0") < 10000;
+    }catch(e){}
+    if(signedIn && !recent){
+      el("loginSubtitle").textContent = "로그인 상태를 확인하는 중...";
+      startOAuthRedirect(true);
+      return;
+    }
+    // 5) 로그인 버튼 표시
     showLoginButton();
   }
 
@@ -767,6 +790,7 @@
   el("signOutToggle").addEventListener("click", async () => {
     if(!confirm("이 기기에서 로그아웃할까요?\n메모는 지워지지 않으며, 다시 로그인하면 그대로 볼 수 있습니다.")) return;
     clearToken();
+    try{ localStorage.removeItem("inkmemo:signed_in"); }catch(e){}
     location.reload();
   });
 
