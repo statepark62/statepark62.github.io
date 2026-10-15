@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-16 天声人語로 배우는 일본어 — 나가시마 애생원(長島愛生園)의 유골</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-16</span>
+      <span>2026년 10월 16일 (금)</span>
+    </div>
+
+    <h1><ruby>長島愛生園<rt>ながしまえいせいえん</rt></ruby>の<ruby>遺骨<rt>いこつ</rt></ruby></h1>
+    <p class="topic-ko">나가시마 애생원(長島愛生園)의 유골</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>骨<rt>ほね</rt></ruby>になっても」</div>
+      <div class="ko">뼈가 되어서도 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">ハンセン<ruby>病<rt>びょう</rt></ruby>の<ruby>国立療養所<rt>こくりつりょうようしょ</rt></ruby>にある<ruby>納骨堂<rt>のうこつどう</rt></ruby>には、<ruby>三千<rt>さんぜん</rt></ruby>を<ruby>超<rt>こ</rt></ruby>える<ruby>遺骨<rt>いこつ</rt></ruby>が<ruby>納<rt>おさ</rt></ruby>められており、<ruby>差別<rt>さべつ</rt></ruby>で<ruby>故郷<rt>こきょう</rt></ruby>に<ruby>戻<rt>もど</rt></ruby>れなかった<ruby>思<rt>おも</rt></ruby>いが<ruby>重<rt>かさ</rt></ruby>なる。</p><p class="ko">한센병 국립요양소 나가시마 애생원(長島愛生園)의 납골당에는 3천 기가 넘는 유골이 모셔져 있으며, 차별 탓에 고향으로 돌아가지 못한 사연이 겹겹이 쌓여 있다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>初<rt>はじ</rt></ruby>めてその<ruby>現場<rt>げんば</rt></ruby>を<ruby>訪<rt>おとず</rt></ruby>れた<ruby>若<rt>わか</rt></ruby>い<ruby>映像<rt>えいぞう</rt></ruby><ruby>記者<rt>きしゃ</rt></ruby>は、「<ruby>骨<rt>ほね</rt></ruby>になっても」と<ruby>語<rt>かた</rt></ruby>られた<ruby>証言<rt>しょうげん</rt></ruby>に<ruby>強<rt>つよ</rt></ruby>い<ruby>衝撃<rt>しょうげき</rt></ruby>を<ruby>受<rt>う</rt></ruby>け、<ruby>岡山<rt>おかやま</rt></ruby>への<ruby>赴任<rt>ふにん</rt></ruby>の<ruby>経緯<rt>けいい</rt></ruby>も<ruby>簡潔<rt>かんけつ</rt></ruby>に<ruby>触<rt>ふ</rt></ruby>れられる。</p><p class="ko">처음 현장을 찾은 젊은 영상기자는 ‘뼈가 되어서도’ 돌아갈 수 없었다는 증언을 듣고 깊은 충격을 받았고, 그의 오카야마 부임 경위가 짧게 소개된다.</p></div>
+      <div class="s-item"><p class="ja">この<ruby>体験<rt>たいけん</rt></ruby>を<ruby>起点<rt>きてん</rt></ruby>に、<ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>差別<rt>さべつ</rt></ruby>の<ruby>遺産<rt>いさん</rt></ruby>を<ruby>現在形<rt>げんざいけい</rt></ruby>の<ruby>課題<rt>かだい</rt></ruby>として<ruby>見<rt>み</rt></ruby>つめ、<ruby>記憶<rt>きおく</rt></ruby>をどう<ruby>継<rt>つ</rt></ruby>ぐかを<ruby>読者<rt>どくしゃ</rt></ruby>に<ruby>問<rt>と</rt></ruby>いかける。</p><p class="ko">글은 그 체험을 발판으로 차별의 유산을 현재형의 과제로 바라보게 하며, 기억을 어떻게 이어갈지 독자에게 묵직한 질문을 던진다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>偏見<rt>へんけん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">편견</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>病気<rt>びょうき</rt></ruby>への<ruby>偏見<rt>へんけん</rt></ruby>をなくしたい。</span><br>질병에 대한 편견을 없애고 싶다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>遺骨<rt>いこつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">유골</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>戦没者<rt>せんぼつしゃ</rt></ruby>の<ruby>遺骨<rt>いこつ</rt></ruby>を<ruby>家族<rt>かぞく</rt></ruby>に<ruby>返<rt>かえ</rt></ruby>す。</span><br>전몰자의 유골을 가족에게 돌려준다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>赴任<rt>ふにん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">부임</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>岡山<rt>おかやま</rt></ruby>に<ruby>赴任<rt>ふにん</rt></ruby>した。</span><br>그는 오카야마로 부임했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>療養所<rt>りょうようしょ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">요양소</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>国立療養所<rt>こくりつりょうようしょ</rt></ruby>で<ruby>暮<rt>く</rt></ruby>らす。</span><br>국립 요양소에서 산다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>納骨堂<rt>のうこつどう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">납골당</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>納骨堂<rt>のうこつどう</rt></ruby>に<ruby>花<rt>はな</rt></ruby>を<ruby>手向<rt>たむ</rt></ruby>ける。</span><br>납골당에 꽃을 바친다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Nを<ruby>超<rt>こ</rt></ruby>す</div>
+        <div class="pattern-ko">~을 넘다</div>
+        <p class="explain">수량이나 한계를 넘어섬을 나타낸다. 신문 문체에서 &#x27;Nを超す/超える&#x27;는 수치의 크기와 무게감을 동시에 전달할 때 자주 쓰인다.</p>
+        <p class="ex"><span class="ja"><ruby>参加者<rt>さんかしゃ</rt></ruby>は１００人を<ruby>超<rt>こ</rt></ruby>すと<ruby>見込<rt>みこ</rt></ruby>まれる。</span><br>참가자는 100명을 넘을 것으로 예상된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 숫자와 현장 묘사로 문을 열어 독자의 감각을 먼저 흔든다. 납골당의 규모와 짧은 직접화법이 맞물리며, 개인의 체험이 사회적 문제로 이어지는 통로가 된다. 이어서 기자의 프로필을 최소한으로 배치해 화자의 신뢰성을 확보하고, 독자가 상황에 몰입하도록 시점을 좁힌다. 천성인어 특유의 간결한 문장과 여백의 리듬이, 말하지 않은 것까지 상상하게 만드는 효과를 낳는다.</p>
+        <p>글이 남기는 울림은 과거의 차별을 현재의 책임으로 가져오는 데 있다. 망자조차 고향에 못 돌아간 현실은 추상적 ‘역사’를 구체적 ‘몸’의 문제로 바꾸어 놓는다. 한국 독자 입장에서도 낙인과 격리의 역사를 어떻게 기억하고 전할지 질문이 겹쳐진다. 감정적 호소에 머무르지 않고, 기록과 증언을 이어갈 ‘우리의 일’로 독해를 유도하는 점이 특히 인상적이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 낙인의 역사 앞에서 기억을 어떻게 잇고 책임을 묻는지 사려 깊게 성찰하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본에는 한센병 환자를 수용했던 국립 요양소가 여러 곳 있으며, 오카야마현의 나가시마 애생원(長島愛生園)이 대표적이다.</p>
+        <p>한센병 환자에 대한 강제 격리 정책은 1996년에 법이 폐지되었지만, 가족 단절과 사회적 낙인의 흔적은 여전히 남아 있다.</p>
+        <p>요양소 내 납골당에는 가족에게 돌아가지 못한 분들의 유골이 모셔져 있으며, 위령과 기억의 장소로 기능한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>강렬한 장면(숫자·장소·인용)으로 독자의 주의를 단숨에 붙잡는다.</p>
+        <p><span class="n">二</span>개인의 체험 서사를 사회적 문제의 창으로 삼아 의미를 확장한다.</p>
+        <p><span class="n">三</span>정보 제공은 간결하게, 여백은 넓게 두어 독자의 사유를 유도한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>差別<rt>さべつ</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>を<ruby>語<rt>かた</rt></ruby>り<ruby>継<rt>つ</rt></ruby>ぐことが、<ruby>未来<rt>みらい</rt></ruby>を<ruby>変<rt>か</rt></ruby>える。</span>
+      <span class="ko">차별의 기억을 전하는 것이 미래를 바꾼다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-16) — <a href="https://www.asahi.com/articles/DA3S16567625.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-16.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-16",
+    "no": 101,
+    "topic_ja": "<ruby>長島愛生園<rt>ながしまえいせいえん</rt></ruby>の<ruby>遺骨<rt>いこつ</rt></ruby>",
+    "topic_ko": "나가시마 애생원(長島愛生園)의 유골",
+    "url": "https://www.asahi.com/articles/DA3S16567625.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '차별의 유산', '기억과 기록', '현장 증언' — 망각되기 쉬운 고통을 현장의 목소리로 현재화하여, 기록·전승의 필요성을 강조하기 때문.",
+    "pattern": "Nを<ruby>超<rt>こ</rt></ruby>す"
+  },
+  {
     "date": "2026-10-15",
     "no": 100,
     "topic_ja": "<ruby>執筆<rt>しっぴつ</rt></ruby>の<ruby>儀式<rt>ぎしき</rt></ruby>",

@@ -13151,5 +13151,55 @@
   "example": "新しい発想は沈黙から生まれる。",
   "exampleReading": "あたらしいはっそうはちんもくからうまれる。",
   "exampleMeaning": "새로운 발상은 침묵에서 태어난다."
+ },
+ {
+  "id": "tj466",
+  "word": "偏見",
+  "reading": "へんけん",
+  "meaning": "편견",
+  "level": "N2",
+  "example": "病気への偏見をなくしたい。",
+  "exampleReading": "びょうきへのへんけんをなくしたい",
+  "exampleMeaning": "질병에 대한 편견을 없애고 싶다."
+ },
+ {
+  "id": "tj467",
+  "word": "遺骨",
+  "reading": "いこつ",
+  "meaning": "유골",
+  "level": "N2",
+  "example": "戦没者の遺骨を家族に返す。",
+  "exampleReading": "せんぼつしゃのいこつをかぞくにかえす",
+  "exampleMeaning": "전몰자의 유골을 가족에게 돌려준다."
+ },
+ {
+  "id": "tj468",
+  "word": "赴任",
+  "reading": "ふにん",
+  "meaning": "부임",
+  "level": "N2",
+  "example": "彼は岡山に赴任した。",
+  "exampleReading": "かれはおかやまにふにんした",
+  "exampleMeaning": "그는 오카야마로 부임했다."
+ },
+ {
+  "id": "tj469",
+  "word": "療養所",
+  "reading": "りょうようしょ",
+  "meaning": "요양소",
+  "level": "N1",
+  "example": "国立療養所で暮らす。",
+  "exampleReading": "こくりつりょうようしょでくらす",
+  "exampleMeaning": "국립 요양소에서 산다."
+ },
+ {
+  "id": "tj470",
+  "word": "納骨堂",
+  "reading": "のうこつどう",
+  "meaning": "납골당",
+  "level": "N1",
+  "example": "納骨堂に花を手向ける。",
+  "exampleReading": "のうこつどうにはなをたむける",
+  "exampleMeaning": "납골당에 꽃을 바친다."
  }
 ]
