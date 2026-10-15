@@ -12,7 +12,7 @@
 <link rel="icon" type="image/png" href="apple-touch-icon.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- GIS 스크립트 불필요 — 순수 OAuth 리디렉션 방식 사용 -->
 <style>
   :root{
     --ink: #1B1B1F;
@@ -386,14 +386,15 @@
   }
 
   // ---------- Google 로그인 & Sheets API 저장소 ----------
-  // Google Cloud Console에서 발급받은 OAuth 클라이언트 ID를 아래에 붙여넣으세요.
   const CLIENT_ID = "1087411762320-gurlahfeb8hvj3jslea6tu5r9pjor639.apps.googleusercontent.com";
+  const REDIRECT_URI = "https://statepark62.github.io/ink-memo/";
   const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.appdata";
   const POINTER_FILENAME = "inkmemo-pointer.json";
   const KEY_ROW = { "security-salt": 1, "memos-blob": 2 };
+  const TOKEN_KEY = "inkmemo:access_token";
+  const TOKEN_EXP_KEY = "inkmemo:token_exp";
 
   let accessToken = null;
-  let tokenClient = null;
   let spreadsheetId = null;
   let sheetName = "Sheet1";
   let lastStorageError = null;
@@ -406,44 +407,33 @@
     return fetch(url, opts);
   }
 
-  // 액세스 토큰은 약 1시간 뒤 만료된다. 401이 오면 Worker에서 새로 받아 한 번 더 시도한다.
+  // 401 시 재로그인 유도
   async function gapiFetch(url, opts = {}){
     let res = await rawFetch(url, Object.assign({}, opts));
     if(res.status === 401){
-      const renewed = await renewAccessToken();
-      if(renewed) res = await rawFetch(url, Object.assign({}, opts));
+      // 토큰 만료 — 다시 로그인
+      clearToken();
+      showLoginButton("세션이 만료되었습니다. 다시 로그인해주세요.");
     }
     return res;
   }
 
-  function getSessionId(){
-    try{ return localStorage.getItem(SESSION_KEY); }catch(e){ return null; }
-  }
-  function setSessionId(id){
-    try{ localStorage.setItem(SESSION_KEY, id); }catch(e){}
-  }
-  function clearSessionId(){
-    try{ localStorage.removeItem(SESSION_KEY); }catch(e){}
-  }
-
-  // 저장된 세션으로 새 액세스 토큰을 받아온다. 성공하면 true.
-  async function renewAccessToken(){
-    const sessionId = getSessionId();
-    if(!sessionId) return false;
+  function saveToken(token, expiresIn){
     try{
-      const res = await fetch(WORKER_URL + "/token", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId })
-      });
-      const data = await res.json();
-      if(!res.ok || !data.access_token){
-        if(res.status === 401) clearSessionId(); // 세션이 무효하면 버린다
-        return false;
-      }
-      accessToken = data.access_token;
-      return true;
-    }catch(e){ return false; }
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(TOKEN_EXP_KEY, Date.now() + (expiresIn - 60) * 1000);
+    }catch(e){}
+  }
+  function loadToken(){
+    try{
+      const exp = parseInt(localStorage.getItem(TOKEN_EXP_KEY) || "0");
+      if(Date.now() < exp) return localStorage.getItem(TOKEN_KEY);
+    }catch(e){}
+    return null;
+  }
+  function clearToken(){
+    try{ localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(TOKEN_EXP_KEY); }catch(e){}
+    accessToken = null;
   }
 
   function showLoginButton(msg){
@@ -466,64 +456,51 @@
     boot();
   }
 
-  function initCodeClient(){
-    codeClient = google.accounts.oauth2.initCodeClient({
+  // OAuth 리디렉션으로 로그인 시작
+  function startOAuthRedirect(){
+    const params = new URLSearchParams({
       client_id: CLIENT_ID,
+      redirect_uri: REDIRECT_URI,
+      response_type: "token",
       scope: SCOPES,
-      ux_mode: "popup",
-      // 매번 리프레시 토큰을 확실히 받기 위해 동의 화면을 명시적으로 요청
-      prompt: "consent",
-      access_type: "offline",
-      callback: async (resp) => {
-        if(resp.error || !resp.code){
-          el("loginError").textContent = "로그인이 취소되었거나 실패했습니다.";
-          showLoginButton();
-          return;
-        }
-        el("loginError").textContent = "";
-        el("loginBtn").style.display = "none";
-        el("loginSubtitle").textContent = "로그인 처리 중...";
-        try{
-          const res = await fetch(WORKER_URL + "/auth", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ code: resp.code })
-          });
-          const data = await res.json();
-          if(!res.ok || !data.access_token){
-            el("loginError").textContent = "인증 서버 오류: " + (data.error || res.status);
-            showLoginButton();
-            return;
-          }
-          if(data.sessionId) setSessionId(data.sessionId);
-          accessToken = data.access_token;
-          await afterAuthenticated();
-        }catch(e){
-          el("loginError").textContent = "인증 서버에 연결할 수 없습니다. Worker 주소를 확인해주세요.";
-          showLoginButton();
-        }
-      }
+      include_granted_scopes: "true",
     });
+    location.href = "https://accounts.google.com/o/oauth2/v2/auth?" + params.toString();
   }
 
-  // 앱을 열면 저장된 세션으로 조용히 로그인 시도 — 성공하면 로그인 화면이 뜨지 않는다.
-  let bootWaited = 0;
+  // URL 해시에서 액세스 토큰 추출 (리디렉션 후 복귀 시)
+  function extractTokenFromHash(){
+    const hash = location.hash.substring(1);
+    if(!hash) return null;
+    const params = new URLSearchParams(hash);
+    const token = params.get("access_token");
+    const expiresIn = parseInt(params.get("expires_in") || "3600");
+    if(token){
+      history.replaceState(null, "", location.pathname); // URL 정리
+      saveToken(token, expiresIn);
+      return token;
+    }
+    return null;
+  }
+
+  // 앱 시작
   async function startup(){
-    if(getSessionId()){
-      el("loginSubtitle").textContent = "로그인 상태를 확인하는 중...";
-      el("loginBtn").style.display = "none";
-      const ok = await renewAccessToken();
-      if(ok){ await afterAuthenticated(); return; }
-      showLoginButton("다시 로그인해주세요.");
+    // 1) 리디렉션 복귀 후 토큰이 URL 해시에 있는 경우
+    const hashToken = extractTokenFromHash();
+    if(hashToken){
+      accessToken = hashToken;
+      el("loginSubtitle").textContent = "로그인 처리 중...";
+      await afterAuthenticated();
       return;
     }
-    // 세션이 없으면 로그인 버튼 (GIS 스크립트 로딩만 기다린다)
-    if(!window.google || !google.accounts){
-      bootWaited += 300;
-      if(bootWaited > 6000){ showLoginButton("Google 로그인 스크립트를 불러오지 못했습니다."); return; }
-      setTimeout(startup, 300);
+    // 2) localStorage에 유효한 토큰이 남아있는 경우
+    const saved = loadToken();
+    if(saved){
+      accessToken = saved;
+      await afterAuthenticated();
       return;
     }
+    // 3) 로그인 버튼 표시
     showLoginButton();
   }
 
@@ -777,17 +754,8 @@
 
   el("signOutToggle").addEventListener("click", async () => {
     if(!confirm("이 기기에서 로그아웃할까요?\n메모는 지워지지 않으며, 다시 로그인하면 그대로 볼 수 있습니다.")) return;
-    const sessionId = getSessionId();
-    clearSessionId();
-    try{
-      if(sessionId){
-        await fetch(WORKER_URL + "/logout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId })
-        });
-      }
-    }catch(e){ /* 서버에 못 알려도 기기에서는 이미 로그아웃됨 */ }
+    if(accessToken) google.accounts.oauth2.revoke(accessToken, () => {});
+    accessToken = null;
     location.reload();
   });
 
@@ -1241,14 +1209,10 @@
       el("loginError").textContent = "Google 로그인 스크립트를 아직 불러오는 중입니다. 잠시 후 다시 눌러주세요.";
       return;
     }
-    if(WORKER_URL.startsWith("여기에")){
-      el("loginError").textContent = "설정이 필요합니다: index.html의 WORKER_URL을 채워주세요.";
-      return;
-    }
-    if(!codeClient) initCodeClient();
+    if(!tokenClient) initTokenClient();
     el("loginError").textContent = "";
     el("loginBtn").disabled = true;
-    codeClient.requestCode();
+    tokenClient.requestAccessToken();
   });
 
   // 저장된 세션이 있으면 로그인 화면 없이 바로 진입
