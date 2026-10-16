@@ -13201,5 +13201,55 @@
   "example": "納骨堂に花を手向ける。",
   "exampleReading": "のうこつどうにはなをたむける",
   "exampleMeaning": "납골당에 꽃을 바친다."
+ },
+ {
+  "id": "tj471",
+  "word": "追悼",
+  "reading": "ついとう",
+  "meaning": "추모, 애도",
+  "level": "N1",
+  "example": "作家を追悼する集いが開かれた。",
+  "exampleReading": "さっかをついとうするつどいがひらかれた。",
+  "exampleMeaning": "작가를 추모하는 모임이 열렸다."
+ },
+ {
+  "id": "tj472",
+  "word": "存在感",
+  "reading": "そんざいかん",
+  "meaning": "존재감",
+  "level": "N1",
+  "example": "新しい企業が国際市場で存在感を示した。",
+  "exampleReading": "あたらしいきぎょうがこくさいしじょうでそんざいかんをしめした。",
+  "exampleMeaning": "새로운 기업이 국제 시장에서 존재감을 보였다."
+ },
+ {
+  "id": "tj473",
+  "word": "代表作",
+  "reading": "だいひょうさく",
+  "meaning": "대표작",
+  "level": "N2",
+  "example": "彼の代表作は今も語り継がれる。",
+  "exampleReading": "かれのだいひょうさくはいまもかたりつがれる。",
+  "exampleMeaning": "그의 대표작은 지금도 전해진다."
+ },
+ {
+  "id": "tj474",
+  "word": "再放送",
+  "reading": "さいほうそう",
+  "meaning": "재방송",
+  "level": "N2",
+  "example": "名作の再放送を家族で見た.",
+  "exampleReading": "めいさくのさいほうそうをかぞくでみた。",
+  "exampleMeaning": "명작의 재방송을 가족과 함께 보았다."
+ },
+ {
+  "id": "tj475",
+  "word": "誕生",
+  "reading": "たんじょう",
+  "meaning": "탄생",
+  "level": "N3",
+  "example": "新たな政権が誕生した年だ。",
+  "exampleReading": "あらたなせいけんがたんじょうしたとしだ。",
+  "exampleMeaning": "새로운 정권이 탄생한 해이다."
  }
 ]
