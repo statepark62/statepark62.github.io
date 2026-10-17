@@ -13251,5 +13251,55 @@
   "example": "新たな政権が誕生した年だ。",
   "exampleReading": "あらたなせいけんがたんじょうしたとしだ。",
   "exampleMeaning": "새로운 정권이 탄생한 해이다."
+ },
+ {
+  "id": "tj476",
+  "word": "緊急地震速報",
+  "reading": "きんきゅうじしんそくほう",
+  "meaning": "긴급지진속보",
+  "level": "N1",
+  "example": "緊急地震速報が鳴ったら、まず落ち着いて身を守ろう。",
+  "exampleReading": "きんきゅうじしんそくほうがなったらまずおちついてみをまもろう",
+  "exampleMeaning": "긴급지진속보가 울리면 우선 침착하게 몸을 보호하자."
+ },
+ {
+  "id": "tj477",
+  "word": "誤報",
+  "reading": "ごほう",
+  "meaning": "오보",
+  "level": "N2",
+  "example": "誤報でも点検の機会になる。",
+  "exampleReading": "ごほうでもてんけんのきかいになる",
+  "exampleMeaning": "오보라도 점검의 계기가 된다."
+ },
+ {
+  "id": "tj478",
+  "word": "身構える",
+  "reading": "みがまえる",
+  "meaning": "몸을 굳히다, 대비 자세를 취하다",
+  "level": "N2",
+  "example": "サイレンに思わず身構える。",
+  "exampleReading": "さいれんにおもわずみがまえる",
+  "exampleMeaning": "사이렌 소리에 저도 모르게 몸을 굳힌다."
+ },
+ {
+  "id": "tj479",
+  "word": "気象庁",
+  "reading": "きしょうちょう",
+  "meaning": "기상청(일본)",
+  "level": "N2",
+  "example": "気象庁は会見で原因を説明した。",
+  "exampleReading": "きしょうちょうはかいけんでげんいんをせつめいした",
+  "exampleMeaning": "기상청은 회견에서 원인을 설명했다."
+ },
+ {
+  "id": "tj480",
+  "word": "過大評価",
+  "reading": "かだいひょうか",
+  "meaning": "과대평가",
+  "level": "N1",
+  "example": "数値の誤差が被害を過大評価させた。",
+  "exampleReading": "すうちのごさがひがいをかだいひょうかさせた",
+  "exampleMeaning": "수치의 오차가 피해를 과대평가하게 만들었다."
  }
 ]

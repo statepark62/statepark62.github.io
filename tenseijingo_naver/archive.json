@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-18",
+    "no": 103,
+    "topic_ja": "<ruby>警報<rt>けいほう</rt></ruby>の<ruby>音<rt>おと</rt></ruby>",
+    "topic_ko": "경보의 소리",
+    "url": "https://www.asahi.com/articles/DA3S16569113.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '재난 커뮤니케이션', '소리 디자인', '경계와 안도' — 경보음이라는 매개를 통해 공공 안전과 인간 심리의 미묘한 균형을 탐구하므로 이 묶음이 적절하다.",
+    "pattern": "〜のではないか"
+  },
+  {
     "date": "2026-10-17",
     "no": 102,
     "topic_ja": "<ruby>倉本聰<rt>くらもとそう</rt></ruby>を<ruby>悼<rt>いた</rt></ruby>む<ruby>秋<rt>あき</rt></ruby>",
