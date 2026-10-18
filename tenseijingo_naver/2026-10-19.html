@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-19 天声人語로 배우는 일본어 — 기자 구속의 충격</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-19</span>
+      <span>2026년 10월 19일 (월)</span>
+    </div>
+
+    <h1><ruby>記者拘束<rt>きしゃこうそく</rt></ruby>の<ruby>衝撃<rt>しょうげき</rt></ruby></h1>
+    <p class="topic-ko">기자 구속의 충격</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>手錠<rt>てじょう</rt></ruby>をかける」</div>
+      <div class="ko">수갑을 채우다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">ロシアの<ruby>連邦保安局<rt>れんぽうほあんきょく</rt></ruby>がホテルの<ruby>部屋<rt>へや</rt></ruby>で<ruby>北海道新聞<rt>ほっかいどうしんぶん</rt></ruby>の<ruby>記者<rt>きしゃ</rt></ruby>を<ruby>制圧<rt>せいあつ</rt></ruby>する<ruby>映像<rt>えいぞう</rt></ruby>が<ruby>公開<rt>こうかい</rt></ruby>された。</p><p class="ko">러시아 정보기관 FSB가 호텔 방에서 홋카이도신문 기자를 제압하는 장면이 담긴 영상이 공개되었다.</p></div>
+      <div class="s-item"><p class="ja">ロシア<ruby>側<rt>がわ</rt></ruby>は<ruby>日本<rt>にほん</rt></ruby>の<ruby>情報機関<rt>じょうほうきかん</rt></ruby>のスパイだと<ruby>主張<rt>しゅちょう</rt></ruby>するが、<ruby>具体<rt>ぐたい</rt></ruby>な<ruby>根拠<rt>こんきょ</rt></ruby>は<ruby>見<rt>み</rt></ruby>えず、<ruby>説得力<rt>せっとくりょく</rt></ruby>に<ruby>乏<rt>とぼ</rt></ruby>しいと<ruby>感<rt>かん</rt></ruby>じられる。</p><p class="ko">러시아는 일본 정보기관의 스파이라고 일방적으로 주장하지만, 구체적 근거가 보이지 않아 설득력이 약하다는 문제의식을 드러낸다.</p></div>
+      <div class="s-item"><p class="ja">コラムは<ruby>記者<rt>きしゃ</rt></ruby>の<ruby>安全<rt>あんぜん</rt></ruby>を<ruby>案<rt>あん</rt></ruby>じ、<ruby>映像<rt>えいぞう</rt></ruby><ruby>公開<rt>こうかい</rt></ruby>が<ruby>世論<rt>よろん</rt></ruby><ruby>戦<rt>せん</rt></ruby>を<ruby>狙<rt>ねら</rt></ruby>ったものかもしれないと<ruby>示唆<rt>しさ</rt></ruby>し、<ruby>報道<rt>ほうどう</rt></ruby>の<ruby>自由<rt>じゆう</rt></ruby>を<ruby>想起<rt>そうき</rt></ruby>させる。</p><p class="ko">칼럼은 기자의 안전을 우려하며, 영상 공개가 여론전을 겨냥했을 가능성을 시사하고 보도의 자유를 환기한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>根拠<rt>こんきょ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">근거, 근거 자료</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>根拠<rt>こんきょ</rt></ruby>のない<ruby>噂<rt>うわさ</rt></ruby>を<ruby>信<rt>しん</rt></ruby>じてはいけない。</span><br>근거 없는 소문을 믿어서는 안 된다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>拘束<rt>こうそく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">구속, 억류</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>警察<rt>けいさつ</rt></ruby>は<ruby>容疑者<rt>ようぎしゃ</rt></ruby>を<ruby>拘束<rt>こうそく</rt></ruby>した。</span><br>경찰은 용의자를 구속했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>踏み込む<rt>ふみこむ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">들이닥치다, 깊이 파고들다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>記者<rt>きしゃ</rt></ruby>は<ruby>現場<rt>げんば</rt></ruby>に<ruby>踏<rt>ふ</rt></ruby>み<ruby>込<rt>こ</rt></ruby>んで<ruby>取材<rt>しゅざい</rt></ruby>した。</span><br>기자는 현장에 깊숙이 들어가 취재했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>一方的<rt>いっぽうてき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">일방적</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>一方的<rt>いっぽうてき</rt></ruby>な<ruby>決定<rt>けってい</rt></ruby>に<ruby>社員<rt>しゃいん</rt></ruby>は<ruby>戸惑<rt>とまど</rt></ruby>った。</span><br>일방적인 결정에 직원들은 당혹스러워했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>連邦保安局<rt>れんぽうほあんきょく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">연방보안국(FSB)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>連邦保安局<rt>れんぽうほあんきょく</rt></ruby>が<ruby>捜査<rt>そうさ</rt></ruby>を<ruby>指揮<rt>しき</rt></ruby>した。</span><br>연방보안국이 수사를 지휘했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Vます＋<ruby>難<rt>がた</rt></ruby>い</div>
+        <div class="pattern-ko">~하기 어렵다(심정·윤리적으로)</div>
+        <p class="explain">행위를 실현하기가 심리적으로 어렵거나, 사회·윤리적으로 받아들이기 힘듦을 나타낸다. 단순한 기술적 곤란을 말하는 &#x27;〜にくい&#x27;와 달리, 마음의 저항이나 가치 판단이 개입되는 뉘앙스가 강하다.</p>
+        <p class="ex"><span class="ja">その<ruby>説明<rt>せつめい</rt></ruby>は<ruby>理解<rt>りかい</rt></ruby>し<ruby>難<rt>がた</rt></ruby>い。</span><br>그 설명은 납득하기 어렵다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 체포 장면이라는 강렬한 이미지로 독자의 감각을 먼저 자극한 뒤, 단정적 서술을 피해 사실과 인상을 교차시키며 긴장을 조성한다. 이어지는 문단에서 ‘근거의 부재’라는 판단 기준을 제시해 감정의 동요를 논리로 다잡는다. 천성인어 특유의 간결한 문장과 비유 대신, 이번에는 영상의 생생함을 그대로 전하는 묘사를 택해 현실감을 높였다. 결과적으로 독자는 분노와 불안을 거쳐, 무엇을 의심하고 무엇을 지켜야 하는지 생각하게 된다.</p>
+        <p>칼럼이 남긴 질문은 언론 자유와 안전, 그리고 정보전의 경계에 서 있는 듣기의 태도이다. 한국 독자의 관점에서 보면, ‘근거 없는 공개와 낙인’이 동아시아 여러 사건에서 반복된다는 점이 특히 눈에 띈다. 영상 공개가 여론 조작의 도구가 될 수 있다는 지적은, 우리 사회의 미디어 리터러시에도 그대로 적용된다. 즉각적 감정 반응을 넘어, 출처·맥락·검증의 삼박자를 갖춘 비판적 독해가 필요하다는 메시지다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 체포 영상이 불러일으킨 충격을 발판으로, 근거 없는 낙인의 위험과 보도의 자유를 성찰하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>FSB(러시아 연방보안국)는 국내 치안·정보 수집과 반간첩 임무를 수행하는 핵심 기관으로, 대외적 사건에서 강경한 이미지를 보이는 경우가 많다.</p>
+        <p>일본 언론인의 해외 취재는 비자·허가와 외교 환경의 영향을 크게 받으며, 긴장이 높을 때 스파이 혐의가 제기되는 사례가 주기적으로 발생한다.</p>
+        <p>체포 장면을 담은 영상 공개는 사건의 법적 판단 이전에 대중의 인식을 선점하려는 선전·심리전의 전형적 수단으로 활용되곤 한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>강렬한 첫 장면으로 독자의 감정을 붙잡고, 곧바로 검증의 잣대를 제시해 균형을 잡는다.</p>
+        <p><span class="n">二</span>사실·인상·의문을 한 호흡으로 배열해, 감정에서 판단으로 자연스럽게 이행시킨다.</p>
+        <p><span class="n">三</span>결론을 단정하지 않고 질문의 형식으로 남겨 독자의 사유를 연장한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>証拠<rt>しょうこ</rt></ruby>がないまま<ruby>断定<rt>だんてい</rt></ruby>はできない。</span>
+      <span class="ko">증거 없이 단정할 수는 없다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-19) — <a href="https://www.asahi.com/articles/DA3S16569262.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-19.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

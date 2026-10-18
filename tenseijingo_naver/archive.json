@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-19",
+    "no": 104,
+    "topic_ja": "<ruby>記者拘束<rt>きしゃこうそく</rt></ruby>の<ruby>衝撃<rt>しょうげき</rt></ruby>",
+    "topic_ko": "기자 구속의 충격",
+    "url": "https://www.asahi.com/articles/DA3S16569262.html?iref=pc_rensai_long_61_article",
+    "memo": "‘보도의 자유’, ‘정보전과 여론’, ‘안전과 윤리’ — 체포 영상이라는 즉물적 사건을 통해 언론의 책무와 선전의 메커니즘을 함께 비추므로, 사회와 미디어 윤리를 묶는 장에 배치하기 적합하다.",
+    "pattern": "Vます＋<ruby>難<rt>がた</rt></ruby>い"
+  },
+  {
     "date": "2026-10-18",
     "no": 103,
     "topic_ja": "<ruby>警報<rt>けいほう</rt></ruby>の<ruby>音<rt>おと</rt></ruby>",
