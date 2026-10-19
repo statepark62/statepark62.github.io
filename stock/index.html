@@ -217,6 +217,48 @@
     border-top: 1px solid var(--panel-border);
   }
 
+
+  /* 거래량 대비 순매수 표 */
+  .flow-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .flow-table th { font-weight: 400; font-size: 11px; color: var(--ink-dim); text-align: right; padding: 0 0 5px; }
+  .flow-table th:first-child { text-align: left; }
+  .flow-table td { padding: 2.5px 0; text-align: right; font-variant-numeric: tabular-nums; }
+  .flow-table td:first-child { text-align: left; }
+  .flow-foot { margin-top: 7px; font-size: 11px; color: var(--ink-dim); display: flex; justify-content: space-between; }
+
+  /* 한 달 추이 차트 */
+  .chart-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(min(440px, 100%), 1fr)); gap: 14px;
+  }
+  .chart-card {
+    background: var(--panel); border: 1px solid var(--panel-border);
+    border-radius: 10px; padding: 16px; min-width: 0;
+  }
+  .chart-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .chart-title { font-weight: 700; font-size: 15px; }
+  .chart-sub { font-size: 12px; color: var(--ink-dim); }
+  .chart-label { font-size: 12px; color: var(--ink-dim); margin: 14px 0 4px; }
+  .chart-box { position: relative; width: 100%; touch-action: pan-y; }
+  .chart-box svg { display: block; }
+  .chart-legend { display: flex; gap: 14px; font-size: 12px; color: var(--ink-dim); margin: 0 0 4px; flex-wrap: wrap; }
+  .chart-legend i { display: inline-block; width: 14px; height: 2px; margin-right: 6px; vertical-align: middle; border-radius: 1px; }
+  .chart-tip {
+    position: absolute; pointer-events: none; z-index: 5; display: none;
+    background: #0b1320; border: 1px solid var(--panel-border); border-radius: 6px;
+    padding: 7px 10px; font-size: 12px; line-height: 1.55; white-space: nowrap;
+    box-shadow: 0 4px 14px rgba(0,0,0,.45);
+  }
+  .chart-tip b { font-weight: 600; }
+  .chart-tip .sw { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+  .chart-empty { font-size: 12.5px; color: var(--ink-dim); padding: 18px 0 6px; }
+  .chart-card details { margin-top: 12px; font-size: 12px; color: var(--ink-dim); }
+  .chart-card summary { cursor: pointer; }
+  .chart-card table { width: 100%; border-collapse: collapse; margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .chart-card th, .chart-card td { padding: 3px 4px; text-align: right; border-bottom: 1px solid var(--panel-border); }
+  .chart-card th:first-child, .chart-card td:first-child { text-align: left; }
+  .tbl-wrap { max-height: 260px; overflow: auto; }
+
   @media (prefers-reduced-motion: no-preference) {
     .card { transition: transform 0.15s ease; }
     .card:hover { transform: translateY(-2px); }
@@ -264,6 +306,8 @@
       <dt>미국 종목</dt><dd>Alpha Vantage (무료 플랜, 하루 호출 한도 있음)</dd>
       <dt>국내 종목</dt><dd>네이버페이 증권 공개 데이터. 배당성향은 배당금÷EPS로 추정 계산한 값</dd>
       <dt>수급 정보</dt><dd>네이버페이 증권 투자자별 매매동향. 최근 5거래일 순매수 합계(단위: 주, 금액 아님). 최신 거래일 값은 장 마감 후 반영될 수 있음. 미국 종목은 해당 통계가 없어 표시하지 않음</dd>
+      <dt>거래량 대비</dt><dd>최근 5거래일 순매수 합계 ÷ 같은 기간 거래량 합계 × 100. 예) 기관 +2%는 그 기간 거래된 주식 100주 중 2주만큼 기관이 순매수했다는 뜻. 외국인·기관·개인 세 값을 더해도 0이 되지는 않음(연기금·외국계 기타 등 별도 주체 때문). 기관·개인의 <b>지분율</b>은 공개 데이터가 없어 외국인 지분율만 표시</dd>
+      <dt>한 달 차트</dt><dd>최근 약 22거래일의 매일 종가(장 마감 가격). 투자자별 선은 같은 기간 순매수를 처음부터 누적한 값으로, 위로 갈수록 계속 사들이는 중. 점/선에 마우스(또는 손가락)를 올리면 날짜별 값이 보임. 미국 종목은 시트 메뉴의 "종가 이력 갱신" 실행 시점의 값</dd>
       <dt>갱신 주기</dt><dd>매일 오전 8시 자동 갱신. 시트에서 수동 갱신도 가능</dd>
     </dl>
 
@@ -299,26 +343,40 @@
     return { text: '0', cls: '' };
   }
 
+  // 부호 붙은 퍼센트 (+0.84%)
+  function fmtPct(value) {
+    if (value === null || value === undefined || value === '' || isNaN(Number(value))) return null;
+    const n = Number(value);
+    const t = Math.abs(n).toLocaleString('ko-KR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+    if (n > 0) return { text: '+' + t, cls: 'flow-pos' };
+    if (n < 0) return { text: '-' + t, cls: 'flow-neg' };
+    return { text: '0.00%', cls: '' };
+  }
+
   // 국내 종목 카드에만 표시되는 투자자별 수급 블록 (데이터가 없으면 통째로 숨김)
   function renderFlow(stock) {
     if (stock.market !== 'KR') return '';
+    const ratio = stock.flowRatio || {};
     const rows = [
-      ['외국인', fmtSigned(stock.flowForeign)],
-      ['기관',   fmtSigned(stock.flowOrgan)],
-      ['개인',   fmtSigned(stock.flowIndividual)]
-    ].filter(r => r[1] !== null);
+      ['외국인', fmtSigned(stock.flowForeign),    fmtPct(ratio.foreign)],
+      ['기관',   fmtSigned(stock.flowOrgan),      fmtPct(ratio.organ)],
+      ['개인',   fmtSigned(stock.flowIndividual), fmtPct(ratio.individual)]
+    ].filter(r => r[1] !== null || r[2] !== null);
     if (rows.length === 0) return '';
 
-    const rowsHtml = rows.map(r =>
-      `<div>${r[0]}</div><div class="flow-value ${r[1].cls}">${r[1].text}</div>`
-    ).join('');
+    const cell = v => v ? `<span class="${v.cls}">${v.text}</span>` : '-';
+    const rowsHtml = rows.map(r => `<tr><td>${r[0]}</td><td>${cell(r[1])}</td><td>${cell(r[2])}</td></tr>`).join('');
     const hold = fmt(stock.foreignHoldRatio, '%');
-    const holdHtml = hold === '-' ? '' : `<div>외국인 지분율</div><div class="flow-value">${hold}</div>`;
+    const holdHtml = hold === '-' ? '' : `<div class="flow-foot"><span>외국인 지분율</span><span>${hold}</span></div>`;
 
     return `
       <div class="flow">
-        <div class="flow-title">최근 5거래일 순매수 (주)</div>
-        <div class="flow-grid">${rowsHtml}${holdHtml}</div>
+        <div class="flow-title">최근 ${ratio.days || 5}거래일 순매수</div>
+        <table class="flow-table">
+          <thead><tr><th></th><th>수량(주)</th><th>거래량 대비</th></tr></thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+        ${holdHtml}
       </div>`;
   }
 
@@ -379,6 +437,219 @@
     `;
   }
 
+
+  // ===================== 한 달 추이 차트 =====================
+  const FLOW_COLORS = { foreign: '#3987e5', organ: '#d95926', individual: '#199e70' };
+  const PRICE_COLOR = '#3987e5';
+  const SURFACE = '#121d30';
+  const chartRegistry = [];
+
+  function compactNum(v) {
+    const a = Math.abs(v);
+    const sign = v < 0 ? '-' : '';
+    if (a >= 1e8) return sign + (a / 1e8).toFixed(a >= 1e9 ? 0 : 1) + '억';
+    if (a >= 1e4) return sign + Math.round(a / 1e4).toLocaleString('ko-KR') + '만';
+    return sign + a.toLocaleString('ko-KR');
+  }
+
+  function drawLineChart(box, spec) {
+    const n = spec.dates.length;
+    const w = Math.max(box.clientWidth, 220);
+    const multi = spec.series.length > 1;
+    const m = { l: 54, r: multi ? 50 : 14, t: 10, b: 24 };
+    const h = spec.height || 190;
+    const pw = w - m.l - m.r, ph = h - m.t - m.b;
+
+    let vals = [];
+    spec.series.forEach(se => se.values.forEach(v => { if (v !== null && v !== undefined) vals.push(v); }));
+    if (!vals.length) { box.innerHTML = '<div class="chart-empty">표시할 데이터가 없습니다.</div>'; return; }
+    let lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    if (spec.zero) { lo = Math.min(lo, 0); hi = Math.max(hi, 0); }
+    if (lo === hi) { lo -= 1; hi += 1; }
+    const pad = (hi - lo) * 0.08;
+    lo -= pad; hi += pad;
+
+    const x = i => m.l + (n === 1 ? pw / 2 : pw * i / (n - 1));
+    const y = v => m.t + ph * (1 - (v - lo) / (hi - lo));
+
+    let g = '';
+    // 가로 눈금 (옅게)
+    for (let k = 0; k <= 3; k++) {
+      const v = lo + (hi - lo) * k / 3;
+      g += `<line x1="${m.l}" x2="${w - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="#1f2e47" stroke-width="1"/>`;
+      g += `<text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end" font-size="11" fill="#8291a8">${spec.axisFmt(v)}</text>`;
+    }
+    if (spec.zero && lo < 0 && hi > 0) {
+      g += `<line x1="${m.l}" x2="${w - m.r}" y1="${y(0)}" y2="${y(0)}" stroke="#8291a8" stroke-width="1" stroke-dasharray="3 3"/>`;
+    }
+    // x축 날짜 (5개 안팎)
+    const step = Math.max(1, Math.round((n - 1) / 4));
+    for (let i = 0; i < n; i += step) {
+      g += `<text x="${x(i)}" y="${h - 6}" text-anchor="${i === 0 ? 'start' : 'middle'}" font-size="11" fill="#8291a8">${spec.dates[i].substring(5).replace('-', '/')}</text>`;
+    }
+    // 선 (null 구간은 끊음)
+    spec.series.forEach(se => {
+      let d = '', pen = false;
+      se.values.forEach((v, i) => {
+        if (v === null || v === undefined) { pen = false; return; }
+        d += (pen ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1);
+        pen = true;
+      });
+      g += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+      // 마지막 점 + 2px 표면색 링
+      for (let i = n - 1; i >= 0; i--) {
+        if (se.values[i] !== null && se.values[i] !== undefined) {
+          g += `<circle cx="${x(i)}" cy="${y(se.values[i])}" r="4" fill="${se.color}" stroke="${SURFACE}" stroke-width="2"/>`;
+          se._last = { i: i, yy: y(se.values[i]) };
+          break;
+        }
+      }
+    });
+    // 직접 라벨 (여러 계열일 때, 겹치면 밀어냄)
+    if (multi) {
+      const labels = spec.series.filter(se => se._last).map(se => ({ se: se, yy: se._last.yy }));
+      labels.sort((a, b) => a.yy - b.yy);
+      for (let k = 1; k < labels.length; k++) if (labels[k].yy - labels[k - 1].yy < 13) labels[k].yy = labels[k - 1].yy + 13;
+      labels.forEach(l => { g += `<text x="${w - m.r + 8}" y="${l.yy + 4}" font-size="11.5" fill="#e8edf6">${l.se.name}</text>`; });
+    }
+    g += `<line class="xh" x1="0" x2="0" y1="${m.t}" y2="${m.t + ph}" stroke="#8291a8" stroke-width="1" style="display:none"/>`;
+    spec.series.forEach((se, k) => { g += `<circle class="hd" data-k="${k}" r="4" fill="${se.color}" stroke="${SURFACE}" stroke-width="2" style="display:none"/>`; });
+    g += `<rect class="hit" x="${m.l}" y="${m.t}" width="${pw}" height="${ph}" fill="transparent"/>`;
+
+    box.innerHTML = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img" aria-label="${spec.label}">${g}</svg><div class="chart-tip"></div>`;
+
+    const svg = box.querySelector('svg'), tip = box.querySelector('.chart-tip');
+    const xh = svg.querySelector('.xh'), dots = svg.querySelectorAll('.hd');
+    const hide = () => { tip.style.display = 'none'; xh.style.display = 'none'; dots.forEach(d => d.style.display = 'none'); };
+    const move = ev => {
+      const r = svg.getBoundingClientRect();
+      const px = ev.clientX - r.left;
+      const i = Math.max(0, Math.min(n - 1, Math.round((px - m.l) / pw * (n - 1))));
+      xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.style.display = '';
+      let rowsHtml = '';
+      spec.series.forEach((se, k) => {
+        const v = se.values[i];
+        if (v === null || v === undefined) { dots[k].style.display = 'none'; return; }
+        dots[k].setAttribute('cx', x(i)); dots[k].setAttribute('cy', y(v)); dots[k].style.display = '';
+        rowsHtml += `<div><span class="sw" style="background:${se.color}"></span>${se.name} <b>${spec.tipFmt(v, se, i)}</b></div>`;
+      });
+      tip.innerHTML = `<div style="color:#8291a8">${spec.dates[i]}</div>${rowsHtml}`;
+      tip.style.display = 'block';
+      const tw = tip.offsetWidth;
+      let tx = x(i) + 12;
+      if (tx + tw > w) tx = x(i) - tw - 12;
+      tip.style.left = Math.max(0, tx) + 'px';
+      tip.style.top = (m.t + 4) + 'px';
+    };
+    svg.addEventListener('pointermove', move);
+    svg.addEventListener('pointerdown', move);
+    svg.addEventListener('pointerleave', hide);
+  }
+
+  function addChart(box, spec) {
+    chartRegistry.push({ box: box, spec: spec });
+    drawLineChart(box, spec);
+  }
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => chartRegistry.forEach(c => { if (c.box.isConnected) drawLineChart(c.box, c.spec); }), 150);
+  });
+
+  function cumulative(arr) {
+    let sum = 0, started = false;
+    return arr.map(v => {
+      if (v === null || v === undefined) return started ? sum : null;
+      started = true; sum += v; return sum;
+    });
+  }
+
+  function priceText(stock, v) {
+    return stock.market === 'KR' ? v.toLocaleString('ko-KR') + '원' : '$' + v.toLocaleString('en-US', { maximumFractionDigits: 2 });
+  }
+
+  function historyTable(stock, hst) {
+    const kr = stock.market === 'KR' && hst.flows;
+    let rows = '';
+    for (let i = hst.dates.length - 1; i >= 0; i--) {
+      const f = kr ? [hst.flows.foreign[i], hst.flows.organ[i], hst.flows.individual[i]].map(v => { const t = fmtSigned(v); return `<td>${t ? t.text : '-'}</td>`; }).join('') : '';
+      rows += `<tr><td>${hst.dates[i]}</td><td>${priceText(stock, hst.closes[i])}</td>${f}</tr>`;
+    }
+    const head = `<tr><th>날짜</th><th>종가</th>${kr ? '<th>외국인</th><th>기관</th><th>개인</th>' : ''}</tr>`;
+    return `<details><summary>표로 보기</summary><div class="tbl-wrap"><table><thead>${head}</thead><tbody>${rows}</tbody></table></div></details>`;
+  }
+
+  function renderChartCards(stocks) {
+    const html = stocks.map((stock, idx) => {
+      const hst = stock.history;
+      const title = stock.name !== stock.ticker ? `${stock.name} <span class="chart-sub">${stock.ticker}</span>` : stock.ticker;
+      if (!hst || !hst.dates || hst.dates.length < 2) {
+        const why = stock.market === 'US'
+          ? '시트 메뉴 "미국 종가 이력 갱신"을 실행하면 표시됩니다.'
+          : '네이버에서 종가 이력을 받지 못했습니다. 잠시 후 새로고침해주세요.';
+        return `<div class="chart-card"><div class="chart-head"><div class="chart-title">${title}</div></div><div class="chart-empty">종가 이력이 아직 없습니다. ${why}</div></div>`;
+      }
+      const first = hst.closes[0], last = hst.closes[hst.closes.length - 1];
+      const chg = (last - first) / first * 100;
+      const arrow = chg > 0 ? '▲ +' : chg < 0 ? '▼ -' : '';
+      const chgText = arrow + Math.abs(chg).toFixed(2) + '%';
+      const hasFlow = stock.market === 'KR' && hst.flows && hst.flows.foreign.some(v => v !== null);
+      return `
+        <div class="chart-card" data-idx="${idx}">
+          <div class="chart-head">
+            <div class="chart-title">${title}</div>
+            <div class="chart-sub">${hst.dates[0].substring(5)} ~ ${hst.dates[hst.dates.length - 1].substring(5)} · ${chgText}</div>
+          </div>
+          <div class="chart-label">일별 종가</div>
+          <div class="chart-box" data-kind="price"></div>
+          ${hasFlow ? `
+          <div class="chart-label">투자자별 누적 순매수 (주, 기간 시작일부터 합산)</div>
+          <div class="chart-legend">
+            <span><i style="background:${FLOW_COLORS.foreign}"></i>외국인</span>
+            <span><i style="background:${FLOW_COLORS.organ}"></i>기관</span>
+            <span><i style="background:${FLOW_COLORS.individual}"></i>개인</span>
+          </div>
+          <div class="chart-box" data-kind="flow"></div>` : ''}
+          ${historyTable(stock, hst)}
+        </div>`;
+    }).join('');
+    return html;
+  }
+
+  function mountCharts(stocks) {
+    chartRegistry.length = 0;
+    document.querySelectorAll('.chart-card[data-idx]').forEach(card => {
+      const stock = stocks[Number(card.dataset.idx)];
+      const hst = stock.history;
+      const priceBox = card.querySelector('[data-kind="price"]');
+      addChart(priceBox, {
+        label: stock.ticker + ' 일별 종가', dates: hst.dates,
+        series: [{ name: '종가', color: PRICE_COLOR, values: hst.closes }],
+        axisFmt: v => stock.market === 'KR' ? Math.round(v).toLocaleString('ko-KR') : '$' + v.toFixed(v >= 100 ? 0 : 1),
+        tipFmt: v => priceText(stock, v)
+      });
+      const flowBox = card.querySelector('[data-kind="flow"]');
+      if (flowBox) {
+        const cumF = cumulative(hst.flows.foreign), cumO = cumulative(hst.flows.organ), cumI = cumulative(hst.flows.individual);
+        const daily = { '외국인': hst.flows.foreign, '기관': hst.flows.organ, '개인': hst.flows.individual };
+        addChart(flowBox, {
+          label: stock.ticker + ' 투자자별 누적 순매수', dates: hst.dates, zero: true,
+          series: [
+            { name: '외국인', color: FLOW_COLORS.foreign, values: cumF },
+            { name: '기관', color: FLOW_COLORS.organ, values: cumO },
+            { name: '개인', color: FLOW_COLORS.individual, values: cumI }
+          ],
+          axisFmt: compactNum,
+          tipFmt: (v, se, i) => {
+            const d = fmtSigned(daily[se.name][i]);
+            return (v > 0 ? '+' : '') + v.toLocaleString('ko-KR') + (d ? ` (당일 ${d.text})` : '');
+          }
+        });
+      }
+    });
+  }
+
   async function loadData() {
     const content = document.getElementById('content');
     const subtitle = document.getElementById('subtitle');
@@ -415,7 +686,10 @@
       if (kr.length) {
         html += '<div class="section-label">국내 종목</div><div class="grid">' + kr.map(renderCard).join('') + '</div>';
       }
+      const ordered = us.concat(kr);
+      html += '<div class="section-label">최근 한 달 추이 (일별 종가 기준)</div><div class="chart-grid">' + renderChartCards(ordered) + '</div>';
       content.innerHTML = html;
+      mountCharts(ordered);
     } catch (err) {
       content.innerHTML = '<div class="state-msg">데이터를 불러오지 못했습니다: ' + err.message + '<br>웹 앱 URL과 배포 상태(액세스: 전체)를 확인해주세요.</div>';
       subtitle.textContent = '오류 발생';
