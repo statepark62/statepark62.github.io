@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-21",
+    "no": 106,
+    "topic_ja": "さんまと<ruby>文士<rt>ぶんし</rt></ruby>の<ruby>手紙<rt>てがみ</rt></ruby>",
+    "topic_ko": "꽁치와 문사의 편지",
+    "url": "https://www.asahi.com/articles/DA3S16571050.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘계절의 감정’, ‘문인의 편지’, ‘전시와 기억’ — 계절의 상징(꽁치)에서 출발해 편지라는 일차 자료로 감정과 기억을 환기시키며, 전시 공간이 개인적 체험과 문학사를 매개하는 방식을 보여 주기 때문.",
+    "pattern": "Vます＋ながら"
+  },
+  {
     "date": "2026-10-20",
     "no": 105,
     "topic_ja": "<ruby>化粧<rt>けしょう</rt></ruby>と<ruby>自由<rt>じゆう</rt></ruby>",

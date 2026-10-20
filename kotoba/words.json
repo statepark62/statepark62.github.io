@@ -13401,5 +13401,55 @@
   "example": "公的職務は私情よりも優先される。",
   "exampleReading": "こうてきしょくむはしじょうよりもゆうせんされる",
   "exampleMeaning": "공적 직무는 사정보다 우선된다."
+ },
+ {
+  "id": "tj491",
+  "word": "目を引く",
+  "reading": "めをひく",
+  "meaning": "눈길을 끌다",
+  "level": "N2",
+  "example": "展示の写真が来場者の目を引く。",
+  "exampleReading": "てんじのしゃしんがらいじょうしゃのめをひく。",
+  "exampleMeaning": "전시 사진이 관람객의 눈길을 끈다."
+ },
+ {
+  "id": "tj492",
+  "word": "宛てる",
+  "reading": "あてる",
+  "meaning": "…에게 보내다, …앞으로 쓰다",
+  "level": "N2",
+  "example": "先輩に宛てて礼状を書いた。",
+  "exampleReading": "せんぱいにあててれいじょうをかいた。",
+  "exampleMeaning": "선배 앞으로 감사 편지를 썼다."
+ },
+ {
+  "id": "tj493",
+  "word": "口ずさむ",
+  "reading": "くちずさむ",
+  "meaning": "흥얼거리다",
+  "level": "N2",
+  "example": "道を歩きながら歌を口ずさんだ。",
+  "exampleReading": "みちをあるきながらうたをくちずさんだ。",
+  "exampleMeaning": "길을 걸으며 노래를 흥얼거렸다."
+ },
+ {
+  "id": "tj494",
+  "word": "文学館",
+  "reading": "ぶんがくかん",
+  "meaning": "문학관",
+  "level": "N3",
+  "example": "神奈川近代文学館で企画展が開かれる。",
+  "exampleReading": "かながわきんだいぶんがくかんできかくてんがひらかれる.",
+  "exampleMeaning": "가나가와근대문학관에서 기획전이 열린다."
+ },
+ {
+  "id": "tj495",
+  "word": "夕餉",
+  "reading": "ゆうげ",
+  "meaning": "저녁상, 저녁 식사",
+  "level": "N1",
+  "example": "今夜の夕餉はさんまだ。",
+  "exampleReading": "こんやのゆうげはさんまだ.",
+  "exampleMeaning": "오늘 저녁상은 꽁치다."
  }
 ]
