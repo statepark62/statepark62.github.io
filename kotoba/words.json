@@ -13351,5 +13351,55 @@
   "example": "連邦保安局が捜査を指揮した。",
   "exampleReading": "れんぽうほあんきょくがそうさをしきした.",
   "exampleMeaning": "연방보안국이 수사를 지휘했다."
+ },
+ {
+  "id": "tj486",
+  "word": "衝撃",
+  "reading": "しょうげき",
+  "meaning": "충격",
+  "level": "N2",
+  "example": "映像の美しさに衝撃を受けた。",
+  "exampleReading": "えいぞうのうつくしさにしょうげきをうけた",
+  "exampleMeaning": "영상의 아름다움에 충격을 받았다."
+ },
+ {
+  "id": "tj487",
+  "word": "化粧",
+  "reading": "けしょう",
+  "meaning": "화장",
+  "level": "N3",
+  "example": "彼は舞台で化粧を楽しんだ。",
+  "exampleReading": "かれはぶたいでけしょうをたのしんだ",
+  "exampleMeaning": "그는 무대에서 화장을 즐겼다."
+ },
+ {
+  "id": "tj488",
+  "word": "私生活",
+  "reading": "しせいかつ",
+  "meaning": "사생활",
+  "level": "N2",
+  "example": "私生活と仕事の境界を保つ。",
+  "exampleReading": "しせいかつとしごとのきょうかいをたもつ",
+  "exampleMeaning": "사생활과 일의 경계를 지킨다."
+ },
+ {
+  "id": "tj489",
+  "word": "変身願望",
+  "reading": "へんしんがんぼう",
+  "meaning": "변신 욕망",
+  "level": "N1",
+  "example": "子どもには変身願望が強い時期がある。",
+  "exampleReading": "こどもにはへんしんがんぼうがつよいじきがある",
+  "exampleMeaning": "아이들에게는 변신 욕망이 강한 시기가 있다."
+ },
+ {
+  "id": "tj490",
+  "word": "公的職務",
+  "reading": "こうてきしょくむ",
+  "meaning": "공적 직무",
+  "level": "N1",
+  "example": "公的職務は私情よりも優先される。",
+  "exampleReading": "こうてきしょくむはしじょうよりもゆうせんされる",
+  "exampleMeaning": "공적 직무는 사정보다 우선된다."
  }
 ]

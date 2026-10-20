@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-20",
+    "no": 105,
+    "topic_ja": "<ruby>化粧<rt>けしょう</rt></ruby>と<ruby>自由<rt>じゆう</rt></ruby>",
+    "topic_ko": "화장과 자유",
+    "url": "https://www.asahi.com/articles/DA3S16570319.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘자유의 경계’, ‘표현과 책임’, ‘대중문화의 기억’ — 개인적 체험을 매개로 표현의 자유와 공적 윤리를 연결해 사유의 폭을 넓히므로.",
+    "pattern": "Nにかかわらず"
+  },
+  {
     "date": "2026-10-19",
     "no": 104,
     "topic_ja": "<ruby>記者拘束<rt>きしゃこうそく</rt></ruby>の<ruby>衝撃<rt>しょうげき</rt></ruby>",
