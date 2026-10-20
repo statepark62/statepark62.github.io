@@ -273,6 +273,23 @@
   .v-mismatch b { color: var(--amber); font-weight: 600; }
   .v-ok { margin-top: 8px; font-size: 11.5px; color: var(--ink-dim); }
 
+  .v-stats { margin-top: 8px; font-size: 11.5px; color: var(--ink-dim); display: flex; flex-wrap: wrap; gap: 3px 12px; }
+  .v-stats .warn { color: var(--amber); font-weight: 600; }
+  .v-stats .bad { color: var(--red); font-weight: 600; }
+
+  .flow-more { margin-top: 8px; font-size: 11.5px; color: var(--ink-dim); }
+  .flow-more summary { cursor: pointer; }
+  .flow-more .flow-table { margin-top: 6px; }
+
+  .range-chips { display: inline-flex; gap: 6px; margin-left: 8px; vertical-align: middle; }
+  .range-chips button {
+    font: inherit; font-size: 11.5px; color: var(--ink-dim); background: transparent;
+    border: 1px solid var(--panel-border); border-radius: 100px; padding: 2px 10px; cursor: pointer;
+  }
+  .range-chips button[aria-pressed="true"] { color: var(--ink); border-color: var(--ink-dim); background: rgba(255,255,255,0.06); }
+  .chart-legend i.dash1 { background: none !important; border-top: 2px dashed currentColor; height: 0; }
+  .chart-legend i.dash2 { background: none !important; border-top: 2.5px dotted currentColor; height: 0; }
+
   .footer ol { margin: 0 0 20px; padding-left: 20px; }
   .footer ol li { margin-bottom: 6px; }
 
@@ -324,7 +341,9 @@
       <dt>국내 종목</dt><dd>네이버페이 증권 공개 데이터. 배당성향은 배당금÷EPS로 추정 계산한 값</dd>
       <dt>수급 정보</dt><dd>네이버페이 증권 투자자별 매매동향. 최근 5거래일 순매수 합계(단위: 주, 금액 아님). 최신 거래일 값은 장 마감 후 반영될 수 있음. 미국 종목은 해당 통계가 없어 표시하지 않음</dd>
       <dt>거래량 대비</dt><dd>최근 5거래일 순매수 합계 ÷ 같은 기간 거래량 합계 × 100. 예) 기관 +2%는 그 기간 거래된 주식 100주 중 2주만큼 기관이 순매수했다는 뜻. 외국인·기관·개인 세 값을 더해도 0이 되지는 않음(연기금·외국계 기타 등 별도 주체 때문). 기관·개인의 <b>지분율</b>은 공개 데이터가 없어 외국인 지분율만 표시</dd>
-      <dt>한 달 차트</dt><dd>최근 약 22거래일의 매일 종가(장 마감 가격). 투자자별 선은 같은 기간 순매수를 처음부터 누적한 값으로, 위로 갈수록 계속 사들이는 중. 점/선에 마우스(또는 손가락)를 올리면 날짜별 값이 보임. 미국 종목은 야후 종가이며 장 마감 전에는 마지막 장중 값을 제외</dd>
+      <dt>가격 차트</dt><dd>매일 종가(장 마감 가격)와 50일·200일 이동평균선. 1개월·3개월·6개월 중 선택할 수 있고, 종가가 200일선 위에 있으면 장기 상승 추세입니다. 아래 수급 차트는 최근 1개월의 순매수를 처음부터 누적한 값으로, 위로 갈수록 계속 사들이는 중이며 외국인·기관이 핵심이고 개인(점선)은 참고용. 점/선에 마우스(또는 손가락)를 올리면 날짜별 값이 보임. 미국 종목은 야후 종가이며 장 마감 전에는 마지막 장중 값을 제외</dd>
+      <dt>50일선 대비</dt><dd>현재가가 50일 이동평균보다 몇 % 위·아래인지. +10% 이상이면 단기 과열권, -10% 이하면 많이 아래로 처져 있다는 뜻</dd>
+      <dt>52주 고점 대비</dt><dd>최근 1년 종가 중 최고가에서 얼마나 내려와 있는지. -10% 이하면 조정 중, -20% 이하면 큰 낙폭. 하락 원인 확인이 필요한 수준</dd>
       <dt>갱신 주기</dt><dd>매일 오전 8시 자동 갱신. 시트에서 수동 갱신도 가능</dd>
     </dl>
 
@@ -393,6 +412,7 @@
   }
 
   // 국내 종목 카드에만 표시되는 투자자별 수급 블록 (데이터가 없으면 통째로 숨김)
+  // 핵심(수량)은 바로 보이고, 거래량 대비·외국인 지분율은 접어둔 보조 정보
   function renderFlow(stock) {
     if (stock.market !== 'KR') return '';
     const ratio = stock.flowRatio || {};
@@ -404,18 +424,25 @@
     if (rows.length === 0) return '';
 
     const cell = v => v ? `<span class="${v.cls}">${v.text}</span>` : '-';
-    const rowsHtml = rows.map(r => `<tr><td>${r[0]}</td><td>${cell(r[1])}</td><td>${cell(r[2])}</td></tr>`).join('');
+    const mainRows = rows.map(r => `<tr><td>${r[0]}</td><td>${cell(r[1])}</td></tr>`).join('');
+    const subRows = rows.map(r => `<tr><td>${r[0]}</td><td>${cell(r[2])}</td></tr>`).join('');
     const hold = fmt(stock.foreignHoldRatio, '%');
     const holdHtml = hold === '-' ? '' : `<div class="flow-foot"><span>외국인 지분율</span><span>${hold}</span></div>`;
 
     return `
       <div class="flow">
-        <div class="flow-title">최근 ${ratio.days || 5}거래일 순매수</div>
+        <div class="flow-title">최근 ${ratio.days || 5}거래일 순매수 (주)</div>
         <table class="flow-table">
-          <thead><tr><th></th><th>수량(주)</th><th>거래량 대비</th></tr></thead>
-          <tbody>${rowsHtml}</tbody>
+          <tbody>${mainRows}</tbody>
         </table>
-        ${holdHtml}
+        <details class="flow-more">
+          <summary>보조 정보 (거래량 대비 · 외국인 지분율)</summary>
+          <table class="flow-table">
+            <thead><tr><th></th><th>거래량 대비</th></tr></thead>
+            <tbody>${subRows}</tbody>
+          </table>
+          ${holdHtml}
+        </details>
       </div>`;
   }
 
@@ -541,10 +568,32 @@
     } else {
       note = '<div class="v-ok">뚜렷하게 엇갈리는 지표는 없습니다.</div>';
     }
+    // 50일선 이격률 / 52주 고점 대비 낙폭
+    const price = toNum(stock.price), m50 = toNum(stock.ma50);
+    const h52 = stock.history ? toNum(stock.history.high52) : null;
+    const stats = [];
+    if (price !== null && m50 !== null && m50 > 0) {
+      const gap = (price / m50 - 1) * 100;
+      let cls = '', tag = '';
+      if (gap >= 10) { cls = 'warn'; tag = ' (과열권)'; }
+      else if (gap <= -10) { cls = 'bad'; tag = ' (많이 아래)'; }
+      stats.push(`<span class="${cls}">50일선 대비 ${gap >= 0 ? '+' : '−'}${Math.abs(gap).toFixed(1)}%${tag}</span>`);
+    }
+    if (price !== null && h52 !== null && h52 > 0) {
+      const dd = Math.min(0, (price / h52 - 1) * 100);
+      let cls = '', tag = '';
+      if (dd <= -20) { cls = 'bad'; tag = ' (큰 낙폭)'; }
+      else if (dd <= -10) { cls = 'warn'; tag = ' (조정 중)'; }
+      else if (dd === 0) { tag = ' (고점 부근)'; }
+      stats.push(`<span class="${cls}">52주 종가 고점 대비 ${dd === 0 ? '0' : '−' + Math.abs(dd).toFixed(1)}%${tag}</span>`);
+    }
+    const statsHtml = stats.length ? `<div class="v-stats">${stats.join('')}</div>` : '';
+
     return `
       <div class="verdict">
         <div class="v-title verdict-title"><span>한눈에 판단</span><span>참고용</span></div>
         <div class="v-row">${chips}</div>
+        ${statsHtml}
         ${note}
       </div>`;
   }
@@ -578,6 +627,8 @@
   // ===================== 한 달 추이 차트 =====================
   const FLOW_COLORS = { foreign: '#3987e5', organ: '#d95926', individual: '#199e70' };
   const PRICE_COLOR = '#3987e5';
+  const MA50_COLOR = '#d95926';
+  const MA200_COLOR = '#199e70';
   const SURFACE = '#121d30';
   const chartRegistry = [];
 
@@ -632,11 +683,11 @@
         d += (pen ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1);
         pen = true;
       });
-      g += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+      g += `<path d="${d}" fill="none" stroke="${se.color}" stroke-width="${se.width || 2}" ${se.dash ? 'stroke-dasharray="' + se.dash + '"' : ''} stroke-linejoin="round" stroke-linecap="round"/>`;
       // 마지막 점 + 2px 표면색 링
       for (let i = n - 1; i >= 0; i--) {
         if (se.values[i] !== null && se.values[i] !== undefined) {
-          g += `<circle cx="${x(i)}" cy="${y(se.values[i])}" r="4" fill="${se.color}" stroke="${SURFACE}" stroke-width="2"/>`;
+          if (!se.noDot) g += `<circle cx="${x(i)}" cy="${y(se.values[i])}" r="4" fill="${se.color}" stroke="${SURFACE}" stroke-width="2"/>`;
           se._last = { i: i, yy: y(se.values[i]) };
           break;
         }
@@ -736,16 +787,27 @@
         <div class="chart-card" data-idx="${idx}">
           <div class="chart-head">
             <div class="chart-title">${title}</div>
-            <div class="chart-sub">${hst.dates[0].substring(5)} ~ ${hst.dates[hst.dates.length - 1].substring(5)} · ${chgText}</div>
+            <div class="chart-sub">최근 1개월 ${chgText}</div>
           </div>
-          <div class="chart-label">일별 종가</div>
+          <div class="chart-label">일별 종가와 이동평균선
+            <span class="range-chips" role="group" aria-label="표시 기간">
+              <button type="button" data-days="22" aria-pressed="false">1개월</button>
+              <button type="button" data-days="63" aria-pressed="true">3개월</button>
+              <button type="button" data-days="126" aria-pressed="false">6개월</button>
+            </span>
+          </div>
+          <div class="chart-legend price-legend">
+            <span><i style="background:${PRICE_COLOR}"></i>종가</span>
+            <span style="color:${MA50_COLOR}"><i class="dash1"></i><span style="color:var(--ink-dim)">50일선</span></span>
+            <span style="color:${MA200_COLOR}"><i class="dash2"></i><span style="color:var(--ink-dim)">200일선</span></span>
+          </div>
           <div class="chart-box" data-kind="price"></div>
           ${hasFlow ? `
           <div class="chart-label">투자자별 누적 순매수 (주, 기간 시작일부터 합산)</div>
           <div class="chart-legend">
             <span><i style="background:${FLOW_COLORS.foreign}"></i>외국인</span>
             <span><i style="background:${FLOW_COLORS.organ}"></i>기관</span>
-            <span><i style="background:${FLOW_COLORS.individual}"></i>개인</span>
+            <span><i style="background:${FLOW_COLORS.individual}"></i>개인 (참고)</span>
           </div>
           <div class="chart-box" data-kind="flow"></div>` : ''}
           ${historyTable(stock, hst)}
@@ -754,18 +816,45 @@
     return html;
   }
 
+  function priceSpec(stock, hst, days) {
+    const L = hst.long;
+    const hasLong = L && L.dates && L.dates.length > hst.dates.length;
+    const usable = hasLong ? L : { dates: hst.dates, closes: hst.closes, ma50: [], ma200: [] };
+    const n = Math.min(days, usable.dates.length);
+    const series = [{ name: '종가', color: PRICE_COLOR, values: usable.closes.slice(-n) }];
+    if (hasLong) {
+      series.push({ name: '50일', color: MA50_COLOR, dash: '7 5', width: 2, noDot: true, values: usable.ma50.slice(-n) });
+      series.push({ name: '200일', color: MA200_COLOR, dash: '2 5', width: 2.5, noDot: true, values: usable.ma200.slice(-n) });
+    }
+    return {
+      label: stock.ticker + ' 일별 종가와 이동평균선', dates: usable.dates.slice(-n), series: series,
+      axisFmt: v => stock.market === 'KR' ? Math.round(v).toLocaleString('ko-KR') : '$' + v.toFixed(v >= 100 ? 0 : 1),
+      tipFmt: v => priceText(stock, v)
+    };
+  }
+
   function mountCharts(stocks) {
     chartRegistry.length = 0;
     document.querySelectorAll('.chart-card[data-idx]').forEach(card => {
       const stock = stocks[Number(card.dataset.idx)];
       const hst = stock.history;
       const priceBox = card.querySelector('[data-kind="price"]');
-      addChart(priceBox, {
-        label: stock.ticker + ' 일별 종가', dates: hst.dates,
-        series: [{ name: '종가', color: PRICE_COLOR, values: hst.closes }],
-        axisFmt: v => stock.market === 'KR' ? Math.round(v).toLocaleString('ko-KR') : '$' + v.toFixed(v >= 100 ? 0 : 1),
-        tipFmt: v => priceText(stock, v)
-      });
+      addChart(priceBox, priceSpec(stock, hst, 63));
+      const hasLongSeries = hst.long && hst.long.dates && hst.long.dates.length > hst.dates.length;
+      const chips = card.querySelector('.range-chips');
+      const legend = card.querySelector('.price-legend');
+      if (!hasLongSeries) {
+        if (chips) chips.style.display = 'none';
+        if (legend) legend.style.display = 'none';
+      } else if (chips) {
+        chips.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', () => {
+            chips.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'));
+            const entry = chartRegistry.find(c => c.box === priceBox);
+            if (entry) { entry.spec = priceSpec(stock, hst, Number(btn.dataset.days)); drawLineChart(priceBox, entry.spec); }
+          });
+        });
+      }
       const flowBox = card.querySelector('[data-kind="flow"]');
       if (flowBox) {
         const cumF = cumulative(hst.flows.foreign), cumO = cumulative(hst.flows.organ), cumI = cumulative(hst.flows.individual);
@@ -775,7 +864,7 @@
           series: [
             { name: '외국인', color: FLOW_COLORS.foreign, values: cumF },
             { name: '기관', color: FLOW_COLORS.organ, values: cumO },
-            { name: '개인', color: FLOW_COLORS.individual, values: cumI }
+            { name: '개인', color: FLOW_COLORS.individual, width: 1.5, dash: '3 4', values: cumI }
           ],
           axisFmt: compactNum,
           tipFmt: (v, se, i) => {
@@ -824,7 +913,7 @@
         html += '<div class="section-label">국내 종목</div><div class="grid">' + kr.map(renderCard).join('') + '</div>';
       }
       const ordered = us.concat(kr);
-      html += '<div class="section-label">최근 한 달 추이 (일별 종가 기준)</div><div class="chart-grid">' + renderChartCards(ordered) + '</div>';
+      html += '<div class="section-label">가격 추이 (일별 종가 기준) · 수급 (최근 1개월)</div><div class="chart-grid">' + renderChartCards(ordered) + '</div>';
       content.innerHTML = html;
       mountCharts(ordered);
     } catch (err) {
