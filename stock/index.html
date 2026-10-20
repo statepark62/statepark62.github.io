@@ -259,6 +259,23 @@
   .chart-card th:first-child, .chart-card td:first-child { text-align: left; }
   .tbl-wrap { max-height: 260px; overflow: auto; }
 
+
+  /* 한눈에 판단 */
+  .verdict { margin: 0 0 14px; padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); border-radius: 8px; }
+  .verdict-title { font-size: 11px; color: var(--ink-dim); margin-bottom: 7px; display: flex; justify-content: space-between; }
+  .v-row { display: flex; flex-wrap: wrap; gap: 5px 6px; }
+  .v-chip { font-size: 11.5px; padding: 2px 8px; border-radius: 100px; border: 1px solid; white-space: nowrap; }
+  .v-chip.good { color: var(--green); border-color: var(--green); }
+  .v-chip.mid  { color: var(--amber); border-color: var(--amber); }
+  .v-chip.bad  { color: var(--red);   border-color: var(--red); }
+  .v-chip.na   { color: var(--ink-dim); border-color: var(--panel-border); }
+  .v-mismatch { margin-top: 8px; font-size: 11.5px; line-height: 1.55; color: var(--ink); }
+  .v-mismatch b { color: var(--amber); font-weight: 600; }
+  .v-ok { margin-top: 8px; font-size: 11.5px; color: var(--ink-dim); }
+
+  .footer ol { margin: 0 0 20px; padding-left: 20px; }
+  .footer ol li { margin-bottom: 6px; }
+
   @media (prefers-reduced-motion: no-preference) {
     .card { transition: transform 0.15s ease; }
     .card:hover { transform: translateY(-2px); }
@@ -303,13 +320,35 @@
 
     <h2>데이터 출처</h2>
     <dl>
-      <dt>미국 종목</dt><dd>Alpha Vantage (무료 플랜, 하루 호출 한도 있음)</dd>
+      <dt>미국 종목</dt><dd>야후 파이낸스(가격·이동평균·RSI·최근 12개월 배당수익률)와 네이버 해외주식(PER·EPS). ETF는 PER·배당성향이 없어 '-'로 표시</dd>
       <dt>국내 종목</dt><dd>네이버페이 증권 공개 데이터. 배당성향은 배당금÷EPS로 추정 계산한 값</dd>
       <dt>수급 정보</dt><dd>네이버페이 증권 투자자별 매매동향. 최근 5거래일 순매수 합계(단위: 주, 금액 아님). 최신 거래일 값은 장 마감 후 반영될 수 있음. 미국 종목은 해당 통계가 없어 표시하지 않음</dd>
       <dt>거래량 대비</dt><dd>최근 5거래일 순매수 합계 ÷ 같은 기간 거래량 합계 × 100. 예) 기관 +2%는 그 기간 거래된 주식 100주 중 2주만큼 기관이 순매수했다는 뜻. 외국인·기관·개인 세 값을 더해도 0이 되지는 않음(연기금·외국계 기타 등 별도 주체 때문). 기관·개인의 <b>지분율</b>은 공개 데이터가 없어 외국인 지분율만 표시</dd>
-      <dt>한 달 차트</dt><dd>최근 약 22거래일의 매일 종가(장 마감 가격). 투자자별 선은 같은 기간 순매수를 처음부터 누적한 값으로, 위로 갈수록 계속 사들이는 중. 점/선에 마우스(또는 손가락)를 올리면 날짜별 값이 보임. 미국 종목은 시트 메뉴의 "종가 이력 갱신" 실행 시점의 값</dd>
+      <dt>한 달 차트</dt><dd>최근 약 22거래일의 매일 종가(장 마감 가격). 투자자별 선은 같은 기간 순매수를 처음부터 누적한 값으로, 위로 갈수록 계속 사들이는 중. 점/선에 마우스(또는 손가락)를 올리면 날짜별 값이 보임. 미국 종목은 야후 종가이며 장 마감 전에는 마지막 장중 값을 제외</dd>
       <dt>갱신 주기</dt><dd>매일 오전 8시 자동 갱신. 시트에서 수동 갱신도 가능</dd>
     </dl>
+
+
+    <h2>지표가 엇갈릴 때: 6가지 유형</h2>
+    <p style="margin:0 0 12px">한 종목에서 어떤 지표는 좋고 어떤 지표는 나쁜 경우가 흔합니다. 카드의 "한눈에 판단"이 아래 유형 중 해당하는 것을 알려줍니다.</p>
+    <dl>
+      <dt>유형 A</dt><dd>품질은 좋은데 단기 과열 (RSI 70 이상) — 종목을 버릴 이유는 없지만 지금 사지 말고 눌림을 기다림</dd>
+      <dt>유형 B</dt><dd>타이밍은 좋아 보이는데 품질이 나쁨 (RSI 과매도 + 배당성향 100% 초과) — 싸진 게 아니라 망가지는 중일 수 있어 매수 금지, 원인 확인</dd>
+      <dt>유형 C</dt><dd>PER은 싼데 추세·수급이 약함 — 이익이 줄어서 싼 것일 수 있음(가치 함정). 이익 추세를 먼저 확인</dd>
+      <dt>유형 D</dt><dd>장기 하락(200일선 아래) 중 단기 반등 — 반등에 바로 올라타지 말고 200일선 회복 확인 후 소액</dd>
+      <dt>유형 E</dt><dd>추세는 좋은데 외국인·기관은 순매도 — 큰 투자자의 차익 실현일 수 있어 며칠 더 관망</dd>
+      <dt>유형 F</dt><dd>품질은 좋은데 장기 추세 하락 — 배당은 안전해도 주가 하락으로 총수익이 마이너스일 수 있음. 하락 원인 확인</dd>
+    </dl>
+
+    <h2>엇갈릴 때의 판단 순서</h2>
+    <ol>
+      <li><b>품질 지표부터 확인</b> — 배당성향 100% 초과나 이익 감소가 있으면 다른 지표가 좋아도 여기서 멈춥니다. 품질 문제는 다른 지표로 상쇄되지 않습니다.</li>
+      <li><b>내 투자 목적에 가장 중요한 지표를 정함</b> — 배당 목적이면 배당성향·배당 추이, 장기 성장이면 이익 추세·PER, 단기 매매면 RSI·이평선·수급.</li>
+      <li><b>엇갈림의 이유를 한 줄로 적기</b> — 예: "품질은 좋은데 단기 과열". 설명이 안 되면 아직 모르는 것이니 관망합니다.</li>
+      <li><b>행동의 크기를 줄이기</b> — "살까 말까"가 아니라 "얼마나"로 접근합니다. 계획 금액의 1/3 정도만 먼저.</li>
+      <li><b>기다릴 조건을 미리 정하기</b> — 예: "RSI 50 아래로 내려오면", "200일선을 넘으면", "다음 배당 공시 후".</li>
+    </ol>
+    <p style="margin:0 0 20px">"한눈에 판단"의 구간 기준(PER 15·25, 배당성향 80·100, RSI 30·45·55·70, 200일선 1% 이내 등)은 일반적인 참고값을 단순화한 것이라, 업종·상황에 따라 다를 수 있습니다.</p>
 
     <p class="note">
       이 페이지의 신호는 PER·RSI·이동평균·투자자별 수급 등 정해진 조건을 기계적으로 계산한 참고 지표입니다.
@@ -413,6 +452,103 @@
     }).join('');
   }
 
+
+  // ===================== 한눈에 판단 (품질 / 추세 / 타이밍 / 수급 + 엇갈림 유형) =====================
+  function toNum(v) {
+    if (v === null || v === undefined || v === '' || v === '-') return null;
+    const n = typeof v === 'number' ? v : parseFloat(v);
+    return isNaN(n) ? null : n;
+  }
+
+  const MISMATCH_TYPES = {
+    A: '품질은 좋은데 단기 과열 → 지금 사지 말고 눌림을 기다림',
+    B: '타이밍은 좋아 보이나 품질 주의 → 매수 금지, 원인 확인',
+    C: '싸 보이나 추세·수급이 약함 → 이익 감소 여부 확인 (가치 함정 주의)',
+    D: '장기 하락 중 단기 반등 → 200일선 회복 확인 후 소액',
+    E: '추세는 좋은데 큰 투자자는 매도 → 며칠 더 관망',
+    F: '품질은 좋은데 장기 추세 하락 → 하락 원인 확인, 배당만 보고 사지 않기'
+  };
+
+  function assess(stock) {
+    const per = toNum(stock.per), pay = toNum(stock.payoutRatio);
+    const price = toNum(stock.price), m50 = toNum(stock.ma50), m200 = toNum(stock.ma200), rsi = toNum(stock.rsi);
+
+    // 품질
+    let q;
+    if (pay !== null && pay > 100) q = { k: 'bad', t: '주의', d: '배당성향 100% 초과' };
+    else if (pay !== null && pay > 80) q = { k: 'mid', t: '보통', d: '배당 여유 적음' };
+    else if (per !== null && per > 0) {
+      if (per <= 15) q = { k: 'good', t: '양호', d: 'PER ' + per };
+      else if (per <= 25) q = { k: 'mid', t: '보통', d: 'PER ' + per };
+      else q = { k: 'mid', t: '비쌈', d: 'PER 25 초과' };
+    } else if (pay !== null) q = { k: pay <= 60 ? 'good' : 'mid', t: pay <= 60 ? '양호' : '보통', d: '배당성향 ' + pay };
+    else q = { k: 'na', t: '판단 불가', d: 'PER·배당성향 없음 (ETF 등)' };
+
+    // 추세
+    let tr;
+    if (price !== null && m200 !== null && price < m200 * 0.99) tr = { k: 'bad', t: '장기 하락', d: '200일선 아래' };
+    else if (price !== null && m50 !== null && m200 !== null && price > m50 && m50 > m200) tr = { k: 'good', t: '상승 추세', d: '가격>50일>200일' };
+    else if (price !== null && m50 !== null && price < m50 * 0.99) tr = { k: 'mid', t: '조정', d: '50일선 아래' };
+    else if (price !== null && m50 !== null) tr = { k: 'mid', t: '횡보', d: '이평선 근처' };
+    else tr = { k: 'na', t: '판단 불가', d: '' };
+
+    // 타이밍(RSI)
+    let ti;
+    if (rsi === null) ti = { k: 'na', t: '판단 불가', d: '' };
+    else if (rsi <= 30) ti = { k: 'good', t: '과매도', d: 'RSI ' + rsi };
+    else if (rsi < 45) ti = { k: 'mid', t: '약세', d: 'RSI ' + rsi };
+    else if (rsi <= 55) ti = { k: 'mid', t: '중립', d: 'RSI ' + rsi };
+    else if (rsi < 70) ti = { k: 'good', t: '양호', d: 'RSI ' + rsi };
+    else ti = { k: 'bad', t: '과열', d: 'RSI ' + rsi };
+
+    // 수급 (국내만)
+    let fl = null;
+    if (stock.market === 'KR') {
+      const f = toNum(stock.flowForeign), o = toNum(stock.flowOrgan);
+      if (f !== null && o !== null) {
+        if (f > 0 && o > 0) fl = { k: 'good', t: '양호', d: '외국인·기관 순매수' };
+        else if (f < 0 && o < 0) fl = { k: 'bad', t: '악화', d: '외국인·기관 순매도' };
+        else fl = { k: 'mid', t: '엇갈림', d: '외국인·기관 방향 다름' };
+      }
+    }
+
+    // 엇갈림 유형 (우선순위 순, 최대 2개)
+    const hits = [];
+    const qOk = q.k === 'good' || q.k === 'mid';
+    if (q.k === 'bad' && rsi !== null && rsi <= 30) hits.push('B');
+    if (qOk && rsi !== null && rsi >= 70) hits.push('A');
+    if (per !== null && per > 0 && per <= 15 && (tr.k === 'bad' || (fl && fl.k === 'bad'))) hits.push('C');
+    if (tr.k === 'good' && fl && fl.k === 'bad') hits.push('E');
+    if (tr.k === 'bad' && rsi !== null && rsi >= 45 && rsi < 70) hits.push('D');
+    if (q.k === 'good' && tr.k === 'bad' && hits.indexOf('C') === -1) hits.push('F');
+
+    return { q: q, tr: tr, ti: ti, fl: fl, hits: hits.slice(0, 2) };
+  }
+
+  function renderVerdict(stock) {
+    const a = assess(stock);
+    const mark = { good: '▲', mid: '■', bad: '▼', na: '–' };
+    const chip = (label, x) =>
+      `<span class="v-chip ${x.k}" title="${x.d || ''}">${mark[x.k]} ${label} ${x.t}</span>`;
+    let chips = chip('품질', a.q) + chip('추세', a.tr) + chip('타이밍', a.ti);
+    if (a.fl) chips += chip('수급', a.fl);
+
+    let note;
+    if (a.hits.length) {
+      note = '<div class="v-mismatch">' + a.hits.map(h => `<div><b>엇갈림 유형 ${h}</b> · ${MISMATCH_TYPES[h]}</div>`).join('') + '</div>';
+    } else if (a.q.k === 'na') {
+      note = '<div class="v-ok">ETF 등은 품질 지표가 없어 추세·타이밍 위주로 봅니다.</div>';
+    } else {
+      note = '<div class="v-ok">뚜렷하게 엇갈리는 지표는 없습니다.</div>';
+    }
+    return `
+      <div class="verdict">
+        <div class="v-title verdict-title"><span>한눈에 판단</span><span>참고용</span></div>
+        <div class="v-row">${chips}</div>
+        ${note}
+      </div>`;
+  }
+
   function renderCard(stock) {
     const accent = cardAccent(stock.signal);
     return `
@@ -430,6 +566,7 @@
           <div class="metric-label">배당성향</div><div class="metric-value">${fmt(stock.payoutRatio, '%')}</div>
           <div class="metric-label">RSI(14)</div><div class="metric-value">${fmt(stock.rsi)}</div>
         </div>
+        ${renderVerdict(stock)}
         ${renderFlow(stock)}
         <div class="signal-row">${renderSignals(stock.signal)}</div>
         <div class="updated">갱신 ${stock.updatedAt || '-'}</div>
@@ -586,7 +723,7 @@
       const title = stock.name !== stock.ticker ? `${stock.name} <span class="chart-sub">${stock.ticker}</span>` : stock.ticker;
       if (!hst || !hst.dates || hst.dates.length < 2) {
         const why = stock.market === 'US'
-          ? '시트 메뉴 "미국 종가 이력 갱신"을 실행하면 표시됩니다.'
+          ? '야후에서 종가 이력을 받지 못했습니다. 티커를 확인하고 잠시 후 새로고침해주세요.'
           : '네이버에서 종가 이력을 받지 못했습니다. 잠시 후 새로고침해주세요.';
         return `<div class="chart-card"><div class="chart-head"><div class="chart-title">${title}</div></div><div class="chart-empty">종가 이력이 아직 없습니다. ${why}</div></div>`;
       }
