@@ -13451,5 +13451,55 @@
   "example": "今夜の夕餉はさんまだ。",
   "exampleReading": "こんやのゆうげはさんまだ.",
   "exampleMeaning": "오늘 저녁상은 꽁치다."
+ },
+ {
+  "id": "tj496",
+  "word": "取材",
+  "reading": "しゅざい",
+  "meaning": "취재",
+  "level": "N2",
+  "example": "記者が事故の現場を取材した。",
+  "exampleReading": "きしゃがじこのげんばをしゅざいした。",
+  "exampleMeaning": "기자가 사고 현장을 취재했다."
+ },
+ {
+  "id": "tj497",
+  "word": "防ぐ",
+  "reading": "ふせぐ",
+  "meaning": "막다, 방지하다",
+  "level": "N3",
+  "example": "パスワード管理で被害を防ぐ。",
+  "exampleReading": "ぱすわーどかんりでひがいをふせぐ。",
+  "exampleMeaning": "비밀번호 관리를 통해 피해를 막는다."
+ },
+ {
+  "id": "tj498",
+  "word": "素人",
+  "reading": "しろうと",
+  "meaning": "초보자, 비전문가",
+  "level": "N2",
+  "example": "素人にはこの設定は難しい。",
+  "exampleReading": "しろうとにはこのせっていはむずかしい。",
+  "exampleMeaning": "초보자에게는 이 설정이 어렵다."
+ },
+ {
+  "id": "tj499",
+  "word": "企業",
+  "reading": "きぎょう",
+  "meaning": "기업",
+  "level": "N2",
+  "example": "国内の企業が人材を募集する。",
+  "exampleReading": "こくないのきぎょうがじんざいをぼしゅうする。",
+  "exampleMeaning": "국내 기업이 인재를 모집한다."
+ },
+ {
+  "id": "tj500",
+  "word": "称する",
+  "reading": "しょうする",
+  "meaning": "칭하다, 자칭하다",
+  "level": "N1",
+  "example": "かれはホワイトハッカーを称し、講師でも活躍する。",
+  "exampleReading": "かれはほわいとはっかーをしょうし、こうしでもかつやくする。",
+  "exampleMeaning": "그는 자신을 화이트해커라 칭하며 강사로도 활약한다."
  }
 ]

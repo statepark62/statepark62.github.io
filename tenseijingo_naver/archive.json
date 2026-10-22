@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-22",
+    "no": 107,
+    "topic_ja": "<ruby>北京<rt>ぺきん</rt></ruby>の<ruby>白帽子<rt>しろぼうし</rt></ruby>",
+    "topic_ko": "베이징의 백모자",
+    "url": "https://www.asahi.com/articles/DA3S16571804.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘이름의 힘’, ‘보안의 일상’ — 언어가 인식을 규정하는 방식과 사이버 보안의 실제를 생활 감각으로 풀어내므로 두 축이 모두 드러난다.",
+    "pattern": "〜と<ruby>呼<rt>よ</rt></ruby>ばれる"
+  },
+  {
     "date": "2026-10-21",
     "no": 106,
     "topic_ja": "さんまと<ruby>文士<rt>ぶんし</rt></ruby>の<ruby>手紙<rt>てがみ</rt></ruby>",

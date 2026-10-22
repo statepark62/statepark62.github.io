@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-22 天声人語로 배우는 일본어 — 베이징의 백모자</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-22</span>
+      <span>2026년 10월 22일 (목)</span>
+    </div>
+
+    <h1><ruby>北京<rt>ぺきん</rt></ruby>の<ruby>白帽子<rt>しろぼうし</rt></ruby></h1>
+    <p class="topic-ko">베이징의 백모자</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>白帽子<rt>しろぼうし</rt></ruby>」</div>
+      <div class="ko">백모자(화이트해커) <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">コラムは、<ruby>中国語<rt>ちゅうごくご</rt></ruby>でハッカーを<ruby>黒客<rt>こっかく</rt></ruby>、ホワイトハッカーを<ruby>白帽子<rt>しろぼうし</rt></ruby>と<ruby>呼<rt>よ</rt></ruby>ぶという<ruby>言語<rt>げんご</rt></ruby>のちがいから<ruby>話<rt>はな</rt></ruby>を<ruby>始<rt>はじ</rt></ruby>める。</p><p class="ko">칼럼은 중국어에서 해커를 ‘흑객’, 화이트해커를 ‘백모자’라 부르는 언어 차이에서 이야기를 시작한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は、およそ10<ruby>年前<rt>ねんまえ</rt></ruby>に<ruby>北京<rt>ぺきん</rt></ruby>の<ruby>大手<rt>おおて</rt></ruby>セキュリティー<ruby>企業<rt>きぎょう</rt></ruby>で「エース」と<ruby>呼<rt>よ</rt></ruby>ばれた<ruby>女性<rt>じょせい</rt></ruby>ホワイトハッカーを<ruby>取材<rt>しゅざい</rt></ruby>したことを<ruby>振<rt>ふ</rt></ruby>り<ruby>返<rt>かえ</rt></ruby>る。</p><p class="ko">필자는 약 10년 전 베이징의 대형 보안 기업에서 ‘에이스’로 통하던 여성 화이트해커를 취재한 기억을 꺼낸다.</p></div>
+      <div class="s-item"><p class="ja">そして、<ruby>日常<rt>にちじょう</rt></ruby>にどんな<ruby>作業<rt>さぎょう</rt></ruby>をするのかという<ruby>素人<rt>しろうと</rt></ruby>めいた<ruby>質問<rt>しつもん</rt></ruby>を<ruby>投<rt>な</rt></ruby>げたと<ruby>明<rt>あ</rt></ruby>かし、サイバー<ruby>現場<rt>げんば</rt></ruby>の<ruby>温度<rt>おんど</rt></ruby>を<ruby>伝<rt>つた</rt></ruby>えようとしている。</p><p class="ko">그는 일상적으로 무엇을 하느냐는 다소 초보적인 질문을 던졌다고 털어놓으며, 사이버 보안 현장의 실제 감각을 전하려 한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>取材<rt>しゅざい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">취재</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>記者<rt>きしゃ</rt></ruby>が<ruby>事故<rt>じこ</rt></ruby>の<ruby>現場<rt>げんば</rt></ruby>を<ruby>取材<rt>しゅざい</rt></ruby>した。</span><br>기자가 사고 현장을 취재했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>防ぐ<rt>ふせぐ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">막다, 방지하다</span><span class="level">N3</span>
+            <p class="ex"><span class="ja">パスワード<ruby>管理<rt>かんり</rt></ruby>で<ruby>被害<rt>ひがい</rt></ruby>を<ruby>防<rt>ふせ</rt></ruby>ぐ。</span><br>비밀번호 관리를 통해 피해를 막는다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>素人<rt>しろうと</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">초보자, 비전문가</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>素人<rt>しろうと</rt></ruby>にはこの<ruby>設定<rt>せってい</rt></ruby>は<ruby>難<rt>むずか</rt></ruby>しい。</span><br>초보자에게는 이 설정이 어렵다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>企業<rt>きぎょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">기업</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>国内<rt>こくない</rt></ruby>の<ruby>企業<rt>きぎょう</rt></ruby>が<ruby>人材<rt>じんざい</rt></ruby>を<ruby>募集<rt>ぼしゅう</rt></ruby>する。</span><br>국내 기업이 인재를 모집한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>称する<rt>しょうする</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">칭하다, 자칭하다</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">かれはホワイトハッカーを<ruby>称<rt>しょう</rt></ruby>し、<ruby>講師<rt>こうし</rt></ruby>でも<ruby>活躍<rt>かつやく</rt></ruby>する。</span><br>그는 자신을 화이트해커라 칭하며 강사로도 활약한다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜と<ruby>呼<rt>よ</rt></ruby>ばれる</div>
+        <div class="pattern-ko">~라고 불리다</div>
+        <p class="explain">어떤 대상이 사회적으로나 일반적으로 그렇게 불린다는 뜻이다. 주로 명칭·별칭·평판을 말할 때 쓰며, 화자는 그 명칭을 객관적으로 소개하는 뉘앙스를 준다.</p>
+        <p class="ex"><span class="ja">この<ruby>町<rt>まち</rt></ruby>は「<ruby>技術<rt>ぎじゅつ</rt></ruby>の<ruby>都<rt>みやこ</rt></ruby>」と<ruby>呼<rt>よ</rt></ruby>ばれる。</span><br>이 도시는 ‘기술의 도시’라고 불린다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 낯선 명칭에서 독자의 호기심을 끌어당기는 방식으로 출발한다. ‘흑객/백모자’라는 어휘를 제시하며 언어가 세계를 분절하는 방식을 먼저 보여주고, 곧바로 베이징에서 만난 화이트해커의 구체적 장면으로 초점을 이동한다. ‘무슨 일을 하느냐’는 초보적 질문을 솔직히 드러내는 대목은 자의식을 낮추어 독자와의 거리를 줄이는 효과가 있다. 천성인어 특유의 경쾌한 리드와 에피소드 전개가 짧은 분량에도 리듬을 만든다.</p>
+        <p>글이 남기는 여운은 직업적 전문성과 언어의 명명법이 만나는 지점에 있다. 한국 독자에게도 ‘화이트해커’와 ‘백모자’의 어감 차이는 흥미롭고, 같은 대상을 어떤 말로 부르느냐가 인식의 프레임을 바꿀 수 있음을 시사한다. 또한 ‘에이스’ 여성 해커의 존재 언급은 사이버 보안 분야의 다양성과 현장성에 대한 상상력을 자극한다. 결과적으로 칼럼은 기술 담론을 생활의 언어로 번역해 보여주는 저널리즘의 미덕을 환기한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 다른 언어의 명칭에서 출발해 화이트해커의 현장을 스케치하며, 기술과 말의 간극을 다리 놓는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>중국어권에서는 해커를 ‘黑客(흑객)’, 화이트해커를 ‘白帽子(백모자)’로 부르는데, 일본 매체는 보통 카타카나 표기(ハッカー／ホワイトハッカー)와 함께 한자 표현을 병기하기도 한다.</p>
+        <p>일본에서는 정보보안 인력을 ‘ホワイトハッカー’로 지칭하는 보도가 많으며, 인력 부족이 꾸준히 지적돼 왔다고 한다. 정부·민간의 보안 교육 프로그램도 확대되는 추세로 알려져 있다.</p>
+        <p>베이징을 비롯한 거대 도시에는 글로벌 보안 기업의 거점이 많아 2010년대 전후로 국제 협력과 인재 교류가 활발해졌다는 평가가 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>낯선 용어 하나로 독자의 시선을 사로잡은 뒤, 구체적 인터뷰 장면으로 전환해 몰입을 유도한다.</p>
+        <p><span class="n">二</span>자신의 ‘초보 질문’을 숨기지 않고 고백하여 신뢰와 유머를 동시에 확보한다.</p>
+        <p><span class="n">三</span>용어 설명과 현장 서사를 교차 배치해 추상과 구체의 균형을 맞춘다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>言葉<rt>ことば</rt></ruby>のちがいが<ruby>世界<rt>せかい</rt></ruby>の<ruby>見<rt>み</rt></ruby>え<ruby>方<rt>かた</rt></ruby>を<ruby>変<rt>か</rt></ruby>える。</span>
+      <span class="ko">말의 차이가 세상을 보는 방식을 바꾼다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-22) — <a href="https://www.asahi.com/articles/DA3S16571804.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-22.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
