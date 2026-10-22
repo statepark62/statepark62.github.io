@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-23",
+    "no": 108,
+    "topic_ja": "<ruby>始発<rt>しはつ</rt></ruby>の<ruby>響<rt>ひび</rt></ruby>き",
+    "topic_ko": "첫차의 울림",
+    "url": "https://www.asahi.com/articles/DA3S16572627.html?iref=pc_rensai_long_61_article",
+    "memo": "키워드: ‘도시의 시간’, ‘정시성’, ‘새벽의 소리’ — 한밤과 새벽의 경계에서 규칙적으로 울리는 철도의 소리를 통해 근대 도시가 작동하는 방식을 감각적으로 보여 주기 때문임.",
+    "pattern": "〜と<ruby>題<rt>だい</rt></ruby>した"
+  },
+  {
     "date": "2026-10-22",
     "no": 107,
     "topic_ja": "<ruby>北京<rt>ぺきん</rt></ruby>の<ruby>白帽子<rt>しろぼうし</rt></ruby>",

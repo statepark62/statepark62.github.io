@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-23 天声人語로 배우는 일본어 — 첫차의 울림</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-23</span>
+      <span>2026년 10월 23일 (금)</span>
+    </div>
+
+    <h1><ruby>始発<rt>しはつ</rt></ruby>の<ruby>響<rt>ひび</rt></ruby>き</h1>
+    <p class="topic-ko">첫차의 울림</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>間違<rt>まちが</rt></ruby>いもなく」</div>
+      <div class="ko">틀림없이 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>内田<rt>うちだ</rt></ruby>百けんが<ruby>東京駅<rt>とうきょうえき</rt></ruby>の<ruby>鉄道<rt>てつどう</rt></ruby>ホテルに<ruby>滞在<rt>たいざい</rt></ruby>したころを<ruby>回想<rt>かいそう</rt></ruby>する<ruby>随筆<rt>ずいひつ</rt></ruby>を<ruby>出発点<rt>しゅっぱつてん</rt></ruby>とする。</p><p class="ko">우치다 햣켄이 도쿄역의 철도호텔에 묵던 때를 회고한 수필이 출발점이다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>眠<rt>ねむ</rt></ruby>れぬ<ruby>夜<rt>よる</rt></ruby>、<ruby>午前<rt>ごぜん</rt></ruby>４<ruby>時<rt>じ</rt></ruby>になると、<ruby>始発<rt>しはつ</rt></ruby>の<ruby>警笛<rt>けいてき</rt></ruby>と<ruby>揺<rt>ゆ</rt></ruby>れが<ruby>分<rt>ふん</rt></ruby>どおりに<ruby>始<rt>はじ</rt></ruby>まるようすを<ruby>伝<rt>つた</rt></ruby>える。</p><p class="ko">잠 못 드는 밤 새벽 4시, 첫차의 경적과 흔들림이 분 단위로 정확히 시작되는 장면을 전한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>闇<rt>やみ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>での<ruby>規則性<rt>きそくせい</rt></ruby>から、<ruby>都市<rt>とし</rt></ruby>の<ruby>時<rt>とき</rt></ruby>を<ruby>測<rt>はか</rt></ruby>る<ruby>感覚<rt>かんかく</rt></ruby>を<ruby>引<rt>ひ</rt></ruby>き<ruby>出<rt>だ</rt></ruby>す。</p><p class="ko">글은 그 정시성과 어둠 속 움직임에서 도시의 시간을 재는 감각을 끌어낸다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>始発<rt>しはつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">첫차, 시발</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>始発<rt>しはつ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>れば、<ruby>通勤<rt>つうきん</rt></ruby>が<ruby>楽<rt>らく</rt></ruby>だ。</span><br>첫차를 타면 출근이 수월하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>正確<rt>せいかく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">정확함</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>の<ruby>時計<rt>とけい</rt></ruby>は<ruby>正確<rt>せいかく</rt></ruby>だ。</span><br>그의 시계는 정확하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>警笛<rt>けいてき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">경적, 사이렌</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>踏切<rt>ふみきり</rt></ruby>で<ruby>列車<rt>れっしゃ</rt></ruby>の<ruby>警笛<rt>けいてき</rt></ruby>が<ruby>鳴<rt>な</rt></ruby>り<ruby>響<rt>ひび</rt></ruby>いた。</span><br>건널목에서 열차의 경적이 울려 퍼졌다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>振動<rt>しんどう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">진동</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>電車<rt>でんしゃ</rt></ruby>の<ruby>振動<rt>しんどう</rt></ruby>で<ruby>本<rt>ほん</rt></ruby>が<ruby>読<rt>よ</rt></ruby>みにくい。</span><br>전철의 진동 때문에 책을 읽기 어렵다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>真夜中<rt>まよなか</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">한밤중</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>真夜中<rt>まよなか</rt></ruby>でも、<ruby>駅<rt>えき</rt></ruby>は<ruby>灯<rt>あか</rt></ruby>りが<ruby>消<rt>き</rt></ruby>えない。</span><br>한밤중이어도 역은 불이 꺼지지 않는다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜と<ruby>題<rt>だい</rt></ruby>した</div>
+        <div class="pattern-ko">~라는 제목의, ~라 제목 붙인</div>
+        <p class="explain">작품이나 글의 제목을 소개할 때 쓰는 표현이다. 공식 기사나 서평, 보고서에서 특정 제목을 단 작품을 객관적으로 지칭할 때 자연스럽다.</p>
+        <p class="ex"><span class="ja">『<ruby>静<rt>しず</rt></ruby>かな<ruby>朝<rt>あさ</rt></ruby>』と<ruby>題<rt>だい</rt></ruby>した<ruby>随筆<rt>ずいひつ</rt></ruby>を<ruby>書<rt>か</rt></ruby>いた。</span><br>‘고요한 아침’이라는 제목의 수필을 썼다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 사소한 사운드 이미지, 즉 새벽 첫차의 경적과 진동을 전면에 두고 서술을 시작한다. 구체적 감각을 먼저 세워 독자의 귀를 여는 방식이 ‘천성인어’ 특유의 서두 압축을 잘 보여 준다. 작가는 ‘정확히’라는 시간 감각을 반복적으로 환기해 기계적 규칙성과 인간의 불면을 대비시킨다. 그 결과 독자는 단순한 풍경 묘사 너머, 도시가 깨어나는 임계순간을 함께 체감하게 된다.</p>
+        <p>칼럼이 남기는 울림은 일본 철도의 정시성에 대한 감탄만이 아니다. 어둠 속에서 정확히 시작되는 소리의 패턴을 통해, 우리가 시간을 어떻게 인식하고 일상을 구성하는지 질문을 던진다. 한국 독자에게도 첫차의 촉각·청각적 기억은 익숙하여, 두 사회의 도시 생활 리듬을 비교해 보는 재미가 있다. 또한 개인적 체험을 발판으로 공적 감각으로 확장하는 작법은 짧은 칼럼 글쓰기에 유효한 모델이 된다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 새벽 첫차의 소리로 도시의 시간 감각과 정시성을 포착하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본 철도는 ‘始発(첫차)’과 ‘終電(막차)’의 운영이 일과 리듬을 규정하며, 정시 운행에 대한 신뢰가 사회적 규범처럼 받아들여진다.</p>
+        <p>도쿄역은 근대 일본 철도의 상징적 허브로, 역사적 건축과 더불어 역 건물 내 호텔 문화가 자리 잡아 여행자와 작가들의 체류 기록을 낳아 왔다고 알려져 있다.</p>
+        <p>일본 수필 전통에서는 일상의 미세한 감각(소리·빛·기척)을 길잡이로 삼아 시간성이나 도시성 같은 보편 주제로 확장하는 글쓰기가 자주 시도된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>감각(소리·진동)을 전면에 배치해 독자의 체험을 불러일으킨다.</p>
+        <p><span class="n">二</span>정확한 시각·반복되는 리듬 같은 구체 정보로 장면의 신뢰도를 높인다.</p>
+        <p><span class="n">三</span>개인적 기억에서 출발해 사회적 의미(정시성·도시 시간)로 자연스럽게 확장한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>闇<rt>やみ</rt></ruby>を<ruby>破<rt>やぶ</rt></ruby>って、<ruby>始発<rt>しはつ</rt></ruby>の<ruby>笛<rt>ふえ</rt></ruby>が<ruby>時刻<rt>じこく</rt></ruby>を<ruby>告<rt>つ</rt></ruby>げる。</span>
+      <span class="ko">어둠을 가르고 첫차의 휘파람이 시각을 알린다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-23) — <a href="https://www.asahi.com/articles/DA3S16572627.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-23.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
