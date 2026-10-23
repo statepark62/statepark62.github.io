@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-24",
+    "no": 109,
+    "topic_ja": "<ruby>村上龍<rt>むらかみりゅう</rt></ruby>の<ruby>故郷<rt>こきょう</rt></ruby>を<ruby>訪<rt>おとず</rt></ruby>ねて",
+    "topic_ko": "무라카미 류의 고향을 찾아서",
+    "url": "https://www.asahi.com/articles/DA3S16573312.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘고향의 풍경’, ‘작가의 부고’, ‘기억과 시대’. 개인의 기억을 통해 한 작가의 생애와 시대적 배경을 동시에 비추며, 조용한 애도 속에서 장소가 지닌 의미를 드러내기 때문.",
+    "pattern": "Nに<ruby>合<rt>あ</rt></ruby>わせて"
+  },
+  {
     "date": "2026-10-23",
     "no": 108,
     "topic_ja": "<ruby>始発<rt>しはつ</rt></ruby>の<ruby>響<rt>ひび</rt></ruby>き",

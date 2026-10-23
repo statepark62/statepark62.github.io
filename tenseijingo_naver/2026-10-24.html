@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-24 天声人語로 배우는 일본어 — 무라카미 류의 고향을 찾아서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-24</span>
+      <span>2026년 10월 24일 (토)</span>
+    </div>
+
+    <h1><ruby>村上龍<rt>むらかみりゅう</rt></ruby>の<ruby>故郷<rt>こきょう</rt></ruby>を<ruby>訪<rt>おとず</rt></ruby>ねて</h1>
+    <p class="topic-ko">무라카미 류의 고향을 찾아서</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>佐世保湾<rt>させぼわん</rt></ruby>が<ruby>見渡<rt>みわた</rt></ruby>せる」</div>
+      <div class="ko">사세보만이 내려다보인다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>大学<rt>だいがく</rt></ruby>１<ruby>年<rt>ねん</rt></ruby>の<ruby>夏<rt>なつ</rt></ruby>、ブルートレインで<ruby>西<rt>にし</rt></ruby>へ<ruby>向<rt>む</rt></ruby>かい、<ruby>村上龍<rt>むらかみりゅう</rt></ruby>が<ruby>寄稿<rt>きこう</rt></ruby>で<ruby>描<rt>えが</rt></ruby>いた<ruby>佐世保<rt>させぼ</rt></ruby>の<ruby>風景<rt>ふうけい</rt></ruby>を<ruby>見<rt>み</rt></ruby>たくなった。</p><p class="ko">필자는 대학 1학년 여름, 야간열차로 서쪽을 향하며 아사히신문에 기고한 무라카미 류의 사세보 풍경을 직접 보고 싶어 했다.</p></div>
+      <div class="s-item"><p class="ja">その<ruby>文章<rt>ぶんしょう</rt></ruby>には、<ruby>家<rt>いえ</rt></ruby>から<ruby>佐世保湾<rt>させぼわん</rt></ruby>が<ruby>見渡<rt>みわた</rt></ruby>せ、<ruby>平野<rt>へいや</rt></ruby>の<ruby>真<rt>ま</rt></ruby>ん<ruby>中<rt>なか</rt></ruby>に<ruby>米軍基地<rt>べいぐんきち</rt></ruby>があり、<ruby>朝夕<rt>あさゆう</rt></ruby>に<ruby>星条旗<rt>せいじょうき</rt></ruby>が<ruby>翻<rt>ひるがえ</rt></ruby>ったという<ruby>記憶<rt>きおく</rt></ruby>がつづられている。</p><p class="ko">그 글에는 집에서 사세보만이 내려다보이고, 좁은 평야 한가운데 미군 기지가 있으며, 아침저녁 성조기가 오르내렸다는 기억이 담겨 있다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>作家<rt>さっか</rt></ruby><ruby>村上龍<rt>むらかみりゅう</rt></ruby>の<ruby>訃報<rt>ふほう</rt></ruby>にふれ、<ruby>時代<rt>じだい</rt></ruby>の<ruby>空気<rt>くうき</rt></ruby>と<ruby>個人<rt>こじん</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>を<ruby>呼<rt>よ</rt></ruby>び<ruby>起<rt>お</rt></ruby>こす<ruby>文<rt>ぶん</rt></ruby>の<ruby>力<rt>ちから</rt></ruby>を<ruby>思<rt>おも</rt></ruby>い<ruby>返<rt>かえ</rt></ruby>す。</p><p class="ko">작가 무라카미 류의 별세 소식을 전하며, 그의 문장이 불러낸 시대의 공기와 개인의 기억을 함께 되새긴다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>寄稿<rt>きこう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">기고, 또는 기고하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>新聞<rt>しんぶん</rt></ruby>に<ruby>寄稿<rt>きこう</rt></ruby>した。</span><br>그는 신문에 기고했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>追悼<rt>ついとう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">추도, 고인을 기리는 것</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>作家<rt>さっか</rt></ruby>を<ruby>追悼<rt>ついとう</rt></ruby>する<ruby>集<rt>つど</rt></ruby>いが<ruby>開<rt>ひら</rt></ruby>かれた。</span><br>작가를 추도하는 모임이 열렸다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>平野<rt>へいや</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">평야</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>広<rt>ひろ</rt></ruby>い<ruby>平野<rt>へいや</rt></ruby>が<ruby>山<rt>やま</rt></ruby>に<ruby>囲<rt>かこ</rt></ruby>まれている。</span><br>넓은 평야가 산에 둘러싸여 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>翻る<rt>ひるがえる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">(깃발 등이) 나부끼다, 펄럭이다</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>強風<rt>きょうふう</rt></ruby>に<ruby>旗<rt>はた</rt></ruby>が<ruby>翻<rt>ひるがえ</rt></ruby>った。</span><br>강풍에 깃발이 펄럭였다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>星条旗<rt>せいじょうき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">성조기(미국 국기)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>式典<rt>しきてん</rt></ruby>で<ruby>星条旗<rt>せいじょうき</rt></ruby>が<ruby>掲揚<rt>けいよう</rt></ruby>された。</span><br>식전에서 성조기가 게양되었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Nに<ruby>合<rt>あ</rt></ruby>わせて</div>
+        <div class="pattern-ko">~에 맞추어, ~에 따라</div>
+        <p class="explain">기준이나 타이밍, 상대의 상태에 맞게 행동이나 변화를 조절할 때 쓴다. 음악, 시간표, 상대의 필요 등에 동조하는 뉘앙스가 강하다.</p>
+        <p class="ex"><span class="ja">アラームの<ruby>時刻<rt>じこく</rt></ruby>に<ruby>合<rt>あ</rt></ruby>わせて<ruby>照明<rt>しょうめい</rt></ruby>が<ruby>点<rt>つ</rt></ruby>くように<ruby>設定<rt>せってい</rt></ruby>した。</span><br>알람 시간에 맞추어 조명이 켜지도록 설정했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 개인적 체험에서 출발해 공적 기억으로 확장되는 ‘천성인어’의 전형을 보여준다. 대학 시절의 이동 장면을 서두에 배치해 독자를 시간 여행으로 이끌고, 그 기억의 목적지가 무라카미 류가 그려 놓은 사세보라는 점을 드러낸다. 이어 집에서 내려다보이는 만, 평야와 미군 기지, 성조기의 이미지가 촘촘한 디테일로 제시되어 현장이 생생해진다. 짧은 묘사와 사실의 연결이 만들어내는 리듬이 글의 신뢰와 감응을 높인다.</p>
+        <p>후반부는 작가의 별세 소식을 매개로, 한 문장이 시대를 품고 개인의 생을 비춘다는 사실을 상기시킨다. 한국 독자에게도 미군 기지라는 배경과 청춘의 정동이 겹쳐 보이는 지점이 흥미롭다. 장소의 기억이 문학을 통해 타자의 경험으로 공유되는 과정이 설득력 있게 그려진다. 애도의 정서가 과장되지 않고, 풍경을 통해 조용히 배어 나오는 점이 인상적이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 무라카미 류의 부고를 계기로, 사세보의 풍경이 불러낸 개인의 기억과 시대의 공명을 더듬는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>블루트레인은 일본의 야간 침대열차로, 장거리 이동과 여행의 상징이었다. 신칸센과 항공의 보급으로 쇠퇴했으나, 세대의 추억을 환기하는 문화적 아이콘으로 남아 있다.</p>
+        <p>사세보는 나가사키현의 항구 도시로, 미 해군 사세보 기지가 위치한다. 미일 안보 체제의 일상적 풍경이 국기 게양과 군악 등으로 도시의 기억에 스며들었다.</p>
+        <p>무라카미 류(村上龍)는 사세보 출신의 작가로, 데뷔작 ‘한없이 투명에 가까운 블루’로 널리 알려졌다. 미군 기지와 젊은 세대의 감각을 다룬 작품들이 시대의 공기를 전했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>개인적 이동의 순간을 서두로 삼아 독자를 시간과 공간 속으로 자연스럽게 안내한다.</p>
+        <p><span class="n">二</span>풍경의 세부(지형, 깃발, 시간대)를 배열해 장소성과 시대감을 한 번에 전달한다.</p>
+        <p><span class="n">三</span>부고라는 사실 보도를 감정 과잉 없이 ‘기억의 환기’로 전환해 여운을 남긴다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>記憶<rt>きおく</rt></ruby>の<ruby>風景<rt>ふうけい</rt></ruby>は、<ruby>時<rt>とき</rt></ruby>を<ruby>越<rt>こ</rt></ruby>えてわたしたちを<ruby>導<rt>みちび</rt></ruby>く。</span>
+      <span class="ko">기억의 풍경은 시간을 넘어 우리를 이끈다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-24) — <a href="https://www.asahi.com/articles/DA3S16573312.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-24.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

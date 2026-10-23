@@ -13551,5 +13551,45 @@
   "example": "真夜中でも、駅は灯りが消えない。",
   "exampleReading": "まよなかでも、えきはあかりがきえない。",
   "exampleMeaning": "한밤중이어도 역은 불이 꺼지지 않는다."
+ },
+ {
+  "id": "tj506",
+  "word": "寄稿",
+  "reading": "きこう",
+  "meaning": "기고, 또는 기고하다",
+  "level": "N2",
+  "example": "彼は新聞に寄稿した。",
+  "exampleReading": "かれはしんぶんにきこうした",
+  "exampleMeaning": "그는 신문에 기고했다."
+ },
+ {
+  "id": "tj507",
+  "word": "平野",
+  "reading": "へいや",
+  "meaning": "평야",
+  "level": "N3",
+  "example": "広い平野が山に囲まれている。",
+  "exampleReading": "ひろいへいやがやまにかこまれている",
+  "exampleMeaning": "넓은 평야가 산에 둘러싸여 있다."
+ },
+ {
+  "id": "tj508",
+  "word": "翻る",
+  "reading": "ひるがえる",
+  "meaning": "(깃발 등이) 나부끼다, 펄럭이다",
+  "level": "N1",
+  "example": "強風に旗が翻った。",
+  "exampleReading": "きょうふうにはたがひるがえった",
+  "exampleMeaning": "강풍에 깃발이 펄럭였다."
+ },
+ {
+  "id": "tj509",
+  "word": "星条旗",
+  "reading": "せいじょうき",
+  "meaning": "성조기(미국 국기)",
+  "level": "N1",
+  "example": "式典で星条旗が掲揚された。",
+  "exampleReading": "しきてんでせいじょうきがけいようされた",
+  "exampleMeaning": "식전에서 성조기가 게양되었다."
  }
 ]
