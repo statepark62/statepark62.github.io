@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-25",
+    "no": 110,
+    "topic_ja": "サミット<ruby>創始<rt>そうし</rt></ruby>の<ruby>秋<rt>あき</rt></ruby>",
+    "topic_ko": "서밋이 시작된 가을",
+    "url": "https://www.asahi.com/articles/DA3S16574161.html?iref=pc_rensai_long_61_article",
+    "memo": "‘국제무대의 첫발’, ‘오일 쇼크’, ‘전후 외교 인식’ — 일본이 세계 질서 속에서 자신을 규정해 온 과정을 보여 주며, 경제·외교·역사 섹션을 잇는 교차 주제로 적합하다.",
+    "pattern": "Nと<ruby>共<rt>とも</rt></ruby>に"
+  },
+  {
     "date": "2026-10-24",
     "no": 109,
     "topic_ja": "<ruby>村上龍<rt>むらかみりゅう</rt></ruby>の<ruby>故郷<rt>こきょう</rt></ruby>を<ruby>訪<rt>おとず</rt></ruby>ねて",

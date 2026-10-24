@@ -13591,5 +13591,55 @@
   "example": "式典で星条旗が掲揚された。",
   "exampleReading": "しきてんでせいじょうきがけいようされた",
   "exampleMeaning": "식전에서 성조기가 게양되었다."
+ },
+ {
+  "id": "tj510",
+  "word": "首脳会議",
+  "reading": "しゅのうかいぎ",
+  "meaning": "정상회의",
+  "level": "N2",
+  "example": "主要国の首脳会議が東京で開かれる。",
+  "exampleReading": "しゅようこくのしゅのうかいぎがとうきょうでひらかれる。",
+  "exampleMeaning": "주요국 정상회의가 도쿄에서 열린다."
+ },
+ {
+  "id": "tj511",
+  "word": "郊外",
+  "reading": "こうがい",
+  "meaning": "교외",
+  "level": "N3",
+  "example": "パリの郊外を散歩した。",
+  "exampleReading": "ぱりのこうがいをさんぽした。",
+  "exampleMeaning": "파리 교외를 산책했다."
+ },
+ {
+  "id": "tj512",
+  "word": "格差是正",
+  "reading": "かくさぜせい",
+  "meaning": "격차 시정, 격차 완화",
+  "level": "N1",
+  "example": "政府は格差是正のための制度を見直した。",
+  "exampleReading": "せいふはかくさぜせいのためのせいどをみなおした。",
+  "exampleMeaning": "정부는 격차 시정을 위한 제도를 재검토했다."
+ },
+ {
+  "id": "tj513",
+  "word": "石油危機",
+  "reading": "せきゆきき",
+  "meaning": "석유 위기, 오일 쇼크",
+  "level": "N2",
+  "example": "石油危機で物価が急に上がった。",
+  "exampleReading": "せきゆききでぶっかがきゅうにあがった。",
+  "exampleMeaning": "석유 위기로 물가가 급격히 올랐다."
+ },
+ {
+  "id": "tj514",
+  "word": "肩を並べる",
+  "reading": "かたをならべる",
+  "meaning": "어깨를 나란히하다, 대등해지다",
+  "level": "N2",
+  "example": "日本は欧米と肩を並べるだけの実力を示した。",
+  "exampleReading": "にほんはおうべいとかたをならべるだけのじつりょくをしめした。",
+  "exampleMeaning": "일본은 서구와 어깨를 나란히 할 만한 실력을 보였다."
  }
 ]
