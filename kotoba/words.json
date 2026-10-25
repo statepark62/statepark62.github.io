@@ -13641,5 +13641,55 @@
   "example": "日本は欧米と肩を並べるだけの実力を示した。",
   "exampleReading": "にほんはおうべいとかたをならべるだけのじつりょくをしめした。",
   "exampleMeaning": "일본은 서구와 어깨를 나란히 할 만한 실력을 보였다."
+ },
+ {
+  "id": "tj515",
+  "word": "言い回し",
+  "reading": "いいまわし",
+  "meaning": "말투, 말버릇 표현",
+  "level": "N2",
+  "example": "その言い回しは相手にきつく聞こえる。",
+  "exampleReading": "そのいいまわしはあいてにきつくきこえる",
+  "exampleMeaning": "그 말투는 상대에게 거칠게 들린다."
+ },
+ {
+  "id": "tj516",
+  "word": "型にはまる",
+  "reading": "かたにはまる",
+  "meaning": "틀에 박히다",
+  "level": "N2",
+  "example": "議論が型にはまり、新鮮さを失った。",
+  "exampleReading": "ぎろんがかたにはまりしんせんさをうしなった",
+  "exampleMeaning": "논의가 틀에 박혀 신선함을 잃었다."
+ },
+ {
+  "id": "tj517",
+  "word": "一くくり",
+  "reading": "ひとくくり",
+  "meaning": "하나로 묶음, overgeneralization",
+  "level": "N1",
+  "example": "みんなを一くくりにしてはならない。",
+  "exampleReading": "みんなをひとくくりにしてはならない",
+  "exampleMeaning": "모두를 한데 묶어서는 안 된다."
+ },
+ {
+  "id": "tj518",
+  "word": "自戒",
+  "reading": "じかい",
+  "meaning": "자기 경계, 자책의 경계",
+  "level": "N1",
+  "example": "自戒を込めて、言葉をえらぶ。",
+  "exampleReading": "じかいをこめてことばをえらぶ",
+  "exampleMeaning": "자기 경계를 담아 말을 고른다."
+ },
+ {
+  "id": "tj519",
+  "word": "暴徒化",
+  "reading": "ぼうとか",
+  "meaning": "폭도화, 폭도로 변함",
+  "level": "N1",
+  "example": "デモが暴徒化しないよう対話を続ける。",
+  "exampleReading": "でもがぼうとかしないようたいわをつづける",
+  "exampleMeaning": "시위가 폭도화하지 않도록 대화를 이어간다."
  }
 ]

@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-26",
+    "no": 111,
+    "topic_ja": "<ruby>取材<rt>しゅざい</rt></ruby>と<ruby>言<rt>い</rt></ruby>い<ruby>回<rt>まわ</rt></ruby>し",
+    "topic_ko": "취재와 말버릇 표현",
+    "url": "https://www.asahi.com/articles/DA3S16574262.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘저널리즘 윤리’, ‘표현과 책임’, ‘집회 보도’ — 상투적 문구가 사실 인식에 미치는 영향을 다루며, 기자의 자기 성찰을 통해 보도의 윤리와 언어 선택의 책임을 환기한다.",
+    "pattern": "Nを<ruby>込<rt>こ</rt></ruby>めて"
+  },
+  {
     "date": "2026-10-25",
     "no": 110,
     "topic_ja": "サミット<ruby>創始<rt>そうし</rt></ruby>の<ruby>秋<rt>あき</rt></ruby>",
