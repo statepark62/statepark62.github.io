@@ -585,6 +585,12 @@
   });
 
   render();
+  /* index.html이 옛 버전이라 strokes.js를 안 부르는 경우를 대비해 직접 불러온다 */
+  if (!window.KANJI_STROKES && !window.__KJ_NO_SW) {
+    var sc = document.createElement('script'); sc.src = 'strokes.js';
+    sc.onload = function () { STR = window.KANJI_STROKES || {}; if (!wr) render(); };
+    document.head.appendChild(sc);
+  }
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !window.__KJ_NO_SW) {
     navigator.serviceWorker.register('sw.js').catch(function () {});
   }
