@@ -127,6 +127,32 @@
     V.view = 'study';
     nextStep();
   }
+  /* 하루 한도와 상관없이 새 한자를 지금 불러온다. list: 한자 데이터 배열 */
+  function forceNew(list) {
+    var s = V.sess, queued = {};
+    if (s) s.queue.forEach(function (x) { queued[x.k] = 1; });
+    list = list.filter(function (e) { return !queued[e.k] && stateOf(e.k) === 0; });
+    if (!list.length) { toast('더 불러올 새 한자가 없어요.'); return; }
+    var t = today();
+    if (S.newToday.d !== t) S.newToday = { d: t, n: 0 };
+    S.newToday.n += list.length; save();
+    var items = list.map(function (e) { return { k: e.k, mode: 'new', n: 2 }; });
+    if (!s) {
+      V.sess = { queue: items, i: 0, total: items.length, step: null, right: 0, wrong: 0, retry: {} };
+      V.view = 'study'; V.detail = null; nextStep(); return;
+    }
+    var done = s.step && s.step.kind === 'done';
+    var pos = done ? s.queue.length : s.i + 1;
+    Array.prototype.splice.apply(s.queue, [pos, 0].concat(items));
+    s.total += items.length;
+    V.view = 'study'; V.detail = null;
+    if (done) nextStep(); else { render(); toast('새 한자 ' + items.length + '개를 곧 보여 드릴게요.'); }
+  }
+  function nextNew(n) {
+    var queued = {};
+    if (V.sess) V.sess.queue.forEach(function (x) { queued[x.k] = 1; });
+    return unseen().filter(function (e) { return !queued[e.k]; }).slice(0, n);
+  }
   function nextStep() {
     var s = V.sess;
     if (s.i >= s.queue.length) { s.step = { kind: 'done' }; render(); return; }
@@ -178,7 +204,7 @@
     if (e.rule === 'weak') return '<span class="chip amber">받침이 없어 규칙이 느슨해요</span>';
     return '<span class="chip warn">예외 읽기가 있어요</span>';
   }
-  function detailHTML(e) {
+  function detailHTML(e, learn) {
     var h = '<div class="card">';
     h += '<div class="hero"><div class="big kj" lang="ja">' + esc(e.k) + '</div>';
     h += '<div class="hun">' + (e.hun ? esc(e.hun) : esc(e.en)) + '</div>';
@@ -208,6 +234,7 @@
     if (e.mn) h += '<div class="field"><h3>기억 도우미</h3><p>' + esc(e.mn) + '</p></div>';
     if (e.shape) h += '<div class="field"><h3>자형</h3><p>' + esc(e.shape) + '</p></div>';
     if (e.kun.length || e.kt) h += '<div class="field"><h3>훈독</h3>' + (e.kun.length ? '<p lang="ja"><b>' + esc(e.kun.join('、')) + '</b></p>' : '') + (e.kt ? '<p class="small muted">' + esc(e.kt) + '</p>' : '') + '</div>';
+    if (learn && stateOf(e.k) === 0) h += '<button class="btn primary wide" data-act="learnnow" data-k="' + esc(e.k) + '">지금 이 한자 배우기</button>';
     h += '<div class="sub"><span class="small muted">뜻(영어): ' + esc(e.en) + '</span><button class="btn ghost" data-act="report" data-k="' + esc(e.k) + '">오류 신고</button></div>';
     return h + '</div>';
   }
@@ -222,8 +249,13 @@
     h += '<div class="stats"><div class="stat"><b>' + due + '</b><span>오늘 복습</span></div><div class="stat"><b>' + nl + '</b><span>새 한자</span></div><div class="stat"><b>' + mastered + '<small class="muted" style="font-size:16px">/' + KJ.length + '</small></b><span>익힌 한자</span></div></div>';
     var can = due + nl > 0;
     h += '<div class="row"><button class="btn primary wide" data-act="start"' + (can ? '' : ' disabled') + '>' + (can ? '오늘 학습 시작' : '오늘 학습을 모두 마쳤어요') + '</button>';
-    if (!can && unseen().length) h += '<button class="btn wide" data-act="startmore">새 한자 ' + S.cfg.perDay + '개 더 하기</button>';
     h += '</div>';
+    if (nextNew(1).length) {
+      h += '<div class="sect"><p class="small muted center">오늘 한도와 상관없이 다음 새 한자를 바로 불러올 수 있어요.</p><div class="row">';
+      h += '<button class="btn" style="flex:1" data-act="more" data-n="1">+1개</button>';
+      h += '<button class="btn" style="flex:1" data-act="more" data-n="5">+5개</button>';
+      h += '<button class="btn" style="flex:1" data-act="more" data-n="10">+10개</button></div></div>';
+    }
     if (seenN === 0) h += '<div class="callout">처음이시군요. ‘오늘 학습 시작’을 누르면 새 한자 ' + S.cfg.perDay + '개를 카드로 보고 바로 퀴즈로 확인해요.</div>';
     var ex = [['学', '학', '', 'がく'], ['入', '입', 'ㅂ', 'にゅう'], ['日', '일', 'ㄹ', 'にち'], ['本', '본', 'ㄴ', 'ほん'], ['三', '삼', 'ㅁ', 'さん'], ['工', '공', 'ㅇ', 'こう']];
     h += '<div class="sect"><details><summary>한국음 받침으로 일본 음독 끝소리 짐작하기</summary>';
@@ -252,7 +284,7 @@
     var h = '<div class="progressbar" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + pct + '%"></i></div>';
     if (st.kind === 'intro') {
       h += '<p class="qtag">새 한자 · ' + (s.i + 1) + ' / ' + s.total + '</p>' + detailHTML(st.e);
-      h += '<button class="btn primary wide" data-act="next">퀴즈로 확인하기</button>';
+      h += '<button class="btn primary wide" data-act="next">퀴즈로 확인하기</button>' + moreBar();
     } else if (st.kind === 'q') {
       var q = st.q;
       h += '<div class="qwrap"><p class="qtag">' + esc(q.tag) + ' · ' + (s.i + 1) + ' / ' + s.total + '</p><div class="qprompt">' + q.prompt + '</div><div class="choices">';
@@ -264,7 +296,7 @@
       h += '</div>';
       if (st.answered != null) {
         h += '<div class="feedback"><div class="verdict ' + (st.correct ? 'ok' : 'ng') + '">' + (st.correct ? '정답이에요' : '아쉬워요') + '</div><div>' + q.why + '</div>';
-        h += '<div class="row"><button class="btn primary" style="flex:1" data-act="next">다음</button><button class="btn" data-act="card" data-k="' + esc(st.e.k) + '">카드 보기</button></div></div>';
+        h += '<div class="row"><button class="btn primary" style="flex:1" data-act="next">다음</button><button class="btn" data-act="card" data-k="' + esc(st.e.k) + '">카드 보기</button></div>' + moreBar() + '</div>';
       }
       h += '</div>';
     } else {
@@ -273,10 +305,13 @@
       var due = dueList().length;
       h += '<div class="callout">다음 복습은 간격에 맞춰 알려 드려요. 지금 복습할 한자: ' + due + '개</div>';
       h += '<div class="row"><button class="btn primary wide" data-act="tab" data-v="home">홈으로</button>';
-      if (unseen().length) h += '<button class="btn wide" data-act="startmore">새 한자 ' + S.cfg.perDay + '개 더 하기</button>';
-      h += '</div>';
+      h += '</div>' + moreBar(true);
     }
     return h;
+  }
+  function moreBar(big) {
+    if (!nextNew(1).length) return '';
+    return '<div class="row" style="justify-content:center"><button class="btn' + (big ? ' wide' : ' ghost') + '" data-act="more" data-n="1">+ 다음 한자 1개 불러오기</button>' + (big ? '<button class="btn wide" data-act="more" data-n="5">+ 다음 한자 5개 불러오기</button>' : '') + '</div>';
   }
 
   function viewList() {
@@ -336,7 +371,7 @@
   function overlays() {
     var h = '';
     if (V.detail) {
-      h += '<div class="overlay" role="dialog" aria-modal="true" aria-label="한자 카드"><div class="inner"><div class="row" style="justify-content:flex-end"><button class="btn" data-act="closecard">닫기</button></div>' + detailHTML(BY[V.detail]) + '<button class="btn wide" data-act="closecard">닫기</button></div></div>';
+      h += '<div class="overlay" role="dialog" aria-modal="true" aria-label="한자 카드"><div class="inner"><div class="row" style="justify-content:flex-end"><button class="btn" data-act="closecard">닫기</button></div>' + detailHTML(BY[V.detail], true) + '<button class="btn wide" data-act="closecard">닫기</button></div></div>';
     }
     if (V.report) {
       var e = BY[V.report];
@@ -365,6 +400,8 @@
     if (a === 'tab') { V.view = b.getAttribute('data-v'); V.detail = null; V.confirmReset = false; render(); window.scrollTo(0, 0); }
     else if (a === 'start') startSession(false);
     else if (a === 'startmore') startSession(true);
+    else if (a === 'more') forceNew(nextNew(+b.getAttribute('data-n')));
+    else if (a === 'learnnow') forceNew([BY[b.getAttribute('data-k')]]);
     else if (a === 'ans') answer(+b.getAttribute('data-i'));
     else if (a === 'next') advance();
     else if (a === 'card') { V.detail = b.getAttribute('data-k'); render(); }
@@ -400,5 +437,5 @@
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !window.__KJ_NO_SW) {
     navigator.serviceWorker.register('sw.js').catch(function () {});
   }
-  window.__KJ = { S: S, V: V, KJ: KJ, startSession: startSession, makeQuestion: makeQuestion };
+  window.__KJ = { S: S, V: V, KJ: KJ, startSession: startSession, makeQuestion: makeQuestion, forceNew: forceNew };
 })();

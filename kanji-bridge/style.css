@@ -45,7 +45,7 @@ h3 { font-size: 18px; }
 .muted { color: var(--ink2); }
 .small { font-size: 15px; }
 .kj { font-family: var(--f-kanji); font-weight: 700; }
-button { font: inherit; color: inherit; cursor: pointer; }
+button { word-break: keep-all; font: inherit; color: inherit; cursor: pointer; }
 button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 /* 머리말 */
