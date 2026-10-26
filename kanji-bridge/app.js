@@ -117,7 +117,7 @@
     var q = [];
     dueList().slice(0, 20).forEach(function (e) { q.push({ k: e.k, mode: 'rev', n: 1 }); });
     var n = extra ? S.cfg.perDay : newLeft();
-    unseen().slice(0, n).forEach(function (e) { q.push({ k: e.k, mode: 'new', n: 2 }); });
+    shuffle(unseen()).slice(0, n).forEach(function (e) { q.push({ k: e.k, mode: 'new', n: 2 }); });
     if (!q.length) { toast('지금 할 학습이 없어요. 내일 다시 오세요.'); return; }
     var t = today();
     if (S.newToday.d !== t) S.newToday = { d: t, n: 0 };
@@ -151,7 +151,7 @@
   function nextNew(n) {
     var queued = {};
     if (V.sess) V.sess.queue.forEach(function (x) { queued[x.k] = 1; });
-    return unseen().filter(function (e) { return !queued[e.k]; }).slice(0, n);
+    return shuffle(unseen().filter(function (e) { return !queued[e.k]; })).slice(0, n);
   }
   function nextStep() {
     var s = V.sess;
@@ -251,10 +251,7 @@
     h += '<div class="row"><button class="btn primary wide" data-act="start"' + (can ? '' : ' disabled') + '>' + (can ? '오늘 학습 시작' : '오늘 학습을 모두 마쳤어요') + '</button>';
     h += '</div>';
     if (nextNew(1).length) {
-      h += '<div class="sect"><p class="small muted center">오늘 한도와 상관없이 다음 새 한자를 바로 불러올 수 있어요.</p><div class="row">';
-      h += '<button class="btn" style="flex:1" data-act="more" data-n="1">+1개</button>';
-      h += '<button class="btn" style="flex:1" data-act="more" data-n="5">+5개</button>';
-      h += '<button class="btn" style="flex:1" data-act="more" data-n="10">+10개</button></div></div>';
+      h += '<div class="sect"><button class="btn wide" data-act="more" data-n="5">+ 새 한자 5개 더 불러오기</button><p class="small muted center">오늘 한도와 상관없이 아직 안 본 한자를 무작위로 불러와요.</p></div>';
     }
     if (seenN === 0) h += '<div class="callout">처음이시군요. ‘오늘 학습 시작’을 누르면 새 한자 ' + S.cfg.perDay + '개를 카드로 보고 바로 퀴즈로 확인해요.</div>';
     var ex = [['学', '학', '', 'がく'], ['入', '입', 'ㅂ', 'にゅう'], ['日', '일', 'ㄹ', 'にち'], ['本', '본', 'ㄴ', 'ほん'], ['三', '삼', 'ㅁ', 'さん'], ['工', '공', 'ㅇ', 'こう']];
@@ -311,7 +308,7 @@
   }
   function moreBar(big) {
     if (!nextNew(1).length) return '';
-    return '<div class="row" style="justify-content:center"><button class="btn' + (big ? ' wide' : ' ghost') + '" data-act="more" data-n="1">+ 다음 한자 1개 불러오기</button>' + (big ? '<button class="btn wide" data-act="more" data-n="5">+ 다음 한자 5개 불러오기</button>' : '') + '</div>';
+    return '<div class="row" style="justify-content:center"><button class="btn' + (big ? ' wide' : ' ghost') + '" data-act="more" data-n="5">+ 새 한자 5개 불러오기</button></div>';
   }
 
   function viewList() {
