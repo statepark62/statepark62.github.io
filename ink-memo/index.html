@@ -186,6 +186,7 @@
   }
   .memo-card.pinned{ box-shadow: 0 2px 0 var(--gold); }
   .memo-text{ font-size: 17px; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+  .memo-text a{ color: var(--teal); text-decoration: underline; text-underline-offset: 2px; word-break: break-all; }
   .memo-meta{
     display:flex; justify-content:space-between; align-items:center; margin-top: 10px;
     font-size: 13px; color: var(--text-on-paper-dim);
@@ -1109,7 +1110,7 @@
     const editedNote = m.editedAt ? ` · 수정됨` : "";
     const hasImages = Array.isArray(m.images) && m.images.length > 0;
     card.innerHTML = `
-      ${m.text ? `<div class="memo-text">${escapeHtml(m.text)}</div>` : ""}
+      ${m.text ? `<div class="memo-text">${linkify(m.text)}</div>` : ""}
       ${hasImages ? `<div class="memo-images" data-images="${m.id}"></div>` : ""}
       <div class="memo-meta">
         <div class="memo-tags">${tagsHtml}<span class="mono">${fmtTime(m.createdAt)}${editedNote}</span></div>
@@ -1158,6 +1159,18 @@
     const d = document.createElement("div");
     d.textContent = str;
     return d.innerHTML;
+  }
+
+  // 본문 안의 http(s) 주소를 클릭 가능한 링크로 변환 (먼저 이스케이프한 뒤 링크만 삽입하므로 안전)
+  function linkify(str){
+    const safe = escapeHtml(str);
+    return safe.replace(/https?:\/\/(?:(?!&lt;|&gt;)[^\s"'])+/g, (raw) => {
+      // 문장 끝의 구두점·닫는 괄호는 링크에서 제외
+      const m = raw.match(/[.,;:!?)\]}。、」』]+$/);
+      const tail = m ? m[0] : "";
+      const url = tail ? raw.slice(0, -tail.length) : raw;
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>${tail}`;
+    });
   }
 
   // ---------- Export ----------
