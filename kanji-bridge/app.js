@@ -225,8 +225,8 @@
     var sound = e.ko[0] || '';
     var jg = jong(sound);
     h += '<div class="bridge"><div class="ko">' + esc(sound) + '<small>' + (jg ? esc(jg) + ' 받침' : '받침 없음') + '</small></div><div class="arrow">→</div><div class="ja" lang="ja">' + esc(e.on.join('・')) + '</div></div>';
+    if (STR[e.k]) h += '<button class="writebtn" data-act="wr-open" data-k="' + esc(e.k) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1-4L17 4l3 3L8 19z"/><path d="M14 7l3 3"/></svg><span><b>손으로 써 보기</b><small>획순 · 따라 쓰기 · 외워서 쓰기</small></span></button>';
     if (e.ko.length > 1) h += '<p class="small muted center">다른 한국음: ' + esc(e.ko.slice(1).join(', ')) + '</p>';
-    if (STR[e.k]) h += '<button class="btn wide" data-act="wr-open" data-k="' + esc(e.k) + '">손으로 써 보기 · 획순 보기</button>';
     if (e.link) h += '<div class="field"><h3>한국음에서 일본 음독으로</h3><p>' + esc(e.link) + '</p></div>';
     if (e.excn) h += '<div class="callout amber"><b>예외 읽기</b><br>' + esc(e.excn) + '</div>';
     if (e.ex.length) {
