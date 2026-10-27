@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-27",
+    "no": 112,
+    "topic_ja": "<ruby>書<rt>か</rt></ruby>く<ruby>列車<rt>れっしゃ</rt></ruby>の<ruby>一夜<rt>いちや</rt></ruby>",
+    "topic_ko": "쓰는 열차의 하룻밤",
+    "url": "https://www.asahi.com/articles/DA3S16575365.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '여행과 창작', '방법의 다양성', '국제 교류' — 이동하는 공간에서 서로 다른 방식으로 쓰여지는 문장을 통해, 협업과 실험의 가치를 독자에게 선명하게 전달하기 때문.",
+    "pattern": "V<ruby>出<rt>だ</rt></ruby>す"
+  },
+  {
     "date": "2026-10-26",
     "no": 111,
     "topic_ja": "<ruby>取材<rt>しゅざい</rt></ruby>と<ruby>言<rt>い</rt></ruby>い<ruby>回<rt>まわ</rt></ruby>し",

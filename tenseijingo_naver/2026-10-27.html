@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-27 天声人語로 배우는 일본어 — 쓰는 열차의 하룻밤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-27</span>
+      <span>2026년 10월 27일 (화)</span>
+    </div>
+
+    <h1><ruby>書<rt>か</rt></ruby>く<ruby>列車<rt>れっしゃ</rt></ruby>の<ruby>一夜<rt>いちや</rt></ruby></h1>
+    <p class="topic-ko">쓰는 열차의 하룻밤</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>寝台列車<rt>しんだいれっしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>り」</div>
+      <div class="ko">침대열차에 올라 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>日仏<rt>にちふつ</rt></ruby>の<ruby>作家<rt>さっか</rt></ruby>１６<ruby>人<rt>にん</rt></ruby>が<ruby>寝台列車<rt>しんだいれっしゃ</rt></ruby>に<ruby>乗<rt>の</rt></ruby>り、２４<ruby>時間<rt>じかん</rt></ruby>で<ruby>一編<rt>いっぺん</rt></ruby>を<ruby>書<rt>か</rt></ruby>き<ruby>上<rt>あ</rt></ruby>げる<ruby>企画<rt>きかく</rt></ruby>を<ruby>題材<rt>だいざい</rt></ruby>にする。</p><p class="ko">일·불 16명의 작가가 침대열차에 올라 24시간 안에 한 편의 소설을 완성하는 여정을 다룬다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>特別<rt>とくべつ</rt></ruby><ruby>列車<rt>れっしゃ</rt></ruby>に<ruby>同行<rt>どうこう</rt></ruby>し、<ruby>京都<rt>きょうと</rt></ruby>から<ruby>松江<rt>まつえ</rt></ruby>へ<ruby>向<rt>む</rt></ruby>かう<ruby>道中<rt>どうちゅう</rt></ruby>で、<ruby>発車<rt>はっしゃ</rt></ruby>とともにデバイスごとに<ruby>執筆<rt>しっぴつ</rt></ruby>が<ruby>始<rt>はじ</rt></ruby>まる<ruby>情景<rt>じょうけい</rt></ruby>を<ruby>描<rt>えが</rt></ruby>く。</p><p class="ko">필자는 그 특별 열차에 동행해 교토에서 마쓰에로 향하는 동안, 출발과 동시에 노트북·태블릿·스마트폰 등 각기 다른 도구로 글쓰기가 시작되는 장면을 전한다.</p></div>
+      <div class="s-item"><p class="ja">いっぽうで<ruby>手書<rt>てが</rt></ruby>きを<ruby>貫<rt>つらぬ</rt></ruby>く<ruby>作家<rt>さっか</rt></ruby>もおり、<ruby>移動<rt>いどう</rt></ruby>と<ruby>創作<rt>そうさく</rt></ruby>の<ruby>対比<rt>たいひ</rt></ruby>が<ruby>余韻<rt>よいん</rt></ruby>を<ruby>残<rt>のこ</rt></ruby>す。</p><p class="ko">한편 에쿠니 가오리와 마쓰우라 히사키처럼 손글씨를 고수하는 이들도 있어, 이동과 창작 방식의 대비가 인상적인 여운을 남긴다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>執筆<rt>しっぴつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">집필, 글을 씀</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>締<rt>し</rt></ruby>め<ruby>切<rt>き</rt></ruby>り<ruby>前<rt>まえ</rt></ruby>に<ruby>一気<rt>いっき</rt></ruby>に<ruby>執筆<rt>しっぴつ</rt></ruby>を<ruby>進<rt>すす</rt></ruby>めた。</span><br>그는 마감 전에 한 번에 집필을 몰아붙였다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>寝台列車<rt>しんだいれっしゃ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">침대열차</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>夜<rt>よる</rt></ruby>の<ruby>寝台列車<rt>しんだいれっしゃ</rt></ruby>でぐっすり<ruby>眠<rt>ねむ</rt></ruby>った。</span><br>밤의 침대열차에서 푹 잠들었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>同行<rt>どうこう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">동행</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>記者<rt>きしゃ</rt></ruby>が<ruby>取材<rt>しゅざい</rt></ruby>のために<ruby>遠征<rt>えんせい</rt></ruby>に<ruby>同行<rt>どうこう</rt></ruby>した。</span><br>기자가 취재를 위해 원정에 동행했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>手書き<rt>てがき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">손글씨, 손으로 씀</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>手書<rt>てが</rt></ruby>きの<ruby>文字<rt>もじ</rt></ruby>は<ruby>温<rt>あたた</rt></ruby>かみがある。</span><br>손글씨는 따뜻한 느낌이 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>途中停車<rt>とちゅうていしゃ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">중간 정차</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>列車<rt>れっしゃ</rt></ruby>は<ruby>強風<rt>きょうふう</rt></ruby>のために<ruby>途中停車<rt>とちゅうていしゃ</rt></ruby>を<ruby>余儀<rt>よぎ</rt></ruby>なくされた。</span><br>열차는 강풍 때문에 중간 정차를 피할 수 없었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">V<ruby>出<rt>だ</rt></ruby>す</div>
+        <div class="pattern-ko">~하기 시작하다, 불쑥 ~하다</div>
+        <p class="explain">어떤 동작이 갑자기 시작되거나 자기도 모르게 터져 나오는 느낌을 나타낸다. 계획적·의도적 개시를 말할 때는 V始める가 자연스러우나, 돌발성·자연발생성에는 V出す가 어울린다.</p>
+        <p class="ex"><span class="ja"><ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>り<ruby>出<rt>だ</rt></ruby>した。</span><br>비가 내리기 시작했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 ‘달리는 공간에서의 창작’이라는 독특한 조건을 바로 눈앞의 장면으로 끌어와 독자를 현장에 앉힌다. 열차가 움직이기 시작하자 곧바로 글쓰기가 시작된다는 리듬감 있는 묘사는, 이동과 문장 사이의 박동을 효과적으로 전한다. 또한 노트북·태블릿·스마트폰 같은 도구의 나열은 각자의 창작 습관을 한 컷의 스냅샷처럼 보여 주는 천성인어 특유의 압축술이다. 구체부터 보편으로 확장하는 구성 덕분에 짧은 지면에서도 이야기의 폭이 넓어진다.</p>
+        <p>글이 남기는 의미는 ‘방법의 다양성’과 ‘함께 쓰는 시간’에 있다. 손글씨를 고집하는 이들과 디지털 장비를 쓰는 이들의 대비는, 매체가 달라도 문장을 낳는 집중의 본질은 같다는 메시지를 암시한다. 국제 공동 프로젝트라는 맥락은 일본 독자에게는 문화 교류의 풍경으로, 한국 독자에게는 이동과 글쓰기의 조합이 주는 낭만과 생산성의 공존으로 흥미롭게 읽힌다. 결과보다 과정을 비추는 시선이, 창작의 시작점에 서 있는 이들에게 실질적인 동기를 제공한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 달리는 열차에서 시작된 24시간 창작 현장을 스케치하며, 서로 다른 글쓰기 방식이 빚는 에너지를 비추는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본의 침대열차는 한때 쇠퇴했지만, 관광형 특별열차의 등장을 계기로 ‘이동 자체를 즐기는 여행’이 재평가되고 있다.</p>
+        <p>마쓰에는 시마네현의 중심 도시로, 신지호와 고성으로 알려진 조용한 관광지이며 산인 본선을 따라 교토에서 이어진다.</p>
+        <p>국제 문학 교류 프로젝트는 레지던시·워크숍 등 다양한 형식으로 진행되며, ‘이동하며 쓰기’는 창작의 몰입을 촉발하는 실험적 형식으로 주목받아 왔다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>출발 직후의 순간을 포착해 서사의 리듬을 단숨에 만든다.</p>
+        <p><span class="n">二</span>구체적 도구의 나열로 인물의 습관과 풍경을 경제적으로 보여 준다.</p>
+        <p><span class="n">三</span>대비(디지털 vs 손글씨)를 배치해 주제 의식을 자연스럽게 부각한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>揺<rt>ゆ</rt></ruby>れる<ruby>車内<rt>しゃない</rt></ruby>で<ruby>言葉<rt>ことば</rt></ruby>が<ruby>走<rt>はし</rt></ruby>り<ruby>出<rt>だ</rt></ruby>す。</span>
+      <span class="ko">흔들리는 차내에서 말들이 달리기 시작한다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-27) — <a href="https://www.asahi.com/articles/DA3S16575365.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-27.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

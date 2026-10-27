@@ -13691,5 +13691,105 @@
   "example": "デモが暴徒化しないよう対話を続ける。",
   "exampleReading": "でもがぼうとかしないようたいわをつづける",
   "exampleMeaning": "시위가 폭도화하지 않도록 대화를 이어간다."
+ },
+ {
+  "id": "tj520",
+  "word": "執筆",
+  "reading": "しっぴつ",
+  "meaning": "집필",
+  "level": "N2",
+  "example": "彼は締切前にいっきに執筆を進めた。",
+  "exampleReading": "かれはしめきりまえにいっきにしっぴつをすすめた。",
+  "exampleMeaning": "그는 마감 전에 한꺼번에 집필을 밀어붙였다."
+ },
+ {
+  "id": "tj521",
+  "word": "寝台列車",
+  "reading": "しんだいれっしゃ",
+  "meaning": "침대열차",
+  "level": "N2",
+  "example": "友人と寝台列車で西へ向かった。",
+  "exampleReading": "ゆうじんとしんだいれっしゃでにしへむかった。",
+  "exampleMeaning": "친구와 침대열차로 서쪽을 향했다."
+ },
+ {
+  "id": "tj522",
+  "word": "書き上げる",
+  "reading": "かきあげる",
+  "meaning": "다 써내다, 완성하다",
+  "level": "N2",
+  "example": "彼女は一晩で詩を書き上げた。",
+  "exampleReading": "かのじょはひとばんでしをかきあげた。",
+  "exampleMeaning": "그녀는 하룻밤에 시를 완성했다."
+ },
+ {
+  "id": "tj523",
+  "word": "同行する",
+  "reading": "どうこうする",
+  "meaning": "동행하다",
+  "level": "N2",
+  "example": "記者が取材で首相に同行した。",
+  "exampleReading": "きしゃがしゅざいでしゅしょうにどうこうした。",
+  "exampleMeaning": "기자가 취재로 총리와 동행했다."
+ },
+ {
+  "id": "tj524",
+  "word": "手書き",
+  "reading": "てがき",
+  "meaning": "손글씨",
+  "level": "N3",
+  "example": "手書きの手紙にはあたたかさがある。",
+  "exampleReading": "てがきのてがみにはあたたかさがある。",
+  "exampleMeaning": "손글씨 편지에는 따뜻함이 있다."
+ },
+ {
+  "id": "tj525",
+  "word": "執筆",
+  "reading": "しっぴつ",
+  "meaning": "집필, 글을 씀",
+  "level": "N2",
+  "example": "彼は締め切り前に一気に執筆を進めた。",
+  "exampleReading": "かれはしめきりまえにいっきにしっぴつをすすめた",
+  "exampleMeaning": "그는 마감 전에 한 번에 집필을 몰아붙였다."
+ },
+ {
+  "id": "tj526",
+  "word": "寝台列車",
+  "reading": "しんだいれっしゃ",
+  "meaning": "침대열차",
+  "level": "N2",
+  "example": "夜の寝台列車でぐっすり眠った。",
+  "exampleReading": "よるのしんだいれっしゃでぐっすりねむった",
+  "exampleMeaning": "밤의 침대열차에서 푹 잠들었다."
+ },
+ {
+  "id": "tj527",
+  "word": "同行",
+  "reading": "どうこう",
+  "meaning": "동행",
+  "level": "N2",
+  "example": "記者が取材のために遠征に同行した。",
+  "exampleReading": "きしゃがしゅざいのためにえんせいにどうこうした",
+  "exampleMeaning": "기자가 취재를 위해 원정에 동행했다."
+ },
+ {
+  "id": "tj528",
+  "word": "手書き",
+  "reading": "てがき",
+  "meaning": "손글씨, 손으로 씀",
+  "level": "N3",
+  "example": "手書きの文字は温かみがある。",
+  "exampleReading": "てがきのもじはあたたかみがある",
+  "exampleMeaning": "손글씨는 따뜻한 느낌이 있다."
+ },
+ {
+  "id": "tj529",
+  "word": "途中停車",
+  "reading": "とちゅうていしゃ",
+  "meaning": "중간 정차",
+  "level": "N1",
+  "example": "列車は強風のために途中停車を余儀なくされた。",
+  "exampleReading": "れっしゃはきょうふうのためにとちゅうていしゃをよぎなくされた",
+  "exampleMeaning": "열차는 강풍 때문에 중간 정차를 피할 수 없었다."
  }
 ]
