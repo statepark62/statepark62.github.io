@@ -100,6 +100,20 @@ h1{font-size:40px;line-height:1.15;letter-spacing:.02em}
 .prop{fill:none;stroke:var(--ink2);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
 .txt{margin:10px 0 0;font-size:14px;color:var(--ink2)}
 .c3{display:block;width:100%;height:auto;aspect-ratio:3/2}
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:22px}
+.modes button{padding:12px 6px;border:1px solid var(--line);background:var(--surface);border-radius:10px;font-weight:700;font-size:16px;line-height:1.35}
+.modes button small{display:block;font-weight:400;font-size:12px;color:var(--ink2)}
+.modes button.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.modes button.on small{color:var(--on-accent)}
+.lvs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.lv{padding:10px 2px;border:1px solid var(--line);background:var(--surface);border-radius:8px;text-align:center;font-weight:700;font-size:16px}
+.lv small{display:block;font-size:12px;font-weight:400;color:var(--ink2)}
+.lv.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.lv.on small{color:var(--bg)}
+.soon{margin:16px auto 0;max-width:460px;padding:16px;border:1px dashed var(--line);border-radius:10px;color:var(--ink2);text-align:center}
+.logl{list-style:none;margin:0 auto;padding:0;display:grid;gap:6px;max-width:420px;width:100%}
+.logl li{padding:8px 12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;font-size:14px;color:var(--ink2);text-align:center}
+.logl b{color:var(--ink)}
 .views{display:flex;gap:8px;justify-content:center;margin-top:8px}
 .views .ghost{padding:6px 14px}
 .ghost{background:transparent;border:1px solid var(--line);border-radius:8px;padding:8px 14px;color:var(--ink2);font-size:14px}
@@ -154,18 +168,28 @@ h1{font-size:40px;line-height:1.15;letter-spacing:.02em}
 <div class="wrap">
   <header>
     <h1>맨몸 챌린지</h1>
-    <p class="sub">4주 · 월~금 · 50대 이상 · 3D 아바타 동작 가이드</p>
-    <p class="score"><span id="cnt">0</span><small> / 20일</small></p>
-    <p class="score-l">완료한 운동일</p>
+    <p class="sub" id="sub">40세 이상 남성 · 월·수·금 · 3D 아바타 동작 가이드</p>
+    <p class="score"><span id="cnt">0</span><small id="cntmax"> / 3회</small></p>
+    <p class="score-l" id="cntlab">이번 주 완료</p>
     <div class="meter" aria-hidden="true"><i id="meter"></i></div>
   </header>
 
-  <p class="lab">버전</p>
-  <div class="seg" id="sex"></div>
-  <p class="vnote" id="vnote"></p>
+  <div class="modes" id="mode"></div>
 
-  <p class="lab">주차</p>
-  <div class="weeks" id="weeks"></div>
+  <div id="lvwrap">
+    <p class="lab">단계</p>
+    <div class="lvs" id="lvs"></div>
+    <p class="vnote" id="lvnote"></p>
+  </div>
+  <div id="sexwrap">
+    <p class="lab">버전</p>
+    <div class="seg" id="sex"></div>
+    <p class="vnote" id="vnote"></p>
+  </div>
+  <div id="weekwrap">
+    <p class="lab">주차</p>
+    <div class="weeks" id="weeks"></div>
+  </div>
   <p class="lab">요일</p>
   <div class="days" id="days"></div>
 
@@ -176,7 +200,7 @@ h1{font-size:40px;line-height:1.15;letter-spacing:.02em}
   <section class="sec">
     <p class="lab" style="margin-top:0">기록</p>
     <div class="rec" id="rec"></div>
-    <p class="txt">칸을 누르면 그날로 이동합니다. 기록은 이 기기의 브라우저에 저장됩니다.</p>
+    <p class="txt" id="rectxt">칸을 누르면 그날로 이동합니다. 기록은 이 기기의 브라우저에 저장됩니다.</p>
     <p style="margin:14px 0 0"><button class="ghost" id="reset" data-act="reset">기록 초기화</button></p>
   </section>
 </div>
@@ -278,7 +302,64 @@ balance:{n:'한 발 서기',m:'균형 · 발목 · 엉덩이',u:'초',toe:true,n
  kf:[P([113,20],[112,32],[112,68],[130,50],[148,48],[128,88],[122,110],[130,50],[148,48],[112,94],[112,120]),P([113,20],[112,32],[112,68],[130,50],[148,48],[132,84],[126,106],[130,50],[148,48],[112,94],[112,120])],
  steps:['벽이나 의자 옆에 서서 한 손을 가볍게 대 둔다.','한 발을 살짝 들고 시선은 정면 한 곳에 고정한다.','정해진 시간 동안 유지한 뒤 반대 발로 바꾼다.'],
  bad:['시선이 바닥으로 떨어진다.','상체가 한쪽으로 기운다.'],
- easy:'발끝을 바닥에 가볍게 댄다.',hard:'손을 떼고 눈을 정면에 둔다.'}
+ easy:'발끝을 바닥에 가볍게 댄다.',hard:'손을 떼고 눈을 정면에 둔다.'},
+jumpjack:{n:'점핑잭',m:'전신 · 심폐',u:'회',toe:false,front:true,seg:600,
+ kf:[P([128,20],[128,32],[128,68],[141,52],[143,74],[133,94],[133,120],[115,52],[113,74],[123,94],[123,120]),P([128,20],[128,32],[128,68],[152,16],[160,-4],[145,92],[157,116],[104,16],[96,-4],[111,92],[99,116])],
+ steps:['발을 모으고 팔을 몸 옆에 붙이고 선다.','가볍게 뛰며 발을 어깨너비보다 넓게 벌리고 팔을 머리 위로 올린다.','다시 뛰며 발과 팔을 처음 자세로 돌린다. 착지할 때 무릎을 살짝 굽힌다.'],
+ bad:['발바닥으로 쿵쿵 착지한다.','무릎이 안쪽으로 모인다.'],
+ easy:'뛰지 않고 한 발씩 옆으로 내딛는 스텝 잭으로 한다.',hard:'속도를 높인다.'},
+highknees:{n:'하이니스',m:'다리 · 심폐',u:'회',toe:true,note:'양쪽 합계',seg:420,
+ kf:[P([113,20],[112,32],[112,68],[102,54],[98,72],[138,66],[134,92],[122,54],[136,42],[110,94],[108,120]),P([113,20],[112,32],[112,68],[122,54],[136,42],[110,94],[108,120],[102,54],[98,72],[138,66],[134,92])],
+ steps:['바른 자세로 서서 팔을 달리듯 굽힌다.','무릎을 허리 높이까지 번갈아 올리며 제자리에서 빠르게 달린다.','발은 가볍게 내려놓고 상체는 곧게 세운다.'],
+ bad:['상체가 뒤로 젖혀진다.','발을 끌며 쿵쿵 내딛는다.'],
+ easy:'무릎을 낮게 올리며 천천히 걷는다.',hard:'속도를 높이고 무릎을 더 높이 올린다.'},
+armcircle:{n:'팔 돌리기',m:'어깨 · 가동성',u:'회',toe:true,seg:230,
+ kf:(function(){var r=[];for(var i=0;i<8;i++){var t=i*Math.PI/4,sn=Math.sin(t),cs=Math.cos(t);r.push(P([113,20],[112,32],[112,68],[112+sn*20,32+cs*20],[112+sn*40,32+cs*40],[112,94],[112,120]));}return r;})(),
+ steps:['발을 어깨너비로 벌리고 바르게 선다.','팔을 곧게 펴서 큰 원을 그리며 앞으로 돌린다. 절반을 돌린 뒤에는 반대 방향으로 돌린다.','어깨를 귀에서 멀리 내리고 어깨 관절로 돌린다.'],
+ bad:['상체가 앞뒤로 흔들린다.','어깨가 귀 쪽으로 올라간다.'],
+ easy:'원을 작게 그린다.',hard:'원을 크게 그리고 속도를 올린다.'},
+pushup:{n:'푸시업',m:'가슴 · 어깨 · 삼두',u:'회',toe:false,
+ kf:[P([166,74],[150,82],[100,102],[150,104],[150,126],[75,112],[50,122]),P([168,108],[150,110],[100,116],[128,118],[150,126],[75,119],[50,122])],
+ steps:['손은 어깨보다 조금 넓게 바닥을 짚고 팔을 편다.','머리부터 발뒤꿈치까지 일직선을 유지하며 배에 힘을 준다.','팔꿈치를 몸에서 45도로 벌려 가슴이 바닥 가까이 닿을 때까지 내려간다.','바닥을 밀며 팔을 펴고 올라온다.'],
+ bad:['허리가 처지거나 엉덩이가 솟는다.','고개를 앞으로 떨어뜨린다.'],
+ easy:'기울인 푸시업이나 무릎 푸시업으로 바꾼다.',hard:'내려간 자세에서 1초 멈춘다.'},
+dips:{n:'딥스',m:'삼두 · 어깨 앞쪽',u:'회',toe:false,
+ prop:'<path class="prop" d="M172 100H226M178 100V128M221 100V128"/>',box:[[172,98,226,102,0.7],[176,102,182,128,0.5],[218,102,224,128,0.5]],
+ kf:[P([172,49],[170,62],[164,100],[176,80],[181,97],[140,100],[138,126]),P([172,79],[170,92],[166,126],[183,111],[181,97],[146,106],[138,126])],
+ steps:['튼튼한 의자나 벤치에 등을 돌리고 손을 가장자리에 짚는다. 의자가 움직이지 않는지 확인한다.','엉덩이를 의자 앞으로 빼고 무릎을 굽혀 발을 바닥에 둔다.','팔꿈치를 뒤로 굽혀 몸을 내렸다가 손바닥으로 밀어 올라온다.'],
+ bad:['어깨가 귀 쪽으로 올라간다.','엉덩이가 의자에서 너무 멀어진다.'],
+ easy:'내려가는 깊이를 줄인다.',hard:'다리를 앞으로 곧게 편다.'},
+legraise:{n:'레그 레이즈',m:'하복부',u:'회',toe:false,
+ kf:[P([48,118],[64,120],[104,120],[84,122],[100,124],[136,112],[168,106]),P([48,118],[64,120],[104,120],[84,122],[100,124],[104,82],[104,46])],
+ steps:['누워 손바닥을 엉덩이 옆 바닥에 둔다. 허리가 뜨지 않게 배에 힘을 준다.','다리를 모아 곧게 펴 90도까지 든다.','천천히 내리되 발이 바닥에 닿기 직전에 멈춘다.'],
+ bad:['허리가 바닥에서 뜬다.','반동으로 다리를 던진다.'],
+ easy:'무릎을 굽힌 채 한다.',hard:'발이 바닥에 닿지 않게 연속으로 한다.'},
+mountain:{n:'마운틴 클라이머',m:'복부 · 어깨 · 허벅지',u:'회',toe:false,note:'양쪽 합계',seg:420,
+ kf:[P([166,74],[150,82],[100,98],[150,104],[150,126],[126,100],[134,118],[150,104],[150,126],[74,112],[50,122]),P([166,74],[150,82],[100,98],[150,104],[150,126],[74,112],[50,122],[150,104],[150,126],[126,100],[134,118])],
+ steps:['손을 어깨 아래에 두고 팔을 편 플랭크 자세를 만든다.','한쪽 무릎을 가슴 쪽으로 당겼다가 되돌린다.','좌우를 번갈아 반복한다. 엉덩이는 낮게 유지한다.'],
+ bad:['엉덩이가 위로 솟는다.','손이 앞으로 밀려난다.'],
+ easy:'손을 의자에 짚고 천천히 한다.',hard:'속도를 올린다.'},
+bulgarian:{n:'불가리안 스플릿 스쿼트',m:'허벅지 · 엉덩이 · 균형',u:'회',toe:false,seg:1400,
+ prop:'<path class="prop" d="M56 102H96M60 102V128M92 102V128"/>',box:[[56,100,96,104,0.4],[58,104,62,128,0.3],[90,104,94,128,0.3]],
+ kf:[P([119,20],[118,32],[116,68],[116,52],[116,72],[122,93],[128,118],[116,52],[116,72],[102,90],[76,92]),P([105,46],[104,58],[102,94],[102,78],[102,98],[128,92],[128,118],[102,78],[102,98],[87,115],[76,92])],
+ steps:['의자 앞에 등을 돌리고 서서 한 발을 뒤로 뻗어 발등을 의자 위에 올린다.','앞발은 의자에서 한 걸음 반 정도 앞에 둔다. 균형이 불안하면 벽을 가볍게 짚는다.','상체를 세우고 뒷무릎이 바닥 가까이 갈 때까지 내려간다.','앞발로 바닥을 밀어 올라온다. 한쪽을 마친 뒤 반대쪽도 한다.'],
+ bad:['앞무릎이 발끝보다 많이 앞으로 나간다.','상체가 앞으로 숙여진다.'],
+ easy:'뒷발을 바닥에 두고 하는 스플릿 스쿼트로 한다.',hard:'내려간 자세에서 2초 멈춘다.'},
+revlunge:{n:'리버스 런지',m:'허벅지 · 엉덩이',u:'회',toe:true,
+ kf:[P([127,20],[126,32],[126,68],[122,56],[124,76],[126,94],[126,120]),P([105,46],[104,58],[102,94],[102,78],[102,98],[128,94],[126,120],[102,78],[102,98],[94,118],[68,118])],
+ steps:['발을 모으고 서서 필요하면 벽이나 의자를 가볍게 잡는다.','한 발을 뒤로 크게 내딛으며 양 무릎이 90도가 될 때까지 내려간다.','앞발로 바닥을 밀어 처음 자세로 돌아온다. 좌우를 번갈아 한다.'],
+ bad:['앞무릎이 안쪽으로 모인다.','상체가 앞으로 숙여진다.'],
+ easy:'보폭을 줄이고 내려가는 깊이를 줄인다.',hard:'내려간 자세에서 2초 멈춘다.'},
+walklunge:{n:'워킹 런지',m:'허벅지 · 엉덩이 · 균형',u:'회',toe:true,seg:650,
+ kf:[STAND,P([113,46],[112,58],[112,94],[112,78],[112,98],[138,94],[138,120],[112,78],[112,98],[104,118],[78,118]),STAND,P([113,46],[112,58],[112,94],[112,78],[112,98],[104,118],[78,118],[112,78],[112,98],[138,94],[138,120])],
+ steps:['한 발을 앞으로 크게 내딛고 상체는 곧게 세운다.','뒷무릎이 바닥 가까이 갈 때까지 내려간다.','앞발로 밀며 일어나 뒷발을 앞으로 가져와 이어서 반대쪽 발을 내딛는다.'],
+ bad:['앞무릎이 발끝보다 많이 앞으로 나간다.','걸음 폭이 좁아 균형이 흔들린다.'],
+ easy:'제자리에서 한 발씩 번갈아 하는 런지로 한다.',hard:'내려간 자세에서 2초 멈춘다.'},
+sideplank:{n:'사이드 플랭크',m:'옆구리 · 어깨 · 엉덩이',u:'초',toe:false,seg:2000,
+ kf:[P([158,92],[146,100],[110,108],[146,122],[164,124],[84,116],[58,122],[148,80],[150,60],[84,112],[58,118]),P([158,90],[146,98],[110,106],[146,120],[164,122],[84,114],[58,120],[148,78],[150,58],[84,110],[58,116])],
+ steps:['옆으로 누워 아래쪽 팔꿈치를 어깨 바로 아래에 둔다.','엉덩이를 들어 머리부터 발까지 일직선을 만든다.','정해진 시간 동안 유지한다. 반대쪽도 같은 시간 한다.'],
+ bad:['엉덩이가 아래로 처진다.','몸이 앞이나 뒤로 돌아간다.'],
+ easy:'무릎을 굽혀 바닥에 대고 한다.',hard:'위쪽 다리를 들어 올린다.'}
 };
 
 var DAYS=[{d:'월',t:'상체',k:'up'},{d:'화',t:'하체',k:'low'},{d:'수',t:'코어',k:'core'},{d:'목',t:'균형',k:'bal'},{d:'금',t:'전신',k:'full'},{d:'토',t:'휴식',k:'rest'},{d:'일',t:'휴식',k:'rest'}];
@@ -306,12 +387,14 @@ var RESTINFO={
 };
 
 var KEY='bwc.v2';
-var ST={done:{},week:0,sex:'M'};
-try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);if(o&&o.done)ST.done=o.done;if(typeof o.week==='number')ST.week=o.week;if(o.sex==='F'||o.sex==='M')ST.sex=o.sex;}}catch(e){}
+var ST={done:{},week:0,sex:'M',mode:'lvl',lvSel:1,log:[]};
+try{var raw=localStorage.getItem(KEY);if(raw){var o=JSON.parse(raw);if(o&&o.done)ST.done=o.done;if(typeof o.week==='number')ST.week=o.week;if(o.sex==='F'||o.sex==='M')ST.sex=o.sex;if(o.mode==='plan'||o.mode==='lvl')ST.mode=o.mode;if(o.lvSel>=1&&o.lvSel<=4)ST.lvSel=o.lvSel;if(Array.isArray(o.log))ST.log=o.log;}}catch(e){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(ST));}catch(e){}}
 
 var todayIdx=(new Date().getDay()+6)%7;
-var selW=Math.min(3,Math.max(0,ST.week||0)), selD=todayIdx;
+var selW=Math.min(3,Math.max(0,ST.week||0)), selD=todayIdx, selL=nextDay();
+function nextDay(){var t=todayIdx;if(t===0||t===2||t===4)return t;if(t===1||t===3)return t+1;return 0;}
+function avSex(){return ST.mode==='lvl'?'M':ST.sex;}
 function $(s){return document.querySelector(s);}
 function isDone(w,d){return !!ST.done[w+'-'+d];}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
@@ -344,8 +427,8 @@ function setPoseSvg(f,ps){
   f.fl.setAttribute('points',pt(2)+' '+pt(9)+' '+pt(10));
   f.hd.setAttribute('cx',ps[0][0].toFixed(1));f.hd.setAttribute('cy',ps[0][1].toFixed(1));
   if(f.ex.toe){
-    f.t1.setAttribute('x1',ps[8][0]);f.t1.setAttribute('y1',ps[8][1]);f.t1.setAttribute('x2',ps[8][0]+12);f.t1.setAttribute('y2',128);
-    f.t2.setAttribute('x1',ps[10][0]);f.t2.setAttribute('y1',ps[10][1]);f.t2.setAttribute('x2',ps[10][0]+12);f.t2.setAttribute('y2',128);
+    f.t1.setAttribute('x1',ps[8][0]);f.t1.setAttribute('y1',ps[8][1]);f.t1.setAttribute('x2',ps[8][0]+12);f.t1.setAttribute('y2',Math.min(128,ps[8][1]+8));
+    f.t2.setAttribute('x1',ps[10][0]);f.t2.setAttribute('y1',ps[10][1]);f.t2.setAttribute('x2',ps[10][0]+12);f.t2.setAttribute('y2',Math.min(128,ps[10][1]+8));
   }
 }
 function lerpPose(a,b,t){return a.map(function(p,i){return [p[0]+(b[i][0]-p[0])*t,p[1]+(b[i][1]-p[1])*t];});}
@@ -390,7 +473,7 @@ function makeStage(w,h){
     M.prop.color.set(c.ink2);M.floor.color.set(c.line);
   };
   S.setEx=function(ex){
-    if(curEx===ex)return;curEx=ex;
+    if(curEx===ex)return;curEx=ex;S.az=S.azT=ex.front?0:0.45;
     for(var k in props)props[k].visible=false;
     if(ex.box){
       if(!props[ex.n]){
@@ -406,14 +489,16 @@ function makeStage(w,h){
   };
   S.setPose=function(ps,ex,sex){
     var F=sex==='F',sh=F?0.17:0.21,hp=F?0.15:0.12,ra=F?0.05:0.058,rl=F?0.072:0.08,rt=F?0.115:0.13;
-    function v(i,z){return new THREE.Vector3((ps[i][0]-128)/50,(128-ps[i][1])/50,z);}
+    var fr=!!ex.front;
+    function v(i,z){return new THREE.Vector3((ps[i][0]-128)/50,(128-ps[i][1])/50,fr?0:z);}
     var neck=v(1,0),hip=v(2,0),head=v(0,0),sN=v(1,sh),sF=v(1,-sh),eN=v(3,sh),aN=v(4,sh),eF=v(5,-sh),aF=v(6,-sh),hN=v(2,hp),hF=v(2,-hp),kN=v(7,hp),fN=v(8,hp),kF=v(9,-hp),fF=v(10,-hp);
+    if(fr){sN.x+=sh;sF.x-=sh;hN.x+=hp;hF.x-=hp;}
     bone('torso',neck,hip,rt);bone('sh',sF,sN,ra*1.1);bone('hp',hF,hN,rl);bone('neck',neck,head,0.05);
     bone('na1',sN,eN,ra);bone('na2',eN,aN,ra*0.92);bone('fa1',sF,eF,ra);bone('fa2',eF,aF,ra*0.92);
     bone('nl1',hN,kN,rl);bone('nl2',kN,fN,rl*0.85);bone('fl1',hF,kF,rl);bone('fl2',kF,fF,rl*0.85);
     if(ex.toe){
-      bone('tn',fN,new THREE.Vector3(fN.x+0.24,0.04,fN.z),0.045);
-      bone('tf',fF,new THREE.Vector3(fF.x+0.24,0.04,fF.z),0.045);
+      bone('tn',fN,new THREE.Vector3(fN.x+0.24,Math.max(0.04,fN.y-0.16),fN.z),0.045);
+      bone('tf',fF,new THREE.Vector3(fF.x+0.24,Math.max(0.04,fF.y-0.16),fF.z),0.045);
     }else{bones.tn.visible=false;bones.tf.visible=false;}
     joint('head',head,0.19);joint('nk',neck,rt);joint('pv',hip,rt);
     joint('sN',sN,ra*1.1);joint('sF',sF,ra*1.1);joint('eN',eN,ra);joint('eF',eF,ra);
@@ -443,9 +528,10 @@ function attachDrag(stage){
   c.addEventListener('pointerup',function(){down=false;});
   c.addEventListener('pointercancel',function(){down=false;});
 }
-function viewsHtml(hint){
+function viewsHtml(hint,ex){
   if(!use3D)return '';
-  return '<div class="views"><button class="ghost" data-act="view" data-az="0.45">기본</button><button class="ghost" data-act="view" data-az="0">옆</button><button class="ghost" data-act="view" data-az="1.5708">정면</button><button class="ghost" data-act="view" data-az="3.1416">뒤</button></div>'+(hint?'<p class="txt" style="margin-top:6px">그림을 좌우로 끌어 돌려 볼 수 있습니다.</p>':'');
+  var f=ex&&ex.front,v=[['기본',f?0:0.45],['옆',f?1.5708:0],['정면',f?0:1.5708],['뒤',3.1416]];
+  return '<div class="views">'+v.map(function(x){return '<button class="ghost" data-act="view" data-az="'+x[1]+'">'+x[0]+'</button>';}).join('')+'</div>'+(hint?'<p class="txt" style="margin-top:6px">그림을 좌우로 끌어 돌려 볼 수 있습니다.</p>':'');
 }
 
 function drawFrame(ms){
@@ -455,14 +541,14 @@ function drawFrame(ms){
     var covered=!$('#detail').hidden||!$('#guide').hidden;
     if(thumbs.length&&!covered){
       thumbs.forEach(function(t){
-        TS.setEx(t.ex);TS.setPose(poseAt(t.ex,ms),t.ex,ST.sex);TS.render();
+        TS.setEx(t.ex);TS.setPose(poseAt(t.ex,ms),t.ex,avSex());TS.render();
         t.ctx.clearRect(0,0,480,320);t.ctx.drawImage(TS.canvas,0,0,480,320);
       });
     }
     for(var key in bigs){
       var b=bigs[key];
       if(b.ex&&b.stage.canvas.isConnected&&b.stage.canvas.offsetParent!==null){
-        b.stage.setEx(b.ex);b.stage.setPose(poseAt(b.ex,ms),b.ex,ST.sex);b.stage.render();
+        b.stage.setEx(b.ex);b.stage.setPose(poseAt(b.ex,ms),b.ex,avSex());b.stage.render();
       }
     }
   }
@@ -498,8 +584,41 @@ function mount(scope){
 try{if(window.THREE){TS=makeStage(480,320);use3D=true;}}catch(e){use3D=false;TS=null;}
 if(!reduce)requestAnimationFrame(loop);
 
+
+/* ---------- 단계별 챌린지 (40세 이상 남성) ---------- */
+var LV={
+ 1:{n:'초급',s:'습관을 만들어라',r:3,days:{
+  0:[['jumpjack',20],['incline',10],['squat',15],['plank',20],['glute',10]],
+  2:[['highknees',30],['wallpush',10],['walklunge',10,'각 다리'],['sideplank',15,'각 측면'],['superman',15]],
+  4:[['armcircle',20],['incline',10],['chairsquat',15],['plank',30],['birddog',10,'각 측면']]}},
+ 2:{n:'중급',s:'더 강한 힘을 키워라',r:4,days:{
+  0:[['jumpjack',30],['pushup',15],['squat',20],['plank',30],['revlunge',15,'각 다리']],
+  2:[['highknees',30],['dips',12,'벤치 또는 의자'],['walklunge',20,'각 다리'],['sideplank',30,'각 측면'],['legraise',15,'행잉 니 레이즈 대체']],
+  4:[['mountain',20],['pushup',15],['bulgarian',20,'각 다리'],['plank',30],['superman',15]]}},
+ 3:{n:'고급',s:'한계를 뛰어넘어라',r:5,soon:true},
+ 4:{n:'베테랑',s:'변명은 없다',r:6,soon:true}
+};
+var LVDAYS=[0,2,4],TRANS=15,RROUND=60,SIDEGAP=5;
+function weekStart(){var n=new Date(),d=new Date(n.getFullYear(),n.getMonth(),n.getDate());d.setDate(d.getDate()-((d.getDay()+6)%7));return d.getTime();}
+function buildLvUnits(d){
+  var L=LV[ST.lvSel],list=L&&L.days&&L.days[d];if(!list)return [];
+  var out=[];
+  for(var r=1;r<=L.r;r++){
+    list.forEach(function(it,j){
+      var ex=EX[it[0]],after=j===list.length-1?RROUND:TRANS;
+      if(ex.u==='초'&&it[2]==='각 측면'){
+        out.push({id:it[0],v:it[1],set:r,sets:L.r,rest:SIDEGAP,lab:'라운드',note:'왼쪽'});
+        out.push({id:it[0],v:it[1],set:r,sets:L.r,rest:after,lab:'라운드',note:'오른쪽'});
+      }else out.push({id:it[0],v:it[1],set:r,sets:L.r,rest:after,lab:'라운드',note:it[2]||''});
+    });
+  }
+  out[out.length-1].rest=0;
+  return out;
+}
+
 /* ---------- 루틴 계산 ---------- */
 function buildUnits(d,w){
+  if(ST.mode==='lvl')return buildLvUnits(selL);
   var k=DAYS[d].k,list=plan(k);if(!list)return [];
   var out=[];
   if(k==='full'){
@@ -516,6 +635,58 @@ function estMin(units){var s=0;units.forEach(function(u){s+=(EX[u.id].u==='초'?
 
 /* ---------- 메인 화면 ---------- */
 function render(){
+  var lv=ST.mode==='lvl';
+  $('#mode').innerHTML=[['lvl','단계별 챌린지','40세 이상 남성 · 월수금'],['plan','4주 프로그램','50대 이상 · 월~금']].map(function(x){
+    return '<button class="'+(ST.mode===x[0]?'on':'')+'" data-act="mode" data-m="'+x[0]+'" aria-pressed="'+(ST.mode===x[0])+'">'+x[1]+'<small>'+x[2]+'</small></button>';
+  }).join('');
+  $('#lvwrap').hidden=!lv;$('#sexwrap').hidden=lv;$('#weekwrap').hidden=lv;
+  $('#sub').textContent=lv?'40세 이상 남성 · 월·수·금 · 3D 아바타 동작 가이드':'4주 · 월~금 · 50대 이상 · 3D 아바타 동작 가이드';
+  if(lv)renderLvl();else renderPlan();
+}
+function renderLvl(){
+  var L=LV[ST.lvSel],ws=weekStart();
+  var wk=ST.log.filter(function(e){return e.t>=ws;}).length;
+  $('#cnt').textContent=wk;$('#cntmax').textContent=' / 3회';
+  $('#cntlab').textContent='이번 주 완료 · 누적 '+ST.log.length+'회';
+  $('#meter').style.width=Math.min(100,wk/3*100)+'%';
+  $('#lvs').innerHTML=[1,2,3,4].map(function(i){var l=LV[i];
+    return '<button class="lv'+(i===ST.lvSel?' on':'')+'" data-act="lv" data-l="'+i+'" aria-pressed="'+(i===ST.lvSel)+'">'+l.n+'<small>'+(l.soon?'준비 중':l.r+'라운드')+'</small></button>';
+  }).join('');
+  $('#lvnote').textContent=L.s;
+  $('#days').style.gridTemplateColumns='repeat(3,minmax(0,1fr))';
+  $('#days').innerHTML=LVDAYS.map(function(d,i){
+    var dn=ST.log.some(function(e){return e.t>=ws&&e.lv===ST.lvSel&&e.d===d;});
+    var cl='day'+(d===selL?' on':'')+(dn?' done':'')+(d===todayIdx?' today':'');
+    return '<button class="'+cl+'" data-act="lday" data-d="'+d+'"><b>'+DAYS[d].d+'요일</b><span>'+(i+1)+'일차</span><i></i></button>';
+  }).join('');
+  var h='';
+  if(L.soon){
+    h='<h2>'+L.n+' · '+L.s+'</h2><div class="soon">'+L.n+' 단계는 동작 그림을 만든 뒤 추가됩니다.<br>지금은 초급과 중급을 이용해 주세요.</div>';
+    $('#bar').hidden=true;
+  }else{
+    var list=L.days[selL],mins=estMin(buildLvUnits(selL));
+    h='<h2>'+DAYS[selL].d+'요일 루틴</h2><p class="meta">'+L.n+' · '+L.r+'라운드 · 라운드당 '+list.length+'개 동작 · 약 '+mins+'분</p><div class="grid">';
+    list.forEach(function(it){
+      var ex=EX[it[0]];
+      h+='<button class="exc" data-act="ex" data-id="'+it[0]+'" aria-label="'+esc(ex.n)+' 자세 보기"><div class="fig" data-ex="'+it[0]+'"></div><div class="nm">'+esc(ex.n)+'</div><div class="rp">'+it[1]+'<small>'+ex.u+'</small></div><span class="nt">'+esc(it[2]||ex.note||'')+'</span></button>';
+    });
+    h+='</div><p class="txt">위 동작을 한 라운드로 하고 '+L.r+'라운드를 반복합니다. 동작 사이 '+TRANS+'초, 라운드 사이 '+RROUND+'초 쉽니다.</p>';
+    $('#bar').hidden=false;
+    $('#startBtn').textContent='운동 시작 · 약 '+mins+'분';
+  }
+  $('#panel').innerHTML=h;
+  mount($('#panel'));
+  var items=ST.log.slice(-8).reverse().map(function(e){
+    var dt=new Date(e.t);
+    return '<li><b>'+(dt.getMonth()+1)+'/'+dt.getDate()+' ('+'일월화수목금토'.charAt(dt.getDay())+')</b> · '+LV[e.lv].n+' '+DAYS[e.d].d+'요일 루틴</li>';
+  }).join('');
+  $('#rec').innerHTML=items?'<ul class="logl">'+items+'</ul>':'<p class="txt" style="margin:0">아직 완료한 운동이 없습니다.</p>';
+  $('#rectxt').textContent='운동을 끝까지 마치면 자동으로 기록됩니다. 기록은 이 기기의 브라우저에 저장됩니다.';
+}
+function renderPlan(){
+  $('#days').style.gridTemplateColumns='';
+  $('#cntmax').textContent=' / 20일';$('#cntlab').textContent='완료한 운동일';
+  $('#rectxt').textContent='칸을 누르면 그날로 이동합니다. 기록은 이 기기의 브라우저에 저장됩니다.';
   var cnt=0;
   for(var w=0;w<4;w++)for(var d=0;d<7;d++)if(DAYS[d].k!=='rest'&&isDone(w,d))cnt++;
   $('#cnt').textContent=cnt;
@@ -575,12 +746,17 @@ function render(){
 /* ---------- 동작 상세 ---------- */
 function lockScroll(on){document.body.style.overflow=on?'hidden':'';}
 function openDetail(id){
-  var ex=EX[id],day=DAYS[selD],it=(plan(day.k)||[]).filter(function(x){return x[0]===id;})[0];
-  var goal='';
-  if(it)goal=it[1][selW]+ex.u+' × '+(day.k==='full'?ROUNDS[selW]+'라운드':SETS[selW]+'세트');
+  var ex=EX[id],goal='',unote=ex.note||'';
+  if(ST.mode==='lvl'){
+    var L=LV[ST.lvSel],li=((L&&L.days&&L.days[selL])||[]).filter(function(x){return x[0]===id;})[0];
+    if(li){goal=li[1]+ex.u+' × '+L.r+'라운드';unote=li[2]||ex.note||'';}
+  }else{
+    var day=DAYS[selD],it=(plan(day.k)||[]).filter(function(x){return x[0]===id;})[0];
+    if(it)goal=it[1][selW]+ex.u+' × '+(day.k==='full'?ROUNDS[selW]+'라운드':SETS[selW]+'세트');
+  }
   var h='<div class="top"><button class="ghost" data-act="closeDetail" id="dclose">닫기</button><span></span></div>';
-  h+='<div class="fig" data-ex="'+id+'" style="max-width:420px;margin:8px auto 0"></div>'+viewsHtml(true);
-  h+='<div class="dtitle"><h2>'+esc(ex.n)+'</h2><span class="chip">'+esc(ex.m)+'</span>'+(goal?'<p class="goal">'+esc(goal)+(ex.note?'<small style="font-family:var(--body);font-size:13px;color:var(--ink2);font-weight:400"> ('+ex.note+')</small>':'')+'</p>':'')+'</div>';
+  h+='<div class="fig" data-ex="'+id+'" style="max-width:420px;margin:8px auto 0"></div>'+viewsHtml(true,ex);
+  h+='<div class="dtitle"><h2>'+esc(ex.n)+'</h2><span class="chip">'+esc(ex.m)+'</span>'+(goal?'<p class="goal">'+esc(goal)+(unote?'<small style="font-family:var(--body);font-size:13px;color:var(--ink2);font-weight:400"> ('+esc(unote)+')</small>':'')+'</p>':'')+'</div>';
   h+='<div class="blk"><h3>자세</h3><ol>'+ex.steps.map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ol></div>';
   h+='<div class="blk"><h3>흔한 실수</h3><ul>'+ex.bad.map(function(s){return '<li>'+esc(s)+'</li>';}).join('')+'</ul></div>';
   h+='<div class="two2"><div><b>더 쉽게</b>'+esc(ex.easy)+'</div><div><b>더 어렵게</b>'+esc(ex.hard)+'</div></div>';
@@ -618,7 +794,7 @@ function renderGuide(){
   var g=G,u=g.units[g.i],nx=g.units[g.i+1];
   if(g.ph==='done'){
     var mins=Math.max(1,Math.round((Date.now()-g.t0)/60000));
-    $('#gv').innerHTML='<div class="gstage" style="margin-top:56px"><p class="glab">완료</p><h2>오늘 운동 끝</h2><p class="gset">'+g.units.length+'개 '+(DAYS[selD].k==='full'?'라운드 동작':'세트')+' · 약 '+mins+'분</p><div class="gnum">'+(selW+1)+'<small>주차 '+DAYS[selD].d+'요일 기록됨</small></div><p class="gcue">물을 마시고 가볍게 스트레칭하세요.</p><button class="btn" data-act="closeGuide">닫기</button></div>';
+    $('#gv').innerHTML='<div class="gstage" style="margin-top:56px"><p class="glab">완료</p><h2>오늘 운동 끝</h2><p class="gset">'+g.units.length+'개 '+(ST.mode==='lvl'?'동작':(DAYS[selD].k==='full'?'라운드 동작':'세트'))+' · 약 '+mins+'분</p><div class="gnum">'+(ST.mode==='lvl'?LV[ST.lvSel].n+'<small>'+DAYS[selL].d+'요일 기록됨</small>':(selW+1)+'<small>주차 '+DAYS[selD].d+'요일 기록됨</small>')+'</div><p class="gcue">물을 마시고 가볍게 스트레칭하세요.</p><button class="btn" data-act="closeGuide">닫기</button></div>';
     return;
   }
   var show=(g.ph==='rest'&&nx)?nx:u,ex=EX[show.id];
@@ -627,12 +803,12 @@ function renderGuide(){
   h+='<div class="pbar"><i style="width:'+(done/g.units.length*100).toFixed(1)+'%"></i></div><div class="gstage">';
   var lab=g.ph==='rest'?'휴식 · 다음 동작':(g.ph==='run'?'진행 중':'준비');
   h+='<p class="glab'+(g.ph==='rest'?' rs':'')+'">'+lab+'</p>';
-  h+='<div class="fig" data-ex="'+show.id+'"></div>'+viewsHtml(false);
+  h+='<div class="fig" data-ex="'+show.id+'"></div>'+viewsHtml(false,ex);
   h+='<h2>'+esc(ex.n)+'</h2><p class="gset">'+show.set+' / '+show.sets+' '+show.lab+'</p>';
   var big;
   if(g.ph==='rest'||g.ph==='run'){big=Math.max(0,Math.ceil((g.endAt-Date.now())/1000))+'<small>초</small>';}
   else{big=show.v+'<small>'+ex.u+'</small>';}
-  h+='<div class="gnum'+(g.ph==='rest'?' rs':'')+'" id="gnum">'+big+'</div><p class="gnote">'+(ex.note?ex.note:'')+'</p>';
+  h+='<div class="gnum'+(g.ph==='rest'?' rs':'')+'" id="gnum">'+big+'</div><p class="gnote">'+esc(show.note||ex.note||'')+'</p>';
   h+='<p class="gcue">'+esc(ex.steps[1])+'</p>';
   if(g.ph==='ready'){
     h+= ex.u==='초' ? '<button class="btn" data-act="startRun">시작</button>' : '<button class="btn" data-act="done">세트 완료</button>';
@@ -656,8 +832,9 @@ function completeUnit(){
 function nextUnit(){stopTimer();G.i++;G.ph='ready';renderGuide();$('#guide').scrollTop=0;}
 function finishGuide(){
   stopTimer();G.ph='done';
-  ST.done[selW+'-'+selD]=Date.now();ST.week=selW;save();
-  renderGuide();render();
+  if(ST.mode==='lvl')ST.log.push({t:Date.now(),lv:ST.lvSel,d:selL});
+  else{ST.done[selW+'-'+selD]=Date.now();ST.week=selW;}
+  save();renderGuide();render();
 }
 function closeGuide(){
   stopTimer();G=null;
@@ -672,6 +849,9 @@ document.addEventListener('click',function(e){
   var b=e.target.closest('[data-act]');if(!b)return;
   var a=b.getAttribute('data-act');
   if(a==='view'){var ovv=b.closest('.ov'),bg=ovv&&bigs[ovv.id];if(bg){bg.stage.azT=parseFloat(b.getAttribute('data-az'));if(reduce){bg.stage.az=bg.stage.azT;drawFrame(0);}}}
+  else if(a==='mode'){ST.mode=b.getAttribute('data-m');save();render();}
+  else if(a==='lv'){ST.lvSel=+b.getAttribute('data-l');save();render();}
+  else if(a==='lday'){selL=+b.getAttribute('data-d');render();}
   else if(a==='sex'){ST.sex=b.getAttribute('data-s');save();render();}
   else if(a==='week'){selW=+b.getAttribute('data-w');ST.week=selW;save();render();}
   else if(a==='day'){selD=+b.getAttribute('data-d');render();}
@@ -682,7 +862,7 @@ document.addEventListener('click',function(e){
   else if(a==='toggle'){var k=selW+'-'+selD;if(ST.done[k])delete ST.done[k];else ST.done[k]=Date.now();save();render();}
   else if(a==='reset'){
     if(!resetArmed){resetArmed=true;b.textContent='한 번 더 누르면 모든 기록이 지워집니다';clearTimeout(resetT);resetT=setTimeout(function(){resetArmed=false;b.textContent='기록 초기화';},3500);}
-    else{resetArmed=false;clearTimeout(resetT);ST.done={};save();b.textContent='기록 초기화';render();}
+    else{resetArmed=false;clearTimeout(resetT);if(ST.mode==='lvl')ST.log=[];else ST.done={};save();b.textContent='기록 초기화';render();}
   }
   else if(a==='quit'){
     if(!G.armed){G.armed=true;b.textContent='한 번 더 누르면 종료';setTimeout(function(){if(G){G.armed=false;var q=$('#qbtn');if(q)q.textContent='종료';}},3000);}
