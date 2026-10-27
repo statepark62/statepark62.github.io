@@ -785,23 +785,116 @@ function startTimer(secs,onEnd){
     if(rem<=0){stopTimer();beep(990,0.3);buzz();onEnd();}
   },200);
 }
+/* ---------- 배경음악 (WebAudio 생성 · 외부 파일 없음) ---------- */
+var MST={cardio:['유산소 비트',132],push:['상체 파워',100],legs:['하체 그루브',112],core:['코어 집중',78],rest:['휴식',64]};
+var MMAP={jumpjack:'cardio',highknees:'cardio',mountain:'cardio',armcircle:'cardio',march:'cardio',
+ wallpush:'push',incline:'push',kneepush:'push',pushup:'push',dips:'push',
+ squat:'legs',chairsquat:'legs',lunge:'legs',glute:'legs',calf:'legs',bulgarian:'legs',revlunge:'legs',walklunge:'legs',
+ plank:'core',plankk:'core',sideplank:'core',superman:'core',birddog:'core',deadbug:'core',legraise:'core',sideleg:'core',balance:'core'};
+var MCF={
+ cardio:{root:57,prog:[[0,0],[8,1],[3,1],[10,1]],sc:[0,2,3,5,7,8,10],kick:[0,4,8,12],snare:[4,12],hat:[2,6,10,14],hat16:true,bass:[0,2,3,6,8,10,11,14],lead:.55,pad:.5,lt:'square',kv:.8},
+ push:{root:50,prog:[[0,0],[10,1],[8,1],[10,1]],sc:[0,3,5,7,10],kick:[0,6,10],snare:[4,12],hat:[0,2,4,6,8,10,12,14],bass:[0,3,6,10,12],lead:.4,pad:.4,lt:'sawtooth',kv:.95},
+ legs:{root:55,prog:[[0,1],[7,1],[9,0],[5,1]],sc:[0,2,4,7,9],kick:[0,3,8,11],snare:[4,12],hat:[0,2,4,6,8,10,12,14],hat16:true,bass:[0,3,5,8,10,13],lead:.6,pad:.45,lt:'triangle',kv:.85},
+ core:{root:53,prog:[[0,1],[9,0],[5,1],[7,1]],sc:[0,2,4,7,9],kick:[0],snare:[],hat:[4,12],bass:[0,8],lead:.22,pad:1,lt:'sine',kv:.5,soft:true},
+ rest:{root:48,prog:[[0,1],[4,0],[5,1],[0,1]],sc:[0,2,4,7,9],kick:[],snare:[],hat:[],bass:[0],lead:.12,pad:1,lt:'sine',kv:0,soft:true}
+};
+var MU={on:true,song:null,key:null,nb:null};
+try{if(localStorage.getItem('bwc.mus')==='0')MU.on=false;}catch(e){}
+function mctx(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();return actx;}catch(e){return null;}}
+function mnoise(c){if(MU.nb)return MU.nb;var b=c.createBuffer(1,c.sampleRate,c.sampleRate),d=b.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;return MU.nb=b;}
+function mf(n){return 440*Math.pow(2,(n-69)/12);}
+function mtone(c,bus,type,n,t,dur,vol,lp,att){
+  var o=c.createOscillator(),g=c.createGain(),f=c.createBiquadFilter();
+  o.type=type;o.frequency.value=mf(n);f.type='lowpass';f.frequency.value=lp||2500;
+  att=att||0.01;g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(vol,t+att);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  o.connect(f);f.connect(g);g.connect(bus);o.start(t);o.stop(t+dur+0.05);
+}
+function mkick(c,bus,t,v){var o=c.createOscillator(),g=c.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(45,t+0.12);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.28);o.connect(g);g.connect(bus);o.start(t);o.stop(t+0.3);}
+function mnz(c,bus,t,dur,vol,ft,fq){var s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=mnoise(c);f.type=ft;f.frequency.value=fq;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.001,t+dur);s.connect(f);f.connect(g);g.connect(bus);s.start(t,Math.random()*0.5);s.stop(t+dur+0.02);}
+function mkSong(key){
+  var c=mctx();if(!c)return null;
+  var cf=MCF[key],bpm=MST[key][1],sd=60/bpm/4;
+  var bus=c.createGain();bus.gain.value=0.0001;bus.connect(c.destination);
+  bus.gain.linearRampToValueAtTime(MU.on?0.5:0.0001,c.currentTime+1.2);
+  var S={key:key,bus:bus,step:0,t:c.currentTime+0.08,phrase:[],iv:null};
+  function chord(bar){var p=cf.prog[bar%4],tri=p[1]?[0,4,7]:[0,3,7];return {r:cf.root+p[0],tri:tri};}
+  function newPhrase(ch){
+    var tones=[],i;for(i=0;i<3;i++)tones.push(ch.r+12+ch.tri[i]);
+    var ph=[],last=cf.sc[Math.floor(Math.random()*cf.sc.length)];
+    for(i=0;i<16;i++){
+      var on=(i%4===0?cf.lead*1.4:cf.lead*(i%2===0?.8:.45))>Math.random();
+      if(on){var pool=Math.random()<.55?tones:cf.sc.map(function(x){return cf.root+12+x+(Math.random()<.2?12:0);});ph.push(pool[Math.floor(Math.random()*pool.length)]);}else ph.push(null);
+    }
+    return ph;
+  }
+  function tick(){
+    var c2=actx;if(!c2||S.dead)return;
+    while(S.t<c2.currentTime+0.3){
+      var s=S.step,st=s%16,bar=Math.floor(s/16),b16=bar%16,sec=Math.floor(b16/4),t=S.t,ch=chord(bar);
+      var brk=b16>=14&&!cf.soft,fill=b16===15&&st>=12&&!cf.soft;
+      if(st===0){
+        if(bar%2===0||true){ch.tri.forEach(function(iv,k){mtone(c2,bus,'triangle',ch.r+12+iv,t,sd*16*1.02,(cf.soft?0.09:0.05)*cf.pad,cf.soft?900:1400,sd*5);});}
+        if(sec===2||cf.soft)mtone(c2,bus,'sine',ch.r+iv0(sec),t,sd*16,0.05*cf.pad,700,sd*6);
+        if(bar%4===0||!S.phrase.length){S.phrase=newPhrase(ch);} else if(bar%4===2){S.phrase=S.phrase.map(function(n){return Math.random()<.3?null:n;});}
+      }
+      if(cf.kv&&!brk){
+        if(cf.kick.indexOf(st)>=0)mkick(c2,bus,t,0.9*cf.kv*(cf.soft?.5:1));
+        if(cf.snare.indexOf(st)>=0&&(sec>0||bar<4))mnz(c2,bus,t,0.14,0.22*cf.kv,'bandpass',1900);
+      }
+      if(fill)mnz(c2,bus,t,0.08,0.14,'bandpass',2500);
+      if(cf.hat.indexOf(st)>=0&&!(brk&&!cf.soft)&&(sec>0||cf.soft||bar%2===1))mnz(c2,bus,t,0.04,cf.soft?0.05:0.07,'highpass',7500);
+      if(cf.hat16&&sec>=1&&!brk&&st%2===1)mnz(c2,bus,t,0.025,0.03,'highpass',8500);
+      if(cf.bass.indexOf(st)>=0&&!brk&&!(cf.soft&&MU.key==='rest')){
+        var bn=ch.r-12+(Math.random()<.2?7:0)+(st%8===6&&sec>=1?12:0);
+        mtone(c2,bus,cf.soft?'sine':'sawtooth',bn,t,sd*(cf.soft?7:2.2),cf.soft?0.18:0.16,cf.soft?400:520,0.01);
+      }
+      var ln=S.phrase[st];
+      if(ln!=null&&(sec>=1||cf.soft)&&!brk){mtone(c2,bus,cf.lt,ln,t,sd*(cf.soft?5:1.8),cf.soft?0.07:0.055,cf.soft?2400:2200,0.008);}
+      S.t+=sd;S.step++;
+    }
+  }
+  function iv0(sec){return [-12,-12,-5,-7][sec];}
+  S.iv=setInterval(tick,60);tick();
+  return S;
+}
+function musicSet(key){
+  if(!MST[key])key='push';
+  if(MU.key===key&&MU.song)return;
+  var c=mctx();if(!c)return;
+  musicFade();
+  MU.key=key;MU.song=mkSong(key);
+}
+function musicFade(){
+  var s=MU.song;MU.song=null;if(!s)return;
+  s.dead=true;clearInterval(s.iv);
+  try{var c=actx;s.bus.gain.cancelScheduledValues(c.currentTime);s.bus.gain.setValueAtTime(Math.max(s.bus.gain.value,0.0001),c.currentTime);s.bus.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+1);setTimeout(function(){try{s.bus.disconnect();}catch(e){}},1400);}catch(e){}
+}
+function musicStop(){musicFade();MU.key=null;}
+function musicToggle(){
+  MU.on=!MU.on;try{localStorage.setItem('bwc.mus',MU.on?'1':'0');}catch(e){}
+  if(MU.song&&actx){var g=MU.song.bus.gain;g.cancelScheduledValues(actx.currentTime);g.setValueAtTime(Math.max(g.value,0.0001),actx.currentTime);g.linearRampToValueAtTime(MU.on?0.5:0.0001,actx.currentTime+0.4);}
+}
+function musicBtn(key){return '<button class="ghost" data-act="music" id="mbtn" aria-pressed="'+MU.on+'">'+(MU.on?'♪ '+MST[key][0]:'♪ 음악 꺼짐')+'</button>';}
 function startGuide(){
   var units=buildUnits(selD,selW);if(!units.length)return;
   G={units:units,i:0,ph:'ready',t0:Date.now(),armed:false};
   $('#guide').hidden=false;$('#guide').scrollTop=0;lockScroll(true);
   try{if(navigator.wakeLock){navigator.wakeLock.request('screen').then(function(l){wl=l;}).catch(function(){});}}catch(e){}
-  renderGuide();
+  mctx();renderGuide();
 }
 function renderGuide(){
   var g=G,u=g.units[g.i],nx=g.units[g.i+1];
   if(g.ph==='done'){
     var mins=Math.max(1,Math.round((Date.now()-g.t0)/60000));
+    musicStop();
     $('#gv').innerHTML='<div class="gstage" style="margin-top:56px"><p class="glab">완료</p><h2>오늘 운동 끝</h2><p class="gset">'+g.units.length+'개 '+(ST.mode==='lvl'?'동작':(DAYS[selD].k==='full'?'라운드 동작':'세트'))+' · 약 '+mins+'분</p><div class="gnum">'+(ST.mode==='lvl'?LV[ST.lvSel].n+'<small>'+DAYS[selL].d+'요일 기록됨</small>':(selW+1)+'<small>주차 '+DAYS[selD].d+'요일 기록됨</small>')+'</div><p class="gcue">물을 마시고 가볍게 스트레칭하세요.</p><button class="btn" data-act="closeGuide">닫기</button></div>';
     return;
   }
   var show=(g.ph==='rest'&&nx)?nx:u,ex=EX[show.id];
   var done=g.ph==='rest'?g.i+1:g.i;
-  var h='<div class="top"><button class="ghost" data-act="quit" id="qbtn">종료</button><span style="font-family:var(--num);font-size:20px;font-weight:700">'+(g.i+1)+' / '+g.units.length+'</span></div>';
+  var mk=g.ph==='rest'?'rest':(MMAP[u.id]||'push');
+  if(MU.on||MU.song)musicSet(mk);
+  var h='<div class="top"><button class="ghost" data-act="quit" id="qbtn">종료</button>'+musicBtn(mk)+'<span style="font-family:var(--num);font-size:20px;font-weight:700">'+(g.i+1)+' / '+g.units.length+'</span></div>';
   h+='<div class="pbar"><i style="width:'+(done/g.units.length*100).toFixed(1)+'%"></i></div><div class="gstage">';
   var lab=g.ph==='rest'?'휴식 · 다음 동작':(g.ph==='run'?'진행 중':'준비');
   h+='<p class="glab'+(g.ph==='rest'?' rs':'')+'">'+lab+'</p>';
@@ -839,7 +932,7 @@ function finishGuide(){
   save();renderGuide();render();
 }
 function closeGuide(){
-  stopTimer();G=null;
+  stopTimer();musicStop();G=null;
   try{if(wl){wl.release();wl=null;}}catch(e){}
   $('#guide').hidden=true;lockScroll(!$('#detail').hidden);
   render();
@@ -861,6 +954,7 @@ document.addEventListener('click',function(e){
   else if(a==='ex'){openDetail(b.getAttribute('data-id'));}
   else if(a==='closeDetail'){closeDetail();}
   else if(a==='start'){startGuide();}
+  else if(a==='music'){musicToggle();if(G)renderGuide();}
   else if(a==='toggle'){var k=selW+'-'+selD;if(ST.done[k])delete ST.done[k];else ST.done[k]=Date.now();save();render();}
   else if(a==='reset'){
     if(!resetArmed){resetArmed=true;b.textContent='한 번 더 누르면 모든 기록이 지워집니다';clearTimeout(resetT);resetT=setTimeout(function(){resetArmed=false;b.textContent='기록 초기화';},3500);}
