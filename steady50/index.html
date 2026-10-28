@@ -584,7 +584,7 @@ function mount(scope){
   if(reduce)drawFrame(0);
 }
 try{if(window.THREE){TS=makeStage(480,320);use3D=true;}}catch(e){use3D=false;TS=null;}
-if(!reduce)requestAnimationFrame(loop);
+requestAnimationFrame(loop); /* 동작 시범은 '움직임 줄이기' 설정과 무관하게 항상 재생 */
 
 
 /* ---------- 단계별 챌린지 (40세 이상 남성) ---------- */
