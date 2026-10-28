@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-28",
+    "no": 113,
+    "topic_ja": "<ruby>壁<rt>かべ</rt></ruby>を<ruby>越<rt>こ</rt></ruby>える<ruby>彼女<rt>かのじょ</rt></ruby>たち",
+    "topic_ko": "벽을 넘는 그녀들",
+    "url": "https://www.asahi.com/articles/DA3S16576145.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘성별 고정관념’, ‘경계를 넘는 용기’, ‘지속과 성장’ — 개인의 경험을 통해 제도적 장벽을 비추고, 감정의 동력(즐거움·집요함)으로 편견을 넘어서는 과정을 보여주기 때문.",
+    "pattern": "〜くせに"
+  },
+  {
     "date": "2026-10-27",
     "no": 112,
     "topic_ja": "<ruby>書<rt>か</rt></ruby>く<ruby>列車<rt>れっしゃ</rt></ruby>の<ruby>一夜<rt>いちや</rt></ruby>",

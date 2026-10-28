@@ -13791,5 +13791,55 @@
   "example": "列車は強風のために途中停車を余儀なくされた。",
   "exampleReading": "れっしゃはきょうふうのためにとちゅうていしゃをよぎなくされた",
   "exampleMeaning": "열차는 강풍 때문에 중간 정차를 피할 수 없었다."
+ },
+ {
+  "id": "tj530",
+  "word": "前例",
+  "reading": "ぜんれい",
+  "meaning": "전례, 이전의 사례",
+  "level": "N2",
+  "example": "前例のない挑戦だが、やってみたい。",
+  "exampleReading": "ぜんれいのないちょうせんだが、やってみたい。",
+  "exampleMeaning": "전례가 없는 도전이지만, 해 보고 싶다."
+ },
+ {
+  "id": "tj531",
+  "word": "偏見",
+  "reading": "へんけん",
+  "meaning": "편견",
+  "level": "N2",
+  "example": "偏見を捨てて、事実を見よう。",
+  "exampleReading": "へんけんをすてて、じじつをみよう。",
+  "exampleMeaning": "편견을 버리고, 사실을 보자."
+ },
+ {
+  "id": "tj532",
+  "word": "断る",
+  "reading": "ことわる",
+  "meaning": "거절하다",
+  "level": "N3",
+  "example": "忙しさを理由に招待を断った。",
+  "exampleReading": "いそがしさをりゆうにしょうたいをことわった。",
+  "exampleMeaning": "바쁘다는 이유로 초대를 거절했다."
+ },
+ {
+  "id": "tj533",
+  "word": "貫く",
+  "reading": "つらぬく",
+  "meaning": "관철하다, 끝까지 밀고 나가다",
+  "level": "N2",
+  "example": "批判があっても信念を貫く。",
+  "exampleReading": "ひはんがあってもしんねんをつらぬく。",
+  "exampleMeaning": "비판이 있어도 신념을 관철한다."
+ },
+ {
+  "id": "tj534",
+  "word": "逆風",
+  "reading": "ぎゃくふう",
+  "meaning": "역풍, 역경",
+  "level": "N2",
+  "example": "逆風の中で勝利をつかんだ。",
+  "exampleReading": "ぎゃくふうのなかでしょうりをつかんだ。",
+  "exampleMeaning": "역풍 속에서 승리를 거머쥐었다."
  }
 ]
