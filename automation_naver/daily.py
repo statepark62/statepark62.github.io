@@ -20,6 +20,7 @@ daily.py — 天声人語 일일 학습 페이지 자동 생성 파이프라인
 """
 import json
 import os
+import time
 import re
 import sys
 import html
@@ -162,19 +163,32 @@ def call_ai(prompt_text):
     if provider == "openai":
         key = os.environ["OPENAI_API_KEY"]
         model = os.environ.get("OPENAI_MODEL", "gpt-5-mini")
-        r = requests.post(
-            "https://api.openai.com/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {key}",
-                "content-type": "application/json",
-            },
-            json={
-                "model": model,
-                "messages": [{"role": "user", "content": prompt_text}],
-            },
-            timeout=120,
-        )
-        r.raise_for_status()
+        last_err = None
+        for attempt in range(1, 4):  # 타임아웃·일시 오류 시 최대 3회 시도
+            try:
+                r = requests.post(
+                    "https://api.openai.com/v1/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {key}",
+                        "content-type": "application/json",
+                    },
+                    json={
+                        "model": model,
+                        "messages": [{"role": "user", "content": prompt_text}],
+                    },
+                    timeout=300,
+                )
+                if r.status_code in (429, 500, 502, 503, 504):
+                    raise requests.exceptions.RequestException(f"HTTP {r.status_code}")
+                r.raise_for_status()
+                break
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError,
+                    requests.exceptions.RequestException) as e:
+                last_err = e
+                print(f"      OpenAI 호출 실패({attempt}/3): {e}")
+                if attempt == 3:
+                    raise
+                time.sleep(20 * attempt)
         return r.json()["choices"][0]["message"]["content"]
 
     if provider == "claude":
@@ -419,7 +433,18 @@ def main():
         source_url = data.get("source_url", LIST_URL)
         print("[샘플 모드] 네트워크/AI 없이 렌더링만 테스트합니다.")
     else:
-        today = datetime.now(KST).date()  # 한국 시간 기준 오늘 날짜
+        # 보충 발행: TARGET_DATE(YYYY-MM-DD) + ARTICLE_URL 로 과거 날짜분을 만든다.
+        target = os.environ.get("TARGET_DATE", "").strip()
+        if target:
+            try:
+                today = date.fromisoformat(target)
+            except ValueError:
+                raise SystemExit(f"TARGET_DATE 형식 오류: {target} (예: 2026-10-29)")
+            if not os.environ.get("ARTICLE_URL", "").strip():
+                raise SystemExit("보충 발행에는 ARTICLE_URL(해당 날짜 칼럼 주소)이 필요합니다.")
+            print(f"[보충 발행 모드] {today.isoformat()}")
+        else:
+            today = datetime.now(KST).date()  # 한국 시간 기준 오늘 날짜
         out_file = OUT_DIR / f"{today.isoformat()}.html"
         if out_file.exists():
             print(f"오늘자 파일이 이미 있습니다: {out_file} — 종료")
@@ -429,7 +454,7 @@ def main():
         article_text, source_url = fetch_article()
 
         # 휴간일 감지: 이 기사 주소로 이미 발행한 적이 있으면 새 칼럼이 없는 날
-        if ARCHIVE.exists():
+        if ARCHIVE.exists() and not target:
             records = json.loads(ARCHIVE.read_text(encoding="utf-8"))
             if any(r.get("url") == source_url for r in records):
                 print("이미 발행한 칼럼입니다 (휴간일로 추정) — 오늘은 건너뜁니다.")
@@ -490,6 +515,8 @@ def main():
     print("[6/6] 네이버 카페 게시 중...")
     if sample_mode:
         print("      샘플 모드 — 카페 게시 생략")
+    elif os.environ.get("TARGET_DATE", "").strip() and os.environ.get("POST_CAFE", "").lower() != "true":
+        print("      보충 발행 — 카페 게시 생략 (POST_CAFE=true 일 때만 게시)")
     else:
         try:
             import naver
