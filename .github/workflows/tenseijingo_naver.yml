@@ -7,6 +7,19 @@ on:
     - cron: '7 23 * * *'    # 한국 시간 08:07 (예비 2)
     - cron: '7 1 * * *'     # 한국 시간 10:07 (예비 3)
   workflow_dispatch:
+    inputs:
+      target_date:
+        description: '보충 발행 날짜 (예: 2026-10-29). 비우면 오늘자 정상 발행'
+        required: false
+        default: ''
+      article_url:
+        description: '보충 발행할 칼럼 주소 (target_date 입력 시 필수)'
+        required: false
+        default: ''
+      post_cafe:
+        description: '보충분을 네이버 카페에도 게시 (true/false)'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
@@ -50,6 +63,9 @@ jobs:
           NAVER_CAFE_MENU_ID: ${{ secrets.NAVER_CAFE_MENU_ID }}
           GAS_WORDS_URL: ${{ secrets.GAS_WORDS_URL }}
           GAS_WORDS_TOKEN: ${{ secrets.GAS_WORDS_TOKEN }}
+          TARGET_DATE: ${{ github.event.inputs.target_date }}
+          ARTICLE_URL: ${{ github.event.inputs.article_url }}
+          POST_CAFE: ${{ github.event.inputs.post_cafe }}
         run: python automation_naver/daily.py
 
       - name: (임시) index.html 강제 재생성 — 템플릿만 바뀐 날 대비
@@ -72,7 +88,7 @@ jobs:
           fi
 
       - name: Threads에 요약 게시
-        if: steps.check_posted.outputs.already_posted == 'false'
+        if: steps.check_posted.outputs.already_posted == 'false' && github.event.inputs.target_date == ''
         env:
           THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
           THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
