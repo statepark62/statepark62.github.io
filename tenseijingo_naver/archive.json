@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-30",
+    "no": 115,
+    "topic_ja": "<ruby>現金<rt>げんきん</rt></ruby>の<ruby>再評価<rt>さいひょうか</rt></ruby>",
+    "topic_ko": "현금의 재평가",
+    "url": "https://www.asahi.com/articles/DA3S16577676.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '디지털 의존', '현금의 안전망', '사회적 포용' — 편리함을 좇는 기술 변화 속에서 비상 대응과 취약계층을 함께 조망하며 균형을 요구하는 글이므로.",
+    "pattern": "Nなしでは"
+  },
+  {
     "date": "2026-10-28",
     "no": 113,
     "topic_ja": "<ruby>壁<rt>かべ</rt></ruby>を<ruby>越<rt>こ</rt></ruby>える<ruby>彼女<rt>かのじょ</rt></ruby>たち",

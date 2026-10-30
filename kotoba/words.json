@@ -13841,5 +13841,55 @@
   "example": "逆風の中で勝利をつかんだ。",
   "exampleReading": "ぎゃくふうのなかでしょうりをつかんだ。",
   "exampleMeaning": "역풍 속에서 승리를 거머쥐었다."
+ },
+ {
+  "id": "tj535",
+  "word": "浸透",
+  "reading": "しんとう",
+  "meaning": "스며듦, 확산",
+  "level": "N1",
+  "example": "その考えが社会に浸透する。",
+  "exampleReading": "そのかんがえがしゃかいにしんとうする。",
+  "exampleMeaning": "그 생각이 사회에 스며든다."
+ },
+ {
+  "id": "tj536",
+  "word": "公衆",
+  "reading": "こうしゅう",
+  "meaning": "공중, 일반 대중",
+  "level": "N2",
+  "example": "公衆の場での礼儀を守ろう。",
+  "exampleReading": "こうしゅうのばでのれいぎをまもろう。",
+  "exampleMeaning": "공중의 장소에서 예의를 지키자."
+ },
+ {
+  "id": "tj537",
+  "word": "有料",
+  "reading": "ゆうりょう",
+  "meaning": "유료",
+  "level": "N3",
+  "example": "入場は有料です。",
+  "exampleReading": "にゅうじょうはゆうりょうです。",
+  "exampleMeaning": "입장은 유료입니다."
+ },
+ {
+  "id": "tj538",
+  "word": "垣間見る",
+  "reading": "かいまみる",
+  "meaning": "어렴풋이 엿보다",
+  "level": "N1",
+  "example": "彼の本音を垣間見た。",
+  "exampleReading": "かれのほんねをかいまみた。",
+  "exampleMeaning": "그의 본심을 어렴풋이 엿보았다."
+ },
+ {
+  "id": "tj539",
+  "word": "一苦労",
+  "reading": "ひとくろう",
+  "meaning": "한바탕 고생, 몹시 힘듦",
+  "level": "N2",
+  "example": "雨のひの通勤は一苦労だ。",
+  "exampleReading": "あめのひのつうきんはひとくろうだ。",
+  "exampleMeaning": "비 오는 날의 통근은 한바탕 고생이다."
  }
 ]
