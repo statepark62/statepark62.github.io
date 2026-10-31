@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>일본사 학습 트리</title>
+<style>
+:root{
+  --bg:#f6f4ef; --card:#ffffff; --ink:#23262b; --sub:#5d636b; --line:#b9b2a3;
+  --accent:#2f5d8a; --accent-soft:#e3edf6; --kor:#b2432f; --kor-soft:#fbebe7;
+  --ok:#2e7d4f; --ok-soft:#e3f3e9; --warn:#8a6414; --warn-soft:#fbf1d8; --shadow:0 1px 3px rgba(0,0,0,.12);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#16181c; --card:#20242a; --ink:#e8e8e6; --sub:#a4abb4; --line:#5a5d63;
+    --accent:#7fb2e0; --accent-soft:#233444; --kor:#f08a75; --kor-soft:#3a2420;
+    --ok:#6fcf97; --ok-soft:#1f3328; --warn:#e3b95a; --warn-soft:#3a3120; --shadow:0 1px 3px rgba(0,0,0,.5);
+  }
+}
+*{box-sizing:border-box}
+html{font-size:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;
+  font-size:18.5px; line-height:1.7; text-align:center;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:36px 20px 80px}
+h1{font-size:clamp(32px,5vw,50px); line-height:1.25; margin:0 0 10px; letter-spacing:-.02em}
+h2{font-size:28px; margin:0 0 8px}
+h3{font-size:21px; margin:34px 0 14px}
+.subtitle{font-size:19.5px; color:var(--sub); margin:0 auto 22px; max-width:820px}
+.stat{display:inline-block; background:var(--card); border:1px solid var(--line); border-radius:999px; padding:6px 20px; font-size:17px; margin:0 4px 6px}
+.toolbar{margin:10px 0 0; display:flex; flex-wrap:wrap; justify-content:center; gap:10px}
+button,select{font:inherit; font-size:16.5px; color:inherit}
+.btn{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:7px 16px; cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.4; cursor:default}
+.btn:disabled:hover{border-color:var(--line)}
+.btn.on{background:var(--accent); color:#fff; border-color:var(--accent)}
+.btn.kor.on{background:var(--kor); border-color:var(--kor)}
+
+/* ───── 트리 ───── */
+.tree{position:relative; margin:34px auto 10px; padding-top:4px}
+.trunk{position:absolute; left:50%; top:60px; bottom:60px; width:3px; background:var(--line); transform:translateX(-50%); z-index:0}
+.root{position:relative; z-index:1; display:inline-block; background:var(--accent); color:#fff; font-size:22px; font-weight:700; padding:10px 34px; border-radius:14px; box-shadow:var(--shadow)}
+.row{position:relative; z-index:1; display:grid; grid-template-columns:repeat(6,1fr); gap:14px; margin-top:42px}
+.row::before{content:""; position:absolute; top:-22px; left:calc(100%/12); right:calc(100%/12); height:3px; background:var(--line)}
+.node{position:relative; background:var(--card); border:2px solid var(--line); border-radius:14px; padding:12px 8px 10px; cursor:pointer; box-shadow:var(--shadow); text-align:center; line-height:1.4; min-height:112px}
+.node::before{content:""; position:absolute; left:50%; top:-24px; height:22px; width:3px; background:var(--line); transform:translateX(-50%)}
+.node .nn{font-size:12.5px; color:var(--sub); font-weight:700}
+.node .nm{display:block; font-size:18px; font-weight:700; margin:2px 0}
+.node .pd{display:block; font-size:14.5px; color:var(--sub)}
+.node .pg{display:block; margin-top:6px; font-size:14.5px; color:var(--accent); font-weight:600}
+.node:hover{border-color:var(--accent)}
+.node.sel{border-color:var(--accent); background:var(--accent-soft)}
+.node.off{opacity:.5; cursor:not-allowed; background:transparent; box-shadow:none; border-style:dashed}
+.node.off:hover{border-color:var(--line)}
+.node:focus-visible{outline:3px solid var(--accent); outline-offset:2px}
+
+/* ───── 패널 ───── */
+.tabs{display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:30px 0 8px}
+.panel{margin-top:14px}
+.era-head{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 26px; margin:16px auto 4px; box-shadow:var(--shadow)}
+.era-head .per{font-size:19.5px; color:var(--accent); font-weight:700; margin-bottom:8px}
+.era-head p{margin:0 auto; max-width:900px; font-size:18px}
+.filters{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px; margin:18px 0 6px}
+.filters select{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:7px 12px}
+.cnt{font-size:16px; color:var(--sub)}
+.empty{padding:36px 0; color:var(--sub)}
+
+.item{background:var(--card); border:1px solid var(--line); border-radius:14px; margin:12px auto; max-width:1040px; box-shadow:var(--shadow); text-align:center}
+.ihead{width:100%; background:none; border:0; padding:16px 20px; cursor:pointer; text-align:center; display:block}
+.ihead:focus-visible{outline:3px solid var(--accent); outline-offset:-3px; border-radius:14px}
+.ititle{display:block; font-size:20px; font-weight:700}
+.iyear{display:block; font-size:16px; color:var(--sub); margin-top:2px}
+.badges{display:flex; flex-wrap:wrap; justify-content:center; gap:6px; margin-top:8px}
+.badges{gap:4px 16px}
+.badge{font-size:15.5px; font-weight:600; line-height:1.6; padding:0; border:0; background:none; cursor:default}
+.b-kor{color:var(--kor)}
+.b-chk{color:var(--warn)}
+.b-theme{color:var(--sub)}
+.b-cand{color:#6b3f93}
+.thbar{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:14px auto 0; max-width:1100px}
+.thbar .btn{padding:5px 12px; font-size:15.5px}
+@media (prefers-color-scheme: dark){ .b-cand{color:#c9a8ee} }
+.ibody{padding:4px 26px 22px; border-top:1px dashed var(--line); margin:0 18px}
+.ibody p{margin:14px auto 0; max-width:900px; font-size:18px}
+.kbox{background:var(--kor-soft); border:1px solid var(--kor); border-radius:12px; padding:10px 16px; margin:14px auto 0; max-width:900px; font-size:17.5px}
+.kbox b{color:var(--kor)}
+.nbox{background:var(--warn-soft); border:1px solid var(--warn); border-radius:12px; padding:8px 16px; margin:12px auto 0; max-width:900px; font-size:16.5px}
+.meta{font-size:17px; margin-top:12px; color:var(--sub)}
+.meta b{color:var(--ink)}
+.refs{list-style:none; padding:0; margin:6px auto 0; font-size:16.5px; color:var(--sub); max-width:900px}
+.refs li{margin:3px 0}
+.ctl{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:16px; margin-top:16px}
+.ctl label{font-size:16.5px; cursor:pointer}
+.ctl select{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:5px 10px}
+textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-height:70px; padding:10px 12px; font:inherit; font-size:16.5px; text-align:left; color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:10px; resize:vertical}
+.era-title{margin-top:36px}
+.refsec{margin:44px auto 0; max-width:1040px; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 24px; box-shadow:var(--shadow)}
+.refsec h3{margin:0 0 10px}
+.refsec .refs{max-width:none}
+.foot{margin-top:46px; font-size:15.5px; color:var(--sub)}
+
+/* ───── 지도 ───── */
+.mapwrap{margin:16px auto 0; max-width:900px}
+.map{height:290px; border:1px solid var(--line); border-radius:12px; overflow:hidden; position:relative; z-index:0}
+.map.big{height:580px; max-width:1040px; margin:12px auto 0}
+.plinks{display:flex; flex-wrap:wrap; justify-content:center; gap:4px 20px; margin-top:10px; font-size:16.5px}
+.plinks a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent)}
+.legend{font-size:16px; color:var(--sub); margin-top:4px}
+.dot{display:inline-block; width:12px; height:12px; border-radius:50%; vertical-align:-1px; margin-left:8px}
+.dot.jp{background:#2f5d8a}
+.dot.kr{background:#b2432f}
+.leaflet-container{font-family:inherit}
+.pop{text-align:center; font-size:16px; line-height:1.5; color:#23262b}
+.pop ul{list-style:none; padding:0; margin:6px 0 0; font-size:14.5px; color:#5d636b; text-align:left}
+.pop a{color:#2f5d8a}
+
+/* ───── 연표 ───── */
+.chbar{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:14px auto 0; max-width:1100px}
+.chbar .btn{padding:5px 12px; font-size:15.5px}
+.chyear{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px; margin:16px 0 0}
+.chyear input{font:inherit; font-size:16.5px; width:150px; text-align:center; padding:6px 10px; border:1px solid var(--line); border-radius:10px; background:var(--card); color:var(--ink)}
+.chsum{background:var(--card); border:1px solid var(--accent); border-radius:12px; padding:10px 18px; margin:16px auto 0; max-width:1040px; font-size:17px; line-height:1.6}
+.chgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:1140px; margin:18px auto 0; align-items:start}
+.lane{background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); padding:12px 10px 14px}
+.lane h3{margin:0 0 4px; font-size:20px}
+.lane.kr h3{color:var(--kor)}
+.lane .sub{font-size:14.5px; color:var(--sub); margin-bottom:8px}
+.lane .gh{display:block; width:100%; background:none; border:0; border-top:1px dashed var(--line); margin-top:10px; padding:8px 0 4px; font-weight:700; font-size:16.5px; cursor:pointer}
+.lane .gt{margin-top:10px; padding-top:6px; border-top:1px dashed var(--line); font-weight:700; font-size:16.5px}
+.crow{display:block; width:100%; background:none; border:1px solid transparent; border-radius:8px; padding:4px 6px; margin:2px 0; cursor:pointer; line-height:1.35}
+.crow:hover{border-color:var(--accent)}
+.crow .cn{display:block; font-size:16.5px; font-weight:600}
+.crow .cy{display:block; font-size:14px; color:var(--sub)}
+.crow .cf{color:var(--warn); font-size:13px; font-weight:600}
+.crow.hit{background:var(--accent-soft); border-color:var(--accent)}
+.crow.sel{background:var(--accent); border-color:var(--accent)}
+.crow.sel .cn,.crow.sel .cy,.crow.sel .cf{color:#fff}
+.chnote{max-width:1040px; margin:22px auto 0; font-size:15.5px; color:var(--sub); text-align:left; line-height:1.6}
+.chnote li{margin:3px 0}
+@media (max-width:860px){ .chgrid{grid-template-columns:1fr} }
+
+/* ───── 자료실 ───── */
+.guide{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 22px; margin:16px auto 0; max-width:1040px; text-align:center}
+.guide summary{cursor:pointer; font-weight:700; font-size:18px}
+.guide table{margin:14px auto 6px; border-collapse:collapse; width:100%; font-size:16.5px}
+.guide th,.guide td{border:1px solid var(--line); padding:7px 10px}
+.guide th{background:var(--bg)}
+.guide ol{text-align:left; max-width:900px; margin:10px auto; font-size:16.5px}
+.mcard{background:var(--card); border:1px solid var(--line); border-radius:14px; margin:14px auto; max-width:1040px; box-shadow:var(--shadow); padding:18px 24px}
+.mcard h3{margin:0 0 4px; font-size:21px}
+.mcard h3 a{color:var(--accent); text-decoration:none; border-bottom:1px dotted var(--accent)}
+.mcard .msub{color:var(--sub); font-size:16.5px}
+.mcard p{margin:12px auto 0; max-width:900px; font-size:17.5px}
+.mchips{display:flex; flex-wrap:wrap; justify-content:center; gap:6px 10px; margin-top:10px}
+.mchips .btn{padding:3px 12px; font-size:15.5px}
+.mcav{margin:12px auto 0; max-width:900px; text-align:left; font-size:16px}
+.mcav li{margin:3px 0}
+.mmeta{font-size:15.5px; color:var(--sub); margin-top:10px}
+@media (max-width:860px){
+  .map{height:240px} .map.big{height:440px}
+}
+@media (max-width:860px){
+  body{font-size:17px}
+  .trunk,.row::before,.node::before{display:none}
+  .row{grid-template-columns:repeat(2,1fr); margin-top:18px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>일본사 학습 트리</h1>
+  <p class="subtitle">시대를 누르면 공부할 항목이 나옵니다. 항목마다 한국 관련 내용, 답사 장소, 참고문헌, 집필 후보 표시와 메모를 담았습니다.</p>
+  <div id="stats"></div>
+  <div class="toolbar">
+    <button class="btn" id="btnExport">후보·메모 내보내기</button>
+    <button class="btn" id="btnImport">후보·메모 가져오기</button>
+    <input type="file" id="fileImport" accept="application/json" hidden>
+  </div>
+
+  <div class="tree" id="tree"></div>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="panel" id="panel"></div>
+
+  <div class="foot">이 내용은 초안입니다. 책에 싣기 전에 연도·해석·서지 사항을 원문으로 확인하세요. 집필 후보와 메모는 이 브라우저에만 저장되므로 가끔 ‘내보내기’로 백업해 두세요.</div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="japan-history-data.js"></script>
+<script src="japan-history-places.js"></script>
+<script src="japan-history-chronology.js"></script>
+<script src="japan-history-materials.js"></script>
+<script>
+(function(){
+  'use strict';
+  var ERAS = window.ERAS || [];
+  var REFS = window.REFS || {};
+  var KEY = 'japan-history-progress-v1';
+
+  /* ───── 저장 ───── */
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ saved = {}; }
+  function persist(){ try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch(e){} }
+  function get(id){ var s = saved[id] || {}; return {cand:!!s.cand, memo:s.memo||''}; }
+  function set(id, patch){ var s = get(id); for (var k in patch) s[k] = patch[k]; saved[id] = s; persist(); }
+
+  /* ───── 상태 ───── */
+  var view = {mode:'era', era:'e1', koreaOnly:false, open:{}, mapEra:'all', theme:'', matTheme:'', matEra:'', matKind:'', matStatus:'', matKorea:false, chEra:'e1', chFocus:null, chYear:'', chOpen:{}};
+
+  /* ───── 지도 데이터 ───── */
+  var MATS = window.MATERIALS || [];
+  var PLACES = window.PLACES || {};
+  var ITEM_PLACES = window.ITEM_PLACES || {};
+  var liveMaps = [], pendingInit = [];
+
+  /* ───── 도우미 ───── */
+  function el(tag, props){
+    var n = document.createElement(tag);
+    if (props) for (var k in props){
+      var v = props[k];
+      if (k === 'class') n.className = v;
+      else if (k === 'text') n.textContent = v;
+      else if (k.indexOf('on') === 0) n.addEventListener(k.slice(2), v);
+      else if (v !== false && v != null) n.setAttribute(k, v === true ? '' : v);
+    }
+    for (var i = 2; i < arguments.length; i++){
+      var c = arguments[i];
+      if (c == null || c === false) continue;
+      if (Array.isArray(c)) c.forEach(function(x){ if (x) n.appendChild(x.nodeType ? x : document.createTextNode(x)); });
+      else n.appendChild(c.nodeType ? c : document.createTextNode(c));
+    }
+    return n;
+  }
+  function eraItems(e){
+    var out = [];
+    e.topics.forEach(function(t){ t.items.forEach(function(it){ out.push(it); }); });
+    return out;
+  }
+  function eraById(id){ for (var i=0;i<ERAS.length;i++) if (ERAS[i].id===id) return ERAS[i]; return null; }
+  function passes(it){
+    return true;
+  }
+
+  /* ───── 상단 통계 ───── */
+  function renderStats(){
+    var box = document.getElementById('stats');
+    box.textContent = '';
+    var total = 0, kor = 0, cand = 0;
+    ERAS.forEach(function(e){
+      eraItems(e).forEach(function(it){
+        total++;
+        var s = get(it.id);
+        if (it.korea) kor++;
+        if (s.cand) cand++;
+      });
+    });
+    box.appendChild(el('span', {class:'stat', text:'전체 항목 ' + total + '개'}));
+    box.appendChild(el('span', {class:'stat', text:'한국 관련 항목 ' + kor + '개'}));
+    box.appendChild(el('span', {class:'stat', text:'집필 후보 ' + cand + '개'}));
+    if (MATS.length) box.appendChild(el('span', {class:'stat', text:'자료실 ' + MATS.length + '건'}));
+  }
+
+  /* ───── 트리 ───── */
+  function renderTree(){
+    var tree = document.getElementById('tree');
+    tree.textContent = '';
+    tree.appendChild(el('div', {class:'trunk'}));
+    tree.appendChild(el('div', {class:'root', text:'일본사'}));
+    for (var r = 0; r < 2; r++){
+      var row = el('div', {class:'row'});
+      ERAS.slice(r*6, r*6+6).forEach(function(e, idx){
+        var no = ERAS.indexOf(e) + 1;
+        var n;
+        if (e.ready){
+          var total = eraItems(e).length;
+          n = el('div', {class:'node' + (view.mode==='era' && view.era===e.id ? ' sel' : ''), role:'button', tabindex:'0',
+            onclick:function(){ pick(e.id); },
+            onkeydown:function(ev){ if (ev.key==='Enter' || ev.key===' '){ ev.preventDefault(); pick(e.id); } }},
+            el('span', {class:'nn', text:String(no)}),
+            el('span', {class:'nm', text:e.name}),
+            el('span', {class:'pd', text:e.period}),
+            el('span', {class:'pg', text:total + '개 항목'}));
+        } else {
+          n = el('div', {class:'node off', 'aria-disabled':'true'},
+            el('span', {class:'nn', text:String(no)}),
+            el('span', {class:'nm', text:e.name}),
+            el('span', {class:'pd', text:e.period}),
+            el('span', {class:'pg', text:'준비 중'}));
+        }
+        row.appendChild(n);
+      });
+      tree.appendChild(row);
+    }
+  }
+  function pick(id){
+    view.mode = 'era'; view.era = id;
+    renderAll();
+    var p = document.getElementById('tabs');
+    if (p.scrollIntoView) p.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  /* ───── 탭 ───── */
+  function renderTabs(){
+    var box = document.getElementById('tabs');
+    box.textContent = '';
+    [['era','시대별 보기'],['korea','한국 관련 모아보기'],['theme','주제별 보기'],['cand','집필 후보 모아보기'],['map','지도 보기'],['chrono','연표(천황·쇼군·한국 왕)'],['mat','자료실']].forEach(function(t){
+      var cls = 'btn' + (t[0]==='korea' ? ' kor' : '') + (view.mode===t[0] ? ' on' : '');
+      box.appendChild(el('button', {class:cls, text:t[1], onclick:function(){ if (t[0]==='chrono' && view.mode!=='chrono'){ view.chEra = view.era; view.chFocus = null; } view.mode = t[0]; renderAll(); }}));
+    });
+  }
+
+  /* ───── 항목 카드 ───── */
+  function card(it){
+    var s = get(it.id);
+    var open = !!view.open[it.id];
+    var badges = el('div', {class:'badges'});
+    if (it.korea) badges.appendChild(el('span', {class:'badge b-kor', text:'◆ 한국 관련'}));
+    if (it.note) badges.appendChild(el('span', {class:'badge b-chk', text:'⚠ 원문 확인 필요'}));
+    if (s.cand) badges.appendChild(el('span', {class:'badge b-cand', text:'★ 집필 후보'}));
+    (it.themes || []).forEach(function(t){ badges.appendChild(el('span', {class:'badge b-theme', text:'# ' + t})); });
+
+    var head = el('button', {class:'ihead', 'aria-expanded':String(open),
+      onclick:function(){ view.open[it.id] = !view.open[it.id]; renderPanel(); }},
+      el('span', {class:'ititle', text:it.title}),
+      el('span', {class:'iyear', text:it.year}),
+      badges);
+
+    var wrap = el('div', {class:'item', 'data-iid':it.id}, head);
+    if (!open) return wrap;
+
+    var body = el('div', {class:'ibody'});
+    body.appendChild(el('p', {text:it.summary}));
+    if (it.korea){
+      var kb = el('div', {class:'kbox'}); kb.appendChild(el('b', {text:'한국과의 연결  '})); kb.appendChild(document.createTextNode(it.korea));
+      body.appendChild(kb);
+    }
+    if (it.note) body.appendChild(el('div', {class:'nbox', text:'확인 필요: ' + it.note}));
+    if (it.site){
+      var m = el('div', {class:'meta'}); m.appendChild(el('b', {text:'답사 장소  '})); m.appendChild(document.createTextNode(it.site));
+      body.appendChild(m);
+    }
+    var mp = itemMap(it);
+    if (mp) body.appendChild(mp);
+    if (it.refs && it.refs.length){
+      var ul = el('ul', {class:'refs'});
+      it.refs.forEach(function(k){ ul.appendChild(el('li', {text:REFS[k] || k})); });
+      var rm = el('div', {class:'meta'}); rm.appendChild(el('b', {text:'참고자료'}));
+      body.appendChild(rm); body.appendChild(ul);
+    }
+    var rel = MATS.filter(function(m){ return (m.items || []).indexOf(it.id) >= 0; });
+    if (rel.length){
+      var rb = el('div', {class:'meta'}); rb.appendChild(el('b', {text:'관련 자료  '}));
+      rel.forEach(function(m, i){
+        if (i) rb.appendChild(document.createTextNode(' · '));
+        rb.appendChild(el('a', {href:m.file, target:'_blank', rel:'noopener', text:m.title + ' ▸'}));
+      });
+      body.appendChild(rb);
+    }
+    var cb = el('input', {type:'checkbox', onchange:function(ev){ set(it.id, {cand:ev.target.checked}); renderAll(); }});
+    cb.checked = s.cand;
+    body.appendChild(el('div', {class:'ctl'},
+      el('label', null, cb, ' 책에서 다룰 후보')));
+    var ta = el('textarea', {placeholder:'메모 (이 브라우저에 자동 저장됩니다)', 'aria-label':'메모',
+      oninput:function(ev){ set(it.id, {memo:ev.target.value}); }});
+    ta.value = s.memo;
+    body.appendChild(ta);
+    wrap.appendChild(body);
+    return wrap;
+  }
+
+  /* ───── 지도 ───── */
+  function hasLeaflet(){ return typeof window.L !== 'undefined' && window.L && typeof window.L.map === 'function'; }
+  function gmapUrl(p){ return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(p.q || p.n); }
+  function placeLinks(ps){
+    var box = el('div', {class:'plinks'});
+    ps.forEach(function(p){
+      box.appendChild(el('a', {href:gmapUrl(p), target:'_blank', rel:'noopener noreferrer',
+        text:p.n + ' · 지도에서 보기 ▸'}));
+    });
+    return box;
+  }
+  function buildMap(div, ps, big, info){
+    var map = window.L.map(div, {scrollWheelZoom:false});
+    window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+      {maxZoom:17, maxNativeZoom:15, attribution:'Tiles © Esri — Source: Esri, HERE, Garmin, OpenStreetMap contributors'}).addTo(map);
+    var pts = [];
+    ps.forEach(function(p){
+      var color = p.k ? '#b2432f' : '#2f5d8a';
+      var mk = window.L.circleMarker([p.lat, p.lng],
+        {radius: big ? 7 : 9, color:'#ffffff', weight:2, fillColor:color, fillOpacity:0.95}).addTo(map);
+      var pop = el('div', {class:'pop'}, el('b', {text:p.n}), el('div', {text:p.r + (p.a ? ' (위치 대략)' : '')}));
+      var list = info && info[p.id];
+      if (list && list.length){
+        var ul = el('ul');
+        list.slice(0, 8).forEach(function(t){ ul.appendChild(el('li', {text:'· ' + t})); });
+        if (list.length > 8) ul.appendChild(el('li', {text:'… 외 ' + (list.length - 8) + '개'}));
+        pop.appendChild(ul);
+      }
+      pop.appendChild(el('a', {href:gmapUrl(p), target:'_blank', rel:'noopener noreferrer', text:'지도에서 보기 ▸'}));
+      mk.bindPopup(pop);
+      pts.push([p.lat, p.lng]);
+    });
+    if (pts.length === 1) map.setView(pts[0], 13);
+    else map.fitBounds(pts, {padding:[30, 30], maxZoom:14});
+    map.on('click', function(){ map.scrollWheelZoom.enable(); });
+    liveMaps.push(map);
+  }
+  function itemMap(it){
+    var ids = ITEM_PLACES[it.id];
+    if (!ids || !ids.length) return null;
+    var ps = ids.map(function(i){ return PLACES[i]; }).filter(Boolean);
+    if (!ps.length) return null;
+    var box = el('div', {class:'mapwrap'});
+    if (view.mode === 'map'){
+      /* 전체 지도 화면에서는 항목 안에 지도를 또 그리지 않고 링크만 둔다 */
+    } else if (hasLeaflet()){
+      var m = el('div', {class:'map', role:'img', 'aria-label':'답사 장소 지도'});
+      box.appendChild(m);
+      pendingInit.push(function(){ buildMap(m, ps, false, null); });
+    } else {
+      box.appendChild(el('div', {class:'nbox', text:'지도를 불러오지 못했습니다(인터넷 연결 확인). 아래 링크로 위치를 확인하세요.'}));
+    }
+    box.appendChild(placeLinks(ps));
+    return box;
+  }
+  function renderMapView(box){
+    var byPlace = {}, itemCount = 0, groups = [];
+    ERAS.forEach(function(e){
+      if (!e.ready) return;
+      if (view.mapEra !== 'all' && view.mapEra !== e.id) return;
+      var grp = {era:e, items:[]};
+      groups.push(grp);
+      eraItems(e).forEach(function(it){
+        if (view.koreaOnly && !it.korea) return;
+        var ids = ITEM_PLACES[it.id] || [];
+        if (ids.length){ itemCount++; grp.items.push(it); }
+        ids.forEach(function(pid){ (byPlace[pid] = byPlace[pid] || []).push(e.name + ' · ' + it.title); });
+      });
+    });
+    var ps = Object.keys(byPlace).map(function(k){ return PLACES[k]; }).filter(Boolean);
+
+    var f = el('div', {class:'filters'});
+    var sel = el('select', {'aria-label':'시대 선택', onchange:function(ev){ view.mapEra = ev.target.value; renderPanel(); }});
+    var o0 = el('option', {value:'all', text:'시대: 전체'}); if (view.mapEra === 'all') o0.selected = true; sel.appendChild(o0);
+    ERAS.forEach(function(e){
+      if (!e.ready) return;
+      var o = el('option', {value:e.id, text:e.name}); if (view.mapEra === e.id) o.selected = true; sel.appendChild(o);
+    });
+    f.appendChild(sel);
+    f.appendChild(el('button', {class:'btn kor' + (view.koreaOnly ? ' on' : ''), text:'한국 관련만 보기',
+      onclick:function(){ view.koreaOnly = !view.koreaOnly; renderPanel(); }}));
+    f.appendChild(el('span', {class:'cnt', text:'장소 ' + ps.length + '곳 · 항목 ' + itemCount + '개'}));
+    box.appendChild(f);
+    box.appendChild(el('div', {class:'legend'}, el('span', {class:'dot jp'}), ' 일본', el('span', {class:'dot kr'}), ' 한국·중국'));
+    if (!ps.length){ box.appendChild(el('div', {class:'empty', text:'표시할 장소가 없습니다.'})); return; }
+
+    if (hasLeaflet()){
+      var m = el('div', {class:'map big', role:'img', 'aria-label':'전체 답사 장소 지도'});
+      box.appendChild(m);
+      pendingInit.push(function(){ buildMap(m, ps, true, byPlace); });
+    } else {
+      box.appendChild(el('div', {class:'nbox', text:'지도를 불러오지 못했습니다(인터넷 연결 확인). 아래 링크로 위치를 확인하세요.'}));
+      box.appendChild(placeLinks(ps));
+    }
+    box.appendChild(el('p', {class:'cnt', text:'점을 누르면 장소와 관련 항목이 나옵니다. 지도를 한 번 클릭하면 마우스 휠로 확대·축소할 수 있습니다. 위치는 대략적이므로 ‘지도에서 보기’로 확인하세요.'}));
+
+    /* 지도 아래에 같은 조건의 항목 목록을 함께 보여 준다 */
+    box.appendChild(el('h3', {class:'era-title', text:'이 지도에 표시된 항목 (' + itemCount + ')'}));
+    box.appendChild(el('div', {class:'filters'},
+      el('button', {class:'btn exp', 'data-flag':'1', text:'모두 펼치기', onclick:function(){ allOpen(true); }}),
+      el('button', {class:'btn exp', 'data-flag':'0', text:'모두 접기', onclick:function(){ allOpen(false); }})));
+    groups.forEach(function(g){
+      if (!g.items.length) return;
+      box.appendChild(el('h3', {class:'era-title', text:g.era.name + ' · ' + g.era.period}));
+      g.items.forEach(function(it){ lastShown.push(it.id); box.appendChild(card(it)); });
+    });
+  }
+
+  /* ───── 패널 ───── */
+  function filters(extraKorea, count){
+    var f = el('div', {class:'filters'});
+    if (extraKorea){
+      f.appendChild(el('button', {class:'btn kor' + (view.koreaOnly ? ' on' : ''), text:'한국 관련만 보기',
+        onclick:function(){ view.koreaOnly = !view.koreaOnly; renderPanel(); }}));
+    }
+    f.appendChild(el('button', {class:'btn exp', 'data-flag':'1', text:'모두 펼치기', onclick:function(){ allOpen(true); }}));
+    f.appendChild(el('button', {class:'btn exp', 'data-flag':'0', text:'모두 접기', onclick:function(){ allOpen(false); }}));
+    f.appendChild(el('span', {class:'cnt', text:count + '개 항목'}));
+    return f;
+  }
+  var lastShown = [];
+  /* 이미 그 상태이면 해당 버튼을 비활성화: 전부 펼쳐져 있으면 '모두 펼치기', 전부 접혀 있으면 '모두 접기' */
+  function syncExpandButtons(){
+    var n = lastShown.length, openN = 0;
+    lastShown.forEach(function(id){ if (view.open[id]) openN++; });
+    var btns = document.querySelectorAll('#panel button.exp');
+    for (var i = 0; i < btns.length; i++){
+      var isOpenBtn = btns[i].getAttribute('data-flag') === '1';
+      btns[i].disabled = n === 0 || (isOpenBtn ? openN === n : openN === 0);
+    }
+  }
+  function allOpen(flag){ lastShown.forEach(function(id){ view.open[id] = flag; }); renderPanel(); }
+
+
+  /* ───── 연표 ───── */
+  var CH = window.CHRONO || null;
+  var CH_RANGE = {e1:[-Infinity,250], e2:[250,592], e3:[592,710], e4:[710,794], e5:[794,1185], e6:[1185,1333], e7:[1333,1573], e8:[1573,1603], e9:[1603,1868], e10:[1868,1912], e11:[1912,1945], e12:[1945,Infinity]};
+  var CH_END = 2026;
+  function fyear(y){ return y < 0 ? '기원전 ' + (-y) : String(y); }
+  function frange(a, b){
+    if (b == null) return fyear(a) + ' ~ 현재';
+    if (a === b) return fyear(a);
+    if (a < 0 && b > 0) return fyear(a) + ' ~ 기원후 ' + b;
+    if (a < 0 && b < 0) return fyear(a) + ' ~ ' + (-b);
+    return fyear(a) + ' ~ ' + b;
+  }
+  function rkey(r){ return r.lane + '|' + r.name + '|' + r.a; }
+  function ovl(a, b, fa, fb){ var e = b == null ? CH_END : b; return a <= fb && e >= fa; }
+  /* 레코드를 통일된 객체로 */
+  function chLanes(){
+    var emp = CH.emperors.map(function(r){ return {lane:'emp', name:(r[4]==='N' ? '[북조] ' : '') + r[1] + (r[0] ? ' 천황 (제' + r[0] + '대)' : ' 천황'), a:r[2], b:r[3], f:r[4], g:null}; });
+    var sho = CH.shoguns.map(function(r){ return {lane:'sho', name:r[1], a:r[2], b:r[3], f:'', g:r[0] + ' 막부'}; });
+    var kor = CH.korea.map(function(r){ return {lane:'kor', name:r[1], a:r[2], b:r[3], f:r[4], g:r[0]}; });
+    return {emp:emp, sho:sho, kor:kor};
+  }
+  function empGroup(r){
+    for (var i = 0; i < ERAS.length; i++){
+      var rg = CH_RANGE[ERAS[i].id]; if (rg && r.a >= rg[0] && r.a < rg[1]) return ERAS[i].name;
+    }
+    return '기타';
+  }
+  function renderChronoView(box){
+    if (!CH){ box.appendChild(el('div', {class:'empty', text:'연표 데이터(japan-history-chronology.js)를 불러오지 못했습니다.'})); return; }
+    var L = chLanes();
+    box.appendChild(el('div', {class:'era-head'},
+      el('h2', {text:'천황·쇼군·한국 왕 연표'}),
+      el('p', {text:'세 줄을 나란히 놓고, 시대를 고르거나 연도를 입력하면 그때 재위한 천황·쇼군·한국 왕을 보여 줍니다. 목록의 이름을 누르면 같은 기간에 재위한 인물이 강조됩니다.'})));
+
+    /* 시대 선택 */
+    var bar = el('div', {class:'chbar'});
+    var opts = [['all','전체']].concat(ERAS.map(function(e){ return [e.id, e.name]; }));
+    opts.forEach(function(o){
+      bar.appendChild(el('button', {class:'btn' + (view.chEra===o[0] ? ' on' : ''), text:o[1], onclick:function(){ view.chEra = o[0]; view.chFocus = null; renderAll(); }}));
+    });
+    box.appendChild(bar);
+
+    /* 연도 찾기 */
+    var inp = el('input', {type:'text', inputmode:'numeric', placeholder:'연도 (기원전은 -57)', value:view.chYear, 'aria-label':'연도 입력'});
+    function go(){
+      var v = parseInt(inp.value, 10);
+      view.chYear = inp.value;
+      if (isNaN(v)){ view.chFocus = null; } else { view.chFocus = {a:v, b:v, label:fyear(v) + '년'}; view.chEra = 'all'; }
+      renderAll();
+    }
+    inp.addEventListener('keydown', function(ev){ if (ev.key === 'Enter') go(); });
+    box.appendChild(el('div', {class:'chyear'}, inp, el('button', {class:'btn', text:'찾기', onclick:go}),
+      el('button', {class:'btn', text:'선택 해제', onclick:function(){ view.chFocus = null; view.chYear = ''; renderAll(); }})));
+
+    var F = view.chFocus;
+    if (F){
+      var parts = [];
+      [['emp','천황'],['sho','쇼군'],['kor','한국']].forEach(function(p){
+        var m = L[p[0]].filter(function(r){ return ovl(r.a, r.b, F.a, F.b); }).map(function(r){ return r.name.replace(/ 천황 \(제\d+대\)| 천황/, ''); });
+        parts.push(p[1] + ': ' + (m.length ? m.join(', ') : '해당 없음'));
+      });
+      var cap = F.a === F.b ? F.label : F.label + ' (' + frange(F.a, F.b === CH_END ? null : F.b) + ')';
+      box.appendChild(el('div', {class:'chsum'}, el('b', {text:cap + ' · 같은 해 포함'}), el('br'), parts.join('  /  ')));
+    }
+
+    /* 줄 만들기 */
+    var rg = view.chEra === 'all' ? null : CH_RANGE[view.chEra];
+    function inRange(r){ if (rg) return ovl(r.a, r.b, rg[0], rg[1]); if (F) return F.src === rkey(r) || ovl(r.a, r.b, F.a, F.b); return true; }
+    function row(r){
+      var sel = F && F.src === rkey(r);
+      var hit = F && !sel && ovl(r.a, r.b, F.a, F.b);
+      var cls = 'crow' + (sel ? ' sel' : '') + (hit ? ' hit' : '');
+      var flag = r.f === 'L' ? ' ⚠ 전승' : r.f === 'U' ? ' ⚠ 연대 논쟁' : r.f === 'T' ? ' ⚠ 전승 기년' : '';
+      return el('button', {class:cls, onclick:function(){
+        if (F && F.src === rkey(r)){ view.chFocus = null; } else { view.chFocus = {a:r.a, b:r.b == null ? CH_END : r.b, label:r.name, src:rkey(r)}; view.chYear = ''; }
+        renderPanel();
+      }}, el('span', {class:'cn', text:r.name}), el('span', {class:'cy'}, frange(r.a, r.b), flag ? el('span', {class:'cf', text:flag}) : null));
+    }
+    function lane(title, sub, recs, cls, groupFn, collapsible){
+      var wrap = el('div', {class:'lane ' + cls}, el('h3', {text:title + ' (' + recs.length + ')'}), sub ? el('div', {class:'sub', text:sub}) : null);
+      if (!recs.length){ wrap.appendChild(el('div', {class:'sub', text:'이 시대에 해당 없음'})); return wrap; }
+      var cur = null, curOpen = true, key = null;
+      recs.forEach(function(r){
+        var g = groupFn ? groupFn(r) : null;
+        if (g !== cur){
+          cur = g;
+          if (g){
+            var count = recs.filter(function(x){ return groupFn(x) === g; }).length;
+            key = cls + ':' + g;
+            if (collapsible){
+              curOpen = !!view.chOpen[key] || !!F;
+              (function(k){ wrap.appendChild(el('button', {class:'gh', text:(curOpen ? '▼ ' : '▶ ') + g + ' (' + count + ')', 'aria-expanded':String(curOpen), onclick:function(){ view.chOpen[k] = !view.chOpen[k]; renderPanel(); }})); })(key);
+            } else { wrap.appendChild(el('div', {class:'gt', text:g + ' (' + count + ')'})); curOpen = true; }
+          }
+        }
+        if (curOpen) wrap.appendChild(row(r));
+      });
+      return wrap;
+    }
+    var emp = L.emp.filter(inRange), sho = L.sho.filter(inRange), kor = L.kor.filter(inRange);
+    var collapsible = !rg;
+    var grid = el('div', {class:'chgrid'});
+    grid.appendChild(lane('천황', '제1~14대는 전승, 제15~28대는 연대 논쟁', emp, 'jp', collapsible ? empGroup : null, collapsible));
+    grid.appendChild(lane('쇼군', '정이대장군 재임 기준', sho, 'jp', collapsible ? function(r){ return r.g; } : function(r){ return r.g; }, collapsible));
+    grid.appendChild(lane('한국 왕', '고구려·백제·신라·금관가야·발해·고려·조선', kor, 'kr', function(r){ return r.g; }, collapsible));
+    box.appendChild(grid);
+
+    var notes = el('ul', {class:'chnote'});
+    [
+      '재위 연도는 자료에 따라 1~2년 차이가 납니다. 이 표는 천황 재위, 쇼군 정이대장군 재임, 한국 왕 재위(즉위~퇴위·사망)를 기준으로 하며, 겹침 판정은 같은 해를 포함합니다.',
+      '천황 제1~14대는 전승(실재 불확실)으로 보는 견해가 일반적이고, 제15~28대는 실재와 연대에 논쟁이 있습니다. 비교적 확실한 시기는 제29대 긴메이 천황(6세기) 이후로 봅니다. 북조 천황(1331~1392)은 대수에 넣지 않고 [북조]로 표시했습니다.',
+      '쇼군 목록은 가마쿠라 9명, 무로마치 15명(요시타네는 두 번 재임), 에도 15명입니다. 에도 막부는 이에야스의 1603년 임관부터 계산했고, 은퇴 뒤에도 실권을 쥔 오고쇼 정치(이에야스·히데타다)는 따로 구분하지 않았습니다.',
+      '쇼군 줄이 비는 때는 1333~1338년(가마쿠라 멸망~무로마치 막부 성립), 1573~1603년(오다·도요토미 정권, 히데요시는 쇼군이 아니라 간파쿠·태합)입니다.',
+      '고구려·백제·신라의 건국 초기 연대는 『삼국사기』 기년이어서 학계에서 그대로 믿지 않는 부분이 많습니다(⚠ 전승 기년). 금관가야 연대도 전승입니다. 대가야, 후백제·태봉, 탐라 등은 수록하지 않았습니다.',
+      '고려의 충렬왕·충선왕·충숙왕·충혜왕은 퇴위와 복위가 있어 구간을 나누어 적었습니다. 조선 고종은 1897년 대한제국 황제에 오르고, 순종은 대한제국 황제입니다.',
+      '출처: 일본 천황·쇼군 목록(궁내청 계보 등), 『삼국사기』, 『고려사』, 『조선왕조실록』과 영문 위키백과의 목록(보조 자료). 출판 전에 원사료와 대조하세요.'
+    ].forEach(function(t){ notes.appendChild(el('li', {text:t})); });
+    box.appendChild(notes);
+  }
+
+
+  /* ───── 자료실 ───── */
+  function goItem(id){
+    for (var i = 0; i < ERAS.length; i++){
+      if (eraItems(ERAS[i]).some(function(it){ return it.id === id; })){
+        view.mode = 'era'; view.era = ERAS[i].id; view.koreaOnly = false; view.open[id] = true;
+        renderAll();
+        setTimeout(function(){
+          var t = document.querySelector('[data-iid="' + id + '"]');
+          if (t && t.scrollIntoView) t.scrollIntoView({block:'center'});
+        }, 30);
+        return;
+      }
+    }
+  }
+  function itemTitle(id){
+    for (var i = 0; i < ERAS.length; i++){
+      var l = eraItems(ERAS[i]);
+      for (var j = 0; j < l.length; j++) if (l[j].id === id) return l[j].title;
+    }
+    return id;
+  }
+  function renderMaterialsView(box){
+    var KINDS = window.MATERIAL_KINDS || [], STAT = window.MATERIAL_STATUS || [], THEMES = window.THEMES || [];
+    box.appendChild(el('div', {class:'era-head'},
+      el('h2', {text:'자료실'}),
+      el('p', {text:'올린 자료를 원본 그대로 보관하고, 종류·주제·시대·한국 관련 여부·확인 상태로 분류해 둔 곳입니다. 시대 항목과 서로 연결되며, 시대와 무관한 자료도 주제로 찾을 수 있습니다.'})));
+
+    var g = el('details', {class:'guide'}, el('summary', {text:'자료 분류 기준과 처리 순서'}));
+    var tb = el('table');
+    tb.appendChild(el('tr', null, el('th', {text:'분류 축'}), el('th', {text:'값'}), el('th', {text:'쓰임'})));
+    [
+      ['종류', KINDS.join(' / '), '자료의 성격. 한 자료에 하나만 붙입니다.'],
+      ['주제', '항목 꼬리표와 같은 ' + THEMES.length + '개 주제(여러 개 가능)', '시대와 무관한 자료를 찾는 주된 기준'],
+      ['시대', '12개 시대(없어도 되고, 여러 개도 가능)', '시대 항목과 연결'],
+      ['한국 관련', '예 / 아니오', '한국 관련 모아보기와 같은 기준'],
+      ['상태', STAT.join(' → '), '확인 정도. 자료가 스스로 밝힌 미확인 사항은 ‘확인 필요’ 목록에 옮깁니다.'],
+      ['출처 유형', '직접 조사 / 웹 검색 기반 / 현지 취재 / 문헌', '인용 책임을 가르는 기준'],
+      ['연결', '항목 · 장소 · 책 장 후보', '항목에서 자료로, 자료에서 항목·지도로 오갈 수 있게 함']
+    ].forEach(function(r){ tb.appendChild(el('tr', null, el('td', {text:r[0]}), el('td', {text:r[1]}), el('td', {text:r[2]}))); });
+    g.appendChild(tb);
+    var ol = el('ol');
+    [
+      '원본을 수정하지 않고 materials 폴더에 넣습니다.',
+      '위 축으로 분류하고 한 줄 요약을 씁니다.',
+      '자료가 밝힌 전승·미확인·인용 금지 사항을 ‘확인 필요’ 목록으로 옮깁니다.',
+      '시대에 앉힐 수 있는 사건·제도·인물은 시대 항목으로 따로 만들고, 사례 연구·답사·긴 해설은 자료로만 둡니다.',
+      '관련 항목·장소를 연결하고, 기존 항목과 내용이 어긋나면 표시합니다.'
+    ].forEach(function(t){ ol.appendChild(el('li', {text:t})); });
+    g.appendChild(ol);
+    box.appendChild(g);
+
+    function sel(label, key, opts){
+      var s = el('select', {'aria-label':label, onchange:function(ev){ view[key] = ev.target.value; renderPanel(); }});
+      s.appendChild(el('option', {value:'', text:label + ': 전체'}));
+      opts.forEach(function(o){ var op = el('option', {value:o[0], text:o[1]}); if (view[key] === o[0]) op.selected = true; s.appendChild(op); });
+      return s;
+    }
+    var f = el('div', {class:'filters'},
+      sel('주제', 'matTheme', THEMES.map(function(t){ return [t, t]; })),
+      sel('시대', 'matEra', ERAS.map(function(e){ return [e.id, e.name]; })),
+      sel('종류', 'matKind', KINDS.map(function(t){ return [t, t]; })),
+      sel('상태', 'matStatus', STAT.map(function(t){ return [t, t]; })));
+    var kcb = el('input', {type:'checkbox', onchange:function(ev){ view.matKorea = ev.target.checked; renderPanel(); }});
+    kcb.checked = view.matKorea;
+    f.appendChild(el('label', null, kcb, ' 한국 관련만'));
+    box.appendChild(f);
+
+    var list = MATS.filter(function(m){
+      return (!view.matTheme || (m.themes || []).indexOf(view.matTheme) >= 0)
+        && (!view.matEra || (m.eras || []).indexOf(view.matEra) >= 0)
+        && (!view.matKind || m.kind === view.matKind)
+        && (!view.matStatus || m.status === view.matStatus)
+        && (!view.matKorea || m.korea);
+    });
+    box.appendChild(el('div', {class:'cnt', text:list.length + '건 / 전체 ' + MATS.length + '건'}));
+    if (!list.length){ box.appendChild(el('div', {class:'empty', text:'조건에 맞는 자료가 없습니다.'})); return; }
+    list.forEach(function(m){
+      var c = el('div', {class:'mcard'});
+      c.appendChild(el('h3', null, el('a', {href:m.file, target:'_blank', rel:'noopener', text:m.title + ' ▸'})));
+      if (m.sub) c.appendChild(el('div', {class:'msub', text:m.sub}));
+      var badges = el('div', {class:'badges'});
+      badges.appendChild(el('span', {class:'badge b-theme', text:m.kind}));
+      if (m.korea) badges.appendChild(el('span', {class:'badge b-kor', text:'◆ 한국 관련'}));
+      badges.appendChild(el('span', {class:'badge b-chk', text:'상태: ' + m.status}));
+      (m.themes || []).forEach(function(t){ badges.appendChild(el('span', {class:'badge b-theme', text:'# ' + t})); });
+      (m.eras || []).forEach(function(id){ var e = eraById(id); if (e) badges.appendChild(el('span', {class:'badge b-theme', text:e.name})); });
+      c.appendChild(badges);
+      c.appendChild(el('p', {text:m.summary}));
+      if (m.caveats && m.caveats.length){
+        var ul = el('ul', {class:'mcav'});
+        m.caveats.forEach(function(t){ ul.appendChild(el('li', {text:t})); });
+        c.appendChild(el('div', {class:'nbox'}, el('b', {text:'확인 필요 목록'}), ul));
+      }
+      if (m.items && m.items.length){
+        var chips = el('div', {class:'mchips'}, el('span', {class:'cnt', text:'연결된 항목:'}));
+        m.items.forEach(function(id){ chips.appendChild(el('button', {class:'btn', text:itemTitle(id), onclick:function(){ goItem(id); }})); });
+        c.appendChild(chips);
+      }
+      var ps = (m.places || []).map(function(i){ return PLACES[i]; }).filter(Boolean);
+      if (ps.length) c.appendChild(placeLinks(ps));
+      var meta = [];
+      if (m.chapter) meta.push('책 장 후보: ' + m.chapter);
+      if (m.source) meta.push('출처 유형: ' + m.source);
+      if (m.added) meta.push('등록: ' + m.added);
+      c.appendChild(el('div', {class:'mmeta', text:meta.join('  ·  ')}));
+      box.appendChild(c);
+    });
+  }
+
+  function renderPanel(){
+    liveMaps.forEach(function(m){ try { m.remove(); } catch(e){} });
+    liveMaps = []; pendingInit = [];
+    renderPanelInner();
+    syncExpandButtons();
+    var queue = pendingInit; pendingInit = [];
+    setTimeout(function(){ queue.forEach(function(fn){ try { fn(); } catch(e){} }); }, 0);
+  }
+  function renderPanelInner(){
+    var box = document.getElementById('panel');
+    box.textContent = '';
+    lastShown = [];
+    if (view.mode === 'map'){ renderMapView(box); return; }
+    if (view.mode === 'chrono'){ renderChronoView(box); return; }
+    if (view.mode === 'mat'){ renderMaterialsView(box); return; }
+
+    if (view.mode === 'era'){
+      var e = eraById(view.era);
+      if (!e || !e.ready){ box.appendChild(el('div', {class:'empty', text:'시대를 선택하세요.'})); return; }
+      box.appendChild(el('div', {class:'era-head'},
+        el('h2', {text:e.name}),
+        el('div', {class:'per', text:e.period}),
+        el('p', {text:e.summary})));
+      var shownCount = 0, html = [];
+      e.topics.forEach(function(t){
+        var items = t.items.filter(function(it){ return passes(it) && (!view.koreaOnly || it.korea); });
+        if (!items.length) return;
+        shownCount += items.length;
+        html.push(el('h3', {text:t.name + ' (' + items.length + ')'}));
+        items.forEach(function(it){ lastShown.push(it.id); html.push(card(it)); });
+      });
+      box.appendChild(filters(true, shownCount));
+      if (!shownCount) box.appendChild(el('div', {class:'empty', text:'조건에 맞는 항목이 없습니다.'}));
+      html.forEach(function(n){ box.appendChild(n); });
+
+      /* 시대 참고문헌 모음 */
+      var seen = {}, keys = [];
+      eraItems(e).forEach(function(it){ (it.refs||[]).forEach(function(k){ if (!seen[k]){ seen[k]=1; keys.push(k); } }); });
+      if (keys.length){
+        var ul = el('ul', {class:'refs'});
+        keys.forEach(function(k){ ul.appendChild(el('li', {text:REFS[k] || k})); });
+        box.appendChild(el('div', {class:'refsec'}, el('h3', {text:'이 시대의 참고문헌 모음'}), ul));
+      }
+      return;
+    }
+
+    /* 한국 관련 / 주제별 / 집필 후보 모아보기 */
+    var list = [], total = 0;
+    var THEMES = window.THEMES || [];
+    if (view.mode === 'theme'){
+      if (!view.theme || THEMES.indexOf(view.theme) < 0) view.theme = THEMES[0] || '';
+      var counts = {};
+      ERAS.forEach(function(e){ eraItems(e).forEach(function(it){ (it.themes || []).forEach(function(t){ counts[t] = (counts[t] || 0) + 1; }); }); });
+      var tb = el('div', {class:'thbar'});
+      THEMES.forEach(function(t){
+        tb.appendChild(el('button', {class:'btn' + (view.theme === t ? ' on' : ''), text:t + ' (' + (counts[t] || 0) + ')', onclick:function(){ view.theme = t; renderPanel(); }}));
+      });
+      box.appendChild(el('div', {class:'era-head'},
+        el('h2', {text:'주제로 읽는 일본'}),
+        el('p', {text:'시대를 가로질러 같은 주제의 항목을 시대 순으로 모아 봅니다. 한 항목이 여러 주제에 속할 수 있습니다.'})));
+      box.appendChild(tb);
+    }
+    ERAS.forEach(function(e){
+      if (!e.ready) return;
+      var items = eraItems(e).filter(function(it){
+        if (!passes(it)) return false;
+        if (view.mode === 'korea') return !!it.korea;
+        if (view.mode === 'theme') return (it.themes || []).indexOf(view.theme) >= 0;
+        return get(it.id).cand;
+      });
+      if (items.length){ list.push([e, items]); total += items.length; }
+    });
+    box.appendChild(filters(false, total));
+    if (!total){
+      box.appendChild(el('div', {class:'empty', text: view.mode==='korea' ? '한국 관련 항목이 없습니다.' : view.mode==='theme' ? '이 주제의 항목이 없습니다.' : '아직 집필 후보로 표시한 항목이 없습니다. 항목을 펼쳐 ‘책에서 다룰 후보’를 체크하세요.'}));
+      return;
+    }
+    list.forEach(function(pair){
+      box.appendChild(el('h3', {class:'era-title', text:pair[0].name + ' · ' + pair[0].period}));
+      pair[1].forEach(function(it){ lastShown.push(it.id); box.appendChild(card(it)); });
+    });
+  }
+
+  function renderAll(){ renderStats(); renderTree(); renderTabs(); renderPanel(); }
+
+  /* ───── 내보내기 / 가져오기 ───── */
+  document.getElementById('btnExport').addEventListener('click', function(){
+    var blob = new Blob([JSON.stringify(saved, null, 2)], {type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'japan-history-progress.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+  });
+  document.getElementById('btnImport').addEventListener('click', function(){ document.getElementById('fileImport').click(); });
+  document.getElementById('fileImport').addEventListener('change', function(ev){
+    var f = ev.target.files && ev.target.files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function(){
+      try {
+        var data = JSON.parse(rd.result);
+        if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('형식 오류');
+        for (var k in data) saved[k] = data[k];
+        persist(); renderAll();
+      } catch(e){ alert('가져오기에 실패했습니다. 이 페이지에서 내보낸 JSON 파일인지 확인하세요.'); }
+    };
+    rd.readAsText(f);
+    ev.target.value = '';
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
