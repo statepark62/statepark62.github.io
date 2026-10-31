@@ -173,6 +173,11 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
   .trunk,.row::before,.node::before{display:none}
   .row{grid-template-columns:repeat(2,1fr); margin-top:18px}
 }
+.backfab{position:fixed; left:16px; bottom:16px; z-index:1000; display:none; align-items:center; gap:6px; background:var(--accent,#1f2a44); color:#fff; border:0; border-radius:999px; padding:11px 20px; font-size:16.5px; box-shadow:0 3px 12px rgba(0,0,0,.3); cursor:pointer}
+.backfab.show{display:inline-flex}
+.backfab:hover{filter:brightness(1.15)}
+@keyframes flashbg{0%,60%{background:#fff0b8} 100%{background:transparent}}
+.item.flash{animation:flashbg 2.4s ease-out}
 </style>
 </head>
 <body>
@@ -210,6 +215,53 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
 
   /* ───── 상태 ───── */
   var view = {mode:'era', era:'e1', koreaOnly:false, open:{}, mapEra:'all', theme:'', matTheme:'', matEra:'', matKind:'', matStatus:'', matKorea:false, chEra:'e1', chFocus:null, chYear:'', chOpen:{}};
+
+  /* ───── 뒤로가기(이전 화면 기억) ─────
+     링크로 다른 화면에 가거나(자료실의 ‘연결된 항목’ 등), 탭·시대 노드를 눌러 화면이 바뀔 때마다
+     떠나는 화면(탭·필터·펼침 상태·스크롤 위치)을 저장해 두고, 왼쪽 아래 ‘돌아가기’ 버튼과
+     브라우저·휴대폰의 뒤로가기로 되돌아옵니다. */
+  var MODE_NAME = {era:'시대별 보기', korea:'한국 관련 모아보기', theme:'주제별 보기', cand:'집필 후보 모아보기', map:'지도 보기', chrono:'연표', mat:'자료실'};
+  var navStack = [], backBtn = null;
+  function snap(){ return JSON.parse(JSON.stringify(view)); }
+  function whereLabel(v){
+    if (v.mode === 'era'){ var e = eraById(v.era); return e ? e.name : MODE_NAME.era; }
+    return MODE_NAME[v.mode] || '이전 화면';
+  }
+  function navTo(fn){
+    navStack.push({v:snap(), y:window.pageYOffset || 0, label:whereLabel(view)});
+    try { history.pushState({nav:navStack.length}, ''); } catch(e){}
+    fn();
+  }
+  function navRestore(k){
+    var e = navStack[k]; if (!e) return;
+    navStack.length = k;
+    view = e.v;
+    renderAll();
+    setTimeout(function(){ window.scrollTo(0, e.y); }, 30);
+  }
+  function navBack(){
+    if (!navStack.length) return;
+    var k = navStack.length - 1;
+    var viaHistory = history.state && history.state.nav === navStack.length;
+    if (viaHistory){ try { history.back(); return; } catch(e){} }
+    navRestore(k);
+  }
+  function renderBack(){
+    if (!backBtn){
+      backBtn = el('button', {class:'backfab', type:'button', onclick:navBack});
+      document.body.appendChild(backBtn);
+    }
+    var top = navStack[navStack.length - 1];
+    if (!top){ backBtn.classList.remove('show'); return; }
+    backBtn.textContent = '← 돌아가기 (' + top.label + ')';
+    backBtn.setAttribute('aria-label', top.label + '으로 돌아가기');
+    backBtn.classList.add('show');
+  }
+  window.addEventListener('popstate', function(ev){
+    var target = (ev.state && ev.state.nav) || 0;
+    if (target < navStack.length) navRestore(target);
+  });
+  try { history.replaceState({nav:0}, ''); } catch(e){}
 
   /* ───── 지도 데이터 ───── */
   var MATS = window.MATERIALS || [];
@@ -297,10 +349,13 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
     }
   }
   function pick(id){
-    view.mode = 'era'; view.era = id;
-    renderAll();
-    var p = document.getElementById('tabs');
-    if (p.scrollIntoView) p.scrollIntoView({behavior:'smooth', block:'start'});
+    function go(){
+      view.mode = 'era'; view.era = id;
+      renderAll();
+      var p = document.getElementById('tabs');
+      if (p.scrollIntoView) p.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    if (view.mode === 'era' && view.era === id) go(); else navTo(go);
   }
 
   /* ───── 탭 ───── */
@@ -309,7 +364,7 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
     box.textContent = '';
     [['era','시대별 보기'],['korea','한국 관련 모아보기'],['theme','주제별 보기'],['cand','집필 후보 모아보기'],['map','지도 보기'],['chrono','연표(천황·쇼군·한국 왕)'],['mat','자료실']].forEach(function(t){
       var cls = 'btn' + (t[0]==='korea' ? ' kor' : '') + (view.mode===t[0] ? ' on' : '');
-      box.appendChild(el('button', {class:cls, text:t[1], onclick:function(){ if (t[0]==='chrono' && view.mode!=='chrono'){ view.chEra = view.era; view.chFocus = null; } view.mode = t[0]; renderAll(); }}));
+      box.appendChild(el('button', {class:cls, text:t[1], onclick:function(){ if (view.mode === t[0]) return; navTo(function(){ if (t[0]==='chrono'){ view.chEra = view.era; view.chFocus = null; } view.mode = t[0]; renderAll(); }); }}));
     });
   }
 
@@ -631,12 +686,14 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
   function goItem(id){
     for (var i = 0; i < ERAS.length; i++){
       if (eraItems(ERAS[i]).some(function(it){ return it.id === id; })){
-        view.mode = 'era'; view.era = ERAS[i].id; view.koreaOnly = false; view.open[id] = true;
-        renderAll();
-        setTimeout(function(){
-          var t = document.querySelector('[data-iid="' + id + '"]');
-          if (t && t.scrollIntoView) t.scrollIntoView({block:'center'});
-        }, 30);
+        navTo(function(){
+          view.mode = 'era'; view.era = ERAS[i].id; view.koreaOnly = false; view.open[id] = true;
+          renderAll();
+          setTimeout(function(){
+            var t = document.querySelector('[data-iid="' + id + '"]');
+            if (t){ if (t.scrollIntoView) t.scrollIntoView({block:'center'}); t.classList.add('flash'); }
+          }, 30);
+        });
         return;
       }
     }
@@ -819,7 +876,7 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
     });
   }
 
-  function renderAll(){ renderStats(); renderTree(); renderTabs(); renderPanel(); }
+  function renderAll(){ renderStats(); renderTree(); renderTabs(); renderPanel(); renderBack(); }
 
   renderAll();
 })();
