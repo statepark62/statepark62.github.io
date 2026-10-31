@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>일본사 학습 트리</title>
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f2a44">
+
 <style>
 :root{
   --bg:#f6f4ef; --card:#ffffff; --ink:#23262b; --sub:#5d636b; --line:#b9b2a3;
@@ -174,18 +180,12 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
   <h1>일본사 학습 트리</h1>
   <p class="subtitle">시대를 누르면 공부할 항목이 나옵니다. 항목마다 한국 관련 내용, 답사 장소, 참고문헌, 집필 후보 표시와 메모를 담았습니다.</p>
   <div id="stats"></div>
-  <div class="toolbar">
-    <button class="btn" id="btnExport">후보·메모 내보내기</button>
-    <button class="btn" id="btnImport">후보·메모 가져오기</button>
-    <input type="file" id="fileImport" accept="application/json" hidden>
-  </div>
-
   <div class="tree" id="tree"></div>
 
   <div class="tabs" id="tabs"></div>
   <div class="panel" id="panel"></div>
 
-  <div class="foot">이 내용은 초안입니다. 책에 싣기 전에 연도·해석·서지 사항을 원문으로 확인하세요. 집필 후보와 메모는 이 브라우저에만 저장되므로 가끔 ‘내보내기’로 백업해 두세요.</div>
+  <div class="foot">이 내용은 초안입니다. 책에 싣기 전에 연도·해석·서지 사항을 원문으로 확인하세요. 집필 후보와 메모는 이 브라우저에만 저장됩니다.</div>
 </div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -820,31 +820,6 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
   }
 
   function renderAll(){ renderStats(); renderTree(); renderTabs(); renderPanel(); }
-
-  /* ───── 내보내기 / 가져오기 ───── */
-  document.getElementById('btnExport').addEventListener('click', function(){
-    var blob = new Blob([JSON.stringify(saved, null, 2)], {type:'application/json'});
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'japan-history-progress.json';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
-  });
-  document.getElementById('btnImport').addEventListener('click', function(){ document.getElementById('fileImport').click(); });
-  document.getElementById('fileImport').addEventListener('change', function(ev){
-    var f = ev.target.files && ev.target.files[0]; if (!f) return;
-    var rd = new FileReader();
-    rd.onload = function(){
-      try {
-        var data = JSON.parse(rd.result);
-        if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('형식 오류');
-        for (var k in data) saved[k] = data[k];
-        persist(); renderAll();
-      } catch(e){ alert('가져오기에 실패했습니다. 이 페이지에서 내보낸 JSON 파일인지 확인하세요.'); }
-    };
-    rd.readAsText(f);
-    ev.target.value = '';
-  });
 
   renderAll();
 })();
