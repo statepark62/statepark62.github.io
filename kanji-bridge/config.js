@@ -5,5 +5,5 @@
 window.KJ_CONFIG = {
  kanjiCsv: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQXM3Ptj6E_N9eymvDh_KJkWyLUfNtBWRbXMjLHQO9QquJ-AXlrfKL32xnt6LlIXc3pLGKDpQ2n-crZ/pub?gid=1193889259&single=true&output=csv',
 wordCsv: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQXM3Ptj6E_N9eymvDh_KJkWyLUfNtBWRbXMjLHQO9QquJ-AXlrfKL32xnt6LlIXc3pLGKDpQ2n-crZ/pub?gid=455373261&single=true&output=csv',
-  googleClientId: '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com'
+  googleClientId: '597634739592-77rpve8li9roi01mqufvat9uogkjl858.apps.googleusercontent.com'
 };
