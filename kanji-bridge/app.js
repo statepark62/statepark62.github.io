@@ -27,7 +27,57 @@
   S.wr = S.wr || {};
   S.newToday = S.newToday || { d: '', n: 0 };
   S.reports = S.reports || [];
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} cloudDirty(); }
+
+  /* ---------- 구글 계정 동기화 (학습 기록) ---------- */
+  var CLOUD = { state: '', msg: '', t: 0, dirty: false }; // state: '' 사용 안 함 / busy / ok / need(다시 연결 필요) / err
+  var cl = null, pushTimer = null, CKEY = 'kj_cloud_on';
+  function cloudSnap() { return { v: 1, resetAt: S.resetAt || 0, prog: S.prog, wr: S.wr, newToday: S.newToday, cfg: S.cfg, cfgT: S.cfgT || 0 }; }
+  function cloudApply(m) {
+    S.prog = m.prog; S.wr = m.wr; S.newToday = m.newToday; S.cfg = Object.assign({ perDay: 5, level: 0, write: 0 }, m.cfg); S.cfgT = m.cfgT; S.resetAt = m.resetAt;
+    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
+  }
+  function cloudDirty() {
+    if (!cl || !CLOUD.state || CLOUD.state === 'busy') return;
+    CLOUD.dirty = true; clearTimeout(pushTimer); pushTimer = setTimeout(cloudPush, 4000);
+  }
+  function cloudPush() {
+    if (!cl || !CLOUD.dirty) return;
+    if (!cl.valid()) { CLOUD.state = 'need'; CLOUD.msg = '로그인이 만료됐어요. 설정에서 다시 연결하면 이어서 저장돼요.'; return; }
+    CLOUD.dirty = false;
+    cl.push(cloudSnap()).then(function () { CLOUD.state = 'ok'; CLOUD.t = Date.now(); CLOUD.msg = ''; }).catch(function (e) { CLOUD.dirty = true; CLOUD.state = 'err'; CLOUD.msg = '저장 실패: ' + (e && e.message || e); });
+  }
+  function cloudSync() {
+    CLOUD.state = 'busy'; CLOUD.msg = '동기화하는 중…'; if (!V.sess && !wr) render();
+    return cl.pull().then(function (remote) {
+      var m = remote ? window.KJ_CLOUD.merge(cloudSnap(), remote) : cloudSnap();
+      cloudApply(m); return cl.push(m);
+    }).then(function () {
+      CLOUD.state = 'ok'; CLOUD.t = Date.now(); CLOUD.msg = '동기화했어요.'; CLOUD.dirty = false;
+      try { localStorage.setItem(CKEY, '1'); } catch (e) {}
+      if (!V.sess && !wr) render();
+    });
+  }
+  function cloudConnect(silent) {
+    if (!cl) return;
+    CLOUD.state = 'busy'; CLOUD.msg = '연결하는 중…'; if (!silent) render();
+    cl.signIn(silent).then(cloudSync).catch(function (e) {
+      CLOUD.state = silent ? 'need' : 'err';
+      CLOUD.msg = silent ? '이 기기의 로그인이 만료됐어요. 아래 버튼으로 다시 연결하세요.' : '연결하지 못했어요 (' + (e && e.message || e) + ')';
+      if (!V.sess && !wr) render();
+    });
+  }
+  function cloudOut() {
+    if (cl) cl.signOut(); CLOUD.state = ''; CLOUD.msg = ''; CLOUD.dirty = false; clearTimeout(pushTimer);
+    try { localStorage.removeItem(CKEY); } catch (e) {}
+    render();
+  }
+  function cloudInit() {
+    if (!CFG.googleClientId || !window.KJ_CLOUD) return;
+    cl = window.KJ_CLOUD.client({ clientId: CFG.googleClientId });
+    var on = false; try { on = localStorage.getItem(CKEY) === '1'; } catch (e) {}
+    if (on) cloudConnect(true);
+  }
 
   /* ---------- 도구 ---------- */
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -157,7 +207,7 @@
     var p = S.prog[k] || { b: 0, ok: 0, ng: 0, seen: true };
     p.seen = true;
     if (correct) { p.b = Math.min(5, p.b + 1); p.ok++; } else { p.b = Math.max(0, p.b - 2); p.ng++; }
-    p.due = addDays(INTERVALS[p.b]);
+    p.due = addDays(INTERVALS[p.b]); p.t = Date.now();
     S.prog[k] = p;
   }
   function startSession(extra) {
@@ -221,7 +271,7 @@
     var it = V.sess.queue[V.sess.i];
     var first = !it.counted;
     if (first) { bump(st.e.k, ok); it.counted = true; }
-    S.prog[st.e.k].lt = st.t;
+    S.prog[st.e.k].lt = st.t; S.prog[st.e.k].t = Date.now();
     if (ok) V.sess.right++; else V.sess.wrong++;
     it.n--;
     if (!ok && !V.sess.retry[it.k]) { V.sess.retry[it.k] = 1; V.sess.queue.push({ k: it.k, mode: 'rev', n: 1, counted: true }); V.sess.total++; }
@@ -403,6 +453,14 @@
     h += '<div class="sect"><label for="perday">하루에 배울 새 한자</label><select id="perday">' + [3, 5, 10, 20].map(function (n) { return '<option value="' + n + '"' + (S.cfg.perDay === n ? ' selected' : '') + '>' + n + '개</option>'; }).join('') + '</select></div>';
     h += '<div class="sect"><label for="cfglv">공부할 급</label><select id="cfglv"><option value="0"' + (S.cfg.level === 0 ? ' selected' : '') + '>N5 → N4 전체</option><option value="5"' + (S.cfg.level === 5 ? ' selected' : '') + '>N5만</option><option value="4"' + (S.cfg.level === 4 ? ' selected' : '') + '>N4만</option></select></div>';
     h += '<div class="sect"><label for="cfgwrite">쓰기 문제 (복습에 섞기)</label><select id="cfgwrite"><option value="0"' + (S.cfg.write ? '' : ' selected') + '>안 함</option><option value="1"' + (S.cfg.write ? ' selected' : '') + '>포함</option></select><p class="small muted">손으로 쓰는 문제를 복습에 섞어요. 쓴 뒤 스스로 맞았는지 골라요.</p></div>';
+    h += '<div class="sect"><h2>구글 계정으로 기록 저장</h2>';
+    if (!CFG.googleClientId) h += '<p class="small muted">이 기능은 아직 설정되지 않았어요. 학습 기록은 이 기기에만 저장돼요.</p>';
+    else {
+      h += '<p class="small muted">로그인하면 학습 기록이 내 구글 드라이브의 앱 전용 공간에 저장돼서, 다른 기기에서도 이어서 공부할 수 있어요. 드라이브의 다른 파일은 앱이 볼 수 없어요.</p>';
+      if (CLOUD.state === 'ok' || CLOUD.state === 'busy') h += '<p class="small">' + (CLOUD.state === 'busy' ? '동기화하는 중…' : '연결됨 · 마지막 동기화 ' + new Date(CLOUD.t).toLocaleTimeString('ko-KR')) + '</p><div class="row"><button class="btn" data-act="cnow">지금 동기화</button><button class="btn ghost" data-act="cout">로그아웃</button></div>';
+      else h += (CLOUD.msg ? '<p class="small ' + (CLOUD.state === 'err' ? 'bad' : 'muted') + '">' + esc(CLOUD.msg) + '</p>' : '') + '<button class="btn primary" data-act="cin">구글 계정으로 로그인</button>';
+    }
+    h += '</div>';
     h += '<div class="sect"><h2>오류 신고</h2><p class="small muted">한자 카드의 ‘오류 신고’로 남긴 내용이에요. 이 기기에만 저장돼요. 복사해서 보내 주세요.</p>';
     if (S.reports.length) {
       h += '<textarea id="rep" readonly>' + esc(reportsText()) + '</textarea><div class="row"><button class="btn" data-act="copyrep">복사</button><button class="btn ghost" data-act="clearrep">신고 목록 비우기</button></div>';
@@ -518,7 +576,7 @@
     else if (w === 'grade') {
       var ok = b.getAttribute('data-ok') === '1';
       if (wr.opts.session) { var cb = wr.opts.onDone; closeWrite(); cb(ok); return; }
-      var rec = S.wr[wr.k] || { ok: 0, ng: 0 }; if (ok) rec.ok++; else rec.ng++; S.wr[wr.k] = rec; save();
+      var rec = S.wr[wr.k] || { ok: 0, ng: 0 }; if (ok) rec.ok++; else rec.ng++; rec.t = Date.now(); S.wr[wr.k] = rec; save();
       wr.graded = true; wrControls();
     }
     else if (w === 'clear2') { wr.strokes = []; wr.checked = false; wr.graded = false; wr.el.querySelector('#rev').hidden = true; wrRedraw(); wrControls(); }
@@ -611,9 +669,12 @@
     }
     else if (a === 'clearrep') { S.reports = []; save(); render(); }
     else if (a === 'sync') { syncSheet(true); }
+    else if (a === 'cin') { cloudConnect(false); }
+    else if (a === 'cnow') { if (cl && cl.valid()) cloudSync().catch(function (e) { CLOUD.state = 'err'; CLOUD.msg = '동기화 실패: ' + (e && e.message || e); render(); }); else cloudConnect(false); }
+    else if (a === 'cout') { cloudOut(); }
     else if (a === 'reset1') { V.confirmReset = true; render(); }
     else if (a === 'reset0') { V.confirmReset = false; render(); }
-    else if (a === 'reset2') { S.prog = {}; S.newToday = { d: '', n: 0 }; V.sess = null; V.confirmReset = false; save(); toast('학습 기록을 지웠어요.'); }
+    else if (a === 'reset2') { S.prog = {}; S.wr = {}; S.resetAt = Date.now(); S.newToday = { d: '', n: 0 }; V.sess = null; V.confirmReset = false; save(); toast('학습 기록을 지웠어요.'); }
   });
   app.addEventListener('input', function (ev) {
     if (ev.target.id === 'q') { V.q = ev.target.value; render(); }
@@ -621,13 +682,14 @@
   app.addEventListener('change', function (ev) {
     var t = ev.target;
     if (t.id === 'lv') { V.lv = +t.value; render(); }
-    else if (t.id === 'perday') { S.cfg.perDay = +t.value; save(); render(); }
-    else if (t.id === 'cfgwrite') { S.cfg.write = +t.value; save(); render(); }
-    else if (t.id === 'cfglv') { S.cfg.level = +t.value; save(); render(); }
+    else if (t.id === 'perday') { S.cfg.perDay = +t.value; S.cfgT = Date.now(); save(); render(); }
+    else if (t.id === 'cfgwrite') { S.cfg.write = +t.value; S.cfgT = Date.now(); save(); render(); }
+    else if (t.id === 'cfglv') { S.cfg.level = +t.value; S.cfgT = Date.now(); save(); render(); }
   });
 
   render();
   syncSheet(false);
+  cloudInit();
   /* index.html이 옛 버전이라 strokes.js를 안 부르는 경우를 대비해 직접 불러온다 */
   if (!window.KANJI_STROKES && !window.__KJ_NO_SW) {
     var sc = document.createElement('script'); sc.src = 'strokes.js';
