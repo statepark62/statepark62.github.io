@@ -866,9 +866,28 @@
   // ---------- Composer ----------
   function autoResize(textarea){
     // 높이를 잠깐 줄였다 늘리는 사이에 페이지가 짧아져 화면이 튀지 않도록 스크롤 위치를 보존
+    // 실제 입력창은 줄이지 않고, 보이지 않는 복제본으로 필요한 높이를 재서 한 번에 설정한다
+    // (백스페이스 때 높이가 순간 0으로 줄며 커서가 화면 맨 위로 튀던 문제 방지)
     const y = window.scrollY;
-    textarea.style.height = "auto";
-    textarea.style.height = textarea.scrollHeight + "px";
+    let mirror = autoResize._m;
+    if(!mirror){
+      mirror = document.createElement("textarea");
+      mirror.setAttribute("aria-hidden", "true");
+      mirror.tabIndex = -1;
+      mirror.style.cssText = "position:absolute;left:-9999px;top:0;visibility:hidden;height:0;min-height:0;overflow:hidden;pointer-events:none;";
+      document.body.appendChild(mirror);
+      autoResize._m = mirror;
+    }
+    const cs = getComputedStyle(textarea);
+    ["boxSizing","width","fontFamily","fontSize","fontWeight","lineHeight","letterSpacing",
+     "paddingTop","paddingBottom","paddingLeft","paddingRight",
+     "borderTopWidth","borderBottomWidth","borderLeftWidth","borderRightWidth","whiteSpace","wordBreak","overflowWrap","tabSize"]
+      .forEach(p => { mirror.style[p] = cs[p]; });
+    mirror.value = textarea.value;
+    let h = mirror.scrollHeight;
+    if(cs.boxSizing === "border-box") h += parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+    const target = Math.max(h, parseFloat(cs.minHeight) || 0);
+    if(textarea.style.height !== target + "px") textarea.style.height = target + "px";
     if(window.scrollY !== y) window.scrollTo(0, y);
   }
 
