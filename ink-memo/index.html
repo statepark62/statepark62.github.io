@@ -1212,7 +1212,8 @@
     const valid = parsed
       .filter(m => m && (
         (typeof m.text === "string" && m.text.trim()) ||
-        (Array.isArray(m.images) && m.images.length)
+        (Array.isArray(m.images) && m.images.length) ||
+        (Array.isArray(m.importImages) && m.importImages.length)
       ))
       .map(m => ({
         id: (typeof m.id === "string" && m.id) ? m.id : makeId(),
@@ -1221,7 +1222,11 @@
         pinned: !!m.pinned,
         createdAt: (typeof m.createdAt === "string" && m.createdAt) ? m.createdAt : new Date().toISOString(),
         editedAt: m.editedAt,
-        images: Array.isArray(m.images) ? m.images : []
+        images: Array.isArray(m.images) ? m.images : [],
+        // 불러오기 전용: 사진 원본(data URL). 불러올 때 암호화해서 Drive에 올리고 파일 ID로 바꾼다.
+        importImages: Array.isArray(m.importImages)
+          ? m.importImages.filter(s => typeof s === "string" && s.startsWith("data:image/"))
+          : []
       }));
 
     if(valid.length === 0){
@@ -1238,10 +1243,31 @@
       return;
     }
 
+    const imgCount = toAdd.reduce((n, m) => n + m.importImages.length, 0);
     const msg = `메모 ${toAdd.length}개를 불러옵니다.`
       + (skipped > 0 ? ` (중복 ${skipped}개는 제외)` : "")
+      + (imgCount > 0 ? `\n사진 ${imgCount}장은 암호화해서 함께 올립니다.` : "")
       + `\n기존 메모는 그대로 유지됩니다. 진행할까요?`;
     if(!confirm(msg)) return;
+
+    // 사진이 딸린 메모: 업로드 후 파일 ID를 images에 채운다. 하나라도 실패하면 이번 불러오기 전체를 취소한다.
+    const uploadedIds = [];
+    try{
+      for(const m of toAdd){
+        for(const dataUrl of m.importImages){
+          showToast("사진을 올리는 중... (" + (uploadedIds.length + 1) + "/" + imgCount + ")");
+          const blob = await (await fetch(dataUrl)).blob();
+          const id = await uploadImage(blob);
+          uploadedIds.push(id);
+          m.images.push(id);
+        }
+      }
+    }catch(err){
+      for(const id of uploadedIds) await deleteImageFile(id);
+      showToast("사진 업로드에 실패해 불러오기를 취소했습니다.");
+      return;
+    }
+    toAdd.forEach(m => { delete m.importImages; });
 
     memos = memos.concat(toAdd);
     memos.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
