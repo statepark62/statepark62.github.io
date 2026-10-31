@@ -21,8 +21,15 @@ japan-history/
   japan-history-places.js         장소(지도)와 항목-장소 연결
   japan-history-chronology.js     천황·쇼군·한국 왕 연표 데이터
   japan-history-materials.js      자료실 메타데이터(분류·연결 정보)
-  materials/                      자료실에 올린 원본 문서
+  manifest.webmanifest            홈 화면 설치용 설정
+  icons/                          탭·홈 화면 아이콘
+  materials/                      자료실에 올린 문서
+    material.css                  정리한 자료 3종이 함께 쓰는 서식
     tojin-tofu-history-v3.html
+    saigo-two-statues.html
+    shimazu-joseon-potters.html
+    okubo-toshimichi.html
+    img/                          자료에 쓴 사진·그림과 원본 인포그래픽
   README.md
 ```
 
