@@ -215,6 +215,22 @@
   }
   .toast.show{ opacity: 1; }
 
+  /* 삭제 시점(자동 삭제) */
+  .composer-left{ flex-wrap: wrap; }
+  .expire-select, .expire-custom{
+    background: transparent; border: 1px solid var(--paper-shadow); color: var(--text-on-paper-dim);
+    border-radius: var(--radius); padding: 9px 10px; font-size: 14px; font-family: inherit; cursor: pointer;
+  }
+  .expire-select.active, .expire-custom.active{ color: var(--text-on-paper); border-color: var(--teal); }
+  .expire-select:focus, .expire-custom:focus{ outline: none; border-color: var(--text-on-paper-dim); }
+  .expire-custom{ display: none; }
+  .expire-custom.show{ display: inline-block; }
+  .edit-expire{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+  .expire-badge{
+    display: inline-block; border: 1px solid var(--gold); color: var(--text-on-paper);
+    border-radius: 999px; padding: 1px 9px; font-size: 12px; margin-left: 4px;
+  }
+
   ::selection{ background: var(--gold); color: var(--ink); }
   @media (max-width: 420px){ .app-title{ font-size: 26px; } }
   @media (max-width: 600px){ #app{ width: 100%; padding-left: 16px; padding-right: 16px; } }
@@ -298,6 +314,8 @@
       <div class="composer-left">
         <button class="attach-btn" id="attachBtn" title="사진 첨부">🖼 사진</button>
         <input type="file" id="attachFile" accept="image/*" multiple style="display:none;">
+        <select class="expire-select" id="expireSelect" title="이 시점이 지나면 메모가 자동으로 삭제됩니다"></select>
+        <input type="datetime-local" class="expire-custom" id="expireCustom">
       </div>
       <button class="btn" id="saveBtn">저장</button>
     </div>
@@ -808,6 +826,7 @@
       lockScreen.style.display = "none";
       app.style.display = "block";
       render();
+      purgeExpired();
     }, 350);
   }
 
@@ -906,10 +925,106 @@
     }
   });
 
+  // ---------- 삭제 시점(자동 삭제) ----------
+  const EXPIRE_PRESETS = [
+    ["1h", "1시간 후", 3600e3], ["6h", "6시간 후", 6 * 3600e3], ["1d", "1일 후", 24 * 3600e3],
+    ["3d", "3일 후", 72 * 3600e3], ["1w", "1주일 후", 168 * 3600e3], ["30d", "30일 후", 720 * 3600e3]
+  ];
+  function expireOptionsHtml(keepLabel){
+    return (keepLabel ? `<option value="keep">삭제 시점: ${keepLabel}</option>` : "")
+      + `<option value="none">삭제 시점: 없음</option>`
+      + EXPIRE_PRESETS.map(p => `<option value="${p[0]}">${p[1]} 삭제</option>`).join("")
+      + `<option value="custom">직접 지정…</option>`;
+  }
+  function pad2(n){ return String(n).padStart(2, "0"); }
+  function toLocalInput(d){
+    return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate())
+      + "T" + pad2(d.getHours()) + ":" + pad2(d.getMinutes());
+  }
+  // 반환: undefined = 변경 없음, null = 삭제 시점 없음, 문자열 = 삭제 시각(ISO)
+  function computeExpiresAt(choice, customValue){
+    if(choice === "keep") return undefined;
+    if(!choice || choice === "none") return null;
+    if(choice === "custom"){
+      const t = new Date(customValue).getTime();
+      if(!customValue || isNaN(t)) throw new Error("삭제할 날짜와 시간을 입력해주세요.");
+      if(t <= Date.now()) throw new Error("삭제 시점은 지금보다 나중이어야 합니다.");
+      return new Date(t).toISOString();
+    }
+    const p = EXPIRE_PRESETS.find(p => p[0] === choice);
+    return p ? new Date(Date.now() + p[2]).toISOString() : null;
+  }
+  function bindExpireControls(sel, custom){
+    const sync = () => {
+      const isCustom = sel.value === "custom";
+      custom.classList.toggle("show", isCustom);
+      sel.classList.toggle("active", sel.value !== "none" && sel.value !== "keep");
+      if(isCustom){
+        custom.min = toLocalInput(new Date());
+        if(!custom.value) custom.value = toLocalInput(new Date(Date.now() + 24 * 3600e3));
+      }
+    };
+    sel.addEventListener("change", sync);
+    sync();
+  }
+  function fmtExpiry(iso){
+    const ms = new Date(iso).getTime() - Date.now();
+    if(isNaN(ms)) return "";
+    if(ms <= 0) return "삭제 대기";
+    const min = Math.ceil(ms / 60000);
+    if(min < 60) return min + "분 후 삭제";
+    const h = Math.ceil(min / 60);
+    if(h < 24) return h + "시간 후 삭제";
+    return Math.ceil(h / 24) + "일 후 삭제";
+  }
+  function refreshExpiryLabels(){
+    document.querySelectorAll("[data-expires-at]").forEach(n => {
+      n.textContent = "⏳ " + fmtExpiry(n.getAttribute("data-expires-at"));
+    });
+  }
+
+  // 삭제 시점이 지난 메모를 지운다 (앱이 열려 있고 잠금이 풀린 상태에서만 동작)
+  let purging = false;
+  async function purgeExpired(){
+    if(purging || !cryptoKey) return;
+    const now = Date.now();
+    const gone = memos.filter(m => m.expiresAt && new Date(m.expiresAt).getTime() <= now);
+    if(!gone.length) return;
+    purging = true;
+    try{
+      memos = memos.filter(m => !gone.includes(m));
+      const ok = await persistMemos();
+      if(!ok){
+        // 저장에 실패하면 메모를 되돌리고 다음 기회에 다시 시도
+        memos = memos.concat(gone).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+        return;
+      }
+      if(editingId && gone.some(m => m.id === editingId)) editingId = null;
+      render();
+      showToast("삭제 시점이 지난 메모 " + gone.length + "개를 삭제했습니다");
+      for(const m of gone){
+        for(const fid of (m.images || [])) await deleteImageFile(fid);
+      }
+    }finally{
+      purging = false;
+    }
+  }
+
+  el("expireSelect").innerHTML = expireOptionsHtml(null);
+  bindExpireControls(el("expireSelect"), el("expireCustom"));
+
   async function saveMemo(){
     const input = el("composerInput");
     const text = input.value.trim();
     if(!text && pendingAttachments.length === 0) return;
+
+    let expiresAt;
+    try{
+      expiresAt = computeExpiresAt(el("expireSelect").value, el("expireCustom").value);
+    }catch(err){
+      showToast(err.message);
+      return;
+    }
 
     const attachments = pendingAttachments;
     pendingAttachments = [];
@@ -937,13 +1052,18 @@
       tags: extractTags(text),
       pinned: false,
       createdAt: new Date().toISOString(),
-      images: imageIds
+      images: imageIds,
+      ...(expiresAt ? { expiresAt } : {})
     });
 
     const ok = await persistMemos();
     if(!ok){ showToast("저장에 실패했습니다. 다시 시도해주세요."); return; }
+    // 삭제 시점은 메모마다 새로 고르도록 입력 후 초기화
+    el("expireSelect").value = "none";
+    el("expireCustom").value = "";
+    el("expireSelect").dispatchEvent(new Event("change"));
     render();
-    showToast("저장되었습니다");
+    showToast(expiresAt ? "저장되었습니다 (" + fmtExpiry(expiresAt) + ")" : "저장되었습니다");
   }
 
   async function togglePin(id){
@@ -979,11 +1099,22 @@
     const textarea = document.querySelector('[data-edit-textarea="' + id + '"]');
     const newText = textarea.value.trim();
     if(!newText){ showToast("내용을 입력해주세요."); return; }
+    const expSel = document.querySelector('[data-edit-expire="' + id + '"]');
+    const expCustom = document.querySelector('[data-edit-expire-custom="' + id + '"]');
+    let newExpiry;
+    try{
+      newExpiry = expSel ? computeExpiresAt(expSel.value, expCustom ? expCustom.value : "") : undefined;
+    }catch(err){
+      showToast(err.message);
+      return;
+    }
     const m = memos.find(m => m.id === id);
     if(m){
       m.text = newText;
       m.tags = extractTags(newText);
       m.editedAt = new Date().toISOString();
+      if(newExpiry === null) delete m.expiresAt;
+      else if(newExpiry) m.expiresAt = newExpiry;
     }
     editingId = null;
     const ok = await persistMemos();
@@ -1085,6 +1216,10 @@
     if(editingId === m.id){
       card.innerHTML = `
         <textarea class="edit-textarea" data-edit-textarea="${m.id}">${escapeHtml(m.text)}</textarea>
+        <div class="edit-expire">
+          <select class="expire-select" data-edit-expire="${m.id}">${expireOptionsHtml("현재 유지 (" + (m.expiresAt ? fmtExpiry(m.expiresAt) : "없음") + ")")}</select>
+          <input type="datetime-local" class="expire-custom" data-edit-expire-custom="${m.id}">
+        </div>
         <div class="memo-meta">
           <span class="mono" style="color:var(--text-on-paper-dim);">#태그 처럼 쓰면 자동 인식됩니다</span>
           <div class="memo-actions">
@@ -1097,6 +1232,7 @@
       card.querySelector('[data-action="cancel-edit"]').addEventListener("click", cancelEdit);
       card.querySelector('[data-action="save-edit"]').addEventListener("click", () => saveEdit(m.id));
       ta.addEventListener("input", () => autoResize(ta));
+      bindExpireControls(card.querySelector("[data-edit-expire]"), card.querySelector("[data-edit-expire-custom]"));
       // 자동 포커스, 커서를 끝으로, 기존 내용 높이에 맞춰 확장
       setTimeout(() => {
         ta.focus();
@@ -1113,7 +1249,7 @@
       ${m.text ? `<div class="memo-text">${linkify(m.text)}</div>` : ""}
       ${hasImages ? `<div class="memo-images" data-images="${m.id}"></div>` : ""}
       <div class="memo-meta">
-        <div class="memo-tags">${tagsHtml}<span class="mono">${fmtTime(m.createdAt)}${editedNote}</span></div>
+        <div class="memo-tags">${tagsHtml}<span class="mono">${fmtTime(m.createdAt)}${editedNote}</span>${m.expiresAt ? `<span class="expire-badge" data-expires-at="${m.expiresAt}" title="${escapeHtml(new Date(m.expiresAt).toLocaleString("ko-KR"))}에 자동 삭제">⏳ ${fmtExpiry(m.expiresAt)}</span>` : ""}</div>
         <div class="memo-actions">
           <span data-action="edit">수정</span>
           <span data-action="pin">${m.pinned ? "고정 해제" : "고정"}</span>
@@ -1222,6 +1358,7 @@
         pinned: !!m.pinned,
         createdAt: (typeof m.createdAt === "string" && m.createdAt) ? m.createdAt : new Date().toISOString(),
         editedAt: m.editedAt,
+        ...((typeof m.expiresAt === "string" && !isNaN(Date.parse(m.expiresAt))) ? { expiresAt: m.expiresAt } : {}),
         images: Array.isArray(m.images) ? m.images : [],
         // 불러오기 전용: 사진 원본(data URL). 불러올 때 암호화해서 Drive에 올리고 파일 ID로 바꾼다.
         importImages: Array.isArray(m.importImages)
@@ -1276,6 +1413,16 @@
     if(!ok){ showToast("저장에 실패했습니다. 다시 시도해주세요."); return; }
     render();
     showToast(`${toAdd.length}개를 불러왔습니다`);
+  });
+
+  // 앱이 열려 있는 동안 1분마다 삭제 시점이 지난 메모를 정리하고, 탭으로 돌아올 때도 확인
+  setInterval(() => {
+    if(!cryptoKey || app.style.display === "none") return;
+    purgeExpired();
+    refreshExpiryLabels();
+  }, 60 * 1000);
+  document.addEventListener("visibilitychange", () => {
+    if(!document.hidden && cryptoKey) purgeExpired();
   });
 
   el("loginBtn").addEventListener("click", () => {
