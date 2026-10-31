@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-10-31 天声人語로 배우는 일본어 — 조라는 이름의 유래</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-10-31</span>
+      <span>2026년 10월 31일 (토)</span>
+    </div>
+
+    <h1>ジョーの<ruby>名<rt>な</rt></ruby>の<ruby>由来<rt>ゆらい</rt></ruby></h1>
+    <p class="topic-ko">조라는 이름의 유래</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>旧満州<rt>きゅうまんしゅう</rt></ruby>で<ruby>終戦<rt>しゅうせん</rt></ruby>」</div>
+      <div class="ko">구 만주에서 종전 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">コラムは「あしたのジョー」の<ruby>主人公<rt>しゅじんこう</rt></ruby>の<ruby>名<rt>な</rt></ruby>がなぜジョーなのかを<ruby>問<rt>と</rt></ruby>う。</p><p class="ko">칼럼은 왜 주인공 이름이 ‘조’인지라는 물음을 던진다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>詩人<rt>しじん</rt></ruby>アーサー・ビナードとちばてつやの<ruby>対話<rt>たいわ</rt></ruby>を<ruby>手<rt>て</rt></ruby>がかりに、<ruby>名<rt>な</rt></ruby>の<ruby>背後<rt>はいご</rt></ruby>を<ruby>探<rt>さぐ</rt></ruby>る。</p><p class="ko">시인 아서 비나드와 치바 데쓰야의 대화를 실마리로 이름의 배경을 더듬는다.</p></div>
+      <div class="s-item"><p class="ja">ちばは<ruby>旧満州<rt>きゅうまんしゅう</rt></ruby>で<ruby>終戦<rt>しゅうせん</rt></ruby>を<ruby>迎<rt>むか</rt></ruby>えた<ruby>体験<rt>たいけん</rt></ruby>から、<ruby>戦後<rt>せんご</rt></ruby>の<ruby>混乱<rt>こんらん</rt></ruby>が<ruby>名付<rt>なづ</rt></ruby>けや<ruby>作品<rt>さくひん</rt></ruby>の<ruby>気配<rt>けはい</rt></ruby>に<ruby>影<rt>えい</rt></ruby>を<ruby>落<rt>お</rt></ruby>としたのではと<ruby>示唆<rt>しさ</rt></ruby>する。</p><p class="ko">치바가 구 만주에서 종전을 맞은 체험을 통해, 전후 혼란이 작명과 작품의 분위기에 드리운 그림자를 시사한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>由来<rt>ゆらい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">유래, 기원</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>由来<rt>ゆらい</rt></ruby>を<ruby>先生<rt>せんせい</rt></ruby>に<ruby>尋<rt>たず</rt></ruby>ねた。</span><br>이 단어의 유래를 선생님께 물었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>終戦<rt>しゅうせん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">종전</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>終戦<rt>しゅうせん</rt></ruby>の<ruby>年<rt>とし</rt></ruby>を<ruby>祖父<rt>そふ</rt></ruby>に<ruby>聞<rt>き</rt></ruby>いた。</span><br>종전의 해를 할아버지께 여쭈었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>襲撃<rt>しゅうげき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">습격, 공격</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>工場<rt>こうじょう</rt></ruby>が<ruby>襲撃<rt>しゅうげき</rt></ruby>を<ruby>受<rt>う</rt></ruby>けた。</span><br>공장이 습격을 받았다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>追われる<rt>おわれる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">쫓기다, 내몰리다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>責任<rt>せきにん</rt></ruby>に<ruby>追<rt>お</rt></ruby>われる<ruby>毎日<rt>まいにち</rt></ruby>だ。</span><br>그는 책임에 쫓기는 나날이다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>無法地帯<rt>むほうちたい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">무법지대</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">その<ruby>地域<rt>ちいき</rt></ruby>は<ruby>無法地帯<rt>むほうちたい</rt></ruby>と<ruby>化<rt>か</rt></ruby>した。</span><br>그 지역은 무법지대로 변했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Nを<ruby>迎<rt>むか</rt></ruby>える</div>
+        <div class="pattern-ko">N을/를 맞이하다</div>
+        <p class="explain">시간·행사·계절 등 ‘도래하는 것’을 목적어로 삼아 도착·도래를 격식 있게 말할 때 쓴다. 사건이나 국면의 전환점에도 많이 쓰이며 신문 문체에서 자주 보인다.</p>
+        <p class="ex"><span class="ja"><ruby>来週<rt>らいしゅう</rt></ruby>、<ruby>私<rt>わたし</rt></ruby>たちの<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>創業<rt>そうぎょう</rt></ruby><ruby>百年<rt>ひゃくねん</rt></ruby>を<ruby>迎<rt>むか</rt></ruby>える。</span><br>다음 주, 우리 회사는 창업 100년을 맞이한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 대중문화 아이콘의 이름에서 출발해 역사적 기억으로 옮겨 붙는 구성이다. ‘왜 조인가’라는 질문을 던지고, 증언에 가까운 대화를 끌어와 맥락을 확장한다. 사실 묘사를 짧게 이어 붙이되, 결정적 디테일(종전, 무법지대)을 배치해 장면의 거칠음을 환기한다. 천성인어 특유의 절제된 문장과 전환은 독자에게 여백을 남기며 사유를 유도한다.</p>
+        <p>이름의 기원이라는 가벼운 호기심이 전쟁 체험과 사회 혼란이라는 무거운 층위로 연결되는 점이 인상적이다. 한국 독자에게도 ‘작품의 이름과 시대의 상처’가 맞닿을 수 있음을 일깨운다. 일본 전후사의 음영을 만화라는 매체와 겹쳐 읽게 하여, 기억 전승의 방식에 대해 질문을 던진다. 결국 제목의 작은 단서가 사회적 배경을 비추는 렌즈로 기능한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 ‘조’라는 이름을 단서로 전후 기억의 흔적을 더듬는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>‘내일의 조(あしたのジョー)’는 1960년대에 연재된 복싱 만화로, 원작(高森朝雄)과 작화(ちばてつや)의 협업으로 널리 알려져 있다.</p>
+        <p>만주는 일제 말기의 식민 지배와 전쟁 패전의 여파가 뒤엉킨 공간으로, 종전 직후 각지에서 폭력과 공백의 시간이 이어졌다는 증언이 많다.</p>
+        <p>아서 비나드는 미국 출신으로 일본에서 활동하는 시인으로, 전쟁과 언어의 문제를 주제로 한 르포·강연을 통해 기억의 층위를 탐구해 온 것으로 알려져 있다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>가벼운 질문으로 문을 열고 점차 무거운 주제로 심도를 더하는 ‘톤 전환’ 구성을 배운다.</p>
+        <p><span class="n">二</span>구체적 명사(인명·지명·사건)를 선택적으로 배치해 배경을 암시하는 서술을 연습한다.</p>
+        <p><span class="n">三</span>직접적 논평을 줄이고 정보의 배열로 독자 스스로 결론을 도출하게 하는 여백의 전략을 익힌다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>名<rt>な</rt></ruby>は<ruby>時代<rt>じだい</rt></ruby>を<ruby>語<rt>かた</rt></ruby>るちいさな<ruby>物語<rt>ものがたり</rt></ruby>だ。</span>
+      <span class="ko">이름은 시대를 말해 주는 작은 이야기다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-10-31) — <a href="https://www.asahi.com/articles/DA3S16578426.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-10-31.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

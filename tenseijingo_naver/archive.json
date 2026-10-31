@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-10-31",
+    "no": 116,
+    "topic_ja": "ジョーの<ruby>名<rt>な</rt></ruby>の<ruby>由来<rt>ゆらい</rt></ruby>",
+    "topic_ko": "조라는 이름의 유래",
+    "url": "https://www.asahi.com/articles/DA3S16578426.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘이름의 힘’, ‘전후의 기억’, ‘대중문화와 역사’ — 작품의 명명에서 출발해 전쟁 체험과 사회적 맥락을 연결하며, 대중문화가 역사 기억을 매개하는 방식을 조명하므로.",
+    "pattern": "Nを<ruby>迎<rt>むか</rt></ruby>える"
+  },
+  {
     "date": "2026-10-30",
     "no": 115,
     "topic_ja": "<ruby>現金<rt>げんきん</rt></ruby>の<ruby>再評価<rt>さいひょうか</rt></ruby>",

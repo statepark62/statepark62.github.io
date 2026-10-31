@@ -13941,5 +13941,55 @@
   "example": "朝早く、山が霧に包まれた。",
   "exampleReading": "あさはやく、やまがきりにつつまれた。",
   "exampleMeaning": "이른 아침, 산이 안개에 싸였다."
+ },
+ {
+  "id": "tj545",
+  "word": "由来",
+  "reading": "ゆらい",
+  "meaning": "유래, 기원",
+  "level": "N2",
+  "example": "この言葉の由来を先生に尋ねた。",
+  "exampleReading": "このことばのゆらいをせんせいにたずねた。",
+  "exampleMeaning": "이 단어의 유래를 선생님께 물었다."
+ },
+ {
+  "id": "tj546",
+  "word": "終戦",
+  "reading": "しゅうせん",
+  "meaning": "종전",
+  "level": "N2",
+  "example": "終戦の年を祖父に聞いた。",
+  "exampleReading": "しゅうせんのとしをそふにきいた。",
+  "exampleMeaning": "종전의 해를 할아버지께 여쭈었다."
+ },
+ {
+  "id": "tj547",
+  "word": "襲撃",
+  "reading": "しゅうげき",
+  "meaning": "습격, 공격",
+  "level": "N1",
+  "example": "工場が襲撃を受けた。",
+  "exampleReading": "こうじょうがしゅうげきをうけた。",
+  "exampleMeaning": "공장이 습격을 받았다."
+ },
+ {
+  "id": "tj548",
+  "word": "追われる",
+  "reading": "おわれる",
+  "meaning": "쫓기다, 내몰리다",
+  "level": "N2",
+  "example": "彼は責任に追われる毎日だ。",
+  "exampleReading": "かれはせきにんにおわれるまいにちだ。",
+  "exampleMeaning": "그는 책임에 쫓기는 나날이다."
+ },
+ {
+  "id": "tj549",
+  "word": "無法地帯",
+  "reading": "むほうちたい",
+  "meaning": "무법지대",
+  "level": "N1",
+  "example": "その地域は無法地帯と化した。",
+  "exampleReading": "そのちいきはむほうちたいとかした。",
+  "exampleMeaning": "그 지역은 무법지대로 변했다."
  }
 ]
