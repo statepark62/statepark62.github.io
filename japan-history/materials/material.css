@@ -33,3 +33,5 @@ a{color:var(--blue)}
 .imggrid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:flex-end}
 .imggrid figure{margin:6px}
 @media(max-width:700px){body{font-size:17px}.wrap{padding:22px 14px 60px}}
+.backbar{text-align:left;margin:0 0 8px;font-size:16.5px}
+.backbar a{text-decoration:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 16px;display:inline-block}
