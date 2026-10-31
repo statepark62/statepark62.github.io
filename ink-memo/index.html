@@ -865,8 +865,11 @@
 
   // ---------- Composer ----------
   function autoResize(textarea){
+    // 높이를 잠깐 줄였다 늘리는 사이에 페이지가 짧아져 화면이 튀지 않도록 스크롤 위치를 보존
+    const y = window.scrollY;
     textarea.style.height = "auto";
     textarea.style.height = textarea.scrollHeight + "px";
+    if(window.scrollY !== y) window.scrollTo(0, y);
   }
 
   el("saveBtn").addEventListener("click", saveMemo);
@@ -1169,6 +1172,7 @@
   }
 
   function render(){
+    const keepY = window.scrollY; // 목록을 다시 그려도 보던 위치가 유지되도록
     renderTagBar();
     const q = el("searchInput").value.trim().toLowerCase();
 
@@ -1207,6 +1211,7 @@
     });
 
     el("emptyState").style.display = (memos.length === 0) ? "block" : "none";
+    if(window.scrollY !== keepY) window.scrollTo(0, keepY);
   }
 
   function memoCard(m){
@@ -1235,7 +1240,7 @@
       bindExpireControls(card.querySelector("[data-edit-expire]"), card.querySelector("[data-edit-expire-custom]"));
       // 자동 포커스, 커서를 끝으로, 기존 내용 높이에 맞춰 확장
       setTimeout(() => {
-        ta.focus();
+        ta.focus({ preventScroll: true });
         ta.setSelectionRange(ta.value.length, ta.value.length);
         autoResize(ta);
       }, 0);
