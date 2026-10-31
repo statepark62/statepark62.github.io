@@ -3,7 +3,7 @@
    googleClientId: 구글 로그인용 OAuth 클라이언트 ID. 비밀이 아니므로 공개되어도 됩니다.
    값은 따옴표 안에만 넣고, 항목 이름과 쉼표는 지우지 마세요. */
 window.KJ_CONFIG = {
-  kanjiCsv: 'https://docs.google.com/spreadsheets/d/1aczTWEZGgrXzQK9mCQ_PKd0MQDRgoWEan_Ee0K7aNjs/edit?gid=1193889259#gid=1193889259',
-  wordCsv: 'https://docs.google.com/spreadsheets/d/1aczTWEZGgrXzQK9mCQ_PKd0MQDRgoWEan_Ee0K7aNjs/edit?gid=455373261#gid=455373261',
+ kanjiCsv: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQXM3Ptj6E_N9eymvDh_KJkWyLUfNtBWRbXMjLHQO9QquJ-AXlrfKL32xnt6LlIXc3pLGKDpQ2n-crZ/pub?gid=1193889259&single=true&output=csv',
+wordCsv: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQXM3Ptj6E_N9eymvDh_KJkWyLUfNtBWRbXMjLHQO9QquJ-AXlrfKL32xnt6LlIXc3pLGKDpQ2n-crZ/pub?gid=455373261&single=true&output=csv',
   googleClientId: '736342204348-eq3c7urugs2i2117h3dqh7n6tdacb4t4.apps.googleusercontent.com'
 };
