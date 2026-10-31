@@ -9,6 +9,15 @@
     "pattern": "Nなしでは"
   },
   {
+    "date": "2026-10-29",
+    "no": 114,
+    "topic_ja": "<ruby>白<rt>しろ</rt></ruby>と<ruby>科学<rt>かがく</rt></ruby>のあわい",
+    "topic_ko": "흰색과 과학의 사이",
+    "url": "https://www.asahi.com/articles/DA3S16576825.html?iref=pc_rensai_long_61_article",
+    "memo": "‘색의 철학’, ‘과학과 감성’ — 문학적 이미지와 과학적 발견을 엮어 색을 다시 보게 하는 글이므로 해당 장에 배치하기 좋다.",
+    "pattern": "Nがかった"
+  },
+  {
     "date": "2026-10-28",
     "no": 113,
     "topic_ja": "<ruby>壁<rt>かべ</rt></ruby>を<ruby>越<rt>こ</rt></ruby>える<ruby>彼女<rt>かのじょ</rt></ruby>たち",

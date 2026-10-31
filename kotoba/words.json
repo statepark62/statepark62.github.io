@@ -13891,5 +13891,55 @@
   "example": "雨のひの通勤は一苦労だ。",
   "exampleReading": "あめのひのつうきんはひとくろうだ。",
   "exampleMeaning": "비 오는 날의 통근은 한바탕 고생이다."
+ },
+ {
+  "id": "tj540",
+  "word": "灰色がかった",
+  "reading": "はいろがかった",
+  "meaning": "회색이 도는",
+  "level": "N2",
+  "example": "窓の外は灰色がかった雲で覆われている。",
+  "exampleReading": "まどのそとははいいろがかったくもでおおわれている。",
+  "exampleMeaning": "창밖은 회색이 도는 구름으로 뒤덮여 있다."
+ },
+ {
+  "id": "tj541",
+  "word": "多様",
+  "reading": "たよう",
+  "meaning": "다양함",
+  "level": "N2",
+  "example": "白の表現は文化によって多様だ。",
+  "exampleReading": "しろのひょうげんはぶんかによってたようだ。",
+  "exampleMeaning": "흰색의 표현은 문화에 따라 다양하다."
+ },
+ {
+  "id": "tj542",
+  "word": "研究班",
+  "reading": "けんきゅうはん",
+  "meaning": "연구반, 연구팀",
+  "level": "N1",
+  "example": "材料の特性を調べるため、研究班が実験を繰り返した。",
+  "exampleReading": "ざいりょうのとくせいをしらべるため、けんきゅうはんがじっけんをくりかえした。",
+  "exampleMeaning": "재료의 특성을 조사하기 위해 연구반이 실험을 거듭했다."
+ },
+ {
+  "id": "tj543",
+  "word": "掲載",
+  "reading": "けいさい",
+  "meaning": "게재",
+  "level": "N2",
+  "example": "論文は科学誌に掲載された。",
+  "exampleReading": "ろんぶんはかがくしにけいさいされた。",
+  "exampleMeaning": "논문은 과학지에 게재되었다."
+ },
+ {
+  "id": "tj544",
+  "word": "霧",
+  "reading": "きり",
+  "meaning": "안개",
+  "level": "N3",
+  "example": "朝早く、山が霧に包まれた。",
+  "exampleReading": "あさはやく、やまがきりにつつまれた。",
+  "exampleMeaning": "이른 아침, 산이 안개에 싸였다."
  }
 ]
