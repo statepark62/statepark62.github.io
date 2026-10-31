@@ -173,9 +173,10 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
   .trunk,.row::before,.node::before{display:none}
   .row{grid-template-columns:repeat(2,1fr); margin-top:18px}
 }
-.backfab{position:fixed; left:16px; bottom:16px; z-index:1000; display:none; align-items:center; gap:6px; background:var(--accent,#1f2a44); color:#fff; border:0; border-radius:999px; padding:11px 20px; font-size:16.5px; box-shadow:0 3px 12px rgba(0,0,0,.3); cursor:pointer}
-.backfab.show{display:inline-flex}
-.backfab:hover{filter:brightness(1.15)}
+#backbar{position:sticky; top:8px; z-index:50; display:none; justify-content:center; margin:6px 0 0; pointer-events:none}
+#backbar.show{display:flex}
+.backfab{pointer-events:auto; background:var(--card); color:var(--accent,#1f2a44); border:1px solid var(--accent,#1f2a44); border-radius:999px; padding:2px 14px; font-size:14.5px; line-height:1.6; box-shadow:0 1px 6px rgba(0,0,0,.18); cursor:pointer}
+.backfab:hover{background:#fff6dc}
 @keyframes flashbg{0%,60%{background:#fff0b8} 100%{background:transparent}}
 .item.flash{animation:flashbg 2.4s ease-out}
 </style>
@@ -188,6 +189,7 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
   <div class="tree" id="tree"></div>
 
   <div class="tabs" id="tabs"></div>
+  <div id="backbar"></div>
   <div class="panel" id="panel"></div>
 
   <div class="foot">이 내용은 초안입니다. 책에 싣기 전에 연도·해석·서지 사항을 원문으로 확인하세요. 집필 후보와 메모는 이 브라우저에만 저장됩니다.</div>
@@ -247,15 +249,16 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
     navRestore(k);
   }
   function renderBack(){
+    var bar = document.getElementById('backbar');
     if (!backBtn){
       backBtn = el('button', {class:'backfab', type:'button', onclick:navBack});
-      document.body.appendChild(backBtn);
+      bar.appendChild(backBtn);
     }
     var top = navStack[navStack.length - 1];
-    if (!top){ backBtn.classList.remove('show'); return; }
+    if (!top){ bar.classList.remove('show'); return; }
     backBtn.textContent = '← 돌아가기 (' + top.label + ')';
     backBtn.setAttribute('aria-label', top.label + '으로 돌아가기');
-    backBtn.classList.add('show');
+    bar.classList.add('show');
   }
   window.addEventListener('popstate', function(ev){
     var target = (ev.state && ev.state.nav) || 0;
