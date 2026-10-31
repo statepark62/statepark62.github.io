@@ -2,6 +2,16 @@
 (function () {
   'use strict';
   var DATA = window.KANJI_DATA || { meta: {}, kanji: [] };
+  var CFG = window.KJ_CONFIG || {};
+  var SHEET_KEY = 'kj_sheet_v1';
+  var SYNC = { src: '내장', t: 0, state: '', msg: '' }; // 데이터 출처: 내장 / 시트
+  try {
+    var sc0 = JSON.parse(localStorage.getItem(SHEET_KEY) || 'null');
+    if (sc0 && sc0.k && window.KJ_SHEET && CFG.kanjiCsv) {
+      var m0 = window.KJ_SHEET.assemble(window.KJ_SHEET.parseCSV(sc0.k), sc0.w ? window.KJ_SHEET.parseCSV(sc0.w) : [], sc0.d);
+      DATA = m0; SYNC.src = '시트'; SYNC.t = sc0.t || 0;
+    }
+  } catch (e) { SYNC.msg = '저장된 시트 데이터를 못 읽어 내장 데이터를 써요.'; }
   var KJ = DATA.kanji, BY = {};
   var STR = window.KANJI_STROKES || {};
   KJ.forEach(function (e) { BY[e.k] = e; });
@@ -37,7 +47,35 @@
   function jong(syl) { var c = (syl || '').charCodeAt(0) - 0xAC00; if (c < 0 || c > 11171) return ''; return JONG[c % 28]; }
 
   var ALLW = [];
-  KJ.forEach(function (e) { e.ex.forEach(function (w) { ALLW.push({ w: w.w, r: w.r, ko: w.ko, k: e.k }); }); });
+  function buildAllw() { ALLW.length = 0; KJ.forEach(function (e) { e.ex.forEach(function (w) { ALLW.push({ w: w.w, r: w.r, ko: w.ko, k: e.k }); }); }); }
+  buildAllw();
+
+  /* ---------- 구글 시트 불러오기 ---------- */
+  function setModel(m) {
+    DATA = m; KJ.length = 0; m.kanji.forEach(function (e) { KJ.push(e); });
+    BY = {}; KJ.forEach(function (e) { BY[e.k] = e; }); buildAllw();
+  }
+  function fetchText(u) {
+    return fetch(u, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); });
+  }
+  function syncSheet(manual) {
+    if (!CFG.kanjiCsv || !window.KJ_SHEET) { SYNC.state = ''; if (manual) { SYNC.msg = '시트 주소가 설정되지 않았어요 (config.js).'; render(); } return; }
+    SYNC.state = 'busy'; if (manual) { SYNC.msg = '불러오는 중…'; render(); }
+    Promise.all([fetchText(CFG.kanjiCsv), CFG.wordCsv ? fetchText(CFG.wordCsv) : Promise.resolve('')]).then(function (t) {
+      if (/^\s*<(!doctype|html)/i.test(t[0])) throw new Error('CSV가 아니라 웹페이지가 왔어요. 게시 주소를 확인하세요');
+      var K = window.KJ_SHEET.parseCSV(t[0]), W = t[1] ? window.KJ_SHEET.parseCSV(t[1]) : [];
+      var d = today(), m = window.KJ_SHEET.assemble(K, W, d);
+      var changed = JSON.stringify(m.kanji) !== JSON.stringify(KJ);
+      try { localStorage.setItem(SHEET_KEY, JSON.stringify({ k: t[0], w: t[1], t: Date.now(), d: d })); } catch (e) {}
+      SYNC.t = Date.now(); SYNC.state = 'ok'; SYNC.src = '시트';
+      if (changed && !V.sess && !wr) { setModel(m); SYNC.msg = '새 내용을 반영했어요.'; render(); }
+      else if (changed) SYNC.msg = '새 내용을 받았어요. 다음에 앱을 열 때 반영돼요.';
+      else { SYNC.msg = '이미 최신이에요.'; if (manual) render(); }
+    }).catch(function (err) {
+      SYNC.state = 'err'; SYNC.msg = '시트를 못 불러왔어요 (' + (err && err.message || err) + '). ' + (SYNC.src === '시트' ? '저장된 시트 데이터' : '내장 데이터') + '를 써요.';
+      if (manual) render();
+    });
+  }
 
   /* ---------- 상태 ---------- */
   var V = { view: 'home', sess: null, detail: null, report: null, toast: '', confirmReset: false, q: '', lv: 0 };
@@ -375,6 +413,9 @@
     if (!V.confirmReset) h += '<button class="btn danger" data-act="reset1">학습 기록 모두 지우기</button>';
     else h += '<div class="callout warn">정말 모든 학습 기록을 지울까요? 되돌릴 수 없어요.</div><div class="row"><button class="btn danger" data-act="reset2">지우기</button><button class="btn" data-act="reset0">취소</button></div>';
     h += '</div>';
+    h += '<div class="sect"><label>데이터 출처</label><p class="small">' + (SYNC.src === '시트' ? '구글 시트' : '앱에 들어 있는 데이터') + (SYNC.t ? ' · 마지막 갱신 ' + new Date(SYNC.t).toLocaleString('ko-KR') : '') + '</p>' +
+      (SYNC.msg ? '<p class="small ' + (SYNC.state === 'err' ? 'bad' : 'muted') + '">' + esc(SYNC.msg) + '</p>' : '') +
+      (CFG.kanjiCsv ? '<button class="btn" data-act="sync">지금 갱신</button>' : '<p class="small muted">구글 시트 주소가 아직 설정되지 않았어요.</p>') + '</div>';
     h += '<div class="sect small muted"><p>데이터: 한자 ' + KJ.length + '자 · 빌드 ' + esc(DATA.meta.built || '') + '</p><p>획순 데이터: KanjiVG (kanjivg.tagaini.net), CC BY-SA 3.0</p><p>한자 설명은 AI 초안을 바탕으로 해요. ‘AI 초안’ 표시가 있거나 이상한 곳이 보이면 오류 신고를 눌러 주세요.</p></div>';
     return h;
   }
@@ -569,6 +610,7 @@
       try { navigator.clipboard.writeText(txt).then(done, fallback); } catch (e) { fallback(); }
     }
     else if (a === 'clearrep') { S.reports = []; save(); render(); }
+    else if (a === 'sync') { syncSheet(true); }
     else if (a === 'reset1') { V.confirmReset = true; render(); }
     else if (a === 'reset0') { V.confirmReset = false; render(); }
     else if (a === 'reset2') { S.prog = {}; S.newToday = { d: '', n: 0 }; V.sess = null; V.confirmReset = false; save(); toast('학습 기록을 지웠어요.'); }
@@ -585,6 +627,7 @@
   });
 
   render();
+  syncSheet(false);
   /* index.html이 옛 버전이라 strokes.js를 안 부르는 경우를 대비해 직접 불러온다 */
   if (!window.KANJI_STROKES && !window.__KJ_NO_SW) {
     var sc = document.createElement('script'); sc.src = 'strokes.js';
@@ -594,5 +637,5 @@
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !window.__KJ_NO_SW) {
     navigator.serviceWorker.register('sw.js').catch(function () {});
   }
-  window.__KJ = { openWrite: openWrite, S: S, V: V, KJ: KJ, startSession: startSession, makeQuestion: makeQuestion, forceNew: forceNew };
+  window.__KJ = { openWrite: openWrite, S: S, V: V, KJ: KJ, startSession: startSession, makeQuestion: makeQuestion, forceNew: forceNew, syncSheet: syncSheet, SYNC: SYNC };
 })();
