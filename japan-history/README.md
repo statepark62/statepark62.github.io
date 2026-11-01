@@ -8,7 +8,7 @@
 ## 바로 열기
 
 - GitHub Pages: `https://statepark62.github.io/japan-history/`
-- 내 컴퓨터: 폴더째 내려받은 뒤 본체 HTML 파일(`index.html` 또는 `japan-history.html`)을 브라우저로 엽니다.
+- 내 컴퓨터: 폴더째 내려받은 뒤 본체 HTML 파일(`index.html`)을 브라우저로 엽니다.
 
 지도는 인터넷 연결이 필요합니다. 연결이 없으면 지도 대신 구글 지도 링크가 나옵니다.
 
@@ -16,7 +16,7 @@
 
 ```
 japan-history/
-  index.html                      페이지 본체 (japan-history.html로 두어도 동작)
+  index.html                      학습 트리 본체(첫 화면)
   japan-basics.html               초보자용 쉬운 페이지 「처음 만나는 일본 이야기」(별도)
   japan-basics-data.js            초보자용 페이지의 내용 데이터
   japan-history-data.js           시대·항목·참고문헌·주제 목록
