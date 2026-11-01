@@ -177,6 +177,9 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
 #backbar.show{display:flex}
 .backfab{pointer-events:auto; background:var(--card); color:var(--accent,#1f2a44); border:1px solid var(--accent,#1f2a44); border-radius:999px; padding:2px 14px; font-size:14.5px; line-height:1.6; box-shadow:0 1px 6px rgba(0,0,0,.18); cursor:pointer}
 .backfab:hover{background:#fff6dc}
+.tobasic{margin:10px 0 4px}
+.tobasic .btn{display:inline-block;text-decoration:none;color:var(--accent,#1f2a44);border-color:var(--accent,#1f2a44);font-size:16.5px}
+.tobasic .btn:hover{background:#fff6dc}
 @keyframes flashbg{0%,60%{background:#fff0b8} 100%{background:transparent}}
 .item.flash{animation:flashbg 2.4s ease-out}
 </style>
@@ -186,6 +189,7 @@ textarea{display:block; width:100%; max-width:900px; margin:12px auto 0; min-hei
   <h1>일본사 학습 트리</h1>
   <p class="subtitle">시대를 누르면 공부할 항목이 나옵니다. 항목마다 한국 관련 내용, 답사 장소, 참고문헌, 집필 후보 표시와 메모를 담았습니다.</p>
   <div id="stats"></div>
+  <div class="tobasic"><a class="btn" href="japan-basics.html">일본이 처음이신가요? 쉬운 기초 페이지로 가기 →</a></div>
   <div class="tree" id="tree"></div>
 
   <div class="tabs" id="tabs"></div>
