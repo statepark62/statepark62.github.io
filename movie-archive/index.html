@@ -311,6 +311,30 @@
     }
     .delete-btn:hover { background: #7f1d1d; color: #fff; }
     .delete-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ===== 보고 싶은 목록 ===== */
+    .tabs { display: flex; gap: 6px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .tab {
+      background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px;
+      color: var(--text-muted); padding: 10px 16px; font-size: 1rem; cursor: pointer; font-family: inherit;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+    .wish-add {
+      display: none; gap: 10px; align-items: center; flex-wrap: wrap; margin: 0 0 20px; padding: 12px 14px;
+      background: #0f1a2e; border: 1px dashed var(--border); border-radius: 8px;
+    }
+    .wish-add .wish-add-label { color: var(--text-muted); font-size: 0.85rem; flex-shrink: 0; }
+    .wish-add input { flex: 1; min-width: 180px; width: auto; }
+    .wish-add .btn { padding: 10px 16px; font-size: 0.9rem; }
+    .wish-banner {
+      display: none; margin-bottom: 20px; padding: 10px 14px; border-radius: 8px;
+      background: #0c2a3d; border: 1px solid #0e7490; color: #a5f3fc; font-size: 0.9rem;
+    }
+    .wish-item, .wish-item:hover { cursor: default; border-color: var(--border); }
+    .wish-item .r-theme { white-space: normal; }
+    .wish-actions { display: flex; gap: 8px; align-self: center; flex-shrink: 0; align-items: center; }
+    .wish-actions .btn { padding: 6px 14px; font-size: 0.85rem; }
   </style>
 </head>
 <body>
@@ -375,6 +399,13 @@
           </div>
         </div>
 
+        <div id="wishBanner" class="wish-banner">📌 보고 싶은 목록에서 가져온 작품입니다. 감상 기록을 저장하면 목록에서 빠집니다.</div>
+        <div id="wishAddBox" class="wish-add">
+          <span class="wish-add-label">아직 안 본 작품이라면</span>
+          <input type="text" id="wishMemo" placeholder="메모 (선택) 예: 넷플릭스, 누구 추천" onkeydown="if(event.key==='Enter'){event.preventDefault();addWish();}" />
+          <button type="button" class="btn btn-ghost" id="wishAddBtn" onclick="addWish()">📌 보고 싶은 목록에 추가</button>
+        </div>
+
         <form id="recordForm" onsubmit="submitRecord(event)">
           <div class="form-grid">
             <div class="form-group">
@@ -414,9 +445,20 @@
 
       <!-- 최근 기록 -->
       <section class="recent">
-        <h3>최근 감상 기록</h3>
-        <p class="recent-hint">기록을 누르면 전체 내용을 볼 수 있습니다. 고치려면 오른쪽의 '수정'을 누르세요.</p>
-        <div id="recentList"><p class="recent-empty">불러오는 중...</p></div>
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab active" id="tabLog" role="tab" onclick="showTab('log')">감상 기록</button>
+          <button type="button" class="tab" id="tabWish" role="tab" onclick="showTab('wish')">보고 싶은 목록 <span id="wishCount"></span></button>
+        </div>
+        <div id="logPane">
+          <h3>최근 감상 기록</h3>
+          <p class="recent-hint">기록을 누르면 전체 내용을 볼 수 있습니다. 고치려면 오른쪽의 '수정'을 누르세요.</p>
+          <div id="recentList"><p class="recent-empty">불러오는 중...</p></div>
+        </div>
+        <div id="wishPane" style="display:none">
+          <h3>보고 싶은 목록</h3>
+          <p class="recent-hint">작품을 검색해 선택한 뒤 '보고 싶은 목록에 추가'를 누르면 여기에 쌓입니다. 본 뒤에는 '봤어요'를 누르면 감상 기록으로 옮겨 적을 수 있습니다.</p>
+          <div id="wishList"><p class="recent-empty">불러오는 중...</p></div>
+        </div>
       </section>
     </div>
   </div>
@@ -484,6 +526,11 @@
     let currentWork = null;
 
     const $ = (id) => document.getElementById(id);
+    // 오늘 날짜를 '내 컴퓨터의 현지 시간' 기준으로 (toISOString은 UTC라 한국 새벽엔 전날이 됨)
+    function todayStr() {
+      const d = new Date();
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
 
     function esc(s) {
       return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -620,6 +667,7 @@
       }
       accessToken = null; tokenExpiry = 0; sheetId = null; user = null; currentWork = null;
       recentRows = []; recentLimit = 10; exitEditMode(); closeView();
+      resetWish();
       sessionStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_KEY);
       $('appView').style.display = 'none';
@@ -698,7 +746,9 @@
         sheetId = await ensureSheet();
         $('sheetLink').href = 'https://docs.google.com/spreadsheets/d/' + sheetId + '/edit';
         setStatus('');
+        resetWish();
         await loadRecent();
+        loadWish();                     // 보고 싶은 목록은 따로 불러온다 (탭이 없으면 만들지 않는다)
       } catch (err) {
         setStatus('시트를 준비하지 못했습니다: ' + err.message, true);
       }
@@ -821,6 +871,196 @@
       }
     }
 
+
+    // ============================================================
+    // 보고 싶은 목록 (같은 시트 파일의 '보고싶은영화' 탭)
+    // ============================================================
+    const WISH_TAB = '보고싶은영화';
+    const WISH_HEADERS = ['추가일', '제목', '원제(연도)', '구분', '장르', '감독/연출', '주연', '메모', 'TMDB ID', '기록 시각'];
+    let wishRows = [];          // { row, v } — v[8]이 TMDB ID
+    let wishTabId = null;       // 탭의 내부 번호(sheetId). 탭이 아직 없으면 null
+    let wishTabPromise = null;
+    let wishLoaded = false;
+    let pendingWish = null;     // '봤어요'로 가져온 항목
+    let wishPick = null;
+
+    const wishBase = () => 'https://sheets.googleapis.com/v4/spreadsheets/' + sheetId;
+    const wishRange = (a1) => encodeURIComponent("'" + WISH_TAB + "'!" + a1);
+
+    function resetWish() {
+      wishRows = []; wishTabId = null; wishTabPromise = null; wishLoaded = false; pendingWish = null; wishPick = null;
+      if ($('wishList')) $('wishList').innerHTML = '<p class="recent-empty">불러오는 중...</p>';
+      if ($('wishCount')) $('wishCount').textContent = '';
+      showTab('log');
+    }
+
+    function showTab(which) {
+      const wish = which === 'wish';
+      $('logPane').style.display = wish ? 'none' : 'block';
+      $('wishPane').style.display = wish ? 'block' : 'none';
+      $('tabLog').classList.toggle('active', !wish);
+      $('tabWish').classList.toggle('active', wish);
+      if (wish && !wishLoaded && sheetId) loadWish();
+    }
+
+    // 탭이 있는지만 확인한다 (만들지 않음)
+    async function findWishTab() {
+      const meta = await gfetch(wishBase() + '?fields=sheets.properties(sheetId,title)');
+      const t = (meta.sheets || []).map(x => x.properties).find(x => x.title === WISH_TAB);
+      wishTabId = t ? t.sheetId : null;
+      return wishTabId;
+    }
+
+    // 처음 추가할 때만 탭을 만든다
+    function ensureWishTab() {
+      if (wishTabId !== null) return Promise.resolve(wishTabId);
+      if (wishTabPromise) return wishTabPromise;
+      wishTabPromise = (async () => {
+        if (await findWishTab() !== null) return wishTabId;
+        const res = await gfetch(wishBase() + ':batchUpdate', {
+          method: 'POST',
+          body: JSON.stringify({ requests: [{ addSheet: { properties: { title: WISH_TAB, gridProperties: { frozenRowCount: 1 } } } }] })
+        });
+        wishTabId = res.replies[0].addSheet.properties.sheetId;
+        await gfetch(wishBase() + '/values/' + wishRange('A1:J1') + '?valueInputOption=RAW', {
+          method: 'PUT', body: JSON.stringify({ values: [WISH_HEADERS] })
+        });
+        await gfetch(wishBase() + ':batchUpdate', {
+          method: 'POST',
+          body: JSON.stringify({ requests: [{ repeatCell: {
+            range: { sheetId: wishTabId, startRowIndex: 0, endRowIndex: 1 },
+            cell: { userEnteredFormat: { textFormat: { bold: true } } },
+            fields: 'userEnteredFormat.textFormat.bold'
+          } }] })
+        });
+        return wishTabId;
+      })();
+      wishTabPromise.catch(() => { wishTabPromise = null; });
+      return wishTabPromise;
+    }
+
+    async function loadWish() {
+      const box = $('wishList');
+      try {
+        if (await findWishTab() === null) {
+          wishRows = [];
+        } else {
+          const d = await gfetch(wishBase() + '/values/' + wishRange('A2:J'));
+          wishRows = (d.values || []).map((v, i) => ({ row: i + 2, v: v })).filter(r => r.v && r.v.length > 1);
+        }
+        wishLoaded = true;
+        renderWish();
+      } catch (err) {
+        box.innerHTML = '<p class="recent-empty">보고 싶은 목록을 불러오지 못했습니다: ' + esc(err.message) + '</p>';
+      }
+    }
+
+    function renderWish() {
+      const box = $('wishList');
+      $('wishCount').textContent = wishLoaded ? '(' + wishRows.length + ')' : '';
+      if (wishRows.length === 0) {
+        box.innerHTML = '<p class="recent-empty">아직 담아 둔 작품이 없습니다. 작품을 검색해서 선택한 뒤 \'보고 싶은 목록에 추가\'를 눌러 보세요.</p>';
+        return;
+      }
+      box.innerHTML = '';
+      wishRows.slice().reverse().forEach(rec => {
+        const r = rec.v;
+        const item = document.createElement('div');
+        item.className = 'recent-item wish-item';
+        item.innerHTML =
+          '<div class="r-date">' + esc(r[0]) + '</div>' +
+          '<div class="r-main"><div class="r-title">' + esc(r[1]) + ' <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem">' + esc(r[3]) + ' · ' + esc(r[2]) + '</span></div>' +
+          (r[7] ? '<div class="r-theme">' + esc(r[7]) + '</div>' : '') + '</div>';
+        const act = document.createElement('div');
+        act.className = 'wish-actions';
+        const seen = document.createElement('button');
+        seen.type = 'button'; seen.className = 'btn'; seen.textContent = '봤어요';
+        seen.onclick = () => markSeen(rec);
+        const del = document.createElement('button');
+        del.type = 'button'; del.className = 'link-btn'; del.textContent = '삭제';
+        del.onclick = () => deleteWish(rec);
+        act.appendChild(seen); act.appendChild(del);
+        item.appendChild(act);
+        box.appendChild(item);
+      });
+    }
+
+    async function addWish() {
+      if (!currentWork) {
+        showAlert('작품 정보를 불러오는 중입니다. 잠시 후 다시 눌러 주세요.', 'error');
+        return;
+      }
+      const w = currentWork;
+      if (recentRows.some(r => String(r.v[10] || '') === String(w.tmdbId))) {
+        showAlert("'" + w.title + "'은(는) 이미 감상 기록에 있는 작품입니다.", 'error');
+        return;
+      }
+      const btn = $('wishAddBtn');
+      btn.disabled = true;
+      btn.innerText = '추가하는 중... ⏳';
+      try {
+        await ensureToken();
+        if (!sheetId) sheetId = await ensureSheet();
+        await ensureWishTab();
+        await loadWish();                         // 최신 목록으로 중복 확인
+        if (wishRows.some(r => String(r.v[8] || '') === String(w.tmdbId))) {
+          showAlert("'" + w.title + "'은(는) 이미 보고 싶은 목록에 있습니다.", 'error');
+          return;
+        }
+        await gfetch(wishBase() + '/values/' + wishRange('A1') + ':append?valueInputOption=RAW&insertDataOption=INSERT_ROWS', {
+          method: 'POST',
+          body: JSON.stringify({ values: [[
+            todayStr(), w.title, w.originalTitleAndYear, w.mediaType, w.genres, w.director, w.cast,
+            $('wishMemo').value.trim(), w.tmdbId, new Date().toLocaleString('sv-SE')
+          ]] })
+        });
+        showAlert("'" + w.title + "'을(를) 보고 싶은 목록에 담았습니다.", 'success');
+        $('wishMemo').value = '';
+        $('logForm').style.display = 'none';
+        currentWork = null;
+        await loadWish();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        showAlert('목록에 추가하지 못했습니다: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '📌 보고 싶은 목록에 추가';
+      }
+    }
+
+    // '봤어요' → 감상 기록 입력 폼을 열고, 저장하면 목록에서 뺀다
+    function markSeen(rec) {
+      const v = rec.v;
+      wishPick = rec;
+      selectWork({ media_type: v[3] === '드라마' ? 'tv' : 'movie', id: String(v[8] || '') });
+    }
+
+    // TMDB ID로 현재 목록에서 행을 찾아 삭제 (행 번호가 어긋나지 않도록 다시 읽어서 찾는다)
+    async function removeWishByTmdb(tmdbId) {
+      await ensureWishTab();
+      await loadWish();
+      const cur = wishRows.find(r => String(r.v[8] || '') === String(tmdbId));
+      if (!cur) return false;
+      await gfetch(wishBase() + ':batchUpdate', {
+        method: 'POST',
+        body: JSON.stringify({ requests: [{ deleteDimension: { range: { sheetId: wishTabId, dimension: 'ROWS', startIndex: cur.row - 1, endIndex: cur.row } } }] })
+      });
+      await loadWish();
+      return true;
+    }
+
+    async function deleteWish(rec) {
+      const title = rec.v[1] || '이 작품';
+      if (!confirm("'" + title + "'을(를) 보고 싶은 목록에서 뺄까요?")) return;
+      try {
+        await ensureToken();
+        await removeWishByTmdb(rec.v[8]);
+        showAlert("'" + title + "'을(를) 목록에서 뺐습니다.", 'success');
+      } catch (err) {
+        showAlert('삭제 중 오류가 발생했습니다: ' + err.message, 'error');
+      }
+    }
+
     // ============================================================
     // 기록 수정
     // ============================================================
@@ -920,6 +1160,9 @@
         tmdbId: String(v[10] || ''),
         overview: ''
       };
+      pendingWish = null; wishPick = null;
+      $('wishBanner').style.display = 'none';
+      $('wishAddBox').style.display = 'none';
       editingRow = rec.row;
       editingKey = { title: currentWork.title, tmdbId: currentWork.tmdbId };
 
@@ -930,7 +1173,7 @@
       $('previewGenres').innerText = `장르: ${currentWork.genres}`;
       $('previewOverview').innerText = '';
 
-      $('watchDate').value = normalizeDate(v[0]) || new Date().toISOString().split('T')[0];
+      $('watchDate').value = normalizeDate(v[0]) || todayStr();
       const ratingVal = Number(v[7]);
       const ratingStr = isNaN(ratingVal) ? '3.0' : ratingVal.toFixed(1);
       $('rating').value = ratingStr;
@@ -1039,6 +1282,7 @@
       selectSeq++;            // 진행 중이던 작품 선택 응답도 버린다
       exitEditMode();
       currentWork = null;
+      pendingWish = null; wishPick = null;
 
       $('searchInput').value = '';
       $('searchResults').innerHTML = '';
@@ -1046,7 +1290,7 @@
       $('theme').value = '';
       $('review').value = '';
       $('rating').value = '3.0';
-      $('watchDate').value = new Date().toISOString().split('T')[0];
+      $('watchDate').value = todayStr();
       form.style.display = 'none';
       $('searchInput').focus();
     }
@@ -1112,6 +1356,10 @@
     let selectSeq = 0;
     async function selectWork(item) {
       exitEditMode();
+      // '봤어요'로 들어왔는지 기억 (저장하면 보고 싶은 목록에서 뺀다)
+      pendingWish = wishPick; wishPick = null;
+      $('wishBanner').style.display = pendingWish ? 'block' : 'none';
+      $('wishAddBox').style.display = pendingWish ? 'none' : 'flex';
       const mySeq = ++selectSeq;
       const mediaType = item.media_type;
       const id = item.id;
@@ -1228,10 +1476,16 @@
             'https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS',
             { method: 'POST', body: JSON.stringify({ values: [row] }) }
           );
-          showAlert(`'${currentWork.title}' 감상 기록이 내 구글 시트에 저장되었습니다!`, 'success');
+          let wishNote = '';
+          if (pendingWish && String(pendingWish.v[8] || '') === String(currentWork.tmdbId)) {
+            try { await removeWishByTmdb(currentWork.tmdbId); wishNote = ' 보고 싶은 목록에서는 뺐습니다.'; }
+            catch (e) { wishNote = ' (보고 싶은 목록 정리는 실패했습니다. 목록에서 직접 삭제해 주세요.)'; }
+          }
+          showAlert(`'${currentWork.title}' 감상 기록이 내 구글 시트에 저장되었습니다!` + wishNote, 'success');
         }
 
         exitEditMode();
+        pendingWish = null;
         $('theme').value = '';
         $('review').value = '';
         $('logForm').style.display = 'none';
@@ -1251,7 +1505,7 @@
     // 시작
     // ============================================================
     window.addEventListener('DOMContentLoaded', () => {
-      $('watchDate').value = new Date().toISOString().split('T')[0];
+      $('watchDate').value = todayStr();
 
       $('loginBtn').addEventListener('click', () => login(user ? '' : 'select_account'));
       $('switchBtn').addEventListener('click', () => login('select_account'));
