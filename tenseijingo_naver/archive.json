@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-01",
+    "no": 117,
+    "topic_ja": "<ruby>図書館<rt>としょかん</rt></ruby>の<ruby>優<rt>やさ</rt></ruby>しさ",
+    "topic_ko": "도서관의 다정함",
+    "url": "https://www.asahi.com/articles/DA3S16579082.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘도서관의 역할’, ‘낭독의 힘’, ‘문해의 연대’ — 허구의 장면을 통해 공공 공간의 돌봄과 읽기의 사회적 나눔을 환기하므로 이 장에 배치하기 적합함.",
+    "pattern": "〜といっても"
+  },
+  {
     "date": "2026-10-31",
     "no": 116,
     "topic_ja": "ジョーの<ruby>名<rt>な</rt></ruby>の<ruby>由来<rt>ゆらい</rt></ruby>",

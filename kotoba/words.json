@@ -13991,5 +13991,55 @@
   "example": "その地域は無法地帯と化した。",
   "exampleReading": "そのちいきはむほうちたいとかした。",
   "exampleMeaning": "그 지역은 무법지대로 변했다."
+ },
+ {
+  "id": "tj550",
+  "word": "朗読",
+  "reading": "ろうどく",
+  "meaning": "낭독",
+  "level": "N2",
+  "example": "祖母が昔話を朗読してくれた。",
+  "exampleReading": "そぼがむかしばなしをろうどくしてくれた。",
+  "exampleMeaning": "할머니가 옛이야기를 낭독해 주었다."
+ },
+ {
+  "id": "tj551",
+  "word": "翻訳",
+  "reading": "ほんやく",
+  "meaning": "번역",
+  "level": "N3",
+  "example": "英語の小説を翻訳して出版する。",
+  "exampleReading": "えいごのしょうせつをほんやくしてしゅっぱんする。",
+  "exampleMeaning": "영어 소설을 번역해 출판한다."
+ },
+ {
+  "id": "tj552",
+  "word": "図書係",
+  "reading": "としょがかり",
+  "meaning": "도서 담당자(사서 보조)",
+  "level": "N2",
+  "example": "わたしは図書係として児童室を担当している。",
+  "exampleReading": "わたしはとしょがかりとしてじどうしつをたんとうしている。",
+  "exampleMeaning": "나는 도서 담당자로서 아동실을 맡고 있다."
+ },
+ {
+  "id": "tj553",
+  "word": "年配",
+  "reading": "ねんぱい",
+  "meaning": "연배, 연세가 지긋함",
+  "level": "N3",
+  "example": "その店には年配の客が多い。",
+  "exampleReading": "そのみせにはねんぱいのきゃくがおおい。",
+  "exampleMeaning": "그 가게에는 연배 손님이 많다."
+ },
+ {
+  "id": "tj554",
+  "word": "架空",
+  "reading": "かくう",
+  "meaning": "가공, 허구",
+  "level": "N2",
+  "example": "架空の都市を舞台にした物語だ。",
+  "exampleReading": "かくうのとしをぶたいにしたものがたりだ。",
+  "exampleMeaning": "가공의 도시를 무대로 한 이야기다."
  }
 ]
