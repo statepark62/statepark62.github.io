@@ -17,6 +17,8 @@
 ```
 japan-history/
   index.html                      페이지 본체 (japan-history.html로 두어도 동작)
+  japan-basics.html               초보자용 쉬운 페이지 「처음 만나는 일본 이야기」(별도)
+  japan-basics-data.js            초보자용 페이지의 내용 데이터
   japan-history-data.js           시대·항목·참고문헌·주제 목록
   japan-history-places.js         장소(지도)와 항목-장소 연결
   japan-history-chronology.js     천황·쇼군·한국 왕 연표 데이터
@@ -34,6 +36,10 @@ japan-history/
 ```
 
 모든 `.js` 파일과 `materials/` 폴더는 본체 HTML과 같은 폴더에 있어야 합니다.
+
+## 초보자용 별도 페이지
+
+`japan-basics.html`은 일본을 처음 접하는 분을 위한 쉬운 페이지입니다(주소 예: `https://statepark62.github.io/japan-history/japan-basics.html`). 학습 트리와 내용·데이터가 완전히 따로이며, 9개 시대의 쉬운 이야기, 그때의 생활·문화(먹기·입기·살기·믿음·놀이), 쉬운 용어, 한국·일본 나란히 연표로 이루어져 있습니다. 내용은 `japan-basics-data.js`에서 고칩니다. 쉬운 설명을 위해 내용을 단순화했으므로 연도와 해석의 근거는 학습 트리의 항목과 참고문헌으로 확인하세요.
 
 ## 화면 구성
 

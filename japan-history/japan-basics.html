@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>처음 만나는 일본 이야기</title>
+<link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="icons/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="theme-color" content="#1f2a44">
+<style>
+:root{--ink:#1f2a44;--red:#c8102e;--bg:#f7f3ea;--card:#fffdf8;--line:#ddd3bd;--sub:#666;--soft:#fff4e0;--soft2:#eaf1fb;--soft3:#fdeeee;--accent:#1f2a44}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:#222;font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;font-size:18.5px;line-height:1.8}
+.wrap{max-width:1180px;margin:0 auto;padding:34px 20px 80px;text-align:center}
+h1{font-size:clamp(30px,4.6vw,50px);line-height:1.25;margin:6px 0 8px;color:var(--ink)}
+.subtitle{font-size:19.5px;color:var(--sub);margin:0 auto 20px;max-width:820px}
+h2{font-size:28px;margin:40px 0 12px;color:var(--ink)}
+h3{font-size:21px;margin:22px 0 8px;color:var(--ink)}
+p{margin:10px auto;max-width:920px}
+button{font-family:inherit;font-size:inherit}
+.btn{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 18px;cursor:pointer;color:#222}
+.btn:hover{background:#fff6dc}
+.btn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:18px 0 6px}
+.tabs .btn{font-size:18px}
+.notice{background:var(--soft);border:1.5px solid #e0a64a;border-radius:12px;padding:12px 20px;margin:14px auto;max-width:900px;font-size:16.5px}
+.strip{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:18px 0 6px}
+.strip .btn{padding:6px 12px;font-size:16px;line-height:1.35;display:flex;flex-direction:column;align-items:center;min-width:112px}
+.strip .btn b{font-size:15px;opacity:.85}
+.strip .btn small{font-size:13.5px;opacity:.8}
+.strip .btn.done::after{content:"✓ 읽음";font-size:12.5px;color:#2f7a3a}
+.strip .btn.on.done::after{color:#bde7c3}
+.era-head{margin:24px 0 6px}
+.era-head .per{color:var(--red);font-weight:700;font-size:19px}
+.era-head .sub{color:var(--sub);font-size:17px}
+.tagline{font-size:20px;font-weight:700;color:var(--ink);margin:6px auto 14px;max-width:880px}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:10px 0}
+.chip{display:inline-block;font-size:15.5px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:1px 12px}
+.chip.btnlike{cursor:pointer;color:var(--ink);border-color:var(--ink)}
+.chip.btnlike:hover{background:#fff6dc}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 22px;margin:16px auto;max-width:960px}
+.box h3{margin:0 0 6px}
+.box.point{background:var(--soft2);border-color:#b9cdea}
+.box.kor{background:var(--soft3);border-color:#e2b3b3}
+.box.kor h3{color:var(--red)}
+.box ul{display:inline-block;text-align:left;margin:4px 0;padding-left:22px}
+.story p{text-align:left}
+.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin:14px 0}
+.lcard{flex:1 1 300px;max-width:370px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;text-align:center}
+.lcard .ic{font-size:32px;line-height:1.2}
+.lcard .cat{display:inline-block;font-size:14.5px;color:#fff;background:var(--ink);border-radius:999px;padding:0 12px;margin-bottom:4px}
+.lcard h4{font-size:19.5px;margin:6px 0 4px;color:var(--ink)}
+.lcard p{font-size:17px;margin:4px 0;text-align:left}
+.terms{max-width:960px;margin:8px auto;text-align:left}
+.terms dt{font-weight:700;color:var(--ink);margin-top:10px}
+.terms dd{margin:2px 0 0 0;color:#333}
+.pager{display:flex;justify-content:center;gap:12px;margin:34px 0 6px;flex-wrap:wrap}
+.refs{text-align:left;max-width:960px;margin:8px auto;font-size:15.5px;line-height:1.6;color:#444}
+details{max-width:960px;margin:20px auto;text-align:left}
+summary{cursor:pointer;color:var(--ink);font-weight:700;text-align:center}
+table{border-collapse:collapse;margin:16px auto;background:var(--card);max-width:100%;font-size:17px}
+th,td{border:1px solid var(--line);padding:9px 14px;text-align:left;vertical-align:top}
+th{background:#ece6d6;color:var(--ink);text-align:center}
+td.eraname{font-weight:700;color:var(--ink);text-align:center;cursor:pointer;text-decoration:underline dotted}
+input[type=search]{font:inherit;padding:8px 16px;border:1px solid var(--line);border-radius:999px;width:min(420px,90%);margin:8px 0}
+#backbar{position:sticky;top:8px;z-index:50;display:none;justify-content:center;margin:6px 0 0;pointer-events:none}
+#backbar.show{display:flex}
+.backfab{pointer-events:auto;background:var(--card);color:var(--ink);border:1px solid var(--ink);border-radius:999px;padding:2px 14px;font-size:14.5px;line-height:1.6;box-shadow:0 1px 6px rgba(0,0,0,.18);cursor:pointer}
+.foot{margin:46px auto 0;max-width:900px;font-size:15.5px;color:var(--sub)}
+.foot a{color:var(--ink)}
+@media (max-width:700px){body{font-size:17px}.wrap{padding:22px 14px 60px}.strip .btn{min-width:96px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>처음 만나는 일본 이야기</h1>
+  <p class="subtitle">일본을 처음 알아 가는 분을 위한 쉬운 안내예요. 시대별 이야기와 그때의 생활·문화, 한국과 만나는 장면을 한 번에 읽어 보세요.</p>
+  <div class="tabs" id="tabs"></div>
+  <div id="backbar"></div>
+  <div id="panel"></div>
+  <div class="foot">
+    이 페이지는 이해하기 쉽도록 내용을 크게 단순화했어요. 연도와 해석은 자료마다 조금씩 다를 수 있어요.<br>
+    더 깊이 공부하고 싶다면 <a href="japan-history.html">일본사 학습 트리</a>를 열어 보세요(내용이 더 어렵고 자세해요).
+  </div>
+</div>
+<script src="japan-basics-data.js"></script>
+<script>
+(function(){
+  'use strict';
+  var B = window.BASICS || {eras:[], cats:[]};
+  var ERAS = B.eras, CATS = B.cats;
+  var KEY = 'japan-basics-v1';
+  var done = {};
+  try { done = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ done = {}; }
+  function markDone(id){ done[id] = 1; try { localStorage.setItem(KEY, JSON.stringify(done)); } catch(e){} }
+
+  var view = {tab:'era', era:ERAS.length ? ERAS[0].id : '', cat:'', q:''};
+  var TABS = [['era','시대 이야기'],['life','생활·문화 모아보기'],['terms','쉬운 용어'],['line','한국·일본 나란히 연표']];
+
+  function el(tag, props){
+    var n = document.createElement(tag);
+    if (props) for (var k in props){
+      var v = props[k];
+      if (k === 'class') n.className = v;
+      else if (k === 'text') n.textContent = v;
+      else if (k.indexOf('on') === 0) n.addEventListener(k.slice(2), v);
+      else if (v !== false && v != null) n.setAttribute(k, v === true ? '' : v);
+    }
+    for (var i = 2; i < arguments.length; i++){
+      var c = arguments[i];
+      if (c == null || c === false) continue;
+      if (Array.isArray(c)) c.forEach(function(x){ if (x) n.appendChild(x.nodeType ? x : document.createTextNode(x)); });
+      else n.appendChild(c.nodeType ? c : document.createTextNode(c));
+    }
+    return n;
+  }
+  function eraById(id){ for (var i=0;i<ERAS.length;i++) if (ERAS[i].id===id) return ERAS[i]; return null; }
+  function eraTitle(e){ return e.no + '. ' + e.name; }
+  function icon(cat){ for (var i=0;i<CATS.length;i++) if (CATS[i].name===cat) return CATS[i].icon; return '•'; }
+
+  /* ───── 돌아가기 ───── */
+  var navStack = [], backBtn = null;
+  function snap(){ return JSON.parse(JSON.stringify(view)); }
+  function whereLabel(v){
+    if (v.tab === 'era'){ var e = eraById(v.era); return e ? e.name : '시대 이야기'; }
+    for (var i=0;i<TABS.length;i++) if (TABS[i][0]===v.tab) return TABS[i][1];
+    return '이전 화면';
+  }
+  function navTo(fn){
+    navStack.push({v:snap(), y:window.pageYOffset || 0, label:whereLabel(view)});
+    try { history.pushState({nav:navStack.length}, ''); } catch(e){}
+    fn();
+  }
+  function navRestore(k){
+    var e = navStack[k]; if (!e) return;
+    navStack.length = k; view = e.v; renderAll();
+    setTimeout(function(){ window.scrollTo(0, e.y); }, 30);
+  }
+  function navBack(){
+    if (!navStack.length) return;
+    var k = navStack.length - 1;
+    if (history.state && history.state.nav === navStack.length){ try { history.back(); return; } catch(e){} }
+    navRestore(k);
+  }
+  function renderBack(){
+    var bar = document.getElementById('backbar');
+    if (!backBtn){ backBtn = el('button', {class:'backfab', type:'button', onclick:navBack}); bar.appendChild(backBtn); }
+    var top = navStack[navStack.length - 1];
+    if (!top){ bar.classList.remove('show'); return; }
+    backBtn.textContent = '← 돌아가기 (' + top.label + ')';
+    bar.classList.add('show');
+  }
+  window.addEventListener('popstate', function(ev){
+    var target = (ev.state && ev.state.nav) || 0;
+    if (target < navStack.length) navRestore(target);
+  });
+  try { history.replaceState({nav:0}, ''); } catch(e){}
+
+  /* ───── 이동 ───── */
+  function goEra(id, jump){
+    function go(){ view.tab = 'era'; view.era = id; renderAll(); window.scrollTo(0, 0); }
+    if (view.tab === 'era' && view.era === id) { go(); return; }
+    navTo(go);
+  }
+  function setTab(t){
+    if (view.tab === t) return;
+    navTo(function(){ view.tab = t; renderAll(); window.scrollTo(0, 0); });
+  }
+
+  /* ───── 화면 조각 ───── */
+  function eraChip(e){
+    return el('button', {class:'chip btnlike', type:'button', text:eraTitle(e), onclick:function(){ goEra(e.id); }});
+  }
+  function lifeCard(e, c, showEra){
+    return el('div', {class:'lcard'},
+      el('div', {class:'ic', text:icon(c.cat)}),
+      el('span', {class:'cat', text:c.cat}),
+      el('h4', {text:c.title}),
+      el('p', {text:c.text}),
+      showEra ? el('div', null, eraChip(e)) : null);
+  }
+
+  function renderTabs(){
+    var box = document.getElementById('tabs'); box.textContent = '';
+    TABS.forEach(function(t){
+      box.appendChild(el('button', {class:'btn' + (view.tab===t[0] ? ' on' : ''), text:t[1], onclick:function(){ setTab(t[0]); }}));
+    });
+  }
+
+  function renderEra(box){
+    var e = eraById(view.era) || ERAS[0];
+    markDone(e.id);
+    var strip = el('div', {class:'strip'});
+    ERAS.forEach(function(x){
+      strip.appendChild(el('button', {class:'btn' + (x.id===e.id ? ' on' : '') + (done[x.id] && x.id!==e.id ? ' done' : ''), type:'button', onclick:function(){ goEra(x.id); }},
+        el('b', {text:String(x.no)}), el('span', {text:x.name}), el('small', {text:x.sub})));
+    });
+    box.appendChild(strip);
+
+    box.appendChild(el('div', {class:'era-head'},
+      el('div', {class:'per', text:e.period}),
+      el('h2', {text:eraTitle(e), style:'margin:4px 0'}),
+      el('div', {class:'sub', text:e.sub})));
+    box.appendChild(el('div', {class:'tagline', text:e.tagline}));
+    box.appendChild(el('div', {class:'chips'}, e.keywords.map(function(k){ return el('span', {class:'chip', text:'# ' + k}); })));
+
+    var pt = el('div', {class:'box point'}, el('h3', {text:'꼭 기억하기'}), el('ul', null, e.points.map(function(t){ return el('li', {text:t}); })));
+    box.appendChild(pt);
+
+    box.appendChild(el('h2', {text:'이야기로 읽기'}));
+    box.appendChild(el('div', {class:'story'}, e.story.map(function(t){ return el('p', {text:t}); })));
+
+    box.appendChild(el('div', {class:'box kor'}, el('h3', {text:'한국과 만나는 이야기'}), el('p', {text:e.korea, style:'text-align:left;margin:0'})));
+
+    box.appendChild(el('h2', {text:'그때의 생활·문화'}));
+    box.appendChild(el('div', {class:'cards'}, e.life.map(function(c){ return lifeCard(e, c, false); })));
+
+    box.appendChild(el('h2', {text:'알아두면 좋은 말'}));
+    box.appendChild(el('dl', {class:'terms'}, e.terms.map(function(t){ return [el('dt', {text:t.w}), el('dd', {text:t.d})]; }).reduce(function(a,b){ return a.concat(b); }, [])));
+
+    box.appendChild(el('h2', {text:'가 볼 만한 곳'}));
+    box.appendChild(el('div', {class:'box'}, el('ul', null, e.sites.map(function(t){ return el('li', {text:t}); }))));
+
+    var idx = ERAS.indexOf(e);
+    var pager = el('div', {class:'pager'});
+    if (idx > 0) pager.appendChild(el('button', {class:'btn', type:'button', text:'← 이전: ' + ERAS[idx-1].name, onclick:function(){ goEra(ERAS[idx-1].id); }}));
+    if (idx < ERAS.length - 1) pager.appendChild(el('button', {class:'btn on', type:'button', text:'다음: ' + ERAS[idx+1].name + ' →', onclick:function(){ goEra(ERAS[idx+1].id); }}));
+    box.appendChild(pager);
+
+    box.appendChild(el('details', null, el('summary', {text:'이 시대 이야기에 참고한 자료'}),
+      el('ul', {class:'refs'}, e.refs.map(function(t){ return el('li', {text:t}); })),
+      el('p', {class:'refs', text:'일부 서지(연도·쪽수)는 확인이 필요해요. 쉽게 풀어 쓰는 과정에서 내용이 단순해졌으니, 인용할 때는 원자료를 확인하세요.'})));
+  }
+
+  function renderLife(box){
+    box.appendChild(el('h2', {text:'생활·문화 모아보기'}));
+    box.appendChild(el('p', {text:'먹기·입기·살기·믿음·놀이처럼 같은 주제를 시대를 가로질러 이어서 볼 수 있어요. 카드 아래의 시대 이름을 누르면 그 시대 이야기로 가요.'}));
+    var bar = el('div', {class:'tabs'});
+    bar.appendChild(el('button', {class:'btn' + (!view.cat ? ' on' : ''), text:'전체', onclick:function(){ view.cat = ''; renderPanel(); }}));
+    CATS.forEach(function(c){
+      bar.appendChild(el('button', {class:'btn' + (view.cat===c.name ? ' on' : ''), text:c.icon + ' ' + c.name, onclick:function(){ view.cat = c.name; renderPanel(); }}));
+    });
+    box.appendChild(bar);
+    CATS.forEach(function(c){
+      if (view.cat && view.cat !== c.name) return;
+      var list = [];
+      ERAS.forEach(function(e){ e.life.forEach(function(l){ if (l.cat === c.name) list.push([e, l]); }); });
+      if (!list.length) return;
+      box.appendChild(el('h2', {text:c.icon + ' ' + c.name + ' (' + list.length + ')'}));
+      box.appendChild(el('div', {class:'cards'}, list.map(function(p){ return lifeCard(p[0], p[1], true); })));
+    });
+  }
+
+  function renderTerms(box){
+    box.appendChild(el('h2', {text:'쉬운 용어'}));
+    box.appendChild(el('p', {text:'이야기에 나온 낯선 말을 가나다순으로 모았어요. 찾고 싶은 말을 입력해 보세요.'}));
+    var inp = el('input', {type:'search', placeholder:'용어 찾기 (예: 막부)', value:view.q, 'aria-label':'용어 찾기'});
+    inp.addEventListener('input', function(){ view.q = inp.value; renderList(); });
+    box.appendChild(inp);
+    var holder = el('div');
+    box.appendChild(holder);
+    function renderList(){
+      holder.textContent = '';
+      var all = [];
+      ERAS.forEach(function(e){ e.terms.forEach(function(t){ all.push({w:t.w, d:t.d, e:e}); }); });
+      all.sort(function(a,b){ return a.w.localeCompare(b.w, 'ko'); });
+      var q = (view.q || '').trim();
+      var list = all.filter(function(t){ return !q || t.w.indexOf(q) >= 0 || t.d.indexOf(q) >= 0; });
+      holder.appendChild(el('div', {class:'chips'}, el('span', {class:'chip', text:list.length + '개'})));
+      if (!list.length){ holder.appendChild(el('p', {text:'찾는 용어가 없어요.'})); return; }
+      holder.appendChild(el('dl', {class:'terms'}, list.map(function(t){
+        return [el('dt', {text:t.w}), el('dd', null, t.d + ' ', eraChip(t.e))];
+      }).reduce(function(a,b){ return a.concat(b); }, [])));
+    }
+    renderList();
+  }
+
+  function renderLine(box){
+    box.appendChild(el('h2', {text:'한국·일본 나란히 연표'}));
+    box.appendChild(el('p', {text:'같은 때 일본과 한국에서는 무슨 일이 있었는지 나란히 보아요. 시대 이름을 누르면 그 시대 이야기로 가요.'}));
+    var t = el('table');
+    t.appendChild(el('tr', null, el('th', {text:'일본의 시대'}), el('th', {text:'기간'}), el('th', {text:'일본에서는'}), el('th', {text:'같은 때 한국에서는'})));
+    ERAS.forEach(function(e){
+      t.appendChild(el('tr', null,
+        el('td', {class:'eraname', text:eraTitle(e), onclick:function(){ goEra(e.id); }}),
+        el('td', {text:e.period}), el('td', {text:e.tl.jp}), el('td', {text:e.tl.kr})));
+    });
+    box.appendChild(el('div', {style:'overflow-x:auto'}, t));
+    box.appendChild(el('p', {class:'refs', text:'고조선의 건국, 삼국의 초기 연대, 일본 초기 천황의 연대는 전승이 섞여 있어 학자마다 달라요.'}));
+  }
+
+  function renderPanel(){
+    var box = document.getElementById('panel'); box.textContent = '';
+    if (view.tab === 'life') renderLife(box);
+    else if (view.tab === 'terms') renderTerms(box);
+    else if (view.tab === 'line') renderLine(box);
+    else renderEra(box);
+  }
+  function renderAll(){ renderTabs(); renderPanel(); renderBack(); }
+  renderAll();
+})();
+</script>
+</body>
+</html>
