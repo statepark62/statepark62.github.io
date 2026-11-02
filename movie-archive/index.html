@@ -266,6 +266,19 @@
     .recent-item .r-edit { flex-shrink: 0; align-self: center; }
     .recent-hint { color: var(--text-muted); font-size: 0.8rem; margin: -6px 0 12px; }
     .r-poster { width: 46px; height: 66px; object-fit: cover; border-radius: 4px; flex-shrink: 0; align-self: center; background: #232f48; }
+    /* 좁은 화면(휴대폰): 포스터 | 날짜·제목·내용 | 버튼 으로 정리해 글자가 세로로 쪼개지지 않게 */
+    @media (max-width: 560px) {
+      .recent-item { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; gap: 2px 12px; align-items: start; }
+      .recent-item .r-poster { grid-column: 1; grid-row: 1 / span 2; align-self: start; }
+      .recent-item .r-date { grid-column: 2; grid-row: 1; }
+      .recent-item .r-main { grid-column: 2; grid-row: 2; }
+      .recent-item .r-rating { grid-column: 3; grid-row: 1; justify-self: end; }
+      .recent-item .r-edit { grid-column: 3; grid-row: 2; align-self: start; }
+      .recent-item .wish-actions { grid-column: 3; grid-row: 1 / span 2; flex-direction: column; align-items: stretch; align-self: start; }
+    }
+    .watch-line { color: #a5f3fc !important; }
+    .watch-line a, .r-watch a { color: var(--text-muted); font-size: 0.75rem; margin-left: 4px; }
+    .r-watch { color: #a5f3fc; font-size: 0.8rem; margin-top: 2px; }
     .recent-item { cursor: pointer; transition: border-color 0.15s; }
     .recent-item:hover { border-color: var(--primary); }
     .recent-item:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
@@ -396,6 +409,7 @@
             <p id="previewSub"></p>
             <p id="previewCrew"></p>
             <p id="previewGenres"></p>
+            <p id="previewWatch" class="watch-line"></p>
             <p id="previewOverview" class="overview"></p>
           </div>
         </div>
@@ -475,6 +489,7 @@
           <p id="viewSub"></p>
           <p id="viewCrew"></p>
           <p id="viewGenres"></p>
+          <p id="viewWatch" class="watch-line"></p>
           <p id="viewWhen" class="view-when"></p>
         </div>
       </div>
@@ -797,6 +812,7 @@
       $('viewSub').textContent = [v[3], v[2]].filter(Boolean).join(' · ');
       $('viewCrew').textContent = '연출: ' + (v[5] || '정보 없음') + ' | 주연: ' + (v[6] || '정보 없음');
       $('viewGenres').textContent = v[4] ? '장르: ' + v[4] : '';
+      $('viewWatch').textContent = '';
       const ratingNum = Number(v[7]);
       $('viewWhen').textContent = '관람일 ' + (v[0] || '-') + '  ·  ★ ' + (v[7] === '' || v[7] == null || isNaN(ratingNum) ? '-' : ratingNum.toFixed(1)) + ' / 5.0';
       setViewText($('viewTheme'), v[8], '(입력한 한줄평이 없습니다)');
@@ -811,8 +827,9 @@
       // 포스터는 시트에 없으므로 TMDB에서 가져온다 (실패해도 내용 보기에는 지장 없음)
       if (v[10]) {
         getDetail(v[3] === '드라마' ? 'tv' : 'movie', v[10]).then(d => {
-          if (mySeq !== viewSeq || !d || !d.poster_path) return;
-          $('viewPoster').src = 'https://image.tmdb.org/t/p/w300' + d.poster_path;
+          if (mySeq !== viewSeq || !d) return;
+          if (d.poster_path) $('viewPoster').src = 'https://image.tmdb.org/t/p/w300' + d.poster_path;
+          setWatch($('viewWatch'), d);
         }).catch(() => {});
       }
     }
@@ -828,6 +845,25 @@
       const el = $('theme');
       el.style.height = 'auto';
       if (el.scrollHeight > 0) el.style.height = (el.scrollHeight + (el.offsetHeight - el.clientHeight)) + 'px';
+    }
+
+    // 한국에서 볼 수 있는 곳 (TMDB의 시청 정보, 데이터 제공: JustWatch)
+    function setWatch(el, d) {
+      el.textContent = '';
+      if (!d || d.providers === undefined) return;            // 중계 서버가 아직 시청 정보를 보내지 않는 경우: 표시하지 않음
+      const p = d.providers;
+      const parts = [];
+      if (p) [['flatrate', '구독'], ['free', '무료'], ['rent', '대여'], ['buy', '구매']].forEach(([k, label]) => {
+        if (p[k] && p[k].length) parts.push(label + ': ' + p[k].slice(0, 5).join(', '));
+      });
+      el.appendChild(document.createTextNode(parts.length ? '📺 ' + parts.join(' · ') : '📺 한국 시청 정보가 아직 없습니다'));
+      const a = document.createElement('a');
+      a.textContent = '(JustWatch 제공)';
+      if (p && /^https:\/\/www\.themoviedb\.org\//.test(p.link || '')) {
+        a.href = p.link; a.target = '_blank'; a.rel = 'noopener';
+        a.title = '자세히 보기';
+      } else { a.style.pointerEvents = 'none'; }
+      el.appendChild(a);
     }
 
     // 목록용 작은 포스터: 시트에는 포스터 주소가 없으므로 TMDB에서 받아 채운다 (캐시·미리 받기와 공유)
@@ -993,6 +1029,12 @@
           '<div class="r-main"><div class="r-title">' + esc(r[1]) + ' <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem">' + esc(r[3]) + ' · ' + esc(r[2]) + '</span></div>' +
           (r[7] ? '<div class="r-theme">' + esc(r[7]) + '</div>' : '') + '</div>';
         item.insertBefore(makePoster(r[3], r[8]), item.firstChild);
+        if (/^\d{1,10}$/.test(String(r[8] || ''))) {
+          const watchEl = document.createElement('div');
+          watchEl.className = 'r-watch';
+          item.querySelector('.r-main').appendChild(watchEl);
+          getDetail(r[3] === '드라마' ? 'tv' : 'movie', String(r[8])).then(d => setWatch(watchEl, d)).catch(() => {});
+        }
         const act = document.createElement('div');
         act.className = 'wish-actions';
         const seen = document.createElement('button');
@@ -1202,6 +1244,7 @@
       $('previewCrew').innerText = `연출: ${currentWork.director} | 주연: ${currentWork.cast}`;
       $('previewGenres').innerText = `장르: ${currentWork.genres}`;
       $('previewOverview').innerText = '';
+      $('previewWatch').textContent = '';
 
       $('watchDate').value = normalizeDate(v[0]) || todayStr();
       const ratingVal = Number(v[7]);
@@ -1226,6 +1269,7 @@
           if (editingRow !== myRow || !d || d.error) return;
           if (d.poster_path) $('previewPoster').src = `https://image.tmdb.org/t/p/w300${d.poster_path}`;
           $('previewOverview').innerText = d.overview || '';
+          setWatch($('previewWatch'), d);
         }).catch(() => {});
       }
     }
@@ -1282,7 +1326,7 @@
       return TMDB_PROXY_URL ? workerGet('/search', { query: query }) : callGasApi({ action: 'search', query: query });
     }
     function apiDetail(mediaType, id) {
-      return TMDB_PROXY_URL ? workerGet('/detail', { mediaType: mediaType, id: id }) : callGasApi({ action: 'detail', mediaType: mediaType, id: id });
+      return TMDB_PROXY_URL ? workerGet('/detail', { mediaType: mediaType, id: id, v: 2 }) : callGasApi({ action: 'detail', mediaType: mediaType, id: id });
     }
 
     // 상세정보 캐시: 미리 불러온 결과나 이미 본 작품은 다시 눌러도 즉시 표시하고, 진행 중인 요청은 함께 기다린다
@@ -1437,6 +1481,7 @@
         $('previewCrew').innerText = `연출: ${currentWork.director} | 주연: ${currentWork.cast}`;
         $('previewGenres').innerText = `장르: ${genres}`;
         $('previewOverview').innerText = currentWork.overview || '줄거리 정보가 제공되지 않습니다.';
+        setWatch($('previewWatch'), detail);
 
         $('logForm').style.display = 'block';
         fitTheme();
