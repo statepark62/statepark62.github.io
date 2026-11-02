@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-02 天声人語로 배우는 일본어 — 일중과 호랑이의 공존</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-02</span>
+      <span>2026년 11월 2일 (월)</span>
+    </div>
+
+    <h1><ruby>日中<rt>にっちゅう</rt></ruby>とトラの<ruby>共存<rt>きょうぞん</rt></ruby></h1>
+    <p class="topic-ko">일중과 호랑이의 공존</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>両雄<rt>りょうゆう</rt></ruby><ruby>並<rt>なら</rt></ruby>び<ruby>立<rt>た</rt></ruby>たず」</div>
+      <div class="ko">두 영웅은 나란히 설 수 없다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">「ひとつの<ruby>山<rt>やま</rt></ruby>に<ruby>二頭<rt>にとう</rt></ruby>のトラは<ruby>棲<rt>す</rt></ruby>めない」という<ruby>中国<rt>ちゅうごく</rt></ruby>の<ruby>言<rt>こと</rt></ruby>い<ruby>回<rt>まわ</rt></ruby>しを<ruby>手<rt>て</rt></ruby>がかりに、<ruby>日中<rt>にっちゅう</rt></ruby><ruby>関係<rt>かんけい</rt></ruby>を<ruby>比喩<rt>ひゆ</rt></ruby>で<ruby>映<rt>うつ</rt></ruby>した<ruby>一文<rt>いちぶん</rt></ruby>だ。</p><p class="ko">중국 속담 ‘한 산에 두 호랑이는 살지 못한다’를 출발점으로, 일중 관계를 비유적으로 비춰 본 글이다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は<ruby>福田<rt>ふくだ</rt></ruby><ruby>康夫<rt>やすお</rt></ruby><ruby>氏<rt>し</rt></ruby>の<ruby>発言<rt>はつげん</rt></ruby>を<ruby>引<rt>ひ</rt></ruby>き、トラが<ruby>多<rt>おお</rt></ruby>くても<ruby>共存<rt>きょうぞん</rt></ruby>できるのが<ruby>人間<rt>にんげん</rt></ruby><ruby>社会<rt>しゃかい</rt></ruby>だという<ruby>視点<rt>してん</rt></ruby>を<ruby>示<rt>しめ</rt></ruby>す。</p><p class="ko">필자는 후쿠다 야스오의 말을 인용해 ‘호랑이가 많아도 공존할 수 있는 것이 인간 사회’라는 관점을 소개한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>競争<rt>きょうそう</rt></ruby>や<ruby>緊張<rt>きんちょう</rt></ruby>を<ruby>越<rt>こ</rt></ruby>えて<ruby>協力<rt>きょうりょく</rt></ruby>の<ruby>余地<rt>よち</rt></ruby>を<ruby>探<rt>さが</rt></ruby>ろうという<ruby>余韻<rt>よいん</rt></ruby>を<ruby>残<rt>のこ</rt></ruby>し、<ruby>断定<rt>だんてい</rt></ruby>よりも<ruby>考<rt>かんが</rt></ruby>える<ruby>余白<rt>よはく</rt></ruby>を<ruby>開<rt>ひら</rt></ruby>く。</p><p class="ko">경쟁과 긴장을 넘어 협력의 여지를 모색하자는 여운을 남기며, 단정 대신 생각할 여백을 열어 둔다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>共存する<rt>きょうぞんする</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">공존하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>異<rt>こと</rt></ruby>なる<ruby>価値観<rt>かちかん</rt></ruby>でも<ruby>対話<rt>たいわ</rt></ruby>があれば<ruby>共存<rt>きょうぞん</rt></ruby>できる。</span><br>서로 다른 가치관이어도 대화가 있으면 공존할 수 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>両雄<rt>りょうゆう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">두 영웅, 쌍벽</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>両雄<rt>りょうゆう</rt></ruby>が<ruby>争<rt>あらそ</rt></ruby>えば、<ruby>周囲<rt>しゅうい</rt></ruby>は<ruby>疲弊<rt>ひへい</rt></ruby>する。</span><br>쌍벽이 다투면 주변은 피폐해진다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>格言<rt>かくげん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">격언</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>古<rt>ふる</rt></ruby>い<ruby>格言<rt>かくげん</rt></ruby>は<ruby>時代<rt>じだい</rt></ruby>を<ruby>越<rt>こ</rt></ruby>えて<ruby>現実<rt>げんじつ</rt></ruby>を<ruby>照<rt>て</rt></ruby>らす。</span><br>오래된 격언은 시대를 넘어 현실을 비춘다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>並び立つ<rt>ならびたつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">나란히 서다, 양립하다</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>異<rt>こと</rt></ruby>なる<ruby>目標<rt>もくひょう</rt></ruby>は<ruby>両立<rt>りょうりつ</rt></ruby>しにくいが、<ruby>原則<rt>げんそく</rt></ruby>は<ruby>並<rt>なら</rt></ruby>び<ruby>立<rt>た</rt></ruby>つ。</span><br>서로 다른 목표는 양립하기 어렵지만, 원칙은 함께 설 수 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>取材メモ<rt>しゅざいめも</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">취재 메모</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>取材<rt>しゅざい</rt></ruby>メモを<ruby>見返<rt>みかえ</rt></ruby>し、<ruby>発言<rt>はつげん</rt></ruby>の<ruby>意図<rt>いと</rt></ruby>を<ruby>確<rt>たし</rt></ruby>かめた。</span><br>취재 메모를 되돌춰 보며 발언의 의도를 확인했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern"><ruby>言<rt>い</rt></ruby>い<ruby>換<rt>か</rt></ruby>えれば</div>
+        <div class="pattern-ko">바꿔 말하면, 달리 말하면</div>
+        <p class="explain">앞서 말한 내용을 더 이해하기 쉽게 바꾸어 제시할 때 쓰는 연결 표현이다. 설명이나 논증의 전환부에서 요점을 정리하거나 비유로 치환할 때 자연스럽게 이어 준다.</p>
+        <p class="ex"><span class="ja">それは<ruby>批判<rt>ひはん</rt></ruby>ではなく、<ruby>言<rt>い</rt></ruby>い<ruby>換<rt>か</rt></ruby>えれば<ruby>提案<rt>ていあん</rt></ruby>だ。</span><br>그것은 비판이 아니라, 바꿔 말하면 제안이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 먼저 널리 알려진 속담을 끌어와 독자의 인지 틀을 마련한 뒤, 정치인의 발언을 배치하여 비유를 전복한다. ‘두 호랑이는 함께 못 산다’는 상투적 결론을 향하지 않고, ‘여럿이더라도 공존 가능하다’는 대안을 제시해 관습적 사고를 흔든다. 천성인어 특유의 간결한 인용과 절제된 서술이 대비 효과를 만들며, 짧은 문폭 안에 생각의 전환점을 또렷이 세운다. 기사 메모라는 구체적 장면을 덧붙여 사실감을 확보한 것도 특징이다.</p>
+        <p>글이 남기는 메시지는 단순한 미화가 아니라, 경쟁과 공존을 이분법으로 보지 말자는 지적에 가깝다. 한국 독자 입장에서도 한중일의 동아시아 구도 속에서 ‘비유의 유효기간’을 점검하게 만드는 대목이 흥미롭다. 속담은 현실을 설명하는 도구이지 현실을 가두는 틀은 아니라는 통찰이, 외교·정치 담론을 넘어 일상의 갈등에도 적용될 수 있음을 시사한다. 결국 독자가 스스로의 언어를 어떻게 업데이트할지 묻게 만드는 글이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 ‘두 호랑이’의 비유를 뒤집어, 경쟁 속에서도 공존을 설계하자는 생각의 전환을 권하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>‘한 산에 두 호랑이는 살지 못한다’는 말은 중국어권에서 권력 경쟁을 비유할 때 흔히 쓰이는 속담이다.</p>
+        <p>후쿠다 야스오 전 총리는 비교적 온건한 대중 외교 이미지를 지닌 인물로 알려져 있어, 그의 ‘공존’ 언급은 맥락상 설득력을 더한다는 평가가 있어 왔다.</p>
+        <p>일본과 중국은 경제적으로 긴밀히 얽혀 있으면서도 정치·안보 분야에서는 경합과 긴장이 공존하는 복합적 관계를 보여 왔다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>상투적 비유를 먼저 제시한 뒤, 반례를 통해 독자의 고정관념을 전환시키는 구조를 취하라.</p>
+        <p><span class="n">二</span>인용은 짧고 핵심적인 문장을 선택해 메시지의 명료도를 높여라.</p>
+        <p><span class="n">三</span>구체적 시점·장소(메모, 날짜 등)를 덧붙여 추상적 논지를 현실과 연결하라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>競争<rt>きょうそう</rt></ruby>があっても、<ruby>対話<rt>たいわ</rt></ruby>を<ruby>絶<rt>た</rt></ruby>やさない。</span>
+      <span class="ko">경쟁이 있어도 대화를 끊지 않는다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-02) — <a href="https://www.asahi.com/articles/DA3S16579313.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-02.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

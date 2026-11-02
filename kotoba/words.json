@@ -14041,5 +14041,55 @@
   "example": "架空の都市を舞台にした物語だ。",
   "exampleReading": "かくうのとしをぶたいにしたものがたりだ。",
   "exampleMeaning": "가공의 도시를 무대로 한 이야기다."
+ },
+ {
+  "id": "tj555",
+  "word": "共存する",
+  "reading": "きょうぞんする",
+  "meaning": "공존하다",
+  "level": "N2",
+  "example": "異なる価値観でも対話があれば共存できる。",
+  "exampleReading": "ことなるかちかんでもたいわがあればきょうぞんできる。",
+  "exampleMeaning": "서로 다른 가치관이어도 대화가 있으면 공존할 수 있다."
+ },
+ {
+  "id": "tj556",
+  "word": "両雄",
+  "reading": "りょうゆう",
+  "meaning": "두 영웅, 쌍벽",
+  "level": "N1",
+  "example": "両雄が争えば、周囲は疲弊する。",
+  "exampleReading": "りょうゆうがあらそえば、しゅういはひへいする。",
+  "exampleMeaning": "쌍벽이 다투면 주변은 피폐해진다."
+ },
+ {
+  "id": "tj557",
+  "word": "格言",
+  "reading": "かくげん",
+  "meaning": "격언",
+  "level": "N2",
+  "example": "古い格言は時代を越えて現実を照らす。",
+  "exampleReading": "ふるいかくげんはじだいをこえてげんじつをてらす。",
+  "exampleMeaning": "오래된 격언은 시대를 넘어 현실을 비춘다."
+ },
+ {
+  "id": "tj558",
+  "word": "並び立つ",
+  "reading": "ならびたつ",
+  "meaning": "나란히 서다, 양립하다",
+  "level": "N1",
+  "example": "異なる目標は両立しにくいが、原則は並び立つ。",
+  "exampleReading": "ことなるもくひょうはりょうりつしにくいが、げんそくはならびたつ。",
+  "exampleMeaning": "서로 다른 목표는 양립하기 어렵지만, 원칙은 함께 설 수 있다."
+ },
+ {
+  "id": "tj559",
+  "word": "取材メモ",
+  "reading": "しゅざいめも",
+  "meaning": "취재 메모",
+  "level": "N3",
+  "example": "取材メモを見返し、発言の意図を確かめた。",
+  "exampleReading": "しゅざいめもをみかえし、はつげんのいとをたしかめた。",
+  "exampleMeaning": "취재 메모를 되돌춰 보며 발언의 의도를 확인했다."
  }
 ]

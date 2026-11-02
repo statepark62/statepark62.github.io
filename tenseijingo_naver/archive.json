@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-02",
+    "no": 118,
+    "topic_ja": "<ruby>日中<rt>にっちゅう</rt></ruby>とトラの<ruby>共存<rt>きょうぞん</rt></ruby>",
+    "topic_ko": "일중과 호랑이의 공존",
+    "url": "https://www.asahi.com/articles/DA3S16579313.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘공존의 상상력’, ‘비유의 재해석’ — 속담이라는 보편 언어를 다시 읽어 외교적 상상력을 확장하는 글이므로, 갈등을 넘어서는 관점 전환을 다룬 장에 어울린다.",
+    "pattern": "<ruby>言<rt>い</rt></ruby>い<ruby>換<rt>か</rt></ruby>えれば"
+  },
+  {
     "date": "2026-11-01",
     "no": 117,
     "topic_ja": "<ruby>図書館<rt>としょかん</rt></ruby>の<ruby>優<rt>やさ</rt></ruby>しさ",
