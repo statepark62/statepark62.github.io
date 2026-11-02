@@ -313,7 +313,17 @@
       .view-head { flex-direction: column; align-items: center; text-align: center; padding-right: 0; }
       .modal-box { padding: 20px 16px; }
     }
-    .more-btn { display: block; margin: 12px auto 0; padding: 8px 20px; }
+    .pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px; margin: 14px 0 4px; }
+    .pg-btn {
+      min-width: 38px; height: 38px; padding: 0 8px; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 0.95rem;
+      background: transparent; color: var(--text); border: 1px solid var(--border);
+    }
+    .pg-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+    .pg-btn.current { background: var(--primary); color: #0f172a; border-color: var(--primary); font-weight: 700; cursor: default; }
+    .pg-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+    .pg-gap { color: var(--text-muted); padding: 0 4px; }
+    .pg-info { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 6px; }
+    @media (max-width: 480px) { .pg-btn { min-width: 34px; height: 36px; padding: 0 6px; } }
     .edit-banner {
       display: none; margin-bottom: 20px; padding: 10px 14px; border-radius: 8px;
       background: #422006; border: 1px solid #b45309; color: #fde68a; font-size: 0.9rem;
@@ -682,7 +692,7 @@
         try { google.accounts.oauth2.revoke(accessToken, () => {}); } catch (e) {}
       }
       accessToken = null; tokenExpiry = 0; sheetId = null; user = null; currentWork = null;
-      recentRows = []; recentLimit = LIST_STEP; exitEditMode(); closeView();
+      recentRows = []; recentPage = 1; exitEditMode(); closeView();
       resetWish();
       sessionStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_KEY);
@@ -774,9 +784,50 @@
     // 최근 기록 불러오기
     // ============================================================
     let recentRows = [];
-    const LIST_STEP = 5;          // 목록은 5건씩 보여 주고 '더 보기'로 5건씩 늘린다
-    let recentLimit = LIST_STEP;
-    let wishLimit = LIST_STEP;
+    const PAGE_SIZE = 5;          // 목록은 한 쪽에 5건씩 보여 준다 (최신순)
+    let recentPage = 1;
+    let wishPage = 1;
+
+    // 페이지 넘김 막대: ‹ 1 … 4 5 6 … 20 ›  (현재 쪽 앞뒤 몇 쪽만 보이고 나머지는 생략)
+    function buildPager(totalItems, page, onGo) {
+      const pages = Math.ceil(totalItems / PAGE_SIZE);
+      const span = window.matchMedia && window.matchMedia('(max-width: 480px)').matches ? 1 : 2;
+      const wrap = document.createElement('div');
+      const nav = document.createElement('nav');
+      nav.className = 'pager';
+      nav.setAttribute('aria-label', '페이지 이동');
+      const mk = (label, target, opt) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'pg-btn' + (opt.current ? ' current' : '');
+        b.textContent = label;
+        if (opt.aria) b.setAttribute('aria-label', opt.aria);
+        if (opt.current) b.setAttribute('aria-current', 'page');
+        if (opt.disabled || opt.current) b.disabled = !!opt.disabled; else b.onclick = () => onGo(target);
+        return b;
+      };
+      nav.appendChild(mk('‹', page - 1, { disabled: page <= 1, aria: '이전 쪽' }));
+      const show = new Set([1, pages]);
+      for (let i = page - span; i <= page + span; i++) if (i >= 1 && i <= pages) show.add(i);
+      let prev = 0;
+      Array.from(show).sort((a, b) => a - b).forEach(n => {
+        if (n - prev > 1) { const g = document.createElement('span'); g.className = 'pg-gap'; g.textContent = '…'; nav.appendChild(g); }
+        nav.appendChild(mk(String(n), n, { current: n === page, aria: n + '쪽' }));
+        prev = n;
+      });
+      nav.appendChild(mk('›', page + 1, { disabled: page >= pages, aria: '다음 쪽' }));
+      const info = document.createElement('div');
+      info.className = 'pg-info';
+      info.textContent = page + ' / ' + pages + ' 쪽 · 총 ' + totalItems + '건';
+      wrap.appendChild(nav);
+      wrap.appendChild(info);
+      return wrap;
+    }
+    function pageCount(n) { return Math.max(1, Math.ceil(n / PAGE_SIZE)); }
+    function scrollToList() {
+      const el = document.querySelector('.recent');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
     let editingRow = null;
     let editingKey = null;
     const SUBMIT_LABEL = '내 구글 시트에 감상 기록 저장하기';
@@ -890,7 +941,8 @@
         return;
       }
       box.innerHTML = '';
-      const shown = recentRows.slice().reverse().slice(0, recentLimit);
+      recentPage = Math.min(Math.max(1, recentPage), pageCount(recentRows.length));   // 기록이 줄어도 없는 쪽에 머물지 않게
+      const shown = recentRows.slice().reverse().slice((recentPage - 1) * PAGE_SIZE, recentPage * PAGE_SIZE);
       shown.forEach(rec => {
         const r = rec.v;
         const item = document.createElement('div');
@@ -918,13 +970,8 @@
         });
         box.appendChild(item);
       });
-      if (recentRows.length > recentLimit) {
-        const more = document.createElement('button');
-        more.type = 'button';
-        more.className = 'link-btn more-btn';
-        more.textContent = '더 보기 (' + (recentRows.length - recentLimit) + '건 남음)';
-        more.onclick = () => { recentLimit += LIST_STEP; renderRecent(); };
-        box.appendChild(more);
+      if (recentRows.length > PAGE_SIZE) {
+        box.appendChild(buildPager(recentRows.length, recentPage, (n) => { recentPage = n; renderRecent(); scrollToList(); }));
       }
     }
 
@@ -945,7 +992,7 @@
     const wishRange = (a1) => encodeURIComponent("'" + WISH_TAB + "'!" + a1);
 
     function resetWish() {
-      wishRows = []; wishTabId = null; wishTabPromise = null; wishLoaded = false; pendingWish = null; wishPick = null; wishLimit = LIST_STEP;
+      wishRows = []; wishTabId = null; wishTabPromise = null; wishLoaded = false; pendingWish = null; wishPick = null; wishPage = 1;
       if ($('wishList')) $('wishList').innerHTML = '<p class="recent-empty">불러오는 중...</p>';
       if ($('wishCount')) $('wishCount').textContent = '';
       showTab('log');
@@ -1020,7 +1067,8 @@
         return;
       }
       box.innerHTML = '';
-      wishRows.slice().reverse().slice(0, wishLimit).forEach(rec => {
+      wishPage = Math.min(Math.max(1, wishPage), pageCount(wishRows.length));
+      wishRows.slice().reverse().slice((wishPage - 1) * PAGE_SIZE, wishPage * PAGE_SIZE).forEach(rec => {
         const r = rec.v;
         const item = document.createElement('div');
         item.className = 'recent-item wish-item';
@@ -1047,13 +1095,8 @@
         item.appendChild(act);
         box.appendChild(item);
       });
-      if (wishRows.length > wishLimit) {
-        const more = document.createElement('button');
-        more.type = 'button';
-        more.className = 'link-btn more-btn';
-        more.textContent = '더 보기 (' + (wishRows.length - wishLimit) + '건 남음)';
-        more.onclick = () => { wishLimit += LIST_STEP; renderWish(); };
-        box.appendChild(more);
+      if (wishRows.length > PAGE_SIZE) {
+        box.appendChild(buildPager(wishRows.length, wishPage, (n) => { wishPage = n; renderWish(); scrollToList(); }));
       }
     }
 
@@ -1079,6 +1122,7 @@
           showAlert("'" + w.title + "'은(는) 이미 보고 싶은 목록에 있습니다.", 'error');
           return;
         }
+        wishPage = 1;                             // 방금 담은 작품이 보이도록 첫 쪽으로
         await gfetch(wishBase() + '/values/' + wishRange('A1') + ':append?valueInputOption=RAW&insertDataOption=INSERT_ROWS', {
           method: 'POST',
           body: JSON.stringify({ values: [[
@@ -1551,6 +1595,7 @@
             'https://sheets.googleapis.com/v4/spreadsheets/' + sheetId + '/values/A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS',
             { method: 'POST', body: JSON.stringify({ values: [row] }) }
           );
+          recentPage = 1;                       // 방금 쓴 기록이 보이도록 첫 쪽으로
           let wishNote = '';
           if (pendingWish && String(pendingWish.v[8] || '') === String(currentWork.tmdbId)) {
             try { await removeWishByTmdb(currentWork.tmdbId); wishNote = ' 보고 싶은 목록에서는 뺐습니다.'; }
