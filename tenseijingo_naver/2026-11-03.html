@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-03 天声人語로 배우는 일본어 — 가을 하늘과 제14조</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-03</span>
+      <span>2026년 11월 3일 (화)</span>
+    </div>
+
+    <h1><ruby>秋空<rt>あきぞら</rt></ruby>と<ruby>第十四条<rt>だいじゅうよんじょう</rt></ruby></h1>
+    <p class="topic-ko">가을 하늘과 제14조</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>法<rt>ほう</rt></ruby>の<ruby>下<rt>した</rt></ruby>に<ruby>平等<rt>びょうどう</rt></ruby>」</div>
+      <div class="ko">법 아래의 평등 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">秋の<ruby>空<rt>そら</rt></ruby>の下、もんぺの<ruby>女<rt>おんな</rt></ruby>が<ruby>新聞<rt>しんぶん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>み<ruby>始<rt>はじ</rt></ruby>める。</p><p class="ko">가을 하늘 아래, 몸빼 차림의 여성이 갓 공포된 새 헌법이 실린 신문을 펼친다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>公布<rt>こうふ</rt></ruby>を<ruby>終<rt>お</rt></ruby>えたばかりの<ruby>新憲法<rt>しんけんぽう</rt></ruby>が<ruby>紙面<rt>しめん</rt></ruby>にあり、<ruby>第十四条<rt>だいじゅうよんじょう</rt></ruby>の『<ruby>法<rt>ほう</rt></ruby>の<ruby>下<rt>した</rt></ruby>に<ruby>平等<rt>びょうどう</rt></ruby>』へと<ruby>視線<rt>しせん</rt></ruby>が<ruby>止<rt>と</rt></ruby>まる。</p><p class="ko">그는 제14조의 ‘법 아래의 평등’이라는 취지에 시선이 멈추고, 출신과 성별 등으로 차별하지 않는다는 원칙을 떠올린다.</p></div>
+      <div class="s-item"><p class="ja">その<ruby>条文<rt>じょうぶん</rt></ruby>を<ruby>手がかり<rt>てがかり</rt></ruby>に、2024年のNHK<ruby>連続<rt>れんぞく</rt></ruby>テレビ<ruby>小説<rt>しょうせつ</rt></ruby>とも<ruby>響<rt>ひび</rt></ruby>き<ruby>合<rt>あ</rt></ruby>う<ruby>視点<rt>してん</rt></ruby>で、いまの<ruby>社会<rt>しゃかい</rt></ruby>に<ruby>平等<rt>びょうどう</rt></ruby>の<ruby>意義<rt>いぎ</rt></ruby>を<ruby>問<rt>と</rt></ruby>いかける。</p><p class="ko">칼럼은 이 장면을 2024년 NHK 연속 TV 드라마와도 겹쳐 보이는 시대 감각 속에서, 오늘의 우리에게 그 평등의 의미를 묻는다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>条文<rt>じょうぶん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">조문, 법 조항</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>条文<rt>じょうぶん</rt></ruby>をくわしく<ruby>確認<rt>かくにん</rt></ruby>する。</span><br>조문을 자세히 확인한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>平等<rt>びょうどう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">평등</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>法<rt>ほう</rt></ruby>の<ruby>下<rt>した</rt></ruby>での<ruby>平等<rt>びょうどう</rt></ruby>を<ruby>守<rt>まも</rt></ruby>る。</span><br>법 앞의 평등을 지킨다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>差別<rt>さべつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">차별</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>出身<rt>しゅっしん</rt></ruby>による<ruby>差別<rt>さべつ</rt></ruby>をなくしたい。</span><br>출신에 따른 차별을 없애고 싶다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>公布<rt>こうふ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">(법률의) 공포</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>新法<rt>しんぽう</rt></ruby>が<ruby>公布<rt>こうふ</rt></ruby>されたばかりだ。</span><br>신법이 막 공포된 참이다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>門地<rt>もんち</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">문지, 가문과 같은 출신 배경</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>門地<rt>もんち</rt></ruby>で<ruby>人<rt>ひと</rt></ruby>を<ruby>判<rt>はん</rt></ruby>じてはならない。</span><br>문지로 사람을 판단해서는 안 된다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Vたばかり</div>
+        <div class="pattern-ko">~한 지 얼마 안 됨</div>
+        <p class="explain">행위가 막 끝난 직후임을 나타낸다. 시간 경과가 거의 없음을 강조할 때 쓰이며, 종종 놀라움이나 신선함의 뉘앙스를 동반한다.</p>
+        <p class="ex"><span class="ja">この<ruby>法律<rt>ほうりつ</rt></ruby>は<ruby>公布<rt>こうふ</rt></ruby>されたばかりだ。</span><br>이 법률은 공포된 지 얼마 안 된다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 한 장면을 세밀하게 포착해 독자를 해당 시대로 이끈다. 몸빼 차림과 신문이라는 구체를 통해 전후 직후의 공기를 환기하고, 거기서 ‘제14조’라는 추상으로 점프한다. 천성인어 특유의 압축적 도입과 전환이 살아 있으며, 한 문구에 담긴 시대정신을 현재의 독서로 재배치한다. 결과적으로 디테일과 원칙이 교차하는 구조가 독해의 긴장을 만든다.</p>
+        <p>이어지는 연결고리는 대중문화, 특히 NHK의 아침 드라마다. 칼럼은 드라마가 비춘 시대상과 헌법의 평등 이념을 겹쳐 놓아, 법 문장이 삶의 장면과 어떻게 맞물리는지 성찰하게 한다. 한국 독자에게도 낯설지 않은 ‘법 앞의 평등’이라는 가치가, 전후 일본의 풍경을 배경으로 다시 질문되는 지점이 흥미롭다. 오늘의 차별 문제를 거울 삼아, 과거의 약속이 현재형인지 점검하게 한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 전후의 ‘법 앞의 평등’ 장면을 불러와, 오늘의 우리에게 그 약속의 현재성을 되묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본국 헌법은 1946년에 공포되어 1947년에 시행되었고, 제14조는 법 앞의 평등과 여러 사유에 의한 차별 금지를 규정한다.</p>
+        <p>‘몸빼(もんぺ)’는 전시·전후에 널리 사용된 여성 작업복으로, 당시 서민 생활상을 상징하는 복식이다.</p>
+        <p>NHK의 ‘연속 TV 소설’은 사회적 변화를 생활 서사로 비추는 전통이 있으며, 2024년 작품도 전후 법제와 여성의 삶을 재조명하는 경향이 있는 것으로 보인다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>구체적 장면(의복·하늘·신문)에서 추상적 원칙(평등)으로 도약하는 전환을 배운다.</p>
+        <p><span class="n">二</span>원문 인용은 최소화하고 핵심 구절 하나로 메시지를 응축한다.</p>
+        <p><span class="n">三</span>동시대 문화 텍스트와의 연결로 독자의 현재적 관심과 접속시키는 구성을 참고한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>憲法<rt>けんぽう</rt></ruby>の<ruby>理念<rt>りねん</rt></ruby>は、<ruby>日常<rt>にちじょう</rt></ruby>の<ruby>選択<rt>せんたく</rt></ruby>を<ruby>静<rt>しず</rt></ruby>かに<ruby>変<rt>か</rt></ruby>えていく。</span>
+      <span class="ko">헌법의 이념은 일상의 선택을 조용히 바꾸어 간다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-03) — <a href="https://www.asahi.com/articles/DA3S16580440.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-03.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

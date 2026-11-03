@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-03",
+    "no": 119,
+    "topic_ja": "<ruby>秋空<rt>あきぞら</rt></ruby>と<ruby>第十四条<rt>だいじゅうよんじょう</rt></ruby>",
+    "topic_ko": "가을 하늘과 제14조",
+    "url": "https://www.asahi.com/articles/DA3S16580440.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘헌법과 평등’, ‘전후 여성사’, ‘대중드라마와 역사’ — 법 조문의 이상이 생활 장면과 대중서사로 번역되는 과정을 보여 주어, 시대와 오늘을 잇는 교육적 가치가 크다.",
+    "pattern": "Vたばかり"
+  },
+  {
     "date": "2026-11-02",
     "no": 118,
     "topic_ja": "<ruby>日中<rt>にっちゅう</rt></ruby>とトラの<ruby>共存<rt>きょうぞん</rt></ruby>",

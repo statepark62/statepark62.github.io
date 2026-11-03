@@ -14091,5 +14091,55 @@
   "example": "取材メモを見返し、発言の意図を確かめた。",
   "exampleReading": "しゅざいめもをみかえし、はつげんのいとをたしかめた。",
   "exampleMeaning": "취재 메모를 되돌춰 보며 발언의 의도를 확인했다."
+ },
+ {
+  "id": "tj560",
+  "word": "条文",
+  "reading": "じょうぶん",
+  "meaning": "조문, 법 조항",
+  "level": "N2",
+  "example": "条文をくわしく確認する。",
+  "exampleReading": "じょうぶんをくわしくかくにんする。",
+  "exampleMeaning": "조문을 자세히 확인한다."
+ },
+ {
+  "id": "tj561",
+  "word": "平等",
+  "reading": "びょうどう",
+  "meaning": "평등",
+  "level": "N3",
+  "example": "法の下での平等を守る。",
+  "exampleReading": "ほうのしたでのびょうどうをまもる。",
+  "exampleMeaning": "법 앞의 평등을 지킨다."
+ },
+ {
+  "id": "tj562",
+  "word": "差別",
+  "reading": "さべつ",
+  "meaning": "차별",
+  "level": "N3",
+  "example": "出身による差別をなくしたい。",
+  "exampleReading": "しゅっしんによるさべつをなくしたい。",
+  "exampleMeaning": "출신에 따른 차별을 없애고 싶다."
+ },
+ {
+  "id": "tj563",
+  "word": "公布",
+  "reading": "こうふ",
+  "meaning": "(법률의) 공포",
+  "level": "N2",
+  "example": "新法が公布されたばかりだ。",
+  "exampleReading": "しんぽうがこうふされたばかりだ。",
+  "exampleMeaning": "신법이 막 공포된 참이다."
+ },
+ {
+  "id": "tj564",
+  "word": "門地",
+  "reading": "もんち",
+  "meaning": "문지, 가문과 같은 출신 배경",
+  "level": "N1",
+  "example": "門地で人を判じてはならない。",
+  "exampleReading": "もんちでひとをはんじてはならない。",
+  "exampleMeaning": "문지로 사람을 판단해서는 안 된다."
  }
 ]
