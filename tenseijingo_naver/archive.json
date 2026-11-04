@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-04",
+    "no": 120,
+    "topic_ja": "<ruby>特異日<rt>とくいび</rt></ruby>と<ruby>皇居<rt>こうきょ</rt></ruby>ラン",
+    "topic_ko": "특이일과 고쿄 런",
+    "url": "https://www.asahi.com/articles/DA3S16581057.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘도시와 몸’, ‘계절의 리듬’, ‘생활 속 스포츠’ — 도심 공간과 계절이 개인의 신체 경험을 매개로 만나는 과정을 보여 주기 때문이다.",
+    "pattern": "〜としては"
+  },
+  {
     "date": "2026-11-03",
     "no": 119,
     "topic_ja": "<ruby>秋空<rt>あきぞら</rt></ruby>と<ruby>第十四条<rt>だいじゅうよんじょう</rt></ruby>",

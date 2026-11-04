@@ -14141,5 +14141,55 @@
   "example": "門地で人を判じてはならない。",
   "exampleReading": "もんちでひとをはんじてはならない。",
   "exampleMeaning": "문지로 사람을 판단해서는 안 된다."
+ },
+ {
+  "id": "tj565",
+  "word": "皇居",
+  "reading": "こうきょ",
+  "meaning": "일본 천황의 궁궐(도쿄 황궁)",
+  "level": "N2",
+  "example": "あさに皇居の外周を歩いた。",
+  "exampleReading": "あさにこうきょのがいしゅうをあるいた。",
+  "exampleMeaning": "아침에 황궁 외곽을 걸었다."
+ },
+ {
+  "id": "tj566",
+  "word": "特異日",
+  "reading": "とくいび",
+  "meaning": "특이일(유난히 날씨 경향이 뚜렷한 날)",
+  "level": "N1",
+  "example": "きょうは特異日とされ、天気が安定しやすい。",
+  "exampleReading": "きょうはとくいびとされ、てんきがあんていしやすい。",
+  "exampleMeaning": "오늘은 특이일로 여겨져 날씨가 안정되기 쉽다."
+ },
+ {
+  "id": "tj567",
+  "word": "周辺",
+  "reading": "しゅうへん",
+  "meaning": "주변, 근처",
+  "level": "N3",
+  "example": "駅周辺の地図を確かめる。",
+  "exampleReading": "えきしゅうへんのちずをたしかめる。",
+  "exampleMeaning": "역 주변 지도를 확인한다."
+ },
+ {
+  "id": "tj568",
+  "word": "警備",
+  "reading": "けいび",
+  "meaning": "경비, 보안",
+  "level": "N2",
+  "example": "会場では警備が強化された。",
+  "exampleReading": "かいじょうではけいびがきょうかされた。",
+  "exampleMeaning": "회장에서는 경비가 강화되었다."
+ },
+ {
+  "id": "tj569",
+  "word": "信号",
+  "reading": "しんごう",
+  "meaning": "신호(신호등)",
+  "level": "N3",
+  "example": "信号が青になったら渡ろう。",
+  "exampleReading": "しんごうがあおになったらわたろう。",
+  "exampleMeaning": "신호가 파란색이 되면 건너자."
  }
 ]
