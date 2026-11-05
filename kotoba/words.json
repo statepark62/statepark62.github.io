@@ -14191,5 +14191,55 @@
   "example": "信号が青になったら渡ろう。",
   "exampleReading": "しんごうがあおになったらわたろう。",
   "exampleMeaning": "신호가 파란색이 되면 건너자."
+ },
+ {
+  "id": "tj570",
+  "word": "物価高",
+  "reading": "ぶっかだか",
+  "meaning": "물가 상승세, 물가고",
+  "level": "N2",
+  "example": "この冬は物価高で家計が苦しい。",
+  "exampleReading": "このふゆはぶっかだかでかけいがくるしい。",
+  "exampleMeaning": "올겨울은 물가가 올라 가계가 팍팍하다."
+ },
+ {
+  "id": "tj571",
+  "word": "反映",
+  "reading": "はんえい",
+  "meaning": "반영",
+  "level": "N2",
+  "example": "世論は選挙に反映されるべきだ。",
+  "exampleReading": "よろんはせんきょにはんえいされるべきだ。",
+  "exampleMeaning": "여론은 선거에 반영되어야 한다."
+ },
+ {
+  "id": "tj572",
+  "word": "中間選挙",
+  "reading": "ちゅうかんせんきょ",
+  "meaning": "중간선거",
+  "level": "N1",
+  "example": "米国の中間選挙が始まった。",
+  "exampleReading": "べいこくのちゅうかんせんきょがはじまった。",
+  "exampleMeaning": "미국의 중간선거가 시작됐다."
+ },
+ {
+  "id": "tj573",
+  "word": "地価",
+  "reading": "ちか",
+  "meaning": "지가, 토지가격",
+  "level": "N2",
+  "example": "駅前の地価が上昇している。",
+  "exampleReading": "えきまえのちかがじょうしょうしている。",
+  "exampleMeaning": "역 앞의 지가가 오르고 있다."
+ },
+ {
+  "id": "tj574",
+  "word": "投機",
+  "reading": "とうき",
+  "meaning": "투기",
+  "level": "N1",
+  "example": "無用な投機は避けるべきだ。",
+  "exampleReading": "むようなとうきはさけるべきだ。",
+  "exampleMeaning": "불필요한 투기는 피해야 한다."
  }
 ]

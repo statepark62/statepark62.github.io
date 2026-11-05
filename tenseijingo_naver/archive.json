@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-05",
+    "no": 121,
+    "topic_ja": "<ruby>物価高<rt>ぶっかだか</rt></ruby>と<ruby>選挙<rt>せんきょ</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",
+    "topic_ko": "물가상승과 선거의 기억",
+    "url": "https://www.asahi.com/articles/DA3S16581628.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘물가와 정치’, ‘역사적 아날로지’. 물가 변동이 선거에 미치는 영향을 과거 사례로 환기해 오늘의 독해에 도움을 주며, 비교의 틀을 제공한다.",
+    "pattern": "Nを<ruby>受<rt>う</rt></ruby>けて"
+  },
+  {
     "date": "2026-11-04",
     "no": 120,
     "topic_ja": "<ruby>特異日<rt>とくいび</rt></ruby>と<ruby>皇居<rt>こうきょ</rt></ruby>ラン",

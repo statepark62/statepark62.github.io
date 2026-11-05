@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-05 天声人語로 배우는 일본어 — 물가상승과 선거의 기억</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-05</span>
+      <span>2026년 11월 5일 (목)</span>
+    </div>
+
+    <h1><ruby>物価高<rt>ぶっかだか</rt></ruby>と<ruby>選挙<rt>せんきょ</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby></h1>
+    <p class="topic-ko">물가상승과 선거의 기억</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>物価高<rt>ぶっかだか</rt></ruby>への<ruby>国民<rt>こくみん</rt></ruby>のいらだち」</div>
+      <div class="ko">물가상승에 대한 국민의 불만 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>物価<rt>ぶっか</rt></ruby>の<ruby>上昇<rt>じょうしょう</rt></ruby>と<ruby>選挙<rt>せんきょ</rt></ruby>の<ruby>関係<rt>かんけい</rt></ruby>を<ruby>喚起<rt>かんき</rt></ruby>する<ruby>一節<rt>いっせつ</rt></ruby>で<ruby>始<rt>はじ</rt></ruby>まり、<ruby>米国<rt>べいこく</rt></ruby>の<ruby>中間選挙<rt>ちゅうかんせんきょ</rt></ruby>ではなく１９７４<ruby>年<rt>ねん</rt></ruby>の<ruby>日本<rt>にほん</rt></ruby>の<ruby>事例<rt>じれい</rt></ruby>だと<ruby>示<rt>しめ</rt></ruby>す。</p><p class="ko">칼럼은 물가 상승과 선거의 관계를 환기하는 문장으로 시작한 뒤, 그것이 미국의 중간선거가 아니라 1974년 일본의 사례임을 밝힌다.</p></div>
+      <div class="s-item"><p class="ja">その<ruby>頃<rt>ころ</rt></ruby>、<ruby>田中角栄<rt>たなかかくえい</rt></ruby>の「<ruby>日本列島改造論<rt>にほんれっとうかいぞうろん</rt></ruby>」で<ruby>不動産<rt>ふどうさん</rt></ruby><ruby>投機<rt>とうき</rt></ruby>が<ruby>加熱<rt>かねつ</rt></ruby>し、<ruby>地価<rt>ちか</rt></ruby>が<ruby>跳<rt>は</rt></ruby>ね<ruby>上<rt>あ</rt></ruby>がり、<ruby>石油<rt>せきゆ</rt></ruby>ショックで<ruby>物価<rt>ぶっか</rt></ruby>が<ruby>押<rt>お</rt></ruby>し<ruby>上<rt>あ</rt></ruby>げられ、<ruby>暮<rt>く</rt></ruby>らしが<ruby>苦<rt>くる</rt></ruby>しくなったことを<ruby>想起<rt>そうき</rt></ruby>させる。</p><p class="ko">당시 다나카 가쿠에이의 ‘일본열도 개조론’이 부동산 투기를 부추겨 지가가 뛰었고, 오일 쇼크가 물가를 밀어 올려 생활을 옥죄었다고 상기시킨다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は、<ruby>経済<rt>けいざい</rt></ruby>の<ruby>痛手<rt>いたで</rt></ruby>が<ruby>票<rt>ひょう</rt></ruby>に<ruby>変換<rt>へんかん</rt></ruby>される<ruby>局面<rt>きょくめん</rt></ruby>を<ruby>想像<rt>そうぞう</rt></ruby>させ、<ruby>現在<rt>げんざい</rt></ruby>の<ruby>政治<rt>せいじ</rt></ruby>を<ruby>読む<rt>よ</rt></ruby>ためのてがかりとして<ruby>過去<rt>かこ</rt></ruby>を<ruby>呼<rt>よ</rt></ruby>び<ruby>起<rt>お</rt></ruby>こす。</p><p class="ko">필자는 경제적 고통이 표심으로 번역되는 순간을 떠올리게 하며, 오늘의 정치 장면을 읽는 단서로 과거를 불러온다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>物価高<rt>ぶっかだか</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">물가 상승세, 물가고</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">この<ruby>冬<rt>ふゆ</rt></ruby>は<ruby>物価高<rt>ぶっかだか</rt></ruby>で<ruby>家計<rt>かけい</rt></ruby>が<ruby>苦<rt>くる</rt></ruby>しい。</span><br>올겨울은 물가가 올라 가계가 팍팍하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>反映<rt>はんえい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">반영</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>世論<rt>よろん</rt></ruby>は<ruby>選挙<rt>せんきょ</rt></ruby>に<ruby>反映<rt>はんえい</rt></ruby>されるべきだ。</span><br>여론은 선거에 반영되어야 한다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>中間選挙<rt>ちゅうかんせんきょ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">중간선거</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>米国<rt>べいこく</rt></ruby>の<ruby>中間選挙<rt>ちゅうかんせんきょ</rt></ruby>が<ruby>始<rt>はじ</rt></ruby>まった。</span><br>미국의 중간선거가 시작됐다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>地価<rt>ちか</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">지가, 토지가격</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>駅前<rt>えきまえ</rt></ruby>の<ruby>地価<rt>ちか</rt></ruby>が<ruby>上昇<rt>じょうしょう</rt></ruby>している。</span><br>역 앞의 지가가 오르고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>投機<rt>とうき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">투기</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>無用<rt>むよう</rt></ruby>な<ruby>投機<rt>とうき</rt></ruby>は<ruby>避<rt>さ</rt></ruby>けるべきだ。</span><br>불필요한 투기는 피해야 한다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Nを<ruby>受<rt>う</rt></ruby>けて</div>
+        <div class="pattern-ko">~을/를 받아, ~을 계기로</div>
+        <p class="explain">어떤 사건이나 발표, 지적 등의 영향을 받아 그에 맞추어 다음 행동이 이어짐을 나타낸다. 뉴스·공문에서 자주 쓰이며, 뒤에는 조치·결정·변경 같은 결과가 온다.</p>
+        <p class="ex"><span class="ja"><ruby>事故<rt>じこ</rt></ruby>を<ruby>受<rt>う</rt></ruby>けて、<ruby>会社<rt>かいしゃ</rt></ruby>は<ruby>安全<rt>あんぜん</rt></ruby><ruby>基準<rt>きじゅん</rt></ruby>を<ruby>見直<rt>みなお</rt></ruby>した。</span><br>사고를 계기로 회사는 안전 기준을 재검토했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 인용으로 독자를 끌어들인 뒤, 그것이 현재 미국 이야기가 아니라 과거 일본 사례임을 밝혀 긴장감을 만든다. 이어서 배경이 되는 정책 구호, 투기 과열, 외부 충격을 빠르게 연결해 ‘가격 상승 → 표심’의 고리를 압축적으로 제시한다. 짧은 문장 전환과 대비 구조가 천성인어 특유의 경쾌한 리듬을 만든다. 과거의 문장을 현재 시점에 겹쳐 놓는 ‘시간 점프’가 독해의 재미와 통찰을 동시에 준다.</p>
+        <p>칼럼이 남기는 메시지는 단순하다: 지갑의 통증은 곧 표의 움직임으로 나타난다. 한국 독자에게도 이는 낯설지 않은 정치경제의 상식이며, 선거를 앞두고 체감 물가가 왜 중요한지 다시 생각하게 한다. 또 특정 지도자의 구호가 시장 심리에 미치는 파장을 짚어, 정책 언어와 실제 생활의 접점을 성찰하게 만든다. 다만 과거의 반복을 기정사실로 단정하지 않고, ‘연상시키는’ 톤으로 독자 스스로 비교하게 하는 점이 품격 있다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 물가 상승이 어떻게 표심으로 나타나는지를 과거 사례로 비추어 오늘을 성찰하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>1973년 1차 오일 쇼크는 일본에서도 물가 급등과 물자 부족을 불러와 일상생활 전반에 충격을 주었다.</p>
+        <p>다나카 가쿠에이의 ‘일본열도 개조론’은 대규모 인프라 구상으로 기대를 모았지만, 일부 지역에서 토지 투기와 지가 급등을 자극했다는 평가가 있다.</p>
+        <p>일본의 참의원 선거는 정권 심판 성격이 강하게 나타날 때가 있으며, 체감 경기가 나쁠수록 여권에 불리하게 작용하는 경향이 있다고 여겨진다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>강렬한 인용으로 문을 연 뒤 ‘그게 아니다’라는 전환으로 독자의 예상과 다른 방향을 제시하라.</p>
+        <p><span class="n">二</span>과거 사건을 현재 이슈에 겹쳐 읽는 역사적 아날로지로 시사성을 확보하라.</p>
+        <p><span class="n">三</span>정책 구호—시장 반응—생활 체감의 인과선을 구체 명사로 압축해 제시하라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>物価<rt>ぶっか</rt></ruby>の<ruby>痛<rt>いた</rt></ruby>みは<ruby>投票<rt>とうひょう</rt></ruby>で<ruby>示<rt>しめ</rt></ruby>す。</span>
+      <span class="ko">물가의 고통은 투표로 드러낸다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-05) — <a href="https://www.asahi.com/articles/DA3S16581628.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-05.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>
