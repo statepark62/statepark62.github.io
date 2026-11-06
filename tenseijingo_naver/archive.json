@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-06",
+    "no": 122,
+    "topic_ja": "ローマの<ruby>秋<rt>あき</rt></ruby>と<ruby>旬<rt>しゅん</rt></ruby>",
+    "topic_ko": "로마의 가을과 제철",
+    "url": "https://www.asahi.com/articles/DA3S16582427.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘제철의 미학’, ‘슬로푸드’, ‘도시의 계절감’ — 계절 음식의 감각을 출발점으로 지속가능한 식문화와 도시 일상의 리듬을 성찰하게 하므로.",
+    "pattern": "Nに<ruby>引<rt>ひ</rt></ruby>けをとらない"
+  },
+  {
     "date": "2026-11-05",
     "no": 121,
     "topic_ja": "<ruby>物価高<rt>ぶっかだか</rt></ruby>と<ruby>選挙<rt>せんきょ</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>",

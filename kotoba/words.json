@@ -14241,5 +14241,55 @@
   "example": "無用な投機は避けるべきだ。",
   "exampleReading": "むようなとうきはさけるべきだ。",
   "exampleMeaning": "불필요한 투기는 피해야 한다."
+ },
+ {
+  "id": "tj575",
+  "word": "引けを取らない",
+  "reading": "ひけをとらない",
+  "meaning": "뒤지지 않다",
+  "level": "N1",
+  "example": "彼の実力はプロに引けを取らない。",
+  "exampleReading": "かれのじつりょくはぷろにひけをとらない。",
+  "exampleMeaning": "그의 실력은 프로에도 뒤지지 않는다."
+ },
+ {
+  "id": "tj576",
+  "word": "納得できる",
+  "reading": "なっとくできる",
+  "meaning": "수긍할 수 있다",
+  "level": "N2",
+  "example": "納得できる理由がある。",
+  "exampleReading": "なっとくできるりゆうがある。",
+  "exampleMeaning": "수긍할 만한 이유가 있다."
+ },
+ {
+  "id": "tj577",
+  "word": "旬",
+  "reading": "しゅん",
+  "meaning": "제철",
+  "level": "N2",
+  "example": "今が旬の魚をえらぶ。",
+  "exampleReading": "いまがしゅんのさかなをえらぶ。",
+  "exampleMeaning": "지금이 제철인 생선을 고른다."
+ },
+ {
+  "id": "tj578",
+  "word": "屋台",
+  "reading": "やたい",
+  "meaning": "노점(포장마차)",
+  "level": "N2",
+  "example": "駅前に屋台が並ぶ。",
+  "exampleReading": "えきまえにやたいがならぶ。",
+  "exampleMeaning": "역 앞에 노점이 줄지어 선다."
+ },
+ {
+  "id": "tj579",
+  "word": "焼き栗",
+  "reading": "やきぐり",
+  "meaning": "군밤",
+  "level": "N3",
+  "example": "路上で焼き栗の香りがただよう。",
+  "exampleReading": "ろじょうでやきぐりのかおりがただよう.",
+  "exampleMeaning": "길거리에서 군밤 냄새가 퍼진다."
  }
 ]
