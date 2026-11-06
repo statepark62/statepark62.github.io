@@ -12,7 +12,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;font-size:18px;line-height:1.6;text-align:center;padding-bottom:30px}
-.wrap{max-width:900px;margin:0 auto;padding:18px 16px}
+.wrap{max-width:max(900px,66.667vw);margin:0 auto;padding:18px 16px}
 header h1{font-size:30px;margin:6px 0 0;font-weight:800}
 header p{margin:2px 0 6px;color:#4a4f7a;font-size:16px}header p.srcline{font-size:14px;color:#7a7fa5;margin:0 0 8px}header p.subt{font-size:17px;font-weight:600;color:var(--navy);margin-bottom:2px}
 .tabbar{position:sticky;top:0;z-index:20;display:flex;background:#fff;border-bottom:2px solid var(--line);padding-top:env(safe-area-inset-top)}
@@ -30,7 +30,7 @@ button.btn.org{background:var(--orange)}
 button.btn:disabled{opacity:.4}
 select{border:2px solid var(--navy);border-radius:14px;padding:4px 10px;background:#fff;color:var(--ink);max-width:100%}
 label.chk{display:inline-flex;align-items:center;gap:6px;padding:2px 8px}
-.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px 18px;margin:12px auto;max-width:640px}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px 18px;margin:12px auto;max-width:100%}
 .card.g{background:var(--green);border-color:#c9d4cb}
 .big{font-size:46px;font-weight:800;line-height:1.3;word-break:keep-all}
 .kj{font-size:22px;color:#5a5f86}
@@ -68,7 +68,7 @@ tr.kn td{background:var(--ok)}
 .clues h3{margin:0 0 6px;font-size:20px}
 .clues ul{list-style:none;margin:0;padding:0;font-size:17px}
 .msg{min-height:26px;font-weight:700;color:#1e6b3a}
-.opts{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px 10px;margin:8px auto;max-width:640px}
+.opts{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px 10px;margin:8px auto;max-width:100%}
 .fade{animation:f .25s}@keyframes f{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
 </style></head><body>
 <nav class="tabbar">
@@ -350,7 +350,8 @@ function newPuzzle(){
   PZ.note = note;
   renderPuzzle();
 }
-function cellSize(){ return PZ.cs =  Math.max(26, Math.min(54, Math.floor((Math.min(window.innerWidth, 900) - 36) / PZ.W))); }
+function cellSize0(){ const w = Math.max(900, window.innerWidth * 0.66667); return Math.max(26, Math.min(64, Math.floor((Math.min(window.innerWidth, w) - 36) / PZ.W))); }
+function cellSize(){ return PZ.cs = cellSize0(); }
 function renderPuzzle(){
   const {H, W} = PZ, cs = cellSize();
   let h = `<div class="grid" style="--cs:${cs}px;grid-template-columns:repeat(${W},${cs}px)">`;
@@ -449,7 +450,7 @@ $('#pCheck').onclick = () => finishCheck(true);
 $('#pHint').onclick = () => { if(!PZ.sel){ $('#pMsg').textContent = '힌트를 볼 칸을 먼저 눌러 주세요.'; return; } const c = PZ.cells[PZ.sel]; c.inp.value = c.ans; c.el.classList.remove('ng'); c.el.classList.add('ok'); };
 $('#pReveal').onclick = () => { for(const k in PZ.cells){ PZ.cells[k].inp.value = PZ.cells[k].ans; PZ.cells[k].el.classList.remove('ng'); PZ.cells[k].el.classList.add('ok'); } $('#pMsg').textContent = '정답이에요. ‘다시 하기’로 처음부터 풀 수 있어요.'; };
 $('#pClear').onclick = () => { for(const k in PZ.cells){ PZ.cells[k].inp.value = ''; PZ.cells[k].el.classList.remove('ok', 'ng'); } $('#pMsg').textContent = ''; };
-window.addEventListener('resize', () => { const old = PZ.cs; if(PZ.built && PZ.W && Object.keys(PZ.cells).length && Math.max(26, Math.min(54, Math.floor((Math.min(window.innerWidth, 900) - 36) / PZ.W))) !== old){ const keep = {}; for(const k in PZ.cells) keep[k] = PZ.cells[k].inp.value; const sel = PZ.sel; renderPuzzle(); for(const k in keep) PZ.cells[k].inp.value = keep[k]; if(sel) pick(sel, false); } });
+window.addEventListener('resize', () => { const old = PZ.cs; if(PZ.built && PZ.W && Object.keys(PZ.cells).length && cellSize0() !== old){ const keep = {}; for(const k in PZ.cells) keep[k] = PZ.cells[k].inp.value; const sel = PZ.sel; renderPuzzle(); for(const k in keep) PZ.cells[k].inp.value = keep[k]; if(sel) pick(sel, false); } });
 
 /* ---------- 3) 말하기 ---------- */
 const POSN = [['all','전체'], ['n','명사'], ['a','형용사'], ['v','동사'], ['x','표현'], ['b','종합 도전']];
