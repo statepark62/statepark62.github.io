@@ -148,7 +148,7 @@ function say(t){
 }
 
 /* ---------- 접속 기록 (구글 Apps Script 웹앱 주소를 넣으면 켜집니다) ---------- */
-const LOG_URL = '';
+const LOG_URL = 'https://script.google.com/macros/s/AKfycbyc9Ip_0aWbnBMkXOMiYzbyAhNvA5MWBVpgwv7zV91CsJZc4LQPnF3pZ438tHifBRrKRw/exec';
 const LOG_TOKEN = 'o2J7N3vdV_0_GQJM'; /* Apps Script의 TOKEN과 같아야 기록됩니다 */
 let VID = store.get('nh_vid', '');
 if(!VID){ VID = 'v' + Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); store.set('nh_vid', VID); }
