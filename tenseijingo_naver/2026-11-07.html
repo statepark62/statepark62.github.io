@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-07 天声人語로 배우는 일본어 — 노바야 신문의 기자들</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-07</span>
+      <span>2026년 11월 7일 (토)</span>
+    </div>
+
+    <h1>ノーバヤ<ruby>紙<rt>し</rt></ruby>の<ruby>記者<rt>きしゃ</rt></ruby></h1>
+    <p class="topic-ko">노바야 신문의 기자들</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>殺<rt>ころ</rt></ruby>された６<ruby>人<rt>にん</rt></ruby>の<ruby>記者<rt>きしゃ</rt></ruby>」</div>
+      <div class="ko">살해된 여섯 명의 기자 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">モスクワの<ruby>中心部<rt>ちゅうしんぶ</rt></ruby>で<ruby>地下鉄<rt>ちかてつ</rt></ruby>を<ruby>降<rt>お</rt></ruby>り、カーブした<ruby>並木道<rt>なみきみち</rt></ruby>を<ruby>抜<rt>ぬ</rt></ruby>けてノーバヤ・ガゼータの<ruby>社屋<rt>しゃおく</rt></ruby>に<ruby>至<rt>いた</rt></ruby>る<ruby>場面<rt>ばめん</rt></ruby>から<ruby>始<rt>はじ</rt></ruby>まる。</p><p class="ko">모스크바 중심가에서 지하철을 내려 굽은 가로수길을 지나 노바야 가제타 사옥에 이르는 현장 묘사로 글이 시작된다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>編集室<rt>へんしゅうしつ</rt></ruby>の<ruby>壁<rt>かべ</rt></ruby>には<ruby>殺<rt>ころ</rt></ruby>された６<ruby>人<rt>にん</rt></ruby>の<ruby>記者<rt>きしゃ</rt></ruby>の<ruby>写真<rt>しゃしん</rt></ruby>が<ruby>掲<rt>かか</rt></ruby>げられ、<ruby>創刊<rt>そうかん</rt></ruby>は１９９３<ruby>年<rt>ねん</rt></ruby>、<ruby>ソ連<rt>それん</rt></ruby><ruby>崩壊<rt>ほうかい</rt></ruby>の<ruby>直後<rt>ちょくご</rt></ruby>で、「ノーバヤ」は「<ruby>新<rt>あたら</rt></ruby>しい」を<ruby>意味<rt>いみ</rt></ruby>すると<ruby>述<rt>の</rt></ruby>べる。</p><p class="ko">3층 편집실 벽에는 살해된 여섯 명의 기자 사진이 걸려 있고, 신문은 소련 붕괴 직후인 1993년에 창간되었으며 ‘노바야’는 ‘새로운’을 뜻한다고 소개한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>現場<rt>げんば</rt></ruby>の<ruby>描写<rt>びょうしゃ</rt></ruby>を<ruby>通<rt>とお</rt></ruby>して<ruby>報道<rt>ほうどう</rt></ruby>の<ruby>危険<rt>きけん</rt></ruby>と<ruby>使命<rt>しめい</rt></ruby>が<ruby>静<rt>しず</rt></ruby>かに<ruby>浮<rt>う</rt></ruby>かび<ruby>上<rt>あ</rt></ruby>がり、<ruby>読者<rt>どくしゃ</rt></ruby>に<ruby>重<rt>おも</rt></ruby>い<ruby>問い<rt>とい</rt></ruby>を<ruby>投<rt>な</rt></ruby>げかける。</p><p class="ko">차분한 관찰을 통해 언론의 위험과 사명이 드러나며, 독자에게 침묵 속 질문을 남기는 구성이다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>殺害<rt>さつがい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">살해, 살인</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>記者<rt>きしゃ</rt></ruby>の<ruby>殺害<rt>さつがい</rt></ruby>は<ruby>社会<rt>しゃかい</rt></ruby>に<ruby>衝撃<rt>しょうげき</rt></ruby>を<ruby>与<rt>あた</rt></ruby>えた。</span><br>기자의 살해는 사회에 충격을 주었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>創刊<rt>そうかん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">창간</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>雑誌<rt>ざっし</rt></ruby>は<ruby>春<rt>はる</rt></ruby>に<ruby>創刊<rt>そうかん</rt></ruby>された。</span><br>그 잡지는 봄에 창간되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>社屋<rt>しゃおく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">사옥</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>本社<rt>ほんしゃ</rt></ruby>の<ruby>社屋<rt>しゃおく</rt></ruby>は<ruby>川沿<rt>かわぞ</rt></ruby>いに<ruby>建<rt>た</rt></ruby>っている。</span><br>본사의 사옥은 강가에 자리하고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>並木道<rt>なみきみち</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">가로수길</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>並木道<rt>なみきみち</rt></ruby>が<ruby>秋<rt>あき</rt></ruby>の<ruby>色<rt>いろ</rt></ruby>に<ruby>染<rt>そ</rt></ruby>まる。</span><br>가로수길이 가을빛으로 물든다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>地下鉄<rt>ちかてつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">지하철</span><span class="level">N4</span>
+            <p class="ex"><span class="ja"><ruby>地下鉄<rt>ちかてつ</rt></ruby>を<ruby>降<rt>お</rt></ruby>りて<ruby>公園<rt>こうえん</rt></ruby>へ<ruby>向<rt>む</rt></ruby>かう。</span><br>지하철에서 내려 공원으로 향한다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Vてくる</div>
+        <div class="pattern-ko">~해 오다, ~해지다</div>
+        <p class="explain">동작이나 상태의 변화가 화자 쪽으로 다가오거나 시간의 흐름 속에서 나타날 때 쓴다. 물리적 이동뿐 아니라 감정·상태의 변화를 점진적으로 느낄 때도 자연스럽다.</p>
+        <p class="ex"><span class="ja"><ruby>雨<rt>あめ</rt></ruby>が<ruby>強<rt>つよ</rt></ruby>くなってきて、<ruby>道<rt>みち</rt></ruby>が<ruby>暗<rt>くら</rt></ruby>く<ruby>見<rt>み</rt></ruby>えてきた。</span><br>비가 점점 세져서 길이 어둡게 보이기 시작했다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 칼럼은 길 안내하듯 구체적 동선을 묘사해 독자를 한 건물로 데려간다. 목적지에 도착한 뒤 벽의 사진이라는 시각적 장치를 통해 사건의 무게를 바로 체감하게 한다. 이어 신문 창간 시기와 이름의 의미를 덧붙여 맥락을 정리하되, 설명은 절제되어 있다. 천성인어 특유의 간결한 장면 전환과 여백의 미가 잘 드러난다.</p>
+        <p>결국 글은 언론이 감당한 위험과 그 뒤에 남은 침묵의 목소리를 비추려 한다. 한국 독자의 관점에서도, 추모와 기록이 공적 기억을 유지하는 방식이 흥미롭다. 직접적인 규탄보다 현장의 정적을 보여 주어 스스로 질문하게 만드는 점이 인상적이다. 현장성·맥락·여운을 삼각 편성해 의미를 응축하는 구성이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 모스크바 현장 묘사로 시작해 희생된 기자들을 떠올리게 하며 언론의 사명을 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>노바야 가제타는 소련 붕괴 직후인 1993년에 창간된 독립 성향의 러시아 신문으로 알려져 있다. 권력 감시와 탐사에 주력해 국제적 주목을 받아 왔다.</p>
+        <p>러시아에서는 1990년대 이후 언론인에 대한 위협과 폭력이 이어졌다는 평가가 있다. 이러한 환경은 보도 현장의 긴장을 상시화한다.</p>
+        <p>언론사 편집국에 희생된 동료의 사진을 걸어 추모하는 관행은 기억을 보존하고 직업윤리를 환기하는 상징적 장치로 기능한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>공간 이동의 흐름을 따라가며 독자를 현장에 배치하는 리드 문단을 설계한다.</p>
+        <p><span class="n">二</span>사실 정보(연도·어원)를 최소치로 배치해 장면의 울림을 방해하지 않도록 균형을 맞춘다.</p>
+        <p><span class="n">三</span>직접적 평가 대신 정적의 이미지를 제시해 독자가 스스로 의미를 구성하도록 여백을 남긴다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>記憶<rt>きおく</rt></ruby>の<ruby>壁<rt>かべ</rt></ruby>に<ruby>貼<rt>は</rt></ruby>られた<ruby>写真<rt>しゃしん</rt></ruby>は、<ruby>沈黙<rt>ちんもく</rt></ruby>のまま<ruby>真実<rt>しんじつ</rt></ruby>を<ruby>語<rt>かた</rt></ruby>っている。</span>
+      <span class="ko">기억의 벽에 붙은 사진은 침묵으로 진실을 말하고 있다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-07) — <a href="https://www.asahi.com/articles/DA3S16583149.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-07.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+</body>
+</html>

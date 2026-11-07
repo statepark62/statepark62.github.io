@@ -14291,5 +14291,55 @@
   "example": "路上で焼き栗の香りがただよう。",
   "exampleReading": "ろじょうでやきぐりのかおりがただよう.",
   "exampleMeaning": "길거리에서 군밤 냄새가 퍼진다."
+ },
+ {
+  "id": "tj580",
+  "word": "殺害",
+  "reading": "さつがい",
+  "meaning": "살해, 살인",
+  "level": "N1",
+  "example": "記者の殺害は社会に衝撃を与えた。",
+  "exampleReading": "きしゃのさつがいはしゃかいにしょうげきをあたえた",
+  "exampleMeaning": "기자의 살해는 사회에 충격을 주었다."
+ },
+ {
+  "id": "tj581",
+  "word": "創刊",
+  "reading": "そうかん",
+  "meaning": "창간",
+  "level": "N2",
+  "example": "雑誌は春に創刊された。",
+  "exampleReading": "ざっしははるにそうかんされた",
+  "exampleMeaning": "그 잡지는 봄에 창간되었다."
+ },
+ {
+  "id": "tj582",
+  "word": "社屋",
+  "reading": "しゃおく",
+  "meaning": "사옥",
+  "level": "N1",
+  "example": "本社の社屋は川沿いに建っている。",
+  "exampleReading": "ほんしゃのしゃおくはかわぞいにたっている",
+  "exampleMeaning": "본사의 사옥은 강가에 자리하고 있다."
+ },
+ {
+  "id": "tj583",
+  "word": "並木道",
+  "reading": "なみきみち",
+  "meaning": "가로수길",
+  "level": "N2",
+  "example": "並木道が秋の色に染まる。",
+  "exampleReading": "なみきみちがあきのいろにそまる",
+  "exampleMeaning": "가로수길이 가을빛으로 물든다."
+ },
+ {
+  "id": "tj584",
+  "word": "地下鉄",
+  "reading": "ちかてつ",
+  "meaning": "지하철",
+  "level": "N4",
+  "example": "地下鉄を降りて公園へ向かう。",
+  "exampleReading": "ちかてつをおりてこうえんへむかう",
+  "exampleMeaning": "지하철에서 내려 공원으로 향한다."
  }
 ]
