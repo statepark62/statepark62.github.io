@@ -420,6 +420,52 @@ def send_words_to_gas(data):
         print(f"      단어장 전송 실패: {res.get('error')}")
 
 
+def send_pattern_to_gas(data, today, source_url):
+    """오늘의 문형·글쓰기 포인트·오늘의 한마디를 시트의 '천성인어 문형' 탭에 하루 1줄로 저장.
+    기존 GAS 일반 모드 사용: 탭이 없으면 자동 생성(머리글 포함), 첫 칸(날짜) 기준 중복 제거."""
+    import requests
+    url = os.environ.get("GAS_WORDS_URL")
+    token = os.environ.get("GAS_WORDS_TOKEN")
+    if not url or not token:
+        print("      GAS 설정(Secrets) 없음 — 문형 탭 전송 생략")
+        return
+    g = data.get("grammar", {}) or {}
+    wp = list(data.get("writing_points_ko", []) or [])[:3]
+    wp += [""] * (3 - len(wp))
+    tl = data.get("today_line", {}) or {}
+    # 날짜 칸: 시트가 날짜 형식으로 바꾸지 않도록 요일을 붙여 텍스트로 유지 (중복 판정 안정화)
+    date_cell = f"{today.isoformat()}({WEEKDAY_KO[today.weekday()]})"
+    headers = ["날짜", "칼럼 제목", "칼럼 제목(한)", "오늘의 문형", "문형 뜻", "문형 설명",
+               "문형 예문", "예문 번역", "글쓰기 포인트 1", "글쓰기 포인트 2", "글쓰기 포인트 3",
+               "오늘의 한마디", "한마디 번역", "원문 링크"]
+    row = [
+        date_cell,
+        strip_ruby(data.get("topic_ja", "")),
+        data.get("topic_ko", ""),
+        strip_ruby(g.get("pattern", "")),
+        g.get("pattern_ko", ""),
+        g.get("explanation_ko", ""),
+        strip_ruby(g.get("example_ja", "")),
+        g.get("example_ko", ""),
+        wp[0], wp[1], wp[2],
+        strip_ruby(tl.get("ja", "")),
+        tl.get("ko", ""),
+        source_url,
+    ]
+    r = requests.post(url, json={
+        "secret": token,
+        "sheet": "천성인어 문형",
+        "headers": headers,   # 탭이 없을 때만 머리글로 사용됨
+        "dedupIndex": 0,
+        "rows": [row],
+    }, timeout=60)
+    res = r.json()
+    if res.get("ok"):
+        print(f"      문형 탭 전송 완료: 추가 {res.get('added', 0)}줄")
+    else:
+        print(f"      문형 탭 전송 실패: {res.get('error')}")
+
+
 # ══════════════════════════════════════════════════════════
 # 메인
 # ══════════════════════════════════════════════════════════
@@ -545,6 +591,10 @@ def main():
             send_words_to_gas(data)
         except Exception as e:
             print(f"      단어장 전송 실패 (발행은 정상 완료됨): {e}")
+        try:
+            send_pattern_to_gas(data, today, source_url)
+        except Exception as e:
+            print(f"      문형 탭 전송 실패 (발행은 정상 완료됨): {e}")
 
     print("모든 작업 완료.")
 
