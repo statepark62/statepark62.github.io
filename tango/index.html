@@ -72,6 +72,7 @@ tr.kn td{background:var(--ok)}
 .fade{animation:f .25s}@keyframes f{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
 
 /* 글자 쓰기 */
+#tab-write{max-width:max(560px,50vw);margin:0 auto}
 #tab-write .bar{margin:6px 0}
 .wpanel{scroll-margin-top:84px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:14px 12px 10px;margin:10px auto;max-width:520px}
 .winfo{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:6px;min-height:30px}
@@ -89,8 +90,12 @@ button.wt.done{background:var(--ok);border-color:#8fcf99}
 button.wt.sel{border-color:var(--orange);box-shadow:0 0 0 3px #f39a3d55}
 button.wt i{position:absolute;top:1px;right:5px;font-style:normal;font-size:11px;color:#3b8c4a}
 .wsp{width:62px;height:62px}
+button.wl{width:58px;min-height:62px;border:2px solid var(--navy);border-radius:14px;background:#fff;color:var(--navy);font:inherit;font-size:14px;font-weight:700;line-height:1.15;cursor:pointer;padding:0 2px}
+button.wl.on{background:var(--navy);color:#fff}
+.wrow.dim button.wt{opacity:.4}
+button.btn.md{padding:6px 16px;font-size:16px}
 .wnote{font-size:14px;color:#7a7fa5;margin:4px 0}
-@media (max-width:420px){button.wt,.wsp{width:56px;height:56px;font-size:23px}.wrow{gap:4px}}
+@media (max-width:420px){button.wt,.wsp{width:54px;height:54px;font-size:22px}button.wl{width:44px;min-height:54px;font-size:12px}.wrow{gap:3px}}
 </style></head><body>
 <nav class="tabbar">
  <button data-tab="cards" class="on"><span>🃏</span>단어 카드</button>
@@ -99,7 +104,7 @@ button.wt i{position:absolute;top:1px;right:5px;font-style:normal;font-size:11px
  <button data-tab="write"><span>✍️</span>글자쓰기</button>
 </nav>
 <div class="wrap">
-<header><h1>🧩 일본어 단어 놀이터</h1><p class="subt">카드로 익히고, 퍼즐로 풀고, 말로 써먹기</p><p id="stat"></p><p id="src" class="srcline"></p><p class="srcline"><a href="notice.html" style="color:#2f3170;font-weight:700">📣 안내문 · QR 코드</a> <span style="color:#9a9cb8;font-size:12px">· 버전 1108-2050</span></p></header>
+<header><h1>🧩 일본어 단어 놀이터</h1><p class="subt">카드로 익히고, 퍼즐로 풀고, 말로 써먹기</p><p id="stat"></p><p id="src" class="srcline"></p><p class="srcline"><a href="notice.html" style="color:#2f3170;font-weight:700">📣 안내문 · QR 코드</a> <span style="color:#9a9cb8;font-size:12px">· 버전 1108-2110</span></p></header>
 
 <!-- 단어 카드 -->
 <section id="tab-cards">
@@ -161,6 +166,10 @@ button.wt i{position:absolute;top:1px;right:5px;font-style:normal;font-size:11px
    <button class="btn alt" id="wPrev">◀ 이전</button>
    <button class="btn alt" id="wSay">🔊 듣기</button>
    <button class="btn alt" id="wNext">다음 ▶</button>
+  </div>
+  <div class="bar" style="margin:0">
+   <button class="btn alt md" id="wDak">゛ 탁점 붙이기</button>
+   <button class="btn alt md" id="wHan">゜ 반탁점 붙이기</button>
   </div>
   <div class="bar" style="margin:0">
    <button class="btn alt" id="wGuide">모범 가리기</button>
@@ -551,42 +560,62 @@ const KROWS = {
   ['きゃ 캬 kya','きゅ 큐 kyu','きょ 쿄 kyo'],['しゃ 샤 sha','しゅ 슈 shu','しょ 쇼 sho'],['ちゃ 챠 cha','ちゅ 츄 chu','ちょ 쵸 cho'],
   ['にゃ 냐 nya','にゅ 뉴 nyu','にょ 뇨 nyo'],['ひゃ 햐 hya','ひゅ 휴 hyu','ひょ 효 hyo'],['みゃ 먀 mya','みゅ 뮤 myu','みょ 묘 myo'],
   ['りゃ 랴 rya','りゅ 류 ryu','りょ 료 ryo'],['ぎゃ 갸 gya','ぎゅ 규 gyu','ぎょ 교 gyo'],['じゃ 쟈 ja','じゅ 쥬 ju','じょ 죠 jo'],
-  ['びゃ 뱌 bya','びゅ 뷰 byu','びょ 뵤 byo'],['ぴゃ 퍄 pya','ぴゅ 퓨 pyu','ぴょ 표 pyo']]
+  ['びゃ 뱌 bya','びゅ 뷰 byu','びょ 뵤 byo'],['ぴゃ 퍄 pya','ぴゅ 퓨 pyu','ぴょ 표 pyo']],
+ etc: [
+  ['っ 촉음 small-tsu','ー 장음 chouon'],['ゃ 야 small-ya','ゅ 유 small-yu','ょ 요 small-yo'],['ぁ 아 small-a','ぃ 이 small-i','ぅ 우 small-u','ぇ 에 small-e','ぉ 오 small-o']]
 };
+const ETCLBL = ['촉음·장음', '작은 や행', '작은 あ행'];
 const KCONF = {h: ['さち','ぬめね','われね','るろ','はほ','いり','あお','こに','きさ','まよ'], k: ['シツ','ソン','クケタ','ウワ','ノメ','チテ','コユ','ヌス','アマ','ヲワ']};
-const WGRP = {base:'기본 46', dak:'탁음·반탁음', you:'요음', conf:'헷갈리는 글자'};
+const WGRP = {base:'기본 46', dak:'탁음·반탁음', you:'요음', etc:'촉음·장음·작은 글자', conf:'헷갈리는 글자'};
+const DAKM = {'か':'が','き':'ぎ','く':'ぐ','け':'げ','こ':'ご','さ':'ざ','し':'じ','す':'ず','せ':'ぜ','そ':'ぞ','た':'だ','ち':'ぢ','つ':'づ','て':'で','と':'ど','は':'ば','ひ':'び','ふ':'ぶ','へ':'べ','ほ':'ぼ'};
+const HANM = {'は':'ぱ','ひ':'ぴ','ふ':'ぷ','へ':'ぺ','ほ':'ぽ'};
 const KINFO = {};
 for(const g in KROWS) KROWS[g].forEach(r => r.forEach(t => { if(t){ const [k, ko, ro] = t.split(' '); KINFO[k] = {ko, ro}; } }));
-const WS = { sc: store.get('nh_wsc', 'h'), grp: store.get('nh_wgrp', 'base'), cur: 'あ', list: [], strokes: [], drawing: false, s: 300, guide: true, over: false, built: false };
+const WS = { sc: store.get('nh_wsc', 'h'), grp: store.get('nh_wgrp', 'base'), row: null, mod: '', cur: 'あ', list: [], strokes: [], drawing: false, s: 300, guide: true, over: false, built: false };
+if(!WGRP[WS.grp]) WS.grp = 'base';
 let wcount = store.get('nh_wcount', {});
 const wDisp = h => WS.sc === 'k' ? toKata(h) : h;
-function wRows(){
+function wVar(h, map){ const v = map[h[0]]; if(!v) return null; const r = v + h.slice(1); return KINFO[r] ? r : null; }
+const wPrac = () => (WS.mod === 'd' ? wVar(WS.cur, DAKM) : WS.mod === 'p' ? wVar(WS.cur, HANM) : null) || WS.cur;
+function wRowsAll(){
   if(WS.grp === 'conf') return KCONF[WS.sc].map(str => [...str].map(c => toHira(c)));
   return KROWS[WS.grp].map(r => r.map(t => t ? t.split(' ')[0] : null));
+}
+function wRowLabel(r, i){
+  if(WS.grp === 'conf') return '묶음 ' + (i + 1);
+  if(WS.grp === 'etc') return ETCLBL[i];
+  const f = r.find(Boolean); return wDisp(f[0]) + '행';
 }
 function wRender(){
   $('#wScript').innerHTML = `<button class="chip ${WS.sc==='h'?'on':''}" data-sc="h">히라가나</button><button class="chip ${WS.sc==='k'?'on':''}" data-sc="k">카타카나</button>`;
   $('#wGroup').innerHTML = Object.keys(WGRP).map(g => `<button class="chip ${WS.grp===g?'on':''}" data-g="${g}">${WGRP[g]}</button>`).join('');
-  const rows = wRows(); WS.list = [];
-  $('#wGrid').innerHTML = rows.map(r => '<div class="wrow">' + r.map(h => {
+  const rows = wRowsAll(); if(WS.row !== null && WS.row >= rows.length) WS.row = null;
+  const all = []; rows.forEach(r => r.forEach(h => { if(h) all.push(h); }));
+  WS.list = WS.row === null ? all : rows[WS.row].filter(Boolean);
+  $('#wGrid').innerHTML = rows.map((r, i) => `<div class="wrow ${WS.row !== null && WS.row !== i ? 'dim' : ''}"><button class="wl ${WS.row === i ? 'on' : ''}" data-r="${i}">${wRowLabel(r, i)}</button>` + r.map(h => {
     if(!h) return '<div class="wsp"></div>';
-    WS.list.push(h); const d = wDisp(h), n = wcount[d] || 0, ko = (KINFO[h] || {}).ko || '';
+    const d = wDisp(h), n = wcount[d] || 0, ko = (KINFO[h] || {}).ko || '';
     return `<button class="wt ${n ? 'done' : ''}" data-h="${h}">${d}<small>${ko}</small>${n ? `<i>✓${n}</i>` : ''}</button>`;
   }).join('') + '</div>').join('');
   const got = WS.list.filter(h => wcount[wDisp(h)] > 0).length;
-  $('#wProg').textContent = `${WGRP[WS.grp]} · 연습한 글자 ${got} / ${WS.list.length}`;
-  if(!WS.list.includes(WS.cur)) WS.cur = WS.list[0];
-  wSelect(WS.cur);
+  $('#wProg').textContent = `${WS.row === null ? WGRP[WS.grp] : wRowLabel(rows[WS.row], WS.row)} · 연습한 글자 ${got} / ${WS.list.length}` + (WS.row === null ? ' · 줄 이름을 누르면 그 줄만 연습' : ' · 이 줄만 연습 중 (다시 누르면 해제)');
+  if(!WS.list.includes(WS.cur)) { WS.cur = WS.list[0]; WS.mod = ''; }
+  wSelect(WS.cur, true);
 }
-function wSelect(h){
+function wSelect(h, keepMod){
+  if(!keepMod || h !== WS.cur) WS.mod = '';
   WS.cur = h; WS.strokes = [];
-  const d = wDisp(h), inf = KINFO[h] || {}, pair = WS.sc === 'h' ? toKata(h) : h;
-  $('#wInfo').innerHTML = `${d} <small>${inf.ko || ''} · ${inf.ro || ''} · ${WS.sc === 'h' ? '카타카나 ' + pair : '히라가나 ' + h}</small>`;
+  const pc = wPrac(), d = wDisp(pc), inf = KINFO[pc] || {}, pair = WS.sc === 'h' ? toKata(pc) : pc;
+  const pt = (pair === d || /ー/.test(pc)) ? '' : (WS.sc === 'h' ? ' · 카타카나 ' + pair : ' · 히라가나 ' + pc);
+  $('#wInfo').innerHTML = `${d} <small>${inf.ko || ''} · ${inf.ro || ''}${pt}</small>`;
   $$('#wGrid .wt').forEach(b => b.classList.toggle('sel', b.dataset.h === h));
+  const dk = wVar(h, DAKM), hn = wVar(h, HANM);
+  $('#wDak').disabled = !dk && !(WS.mod === 'd'); $('#wHan').disabled = !hn && !(WS.mod === 'p');
+  $('#wDak').classList.toggle('org', WS.mod === 'd'); $('#wHan').classList.toggle('org', WS.mod === 'p');
   wGuideDraw(); wRedraw();
 }
 function wGuideDraw(){
-  const d = wDisp(WS.cur), fs = Math.round(WS.s * (d.length > 1 ? 0.5 : 0.78));
+  const d = wDisp(wPrac()), fs = Math.round(WS.s * (d.length > 1 ? 0.5 : 0.78));
   for(const id of ['wg', 'wo']){ const e = $('#' + id); e.textContent = d; e.style.fontSize = fs + 'px'; }
   $('#wg').style.visibility = WS.guide ? 'visible' : 'hidden';
   $('#wo').style.display = WS.over ? 'flex' : 'none';
@@ -614,20 +643,28 @@ const wPt = e => { const r = wcv.getBoundingClientRect(); return [(e.clientX - r
 wcv.addEventListener('pointerdown', e => { if(WS.drawing) return; e.preventDefault(); try{ wcv.setPointerCapture(e.pointerId); }catch(_){} WS.drawing = true; WS.strokes.push([wPt(e)]); wRedraw(); });
 wcv.addEventListener('pointermove', e => { if(!WS.drawing) return; e.preventDefault(); WS.strokes[WS.strokes.length - 1].push(wPt(e)); wRedraw(); });
 ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => wcv.addEventListener(t, () => { WS.drawing = false; }));
-function wMove(d){ const i = WS.list.indexOf(WS.cur); wSelect(WS.list[(i + d + WS.list.length) % WS.list.length]); }
+function wMove(d){ const i = Math.max(0, WS.list.indexOf(WS.cur)); wSelect(WS.list[(i + d + WS.list.length) % WS.list.length]); }
 function wShow(){ if(!WS.built){ WS.built = true; wRender(); } wSize(); }
 $('#wScript').onclick = e => { const b = e.target.closest('[data-sc]'); if(!b) return; const old = WS.sc; WS.sc = b.dataset.sc; store.set('nh_wsc', WS.sc); if(old !== WS.sc) wRender(); };
-$('#wGroup').onclick = e => { const b = e.target.closest('[data-g]'); if(!b) return; WS.grp = b.dataset.g; store.set('nh_wgrp', WS.grp); wRender(); };
-$('#wGrid').onclick = e => { const b = e.target.closest('.wt'); if(!b) return; wSelect(b.dataset.h); $('#tab-write .wpanel').scrollIntoView({behavior: 'smooth', block: 'nearest'}); };
+$('#wGroup').onclick = e => { const b = e.target.closest('[data-g]'); if(!b) return; WS.grp = b.dataset.g; WS.row = null; store.set('nh_wgrp', WS.grp); wRender(); };
+$('#wGrid').onclick = e => {
+  const l = e.target.closest('.wl');
+  if(l){ const i = +l.dataset.r; WS.row = (WS.row === i) ? null : i; wRender(); if(WS.row !== null){ const first = WS.list[0]; wSelect(first); } return; }
+  const b = e.target.closest('.wt'); if(!b) return; wSelect(b.dataset.h); $('#tab-write .wpanel').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+};
 $('#wPrev').onclick = () => wMove(-1); $('#wNext').onclick = () => wMove(1);
-$('#wSay').onclick = () => say(wDisp(WS.cur));
+$('#wSay').onclick = () => say(wDisp(wPrac()));
+$('#wDak').onclick = () => { WS.mod = WS.mod === 'd' ? '' : 'd'; wSelect(WS.cur, true); };
+$('#wHan').onclick = () => { WS.mod = WS.mod === 'p' ? '' : 'p'; wSelect(WS.cur, true); };
 $('#wGuide').onclick = () => { WS.guide = !WS.guide; wGuideDraw(); };
 $('#wOver').onclick = () => { WS.over = !WS.over; wGuideDraw(); };
 $('#wUndo').onclick = () => { WS.strokes.pop(); wRedraw(); };
 $('#wClear').onclick = () => { WS.strokes = []; wRedraw(); };
 $('#wDone').onclick = () => {
-  const d = wDisp(WS.cur); wcount[d] = (wcount[d] || 0) + 1; store.set('nh_wcount', wcount);
-  const cur = WS.cur; wRender(); wSelect(cur); const b = $('#wDone'); b.textContent = `✓ ${d} ${wcount[d]}번째!`; setTimeout(() => b.textContent = '✓ 연습했어요', 1400);
+  const d = wDisp(wPrac()); wcount[d] = (wcount[d] || 0) + 1; store.set('nh_wcount', wcount);
+  const cur = WS.cur, mod = WS.mod, rowMode = WS.row !== null; wRender(); WS.mod = mod; wSelect(cur, true);
+  const b = $('#wDone'); b.textContent = `✓ ${d} ${wcount[d]}번째!`; setTimeout(() => b.textContent = '✓ 연습했어요', 1400);
+  if(rowMode && !mod) setTimeout(() => wMove(1), 500);
 };
 window.addEventListener('resize', () => { if(WS.built && !$('#tab-write').hidden) wSize(); });
 
