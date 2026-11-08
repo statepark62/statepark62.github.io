@@ -32,7 +32,7 @@
   /* ---------- 접속 기록·피드백: 개발자의 구글 시트(Apps Script)로 전송 ---------- */
   var LOGCFG = window.KJ_LOG || {};
   var UIDKEY = 'kj_uid', OUTKEY = 'kj_outbox', EMAILKEY = 'kj_email', LASTKEY = 'kj_lastvisit';
-  var APPVER = 'v11';
+  var APPVER = 'v12';
   function myUid() {
     try { var u = localStorage.getItem(UIDKEY); if (!u) { u = Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); localStorage.setItem(UIDKEY, u); } return u; } catch (e) { return 'na'; }
   }
@@ -516,7 +516,7 @@
     h += '<div class="sect"><h2>피드백 보내기</h2>';
     if (!LOGCFG.url) h += '<p class="small muted">이 기능은 아직 설정되지 않았어요.</p>';
     else {
-      h += '<p class="small muted">불편한 점, 바라는 점, 틀린 내용을 알려 주세요. 앱 개발자에게 전달돼요.</p>' +
+      h += '<p class="small muted">불편한 점이나 바라는 점을 알려 주세요. 앱 개발자에게 전달돼요. 한자 설명이 틀렸다면 그 한자 카드의 ‘오류 신고’가 더 편해요.</p>' +
         '<label for="fbcat">종류</label><select id="fbcat">' + ['제안', '불편', '오류', '기타'].map(function (c) { return '<option' + (FB.cat === c ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select>' +
         '<label for="fbtext">내용</label><textarea id="fbtext" maxlength="1000" placeholder="예: 쓰기 연습에서 획순이 헷갈려요">' + esc(FB.text) + '</textarea>' +
         '<label for="fbcontact">답장받을 연락처 (선택)</label><input id="fbcontact" type="text" maxlength="100" placeholder="이메일 등. 비워 두어도 돼요" value="' + esc(FB.contact) + '">' +
@@ -525,12 +525,9 @@
         '<p class="small muted">함께 전달되는 정보: 위 내용, 익명 기기 번호, 앱 버전' + (CLOUD.email ? ', 로그인 이메일' : '') + '.</p>';
     }
     h += '</div>';
-    h += '<div class="sect"><h2>오류 신고</h2><p class="small muted">한자 카드의 ‘오류 신고’로 남긴 내용이에요. 이 기기에만 저장돼요. 복사해서 보내 주세요.</p>';
     if (S.reports.length) {
-      h += '<textarea id="rep" readonly>' + esc(reportsText()) + '</textarea><div class="row"><button class="btn" data-act="copyrep">복사</button><button class="btn ghost" data-act="clearrep">신고 목록 비우기</button></div>';
-    } else h += '<div class="callout">신고한 내용이 없어요.</div>';
-    if (REPORT_FORM_URL) h += '<a class="btn" href="' + esc(REPORT_FORM_URL) + '" target="_blank" rel="noopener">신고 폼 열기</a>';
-    h += '</div>';
+      h += '<div class="sect"><h2>보내지 못한 오류 신고</h2><p class="small muted">이전에 이 기기에만 저장된 신고예요. 복사해서 보내 주세요.</p><textarea id="rep" readonly>' + esc(reportsText()) + '</textarea><div class="row"><button class="btn" data-act="copyrep">복사</button><button class="btn ghost" data-act="clearrep">목록 비우기</button></div></div>';
+    }
     h += '<div class="sect"><h2>학습 기록</h2>';
     if (!V.confirmReset) h += '<button class="btn danger" data-act="reset1">학습 기록 모두 지우기</button>';
     else h += '<div class="callout warn">정말 모든 학습 기록을 지울까요? 되돌릴 수 없어요.</div><div class="row"><button class="btn danger" data-act="reset2">지우기</button><button class="btn" data-act="reset0">취소</button></div>';
@@ -538,7 +535,7 @@
     h += '<div class="sect"><label>데이터 출처</label><p class="small">' + (SYNC.src === '시트' ? '구글 시트' : '앱에 들어 있는 데이터') + (SYNC.t ? ' · 마지막 갱신 ' + new Date(SYNC.t).toLocaleString('ko-KR') : '') + '</p>' +
       (SYNC.msg ? '<p class="small ' + (SYNC.state === 'err' ? 'bad' : 'muted') + '">' + esc(SYNC.msg) + '</p>' : '') +
       (CFG.kanjiCsv ? '<button class="btn" data-act="sync">지금 갱신</button>' : '<p class="small muted">구글 시트 주소가 아직 설정되지 않았어요.</p>') + '</div>';
-    h += '<div class="sect small muted"><p>데이터: 한자 ' + KJ.length + '자 · 빌드 ' + esc(DATA.meta.built || '') + '</p><p>획순 데이터: KanjiVG (kanjivg.tagaini.net), CC BY-SA 3.0</p>' + (LOGCFG.url ? '<p>기기 번호: ' + esc(myUid()) + '</p>' : '') + '<p>한자 설명은 AI 초안을 바탕으로 해요. ‘AI 초안’ 표시가 있거나 이상한 곳이 보이면 오류 신고를 눌러 주세요.</p></div>';
+    h += '<div class="sect small muted"><p>데이터: 한자 ' + KJ.length + '자 · 빌드 ' + esc(DATA.meta.built || '') + '</p><p>획순 데이터: KanjiVG (kanjivg.tagaini.net), CC BY-SA 3.0</p>' + (LOGCFG.url ? '<p>기기 번호: ' + esc(myUid()) + '</p>' : '') + '<p>한자 설명은 AI 초안을 바탕으로 해요. ‘AI 초안’ 표시가 있거나 이상한 곳이 보이면 한자 카드의 ‘오류 신고’를 눌러 주세요.</p></div>';
     return h;
   }
 
@@ -552,7 +549,7 @@
       h += '<div class="overlay" style="z-index:35" role="dialog" aria-modal="true" aria-label="오류 신고"><div class="inner"><div class="sheet"><h2><span lang="ja">' + esc(e.k) + '</span> 오류 신고</h2>';
       h += '<div><label for="rf">어디가 이상한가요?</label><select id="rf" style="width:100%"><option>훈음</option><option>한국음·음독 연결 설명</option><option>예시 단어</option><option>연상·자형 설명</option><option>훈독</option><option>기타</option></select></div>';
       h += '<div><label for="rm">내용</label><textarea id="rm" placeholder="무엇이 어떻게 틀렸는지 적어 주세요."></textarea></div>';
-      h += '<div class="row"><button class="btn primary" style="flex:1" data-act="sendrep" data-k="' + esc(e.k) + '">저장</button><button class="btn" data-act="closerep">취소</button></div></div></div></div>';
+      h += '<div class="row"><button class="btn primary" style="flex:1" data-act="sendrep" data-k="' + esc(e.k) + '">' + (LOGCFG.url ? '보내기' : '저장') + '</button><button class="btn" data-act="closerep">취소</button></div></div></div></div>';
     }
     if (V.toast) h += '<div class="toast" role="status">' + esc(V.toast) + '</div>';
     return h;
@@ -722,9 +719,12 @@
     else if (a === 'report') { V.report = b.getAttribute('data-k'); render(); }
     else if (a === 'closerep') { V.report = null; render(); }
     else if (a === 'sendrep') {
-      var m = (document.getElementById('rm').value || '').trim(), f = document.getElementById('rf').value;
+      var m = (document.getElementById('rm').value || '').trim(), f = document.getElementById('rf').value, rk = b.getAttribute('data-k');
       if (!m) { toast('내용을 적어 주세요.'); return; }
-      S.reports.push({ k: b.getAttribute('data-k'), f: f, m: m, t: today() }); save(); V.report = null; toast('신고를 저장했어요.');
+      if (!LOGCFG.url) { S.reports.push({ k: rk, f: f, m: m, t: today() }); save(); V.report = null; toast('신고를 이 기기에 저장했어요.'); return; }
+      var ri = logBase('feedback'); ri.cat = '오류'; ri.text = ('[' + rk + ' / ' + f + '] ' + m).slice(0, 2000); ri.contact = (FB.contact || '').trim().slice(0, 120);
+      V.report = null; toast('신고를 보내는 중…');
+      postLog(ri, true).then(function () { toast('신고를 보냈어요. 고맙습니다.'); }, function () { outboxSave(outboxLoad().concat([ri])); toast('지금은 못 보냈어요. 저장해 두었다가 다음에 다시 보낼게요.'); });
     }
     else if (a === 'copyrep') {
       var txt = reportsText(), done = function () { toast('복사했어요.'); };
