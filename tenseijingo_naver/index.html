@@ -36,6 +36,27 @@
   .sub{font-size:14px;color:var(--ink-soft);margin-bottom:34px}
 
 
+
+  /* 의견 보내기 */
+  .fb{margin-top:18px}
+  .fb-toggle{
+    font-family:var(--ko);font-size:14px;font-weight:600;padding:7px 14px;
+    background:var(--card);color:var(--ai);border:1.5px solid var(--ai);border-radius:4px;cursor:pointer;
+  }
+  .fb-box{display:none;margin-top:12px}
+  .fb-box.open{display:block}
+  .fb-box textarea{
+    width:100%;min-height:96px;padding:10px 12px;font-family:var(--ko);font-size:15px;line-height:1.6;
+    background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:4px;resize:vertical;
+  }
+  .fb-row{display:flex;align-items:center;gap:12px;margin-top:8px}
+  .fb-send{
+    font-family:var(--ko);font-size:14px;font-weight:700;padding:7px 16px;
+    background:var(--shu);color:#fff;border:none;border-radius:4px;cursor:pointer;
+  }
+  .fb-send:disabled{opacity:.5;cursor:default}
+  .fb-msg{font-size:13.5px;color:var(--ink-soft)}
+
   /* 월 넘김 */
   .js .cal-month{display:none}
   .js .cal-month.on{display:block}
@@ -175,6 +196,13 @@
     <p class="visit" id="visitline" style="display:none">지금까지 <span id="vcount" style="color:var(--shu);font-weight:700">0</span>명이 함께 공부했습니다.</p>
     <p>매일 아침 자동 발행됩니다. 요약·예문·해설은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
     <p><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페 「여행하며 일본어 공부하기」</a></p>
+    <div class="fb" id="fb" style="display:none">
+      <button class="fb-toggle" id="fb-toggle" type="button">의견 보내기 ✎</button>
+      <div class="fb-box" id="fb-box">
+        <textarea id="fb-text" maxlength="500" placeholder="불편한 점, 바라는 점, 오류 등 무엇이든 남겨 주세요. (500자 이내)"></textarea>
+        <div class="fb-row"><button class="fb-send" id="fb-send" type="button">보내기</button><span class="fb-msg" id="fb-msg"></span></div>
+      </div>
+    </div>
   </footer>
 </div>
 <script>
@@ -221,6 +249,52 @@
       }
     })
     .catch(function(){});
+})();
+</script>
+<script>
+(function(){
+  var GAS_URL = "https://script.google.com/macros/s/AKfycbzzsK1vQDlffHyzt6se264eGravJdfOik-kYtEOrFuN7inaXw2CKg2ryXSAP8MLSFehxA/exec";
+  var uid = "", isNew = false;
+  try {
+    uid = localStorage.getItem("tj_uid") || "";
+    if (!uid) {
+      uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem("tj_uid", uid); isNew = true;
+    }
+  } catch (e) {}
+  var dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "모바일" : "PC";
+  function q(o){ return Object.keys(o).map(function(k){ return k + "=" + encodeURIComponent(o[k]); }).join("&"); }
+
+  // 접속기록: 같은 탭에서 새로고침해도 한 번만 기록
+  try {
+    if (uid && !sessionStorage.getItem("tj_logged_index")) {
+      sessionStorage.setItem("tj_logged_index", "1");
+      fetch(GAS_URL + "?" + q({action:"log", uid:uid, page:"목록", dev:dev,
+        ref:(document.referrer||"").slice(0,120)}), {mode:"no-cors"}).catch(function(){});
+    }
+  } catch (e) {}
+
+  // 의견 보내기
+  var wrap = document.getElementById("fb");
+  if (!wrap) return;
+  wrap.style.display = "";
+  var box = document.getElementById("fb-box"), ta = document.getElementById("fb-text"),
+      send = document.getElementById("fb-send"), msg = document.getElementById("fb-msg");
+  document.getElementById("fb-toggle").onclick = function(){ box.classList.toggle("open"); if (box.classList.contains("open")) ta.focus(); };
+  send.onclick = function(){
+    var text = ta.value.trim();
+    if (!text) { msg.textContent = "내용을 입력해 주세요."; return; }
+    send.disabled = true; msg.textContent = "보내는 중…";
+    fetch(GAS_URL + "?" + q({action:"feedback", uid:uid, page:"목록", dev:dev, msg:text.slice(0,500)}))
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d && d.ok) { ta.value = ""; msg.textContent = "감사합니다. 의견이 전달되었습니다."; }
+        else { msg.textContent = (d && d.error === "too_fast") ? "잠시 후 다시 보내 주세요." : "전송하지 못했습니다. 잠시 후 다시 시도해 주세요."; }
+      })
+      .catch(function(){ msg.textContent = "전송하지 못했습니다. 잠시 후 다시 시도해 주세요."; })
+      .then(function(){ send.disabled = false; });
+  };
 })();
 </script>
 </body>
