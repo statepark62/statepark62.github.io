@@ -15,8 +15,8 @@ body{background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Malgun Go
 .wrap{max-width:max(900px,66.667vw);margin:0 auto;padding:18px 16px}
 header h1{font-size:30px;margin:6px 0 0;font-weight:800}
 header p{margin:2px 0 6px;color:#4a4f7a;font-size:16px}header p.srcline{font-size:14px;color:#7a7fa5;margin:0 0 8px}header p.subt{font-size:17px;font-weight:600;color:var(--navy);margin-bottom:2px}
-.tabbar{position:sticky;top:0;z-index:20;display:flex;background:#fff;border-bottom:2px solid var(--line);padding-top:env(safe-area-inset-top)}
-.tabbar button{flex:1;border:0;border-bottom:4px solid transparent;background:none;font:inherit;font-size:16px;font-weight:700;color:#7a7fa5;padding:8px 4px 6px;cursor:pointer}
+.tabbar{position:sticky;top:0;z-index:20;display:flex;justify-content:center;background:#fff;border-bottom:2px solid var(--line);padding-top:env(safe-area-inset-top)}
+.tabbar button{flex:1 1 0;max-width:calc(var(--cw) / 4);border:0;border-bottom:4px solid transparent;background:none;font:inherit;font-size:16px;font-weight:700;color:#7a7fa5;padding:8px 4px 6px;cursor:pointer}
 .tabbar button span{display:block;width:max-content;margin:0 auto;font-size:24px;line-height:1.1}
 .tabbar button.on{color:var(--navy);border-bottom-color:var(--orange)}
 .tabbar button.on span{transform:scale(1.1)}
@@ -75,7 +75,7 @@ tr.kn td{background:var(--ok)}
 #tab-cards,#tab-puzzle,#tab-speak,#tab-write{max-width:var(--cw);margin:0 auto}
 #tab-write{width:calc(100% - 32px)}
 #tab-write .bar{margin:6px 0}
-.wpanel{scroll-margin-top:84px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:14px 12px 10px;margin:10px auto;max-width:520px}
+.wpanel{scroll-margin-top:84px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:14px 12px 10px;margin:10px auto;max-width:100%}
 .winfo{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:6px;min-height:30px}
 .winfo small{font-weight:600;color:#7a7fa5;font-size:15px}
 #wbox{position:relative;margin:0 auto;border:3px solid var(--navy);border-radius:10px;background:#fff;overflow:hidden;
@@ -103,7 +103,7 @@ button.chip:disabled{opacity:.4;cursor:default}
  <button data-tab="write"><span>✍️</span>글자쓰기</button>
 </nav>
 <div class="wrap">
-<header><h1>🧩 일본어 단어 놀이터</h1><p class="subt">카드로 익히고, 퍼즐로 풀고, 말로 써먹기</p><p id="stat"></p><p id="src" class="srcline"></p><p class="srcline"><a href="notice.html" style="color:#2f3170;font-weight:700">📣 안내문 · QR 코드</a> <span style="color:#9a9cb8;font-size:12px">· 버전 1108-2135</span></p></header>
+<header><h1>🧩 일본어 단어 놀이터</h1><p class="subt">카드로 익히고, 퍼즐로 풀고, 말로 써먹기</p><p id="stat"></p><p id="src" class="srcline"></p><p class="srcline"><a href="notice.html" style="color:#2f3170;font-weight:700">📣 안내문 · QR 코드</a> <span style="color:#9a9cb8;font-size:12px">· 버전 1108-2200</span></p></header>
 
 <!-- 단어 카드 -->
 <section id="tab-cards">
@@ -626,7 +626,7 @@ function wGuideDraw(){
 }
 const wcv = $('#wcv'), wcx = wcv.getContext('2d');
 function wSize(){
-  const s = Math.max(200, Math.min($('#tab-write .wpanel').clientWidth - 24, 460));
+  const s = Math.max(200, Math.min($('#tab-write .wpanel').clientWidth - 24, 540));
   const box = $('#wbox'); box.style.width = box.style.height = s + 'px'; WS.s = s;
   const r = window.devicePixelRatio || 1; wcv.width = wcv.height = Math.round(s * r); wcx.setTransform(r, 0, 0, r, 0, 0);
   wGuideDraw(); wRedraw();
