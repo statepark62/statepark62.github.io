@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>일본어 단어 놀이터</title>
 <style>
-:root{--navy:#2f3170;--orange:#f39a3d;--green:#e4f1e6;--ink:#1f2340;--bg:#f6f4ef;--line:#d8d4c8;--ok:#d8f0dc;--ng:#fadbd8}
+:root{--cw:max(640px,50vw);--navy:#2f3170;--orange:#f39a3d;--green:#e4f1e6;--ink:#1f2340;--bg:#f6f4ef;--line:#d8d4c8;--ok:#d8f0dc;--ng:#fadbd8}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif;font-size:18px;line-height:1.6;text-align:center;padding-bottom:30px}
@@ -72,7 +72,8 @@ tr.kn td{background:var(--ok)}
 .fade{animation:f .25s}@keyframes f{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
 
 /* 글자 쓰기 */
-#tab-write{max-width:max(560px,50vw);margin:0 auto}
+#tab-cards,#tab-puzzle,#tab-speak,#tab-write{max-width:var(--cw);margin:0 auto}
+#tab-write{width:calc(100% - 32px)}
 #tab-write .bar{margin:6px 0}
 .wpanel{scroll-margin-top:84px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:14px 12px 10px;margin:10px auto;max-width:520px}
 .winfo{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:6px;min-height:30px}
@@ -84,18 +85,16 @@ tr.kn td{background:var(--ok)}
 #wo{color:rgba(243,154,61,.6);z-index:3;display:none}
 #wcv{position:absolute;inset:0;width:100%;height:100%;z-index:2;touch-action:none;cursor:crosshair}
 .wrow{display:flex;justify-content:center;gap:6px;margin:6px 0}
-button.wt{width:62px;height:62px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font:inherit;font-size:26px;font-weight:700;line-height:1.05;padding:2px 0 0;cursor:pointer;position:relative}
-button.wt small{display:block;font-size:12px;font-weight:600;color:#7a7fa5;line-height:1.2}
+button.wt{width:54px;height:54px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font:inherit;font-size:23px;font-weight:700;line-height:1.05;padding:2px 0 0;cursor:pointer;position:relative}
+button.wt small{display:block;font-size:11px;font-weight:600;color:#7a7fa5;line-height:1.2}
 button.wt.done{background:var(--ok);border-color:#8fcf99}
 button.wt.sel{border-color:var(--orange);box-shadow:0 0 0 3px #f39a3d55}
 button.wt i{position:absolute;top:1px;right:5px;font-style:normal;font-size:11px;color:#3b8c4a}
-.wsp{width:62px;height:62px}
-button.wl{width:58px;min-height:62px;border:2px solid var(--navy);border-radius:14px;background:#fff;color:var(--navy);font:inherit;font-size:14px;font-weight:700;line-height:1.15;cursor:pointer;padding:0 2px}
-button.wl.on{background:var(--navy);color:#fff}
-.wrow.dim button.wt{opacity:.4}
-button.btn.md{padding:6px 16px;font-size:16px}
+.wsp{width:54px;height:54px}
+button.chip.org{background:var(--orange);border-color:var(--orange);color:#fff}
+button.chip:disabled{opacity:.4;cursor:default}
 .wnote{font-size:14px;color:#7a7fa5;margin:4px 0}
-@media (max-width:420px){button.wt,.wsp{width:54px;height:54px;font-size:22px}button.wl{width:44px;min-height:54px;font-size:12px}.wrow{gap:3px}}
+@media (max-width:420px){button.wt,.wsp{width:50px;height:50px;font-size:21px}.wrow{gap:3px}}
 </style></head><body>
 <nav class="tabbar">
  <button data-tab="cards" class="on"><span>🃏</span>단어 카드</button>
@@ -104,7 +103,7 @@ button.btn.md{padding:6px 16px;font-size:16px}
  <button data-tab="write"><span>✍️</span>글자쓰기</button>
 </nav>
 <div class="wrap">
-<header><h1>🧩 일본어 단어 놀이터</h1><p class="subt">카드로 익히고, 퍼즐로 풀고, 말로 써먹기</p><p id="stat"></p><p id="src" class="srcline"></p><p class="srcline"><a href="notice.html" style="color:#2f3170;font-weight:700">📣 안내문 · QR 코드</a> <span style="color:#9a9cb8;font-size:12px">· 버전 1108-2110</span></p></header>
+<header><h1>🧩 일본어 단어 놀이터</h1><p class="subt">카드로 익히고, 퍼즐로 풀고, 말로 써먹기</p><p id="stat"></p><p id="src" class="srcline"></p><p class="srcline"><a href="notice.html" style="color:#2f3170;font-weight:700">📣 안내문 · QR 코드</a> <span style="color:#9a9cb8;font-size:12px">· 버전 1108-2135</span></p></header>
 
 <!-- 단어 카드 -->
 <section id="tab-cards">
@@ -158,26 +157,27 @@ button.btn.md{padding:6px 16px;font-size:16px}
 <section id="tab-write" hidden>
  <div class="bar" id="wScript"></div>
  <div class="bar" id="wGroup"></div>
+ <div class="bar"><select id="wRow"></select></div>
  <p class="wnote" id="wProg"></p>
  <div class="wpanel">
   <div class="winfo" id="wInfo"></div>
   <div id="wbox"><div class="wg" id="wg"></div><canvas id="wcv"></canvas><div class="wg" id="wo"></div></div>
   <div class="bar" style="margin-top:8px">
-   <button class="btn alt" id="wPrev">◀ 이전</button>
-   <button class="btn alt" id="wSay">🔊 듣기</button>
-   <button class="btn alt" id="wNext">다음 ▶</button>
+   <button class="chip" id="wPrev">◀ 이전</button>
+   <button class="chip" id="wSay">🔊 듣기</button>
+   <button class="chip" id="wNext">다음 ▶</button>
   </div>
   <div class="bar" style="margin:0">
-   <button class="btn alt md" id="wDak">゛ 탁점 붙이기</button>
-   <button class="btn alt md" id="wHan">゜ 반탁점 붙이기</button>
+   <button class="chip" id="wDak">゛ 탁점 붙이기</button>
+   <button class="chip" id="wHan">゜ 반탁점 붙이기</button>
   </div>
   <div class="bar" style="margin:0">
-   <button class="btn alt" id="wGuide">모범 가리기</button>
-   <button class="btn alt" id="wOver">겹쳐 보기</button>
-   <button class="btn alt" id="wUndo">한 획 취소</button>
-   <button class="btn alt" id="wClear">지우기</button>
+   <button class="chip" id="wGuide">모범 가리기</button>
+   <button class="chip" id="wOver">겹쳐 보기</button>
+   <button class="chip" id="wUndo">한 획 취소</button>
+   <button class="chip" id="wClear">지우기</button>
   </div>
-  <div class="bar" style="margin:0"><button class="btn org" id="wDone">✓ 연습했어요</button></div>
+  <div class="bar" style="margin:0"><button class="chip org" id="wDone">✓ 연습했어요</button></div>
   <p class="wnote">손가락이나 마우스로 네모 안에 써 보세요. 종이에 함께 써 보면 더 좋아요.</p>
  </div>
  <div id="wGrid"></div>
@@ -406,7 +406,7 @@ function newPuzzle(){
   PZ.note = note;
   renderPuzzle();
 }
-function cellSize0(){ const w = Math.max(900, window.innerWidth * 0.66667); return Math.max(26, Math.min(64, Math.floor((Math.min(window.innerWidth, w) - 36) / PZ.W))); }
+function cellSize0(){ const w = Math.max(640, window.innerWidth * 0.5); return Math.max(26, Math.min(76, Math.floor((Math.min(window.innerWidth, w) - 36) / PZ.W))); }
 function cellSize(){ return PZ.cs = cellSize0(); }
 function renderPuzzle(){
   const {H, W} = PZ, cs = cellSize();
@@ -592,13 +592,15 @@ function wRender(){
   const rows = wRowsAll(); if(WS.row !== null && WS.row >= rows.length) WS.row = null;
   const all = []; rows.forEach(r => r.forEach(h => { if(h) all.push(h); }));
   WS.list = WS.row === null ? all : rows[WS.row].filter(Boolean);
-  $('#wGrid').innerHTML = rows.map((r, i) => `<div class="wrow ${WS.row !== null && WS.row !== i ? 'dim' : ''}"><button class="wl ${WS.row === i ? 'on' : ''}" data-r="${i}">${wRowLabel(r, i)}</button>` + r.map(h => {
+  $('#wRow').innerHTML = '<option value="">줄 선택: 전체 보기</option>' + rows.map((r, i) => `<option value="${i}">${wRowLabel(r, i)}</option>`).join('');
+  $('#wRow').value = WS.row === null ? '' : String(WS.row);
+  $('#wGrid').innerHTML = rows.map((r, i) => WS.row !== null && WS.row !== i ? '' : '<div class="wrow">' + r.map(h => {
     if(!h) return '<div class="wsp"></div>';
     const d = wDisp(h), n = wcount[d] || 0, ko = (KINFO[h] || {}).ko || '';
     return `<button class="wt ${n ? 'done' : ''}" data-h="${h}">${d}<small>${ko}</small>${n ? `<i>✓${n}</i>` : ''}</button>`;
   }).join('') + '</div>').join('');
   const got = WS.list.filter(h => wcount[wDisp(h)] > 0).length;
-  $('#wProg').textContent = `${WS.row === null ? WGRP[WS.grp] : wRowLabel(rows[WS.row], WS.row)} · 연습한 글자 ${got} / ${WS.list.length}` + (WS.row === null ? ' · 줄 이름을 누르면 그 줄만 연습' : ' · 이 줄만 연습 중 (다시 누르면 해제)');
+  $('#wProg').textContent = `${WS.row === null ? WGRP[WS.grp] : wRowLabel(rows[WS.row], WS.row)} · 연습한 글자 ${got} / ${WS.list.length}` + (WS.row === null ? '' : ' · 이 줄만 연습 중');
   if(!WS.list.includes(WS.cur)) { WS.cur = WS.list[0]; WS.mod = ''; }
   wSelect(WS.cur, true);
 }
@@ -611,7 +613,7 @@ function wSelect(h, keepMod){
   $$('#wGrid .wt').forEach(b => b.classList.toggle('sel', b.dataset.h === h));
   const dk = wVar(h, DAKM), hn = wVar(h, HANM);
   $('#wDak').disabled = !dk && !(WS.mod === 'd'); $('#wHan').disabled = !hn && !(WS.mod === 'p');
-  $('#wDak').classList.toggle('org', WS.mod === 'd'); $('#wHan').classList.toggle('org', WS.mod === 'p');
+  $('#wDak').classList.toggle('on', WS.mod === 'd'); $('#wHan').classList.toggle('on', WS.mod === 'p');
   wGuideDraw(); wRedraw();
 }
 function wGuideDraw(){
@@ -620,7 +622,7 @@ function wGuideDraw(){
   $('#wg').style.visibility = WS.guide ? 'visible' : 'hidden';
   $('#wo').style.display = WS.over ? 'flex' : 'none';
   $('#wGuide').textContent = WS.guide ? '모범 가리기' : '모범 보이기';
-  $('#wOver').classList.toggle('org', WS.over);
+  $('#wOver').classList.toggle('on', WS.over);
 }
 const wcv = $('#wcv'), wcx = wcv.getContext('2d');
 function wSize(){
@@ -648,10 +650,9 @@ function wShow(){ if(!WS.built){ WS.built = true; wRender(); } wSize(); }
 $('#wScript').onclick = e => { const b = e.target.closest('[data-sc]'); if(!b) return; const old = WS.sc; WS.sc = b.dataset.sc; store.set('nh_wsc', WS.sc); if(old !== WS.sc) wRender(); };
 $('#wGroup').onclick = e => { const b = e.target.closest('[data-g]'); if(!b) return; WS.grp = b.dataset.g; WS.row = null; store.set('nh_wgrp', WS.grp); wRender(); };
 $('#wGrid').onclick = e => {
-  const l = e.target.closest('.wl');
-  if(l){ const i = +l.dataset.r; WS.row = (WS.row === i) ? null : i; wRender(); if(WS.row !== null){ const first = WS.list[0]; wSelect(first); } return; }
   const b = e.target.closest('.wt'); if(!b) return; wSelect(b.dataset.h); $('#tab-write .wpanel').scrollIntoView({behavior: 'smooth', block: 'nearest'});
 };
+$('#wRow').onchange = e => { WS.row = e.target.value === '' ? null : +e.target.value; wRender(); if(WS.row !== null) wSelect(WS.list[0]); };
 $('#wPrev').onclick = () => wMove(-1); $('#wNext').onclick = () => wMove(1);
 $('#wSay').onclick = () => say(wDisp(wPrac()));
 $('#wDak').onclick = () => { WS.mod = WS.mod === 'd' ? '' : 'd'; wSelect(WS.cur, true); };
