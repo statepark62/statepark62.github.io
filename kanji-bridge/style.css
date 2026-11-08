@@ -203,3 +203,9 @@ label { font-weight: 700; font-size: 16px; display: block; margin-bottom: 4px; }
 .writebtn:active { transform: translateY(1px); box-shadow: none; }
 @media (prefers-reduced-motion: no-preference) { .writebtn { transition: transform .1s; } }
 .bad { color: #c0392b; } @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bad { color: #ff8a80; } }
+
+/* 설정 > 피드백 영역: 다른 설정과 구분되도록 색 있는 상자 */
+.sect.fbbox { background: var(--surface2); border: 1px solid var(--line); border-left: 6px solid var(--accent); border-radius: 14px; padding: 18px 16px; }
+.sect.fbbox h2 { color: var(--accent); }
+.sect.fbbox input[type="text"] { width: 100%; font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.sect.fbbox select { width: 100%; }

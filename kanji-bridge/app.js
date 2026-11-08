@@ -32,7 +32,7 @@
   /* ---------- 접속 기록·피드백: 개발자의 구글 시트(Apps Script)로 전송 ---------- */
   var LOGCFG = window.KJ_LOG || {};
   var UIDKEY = 'kj_uid', OUTKEY = 'kj_outbox', EMAILKEY = 'kj_email', LASTKEY = 'kj_lastvisit';
-  var APPVER = 'v12';
+  var APPVER = 'v13';
   function myUid() {
     try { var u = localStorage.getItem(UIDKEY); if (!u) { u = Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); localStorage.setItem(UIDKEY, u); } return u; } catch (e) { return 'na'; }
   }
@@ -513,7 +513,7 @@
       else h += (CLOUD.msg ? '<p class="small ' + (CLOUD.state === 'err' ? 'bad' : 'muted') + '">' + esc(CLOUD.msg) + '</p>' : '') + '<button class="btn primary" data-act="cin">구글 계정으로 로그인</button>';
     }
     h += '</div>';
-    h += '<div class="sect"><h2>피드백 보내기</h2>';
+    h += '<div class="sect fbbox"><h2>피드백 보내기</h2>';
     if (!LOGCFG.url) h += '<p class="small muted">이 기능은 아직 설정되지 않았어요.</p>';
     else {
       h += '<p class="small muted">불편한 점이나 바라는 점을 알려 주세요. 앱 개발자에게 전달돼요. 한자 설명이 틀렸다면 그 한자 카드의 ‘오류 신고’가 더 편해요.</p>' +
