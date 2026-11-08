@@ -32,7 +32,7 @@
   /* ---------- 접속 기록·피드백: 개발자의 구글 시트(Apps Script)로 전송 ---------- */
   var LOGCFG = window.KJ_LOG || {};
   var UIDKEY = 'kj_uid', OUTKEY = 'kj_outbox', EMAILKEY = 'kj_email', LASTKEY = 'kj_lastvisit';
-  var APPVER = 'v20';
+  var APPVER = 'v21';
   function myUid() {
     try { var u = localStorage.getItem(UIDKEY); if (!u) { u = Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); localStorage.setItem(UIDKEY, u); } return u; } catch (e) { return 'na'; }
   }
@@ -435,7 +435,8 @@
   function viewStudy() {
     var s = V.sess;
     if (!s) {
-      return '<div class="top"><h1>학습</h1></div><div class="callout">시작한 학습이 없어요. 홈에서 ‘오늘 학습 시작’을 눌러 주세요.</div><button class="btn primary wide" data-act="tab" data-v="home">홈으로</button>';
+      var left = dueList().length + Math.min(newLeft(), pickPool().length);
+      return '<div class="top"><h1>학습</h1></div><div class="callout">' + (left > 0 ? '시작한 학습이 없어요. 홈에서 ‘오늘 학습 시작’을 눌러 주세요.' : '오늘 정해진 학습은 모두 마쳤어요. 더 공부하고 싶으면 홈에서 ‘+ 새 한자 더 불러오기’를 눌러 주세요.') + '</div><button class="btn primary wide" data-act="tab" data-v="home">홈으로</button>';
     }
     var st = s.step, pct = Math.round(100 * Math.min(s.i, s.total) / s.total);
     var h = '<div class="progressbar" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + pct + '%"></i></div>';
