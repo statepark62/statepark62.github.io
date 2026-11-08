@@ -95,11 +95,14 @@
           .then(function (r) { return r.json(); }).then(function (j) { fileId = j.id; });
       });
     }
+    function me() {
+      return api('https://www.googleapis.com/drive/v3/about?fields=user(emailAddress)').then(function (r) { return r.json(); }).then(function (j) { return (j.user && j.user.emailAddress) || ''; });
+    }
     function signOut() {
       var t = tok; tok = null; exp = 0; fileId = null;
       try { if (t && root.google && root.google.accounts) root.google.accounts.oauth2.revoke(t, function () {}); } catch (e) {}
     }
-    return { signIn: signIn, valid: valid, pull: pull, push: push, signOut: signOut };
+    return { signIn: signIn, valid: valid, pull: pull, push: push, me: me, signOut: signOut };
   }
   root.KJ_CLOUD = { merge: merge, client: client };
   if (typeof module !== 'undefined') module.exports = root.KJ_CLOUD;

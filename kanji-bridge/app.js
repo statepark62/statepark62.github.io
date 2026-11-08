@@ -29,8 +29,58 @@
   S.reports = S.reports || [];
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} cloudDirty(); }
 
+  /* ---------- 접속 기록·피드백: 개발자의 구글 시트(Apps Script)로 전송 ---------- */
+  var LOGCFG = window.KJ_LOG || {};
+  var UIDKEY = 'kj_uid', OUTKEY = 'kj_outbox', EMAILKEY = 'kj_email', LASTKEY = 'kj_lastvisit';
+  var APPVER = 'v11';
+  function myUid() {
+    try { var u = localStorage.getItem(UIDKEY); if (!u) { u = Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); localStorage.setItem(UIDKEY, u); } return u; } catch (e) { return 'na'; }
+  }
+  function progStats() { var seen = 0, mast = 0; Object.keys(S.prog).forEach(function (k) { var p = S.prog[k]; if (p && p.seen) { seen++; if (p.b >= 4) mast++; } }); return { seen: seen, mast: mast }; }
+  function logBase(type) {
+    var st = progStats(), pwa = 0; try { pwa = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches ? 1 : 0; } catch (e) {}
+    return { key: LOGCFG.key || '', type: type, uid: myUid(), email: CLOUD.email || '', seen: st.seen, mastered: st.mast, ver: APPVER + '/' + (DATA.meta.built || ''), pwa: pwa, ua: (navigator.userAgent || '').slice(0, 120) };
+  }
+  /* wantReply=false: 답을 읽지 않고 보내기만 한다(접속 기록). true: 서버 응답을 확인한다(피드백). */
+  function postLog(obj, wantReply) {
+    if (!LOGCFG.url) return Promise.reject(new Error('주소 미설정'));
+    var opt = { method: 'POST', body: JSON.stringify(obj), keepalive: true };
+    if (!wantReply) { opt.mode = 'no-cors'; return fetch(LOGCFG.url, opt).then(function () {}); }
+    return fetch(LOGCFG.url, opt).then(function (r) { return r.json(); }).then(function (j) { if (!j || !j.ok) throw new Error(j && j.err ? j.err : '서버 응답 오류'); });
+  }
+  var loggedLogin = false;
+  function logEvent(type) {
+    if (!LOGCFG.url) return;
+    if (type === 'visit') { // 30분 안에 다시 열면 기록하지 않는다
+      try { var last = +localStorage.getItem(LASTKEY) || 0; if (Date.now() - last < 30 * 60 * 1000) return; localStorage.setItem(LASTKEY, String(Date.now())); } catch (e) {}
+    }
+    if (type === 'login') { if (loggedLogin) return; loggedLogin = true; }
+    postLog(logBase(type), false).catch(function () {});
+  }
+  function outboxLoad() { try { return JSON.parse(localStorage.getItem(OUTKEY) || '[]'); } catch (e) { return []; } }
+  function outboxSave(a) { try { localStorage.setItem(OUTKEY, JSON.stringify(a.slice(-20))); } catch (e) {} }
+  function outboxFlush() {
+    var a = outboxLoad(); if (!a.length || !LOGCFG.url) return;
+    outboxSave([]);
+    a.forEach(function (it) { postLog(it, true).catch(function () { outboxSave(outboxLoad().concat([it])); }); });
+  }
+  var FB = { cat: '제안', text: '', contact: '', state: '', msg: '' };
+  function sendFeedback() {
+    var text = (FB.text || '').trim();
+    if (text.length < 2) { FB.state = 'err'; FB.msg = '내용을 적어 주세요.'; render(); return; }
+    if (!LOGCFG.url) { FB.state = 'err'; FB.msg = '피드백 기능이 아직 설정되지 않았어요.'; render(); return; }
+    var item = logBase('feedback'); item.cat = FB.cat; item.text = text.slice(0, 2000); item.contact = (FB.contact || '').trim().slice(0, 120);
+    FB.state = 'busy'; FB.msg = '보내는 중…'; render();
+    postLog(item, true).then(function () {
+      FB.text = ''; FB.state = 'ok'; FB.msg = '보냈어요. 고맙습니다.'; render();
+    }).catch(function () {
+      outboxSave(outboxLoad().concat([item]));
+      FB.text = ''; FB.state = 'err'; FB.msg = '지금은 보내지 못했어요. 내용을 이 기기에 저장해 두었다가 다음에 앱을 열 때 다시 보낼게요.'; render();
+    });
+  }
+
   /* ---------- 구글 계정 동기화 (학습 기록) ---------- */
-  var CLOUD = { state: '', msg: '', t: 0, dirty: false }; // state: '' 사용 안 함 / busy / ok / need(다시 연결 필요) / err
+  var CLOUD = { state: '', msg: '', t: 0, dirty: false, email: '' }; // state: '' 사용 안 함 / busy / ok / need(다시 연결 필요) / err
   var cl = null, pushTimer = null, CKEY = 'kj_cloud_on';
   function cloudSnap() { return { v: 1, resetAt: S.resetAt || 0, prog: S.prog, wr: S.wr, newToday: S.newToday, cfg: S.cfg, cfgT: S.cfgT || 0 }; }
   function cloudApply(m) {
@@ -56,6 +106,7 @@
       CLOUD.state = 'ok'; CLOUD.t = Date.now(); CLOUD.msg = '동기화했어요.'; CLOUD.dirty = false;
       try { localStorage.setItem(CKEY, '1'); } catch (e) {}
       if (!V.sess && !wr) render();
+      cl.me().then(function (em) { CLOUD.email = em || ''; try { if (em) localStorage.setItem(EMAILKEY, em); } catch (e) {} logEvent('login'); }, function () { logEvent('login'); });
     });
   }
   function cloudConnect(silent) {
@@ -69,13 +120,13 @@
   }
   function cloudOut() {
     if (cl) cl.signOut(); CLOUD.state = ''; CLOUD.msg = ''; CLOUD.dirty = false; clearTimeout(pushTimer);
-    try { localStorage.removeItem(CKEY); } catch (e) {}
-    render();
+    try { localStorage.removeItem(CKEY); localStorage.removeItem(EMAILKEY); } catch (e) {}
+    CLOUD.email = ''; render();
   }
   function cloudInit() {
     if (!CFG.googleClientId || !window.KJ_CLOUD) return;
     cl = window.KJ_CLOUD.client({ clientId: CFG.googleClientId });
-    var on = false; try { on = localStorage.getItem(CKEY) === '1'; } catch (e) {}
+    var on = false; try { on = localStorage.getItem(CKEY) === '1'; CLOUD.email = on ? (localStorage.getItem(EMAILKEY) || '') : ''; } catch (e) {}
     if (on) cloudConnect(true);
   }
 
@@ -457,8 +508,21 @@
     if (!CFG.googleClientId) h += '<p class="small muted">이 기능은 아직 설정되지 않았어요. 학습 기록은 이 기기에만 저장돼요.</p>';
     else {
       h += '<p class="small muted">로그인하면 학습 기록이 내 구글 드라이브의 앱 전용 공간에 저장돼서, 다른 기기에서도 이어서 공부할 수 있어요. 드라이브의 다른 파일은 앱이 볼 수 없어요.</p>';
+      if (LOGCFG.url) h += '<p class="small muted">로그인하면 계정 이메일이 접속 기록에 함께 남아요.</p>';
       if (CLOUD.state === 'ok' || CLOUD.state === 'busy') h += '<p class="small">' + (CLOUD.state === 'busy' ? '동기화하는 중…' : '연결됨 · 마지막 동기화 ' + new Date(CLOUD.t).toLocaleTimeString('ko-KR')) + '</p><div class="row"><button class="btn" data-act="cnow">지금 동기화</button><button class="btn ghost" data-act="cout">로그아웃</button></div>';
       else h += (CLOUD.msg ? '<p class="small ' + (CLOUD.state === 'err' ? 'bad' : 'muted') + '">' + esc(CLOUD.msg) + '</p>' : '') + '<button class="btn primary" data-act="cin">구글 계정으로 로그인</button>';
+    }
+    h += '</div>';
+    h += '<div class="sect"><h2>피드백 보내기</h2>';
+    if (!LOGCFG.url) h += '<p class="small muted">이 기능은 아직 설정되지 않았어요.</p>';
+    else {
+      h += '<p class="small muted">불편한 점, 바라는 점, 틀린 내용을 알려 주세요. 앱 개발자에게 전달돼요.</p>' +
+        '<label for="fbcat">종류</label><select id="fbcat">' + ['제안', '불편', '오류', '기타'].map(function (c) { return '<option' + (FB.cat === c ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select>' +
+        '<label for="fbtext">내용</label><textarea id="fbtext" maxlength="1000" placeholder="예: 쓰기 연습에서 획순이 헷갈려요">' + esc(FB.text) + '</textarea>' +
+        '<label for="fbcontact">답장받을 연락처 (선택)</label><input id="fbcontact" type="text" maxlength="100" placeholder="이메일 등. 비워 두어도 돼요" value="' + esc(FB.contact) + '">' +
+        (FB.msg ? '<p class="small ' + (FB.state === 'err' ? 'bad' : 'muted') + '">' + esc(FB.msg) + '</p>' : '') +
+        '<button class="btn primary" data-act="fbsend"' + (FB.state === 'busy' ? ' disabled' : '') + '>보내기</button>' +
+        '<p class="small muted">함께 전달되는 정보: 위 내용, 익명 기기 번호, 앱 버전' + (CLOUD.email ? ', 로그인 이메일' : '') + '.</p>';
     }
     h += '</div>';
     h += '<div class="sect"><h2>오류 신고</h2><p class="small muted">한자 카드의 ‘오류 신고’로 남긴 내용이에요. 이 기기에만 저장돼요. 복사해서 보내 주세요.</p>';
@@ -474,7 +538,7 @@
     h += '<div class="sect"><label>데이터 출처</label><p class="small">' + (SYNC.src === '시트' ? '구글 시트' : '앱에 들어 있는 데이터') + (SYNC.t ? ' · 마지막 갱신 ' + new Date(SYNC.t).toLocaleString('ko-KR') : '') + '</p>' +
       (SYNC.msg ? '<p class="small ' + (SYNC.state === 'err' ? 'bad' : 'muted') + '">' + esc(SYNC.msg) + '</p>' : '') +
       (CFG.kanjiCsv ? '<button class="btn" data-act="sync">지금 갱신</button>' : '<p class="small muted">구글 시트 주소가 아직 설정되지 않았어요.</p>') + '</div>';
-    h += '<div class="sect small muted"><p>데이터: 한자 ' + KJ.length + '자 · 빌드 ' + esc(DATA.meta.built || '') + '</p><p>획순 데이터: KanjiVG (kanjivg.tagaini.net), CC BY-SA 3.0</p><p>한자 설명은 AI 초안을 바탕으로 해요. ‘AI 초안’ 표시가 있거나 이상한 곳이 보이면 오류 신고를 눌러 주세요.</p></div>';
+    h += '<div class="sect small muted"><p>데이터: 한자 ' + KJ.length + '자 · 빌드 ' + esc(DATA.meta.built || '') + '</p><p>획순 데이터: KanjiVG (kanjivg.tagaini.net), CC BY-SA 3.0</p>' + (LOGCFG.url ? '<p>기기 번호: ' + esc(myUid()) + '</p>' : '') + '<p>한자 설명은 AI 초안을 바탕으로 해요. ‘AI 초안’ 표시가 있거나 이상한 곳이 보이면 오류 신고를 눌러 주세요.</p></div>';
     return h;
   }
 
@@ -496,9 +560,9 @@
 
   function render() {
     var body = { home: viewHome, study: viewStudy, list: viewList, warn: viewWarn, set: viewSet }[V.view]();
-    var keepQ = document.activeElement && document.activeElement.id === 'q';
+    var ae = document.activeElement, keepId = ae && (ae.id === 'q' || ae.id === 'fbtext' || ae.id === 'fbcontact') ? ae.id : '';
     app.innerHTML = body + tabs() + overlays();
-    if (keepQ) { var el = document.getElementById('q'); if (el) { el.focus(); var l = el.value.length; try { el.setSelectionRange(l, l); } catch (e) {} } }
+    if (keepId) { var el = document.getElementById(keepId); if (el) { el.focus(); var l = el.value.length; try { el.setSelectionRange(l, l); } catch (e) {} } }
   }
   var toastTimer = null;
   function toast(m) { V.toast = m; render(); clearTimeout(toastTimer); toastTimer = setTimeout(function () { V.toast = ''; render(); }, 2200); }
@@ -672,24 +736,30 @@
     else if (a === 'cin') { cloudConnect(false); }
     else if (a === 'cnow') { if (cl && cl.valid()) cloudSync().catch(function (e) { CLOUD.state = 'err'; CLOUD.msg = '동기화 실패: ' + (e && e.message || e); render(); }); else cloudConnect(false); }
     else if (a === 'cout') { cloudOut(); }
+    else if (a === 'fbsend') { sendFeedback(); }
     else if (a === 'reset1') { V.confirmReset = true; render(); }
     else if (a === 'reset0') { V.confirmReset = false; render(); }
     else if (a === 'reset2') { S.prog = {}; S.wr = {}; S.resetAt = Date.now(); S.newToday = { d: '', n: 0 }; V.sess = null; V.confirmReset = false; save(); toast('학습 기록을 지웠어요.'); }
   });
   app.addEventListener('input', function (ev) {
     if (ev.target.id === 'q') { V.q = ev.target.value; render(); }
+    else if (ev.target.id === 'fbtext') { FB.text = ev.target.value; FB.state = ''; FB.msg = ''; }
+    else if (ev.target.id === 'fbcontact') { FB.contact = ev.target.value; }
   });
   app.addEventListener('change', function (ev) {
     var t = ev.target;
     if (t.id === 'lv') { V.lv = +t.value; render(); }
     else if (t.id === 'perday') { S.cfg.perDay = +t.value; S.cfgT = Date.now(); save(); render(); }
     else if (t.id === 'cfgwrite') { S.cfg.write = +t.value; S.cfgT = Date.now(); save(); render(); }
+    else if (t.id === 'fbcat') { FB.cat = t.value; }
     else if (t.id === 'cfglv') { S.cfg.level = +t.value; S.cfgT = Date.now(); save(); render(); }
   });
 
   render();
   syncSheet(false);
   cloudInit();
+  logEvent('visit');
+  outboxFlush();
   /* index.html이 옛 버전이라 strokes.js를 안 부르는 경우를 대비해 직접 불러온다 */
   if (!window.KANJI_STROKES && !window.__KJ_NO_SW) {
     var sc = document.createElement('script'); sc.src = 'strokes.js';
@@ -699,5 +769,5 @@
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !window.__KJ_NO_SW) {
     navigator.serviceWorker.register('sw.js').catch(function () {});
   }
-  window.__KJ = { openWrite: openWrite, S: S, V: V, KJ: KJ, startSession: startSession, makeQuestion: makeQuestion, forceNew: forceNew, syncSheet: syncSheet, SYNC: SYNC };
+  window.__KJ = { openWrite: openWrite, S: S, V: V, KJ: KJ, startSession: startSession, makeQuestion: makeQuestion, forceNew: forceNew, syncSheet: syncSheet, SYNC: SYNC, FB: FB, CLOUD: CLOUD, myUid: myUid };
 })();
