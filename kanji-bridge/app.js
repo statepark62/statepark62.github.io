@@ -32,7 +32,7 @@
   /* ---------- 접속 기록·피드백: 개발자의 구글 시트(Apps Script)로 전송 ---------- */
   var LOGCFG = window.KJ_LOG || {};
   var UIDKEY = 'kj_uid', OUTKEY = 'kj_outbox', EMAILKEY = 'kj_email', LASTKEY = 'kj_lastvisit';
-  var APPVER = 'v17';
+  var APPVER = 'v18';
   function myUid() {
     try { var u = localStorage.getItem(UIDKEY); if (!u) { u = Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); localStorage.setItem(UIDKEY, u); } return u; } catch (e) { return 'na'; }
   }
@@ -398,6 +398,12 @@
     var h = '<div class="top"><div class="brand lang-ja" lang="ja">漢字 → 한자</div><h1>한자 징검다리</h1>';
     h += '<p class="lead muted">학교(學校)처럼 한국어에 이미 있는 한자어를 디딤돌 삼아, 일본어 한자의 음독을 건너가요.</p></div>';
     h += '<div class="stats"><div class="stat"><b>' + due + '</b><span>복습할 한자</span></div><div class="stat"><b>' + nl + '</b><span>배울 새 한자</span></div><div class="stat"><b>' + seenN + '<small class="muted" style="font-size:16px">/' + KJ.length + '</small></b><span>공부한 한자</span></div></div>';
+    h += '<div class="sect"><details><summary>복습은 어떻게 정해지나요?</summary><ul class="small">' +
+      '<li><b>복습할 한자</b>는 이미 배운 한자 중 오늘 다시 볼 차례가 된 한자예요. 한 번에 최대 20개까지 나와요.</li>' +
+      '<li>맞히면 다음 복습이 점점 멀어져요: ' + INTERVALS.slice(1).join('일 → ') + '일 뒤.</li>' +
+      '<li>틀리면 두 단계 되돌아가서 더 자주 나오고, 그 학습 안에서 한 번 더 물어봐요.</li>' +
+      '<li><b>배울 새 한자</b>는 하루에 새로 배울 수 있는 남은 수예요. 설정에서 하루 개수를 바꿀 수 있어요.</li>' +
+      '<li><b>공부한 한자</b>는 지금까지 배우기 시작한 한자의 수예요.</li></ul></details></div>';
     var can = due + nl > 0;
     h += '<div class="row"><button class="btn primary wide" data-act="start"' + (can ? '' : ' disabled') + '>' + (can ? '오늘 학습 시작' : '오늘 학습을 모두 마쳤어요') + '</button>';
     h += '</div>';
