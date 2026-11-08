@@ -32,7 +32,7 @@
   /* ---------- 접속 기록·피드백: 개발자의 구글 시트(Apps Script)로 전송 ---------- */
   var LOGCFG = window.KJ_LOG || {};
   var UIDKEY = 'kj_uid', OUTKEY = 'kj_outbox', EMAILKEY = 'kj_email', LASTKEY = 'kj_lastvisit';
-  var APPVER = 'v18';
+  var APPVER = 'v20';
   function myUid() {
     try { var u = localStorage.getItem(UIDKEY); if (!u) { u = Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); localStorage.setItem(UIDKEY, u); } return u; } catch (e) { return 'na'; }
   }
@@ -240,6 +240,7 @@
     if (e.on.length && e.ko.length) types.push('on');
     if (e.ex.length) { types.push('read'); types.push('ko'); }
     if (S.cfg.write && STR[e.k]) types.push('write');
+    if (!types.length && STR[e.k]) types.push('write'); /* 훈음·음독·예시가 모두 없는 한자(国字 込 등)는 쓰기 문제로 확인 */
     var p = S.prog[e.k] || {};
     var t = prefer && types.indexOf(prefer) >= 0 ? prefer : null;
     if (!t) { var c = types.filter(function (x) { return x !== p.lt; }); t = pick(c.length ? c : types); }
@@ -253,6 +254,8 @@
       .sort(function (a, b) { return S.prog[a.k].due < S.prog[b.k].due ? -1 : 1; });
   }
   function newLeft() { var t = today(); if (S.newToday.d !== t) return S.cfg.perDay; return Math.max(0, S.cfg.perDay - S.newToday.n); }
+  /* 새 한자를 고르는 후보. '차례대로'(level 0)이면 N5·N4를 모두 본 뒤에야 N3가 나온다. */
+  function pickPool() { var u = unseen(); if (S.cfg.level) return u; var hi = u.filter(function (e) { return e.lv >= 4; }); return hi.length ? hi : u; }
   function unseen() { return KJ.filter(function (e) { return !(S.prog[e.k] && S.prog[e.k].seen) && inLevel(e); }); }
   function bump(k, correct) {
     var p = S.prog[k] || { b: 0, ok: 0, ng: 0, seen: true };
@@ -265,7 +268,7 @@
     var q = [];
     dueList().slice(0, 20).forEach(function (e) { q.push({ k: e.k, mode: 'rev', n: 1 }); });
     var n = extra ? S.cfg.perDay : newLeft();
-    shuffle(unseen()).slice(0, n).forEach(function (e) { q.push({ k: e.k, mode: 'new', n: 2 }); });
+    shuffle(pickPool()).slice(0, n).forEach(function (e) { q.push({ k: e.k, mode: 'new', n: 2 }); });
     if (!q.length) { toast('지금 할 학습이 없어요. 내일 다시 오세요.'); return; }
     var t = today();
     if (S.newToday.d !== t) S.newToday = { d: t, n: 0 };
@@ -299,7 +302,7 @@
   function nextNew(n) {
     var queued = {};
     if (V.sess) V.sess.queue.forEach(function (x) { queued[x.k] = 1; });
-    return shuffle(unseen().filter(function (e) { return !queued[e.k]; })).slice(0, n);
+    return shuffle(pickPool().filter(function (e) { return !queued[e.k]; })).slice(0, n);
   }
   function nextStep() {
     var s = V.sess;
@@ -392,7 +395,7 @@
 
   /* ---------- 화면 ---------- */
   function viewHome() {
-    var due = dueList().length, nl = Math.min(newLeft(), unseen().length);
+    var due = dueList().length, nl = Math.min(newLeft(), pickPool().length);
     var mastered = KJ.filter(function (e) { return stateOf(e.k) === 2; }).length;
     var seenN = KJ.filter(function (e) { return stateOf(e.k) >= 1; }).length;
     var h = '<div class="top"><div class="brand lang-ja" lang="ja">漢字 → 한자</div><h1>한자 징검다리</h1>';
@@ -478,7 +481,7 @@
     });
     var h = '<div class="top"><h1>한자</h1></div>';
     h += '<div class="tools"><input id="q" type="search" placeholder="한자·훈음·한국음·읽기 검색" value="' + esc(V.q) + '" aria-label="검색">';
-    h += '<select id="lv" aria-label="급 선택"><option value="0"' + (V.lv === 0 ? ' selected' : '') + '>전체</option><option value="5"' + (V.lv === 5 ? ' selected' : '') + '>N5</option><option value="4"' + (V.lv === 4 ? ' selected' : '') + '>N4</option></select></div>';
+    h += '<select id="lv" aria-label="급 선택"><option value="0"' + (V.lv === 0 ? ' selected' : '') + '>전체</option><option value="5"' + (V.lv === 5 ? ' selected' : '') + '>N5</option><option value="4"' + (V.lv === 4 ? ' selected' : '') + '>N4</option><option value="3"' + (V.lv === 3 ? ' selected' : '') + '>N3</option></select></div>';
     h += '<div class="legend"><span><i></i>아직 안 봄</span><span><i class="s1"></i>학습 중</span><span><i class="s2"></i>익힘</span><span>' + list.length + '자</span></div>';
     h += '<div class="grid">' + list.map(function (e) {
       return '<button class="tile s' + stateOf(e.k) + '" data-act="card" data-k="' + esc(e.k) + '"><span class="t" lang="ja">' + esc(e.k) + '</span><span class="h">' + esc((e.hun || e.en).split(' ')[0]) + '</span></button>';
@@ -508,7 +511,7 @@
   function viewSet() {
     var h = '<div class="top"><h1>설정</h1></div>';
     h += '<div class="sect"><label for="perday">하루에 배울 새 한자</label><select id="perday">' + [3, 5, 10, 20].map(function (n) { return '<option value="' + n + '"' + (S.cfg.perDay === n ? ' selected' : '') + '>' + n + '개</option>'; }).join('') + '</select></div>';
-    h += '<div class="sect"><label for="cfglv">공부할 급</label><select id="cfglv"><option value="0"' + (S.cfg.level === 0 ? ' selected' : '') + '>N5 → N4 전체</option><option value="5"' + (S.cfg.level === 5 ? ' selected' : '') + '>N5만</option><option value="4"' + (S.cfg.level === 4 ? ' selected' : '') + '>N4만</option></select></div>';
+    h += '<div class="sect"><label for="cfglv">공부할 급</label><select id="cfglv"><option value="0"' + (S.cfg.level === 0 ? ' selected' : '') + '>차례대로 (N5·N4 → N3)</option><option value="5"' + (S.cfg.level === 5 ? ' selected' : '') + '>N5만</option><option value="4"' + (S.cfg.level === 4 ? ' selected' : '') + '>N4만</option><option value="3"' + (S.cfg.level === 3 ? ' selected' : '') + '>N3만</option></select></div>';
     h += '<div class="sect"><label for="cfgwrite">쓰기 문제 (복습에 섞기)</label><select id="cfgwrite"><option value="0"' + (S.cfg.write ? '' : ' selected') + '>안 함</option><option value="1"' + (S.cfg.write ? ' selected' : '') + '>포함</option></select><p class="small muted">손으로 쓰는 문제를 복습에 섞어요. 쓴 뒤 스스로 맞았는지 골라요.</p></div>';
     h += '<div class="sect"><h2>구글 계정으로 기록 저장</h2>';
     if (!CFG.googleClientId) h += '<p class="small muted">이 기능은 아직 설정되지 않았어요. 학습 기록은 이 기기에만 저장돼요.</p>';
