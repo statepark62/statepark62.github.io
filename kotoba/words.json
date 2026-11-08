@@ -14341,5 +14341,55 @@
   "example": "地下鉄を降りて公園へ向かう。",
   "exampleReading": "ちかてつをおりてこうえんへむかう",
   "exampleMeaning": "지하철에서 내려 공원으로 향한다."
+ },
+ {
+  "id": "tj585",
+  "word": "失脚",
+  "reading": "しっきゃく",
+  "meaning": "실각, 자리에서 물러남",
+  "level": "N1",
+  "example": "大臣が汚職で失脚した。",
+  "exampleReading": "だいじんがおしょくでしっきゃくした",
+  "exampleMeaning": "장관이 부패로 실각했다."
+ },
+ {
+  "id": "tj586",
+  "word": "流刑",
+  "reading": "るけい",
+  "meaning": "유배형",
+  "level": "N1",
+  "example": "彼は島へ流刑となった。",
+  "exampleReading": "かれはしまへるけいとなった",
+  "exampleMeaning": "그는 섬으로 유배되었다."
+ },
+ {
+  "id": "tj587",
+  "word": "政争",
+  "reading": "せいそう",
+  "meaning": "정쟁, 정치적 다툼",
+  "level": "N1",
+  "example": "政争が長引き、改革が遅れた。",
+  "exampleReading": "せいそうがながびき、かいかくがおくれた",
+  "exampleMeaning": "정쟁이 길어져 개혁이 늦어졌다."
+ },
+ {
+  "id": "tj588",
+  "word": "侘しい",
+  "reading": "わびしい",
+  "meaning": "쓸쓸하다, 초라하다",
+  "level": "N2",
+  "example": "侘びしい部屋にも灯りがともる。",
+  "exampleReading": "わびしいへやにもあかりがともる",
+  "exampleMeaning": "쓸쓸한 방에도 불빛이 켜진다."
+ },
+ {
+  "id": "tj589",
+  "word": "菜圃",
+  "reading": "さいほ",
+  "meaning": "채소밭(문어체·옛말)",
+  "level": "N1",
+  "example": "雨上がりの菜圃を歩く。",
+  "exampleReading": "あめあがりのさいほをあるく",
+  "exampleMeaning": "비가 갠 뒤 채소밭을 걷는다."
  }
 ]
