@@ -32,7 +32,7 @@
   /* ---------- 접속 기록·피드백: 개발자의 구글 시트(Apps Script)로 전송 ---------- */
   var LOGCFG = window.KJ_LOG || {};
   var UIDKEY = 'kj_uid', OUTKEY = 'kj_outbox', EMAILKEY = 'kj_email', LASTKEY = 'kj_lastvisit';
-  var APPVER = 'v13';
+  var APPVER = 'v14';
   function myUid() {
     try { var u = localStorage.getItem(UIDKEY); if (!u) { u = Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4); localStorage.setItem(UIDKEY, u); } return u; } catch (e) { return 'na'; }
   }
@@ -397,7 +397,7 @@
     var seenN = KJ.filter(function (e) { return stateOf(e.k) >= 1; }).length;
     var h = '<div class="top"><div class="brand lang-ja" lang="ja">漢字 → 한자</div><h1>한자 징검다리</h1>';
     h += '<p class="lead muted">학교(學校)처럼 한국어에 이미 있는 한자어를 디딤돌 삼아, 일본어 한자의 음독을 건너가요.</p></div>';
-    h += '<div class="stats"><div class="stat"><b>' + due + '</b><span>오늘 복습</span></div><div class="stat"><b>' + nl + '</b><span>새 한자</span></div><div class="stat"><b>' + mastered + '<small class="muted" style="font-size:16px">/' + KJ.length + '</small></b><span>익힌 한자</span></div></div>';
+    h += '<div class="stats"><div class="stat"><b>' + due + '</b><span>오늘 복습</span></div><div class="stat"><b>' + nl + '</b><span>오늘 새 한자</span></div><div class="stat"><b>' + seenN + '<small class="muted" style="font-size:16px">/' + KJ.length + '</small></b><span>공부한 한자</span><small class="muted" style="font-size:13px;display:block">그중 익힌 한자 ' + mastered + '</small></div></div>';
     var can = due + nl > 0;
     h += '<div class="row"><button class="btn primary wide" data-act="start"' + (can ? '' : ' disabled') + '>' + (can ? '오늘 학습 시작' : '오늘 학습을 모두 마쳤어요') + '</button>';
     h += '</div>';
