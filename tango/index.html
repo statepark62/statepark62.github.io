@@ -123,7 +123,7 @@ button.chip:disabled{opacity:.4;cursor:default}
  <button data-tab="write"><span>✍️</span>글자쓰기</button>
 </nav>
 <div class="wrap">
-<header><h1>🧩 일본어 단어 놀이터</h1><p class="subt">카드로 익히고, 퍼즐로 풀고, 말로 써먹기</p><p id="stat"></p><p id="src" class="srcline"></p><p class="srcline"><a href="#" id="fbOpen" style="color:#2f3170;font-weight:700">💬 의견 보내기</a> · <a href="notice.html" style="color:#2f3170;font-weight:700">📣 안내문 · QR 코드</a> <span style="color:#9a9cb8;font-size:12px">· 버전 1109-0950</span></p></header>
+<header><h1>🧩 일본어 단어 놀이터</h1><p class="subt">카드로 익히고, 퍼즐로 풀고, 말로 써먹기</p><p id="stat"></p><p id="src" class="srcline"></p><p class="srcline"><a href="#" id="fbOpen" style="color:#2f3170;font-weight:700">💬 의견 보내기</a> · <a href="notice.html" style="color:#2f3170;font-weight:700">📣 안내문 · QR 코드</a> <span style="color:#9a9cb8;font-size:12px">· 버전 1109-1130</span></p></header>
 
 <!-- 단어 카드 -->
 <section id="tab-cards">
@@ -268,15 +268,20 @@ $$('.tabbar button').forEach(b => b.onclick = () => {
 
 /* ---------- 공통: 범위(scope) ---------- */
 function scopeOptions(sel, saved){
-  let h = `<option value="all">전체 ${D.words.length}어</option>`+'<optgroup label="4주 계획 (교재 과)">';
+  let h = `<option value="all">전체 ${D.words.length}어</option>`;
+  const LV = ['기본','N5','N4'].map(l => [l, D.words.filter(w => lvOf(w) === l).length]).filter(x => x[1]);
+  if(LV.length > 1) h += '<optgroup label="레벨">' + LV.map(([l, n]) => `<option value="l${l}">${l === '기본' ? '기본 (수업 단어)' : 'JLPT ' + l} · ${n}어</option>`).join('') + '</optgroup>';
+  h += '<optgroup label="4주 계획 (교재 과)">';
   for(const k in D.s4) h += `<option value="s${k}">${esc(k)}회 · ${esc(D.s4[k])}</option>`;
   h += '</optgroup><optgroup label="단어 중심 과정 (주제)">';
   for(const k in D.th) h += `<option value="t${k}">${esc(k)}회 · ${esc(D.th[k])}</option>`;
   h += '</optgroup>';
   sel.innerHTML = h; sel.value = saved || 'all';
 }
+function lvOf(w){ return w.lv || '기본'; }
 function inScope(w, sc){
   if(sc === 'all') return true;
+  if(sc[0] === 'l') return lvOf(w) === sc.slice(1);
   const n = +sc.slice(1);
   return sc[0] === 's' ? w.s === n : w.th === n;
 }
@@ -808,7 +813,7 @@ function buildFromSheet(W, Q, S){
   const words = W.map(r => ({
     k: r['단어'], r: r['읽기(퍼즐용)'] || (r['단어'] || '').replace(/\(な\)/g, '').split('/')[0], c: CATMAP[r['품사']],
     ko: r['뜻'], kj: r['한자'], pol: r['정중형'], pr: r['한글발음'], ex: r['예문'], xk: r['예문 뜻'], nt: r['메모'],
-    s: num(r['4주 회차']), th: num(r['주제 회차'])
+    s: num(r['4주 회차']), th: num(r['주제 회차']), lv: r['레벨'] || ''
   })).filter(w => w.k && w.ko && w.c && w.r);
   const qs = Q.map(r => ({
     p: POSMAP[r['품사']], r: r['라운드'] === '' ? -1 : num(r['라운드']), q: r['질문(한국어)'], h: r['힌트'],
@@ -858,7 +863,7 @@ async function loadSheet(){
 
 
 /* ---------- 의견 보내기 ---------- */
-const APP_VER = '1109-0950';
+const APP_VER = '1109-1130';
 let fbCat = '불편·오류', fbBusy = false;
 const fbOpen = () => { $('#fbBack').classList.add('on'); $('#fbMsg').textContent = ''; $('#fbTxt').focus(); };
 const fbShut = () => $('#fbBack').classList.remove('on');
