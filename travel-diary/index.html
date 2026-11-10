@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>여행 사진 일기</title>
+<style>
+:root{--bg:#f7f4ee;--card:#fff;--ink:#2b2a28;--sub:#6f6a60;--line:#e2dccf;--accent:#2f6f62;--accent-d:#245648;--warn:#b5532f;--soft:#eef5f2}
+*{box-sizing:border-box}
+html{font-size:18.5px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;line-height:1.65}
+#app{max-width:1180px;margin:0 auto;padding:28px 24px 120px}
+h1{font-size:clamp(30px,4.4vw,50px);line-height:1.2;margin:8px 0 6px;text-align:center;letter-spacing:-.02em}
+h2{font-size:28px;margin:34px 0 14px;text-align:center}
+h3{font-size:21px;margin:0}
+.sub{text-align:center;color:var(--sub);font-size:19.5px;margin:0 0 22px}
+.nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:10px 0 24px}
+button,.btn{font:inherit;font-size:16.5px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 16px;border-radius:10px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+button.pri:hover{background:var(--accent-d)}
+button.dng{color:var(--warn)}
+button:disabled{opacity:.5;cursor:default}
+input[type=text],input[type=password],select,textarea{font:inherit;font-size:17px;width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+textarea{resize:vertical;line-height:1.7}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.trip{cursor:pointer;text-align:center;transition:.15s}
+.trip:hover{border-color:var(--accent);transform:translateY(-2px)}
+.trip .nm{font-size:22px;font-weight:700;margin-bottom:4px}
+.trip .meta{color:var(--sub);font-size:16px}
+.empty{text-align:center;color:var(--sub);padding:34px 10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px 0 6px}
+.tripname{max-width:720px;margin:0 auto;display:block;text-align:center;font-size:24px;font-weight:700}
+.drop{border:2px dashed var(--line);border-radius:16px;text-align:center;padding:22px;color:var(--sub);margin:16px 0;background:rgba(255,255,255,.5)}
+.drop.over{border-color:var(--accent);background:var(--soft)}
+.dayh{text-align:center;margin:40px 0 4px}
+.dayh .dn{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:2px 16px;font-size:17px;margin-bottom:6px}
+.dayh .dd{font-size:24px;font-weight:700}
+.entry{padding:20px 22px}
+.ehead{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:12px}
+.ehead input{text-align:center;font-size:22px;font-weight:700;max-width:640px;border-color:transparent;background:transparent}
+.ehead input:hover,.ehead input:focus{border-color:var(--line);background:#fff}
+.etime{color:var(--sub);font-size:16px;text-align:center}
+.warn{color:var(--warn)}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px 0 14px}
+.th{position:relative;width:128px;height:96px;border-radius:10px;overflow:hidden;background:#ddd}
+.th img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;display:block}
+.thb{position:absolute;top:4px;right:4px;display:none;gap:4px}
+.th:hover .thb{display:flex}
+.thb button{padding:0 7px;font-size:14px;line-height:24px;border-radius:7px;background:rgba(255,255,255,.92)}
+.memo{margin:6px 0 10px}
+.btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.qa{background:var(--soft);border-radius:12px;padding:14px 16px;margin:12px 0}
+.qa .q{font-weight:600;margin:8px 0 4px}
+.qa .qt{text-align:center;color:var(--accent-d);font-weight:700;margin-bottom:2px}
+.lab{font-size:15.5px;color:var(--sub);margin:8px 0 4px;text-align:center}
+#map{height:380px;border-radius:14px;border:1px solid var(--line);margin:12px 0}
+.pin{background:var(--accent);color:#fff;border-radius:50%;width:28px;height:28px;line-height:28px;text-align:center;font-weight:700;font-size:15px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+#toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:50;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+#toast div{background:#2b2a28;color:#fff;padding:10px 18px;border-radius:10px;font-size:16.5px;max-width:90vw;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+#toast div.err{background:var(--warn)}
+#progress{position:fixed;left:0;right:0;bottom:0;background:var(--accent-d);color:#fff;text-align:center;padding:10px;font-size:16.5px;z-index:40;display:none}
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.86);display:none;align-items:center;justify-content:center;z-index:60;cursor:zoom-out}
+#lightbox img{max-width:94vw;max-height:94vh;border-radius:8px}
+.set label{display:block;margin:16px 0 4px;font-weight:600}
+.note{color:var(--sub);font-size:16px;margin-top:6px}
+.dots:after{content:"";animation:d 1.2s steps(4,end) infinite}
+@keyframes d{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+<div id="progress"></div>
+<div id="lightbox"></div>
+<input type="file" id="fileIn" multiple accept="image/*,.heic,.heif" hidden>
+<input type="file" id="restoreIn" accept="application/json,.json" hidden>
+
+<script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/full.umd.js"></script>
+<script>
+'use strict';
+/* ===================== 유틸 ===================== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const pad = n => String(n).padStart(2, '0');
+const WD = ['일','월','화','수','목','금','토'];
+const dayKey = t => { const d = new Date(t); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; };
+const hm = t => { const d = new Date(t); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+const dayLabel = k => { const [y,m,d] = k.split('-').map(Number); return `${k} (${WD[new Date(y,m-1,d).getDay()]})`; };
+const dayDiff = (a, b) => { const f = k => { const [y,m,d] = k.split('-').map(Number); return Date.UTC(y,m-1,d); }; return Math.round((f(b)-f(a))/86400000); };
+function haversine(a, b) {
+  const R = 6371, rad = x => x * Math.PI / 180;
+  const dLat = rad(b.lat - a.lat), dLon = rad(b.lon - a.lon);
+  const h = Math.sin(dLat/2)**2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLon/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+function toast(msg, isErr) {
+  const el = document.createElement('div');
+  el.textContent = msg; if (isErr) el.className = 'err';
+  $('#toast').appendChild(el);
+  setTimeout(() => el.remove(), isErr ? 6500 : 3200);
+}
+function progress(msg) { const p = $('#progress'); if (!msg) { p.style.display = 'none'; return; } p.textContent = msg; p.style.display = 'block'; }
+function download(name, data, mime) {
+  const blob = data instanceof Blob ? data : new Blob([data], { type: mime });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+const safeName = s => (s || '여행').replace(/[\\/:*?"<>|]+/g, '_').slice(0, 60);
+const blobToB64 = blob => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result.split(',')[1]); fr.readAsDataURL(blob); });
+const blobToDataURL = blob => new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(blob); });
+
+/* ===================== IndexedDB ===================== */
+let db;
+function dbOpen() {
+  return new Promise((res, rej) => {
+    const r = indexedDB.open('travel-diary', 1);
+    r.onupgradeneeded = () => {
+      const d = r.result;
+      d.createObjectStore('trips', { keyPath: 'id' });
+      d.createObjectStore('photos', { keyPath: 'id' }).createIndex('tripId', 'tripId');
+    };
+    r.onsuccess = () => { db = r.result; res(); };
+    r.onerror = () => rej(r.error);
+  });
+}
+const reqP = r => new Promise((res, rej) => { r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+const dbAll = store => reqP(db.transaction(store).objectStore(store).getAll());
+const dbPhotosOf = tid => reqP(db.transaction('photos').objectStore('photos').index('tripId').getAll(tid));
+function dbWrite(store, fn) {
+  return new Promise((res, rej) => {
+    const t = db.transaction(store, 'readwrite');
+    fn(t.objectStore(store));
+    t.oncomplete = () => res();
+    t.onerror = () => rej(t.error);
+    t.onabort = () => rej(t.error);
+  });
+}
+const dbPut = (store, v) => dbWrite(store, s => s.put(v));
+const dbDel = (store, k) => dbWrite(store, s => s.delete(k));
+
+/* ===================== 상태 ===================== */
+const STYLES = {
+  plain:  { label: '담백하게',     desc: '담담하고 차분한 1인칭 문어체. 과장 없이, 본 것과 한 일을 중심으로.' },
+  warm:   { label: '감성적으로',   desc: '따뜻하고 서정적인 1인칭 문체. 단, 과한 수식과 상투적 표현은 피한다.' },
+  memo:   { label: '간결한 메모체', desc: '짧은 문장 위주의 메모 같은 문체. 군더더기 없이 핵심만.' }
+};
+const S = { view: 'list', trips: [], trip: null, photos: {}, urls: {}, mapOpen: false, map: null, busy: new Set() };
+const cfg = {
+  get key() { return localStorage.getItem('td_key') || ''; },
+  get model() { return localStorage.getItem('td_model') || 'claude-sonnet-5-5'; },
+  get style() { return localStorage.getItem('td_style') || 'plain'; }
+};
+
+/* ===================== 여행·묶음 헬퍼 ===================== */
+const P = id => S.photos[id];
+const findEntry = id => S.trip && S.trip.entries.find(e => e.id === id);
+const findEntryByPhoto = pid => S.trip && S.trip.entries.find(e => e.photoIds.includes(pid));
+function entryPhotos(e) { return e.photoIds.map(P).filter(Boolean).sort((a, b) => a.time - b.time); }
+function entryStart(e) { const p = entryPhotos(e); return p.length ? p[0].time : 0; }
+function entryEnd(e) { const p = entryPhotos(e); return p.length ? p[p.length-1].time : 0; }
+function entryGeo(e) {
+  const g = entryPhotos(e).filter(p => p.lat != null);
+  if (!g.length) return null;
+  return { lat: g.reduce((s, p) => s + p.lat, 0) / g.length, lon: g.reduce((s, p) => s + p.lon, 0) / g.length };
+}
+const sortedEntries = () => S.trip.entries.slice().sort((a, b) => entryStart(a) - entryStart(b));
+function tripFirstDay() {
+  const es = S.trip.entries.map(entryStart).filter(Boolean);
+  return es.length ? dayKey(Math.min(...es)) : null;
+}
+
+function autoGroup(list) {
+  const arr = list.slice().sort((a, b) => a.time - b.time);
+  const groups = []; let cur = null;
+  for (const p of arr) {
+    if (cur) {
+      const last = cur[cur.length - 1];
+      const sameDay = dayKey(last.time) === dayKey(p.time);
+      const gapMin = (p.time - last.time) / 60000;
+      const far = (last.lat != null && p.lat != null) ? haversine(last, p) > 1.5 : false;
+      if (sameDay && gapMin <= 90 && !far) { cur.push(p); continue; }
+    }
+    cur = [p]; groups.push(cur);
+  }
+  return groups;
+}
+
+let saveTimer;
+function saveTripSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(saveTrip, 400); }
+async function saveTrip() {
+  if (!S.trip) return;
+  clearTimeout(saveTimer);
+  const ts = S.trip.entries.flatMap(e => entryPhotos(e).map(p => p.time));
+  S.trip.photoCount = S.trip.entries.reduce((n, e) => n + e.photoIds.length, 0);
+  if (ts.length) { S.trip.startTime = Math.min(...ts); S.trip.endTime = Math.max(...ts); }
+  try { await dbPut('trips', S.trip); }
+  catch (err) { toast('저장 실패: ' + (err && err.message || err), true); }
+}
+
+/* ===================== 사진 읽기 ===================== */
+function parseExifDate(s) {
+  if (!s) return null;
+  if (s instanceof Date) return s.getTime();
+  const m = /^(\d{4}):(\d{2}):(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/.exec(String(s));
+  if (!m) return null;
+  return new Date(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +m[6]).getTime();   // 카메라에 찍힌 현지 시각 그대로 사용
+}
+async function readMeta(f) {
+  const out = { time: null, lat: null, lon: null };
+  if (typeof exifr === 'undefined') return out;
+  try {
+    const ex = await exifr.parse(f, { pick: ['DateTimeOriginal', 'CreateDate'], reviveValues: false });
+    if (ex) out.time = parseExifDate(ex.DateTimeOriginal || ex.CreateDate);
+  } catch (e) {}
+  try {
+    const g = await exifr.gps(f);
+    if (g && typeof g.latitude === 'number' && typeof g.longitude === 'number') { out.lat = g.latitude; out.lon = g.longitude; }
+  } catch (e) {}
+  return out;
+}
+function loadImg(blob) {
+  return new Promise((res, rej) => {
+    const u = URL.createObjectURL(blob), im = new Image();
+    im.onload = () => { URL.revokeObjectURL(u); res(im); };
+    im.onerror = () => { URL.revokeObjectURL(u); rej(new Error('이미지를 열 수 없습니다')); };
+    im.src = u;
+  });
+}
+async function resizeImage(file, maxSide, q) {
+  let bmp;
+  try { bmp = await createImageBitmap(file, { imageOrientation: 'from-image' }); }
+  catch (e) { bmp = await loadImg(file); }
+  const w0 = bmp.width, h0 = bmp.height;
+  const s = Math.min(1, maxSide / Math.max(w0, h0));
+  const w = Math.max(1, Math.round(w0 * s)), h = Math.max(1, Math.round(h0 * s));
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  c.getContext('2d').drawImage(bmp, 0, 0, w, h);
+  if (bmp.close) bmp.close();
+  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', q));
+  if (!blob) throw new Error('변환 실패');
+  return { blob, w, h };
+}
+
+async function addFiles(fileList) {
+  if (S.view !== 'trip' || !S.trip) return toast('먼저 여행을 열어 주세요.', true);
+  const files = [...fileList].filter(f => /^image\//.test(f.type) || /\.(jpe?g|png|webp|heic|heif)$/i.test(f.name));
+  if (!files.length) return toast('이미지 파일이 없습니다.', true);
+  if (typeof exifr === 'undefined') toast('EXIF 라이브러리를 불러오지 못해 촬영 시각·위치를 읽지 못합니다. 인터넷 연결을 확인하세요.', true);
+  const have = new Set(Object.values(S.photos).map(p => p.key));
+  const added = [], failed = []; let noTime = 0, dup = 0;
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i], key = `${f.name}|${f.size}|${f.lastModified}`;
+    if (have.has(key)) { dup++; continue; }
+    progress(`사진 읽는 중 ${i+1} / ${files.length}`);
+    try {
+      const meta = await readMeta(f);
+      const { blob, w, h } = await resizeImage(f, 1024, 0.82);
+      const p = { id: uid(), tripId: S.trip.id, key, name: f.name, blob, w, h,
+                  time: meta.time ?? f.lastModified, exifTime: meta.time != null, lat: meta.lat, lon: meta.lon };
+      if (!p.exifTime) noTime++;
+      added.push(p); have.add(key);
+    } catch (err) { failed.push(f.name); }
+  }
+  if (!added.length) {
+    progress('');
+    return toast(failed.length ? `읽지 못한 파일 ${failed.length}개 (HEIC 등 브라우저가 열 수 없는 형식일 수 있습니다)` : `이미 추가된 사진입니다 (${dup}장)`, true);
+  }
+  progress('저장 중…');
+  try {
+    for (const p of added) { await dbPut('photos', p); S.photos[p.id] = p; S.urls[p.id] = URL.createObjectURL(p.blob); }
+  } catch (err) { progress(''); return toast('사진 저장 실패(저장 공간 부족일 수 있음): ' + (err && err.message || err), true); }
+  const newIds = [];
+  for (const g of autoGroup(added)) {
+    const en = { id: uid(), photoIds: g.map(p => p.id), place: '', geo: '', memo: '', draft: '', questions: [], answers: [], text: '' };
+    S.trip.entries.push(en); newIds.push(en.id);
+  }
+  await saveTrip();
+  progress('');
+  render();
+  const msgs = [`사진 ${added.length}장을 ${newIds.length}개 묶음으로 정리했습니다.`];
+  if (noTime) msgs.push(`촬영 시각 정보가 없어 파일 수정일로 대체한 사진 ${noTime}장`);
+  if (dup) msgs.push(`중복 ${dup}장 건너뜀`);
+  if (failed.length) msgs.push(`읽지 못한 파일 ${failed.length}개`);
+  toast(msgs.join(' · '), failed.length > 0);
+  geocodeEntries(newIds);
+}
+
+/* ===================== 장소명(역지오코딩) ===================== */
+const geoCache = new Map();
+async function reverseGeo(lat, lon) {
+  const k = lat.toFixed(3) + ',' + lon.toFixed(3);
+  if (geoCache.has(k)) return geoCache.get(k);
+  const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=17&accept-language=ko&lat=${lat}&lon=${lon}`);
+  if (!r.ok) throw new Error('geo ' + r.status);
+  const j = await r.json(), a = j.address || {};
+  const name = j.name || a.tourism || a.amenity || a.attraction || a.historic || '';
+  const area = a.suburb || a.neighbourhood || a.city_district || a.quarter || '';
+  const city = a.city || a.town || a.village || a.county || a.state || '';
+  const parts = []; for (const x of [name, area, city]) if (x && !parts.includes(x)) parts.push(x);
+  const res = { short: parts.join(', '), display: j.display_name || parts.join(', ') };
+  geoCache.set(k, res);
+  return res;
+}
+async function geocodeEntries(ids) {
+  let n = 0;
+  for (const id of ids) {
+    const en = findEntry(id);
+    if (!en || en.geo) continue;
+    const g = entryGeo(en); if (!g) continue;
+    try {
+      progress(`장소 이름 찾는 중 ${++n}`);
+      const r = await reverseGeo(g.lat, g.lon);
+      const cur = findEntry(id);
+      if (cur) { cur.geo = r.display; if (!cur.place) cur.place = r.short; saveTripSoon(); rerenderEntry(id); }
+    } catch (e) {}
+    await sleep(1100);   // Nominatim 이용 정책: 초당 1회 이하
+  }
+  progress('');
+}
+
+/* ===================== Claude API ===================== */
+async function callClaude(system, content, maxTokens) {
+  if (!cfg.key) throw new Error('설정에서 Claude API 키를 먼저 입력하세요.');
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-api-key': cfg.key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({ model: cfg.model, max_tokens: maxTokens || 1200, system, messages: [{ role: 'user', content }] })
+  });
+  if (!r.ok) {
+    let t = ''; try { t = await r.text(); } catch (e) {}
+    throw new Error(`API 오류 ${r.status}: ${t.slice(0, 280)}`);
+  }
+  const j = await r.json();
+  return (j.content || []).map(c => c.text || '').join('');
+}
+function parseJSONLoose(t) {
+  const a = t.indexOf('{'), b = t.lastIndexOf('}');
+  if (a < 0 || b <= a) return null;
+  try { return JSON.parse(t.slice(a, b + 1)); } catch (e) { return null; }
+}
+function pickPhotos(ps, n) {
+  if (ps.length <= n) return ps;
+  const out = [];
+  for (let i = 0; i < n; i++) out.push(ps[Math.round(i * (ps.length - 1) / (n - 1))]);
+  return out;
+}
+function entryContext(en) {
+  const ps = entryPhotos(en);
+  const t = S.trip;
+  return [
+    `여행 이름: ${t.name}`,
+    `날짜: ${dayLabel(dayKey(entryStart(en)))}`,
+    `시간대: ${hm(entryStart(en))} ~ ${hm(entryEnd(en))}`,
+    `장소(자동 추정이라 틀릴 수 있음): ${en.place || '알 수 없음'}`,
+    `주소 정보: ${en.geo || '없음'}`,
+    `사진 수: ${ps.length}장`,
+    `사용자 메모: ${en.memo || '없음'}`,
+    `문체: ${STYLES[t.style || cfg.style].desc}`
+  ].join('\n');
+}
+const SYS_DRAFT = `당신은 여행 사진을 보고 개인 여행일기의 초안을 잡아 주는 도우미입니다. 사용자는 한국어 1인칭 일기를 원합니다.
+규칙:
+- 사진에서 실제로 보이는 것과 제공된 시각·장소 정보만 사용합니다. 보이지 않는 사실(고유명사, 역사, 가격, 감정의 이유 등)은 지어내지 않습니다.
+- 확실하지 않은 건물·장소는 단정하지 말고 '~처럼 보이는' 정도로만 씁니다.
+- 일기는 3~5문장으로 씁니다. 문체 지시를 따릅니다.
+- 사진만으로는 알 수 없는, 일기를 '나의 것'으로 만들어 줄 질문을 정확히 2개 만듭니다(그곳에 간 이유, 인상 깊었던 점, 함께한 사람, 먹은 것의 맛 등). 질문은 짧고 답하기 쉽게 씁니다.
+- 반드시 JSON만 출력합니다: {"draft":"...","questions":["...","..."]}`;
+const SYS_REFINE = `당신은 사용자가 쓴 답변의 내용과 말투를 최대한 살려 여행일기를 다시 써 주는 도우미입니다.
+규칙:
+- 초안과 사용자의 답변에 있는 내용만 사용하고, 새로운 사실을 지어내지 않습니다.
+- 4~7문장의 1인칭 한국어 일기로 씁니다. 문체 지시를 따릅니다.
+- 반드시 JSON만 출력합니다: {"text":"..."}`;
+
+async function aiDraft(id) {
+  const en = findEntry(id); if (!en) return;
+  if (en.text && !confirm('이미 쓴 일기가 있습니다. AI 초안으로 바꿀까요?\n(취소하면 질문만 새로 받습니다)')) { /* 질문만 갱신 */ en._keepText = true; }
+  S.busy.add(id); rerenderEntry(id);
+  try {
+    const picks = pickPhotos(entryPhotos(en), 4), content = [];
+    for (const p of picks) content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: await blobToB64(p.blob) } });
+    content.push({ type: 'text', text: `${entryContext(en)}\n(위 사진은 이 묶음에서 ${picks.length}장을 골라 보낸 것입니다.)\n\nJSON으로만 답하세요.` });
+    const raw = await callClaude(SYS_DRAFT, content, 1000);
+    const j = parseJSONLoose(raw);
+    if (!j || !j.draft) throw new Error('응답을 해석하지 못했습니다. 다시 시도해 주세요.');
+    en.draft = String(j.draft).trim();
+    en.questions = Array.isArray(j.questions) ? j.questions.slice(0, 3).map(String) : [];
+    en.answers = en.questions.map(() => '');
+    if (!en._keepText) en.text = en.draft;
+    delete en._keepText;
+    saveTripSoon();
+  } catch (err) { delete en._keepText; toast(err.message || String(err), true); }
+  S.busy.delete(id); rerenderEntry(id);
+}
+async function aiRefine(id) {
+  const en = findEntry(id); if (!en) return;
+  const qa = en.questions.map((q, i) => ({ q, a: (en.answers[i] || '').trim() })).filter(x => x.a);
+  if (!qa.length) return toast('답변을 한 개 이상 입력하세요.', true);
+  S.busy.add(id); rerenderEntry(id);
+  try {
+    const text = `${entryContext(en)}\n\n[AI 초안]\n${en.draft || en.text}\n\n[사용자의 답변]\n${qa.map(x => `Q. ${x.q}\nA. ${x.a}`).join('\n')}\n\nJSON으로만 답하세요.`;
+    const raw = await callClaude(SYS_REFINE, [{ type: 'text', text }], 1000);
+    const j = parseJSONLoose(raw);
+    en.text = (j && j.text ? String(j.text) : raw).trim();
+    saveTripSoon();
+  } catch (err) { toast(err.message || String(err), true); }
+  S.busy.delete(id); rerenderEntry(id);
+}
+async function draftAll() {
+  const todo = sortedEntries().filter(e => !e.text.trim());
+  if (!todo.length) return toast('일기가 비어 있는 묶음이 없습니다.');
+  if (!confirm(`일기가 비어 있는 ${todo.length}개 묶음의 초안을 순서대로 만듭니다.\nAPI 사용량이 발생합니다. 진행할까요?`)) return;
+  for (let i = 0; i < todo.length; i++) {
+    progress(`AI 초안 ${i+1} / ${todo.length}`);
+    await aiDraft(todo[i].id);
+    if (!cfg.key) break;
+  }
+  progress('');
+}
+
+/* ===================== 렌더링 ===================== */
+const app = $('#app');
+function render() {
+  if (S.view === 'list') app.innerHTML = viewList();
+  else if (S.view === 'settings') app.innerHTML = viewSettings();
+  else app.innerHTML = viewTrip();
+  window.scrollTo({ top: S.keepScroll ?? 0 }); S.keepScroll = null;
+  if (S.view === 'trip' && S.mapOpen) drawMap();
+}
+function viewList() {
+  const trips = S.trips.slice().sort((a, b) => (b.startTime || b.created) - (a.startTime || a.created));
+  return `
+  <h1>여행 사진 일기</h1>
+  <p class="sub">사진을 올리면 날짜·장소별로 묶고, AI가 초안과 질문을 줍니다. 내 답이 들어간 나의 일기로 완성하세요.</p>
+  <div class="nav"><button class="pri" data-act="new-trip">＋ 새 여행</button><button data-act="settings">설정 · 백업</button></div>
+  ${trips.length ? `<div class="grid">${trips.map(t => `
+    <div class="card trip" data-act="open-trip" data-id="${t.id}">
+      <div class="nm">${esc(t.name)}</div>
+      <div class="meta">${t.startTime ? dayLabel(dayKey(t.startTime)) + (dayKey(t.endTime) !== dayKey(t.startTime) ? ' ~ ' + dayLabel(dayKey(t.endTime)) : '') : '사진 없음'}</div>
+      <div class="meta">사진 ${t.photoCount || 0}장 · 묶음 ${t.entries.length}개 · 일기 ${t.entries.filter(e => e.text && e.text.trim()).length}개</div>
+    </div>`).join('')}</div>` : `<div class="empty card">아직 여행이 없습니다.<br>「＋ 새 여행」으로 시작하세요.</div>`}`;
+}
+function viewSettings() {
+  return `
+  <h1>설정 · 백업</h1>
+  <p class="sub">모든 데이터는 이 브라우저 안(IndexedDB)에만 저장됩니다.</p>
+  <div class="nav"><button data-act="back">← 여행 목록</button></div>
+  <div class="card set">
+    <label>Claude API 키</label>
+    <input type="password" id="setKey" value="${esc(cfg.key)}" placeholder="sk-ant-..." autocomplete="off">
+    <div class="note">이 브라우저의 localStorage에만 저장되며, AI 초안을 만들 때 api.anthropic.com으로만 전송됩니다. 공용 PC에서는 사용 후 지우세요.</div>
+    <label>모델</label>
+    <input type="text" id="setModel" value="${esc(cfg.model)}">
+    <div class="note">기본값은 claude-sonnet-5-5 입니다. 사진 분석이 가능한 모델명으로 바꿀 수 있습니다.</div>
+    <label>기본 문체 (새 여행에 적용)</label>
+    <select id="setStyle">${Object.entries(STYLES).map(([k, v]) => `<option value="${k}" ${cfg.style === k ? 'selected' : ''}>${v.label}</option>`).join('')}</select>
+    <div class="btns"><button class="pri" data-act="save-settings">저장</button></div>
+    <div class="note">AI 초안을 만들 때 묶음당 사진 최대 4장(긴 변 1024px로 줄인 것)과 촬영 시각·장소 정보가 전송됩니다. 그 외에는 사진이 외부로 나가지 않습니다.</div>
+  </div>
+  <div class="card set">
+    <h3 style="text-align:center">백업</h3>
+    <div class="btns">
+      <button data-act="backup">전체 백업 내려받기 (JSON)</button>
+      <button data-act="restore">백업 불러오기</button>
+      <button class="dng" data-act="wipe">모든 데이터 삭제</button>
+    </div>
+    <div class="note" style="text-align:center">브라우저 데이터를 지우면 일기도 함께 사라지므로, 여행이 끝날 때마다 백업해 두세요.</div>
+  </div>`;
+}
+function viewTrip() {
+  const t = S.trip, es = sortedEntries(), first = tripFirstDay();
+  let body = '', lastDay = '';
+  es.forEach(en => {
+    const dk = dayKey(entryStart(en));
+    if (dk !== lastDay) {
+      lastDay = dk;
+      body += `<div class="dayh"><div class="dn">${first ? dayDiff(first, dk) + 1 : 1}일차</div><div class="dd">${dayLabel(dk)}</div></div>`;
+    }
+    body += entryHtml(en);
+  });
+  return `
+  <h1>여행 사진 일기</h1>
+  <div class="nav"><button data-act="back">← 여행 목록</button><button data-act="settings">설정</button></div>
+  <input type="text" class="tripname" data-field="tripName" value="${esc(t.name)}" placeholder="여행 이름">
+  <div class="row" style="margin-top:10px"><span class="note" style="margin:0">문체</span>
+    <select data-field="tripStyle" style="width:auto">${Object.entries(STYLES).map(([k, v]) => `<option value="${k}" ${(t.style || cfg.style) === k ? 'selected' : ''}>${v.label}</option>`).join('')}</select></div>
+  <div class="toolbar">
+    <button class="pri" data-act="add-photos">＋ 사진 추가</button>
+    <button data-act="draft-all">비어 있는 묶음 초안 일괄 생성</button>
+    <button data-act="geo-all">장소 이름 다시 찾기</button>
+    <button data-act="map-toggle">${S.mapOpen ? '지도 닫기' : '지도 보기'}</button>
+    <button data-act="export-html">HTML로 내보내기</button>
+    <button data-act="export-csv">CSV (구글 시트용)</button>
+    <button class="dng" data-act="del-trip">여행 삭제</button>
+  </div>
+  ${S.mapOpen ? '<div id="map"></div>' : ''}
+  <div class="drop" id="drop">사진을 여기로 끌어다 놓거나 「＋ 사진 추가」를 누르세요. (JPEG 권장 · HEIC는 브라우저에 따라 열리지 않을 수 있음)</div>
+  ${es.length ? body : '<div class="empty">아직 사진이 없습니다.</div>'}`;
+}
+function entryHtml(en) {
+  const ps = entryPhotos(en), busy = S.busy.has(en.id);
+  const es = sortedEntries(), idx = es.findIndex(e => e.id === en.id);
+  const noTime = ps.some(p => !p.exifTime), noGps = ps.every(p => p.lat == null);
+  return `
+  <section class="card entry" data-entry="${en.id}">
+    <div class="ehead">
+      <input type="text" data-field="place" value="${esc(en.place)}" placeholder="장소 이름 (직접 입력 가능)">
+      <div class="etime">${hm(entryStart(en))} – ${hm(entryEnd(en))} · 사진 ${ps.length}장${noGps ? ' · <span class="warn">위치 정보 없음</span>' : ''}${noTime ? ' · <span class="warn">촬영 시각 없음(수정일 사용)</span>' : ''}</div>
+    </div>
+    <div class="thumbs">${ps.map((p, i) => `
+      <div class="th"><img src="${S.urls[p.id]}" data-act="zoom" data-photo="${p.id}" loading="lazy" alt="">
+        <div class="thb">${i > 0 ? `<button data-act="split" data-photo="${p.id}" title="이 사진부터 새 묶음으로 나누기">✂</button>` : ''}<button data-act="del-photo" data-photo="${p.id}" title="사진 삭제">✕</button></div>
+      </div>`).join('')}</div>
+    <input type="text" class="memo" data-field="memo" value="${esc(en.memo)}" placeholder="한 줄 메모 (선택) — 예: 비가 와서 실내로 들어감, 점심으로 우동">
+    <div class="btns">
+      <button class="pri" data-act="draft" ${busy ? 'disabled' : ''}>${busy ? '<span class="dots">AI가 쓰는 중</span>' : (en.draft ? 'AI 초안 다시 받기' : 'AI 초안 · 질문 받기')}</button>
+      ${idx > 0 ? '<button data-act="merge-prev">이전 묶음과 합치기</button>' : ''}
+      <button class="dng" data-act="del-entry">묶음 삭제</button>
+    </div>
+    ${en.questions.length ? `<div class="qa"><div class="qt">AI의 질문 — 짧게라도 답해 주세요</div>
+      ${en.questions.map((q, i) => `<div class="q">${esc(q)}</div><input type="text" data-field="answer" data-idx="${i}" value="${esc(en.answers[i] || '')}" placeholder="내 답">`).join('')}
+      <div class="btns"><button class="pri" data-act="refine" ${busy ? 'disabled' : ''}>답변 반영해 다시 쓰기</button></div></div>` : ''}
+    <div class="lab">일기</div>
+    <textarea data-field="text" rows="6" placeholder="직접 쓰거나, AI 초안을 받아 고쳐 쓰세요.">${esc(en.text)}</textarea>
+  </section>`;
+}
+function rerenderEntry(id) {
+  const el = document.querySelector(`[data-entry="${id}"]`), en = findEntry(id);
+  if (el && en) el.outerHTML = entryHtml(en);
+}
+
+/* ===================== 지도 ===================== */
+function loadLeaflet() {
+  return new Promise((res, rej) => {
+    if (window.L) return res();
+    const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(css);
+    const s = document.createElement('script'); s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    s.onload = res; s.onerror = () => rej(new Error('지도 라이브러리를 불러오지 못했습니다.'));
+    document.head.appendChild(s);
+  });
+}
+async function drawMap() {
+  try { await loadLeaflet(); } catch (e) { return toast(e.message, true); }
+  const el = $('#map'); if (!el) return;
+  if (S.map) { S.map.remove(); S.map = null; }
+  const pts = [];
+  sortedEntries().forEach((en, i) => { const g = entryGeo(en); if (g) pts.push({ ...g, n: i + 1, place: en.place, t: en }); });
+  if (!pts.length) { el.outerHTML = '<div class="empty card" id="map">위치 정보가 있는 사진이 없습니다.</div>'; return; }
+  const m = L.map(el); S.map = m;
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(m);
+  pts.forEach(p => L.marker([p.lat, p.lon], { icon: L.divIcon({ className: '', html: `<div class="pin">${p.n}</div>`, iconSize: [28, 28], iconAnchor: [14, 14] }) })
+    .addTo(m).bindPopup(`${p.n}. ${esc(p.place || '이름 없음')}<br>${dayKey(entryStart(p.t))} ${hm(entryStart(p.t))}`));
+  L.polyline(pts.map(p => [p.lat, p.lon]), { color: '#2f6f62', weight: 3, opacity: .6, dashArray: '6 6' }).addTo(m);
+  m.fitBounds(pts.map(p => [p.lat, p.lon]), { padding: [30, 30], maxZoom: 15 });
+}
+
+/* ===================== 내보내기 ===================== */
+async function exportHtml() {
+  const t = S.trip, es = sortedEntries(), first = tripFirstDay();
+  if (!es.length) return toast('내보낼 내용이 없습니다.', true);
+  progress('HTML 만드는 중…');
+  let body = '', lastDay = '';
+  for (let i = 0; i < es.length; i++) {
+    const en = es[i], dk = dayKey(entryStart(en));
+    if (dk !== lastDay) { lastDay = dk; body += `<div class="dayh"><span>${dayDiff(first, dk) + 1}일차</span><h2>${dayLabel(dk)}</h2></div>`; }
+    let imgs = '';
+    for (const p of entryPhotos(en)) {
+      progress(`HTML 만드는 중 ${i+1} / ${es.length}`);
+      const r = await resizeImage(p.blob, 720, 0.8);
+      imgs += `<img src="${await blobToDataURL(r.blob)}" alt="">`;
+    }
+    body += `<section><h3>${esc(en.place || '(장소 미상)')}</h3><div class="tm">${hm(entryStart(en))} – ${hm(entryEnd(en))}</div><div class="ph">${imgs}</div>
+      <p>${esc(en.text || '').replace(/\n/g, '<br>')}</p></section>`;
+  }
+  const range = t.startTime ? `${dayLabel(dayKey(t.startTime))}${dayKey(t.endTime) !== dayKey(t.startTime) ? ' ~ ' + dayLabel(dayKey(t.endTime)) : ''}` : '';
+  const doc = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(t.name)}</title>
+<style>body{margin:0;background:#f7f4ee;color:#2b2a28;font:18.5px/1.8 -apple-system,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif}
+main{max-width:1180px;margin:0 auto;padding:40px 24px 80px;text-align:center}h1{font-size:clamp(30px,4.4vw,50px);margin:0 0 6px}.sub{font-size:19.5px;color:#6f6a60;margin:0 0 30px}
+.dayh{margin:50px 0 10px}.dayh span{background:#2f6f62;color:#fff;border-radius:999px;padding:2px 16px;font-size:17px}.dayh h2{font-size:28px;margin:8px 0}
+section{background:#fff;border:1px solid #e2dccf;border-radius:16px;padding:22px 26px;margin:16px 0}h3{font-size:21px;margin:0}.tm{color:#6f6a60;font-size:16px}
+.ph{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0}.ph img{height:200px;border-radius:10px;object-fit:cover}p{margin:12px 0 0}</style></head>
+<body><main><h1>${esc(t.name)}</h1><p class="sub">${esc(range)}</p>${body}</main></body></html>`;
+  progress('');
+  download(`${safeName(t.name)}_여행일기.html`, doc, 'text/html;charset=utf-8');
+}
+function exportCsv() {
+  const t = S.trip, es = sortedEntries();
+  if (!es.length) return toast('내보낼 내용이 없습니다.', true);
+  const cell = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+  const rows = [['여행ID','여행명','날짜','시작시각','종료시각','장소명','위도','경도','사진수','AI초안','내답변','최종일기']];
+  es.forEach(en => {
+    const g = entryGeo(en);
+    rows.push([t.id, t.name, dayKey(entryStart(en)), hm(entryStart(en)), hm(entryEnd(en)), en.place,
+      g ? g.lat.toFixed(6) : '', g ? g.lon.toFixed(6) : '', en.photoIds.length, en.draft,
+      en.questions.map((q, i) => en.answers[i] ? `${q}: ${en.answers[i]}` : '').filter(Boolean).join(' / '), en.text]);
+  });
+  download(`${safeName(t.name)}_여행일기.csv`, '﻿' + rows.map(r => r.map(cell).join(',')).join('\r\n'), 'text/csv;charset=utf-8');
+}
+async function backupAll() {
+  progress('백업 만드는 중…');
+  const out = { app: 'travel-diary', version: 1, exported: new Date().toISOString(), trips: S.trips, photos: [] };
+  const photos = await dbAll('photos');
+  for (const p of photos) { const { blob, ...rest } = p; out.photos.push({ ...rest, data: await blobToDataURL(blob) }); }
+  progress('');
+  download(`여행일기_백업_${dayKey(Date.now())}.json`, JSON.stringify(out), 'application/json');
+}
+async function restoreAll(file) {
+  try {
+    const j = JSON.parse(await file.text());
+    if (j.app !== 'travel-diary') throw new Error('여행 일기 백업 파일이 아닙니다.');
+    if (!confirm(`백업에서 여행 ${j.trips.length}개, 사진 ${j.photos.length}장을 불러옵니다.\n같은 ID의 항목은 덮어씁니다. 계속할까요?`)) return;
+    progress('복원 중…');
+    for (const p of j.photos) {
+      const { data, ...rest } = p;
+      rest.blob = await (await fetch(data)).blob();
+      await dbPut('photos', rest);
+    }
+    for (const t of j.trips) await dbPut('trips', t);
+    S.trips = await dbAll('trips'); progress(''); render(); toast('복원했습니다.');
+  } catch (err) { progress(''); toast('복원 실패: ' + (err.message || err), true); }
+}
+
+/* ===================== 이벤트 ===================== */
+function revokeAll() { Object.values(S.urls).forEach(u => URL.revokeObjectURL(u)); S.urls = {}; S.photos = {}; }
+async function openTrip(id) {
+  revokeAll();
+  S.trip = S.trips.find(t => t.id === id);
+  const list = await dbPhotosOf(id);
+  list.forEach(p => { S.photos[p.id] = p; S.urls[p.id] = URL.createObjectURL(p.blob); });
+  S.view = 'trip'; S.mapOpen = false; render();
+  geocodeEntries(S.trip.entries.filter(e => !e.geo).map(e => e.id));
+}
+async function closeTrip() { await saveTrip(); revokeAll(); S.trip = null; S.view = 'list'; S.trips = await dbAll('trips'); render(); }
+
+document.addEventListener('click', async e => {
+  const lb = e.target.closest('#lightbox');
+  if (lb) { lb.style.display = 'none'; lb.innerHTML = ''; return; }
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const act = b.dataset.act, sec = b.closest('[data-entry]'), eid = sec && sec.dataset.entry;
+  switch (act) {
+    case 'new-trip': {
+      const name = prompt('여행 이름을 입력하세요', ''); if (name === null) return;
+      const t = { id: uid(), name: name.trim() || '이름 없는 여행', created: Date.now(), style: cfg.style, entries: [] };
+      await dbPut('trips', t); S.trips.push(t); await openTrip(t.id); break;
+    }
+    case 'open-trip': await openTrip(b.dataset.id); break;
+    case 'back': if (S.view === 'trip') await closeTrip(); else { S.view = S.trip ? 'trip' : 'list'; render(); } break;
+    case 'settings': if (S.view === 'trip') await saveTrip(); S.view = 'settings'; render(); break;
+    case 'save-settings':
+      localStorage.setItem('td_key', $('#setKey').value.trim());
+      localStorage.setItem('td_model', $('#setModel').value.trim() || 'claude-sonnet-5-5');
+      localStorage.setItem('td_style', $('#setStyle').value);
+      toast('설정을 저장했습니다.'); break;
+    case 'backup': await backupAll(); break;
+    case 'restore': $('#restoreIn').click(); break;
+    case 'wipe':
+      if (confirm('모든 여행과 사진을 삭제합니다. 되돌릴 수 없습니다.\n정말 삭제할까요?') && confirm('백업은 하셨나요? 마지막 확인입니다.')) {
+        revokeAll(); db.close(); await new Promise(r => { const q = indexedDB.deleteDatabase('travel-diary'); q.onsuccess = q.onerror = q.onblocked = r; });
+        await dbOpen(); S.trips = []; S.trip = null; S.view = 'list'; render(); toast('삭제했습니다.');
+      } break;
+    case 'add-photos': $('#fileIn').click(); break;
+    case 'draft': await aiDraft(eid); break;
+    case 'refine': await aiRefine(eid); break;
+    case 'draft-all': await draftAll(); break;
+    case 'geo-all': geocodeEntries(S.trip.entries.filter(en => !en.geo).map(en => en.id)); break;
+    case 'map-toggle': S.mapOpen = !S.mapOpen; S.keepScroll = window.scrollY; render(); break;
+    case 'export-html': await exportHtml(); break;
+    case 'export-csv': exportCsv(); break;
+    case 'del-trip':
+      if (confirm(`「${S.trip.name}」 여행과 사진을 모두 삭제합니다. 계속할까요?`)) {
+        for (const p of Object.values(S.photos)) await dbDel('photos', p.id);
+        await dbDel('trips', S.trip.id); S.trips = S.trips.filter(t => t.id !== S.trip.id); S.trip.entries = []; clearTimeout(saveTimer);
+        revokeAll(); S.trip = null; S.view = 'list'; render();
+      } break;
+    case 'zoom': { const l = $('#lightbox'); l.innerHTML = `<img src="${S.urls[b.dataset.photo]}" alt="">`; l.style.display = 'flex'; break; }
+    case 'split': {
+      const en = findEntryByPhoto(b.dataset.photo); if (!en) return;
+      const ps = entryPhotos(en), i = ps.findIndex(p => p.id === b.dataset.photo);
+      if (i <= 0) return;
+      const moved = ps.slice(i).map(p => p.id);
+      en.photoIds = ps.slice(0, i).map(p => p.id);
+      const ne = { id: uid(), photoIds: moved, place: '', geo: '', memo: '', draft: '', questions: [], answers: [], text: '' };
+      S.trip.entries.push(ne); await saveTrip(); S.keepScroll = window.scrollY; render(); geocodeEntries([ne.id]); break;
+    }
+    case 'merge-prev': {
+      const es = sortedEntries(), i = es.findIndex(x => x.id === eid); if (i <= 0) return;
+      const prev = es[i - 1], cur = es[i];
+      if ((cur.text.trim() || cur.draft) && !confirm('이 묶음에 쓴 일기·초안은 합치면 사라집니다. 계속할까요?')) return;
+      prev.photoIds = prev.photoIds.concat(cur.photoIds);
+      S.trip.entries = S.trip.entries.filter(x => x.id !== cur.id);
+      await saveTrip(); S.keepScroll = window.scrollY; render(); break;
+    }
+    case 'del-entry': {
+      const en = findEntry(eid);
+      if (!confirm(`이 묶음의 사진 ${en.photoIds.length}장과 일기를 삭제합니다. 계속할까요?`)) return;
+      for (const pid of en.photoIds) { await dbDel('photos', pid); URL.revokeObjectURL(S.urls[pid]); delete S.urls[pid]; delete S.photos[pid]; }
+      S.trip.entries = S.trip.entries.filter(x => x.id !== eid); await saveTrip(); S.keepScroll = window.scrollY; render(); break;
+    }
+    case 'del-photo': {
+      const pid = b.dataset.photo, en = findEntryByPhoto(pid); if (!en) return;
+      if (!confirm('이 사진을 삭제할까요?')) return;
+      en.photoIds = en.photoIds.filter(x => x !== pid);
+      await dbDel('photos', pid); URL.revokeObjectURL(S.urls[pid]); delete S.urls[pid]; delete S.photos[pid];
+      if (!en.photoIds.length) S.trip.entries = S.trip.entries.filter(x => x.id !== en.id);
+      await saveTrip(); S.keepScroll = window.scrollY; render(); break;
+    }
+  }
+});
+document.addEventListener('input', e => {
+  const t = e.target, f = t.dataset && t.dataset.field; if (!f) return;
+  if (f === 'tripName') { S.trip.name = t.value; saveTripSoon(); return; }
+  const sec = t.closest('[data-entry]'), en = sec && findEntry(sec.dataset.entry); if (!en) return;
+  if (f === 'answer') en.answers[+t.dataset.idx] = t.value; else en[f] = t.value;
+  saveTripSoon();
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.field === 'tripStyle') { S.trip.style = t.value; saveTripSoon(); }
+});
+$('#fileIn').addEventListener('change', e => { const f = [...e.target.files]; e.target.value = ''; addFiles(f); });
+$('#restoreIn').addEventListener('change', e => { const f = e.target.files[0]; e.target.value = ''; if (f) restoreAll(f); });
+['dragenter', 'dragover'].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); const d = $('#drop'); if (d) d.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); const d = $('#drop'); if (d) d.classList.remove('over'); }));
+document.addEventListener('drop', e => { if (e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { const l = $('#lightbox'); l.style.display = 'none'; l.innerHTML = ''; } });
+window.addEventListener('beforeunload', () => { if (S.trip) saveTrip(); });
+
+(async function init() {
+  try { await dbOpen(); S.trips = await dbAll('trips'); }
+  catch (err) { app.innerHTML = '<h1>저장소를 열 수 없습니다</h1><p class="sub">이 브라우저에서 IndexedDB를 사용할 수 없습니다. 시크릿 모드라면 일반 창에서 여세요.</p>'; return; }
+  render();
+})();
+</script>
+</body>
+</html>
