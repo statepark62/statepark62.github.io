@@ -77,10 +77,17 @@ textarea{resize:vertical;line-height:1.7}
 .note{color:var(--sub);font-size:16px;margin-top:6px}
 .dots:after{content:"";animation:d 1.2s steps(4,end) infinite}
 @keyframes d{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+#cloud{position:fixed;right:14px;top:12px;z-index:30;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:14.5px;color:var(--sub);cursor:pointer;box-shadow:0 1px 6px rgba(0,0,0,.08);max-width:70vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#cloud.busy{color:var(--accent-d);border-color:var(--accent)}
+#cloud.warn{color:#fff;background:var(--warn);border-color:var(--warn)}
+.steps{margin:8px 0 0;padding-left:1.3em;font-size:16px;color:var(--sub)}
+.steps li{margin:4px 0}
+a{color:var(--accent-d)}
 </style>
 </head>
 <body>
 <div id="app"></div>
+<div id="cloud" data-act="cloud-click"></div>
 <div id="toast"></div>
 <div id="progress"></div>
 <div id="lightbox"></div>
@@ -88,6 +95,7 @@ textarea{resize:vertical;line-height:1.7}
 <input type="file" id="restoreIn" accept="application/json,.json" hidden>
 
 <script src="https://cdn.jsdelivr.net/npm/exifr@7/dist/full.umd.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
 'use strict';
 /* ===================== 유틸 ===================== */
@@ -162,6 +170,7 @@ const STYLES = {
 };
 const S = { view: 'list', trips: [], trip: null, photos: {}, urls: {}, mapOpen: false, map: null, busy: new Set() };
 const cfg = {
+  get clientId() { return localStorage.getItem('td_client') || ''; },
   get key() { return localStorage.getItem('td_key') || ''; },
   get model() { return localStorage.getItem('td_model') || 'claude-sonnet-5-5'; },
   get style() { return localStorage.getItem('td_style') || 'plain'; }
@@ -202,15 +211,18 @@ function autoGroup(list) {
 }
 
 let saveTimer;
-function saveTripSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(saveTrip, 400); }
+function saveTripSoon() { S.pendingSave = true; clearTimeout(saveTimer); saveTimer = setTimeout(saveTrip, 400); }
+async function flushTrip() { if (S.pendingSave) await saveTrip(); }
 async function saveTrip() {
   if (!S.trip) return;
-  clearTimeout(saveTimer);
+  clearTimeout(saveTimer); S.pendingSave = false;
   const ts = S.trip.entries.flatMap(e => entryPhotos(e).map(p => p.time));
   S.trip.photoCount = S.trip.entries.reduce((n, e) => n + e.photoIds.length, 0);
   if (ts.length) { S.trip.startTime = Math.min(...ts); S.trip.endTime = Math.max(...ts); }
+  S.trip.rev = (S.trip.rev || 0) + 1; S.trip.dirty = true; S.trip.updated = Date.now();
   try { await dbPut('trips', S.trip); }
   catch (err) { toast('저장 실패: ' + (err && err.message || err), true); }
+  syncSoon();
 }
 
 /* ===================== 사진 읽기 ===================== */
@@ -397,7 +409,8 @@ async function aiDraft(id) {
   if (en.text && !confirm('이미 쓴 일기가 있습니다. AI 초안으로 바꿀까요?\n(취소하면 질문만 새로 받습니다)')) { /* 질문만 갱신 */ en._keepText = true; }
   S.busy.add(id); rerenderEntry(id);
   try {
-    const picks = pickPhotos(entryPhotos(en), 4), content = [];
+    const picks = pickPhotos(entryPhotos(en).filter(p => p.blob), 4), content = [];
+    if (!picks.length) throw new Error('사진을 아직 내려받지 못했습니다. 드라이브 연결을 확인하세요.');
     for (const p of picks) content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: await blobToB64(p.blob) } });
     content.push({ type: 'text', text: `${entryContext(en)}\n(위 사진은 이 묶음에서 ${picks.length}장을 골라 보낸 것입니다.)\n\nJSON으로만 답하세요.` });
     const raw = await callClaude(SYS_DRAFT, content, 1000);
@@ -452,7 +465,7 @@ function viewList() {
   return `
   <h1>여행 사진 일기</h1>
   <p class="sub">사진을 올리면 날짜·장소별로 묶고, AI가 초안과 질문을 줍니다. 내 답이 들어간 나의 일기로 완성하세요.</p>
-  <div class="nav"><button class="pri" data-act="new-trip">＋ 새 여행</button><button data-act="settings">설정 · 백업</button></div>
+  <div class="nav"><button class="pri" data-act="new-trip">＋ 새 여행</button><button data-act="g-import">☁ 드라이브에서 가져오기</button><button data-act="settings">설정 · 백업</button></div>
   ${trips.length ? `<div class="grid">${trips.map(t => `
     <div class="card trip" data-act="open-trip" data-id="${t.id}">
       <div class="nm">${esc(t.name)}</div>
@@ -463,7 +476,7 @@ function viewList() {
 function viewSettings() {
   return `
   <h1>설정 · 백업</h1>
-  <p class="sub">모든 데이터는 이 브라우저 안(IndexedDB)에만 저장됩니다.</p>
+  <p class="sub">작업 중인 내용은 이 브라우저에 두고, 구글 드라이브·시트에 자동으로 저장합니다.</p>
   <div class="nav"><button data-act="back">← 여행 목록</button></div>
   <div class="card set">
     <label>Claude API 키</label>
@@ -476,6 +489,28 @@ function viewSettings() {
     <select id="setStyle">${Object.entries(STYLES).map(([k, v]) => `<option value="${k}" ${cfg.style === k ? 'selected' : ''}>${v.label}</option>`).join('')}</select>
     <div class="btns"><button class="pri" data-act="save-settings">저장</button></div>
     <div class="note">AI 초안을 만들 때 묶음당 사진 최대 4장(긴 변 1024px로 줄인 것)과 촬영 시각·장소 정보가 전송됩니다. 그 외에는 사진이 외부로 나가지 않습니다.</div>
+  </div>
+  <div class="card set">
+    <h3 style="text-align:center">구글 드라이브·시트 저장</h3>
+    <div class="note" style="text-align:center">내 드라이브의 「여행일기」 폴더에 여행별 폴더(줄인 사진)와 구글 시트(일기·장소·시각)가 만들어집니다.</div>
+    <label>OAuth 클라이언트 ID</label>
+    <input type="text" id="setClient" value="${esc(cfg.clientId)}" placeholder="1234567890-abc....apps.googleusercontent.com" autocomplete="off">
+    <div class="btns">
+      <button class="pri" data-act="g-connect">저장하고 연결</button>
+      <button data-act="g-sync">지금 전부 동기화</button>
+      <button data-act="g-import">드라이브에서 가져오기</button>
+      <button class="dng" data-act="g-disconnect">연결 해제</button>
+    </div>
+    <div class="note warn" id="setCloudMsg"></div>
+    <div class="note"><b>클라이언트 ID 만드는 순서</b></div>
+    <ol class="steps">
+      <li>console.cloud.google.com 에서 프로젝트를 고릅니다. (다른 앱에서 쓰던 프로젝트 그대로 가능)</li>
+      <li>「API 및 서비스 → 라이브러리」에서 <b>Google Drive API</b>와 <b>Google Sheets API</b>를 각각 「사용」으로 켭니다.</li>
+      <li>「OAuth 동의 화면」에서 사용자 유형을 「외부」로 하고, 「테스트 사용자」에 본인 구글 계정을 추가합니다.</li>
+      <li>「사용자 인증 정보 → 사용자 인증 정보 만들기 → OAuth 클라이언트 ID → 웹 애플리케이션」을 고르고, 「승인된 JavaScript 원본」에 이 앱의 주소(예: https://statepark62.github.io, 경로 없이)를 추가합니다.</li>
+      <li>만들어진 클라이언트 ID를 위 칸에 붙여넣고 「저장하고 연결」을 누릅니다.</li>
+    </ol>
+    <div class="note">이 앱은 <b>자신이 만든 파일만</b> 볼 수 있는 권한(drive.file)만 요청합니다. 내 드라이브의 다른 파일은 보지 못합니다. 구글 로그인은 https 주소나 localhost에서만 되며, 파일을 더블클릭해서 연 경우(file://)에는 동작하지 않습니다.</div>
   </div>
   <div class="card set">
     <h3 style="text-align:center">백업</h3>
@@ -513,6 +548,7 @@ function viewTrip() {
     <button data-act="export-csv">CSV (구글 시트용)</button>
     <button class="dng" data-act="del-trip">여행 삭제</button>
   </div>
+  <div class="row note" id="drivelinks">${driveLinksHtml()}</div>
   ${S.mapOpen ? '<div id="map"></div>' : ''}
   <div class="drop" id="drop">사진을 여기로 끌어다 놓거나 「＋ 사진 추가」를 누르세요. (JPEG 권장 · HEIC는 브라우저에 따라 열리지 않을 수 있음)</div>
   ${es.length ? body : '<div class="empty">아직 사진이 없습니다.</div>'}`;
@@ -528,7 +564,7 @@ function entryHtml(en) {
       <div class="etime">${hm(entryStart(en))} – ${hm(entryEnd(en))} · 사진 ${ps.length}장${noGps ? ' · <span class="warn">위치 정보 없음</span>' : ''}${noTime ? ' · <span class="warn">촬영 시각 없음(수정일 사용)</span>' : ''}</div>
     </div>
     <div class="thumbs">${ps.map((p, i) => `
-      <div class="th"><img src="${S.urls[p.id]}" data-act="zoom" data-photo="${p.id}" loading="lazy" alt="">
+      <div class="th"><img src="${S.urls[p.id] || PH}" data-act="zoom" data-photo="${p.id}" loading="lazy" alt="">
         <div class="thb">${i > 0 ? `<button data-act="split" data-photo="${p.id}" title="이 사진부터 새 묶음으로 나누기">✂</button>` : ''}<button data-act="del-photo" data-photo="${p.id}" title="사진 삭제">✕</button></div>
       </div>`).join('')}</div>
     <input type="text" class="memo" data-field="memo" value="${esc(en.memo)}" placeholder="한 줄 메모 (선택) — 예: 비가 와서 실내로 들어감, 점심으로 우동">
@@ -584,7 +620,7 @@ async function exportHtml() {
     const en = es[i], dk = dayKey(entryStart(en));
     if (dk !== lastDay) { lastDay = dk; body += `<div class="dayh"><span>${dayDiff(first, dk) + 1}일차</span><h2>${dayLabel(dk)}</h2></div>`; }
     let imgs = '';
-    for (const p of entryPhotos(en)) {
+    for (const p of entryPhotos(en).filter(x => x.blob)) {
       progress(`HTML 만드는 중 ${i+1} / ${es.length}`);
       const r = await resizeImage(p.blob, 720, 0.8);
       imgs += `<img src="${await blobToDataURL(r.blob)}" alt="">`;
@@ -620,7 +656,7 @@ async function backupAll() {
   progress('백업 만드는 중…');
   const out = { app: 'travel-diary', version: 1, exported: new Date().toISOString(), trips: S.trips, photos: [] };
   const photos = await dbAll('photos');
-  for (const p of photos) { const { blob, ...rest } = p; out.photos.push({ ...rest, data: await blobToDataURL(blob) }); }
+  for (const p of photos) { const { blob, ...rest } = p; out.photos.push({ ...rest, data: blob ? await blobToDataURL(blob) : null }); }
   progress('');
   download(`여행일기_백업_${dayKey(Date.now())}.json`, JSON.stringify(out), 'application/json');
 }
@@ -632,12 +668,263 @@ async function restoreAll(file) {
     progress('복원 중…');
     for (const p of j.photos) {
       const { data, ...rest } = p;
-      rest.blob = await (await fetch(data)).blob();
+      rest.blob = data ? await (await fetch(data)).blob() : null;
       await dbPut('photos', rest);
     }
     for (const t of j.trips) await dbPut('trips', t);
     S.trips = await dbAll('trips'); progress(''); render(); toast('복원했습니다.');
   } catch (err) { progress(''); toast('복원 실패: ' + (err.message || err), true); }
+}
+
+/* ===================== 구글 드라이브·시트 저장 ===================== */
+const PH = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+const G = { token: '', exp: 0, client: null, clientId: '', pending: null, rootId: null, running: false, state: 'idle', last: 0, msg: '', timer: null, lastTry: 0 };
+const GSCOPE = 'https://www.googleapis.com/auth/drive.file';
+const FOLDER = 'application/vnd.google-apps.folder', SHEET = 'application/vnd.google-apps.spreadsheet';
+const TABS = ['묶음', '사진', '정보'];
+const pendingTrips = () => S.trips.filter(t => t.dirty || (cfg.clientId && !t.sheetId));
+const jparse = (v, fb) => { try { const x = JSON.parse(v); return Array.isArray(x) ? x : fb; } catch (e) { return fb; } };
+
+function driveLinksHtml() {
+  const t = S.trip; if (!t || !t.folderId) return '';
+  return `<a href="https://drive.google.com/drive/folders/${t.folderId}" target="_blank" rel="noopener">📁 드라이브 폴더 열기</a>` +
+    (t.sheetId ? ` · <a href="https://docs.google.com/spreadsheets/d/${t.sheetId}" target="_blank" rel="noopener">📊 구글 시트 열기</a>` : '');
+}
+function updateCloud() {
+  const el = $('#cloud'); if (!el) return;
+  let txt, cls = '';
+  if (!cfg.clientId) { txt = '☁ 구글 드라이브 연결 안 됨 — 설정'; cls = 'warn'; }
+  else if (G.state === 'running') { txt = '☁ ' + (G.msg || '저장 중…'); cls = 'busy'; }
+  else if (G.state === 'auth') { txt = '☁ 로그인이 필요합니다 — 눌러서 연결'; cls = 'warn'; }
+  else if (G.state === 'error') { txt = '☁ 저장 실패 — 눌러서 다시 시도'; cls = 'warn'; }
+  else if (pendingTrips().length) { txt = '☁ 저장 대기 중…'; cls = 'busy'; }
+  else if (G.last) txt = `☁ 드라이브에 저장됨 ${hm(G.last)}`;
+  else txt = '☁ 구글 드라이브 연결됨';
+  el.textContent = txt; el.className = cls; el.title = G.state === 'error' ? G.msg : '';
+  const dl = $('#drivelinks'); if (dl) dl.innerHTML = driveLinksHtml();
+  const sm = $('#setCloudMsg'); if (sm) sm.textContent = G.msg && G.state === 'error' ? G.msg : '';
+}
+
+/* --- 로그인(토큰) --- */
+function gToken() {
+  return new Promise((res, rej) => {
+    if (G.token && Date.now() < G.exp - 60000) return res(G.token);
+    if (!cfg.clientId) return rej(Object.assign(new Error('설정에서 OAuth 클라이언트 ID를 입력하세요.'), { auth: true }));
+    if (!window.google || !google.accounts || !google.accounts.oauth2) return rej(Object.assign(new Error('구글 로그인 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인하세요.'), { auth: true }));
+    if (G.pending) return rej(Object.assign(new Error('로그인 진행 중입니다.'), { auth: true }));
+    if (!G.client || G.clientId !== cfg.clientId) {
+      G.clientId = cfg.clientId;
+      G.client = google.accounts.oauth2.initTokenClient({
+        client_id: cfg.clientId, scope: GSCOPE,
+        callback: r => {
+          const p = G.pending; G.pending = null; if (!p) return;
+          if (r.error) return p.rej(Object.assign(new Error('로그인 오류: ' + (r.error_description || r.error)), { auth: true }));
+          G.token = r.access_token; G.exp = Date.now() + (r.expires_in || 3600) * 1000; localStorage.setItem('td_g_ok', '1'); p.res(G.token);
+        },
+        error_callback: e => {
+          const p = G.pending; G.pending = null; if (!p) return;
+          const m = e.type === 'popup_closed' ? '로그인 창이 닫혔습니다.' : e.type === 'popup_failed_to_open' ? '로그인 창을 열지 못했습니다(팝업 차단).' : '로그인 오류: ' + e.type;
+          p.rej(Object.assign(new Error(m), { auth: true }));
+        }
+      });
+    }
+    const mine = G.pending = { res, rej };
+    setTimeout(() => { if (G.pending === mine) { G.pending = null; rej(Object.assign(new Error('로그인 응답이 없습니다.'), { auth: true })); } }, 90000);
+    G.client.requestAccessToken({ prompt: localStorage.getItem('td_g_ok') ? '' : 'consent' });
+  });
+}
+async function gfetch(url, opt = {}, retry = true) {
+  const tk = await gToken();
+  const r = await fetch(url, { ...opt, headers: { ...(opt.headers || {}), Authorization: 'Bearer ' + tk } });
+  if (r.status === 401 && retry) { G.token = ''; return gfetch(url, opt, false); }
+  if (!r.ok) {
+    let t = ''; try { t = await r.text(); } catch (e) {}
+    const err = new Error(`구글 API 오류 ${r.status}: ${t.slice(0, 200)}`); err.status = r.status;
+    if (r.status === 403 && /accessNotConfigured|has not been used|disabled/i.test(t)) err.message = 'Google Cloud에서 Drive API와 Sheets API를 사용 설정해야 합니다. (설정 화면의 안내 참고)';
+    throw err;
+  }
+  return r;
+}
+const gjson = async (url, opt) => (await gfetch(url, opt)).json();
+const jsend = (url, body, method) => gjson(url, { method: method || 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+
+/* --- 드라이브 --- */
+async function driveList(q, fields) {
+  let out = [], pt = '';
+  do {
+    const u = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&fields=${encodeURIComponent('nextPageToken,files(' + (fields || 'id,name,appProperties') + ')')}&pageSize=200${pt ? '&pageToken=' + encodeURIComponent(pt) : ''}`;
+    const j = await gjson(u); out = out.concat(j.files || []); pt = j.nextPageToken || '';
+  } while (pt);
+  return out;
+}
+const driveCreate = meta => jsend('https://www.googleapis.com/drive/v3/files?fields=id,name', meta);
+async function driveAlive(id) {
+  try { const j = await gjson(`https://www.googleapis.com/drive/v3/files/${id}?fields=id,trashed`); return !j.trashed; }
+  catch (e) { if (e.status === 404) return false; throw e; }
+}
+const driveTrash = id => jsend(`https://www.googleapis.com/drive/v3/files/${id}?fields=id`, { trashed: true }, 'PATCH').catch(e => { if (e.status !== 404) throw e; });
+const driveRename = (id, name) => jsend(`https://www.googleapis.com/drive/v3/files/${id}?fields=id`, { name }, 'PATCH');
+async function driveUpload(blob, name, parent) {
+  const b = 'tdbnd' + uid();
+  const meta = JSON.stringify({ name, parents: [parent], mimeType: 'image/jpeg' });
+  const body = new Blob([`--${b}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--${b}\r\nContent-Type: image/jpeg\r\n\r\n`, blob, `\r\n--${b}--`]);
+  const r = await gfetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', { method: 'POST', headers: { 'content-type': `multipart/related; boundary=${b}` }, body });
+  return (await r.json()).id;
+}
+const driveDownload = async id => (await gfetch(`https://www.googleapis.com/drive/v3/files/${id}?alt=media`)).blob();
+async function ensureRoot() {
+  if (G.rootId && await driveAlive(G.rootId)) return G.rootId;
+  const f = await driveList(`mimeType='${FOLDER}' and trashed=false and appProperties has { key='tdRoot' and value='1' }`);
+  if (f.length) return (G.rootId = f[0].id);
+  return (G.rootId = (await driveCreate({ name: '여행일기', mimeType: FOLDER, appProperties: { tdRoot: '1' } })).id);
+}
+
+/* --- 시트 --- */
+const sheetTitle = t => `${safeName(t.name)} · 일기`;
+async function ensureTabs(sid) {
+  const j = await gjson(`https://sheets.googleapis.com/v4/spreadsheets/${sid}?fields=sheets.properties.title`);
+  const have = (j.sheets || []).map(s => s.properties.title);
+  const miss = TABS.filter(t => !have.includes(t));
+  if (miss.length) await jsend(`https://sheets.googleapis.com/v4/spreadsheets/${sid}:batchUpdate`, { requests: miss.map(t => ({ addSheet: { properties: { title: t } } })) });
+}
+async function createTripSheet(trip, folderId) {
+  const j = await jsend('https://sheets.googleapis.com/v4/spreadsheets', { properties: { title: sheetTitle(trip) }, sheets: TABS.map(t => ({ properties: { title: t } })) });
+  await jsend(`https://www.googleapis.com/drive/v3/files/${j.spreadsheetId}?addParents=${folderId}&removeParents=root&fields=id`, { appProperties: { tdSheet: trip.id } }, 'PATCH');
+  return j.spreadsheetId;
+}
+const photoFileName = p => `${dayKey(p.time)}_${hm(p.time).replace(':', '')}_${String(p.id).slice(-4)}.jpg`;
+function buildSheetRows(trip, pm) {
+  const ents = trip.entries.map(e => ({ e, ps: e.photoIds.map(id => pm[id]).filter(Boolean).sort((a, b) => a.time - b.time) }))
+    .filter(x => x.ps.length).sort((a, b) => a.ps[0].time - b.ps[0].time);
+  const entries = [['순번', '날짜', '시작', '종료', '장소', '위도', '경도', '사진수', '한줄메모', '일기', 'AI초안', 'AI질문', '내 답변', 'entryId', 'photoIds', '질문JSON', '답변JSON', '주소정보']];
+  ents.forEach((x, i) => {
+    const e = x.e, ps = x.ps, g = ps.filter(p => p.lat != null);
+    entries.push([i + 1, dayKey(ps[0].time), hm(ps[0].time), hm(ps[ps.length - 1].time), e.place || '',
+      g.length ? +(g.reduce((s, p) => s + p.lat, 0) / g.length).toFixed(6) : '', g.length ? +(g.reduce((s, p) => s + p.lon, 0) / g.length).toFixed(6) : '',
+      e.photoIds.length, e.memo || '', e.text || '', e.draft || '', (e.questions || []).join('\n'),
+      (e.questions || []).map((q, k) => (e.answers || [])[k] || '').join('\n'),
+      e.id, JSON.stringify(e.photoIds), JSON.stringify(e.questions || []), JSON.stringify(e.answers || []), e.geo || '']);
+  });
+  const used = new Set(trip.entries.flatMap(e => e.photoIds));
+  const photos = [['photoId', '드라이브 파일명', '촬영시각', 'time(ms)', 'exif시각', '위도', '경도', '가로', '세로', 'driveFileId', '원본파일명', 'key']];
+  Object.values(pm).filter(p => used.has(p.id)).sort((a, b) => a.time - b.time).forEach(p =>
+    photos.push([p.id, photoFileName(p), `${dayKey(p.time)} ${hm(p.time)}`, p.time, p.exifTime ? 1 : 0, p.lat ?? '', p.lon ?? '', p.w || '', p.h || '', p.driveId || '', p.name || '', p.key || '']));
+  const info = [['항목', '값'], ['tripId', trip.id], ['name', trip.name], ['style', trip.style || 'plain'], ['created', trip.created || 0], ['updated', trip.updated || 0], ['앱', 'travel-diary v1']];
+  return { entries, photos, info };
+}
+async function writeSheet(trip, pm) {
+  const sid = trip.sheetId, base = `https://sheets.googleapis.com/v4/spreadsheets/${sid}/values`;
+  await ensureTabs(sid);
+  await jsend(`${base}:batchClear`, { ranges: TABS.map(t => `'${t}'!A:Z`) });
+  const r = buildSheetRows(trip, pm);
+  await jsend(`${base}:batchUpdate`, { valueInputOption: 'RAW', data: [{ range: "'묶음'!A1", values: r.entries }, { range: "'사진'!A1", values: r.photos }, { range: "'정보'!A1", values: r.info }] });
+}
+async function readTripSheet(sid) {
+  const rs = TABS.map(t => `ranges=${encodeURIComponent(`'${t}'!A:Z`)}`).join('&');
+  const j = await gjson(`https://sheets.googleapis.com/v4/spreadsheets/${sid}/values:batchGet?${rs}&valueRenderOption=UNFORMATTED_VALUE`);
+  const [en, ph, inf] = (j.valueRanges || []).map(v => v.values || []);
+  const info = {}; (inf || []).slice(1).forEach(r => { info[r[0]] = r[1]; });
+  return { info, entries: (en || []).slice(1), photos: (ph || []).slice(1) };
+}
+
+/* --- 동기화 --- */
+async function photosForTrip(trip) {
+  if (S.trip && S.trip.id === trip.id) return S.photos;
+  const list = await dbPhotosOf(trip.id); const m = {}; list.forEach(p => { m[p.id] = p; }); return m;
+}
+async function syncTrip(trip) {
+  const rev = trip.rev || 0, pm = await photosForTrip(trip), root = await ensureRoot();
+  if (trip.folderId && !(await driveAlive(trip.folderId))) {          // 드라이브에서 폴더가 지워진 경우: 사진도 다시 올림
+    trip.folderId = null; trip.sheetId = null;
+    for (const p of Object.values(pm)) if (p.driveId) { p.driveId = null; if (p.blob) await dbPut('photos', p); }
+  }
+  if (!trip.folderId) {
+    trip.folderId = (await driveCreate({ name: safeName(trip.name), mimeType: FOLDER, parents: [root], appProperties: { tdTrip: trip.id } })).id;
+    trip.syncedName = trip.name;
+  }
+  if (trip.sheetId && !(await driveAlive(trip.sheetId))) trip.sheetId = null;
+  if (!trip.sheetId) { trip.sheetId = await createTripSheet(trip, trip.folderId); trip.syncedName = trip.name; }
+  if (trip.syncedName !== trip.name) {
+    await driveRename(trip.folderId, safeName(trip.name)); await driveRename(trip.sheetId, sheetTitle(trip)); trip.syncedName = trip.name;
+  }
+  for (const id of (trip.trash || []).slice()) { await driveTrash(id); trip.trash = trip.trash.filter(x => x !== id); }
+  const used = new Set(trip.entries.flatMap(e => e.photoIds));
+  const todo = Object.values(pm).filter(p => used.has(p.id) && !p.driveId && p.blob);
+  for (let i = 0; i < todo.length; i++) {
+    G.msg = `사진 올리는 중 ${i + 1}/${todo.length} · ${trip.name}`; updateCloud();
+    todo[i].driveId = await driveUpload(todo[i].blob, photoFileName(todo[i]), trip.folderId);
+    await dbPut('photos', todo[i]);
+  }
+  G.msg = `시트에 기록하는 중 · ${trip.name}`; updateCloud();
+  await writeSheet(trip, pm);
+  if ((trip.rev || 0) === rev) trip.dirty = false;
+  await dbPut('trips', trip);
+}
+function syncSoon(ms) { clearTimeout(G.timer); if (cfg.clientId) G.timer = setTimeout(runSync, ms ?? 3000); updateCloud(); }
+async function runSync() {
+  if (G.running || !cfg.clientId) return;
+  const todo = pendingTrips();
+  if (!todo.length) { if (G.state !== 'auth' && G.state !== 'error') G.state = 'idle'; updateCloud(); return; }
+  G.running = true; G.state = 'running'; G.msg = '저장 중…'; G.rootId = null; updateCloud();
+  try {
+    await gToken();
+    for (const t of todo) await syncTrip(t);
+    G.state = 'idle'; G.last = Date.now(); G.msg = '';
+  } catch (err) { G.msg = err.message || String(err); G.state = err.auth ? 'auth' : 'error'; }
+  G.running = false; updateCloud();
+  if (G.state === 'idle' && S.trips.some(t => t.dirty)) syncSoon(1500);
+}
+
+/* --- 드라이브에서 가져오기 --- */
+async function fetchMissingBlobs(list) {
+  const miss = list.filter(p => !p.blob && p.driveId);
+  if (!miss.length) return;
+  try {
+    for (let i = 0; i < miss.length; i++) {
+      progress(`드라이브에서 사진 내려받는 중 ${i + 1} / ${miss.length}`);
+      miss[i].blob = await driveDownload(miss[i].driveId); await dbPut('photos', miss[i]);
+    }
+  } catch (err) { toast('사진을 내려받지 못했습니다: ' + (err.message || err), true); }
+  progress('');
+}
+async function importFromDrive() {
+  if (!cfg.clientId) { toast('먼저 설정에서 클라이언트 ID를 입력하고 연결하세요.', true); S.view = 'settings'; render(); return; }
+  try {
+    G.state = 'running'; G.msg = '드라이브에서 목록 확인 중…'; updateCloud(); progress('드라이브에서 여행 목록을 확인하는 중…');
+    await gToken(); G.rootId = null;
+    const root = await ensureRoot();
+    const folders = await driveList(`'${root}' in parents and mimeType='${FOLDER}' and trashed=false`);
+    let added = 0, updated = 0, skipped = 0;
+    for (const f of folders) {
+      const tid = f.appProperties && f.appProperties.tdTrip; if (!tid) continue;
+      const sh = await driveList(`'${f.id}' in parents and mimeType='${SHEET}' and trashed=false`);
+      if (!sh.length) continue;
+      progress(`읽는 중 · ${f.name}`);
+      const d = await readTripSheet(sh[0].id);
+      const local = S.trips.find(t => t.id === tid), remoteUpd = Number(d.info.updated) || 0;
+      if (local && (local.updated || 0) >= remoteUpd) { skipped++; continue; }
+      if (local && !confirm(`「${local.name}」은(는) 드라이브 쪽이 더 최신입니다.\n이 기기의 내용을 드라이브 내용으로 바꿀까요?`)) { skipped++; continue; }
+      const num = v => (v === '' || v == null) ? null : +v;
+      const photos = d.photos.filter(r => r[0]).map(r => ({ id: String(r[0]), tripId: tid, key: String(r[11] ?? ''), name: String(r[10] ?? ''), blob: null,
+        w: +r[7] || 0, h: +r[8] || 0, time: +r[3], exifTime: +r[4] === 1, lat: num(r[5]), lon: num(r[6]), driveId: r[9] || null }));
+      const entries = d.entries.filter(r => r[13]).map(r => ({ id: String(r[13]), photoIds: jparse(r[14], []), place: String(r[4] ?? ''), geo: String(r[17] ?? ''),
+        memo: String(r[8] ?? ''), draft: String(r[10] ?? ''), questions: jparse(r[15], []), answers: jparse(r[16], []), text: String(r[9] ?? '') }));
+      const have = {}; (await dbPhotosOf(tid)).forEach(p => { have[p.id] = p; });
+      for (const p of photos) if (!have[p.id]) await dbPut('photos', p); else if (!have[p.id].driveId) { have[p.id].driveId = p.driveId; await dbPut('photos', have[p.id]); }
+      const ts = photos.map(p => p.time).filter(Boolean);
+      const name = String(d.info.name || f.name);
+      const trip = { id: tid, name, style: d.info.style || 'plain', created: +d.info.created || Date.now(), updated: remoteUpd, entries,
+        folderId: f.id, sheetId: sh[0].id, syncedName: name, dirty: false, rev: 0, trash: [],
+        photoCount: entries.reduce((n, e) => n + e.photoIds.length, 0), startTime: ts.length ? Math.min(...ts) : undefined, endTime: ts.length ? Math.max(...ts) : undefined };
+      await dbPut('trips', trip);
+      const i = S.trips.findIndex(t => t.id === tid); if (i >= 0) S.trips[i] = trip; else S.trips.push(trip);
+      if (local) updated++; else added++;
+    }
+    G.state = 'idle'; G.msg = ''; G.last = Date.now(); progress(''); render(); updateCloud();
+    toast(`가져오기 완료 — 새 여행 ${added}개, 갱신 ${updated}개, 건너뜀 ${skipped}개`);
+  } catch (err) {
+    progress(''); G.msg = err.message || String(err); G.state = err.auth ? 'auth' : 'error'; updateCloud(); toast(G.msg, true);
+  }
 }
 
 /* ===================== 이벤트 ===================== */
@@ -646,11 +933,12 @@ async function openTrip(id) {
   revokeAll();
   S.trip = S.trips.find(t => t.id === id);
   const list = await dbPhotosOf(id);
-  list.forEach(p => { S.photos[p.id] = p; S.urls[p.id] = URL.createObjectURL(p.blob); });
+  await fetchMissingBlobs(list);
+  list.forEach(p => { S.photos[p.id] = p; if (p.blob) S.urls[p.id] = URL.createObjectURL(p.blob); });
   S.view = 'trip'; S.mapOpen = false; render();
   geocodeEntries(S.trip.entries.filter(e => !e.geo).map(e => e.id));
 }
-async function closeTrip() { await saveTrip(); revokeAll(); S.trip = null; S.view = 'list'; S.trips = await dbAll('trips'); render(); }
+async function closeTrip() { await flushTrip(); revokeAll(); S.trip = null; S.view = 'list'; render(); }
 
 document.addEventListener('click', async e => {
   const lb = e.target.closest('#lightbox');
@@ -660,12 +948,12 @@ document.addEventListener('click', async e => {
   switch (act) {
     case 'new-trip': {
       const name = prompt('여행 이름을 입력하세요', ''); if (name === null) return;
-      const t = { id: uid(), name: name.trim() || '이름 없는 여행', created: Date.now(), style: cfg.style, entries: [] };
+      const t = { id: uid(), name: name.trim() || '이름 없는 여행', created: Date.now(), updated: Date.now(), style: cfg.style, entries: [], dirty: true, rev: 1, trash: [] };
       await dbPut('trips', t); S.trips.push(t); await openTrip(t.id); break;
     }
     case 'open-trip': await openTrip(b.dataset.id); break;
     case 'back': if (S.view === 'trip') await closeTrip(); else { S.view = S.trip ? 'trip' : 'list'; render(); } break;
-    case 'settings': if (S.view === 'trip') await saveTrip(); S.view = 'settings'; render(); break;
+    case 'settings': if (S.view === 'trip') await flushTrip(); S.view = 'settings'; render(); break;
     case 'save-settings':
       localStorage.setItem('td_key', $('#setKey').value.trim());
       localStorage.setItem('td_model', $('#setModel').value.trim() || 'claude-sonnet-5-5');
@@ -678,6 +966,33 @@ document.addEventListener('click', async e => {
         revokeAll(); db.close(); await new Promise(r => { const q = indexedDB.deleteDatabase('travel-diary'); q.onsuccess = q.onerror = q.onblocked = r; });
         await dbOpen(); S.trips = []; S.trip = null; S.view = 'list'; render(); toast('삭제했습니다.');
       } break;
+    case 'cloud-click': {
+      if (!cfg.clientId) { if (S.view === 'trip') await flushTrip(); S.view = 'settings'; render(); break; }
+      if (G.state === 'running') break;
+      try { await gToken(); } catch (err) { G.state = 'auth'; G.msg = err.message; updateCloud(); toast(err.message, true); break; }
+      G.state = 'idle'; if (!pendingTrips().length) { updateCloud(); toast('모두 드라이브에 저장되어 있습니다.'); break; }
+      await runSync(); break;
+    }
+    case 'g-connect': {
+      const id = ($('#setClient').value || '').trim();
+      if (!id) { toast('클라이언트 ID를 입력하세요.', true); break; }
+      localStorage.setItem('td_client', id); G.client = null; G.token = '';
+      try { await gToken(); G.state = 'idle'; G.msg = ''; toast('구글 계정에 연결했습니다.'); syncSoon(500); }
+      catch (err) { G.state = 'auth'; G.msg = err.message; toast(err.message, true); }
+      updateCloud(); break;
+    }
+    case 'g-disconnect': {
+      try { if (G.token && window.google) google.accounts.oauth2.revoke(G.token, () => {}); } catch (e) {}
+      G.token = ''; G.client = null; G.state = 'idle'; G.msg = ''; localStorage.removeItem('td_g_ok'); localStorage.removeItem('td_client');
+      render(); updateCloud(); toast('연결을 해제했습니다. 드라이브의 파일은 그대로 남아 있습니다.'); break;
+    }
+    case 'g-sync': {
+      if (!cfg.clientId) { toast('먼저 클라이언트 ID를 입력하고 연결하세요.', true); break; }
+      for (const t of S.trips) { t.dirty = true; await dbPut('trips', t); }
+      G.state = 'idle'; await runSync();
+      toast(G.state === 'idle' ? '드라이브에 저장했습니다.' : (G.msg || '저장하지 못했습니다.'), G.state !== 'idle'); break;
+    }
+    case 'g-import': await importFromDrive(); break;
     case 'add-photos': $('#fileIn').click(); break;
     case 'draft': await aiDraft(eid); break;
     case 'refine': await aiRefine(eid); break;
@@ -688,6 +1003,7 @@ document.addEventListener('click', async e => {
     case 'export-csv': exportCsv(); break;
     case 'del-trip':
       if (confirm(`「${S.trip.name}」 여행과 사진을 모두 삭제합니다. 계속할까요?`)) {
+        if (S.trip.folderId && cfg.clientId && confirm('구글 드라이브의 폴더와 시트도 휴지통으로 옮길까요?\n(취소하면 드라이브에는 그대로 남습니다)')) { try { await driveTrash(S.trip.folderId); } catch (e) { toast('드라이브 정리 실패: ' + (e.message || e), true); } }
         for (const p of Object.values(S.photos)) await dbDel('photos', p.id);
         await dbDel('trips', S.trip.id); S.trips = S.trips.filter(t => t.id !== S.trip.id); S.trip.entries = []; clearTimeout(saveTimer);
         revokeAll(); S.trip = null; S.view = 'list'; render();
@@ -713,13 +1029,14 @@ document.addEventListener('click', async e => {
     case 'del-entry': {
       const en = findEntry(eid);
       if (!confirm(`이 묶음의 사진 ${en.photoIds.length}장과 일기를 삭제합니다. 계속할까요?`)) return;
-      for (const pid of en.photoIds) { await dbDel('photos', pid); URL.revokeObjectURL(S.urls[pid]); delete S.urls[pid]; delete S.photos[pid]; }
+      for (const pid of en.photoIds) { const ph = S.photos[pid]; if (ph && ph.driveId) (S.trip.trash = S.trip.trash || []).push(ph.driveId); await dbDel('photos', pid); URL.revokeObjectURL(S.urls[pid]); delete S.urls[pid]; delete S.photos[pid]; }
       S.trip.entries = S.trip.entries.filter(x => x.id !== eid); await saveTrip(); S.keepScroll = window.scrollY; render(); break;
     }
     case 'del-photo': {
       const pid = b.dataset.photo, en = findEntryByPhoto(pid); if (!en) return;
       if (!confirm('이 사진을 삭제할까요?')) return;
       en.photoIds = en.photoIds.filter(x => x !== pid);
+      { const ph = S.photos[pid]; if (ph && ph.driveId) (S.trip.trash = S.trip.trash || []).push(ph.driveId); }
       await dbDel('photos', pid); URL.revokeObjectURL(S.urls[pid]); delete S.urls[pid]; delete S.photos[pid];
       if (!en.photoIds.length) S.trip.entries = S.trip.entries.filter(x => x.id !== en.id);
       await saveTrip(); S.keepScroll = window.scrollY; render(); break;
@@ -743,13 +1060,22 @@ $('#restoreIn').addEventListener('change', e => { const f = e.target.files[0]; e
 ['dragleave', 'drop'].forEach(ev => document.addEventListener(ev, e => { e.preventDefault(); const d = $('#drop'); if (d) d.classList.remove('over'); }));
 document.addEventListener('drop', e => { if (e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { const l = $('#lightbox'); l.style.display = 'none'; l.innerHTML = ''; } });
-window.addEventListener('beforeunload', () => { if (S.trip) saveTrip(); });
+window.addEventListener('beforeunload', () => { if (S.trip) flushTrip(); });
 
 (async function init() {
   try { await dbOpen(); S.trips = await dbAll('trips'); }
   catch (err) { app.innerHTML = '<h1>저장소를 열 수 없습니다</h1><p class="sub">이 브라우저에서 IndexedDB를 사용할 수 없습니다. 시크릿 모드라면 일반 창에서 여세요.</p>'; return; }
   render();
+  if (cfg.clientId && pendingTrips().length) G.state = 'auth';
+  updateCloud();
 })();
+// 토큰이 만료된 뒤 사용자가 화면을 누르면(= 사용자 동작) 조용히 다시 로그인해 밀린 저장을 보냅니다.
+document.addEventListener('click', () => {
+  if (!cfg.clientId || G.running || !localStorage.getItem('td_g_ok')) return;
+  if (G.token && Date.now() < G.exp - 60000) return;
+  if (!pendingTrips().length || Date.now() - G.lastTry < 60000) return;
+  G.lastTry = Date.now(); runSync();
+}, true);
 </script>
 </body>
 </html>
