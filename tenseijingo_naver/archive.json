@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-10",
+    "no": 126,
+    "topic_ja": "マニラの<ruby>手紙<rt>てがみ</rt></ruby>",
+    "topic_ko": "마닐라의 편지",
+    "url": "https://www.asahi.com/articles/DA3S16584437.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘전시의 일상’, ‘가족 서간’, ‘말의 무게’ — 편지를 통해 국가 동원의 구호와 가정의 목소리가 교차하는 순간을 포착해, 시대와 생활의 접점을 보여주기 때문.",
+    "pattern": "Vて<ruby>下<rt>くだ</rt></ruby>さい"
+  },
+  {
     "date": "2026-11-08",
     "no": 124,
     "topic_ja": "<ruby>蘇東坡<rt>そとうば</rt></ruby>と<ruby>流刑<rt>るけい</rt></ruby>",

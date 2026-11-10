@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-10 天声人語로 배우는 일본어 — 마닐라의 편지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-10</span>
+      <span>2026년 11월 10일 (화)</span>
+    </div>
+
+    <h1>マニラの<ruby>手紙<rt>てがみ</rt></ruby></h1>
+    <p class="topic-ko">마닐라의 편지</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>国<rt>くに</rt></ruby>を<ruby>挙<rt>あ</rt></ruby>げての」</div>
+      <div class="ko">나라가 총동원되어 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">あの<ruby>戦争<rt>せんそう</rt></ruby>のさなか、マニラから<ruby>故郷<rt>こきょう</rt></ruby>へ<ruby>送<rt>おく</rt></ruby>られた５６<ruby>通<rt>つう</rt></ruby>の<ruby>手紙<rt>てがみ</rt></ruby>が<ruby>出発点<rt>しゅっぱつてん</rt></ruby>だ。</p><p class="ko">전쟁 한복판인 마닐라에서 고향으로 보내진 56통의 편지가 칼럼의 출발점이다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>紀藤勇吉<rt>きとうゆうきち</rt></ruby>という<ruby>父<rt>ちち</rt></ruby>が、<ruby>南洋<rt>なんよう</rt></ruby>の<ruby>製油<rt>せいゆ</rt></ruby><ruby>会社<rt>がいしゃ</rt></ruby>の<ruby>社員<rt>しゃいん</rt></ruby>として<ruby>赴<rt>おもむ</rt></ruby>き、<ruby>兵庫<rt>ひょうご</rt></ruby>にいる<ruby>妻<rt>つま</rt></ruby>と４<ruby>人<rt>にん</rt></ruby>の<ruby>子<rt>こ</rt></ruby>へ<ruby>近況<rt>きんきょう</rt></ruby>や<ruby>気遣<rt>きづか</rt></ruby>いを<ruby>伝<rt>つた</rt></ruby>える。</p><p class="ko">기토 유키치라는 가장이 남양의 정유회사 직원으로 떠난 뒤, 효고의 아내와 네 아이에게 근황과 당부를 전한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>は、<ruby>短<rt>みじか</rt></ruby>い<ruby>文<rt>ぶん</rt></ruby>ににじむ<ruby>忍耐<rt>にんたい</rt></ruby>と<ruby>責任<rt>せきにん</rt></ruby>の<ruby>調子<rt>ちょうし</rt></ruby>から、<ruby>戦時<rt>せんじ</rt></ruby>の<ruby>日常<rt>にちじょう</rt></ruby>を<ruby>照<rt>て</rt></ruby>らそうとしている。</p><p class="ko">필자는 그 짧은 문장들에 스며든 인내와 책임의 어조를 통해 전시의 일상을 비추려 한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>赴く<rt>おもむく</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">향하다, 파견되어 가다</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>任務<rt>にんむ</rt></ruby>のために<ruby>現地<rt>げんち</rt></ruby>へ<ruby>赴<rt>おもむ</rt></ruby>いた。</span><br>그는 임무를 위해 현지로 향했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>南洋<rt>なんよう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">남양(남태평양 일대)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>博物館<rt>はくぶつかん</rt></ruby>で<ruby>南洋<rt>なんよう</rt></ruby>の<ruby>文化<rt>ぶんか</rt></ruby>を<ruby>学<rt>まな</rt></ruby>ぶ。</span><br>박물관에서 남양의 문화를 배운다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>製油会社<rt>せいゆがいしゃ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">정유회사</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>製油<rt>せいゆ</rt></ruby><ruby>会社<rt>がいしゃ</rt></ruby>で<ruby>設備<rt>せつび</rt></ruby>を<ruby>管理<rt>かんり</rt></ruby>している。</span><br>그는 정유회사에서 설비를 관리하고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>忍耐<rt>にんたい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">인내</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>長<rt>なが</rt></ruby>い<ruby>研究<rt>けんきゅう</rt></ruby>には<ruby>忍耐<rt>にんたい</rt></ruby>が<ruby>要<rt>い</rt></ruby>る。</span><br>긴 연구에는 인내가 필요하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>宛先<rt>あてさき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">수신처, 받는 이</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>手紙<rt>てがみ</rt></ruby>の<ruby>宛先<rt>あてさき</rt></ruby>を<ruby>正<rt>ただ</rt></ruby>しく<ruby>記<rt>しる</rt></ruby>す。</span><br>편지의 수신처를 올바르게 적다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Vて<ruby>下<rt>くだ</rt></ruby>さい</div>
+        <div class="pattern-ko">~해 주세요</div>
+        <p class="explain">상대에게 정중하게 부탁하거나 지시할 때 쓰는 표현이다. 구어와 문어 모두에서 널리 쓰이며, 명령형보다 부드럽고 상대를 배려하는 뉘앙스를 가진다.</p>
+        <p class="ex"><span class="ja">どうかあきらめないで<ruby>下<rt>くだ</rt></ruby>さい。</span><br>부디 포기하지 말아 주세요.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 숫자(56통)로 시작해 독자의 시선을 곧바로 구체물인 ‘편지’로 끌어당긴다. 개인의 목소리를 통해 시대를 보여주는 천성인어의 상투이지만 효과적인 작법이 선명하다. 가족에게 건네는 짤막한 문장을 골라 배치함으로써, 과장 없이도 전시의 공기와 압력을 드러낸다. 사실 설명보다 어조와 단어 선택에 초점을 맞춰, 독자가 스스로 빈칸을 메우게 하는 방식이다.</p>
+        <p>한국 독자의 입장에서 흥미로운 점은 ‘남양’이라는 지명이 호출하는 역사적 기억과, 생활 언어 속에 스며든 동원 구호의 마찰이다. 전시라는 특수 상황 속에서도 가정의 안부와 교육적 당부가 이어졌다는 사실은 보편성과 특수성을 동시에 비춘다. 또한 옛 표기들이 남긴 거친 결이, 시대의 질감을 문장 자체로 증언한다. 결과적으로 칼럼은 전쟁사를 말하기보다 ‘살아낸 시간’을 들려주는 데 집중한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 전시 속 가족 편지가 전하는 인내와 일상의 결을 더듬는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>‘남양(南洋)’은 전전 일본에서 남태평양 제도 일대를 가리키던 말로, 무역·이주·전쟁과 연결된 역사적 맥락을 지닌다.</p>
+        <p>전시에는 ‘나라를 들어’ 같은 동원 구호가 일상 언어에 스며들었고, 개인의 편지에도 그런 문구가 섞이는 일이 흔했다고 알려져 있다.</p>
+        <p>당대의 편지에는 ‘思ひます’처럼 옛 가나 표기가 살아 있어, 시대의 말맛과 거리감을 동시에 전한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>사실을 나열하기보다 구체물(편지) 하나에 초점을 맞춰 시대를 우회적으로 비춘다.</p>
+        <p><span class="n">二</span>직설적 평가를 절제하고, 인용과 서술의 리듬으로 독자의 해석을 유도한다.</p>
+        <p><span class="n">三</span>옛 표기나 어휘의 질감을 살려 문장 자체로 시간의 공기를 재현한다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>言葉<rt>ことば</rt></ruby>は<ruby>短<rt>みじか</rt></ruby>くても、<ruby>思<rt>おも</rt></ruby>いは<ruby>届<rt>とど</rt></ruby>く。</span>
+      <span class="ko">말은 짧아도 마음은 전해진다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-10) — <a href="https://www.asahi.com/articles/DA3S16584437.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-10.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+<script>
+(function(){
+  try {
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzcXdFIOuEEMrvp34WC31ba2kWz9plgNJKqr4nVINKhva4xPjHkL2rmIxV6JLLWijXI/exec";
+    var uid = localStorage.getItem("tj_uid") || "", isNew = false;
+    if (!uid) {
+      uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem("tj_uid", uid); isNew = true;
+    }
+    var m = location.pathname.match(/(\d{4}-\d{2}-\d{2})\.html/);
+    var page = m ? m[1] : "상세";
+    var key = "tj_logged_" + page;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    var dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "모바일" : "PC";
+    var qs = "action=log&uid=" + encodeURIComponent(uid) + "&page=" + encodeURIComponent(page) + "&dev=" + encodeURIComponent(dev) +
+             "&ref=" + encodeURIComponent((document.referrer||"").slice(0,120));
+    fetch(GAS_URL + "?" + qs, {mode:"no-cors"}).catch(function(){});
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

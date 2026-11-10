@@ -14391,5 +14391,55 @@
   "example": "雨上がりの菜圃を歩く。",
   "exampleReading": "あめあがりのさいほをあるく",
   "exampleMeaning": "비가 갠 뒤 채소밭을 걷는다."
+ },
+ {
+  "id": "tj590",
+  "word": "赴く",
+  "reading": "おもむく",
+  "meaning": "향하다, 파견되어 가다",
+  "level": "N1",
+  "example": "彼は任務のために現地へ赴いた。",
+  "exampleReading": "かれはにんむのためにげんちへおもむいた",
+  "exampleMeaning": "그는 임무를 위해 현지로 향했다."
+ },
+ {
+  "id": "tj591",
+  "word": "南洋",
+  "reading": "なんよう",
+  "meaning": "남양(남태평양 일대)",
+  "level": "N1",
+  "example": "博物館で南洋の文化を学ぶ。",
+  "exampleReading": "はくぶつかんでなんようのぶんかをまなぶ",
+  "exampleMeaning": "박물관에서 남양의 문화를 배운다."
+ },
+ {
+  "id": "tj592",
+  "word": "製油会社",
+  "reading": "せいゆがいしゃ",
+  "meaning": "정유회사",
+  "level": "N1",
+  "example": "彼は製油会社で設備を管理している。",
+  "exampleReading": "かれはせいゆがいしゃでせつびをかんりしている",
+  "exampleMeaning": "그는 정유회사에서 설비를 관리하고 있다."
+ },
+ {
+  "id": "tj593",
+  "word": "忍耐",
+  "reading": "にんたい",
+  "meaning": "인내",
+  "level": "N2",
+  "example": "長い研究には忍耐が要る。",
+  "exampleReading": "ながいけんきゅうにはにんたいがいる",
+  "exampleMeaning": "긴 연구에는 인내가 필요하다."
+ },
+ {
+  "id": "tj594",
+  "word": "宛先",
+  "reading": "あてさき",
+  "meaning": "수신처, 받는 이",
+  "level": "N2",
+  "example": "手紙の宛先を正しく記す。",
+  "exampleReading": "てがみのあてさきをただしくしるす",
+  "exampleMeaning": "편지의 수신처를 올바르게 적다."
  }
 ]
