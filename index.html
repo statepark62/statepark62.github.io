@@ -535,7 +535,34 @@ async function main() {
     const elTotal = document.getElementById("visitTotal");
     try {
       const mode = localStorage.getItem("visit_counted") ? "read" : "hit";
-      const res = await fetch(action + "?mode=" + mode);
+      let qs = "?mode=" + mode;
+      if (mode === "hit") {
+        // 접속기록용 부가정보 (IP는 저장하지 않고 국가·지역·도시만 기록)
+        const ua = navigator.userAgent || "";
+        const os = /Android/i.test(ua) ? "Android" : /iPhone|iPad|iPod/i.test(ua) ? "iOS" :
+                   /Windows/i.test(ua) ? "Windows" : /Mac OS X/i.test(ua) ? "macOS" : /Linux/i.test(ua) ? "Linux" : "기타";
+        const br = /Edg\//.test(ua) ? "Edge" : /SamsungBrowser/i.test(ua) ? "Samsung" :
+                   /Chrome\//.test(ua) ? "Chrome" : /Safari\//.test(ua) ? "Safari" : /Firefox\//.test(ua) ? "Firefox" : "기타";
+        const kind = /iPad|Tablet/i.test(ua) ? "태블릿" : /Mobi|iPhone|Android/i.test(ua) ? "모바일" : "PC";
+        let ref = "직접 접속";
+        try { if (document.referrer) { ref = new URL(document.referrer).hostname || ref; } } catch (_) {}
+        let geo = {};
+        try {
+          const ctl = new AbortController();
+          const timer = setTimeout(function () { ctl.abort(); }, 2500);
+          const g = await fetch("https://get.geojs.io/v1/ip/geo.json", { signal: ctl.signal });
+          clearTimeout(timer);
+          geo = await g.json();
+        } catch (_) {}
+        const p = new URLSearchParams({
+          country: geo.country || "", cc: geo.country_code || "",
+          region: geo.region || "", city: geo.city || "",
+          ref: ref, lang: LANG + " / " + (navigator.language || ""),
+          device: kind + " · " + os + " · " + br
+        });
+        qs += "&" + p.toString();
+      }
+      const res = await fetch(action + qs);
       const data = await res.json();
       localStorage.setItem("visit_counted", "1");
       elToday.textContent = Number(data.today).toLocaleString();
