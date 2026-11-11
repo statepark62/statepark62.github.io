@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="무전기">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>폰 무전기</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --line:#334155; --text:#f1f5f9; --sub:#94a3b8;
+    --idle:#2563eb; --req:#f59e0b; --talk:#dc2626; --busy:#475569; --ok:#22c55e;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+    text-align:center;overscroll-behavior:none}
+  .screen{min-height:100%;padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));
+    display:flex;flex-direction:column;align-items:center;max-width:560px;margin:0 auto}
+  .screen[hidden]{display:none}
+  h1{font-size:30px;margin:28px 0 4px}
+  .sub{color:var(--sub);font-size:15px;margin:0 0 24px}
+  .card{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+  .card h2{font-size:16px;margin:0 0 12px;color:var(--sub);font-weight:600}
+  input{width:100%;font-size:18px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);
+    background:#0b1220;color:var(--text);text-align:center;margin-bottom:10px;outline:none}
+  input:focus{border-color:var(--idle)}
+  button{font-family:inherit;cursor:pointer}
+  .btn{width:100%;font-size:18px;font-weight:700;padding:14px;border:0;border-radius:12px;color:#fff;background:var(--idle)}
+  .btn.alt{background:#0f766e}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--sub);font-weight:500;font-size:15px;padding:10px}
+  .btn:disabled{opacity:.5}
+  .note{font-size:13px;color:var(--sub);line-height:1.5;margin-top:6px}
+
+  .roomhead{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+  .code{font-size:34px;font-weight:800;letter-spacing:6px;color:#fff}
+  .small{font-size:13px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text)}
+  .status{font-size:16px;min-height:24px;margin:10px 0 4px;color:var(--sub)}
+  .status b{color:var(--text)}
+  ul#members{list-style:none;margin:0;padding:0;width:100%}
+  #members li{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:10px;
+    font-size:17px;border:1px solid transparent}
+  #members li.speaking{background:rgba(220,38,38,.18);border-color:var(--talk);font-weight:700}
+  #members .dot{width:10px;height:10px;border-radius:50%;background:var(--ok)}
+  #members li.speaking .dot{background:var(--talk);animation:blink .7s infinite}
+  @keyframes blink{50%{opacity:.25}}
+
+  .pttwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;padding:12px 0}
+  #ptt{width:min(62vw,250px);height:min(62vw,250px);border-radius:50%;border:0;color:#fff;font-size:24px;font-weight:800;
+    background:var(--idle);box-shadow:0 10px 30px rgba(0,0,0,.45),inset 0 -8px 20px rgba(0,0,0,.25);
+    touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;transition:background .1s,transform .08s}
+  #ptt.requesting{background:var(--req)}
+  #ptt.talking{background:var(--talk);transform:scale(1.04);animation:pulse 1s infinite}
+  #ptt.busy{background:var(--busy)}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.6)}100%{box-shadow:0 0 0 38px rgba(220,38,38,0)}}
+  .modes{display:flex;gap:8px;margin:14px 0 6px}
+  .modes button{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--sub);font-size:14px}
+  .modes button.on{background:var(--idle);border-color:var(--idle);color:#fff}
+  #toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,30px);
+    background:#000c;color:#fff;padding:11px 18px;border-radius:999px;font-size:15px;opacity:0;pointer-events:none;
+    transition:.2s;max-width:90vw}
+  #toast.on{opacity:1;transform:translate(-50%,0)}
+  #audios{display:none}
+</style>
+</head>
+<body>
+
+<!-- 입장 화면 -->
+<section id="home" class="screen">
+  <h1>📻 폰 무전기</h1>
+  <p class="sub">버튼을 누르고 말하면 방의 모든 사람이 듣습니다</p>
+
+  <div class="card">
+    <h2>내 이름</h2>
+    <input id="nameIn" maxlength="12" placeholder="이름(별명)" autocomplete="off">
+  </div>
+
+  <div class="card">
+    <h2>새 방 만들기</h2>
+    <button id="createBtn" class="btn">방 만들기</button>
+    <div class="note">4자리 방 코드가 만들어집니다. 코드를 상대에게 알려 주세요.</div>
+  </div>
+
+  <div class="card">
+    <h2>방 코드로 참가</h2>
+    <input id="codeIn" inputmode="numeric" maxlength="4" placeholder="4자리 코드" autocomplete="off">
+    <button id="joinBtn" class="btn alt">참가하기</button>
+  </div>
+
+  <div class="note">마이크 권한이 필요합니다. HTTPS(GitHub Pages 등) 또는 localhost에서만 동작합니다.</div>
+</section>
+
+<!-- 무전 화면 -->
+<section id="room" class="screen" hidden>
+  <div class="roomhead">
+    <div style="text-align:left"><div class="note" style="margin:0">방 코드</div><div class="code" id="codeView">----</div></div>
+    <div style="display:flex;gap:8px">
+      <button class="small" id="shareBtn">공유</button>
+      <button class="small" id="leaveBtn">나가기</button>
+    </div>
+  </div>
+
+  <div class="status" id="status">연결 중…</div>
+  <ul id="members"></ul>
+
+  <div class="pttwrap">
+    <button id="ptt" aria-label="누르고 말하기">누르고 말하기</button>
+    <div class="modes">
+      <button id="modeHold" class="on">누르는 동안</button>
+      <button id="modeToggle">한 번 눌러 시작/종료</button>
+    </div>
+    <div class="note">PC에서는 스페이스바로도 말할 수 있습니다.<br>화면을 켜 둔 상태로 사용하세요.</div>
+  </div>
+</section>
+
+<div id="toast"></div>
+<div id="audios"></div>
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+'use strict';
+
+/* ───────── 설정 ───────── */
+// 서로 다른 통신망(LTE↔Wi-Fi 등)에서 연결이 안 되면 TURN 서버를 추가하세요.
+// 예: {urls:'turn:내서버:3478', username:'user', credential:'pass'}
+const ICE = { iceServers: [
+  { urls: 'stun:stun.l.google.com:19302' },
+  { urls: 'stun:stun1.l.google.com:19302' }
+]};
+const PREFIX = 'ptt-walkie-';   // 방 코드 → 방장 Peer ID 접두어
+
+/* ───────── 상태 ───────── */
+const $ = s => document.querySelector(s);
+let peer = null, myId = null, myName = '', code = '', isHost = false;
+let stream = null;                 // 내 마이크 스트림
+let hostConn = null;               // (참가자) 방장과의 제어 연결
+const conns = new Map();           // (방장) 참가자 id → DataConnection
+const roster = new Map();          // (방장) id → 이름
+const members = new Map();         // id → {name, call, audio}
+let floor = null;                  // 현재 발언권 {id, name} 또는 null
+let talkWanted = false, iHaveFloor = false, joined = false;
+let mode = 'hold';                 // 'hold' | 'toggle'
+let wakeLock = null, actx = null;
+
+/* ───────── 유틸 ───────── */
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 2300);
+}
+function vib(ms){ try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} }
+function showScreen(id){ for(const s of document.querySelectorAll('.screen')) s.hidden = (s.id !== id); }
+function beep(freq, ms){
+  try{
+    if(!actx) return;
+    if(actx.state === 'suspended') actx.resume();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.frequency.value = freq; o.type = 'sine';
+    g.gain.setValueAtTime(0.0001, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.25, actx.currentTime + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + ms/1000);
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime + ms/1000 + 0.02);
+  }catch(e){}
+}
+async function keepAwake(){
+  try{
+    if('wakeLock' in navigator){ wakeLock = await navigator.wakeLock.request('screen'); }
+  }catch(e){}
+}
+document.addEventListener('visibilitychange', () => { if(joined && document.visibilityState === 'visible') keepAwake(); });
+// 자동재생이 막힌 경우를 대비해 터치할 때마다 재생 재시도
+document.addEventListener('pointerdown', () => {
+  document.querySelectorAll('#audios audio').forEach(a => { if(a.paused) a.play().catch(()=>{}); });
+  if(actx && actx.state === 'suspended') actx.resume();
+}, true);
+
+/* ───────── 마이크 / Peer ───────── */
+async function getMic(){
+  if(stream) return;
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia)
+    throw new Error('이 브라우저/주소에서는 마이크를 쓸 수 없습니다 (HTTPS 필요)');
+  try{
+    stream = await navigator.mediaDevices.getUserMedia({
+      audio:{ echoCancellation:true, noiseSuppression:true, autoGainControl:true }, video:false });
+  }catch(e){
+    throw new Error('마이크 권한을 허용해 주세요');
+  }
+  setMic(false);
+  actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+}
+function setMic(on){ if(stream) stream.getAudioTracks().forEach(t => t.enabled = on); }
+
+function openPeer(id){
+  return new Promise((resolve, reject) => {
+    const p = new Peer(id, { config: ICE, debug: 1 });
+    p.on('open', () => resolve(p));
+    p.on('error', e => reject(e));
+  });
+}
+function bindPeerCommon(){
+  peer.on('call', call => { call.answer(stream); bindCall(call); });
+  peer.on('disconnected', () => { try{ peer.reconnect(); }catch(e){} });
+  peer.on('error', e => { if(joined) console.warn('peer error', e.type); });
+}
+
+/* ───────── 방 만들기 / 참가 ───────── */
+function readName(){
+  myName = ($('#nameIn').value || '').trim().slice(0, 12) || ('손님' + Math.floor(Math.random()*90 + 10));
+  try{ localStorage.setItem('ptt-name', myName); }catch(e){}
+}
+
+async function createRoom(){
+  readName(); setBusy(true);
+  try{
+    await getMic();
+    let ok = false;
+    for(let i = 0; i < 6 && !ok; i++){
+      code = String(Math.floor(1000 + Math.random()*9000));
+      try{ peer = await openPeer(PREFIX + code); ok = true; }
+      catch(e){ if(e.type !== 'unavailable-id') throw e; }
+    }
+    if(!ok) throw new Error('방 코드를 만들지 못했습니다. 다시 시도하세요');
+    myId = peer.id; isHost = true;
+    bindPeerCommon();
+    peer.on('connection', conn => {
+      conn.on('data', d => hostHandle(conn, d));
+      conn.on('close', () => hostRemove(conn.peer));
+      conn.on('error', () => hostRemove(conn.peer));
+    });
+    roster.set(myId, myName);
+    enterRoom();
+    broadcastRoster();
+  }catch(e){
+    fail(e);
+  }finally{ setBusy(false); }
+}
+
+async function joinRoom(){
+  const c = ($('#codeIn').value || '').trim();
+  if(!/^\d{4}$/.test(c)){ toast('4자리 숫자 코드를 입력하세요'); return; }
+  readName(); setBusy(true);
+  try{
+    await getMic();
+    code = c;
+    peer = await openPeer(undefined);
+    myId = peer.id; isHost = false;
+    bindPeerCommon();
+    hostConn = peer.connect(PREFIX + code, { reliable:true });
+    await new Promise((resolve, reject) => {
+      const to = setTimeout(() => reject(new Error('방에 연결하지 못했습니다')), 12000);
+      hostConn.on('open', () => { clearTimeout(to); resolve(); });
+      peer.on('error', e => {
+        clearTimeout(to);
+        reject(new Error(e.type === 'peer-unavailable' ? '해당 코드의 방이 없습니다' : '연결 오류: ' + e.type));
+      });
+    });
+    hostConn.on('data', memberHandle);
+    hostConn.on('close', () => { if(joined){ toast('방이 종료되었습니다'); leaveRoom(); } });
+    hostConn.send({ t:'hello', name: myName });
+    enterRoom();
+  }catch(e){
+    fail(e);
+  }finally{ setBusy(false); }
+}
+
+function setBusy(b){ $('#createBtn').disabled = b; $('#joinBtn').disabled = b; }
+function fail(e){ toast(e.message || String(e)); cleanup(); }
+
+function enterRoom(){
+  joined = true;
+  $('#codeView').textContent = code;
+  showScreen('room');
+  keepAwake();
+  renderMembers(); renderPTT(); renderStatus();
+}
+
+function cleanup(){
+  joined = false; talkWanted = false; iHaveFloor = false; floor = null;
+  for(const id of [...members.keys()]) closeMember(id);
+  conns.clear(); roster.clear(); hostConn = null;
+  if(peer){ try{ peer.destroy(); }catch(e){} peer = null; }
+  if(stream){ stream.getTracks().forEach(t => t.stop()); stream = null; }
+  if(wakeLock){ try{ wakeLock.release(); }catch(e){} wakeLock = null; }
+  isHost = false;
+}
+function leaveRoom(){ cleanup(); showScreen('home'); setBusy(false); }
+
+/* ───────── 방장(발언권 중재) ───────── */
+function hostHandle(conn, d){
+  if(!d || !d.t) return;
+  if(d.t === 'hello'){
+    conns.set(conn.peer, conn);
+    roster.set(conn.peer, String(d.name || '손님').slice(0, 12));
+    broadcastRoster();
+  }else if(d.t === 'req'){
+    if(!roster.has(conn.peer)) return;
+    if(!floor || floor.id === conn.peer) setFloor(conn.peer);
+    else conn.send({ t:'deny' });
+  }else if(d.t === 'rel'){
+    if(floor && floor.id === conn.peer) setFloor(null);
+  }
+}
+function hostRemove(id){
+  if(!roster.has(id)) return;
+  conns.delete(id); roster.delete(id);
+  if(floor && floor.id === id){ floor = null; }
+  broadcastRoster();
+}
+function setFloor(id){
+  const f = id ? { id, name: roster.get(id) || '' } : null;
+  for(const c of conns.values()) if(c.open) c.send({ t:'floor', floor:f });
+  applyFloor(f);
+}
+function broadcastRoster(){
+  const list = [...roster].map(([id, name]) => ({ id, name }));
+  for(const c of conns.values()) if(c.open) c.send({ t:'roster', list, floor });
+  applyRoster(list);
+  applyFloor(floor);
+}
+
+/* ───────── 참가자 메시지 ───────── */
+function memberHandle(d){
+  if(!d || !d.t) return;
+  if(d.t === 'roster'){ applyRoster(d.list); applyFloor(d.floor || null); }
+  else if(d.t === 'floor'){ applyFloor(d.floor || null); }
+  else if(d.t === 'deny'){ denied(); }
+}
+
+/* ───────── 공통: 명단·발언권 반영 ───────── */
+function applyRoster(list){
+  const ids = new Set(list.map(m => m.id));
+  for(const id of [...members.keys()]) if(!ids.has(id)) closeMember(id);
+  for(const m of list){
+    if(m.id === myId) continue;
+    let e = members.get(m.id);
+    if(!e){ e = { name:m.name, call:null, audio:null }; members.set(m.id, e); }
+    e.name = m.name;
+    if(!e.call && myId < m.id) startCall(m.id);   // 한 쌍당 한쪽(ID가 작은 쪽)만 발신
+  }
+  renderMembers(); renderStatus();
+}
+
+function applyFloor(f){
+  const prev = floor; floor = f;
+  const mine = !!f && f.id === myId;
+  if(mine){
+    if(talkWanted){
+      if(!iHaveFloor){ beep(880, 90); vib(30); }
+      setMic(true);
+    }else{
+      sendRel();                  // 손을 뗀 뒤에 허가가 도착한 경우
+    }
+  }else{
+    setMic(false);
+    if(prev && prev.id !== myId && !f) beep(520, 70);   // 상대 발언 종료음
+    if(iHaveFloor){ talkWanted = false; }
+  }
+  iHaveFloor = mine && talkWanted;
+  renderMembers(); renderPTT(); renderStatus();
+}
+
+function denied(){
+  talkWanted = false; setMic(false); iHaveFloor = false;
+  toast('다른 사람이 말하는 중입니다'); vib(80);
+  renderPTT();
+}
+
+/* ───────── WebRTC 음성 연결(메시) ───────── */
+function startCall(id){
+  const call = peer.call(id, stream);
+  bindCall(call);
+}
+function bindCall(call){
+  const id = call.peer;
+  let e = members.get(id);
+  if(!e){ e = { name:'…', call:null, audio:null }; members.set(id, e); }
+  e.call = call;
+  call.on('stream', rs => {
+    if(e.audio) return;
+    const a = document.createElement('audio');
+    a.autoplay = true; a.playsInline = true; a.srcObject = rs;
+    $('#audios').appendChild(a);
+    a.play().catch(()=>{});
+    e.audio = a;
+  });
+  const gone = () => {
+    if(e.call === call){ e.call = null; }
+    if(e.audio){ e.audio.srcObject = null; e.audio.remove(); e.audio = null; }
+    // 아직 명단에 남아 있고 내가 발신 담당이면 재연결
+    setTimeout(() => {
+      if(joined && members.get(id) === e && !e.call && myId < id) startCall(id);
+    }, 1500);
+  };
+  call.on('close', gone);
+  call.on('error', gone);
+}
+function closeMember(id){
+  const e = members.get(id); if(!e) return;
+  members.delete(id);
+  try{ e.call && e.call.close(); }catch(x){}
+  if(e.audio){ e.audio.srcObject = null; e.audio.remove(); }
+}
+
+/* ───────── 말하기 ───────── */
+function requestFloor(){
+  if(isHost){
+    if(!floor) setFloor(myId); else denied();
+  }else if(hostConn && hostConn.open){
+    hostConn.send({ t:'req' });
+  }
+}
+function sendRel(){
+  if(isHost){ if(floor && floor.id === myId) setFloor(null); }
+  else if(hostConn && hostConn.open){ hostConn.send({ t:'rel' }); }
+}
+function startTalk(){
+  if(!joined || talkWanted) return;
+  if(floor && floor.id !== myId){ toast((floor.name || '상대') + ' 님이 말하는 중'); vib(80); return; }
+  talkWanted = true; renderPTT();
+  requestFloor();
+}
+function stopTalk(){
+  if(!talkWanted) return;
+  talkWanted = false; iHaveFloor = false;
+  setMic(false); sendRel(); renderPTT();
+}
+
+/* ───────── 화면 갱신 ───────── */
+function renderMembers(){
+  const ul = $('#members'); ul.textContent = '';
+  const all = [{ id:myId, name:myName + ' (나)' }];
+  for(const [id, e] of members) all.push({ id, name:e.name });
+  for(const m of all){
+    const li = document.createElement('li');
+    if(floor && floor.id === m.id) li.className = 'speaking';
+    const dot = document.createElement('span'); dot.className = 'dot';
+    const nm = document.createElement('span'); nm.textContent = m.name;
+    li.append(dot, nm);
+    ul.appendChild(li);
+  }
+}
+function renderStatus(){
+  const s = $('#status');
+  const n = members.size + 1;
+  s.textContent = '';
+  if(floor){
+    const b = document.createElement('b');
+    b.textContent = floor.id === myId ? '내가 말하는 중' : (floor.name + ' 님이 말하는 중');
+    s.appendChild(b);
+  }else{
+    s.textContent = '대기 중 · 참가자 ' + n + '명';
+  }
+}
+function renderPTT(){
+  const b = $('#ptt');
+  b.className = '';
+  const busy = floor && floor.id !== myId;
+  if(iHaveFloor){ b.classList.add('talking'); b.textContent = '말하는 중…'; }
+  else if(talkWanted){ b.classList.add('requesting'); b.textContent = '연결 중…'; }
+  else if(busy){ b.classList.add('busy'); b.textContent = '수신 중'; }
+  else{ b.textContent = mode === 'hold' ? '누르고 말하기' : '눌러서 시작'; }
+  if(iHaveFloor && mode === 'toggle') b.textContent = '눌러서 종료';
+}
+
+/* ───────── 이벤트 ───────── */
+const ptt = $('#ptt');
+ptt.addEventListener('contextmenu', e => e.preventDefault());
+ptt.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  try{ ptt.setPointerCapture(e.pointerId); }catch(x){}
+  if(mode === 'hold') startTalk();
+  else talkWanted ? stopTalk() : startTalk();
+});
+const release = e => { if(mode === 'hold') stopTalk(); };
+ptt.addEventListener('pointerup', release);
+ptt.addEventListener('pointercancel', release);
+
+document.addEventListener('keydown', e => {
+  if(e.code !== 'Space' || e.repeat || !joined) return;
+  if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  e.preventDefault();
+  if(mode === 'hold') startTalk(); else (talkWanted ? stopTalk() : startTalk());
+});
+document.addEventListener('keyup', e => {
+  if(e.code === 'Space' && joined && mode === 'hold') stopTalk();
+});
+
+function setMode(m){
+  if(talkWanted) stopTalk();
+  mode = m;
+  $('#modeHold').classList.toggle('on', m === 'hold');
+  $('#modeToggle').classList.toggle('on', m === 'toggle');
+  renderPTT();
+}
+$('#modeHold').onclick = () => setMode('hold');
+$('#modeToggle').onclick = () => setMode('toggle');
+
+$('#createBtn').onclick = createRoom;
+$('#joinBtn').onclick = joinRoom;
+$('#leaveBtn').onclick = () => { if(confirm('방에서 나갈까요?')) leaveRoom(); };
+$('#shareBtn').onclick = async () => {
+  const url = location.origin + location.pathname + '?room=' + code;
+  const text = '무전기 방 코드: ' + code;
+  try{
+    if(navigator.share){ await navigator.share({ title:'폰 무전기', text, url }); return; }
+    await navigator.clipboard.writeText(text + '\n' + url);
+    toast('방 코드와 링크를 복사했습니다');
+  }catch(e){}
+};
+window.addEventListener('beforeunload', () => { try{ peer && peer.destroy(); }catch(e){} });
+
+/* 시작 */
+(function init(){
+  try{ $('#nameIn').value = localStorage.getItem('ptt-name') || ''; }catch(e){}
+  const room = new URLSearchParams(location.search).get('room');
+  if(room && /^\d{4}$/.test(room)) $('#codeIn').value = room;
+})();
+</script>
+</body>
+</html>
