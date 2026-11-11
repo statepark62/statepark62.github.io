@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-11 天声人語로 배우는 일본어 — 풍차와 기사의 환영</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-11</span>
+      <span>2026년 11월 11일 (수)</span>
+    </div>
+
+    <h1><ruby>風車<rt>ふうしゃ</rt></ruby>と<ruby>騎士<rt>きし</rt></ruby>の<ruby>幻影<rt>げんえい</rt></ruby></h1>
+    <p class="topic-ko">풍차와 기사의 환영</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>風車<rt>ふうしゃ</rt></ruby>ですよ」</div>
+      <div class="ko">풍차라니까요 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">スペインの<ruby>小説<rt>しょうせつ</rt></ruby>『ドン・キホーテ』の<ruby>風車<rt>ふうしゃ</rt></ruby>の<ruby>場面<rt>ばめん</rt></ruby>を<ruby>呼<rt>よ</rt></ruby>び、<ruby>現実<rt>げんじつ</rt></ruby>と<ruby>幻想<rt>げんそう</rt></ruby>の<ruby>食<rt>く</rt></ruby>い<ruby>違<rt>ちが</rt></ruby>いを<ruby>出発点<rt>しゅっぱつてん</rt></ruby>とする。</p><p class="ko">스페인 소설 ‘돈키호테’의 풍차 장면을 불러와, 현실과 환상이 엇갈리는 순간을 출발점으로 삼는다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>忠告<rt>ちゅうこく</rt></ruby>を<ruby>無視<rt>むし</rt></ruby>した<ruby>主人公<rt>しゅじんこう</rt></ruby>が<ruby>叫<rt>さけ</rt></ruby>びながら<ruby>突進<rt>とっしん</rt></ruby>し、<ruby>結局<rt>けっきょく</rt></ruby><ruby>風車<rt>ふうしゃ</rt></ruby>に<ruby>敗<rt>やぶ</rt></ruby>れるが、<ruby>敗北<rt>はいぼく</rt></ruby>を<ruby>認<rt>みと</rt></ruby>めない<ruby>姿勢<rt>しせい</rt></ruby>が<ruby>対照的<rt>たいしょうてき</rt></ruby>だ。</p><p class="ko">충고를 뿌리친 주인공이 외치며 돌진하고, 결과적으로는 풍차에 당하지만 패배를 인정하지 않는 태도가 그려진다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>序<rt>じょ</rt></ruby>の<ruby>筆致<rt>ひっち</rt></ruby>は「<ruby>何<rt>なに</rt></ruby>を<ruby>敵<rt>てき</rt></ruby>と<ruby>見<rt>み</rt></ruby>なすか」という<ruby>認識<rt>にんしき</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>を<ruby>投<rt>な</rt></ruby>げかけ、<ruby>今日<rt>こんにち</rt></ruby>の<ruby>社会<rt>しゃかい</rt></ruby>を<ruby>映<rt>うつ</rt></ruby>す<ruby>意図<rt>いと</rt></ruby>を<ruby>予感<rt>よかん</rt></ruby>させる。</p><p class="ko">이 도입은 ‘무엇을 적으로 보는가’라는 인식의 문제를 던지며, 오늘의 사회를 비추려는 의도를 예고한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>突進<rt>とっしん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">돌진</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>敵<rt>てき</rt></ruby>へ<ruby>突進<rt>とっしん</rt></ruby>した。</span><br>그는 적을 향해 돌진했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>騎士<rt>きし</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">기사(騎士)</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>幼<rt>おさな</rt></ruby>いころから<ruby>騎士<rt>きし</rt></ruby>にあこがれた。</span><br>어릴 적부터 기사에 동경을 품었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>槍<rt>やり</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">창, 창끝</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>槍<rt>やり</rt></ruby>をかまえて<ruby>前<rt>まえ</rt></ruby>へ<ruby>進<rt>すす</rt></ruby>む。</span><br>창을 겨누고 앞으로 나아간다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>幻想<rt>げんそう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">환상</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>幻想<rt>げんそう</rt></ruby>と<ruby>現実<rt>げんじつ</rt></ruby>の<ruby>区別<rt>くべつ</rt></ruby>をつける。</span><br>환상과 현실을 구분하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>風車<rt>ふうしゃ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">풍차</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>丘<rt>おか</rt></ruby>の<ruby>上<rt>うえ</rt></ruby>で<ruby>風車<rt>ふうしゃ</rt></ruby>が<ruby>静<rt>しず</rt></ruby>かに<ruby>回<rt>まわ</rt></ruby>っている。</span><br>언덕 위에서 풍차가 조용히 돌고 있다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Vますながら</div>
+        <div class="pattern-ko">~하면서</div>
+        <p class="explain">두 동작이 동시에 일어남을 나타내는 표현이다. 주어는 동일해야 하며, 뒤에 오는 동작이 문장의 중심 행동이 되는 경향이 있다.</p>
+        <p class="ex"><span class="ja">ラジオを<ruby>聴<rt>き</rt></ruby>きながら<ruby>歩<rt>ある</rt></ruby>く。</span><br>라디오를 들으며 걷는다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이번 글은 고전 문학의 한 장면을 끌어와 현재의 논점을 비추는 ‘우회 조명’ 방식을 쓴다. 호명과 외침, 돌진 같은 동사들이 리듬을 만들고, 독자를 현장으로 끌어당긴다. 서사의 긴박감 뒤에 인식의 틈을 슬며시 드러내는 점이 천성인어 특유의 운용이다. 말하자면, 이야기의 표면을 빌려 현실의 그림자를 더 선명하게 만드는 기법이다.</p>
+        <p>독자 입장에서는 ‘무엇을 적으로 삼는가’가 실제 문제의 본질을 가린다는 경고로 읽힌다. 허상과 사실의 경계가 흔들릴 때, 자기 확신은 때로 판단을 왜곡한다는 통찰도 따라온다. 일본 신문 칼럼이 문학적 인용을 사회 진단에 접목하는 방식을 관찰할 수 있어 흥미롭다. 한국 독자에게도 통용되는 보편적 화두라는 점에서 공감과 경계심을 동시에 남긴다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 돈키호테의 풍차를 경유해 현실 인식의 오류와 확신의 위험을 비추는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>‘돈키호테’(세르반테스, 17세기)는 기사도 소설의 패러디로, 풍차를 거인으로 착각해 돌진하는 장면이 가장 널리 알려져 있다.</p>
+        <p>일본에서도 여러 번역과 만화·연극을 통해 친숙하며, ‘풍차와 싸우다’는 헛된 싸움이나的外れ의 분투를 빗대는 관용적 비유로 쓰인다.</p>
+        <p>‘천성인어’는 아사히신문의 간판 칼럼으로, 일상 소재와 문학·역사 인용을 절묘하게 연결해 사회적 메시지를 도출하는 형식이 특징이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>강렬한 서사 장면으로 독자의 주의를 붙잡은 뒤, 인식의 쟁점으로 전환하는 구조를 배운다.</p>
+        <p><span class="n">二</span>직접화법과 동작 동사를 활용해 리듬과 몰입감을 만드는 문장 운용을 참고한다.</p>
+        <p><span class="n">三</span>비유의 표면에 머물지 않고, 오늘의 현실과 연결되는 질문을 남기는 결말 설계를 익힌다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>現実<rt>げんじつ</rt></ruby>を<ruby>直視<rt>ちょくし</rt></ruby>しつつ、<ruby>夢<rt>ゆめ</rt></ruby>を<ruby>手放<rt>てばな</rt></ruby>さない。</span>
+      <span class="ko">현실을 직시하면서도, 꿈을 놓지 않는다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-11) — <a href="https://www.asahi.com/articles/DA3S16585211.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-11.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+<script>
+(function(){
+  try {
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzcXdFIOuEEMrvp34WC31ba2kWz9plgNJKqr4nVINKhva4xPjHkL2rmIxV6JLLWijXI/exec";
+    var uid = localStorage.getItem("tj_uid") || "", isNew = false;
+    if (!uid) {
+      uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem("tj_uid", uid); isNew = true;
+    }
+    var m = location.pathname.match(/(\d{4}-\d{2}-\d{2})\.html/);
+    var page = m ? m[1] : "상세";
+    var key = "tj_logged_" + page;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    var dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "모바일" : "PC";
+    var qs = "action=log&uid=" + encodeURIComponent(uid) + "&page=" + encodeURIComponent(page) + "&dev=" + encodeURIComponent(dev) +
+             "&ref=" + encodeURIComponent((document.referrer||"").slice(0,120));
+    fetch(GAS_URL + "?" + qs, {mode:"no-cors"}).catch(function(){});
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

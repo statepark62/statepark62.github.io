@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-11",
+    "no": 127,
+    "topic_ja": "<ruby>風車<rt>ふうしゃ</rt></ruby>と<ruby>騎士<rt>きし</rt></ruby>の<ruby>幻影<rt>げんえい</rt></ruby>",
+    "topic_ko": "풍차와 기사의 환영",
+    "url": "https://www.asahi.com/articles/DA3S16585211.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘현실과 환상’, ‘자기확신의 그림자’, ‘비유와 사회’. 문학적 장면을 통해 현실 진단을 시도하므로, 비유가 사회적 판단에 미치는 영향과 인식의 편향을 다루는 장에 적합하다.",
+    "pattern": "Vますながら"
+  },
+  {
     "date": "2026-11-10",
     "no": 126,
     "topic_ja": "マニラの<ruby>手紙<rt>てがみ</rt></ruby>",
