@@ -240,6 +240,44 @@ function isDevMode(){
   return false;
 }
 
+/* ===== 개발자 전용 잠금 =====
+   이 화면은 개발자(데이터 시트의 소유자)만 쓸 수 있습니다.
+   구글 로그인 후, 개발자 시트(DEV_OWNER_SHEET_ID)의 소유자인지 Drive API로 확인하고 아니면 잠급니다.
+   (정적 호스팅이라 화면 자체를 숨길 수는 없고, 이 확인은 '사용 화면'을 막는 용도입니다.
+    AI 호출은 Apps Script 서버가 따로 소유자 확인을 하므로 우회해도 쓸 수 없습니다.) */
+const DEV_OWNER_SHEET_ID = '1CRFzFS8Az72warExUSfTXQXGmoV_Xk5WtCan2VZ3P1U';
+async function devOwnerCheck_(){
+  // 반환: 'owner' | 'notowner' | 'expired' | 'error'
+  try{
+    const r = await fetch('https://www.googleapis.com/drive/v3/files/' + DEV_OWNER_SHEET_ID + '?fields=ownedByMe&supportsAllDrives=true',
+      { headers:{ Authorization:'Bearer ' + googleAccessToken } });
+    if(r.status === 401) return 'expired';
+    if(r.status === 403 || r.status === 404) return 'notowner';   // 이 계정은 그 시트에 접근 권한이 없음
+    if(!r.ok) return 'error';
+    const j = await r.json();
+    return j && j.ownedByMe === true ? 'owner' : 'notowner';
+  }catch(e){ return 'error'; }
+}
+function showDevLock_(kind){
+  const msg = {
+    login:    ['개발자 전용 화면이에요', '개발자 계정으로 구글에 로그인해 주세요.'],
+    notowner: ['접근 권한이 없어요', '이 화면은 개발자 계정만 사용할 수 있어요. 일반 사용자는 공개 앱을 이용해 주세요.'],
+    error:    ['확인하지 못했어요', '네트워크 문제일 수 있어요. 잠시 후 다시 시도해 주세요.']
+  }[kind] || ['개발자 전용 화면이에요',''];
+  const pub = 'https://statepark62.github.io/trip-planner/';
+  app.innerHTML = `<div class="setup-empty">
+      <h2>🔒 ${msg[0]}</h2><p>${msg[1]}</p>
+      <button class="btn btn-primary" id="devLockLogin">${kind==='notowner' ? '다른 계정으로 로그인' : kind==='error' ? '다시 시도' : '구글로 로그인'}</button>
+      <p style="margin-top:18px;"><a href="${pub}">일반 사용자용 앱 열기</a></p>
+    </div>`;
+  const b = document.getElementById('devLockLogin');
+  if(b) b.onclick = ()=>{
+    if(kind==='error'){ location.reload(); return; }
+    if(kind==='notowner'){ clearSavedToken_(); try{ localStorage.removeItem('trip_google_connected'); localStorage.setItem('trip_logged_out','1'); }catch(e){} }
+    connectGoogle();
+  };
+}
+
 const $ = sel => document.querySelector(sel);
 const app = $('#app');
 const pad = n => String(n).padStart(2,'0');
@@ -885,6 +923,13 @@ async function init(){
     await loadState();
   }
   clearTimeout(loadingHint);
+  // 개발자 전용: 로그인하지 않았거나 소유자가 아니면 앱 대신 잠금 화면
+  if(!(googleSignedIn && googleAccessToken)){ showDevLock_('login'); return; }
+  {
+    const chk = await devOwnerCheck_();
+    if(chk === 'expired'){ clearSavedToken_(); googleSignedIn = false; googleAccessToken = null; showDevLock_('login'); return; }
+    if(chk !== 'owner'){ showDevLock_(chk === 'error' ? 'error' : 'notowner'); return; }
+  }
   render();
   if(pendingGoogleError){ const pe = pendingGoogleError; pendingGoogleError = null; openGoogleErrorModal(pe.code, pe.desc); }
   checkMorningPopup();
