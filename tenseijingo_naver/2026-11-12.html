@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-12 天声人語로 배우는 일본어 — 차별과 목소리의 무게</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-12</span>
+      <span>2026년 11월 12일 (목)</span>
+    </div>
+
+    <h1><ruby>差別<rt>さべつ</rt></ruby>と<ruby>声<rt>こえ</rt></ruby>の<ruby>重<rt>おも</rt></ruby>み</h1>
+    <p class="topic-ko">차별과 목소리의 무게</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>一斉<rt>いっせい</rt></ruby>にブーイング」</div>
+      <div class="ko">일제히 야유 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">このコラムは<ruby>映画<rt>えいが</rt></ruby>『42』の<ruby>一<rt>ひと</rt></ruby><ruby>場面<rt>ばめん</rt></ruby>を<ruby>通<rt>とお</rt></ruby>して、<ruby>米<rt>べい</rt></ruby><ruby>大<rt>だい</rt></ruby>リーグで<ruby>先駆<rt>せんく</rt></ruby>となったジャッキー・ロビンソンを<ruby>取<rt>と</rt></ruby>り<ruby>上<rt>あ</rt></ruby>げる。</p><p class="ko">칼럼은 영화 ‘42’의 한 장면을 통해 메이저리그 최초의 흑인 선수 재키 로빈슨의 이야기를 불러낸다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>観客席<rt>かんきゃくせき</rt></ruby>にひろがるブーイングと<ruby>父親<rt>ちちおや</rt></ruby>の<ruby>侮辱<rt>ぶじょく</rt></ruby>のことばが<ruby>少年<rt>しょうねん</rt></ruby>に<ruby>影響<rt>えいきょう</rt></ruby>し、<ruby>結局<rt>けっきょく</rt></ruby><ruby>彼<rt>かれ</rt></ruby>も<ruby>同<rt>おな</rt></ruby>じ<ruby>言葉<rt>ことば</rt></ruby>を<ruby>叫<rt>さけ</rt></ruby>ぶ。</p><p class="ko">관중석에 번지는 야유와 아버지의 모욕적 말이 소년에게 옮아가고, 결국 소년도 같은 구호를 외친다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>筆者<rt>ひっしゃ</rt></ruby>はこの<ruby>場面<rt>ばめん</rt></ruby>を<ruby>手掛<rt>てが</rt></ruby>かりに、<ruby>差別<rt>さべつ</rt></ruby>の<ruby>言葉<rt>ことば</rt></ruby>が<ruby>群衆<rt>ぐんしゅう</rt></ruby>のなかでどう<ruby>模倣<rt>もほう</rt></ruby>されて<ruby>広<rt>ひろ</rt></ruby>がるかを<ruby>考<rt>かんが</rt></ruby>えさせる。</p><p class="ko">필자는 이 장면을 통해 차별의 언어가 군중 속에서 어떻게 복제되고 커지는지 읽게 만든다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>罵声<rt>ばせい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">욕설 섞인 야유</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">スタジアムに<ruby>罵声<rt>ばせい</rt></ruby>が<ruby>飛<rt>と</rt></ruby>ぶ。</span><br>경기장에 욕설 섞인 야유가 쏟아진다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>観客席<rt>かんきゃくせき</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">관객석, 스탠드</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>観客席<rt>かんきゃくせき</rt></ruby>は<ruby>歓声<rt>かんせい</rt></ruby>とブーイングで<ruby>揺<rt>ゆ</rt></ruby>れた。</span><br>관객석은 환호와 야유로 출렁거렸다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>一斉に<rt>いっせいに</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">일제히, 동시에</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>選手<rt>せんしゅ</rt></ruby>が<ruby>登場<rt>とうじょう</rt></ruby>すると、<ruby>観客<rt>かんきゃく</rt></ruby>は<ruby>一斉<rt>いっせい</rt></ruby>に<ruby>立<rt>た</rt></ruby>ち<ruby>上<rt>あ</rt></ruby>がった。</span><br>선수가 등장하자 관객은 일제히 일어섰다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>影響<rt>えいきょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">영향</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>親<rt>おや</rt></ruby>の<ruby>言動<rt>げんどう</rt></ruby>は<ruby>子<rt>こ</rt></ruby>に<ruby>大<rt>おお</rt></ruby>きく<ruby>影響<rt>えいきょう</rt></ruby>する。</span><br>부모의 말과 행동은 아이에게 크게 영향을 미친다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>覚悟<rt>かくご</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">각오, 결심</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>批判<rt>ひはん</rt></ruby>を<ruby>受<rt>う</rt></ruby>ける<ruby>覚悟<rt>かくご</rt></ruby>で<ruby>発言<rt>はつげん</rt></ruby>した。</span><br>그는 비판을 감수할 각오로 발언했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Vると、〜</div>
+        <div class="pattern-ko">~하면, ~하자</div>
+        <p class="explain">선행 사건이 일어나자 곧바로 다음 일이 이어짐을 말할 때 쓴다. 객관적·사실 서술에 자주 쓰이며, 화자의 의도나 명령문과는 잘 결합하지 않는다.</p>
+        <p class="ex"><span class="ja">ベルが<ruby>鳴<rt>な</rt></ruby>ると、<ruby>子<rt>こ</rt></ruby>どもたちは<ruby>教室<rt>きょうしつ</rt></ruby>に<ruby>戻<rt>もど</rt></ruby>る。</span><br>종이 울리면 아이들은 교실로 돌아간다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 영화 속 장면을 정밀한 숏처럼 끌어와 독자의 감각을 먼저 흔든다. 인물의 대사와 군중의 반응을 교차 배치해 긴장을 쌓고, 소년의 변화를 통해 ‘말의 전염성’을 드러낸다. 설명을 길게 늘이지 않고 사건의 흐름에 독자를 태워 보내는 점이 천성인어 특유의 속도감이다. 결과적으로 독자는 장면을 ‘보는’ 동시에 가치 판단을 스스로 ‘하게’ 된다.</p>
+        <p>이 글이 남기는 울림은 차별이 거대한 구조이면서도, 결국 개별의 입과 귀에서 재생된다는 사실이다. 한국 독자에게도 익숙한 야구장이라는 장소는 군중 심리와 언어 폭력이 번식하는 조건을 직관적으로 보여 준다. 누가 시작했는지보다 어떻게 멈출 수 있는지가 질문으로 남는다. 칼럼은 영화를 빌리되 현실의 우리 자리로 독자를 되돌려 세운다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 군중 속에서 차별의 언어가 어떻게 확산되는지를 한 장면으로 응시하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본에서도 메이저리그와 MLB 관련 영화는 꾸준히 소개되어, 야구 팬층을 넘어 대중적 관심을 받는다. 재키 로빈슨의 등장은 스포츠를 넘어 인권사의 사건으로 다뤄진다.</p>
+        <p>일본 스포츠 문화에서 ‘부잉(ブーイング)’은 존재하지만, 도를 넘은 인신공격성 발언은 공적 공간에서 비판받는 분위기가 강해졌다.</p>
+        <p>신문 칼럼 ‘천성인어’는 사회 이슈를 일상의 장면이나 문화 텍스트로 비추어 보며, 독자가 스스로 사유하도록 여백을 남기는 서술을 선호한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>감각적인 장면 묘사로 독자의 정서적 몰입을 먼저 확보하라.</p>
+        <p><span class="n">二</span>대사 인용을 통해 인물의 내면 변화와 집단 분위기를 압축적으로 제시하라.</p>
+        <p><span class="n">三</span>사실 제시 뒤에는 단정 대신 사유의 질문을 남겨 여운을 강화하라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>差別<rt>さべつ</rt></ruby>を<ruby>許<rt>ゆる</rt></ruby>さないと<ruby>口<rt>くち</rt></ruby>にするなら、<ruby>沈黙<rt>ちんもく</rt></ruby>の<ruby>場<rt>ば</rt></ruby>でも<ruby>勇気<rt>ゆうき</rt></ruby>を<ruby>試<rt>ため</rt></ruby>される。</span>
+      <span class="ko">차별을 용납하지 않겠다고 말한다면, 침묵의 자리에서도 용기가 시험받는다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-12) — <a href="https://www.asahi.com/articles/DA3S16585923.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-12.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+<script>
+(function(){
+  try {
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzcXdFIOuEEMrvp34WC31ba2kWz9plgNJKqr4nVINKhva4xPjHkL2rmIxV6JLLWijXI/exec";
+    var uid = localStorage.getItem("tj_uid") || "", isNew = false;
+    if (!uid) {
+      uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem("tj_uid", uid); isNew = true;
+    }
+    var m = location.pathname.match(/(\d{4}-\d{2}-\d{2})\.html/);
+    var page = m ? m[1] : "상세";
+    var key = "tj_logged_" + page;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    var dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "모바일" : "PC";
+    var qs = "action=log&uid=" + encodeURIComponent(uid) + "&page=" + encodeURIComponent(page) + "&dev=" + encodeURIComponent(dev) +
+             "&ref=" + encodeURIComponent((document.referrer||"").slice(0,120));
+    fetch(GAS_URL + "?" + qs, {mode:"no-cors"}).catch(function(){});
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

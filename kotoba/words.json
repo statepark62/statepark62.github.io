@@ -14491,5 +14491,55 @@
   "example": "丘の上で風車が静かに回っている。",
   "exampleReading": "おかのうえでふうしゃがしずかにまわっている。",
   "exampleMeaning": "언덕 위에서 풍차가 조용히 돌고 있다."
+ },
+ {
+  "id": "tj600",
+  "word": "罵声",
+  "reading": "ばせい",
+  "meaning": "욕설 섞인 야유",
+  "level": "N1",
+  "example": "スタジアムに罵声が飛ぶ。",
+  "exampleReading": "すたじあむにばせいがとぶ。",
+  "exampleMeaning": "경기장에 욕설 섞인 야유가 쏟아진다."
+ },
+ {
+  "id": "tj601",
+  "word": "観客席",
+  "reading": "かんきゃくせき",
+  "meaning": "관객석, 스탠드",
+  "level": "N2",
+  "example": "観客席は歓声とブーイングで揺れた。",
+  "exampleReading": "かんきゃくせきはかんせいとぶーいんぐでゆれた。",
+  "exampleMeaning": "관객석은 환호와 야유로 출렁거렸다."
+ },
+ {
+  "id": "tj602",
+  "word": "一斉に",
+  "reading": "いっせいに",
+  "meaning": "일제히, 동시에",
+  "level": "N2",
+  "example": "選手が登場すると、観客は一斉に立ち上がった。",
+  "exampleReading": "せんしゅがとうじょうすると、かんきゃくはいっせいにたちあがった。",
+  "exampleMeaning": "선수가 등장하자 관객은 일제히 일어섰다."
+ },
+ {
+  "id": "tj603",
+  "word": "影響",
+  "reading": "えいきょう",
+  "meaning": "영향",
+  "level": "N2",
+  "example": "親の言動は子に大きく影響する。",
+  "exampleReading": "おやのげんどうはこにおおきくえいきょうする。",
+  "exampleMeaning": "부모의 말과 행동은 아이에게 크게 영향을 미친다."
+ },
+ {
+  "id": "tj604",
+  "word": "覚悟",
+  "reading": "かくご",
+  "meaning": "각오, 결심",
+  "level": "N2",
+  "example": "彼は批判を受ける覚悟で発言した。",
+  "exampleReading": "かれはひはんをうけるかくごではつげんした。",
+  "exampleMeaning": "그는 비판을 감수할 각오로 발언했다."
  }
 ]
