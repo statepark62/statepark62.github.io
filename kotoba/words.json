@@ -14541,5 +14541,55 @@
   "example": "彼は批判を受ける覚悟で発言した。",
   "exampleReading": "かれはひはんをうけるかくごではつげんした。",
   "exampleMeaning": "그는 비판을 감수할 각오로 발언했다."
+ },
+ {
+  "id": "tj605",
+  "word": "不作為",
+  "reading": "ふさくい",
+  "meaning": "불작위(해야 할 일을 하지 않음)",
+  "level": "N1",
+  "example": "政府の不作為が問題を深刻にした。",
+  "exampleReading": "せいふのふさくいがもんだいをしんこくにした。",
+  "exampleMeaning": "정부의 불작위가 문제를 심각하게 만들었다."
+ },
+ {
+  "id": "tj606",
+  "word": "小手先",
+  "reading": "こてさき",
+  "meaning": "임시변통, 땜질식",
+  "level": "N2",
+  "example": "小手先の対策では足りない。",
+  "exampleReading": "こてさきのたいさくではたりない。",
+  "exampleMeaning": "임시방편 대책으로는 부족하다."
+ },
+ {
+  "id": "tj607",
+  "word": "立法府",
+  "reading": "りっぽうふ",
+  "meaning": "입법부",
+  "level": "N1",
+  "example": "立法府は判決を受け、早急に法改正を進めるべきだ。",
+  "exampleReading": "りっぽうふははんけつをうけ、さっきゅうにほうかいせいをすすめるべきだ。",
+  "exampleMeaning": "입법부는 판결을 받아들여 신속히 법 개정을 추진해야 한다."
+ },
+ {
+  "id": "tj608",
+  "word": "違憲状態",
+  "reading": "いけんじょうたい",
+  "meaning": "위헌 상태",
+  "level": "N1",
+  "example": "最高裁は区割りを「違憲状態」と結論づけた。",
+  "exampleReading": "さいこうさいはくわりを「いけんじょうたい」とけつろんづけた。",
+  "exampleMeaning": "최고재판소는 선거구 구획을 ‘위헌 상태’라고 결론지었다."
+ },
+ {
+  "id": "tj609",
+  "word": "選挙無効",
+  "reading": "せんきょむこう",
+  "meaning": "선거 무효",
+  "level": "N1",
+  "example": "選挙無効を争う訴訟が続いた。",
+  "exampleReading": "せんきょむこうをあらそうそしょうがつづいた。",
+  "exampleMeaning": "선거 무효를 다투는 소송이 이어졌다."
  }
 ]

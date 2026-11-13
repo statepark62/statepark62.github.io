@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-13",
+    "no": 129,
+    "topic_ja": "<ruby>一票<rt>いっぴょう</rt></ruby><ruby>格差<rt>かくさ</rt></ruby>と<ruby>警告<rt>けいこく</rt></ruby>",
+    "topic_ko": "한 표 격차와 경고",
+    "url": "https://www.asahi.com/articles/DA3S16586681.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘민주주의와 제도’, ‘표의 가치’, ‘사법의 경고’ — 법원의 메시지를 비유로 해석하고, 선거 제도의 철학적 재설계를 촉구하므로 이 갈래가 적합하다.",
+    "pattern": "〜ではないものの"
+  },
+  {
     "date": "2026-11-12",
     "no": 128,
     "topic_ja": "<ruby>差別<rt>さべつ</rt></ruby>と<ruby>声<rt>こえ</rt></ruby>の<ruby>重<rt>おも</rt></ruby>み",
