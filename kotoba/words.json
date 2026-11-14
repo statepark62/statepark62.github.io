@@ -14591,5 +14591,55 @@
   "example": "選挙無効を争う訴訟が続いた。",
   "exampleReading": "せんきょむこうをあらそうそしょうがつづいた。",
   "exampleMeaning": "선거 무효를 다투는 소송이 이어졌다."
+ },
+ {
+  "id": "tj610",
+  "word": "送信",
+  "reading": "そうしん",
+  "meaning": "송신, 전송",
+  "level": "N3",
+  "example": "資料を取引先へ送信した。",
+  "exampleReading": "しりょうをとりひきさきへそうしんした。",
+  "exampleMeaning": "자료를 거래처로 전송했다."
+ },
+ {
+  "id": "tj611",
+  "word": "伝言",
+  "reading": "でんごん",
+  "meaning": "전언, 메시지",
+  "level": "N2",
+  "example": "上司に伝言を残しておく。",
+  "exampleReading": "じょうしにでんごんをのこしておく。",
+  "exampleMeaning": "상사에게 전언을 남겨 둔다."
+ },
+ {
+  "id": "tj612",
+  "word": "折り返す",
+  "reading": "おりかえす",
+  "meaning": "(전화를) 다시 걸다, 되돌리다",
+  "level": "N2",
+  "example": "会議に出ているので、あとで折り返します。",
+  "exampleReading": "かいぎにでているので、あとでおりかえします.",
+  "exampleMeaning": "회의 중이니 나중에 다시 전화하겠습니다."
+ },
+ {
+  "id": "tj613",
+  "word": "時間差",
+  "reading": "じかんさ",
+  "meaning": "시간차",
+  "level": "N2",
+  "example": "時間差で情報を共有できるのがやりとりの強みだ.",
+  "exampleReading": "じかんさでじょうほうをきょうゆうできるのがやりとりのつよみだ.",
+  "exampleMeaning": "시간차로 정보를 공유할 수 있는 점이 소통의 강점이다."
+ },
+ {
+  "id": "tj614",
+  "word": "きっかけ",
+  "reading": "きっかけ",
+  "meaning": "계기, 단서",
+  "level": "N3",
+  "example": "旅が日記を始めるきっかけになった。",
+  "exampleReading": "たびがにっきをはじめるきっかけになった。",
+  "exampleMeaning": "여행이 일기를 시작하는 계기가 되었다."
  }
 ]

@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-14",
+    "no": 130,
+    "topic_ja": "<ruby>電子<rt>でんし</rt></ruby><ruby>郵便<rt>ゆうびん</rt></ruby>の<ruby>誕生<rt>たんじょう</rt></ruby>",
+    "topic_ko": "전자우편의 탄생",
+    "url": "https://www.asahi.com/articles/DA3S16587478.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘커뮤니케이션’, ‘기술과 습관’, ‘비동기성’ — 도구의 탄생 배경을 통해 소통 방식과 업무 예절의 변화를 함께 성찰하게 하기 때문.",
+    "pattern": "〜のは、〜のことだ"
+  },
+  {
     "date": "2026-11-13",
     "no": 129,
     "topic_ja": "<ruby>一票<rt>いっぴょう</rt></ruby><ruby>格差<rt>かくさ</rt></ruby>と<ruby>警告<rt>けいこく</rt></ruby>",

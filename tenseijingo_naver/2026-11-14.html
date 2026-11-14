@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-14 天声人語로 배우는 일본어 — 전자우편의 탄생</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-14</span>
+      <span>2026년 11월 14일 (토)</span>
+    </div>
+
+    <h1><ruby>電子<rt>でんし</rt></ruby><ruby>郵便<rt>ゆうびん</rt></ruby>の<ruby>誕生<rt>たんじょう</rt></ruby></h1>
+    <p class="topic-ko">전자우편의 탄생</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>時間差<rt>じかんさ</rt></ruby>でやりとり」</div>
+      <div class="ko">시간차로 주고받기 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">この<ruby>小欄<rt>しょうらん</rt></ruby>は、１９７１<ruby>年<rt>ねん</rt></ruby>に<ruby>電子<rt>でんし</rt></ruby>メールが<ruby>初<rt>はじ</rt></ruby>めて<ruby>送信<rt>そうしん</rt></ruby>され、レイ・トムリンソンの<ruby>逸話<rt>いつわ</rt></ruby>を<ruby>手掛<rt>てが</rt></ruby>かりに<ruby>話題<rt>わだい</rt></ruby>を<ruby>開<rt>ひら</rt></ruby>く。</p><p class="ko">칼럼은 1971년에 전자메일이 처음 보내졌고, 이를 만든 레이 톰린슨의 일화를 들어 화제를 연다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>通話<rt>つうわ</rt></ruby>で<ruby>拾<rt>ひろ</rt></ruby>いきれないことを<ruby>補<rt>おぎな</rt></ruby>う『<ruby>時間差<rt>じかんさ</rt></ruby>のやりとり』が<ruby>出発点<rt>しゅっぱつてん</rt></ruby>で、<ruby>普及<rt>ふきゅう</rt></ruby>は３０<ruby>年<rt>ねん</rt></ruby>ほど<ruby>前<rt>まえ</rt></ruby>だと<ruby>指摘<rt>してき</rt></ruby>する。</p><p class="ko">실시간 통화로는 담기지 않는 일을 보완하는 ‘시간차 소통’이 전자메일의 출발점이었으며, 대중화는 약 30년 전으로 짚는다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>便利<rt>べんり</rt></ruby>さと<ruby>疲労<rt>ひろう</rt></ruby>のあいだで、<ruby>本来<rt>ほんらい</rt></ruby>の<ruby>目的<rt>もくてき</rt></ruby>を<ruby>見直<rt>みなお</rt></ruby>させようとする<ruby>含意<rt>がんい</rt></ruby>が<ruby>残<rt>のこ</rt></ruby>る。</p><p class="ko">오늘 우리는 편의와 피로 사이에 서 있지만, 글은 본래의 목적을 다시 돌아보게 하려는 듯한 뉘앙스를 남긴다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>送信<rt>そうしん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">송신, 전송</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>資料<rt>しりょう</rt></ruby>を<ruby>取引先<rt>とりひきさき</rt></ruby>へ<ruby>送信<rt>そうしん</rt></ruby>した。</span><br>자료를 거래처로 전송했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>伝言<rt>でんごん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">전언, 메시지</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>上司<rt>じょうし</rt></ruby>に<ruby>伝言<rt>でんごん</rt></ruby>を<ruby>残<rt>のこ</rt></ruby>しておく。</span><br>상사에게 전언을 남겨 둔다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>折り返す<rt>おりかえす</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">(전화를) 다시 걸다, 되돌리다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>会議<rt>かいぎ</rt></ruby>に<ruby>出<rt>で</rt></ruby>ているので、あとで<ruby>折<rt>お</rt></ruby>り<ruby>返<rt>かえ</rt></ruby>します。</span><br>회의 중이니 나중에 다시 전화하겠습니다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>時間差<rt>じかんさ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">시간차</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>時間差<rt>じかんさ</rt></ruby>で<ruby>情報<rt>じょうほう</rt></ruby>を<ruby>共有<rt>きょうゆう</rt></ruby>できるのがやりとりの<ruby>強<rt>つよ</rt></ruby>みだ.</span><br>시간차로 정보를 공유할 수 있는 점이 소통의 강점이다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>きっかけ<rt>きっかけ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">계기, 단서</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>旅<rt>たび</rt></ruby>が<ruby>日記<rt>にっき</rt></ruby>を<ruby>始<rt>はじ</rt></ruby>めるきっかけになった。</span><br>여행이 일기를 시작하는 계기가 되었다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜のは、〜のことだ</div>
+        <div class="pattern-ko">~한 것은, ~때/일이다</div>
+        <p class="explain">어떤 사건이나 사실의 시점·배경을 또렷이 지적할 때 쓰는 서술형 구문이다. 말하고자 하는 정보에 초점을 맞춰 청자에게 ‘언제/무엇’인지를 분명히 알려 주는 효과가 있다.</p>
+        <p class="ex"><span class="ja"><ruby>最初<rt>さいしょ</rt></ruby>に<ruby>会<rt>あ</rt></ruby>ったのは、<ruby>春<rt>はる</rt></ruby>のことだ。</span><br>처음 만난 것은 봄이었다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 발명의 기원으로 독자를 끌어들이는 전형적인 ‘천성인어’식 도입을 따른다. 역사적 연도와 고유명(톰린슨)을 제시해 신뢰를 세우고, 이어 ‘전화 회신이 오지 않는 동료’라는 구체적 장면을 배치해 문제의식을 선명하게 만든다. ‘시간차 소통’이라는 핵심 개념을 일찍 제시함으로써 소재의 중심축을 잡고, 그다음 보급 시점을 덧붙여 독자의 기억 속 시대 감각을 환기한다. 요컨대 사실·일화·개념을 짧은 문단 안에 압축 배치하여 리듬과 정보 밀도를 동시에 확보한다.</p>
+        <p>글이 남기는 울림은 기술이 해결하려 한 불편이 무엇이었는지, 그리고 오늘 우리가 겪는 피로가 어디서 비롯되었는지를 되묻게 한다. 한국 독자에게는 ‘전화는 즉답, 메일은 시차’라는 구분이 일본의 ‘折り返し’ 관습과 맞물리며 흥미롭게 읽힌다. 또한 팩스·메일·메신저로 이어진 일본의 커뮤니케이션 층위 속에서 메일의 역할이 어떻게 변했는지 추적해 볼 단서를 준다. 결과적으로 이 글은 도구의 역사를 통해 현재의 예절과 업무 습관을 비추는 소우주 같은 칼럼이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 전자메일의 기원을 되짚으며 비동기 소통의 의미를 다시 묻는 글이다</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>1971년 레이 톰린슨이 처음으로 서로 다른 컴퓨터 간 이메일을 성공시켰고, 주소 구분 기호로 @를 도입했다.</p>
+        <p>일본 비즈니스 문화에는 ‘折り返し電話(회신 전화)’ 관습이 강해, 전화 응답의 신속성이 예의로 여겨지는 경향이 있다.</p>
+        <p>일본은 한동안 팩스 사용이 장기 지속되었고, 이후 이메일과 메시징 앱이 병행되는 다층적 커뮤니케이션 문화가 형성되었다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>사실(연도·인명)과 일화(동료의 무응답)를 짧게 병치해 흥미와 신뢰도를 동시에 확보하라.</p>
+        <p><span class="n">二</span>핵심 개념(시간차 소통)을 초반에 명시해 독자의 이해 방향을 선명히 하라.</p>
+        <p><span class="n">三</span>과거의 목적과 현재의 현실을 대조해 독자가 스스로 의미를 재구성하도록 여백을 남겨라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>返事<rt>へんじ</rt></ruby>がすぐに<ruby>来<rt>こ</rt></ruby>なくても、<ruby>電子<rt>でんし</rt></ruby>メールは<ruby>時<rt>と</rt></ruby>を<ruby>越<rt>こ</rt></ruby>えて<ruby>届<rt>とど</rt></ruby>く。</span>
+      <span class="ko">답장이 바로 오지 않아도, 이메일은 시간을 건너 도착한다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-14) — <a href="https://www.asahi.com/articles/DA3S16587478.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-14.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+<script>
+(function(){
+  try {
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzcXdFIOuEEMrvp34WC31ba2kWz9plgNJKqr4nVINKhva4xPjHkL2rmIxV6JLLWijXI/exec";
+    var uid = localStorage.getItem("tj_uid") || "", isNew = false;
+    if (!uid) {
+      uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem("tj_uid", uid); isNew = true;
+    }
+    var m = location.pathname.match(/(\d{4}-\d{2}-\d{2})\.html/);
+    var page = m ? m[1] : "상세";
+    var key = "tj_logged_" + page;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    var dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "모바일" : "PC";
+    var qs = "action=log&uid=" + encodeURIComponent(uid) + "&page=" + encodeURIComponent(page) + "&dev=" + encodeURIComponent(dev) +
+             "&ref=" + encodeURIComponent((document.referrer||"").slice(0,120));
+    fetch(GAS_URL + "?" + qs, {mode:"no-cors"}).catch(function(){});
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
