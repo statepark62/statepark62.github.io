@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-15",
+    "no": 131,
+    "topic_ja": "<ruby>生<rt>い</rt></ruby>き<ruby>証人<rt>しょうにん</rt></ruby>の<ruby>別<rt>わか</rt></ruby>れ",
+    "topic_ko": "생존 증인과의 이별",
+    "url": "https://www.asahi.com/articles/DA3S16588166.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘기억의 윤리’, ‘국가와 개인’, ‘표현의 자유’ — 마지막 증인의 부재가 남기는 사회적 책임과 역사 서사의 계승이라는 문제를 중심에 두기 때문임.",
+    "pattern": "Nの<ruby>間際<rt>まぎわ</rt></ruby>まで"
+  },
+  {
     "date": "2026-11-14",
     "no": 130,
     "topic_ja": "<ruby>電子<rt>でんし</rt></ruby><ruby>郵便<rt>ゆうびん</rt></ruby>の<ruby>誕生<rt>たんじょう</rt></ruby>",

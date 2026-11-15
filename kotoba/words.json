@@ -14641,5 +14641,55 @@
   "example": "旅が日記を始めるきっかけになった。",
   "exampleReading": "たびがにっきをはじめるきっかけになった。",
   "exampleMeaning": "여행이 일기를 시작하는 계기가 되었다."
+ },
+ {
+  "id": "tj615",
+  "word": "弾圧",
+  "reading": "だんあつ",
+  "meaning": "탄압",
+  "level": "N1",
+  "example": "学生たちは言論の弾圧に抗した。",
+  "exampleReading": "がくせいたちはげんろんのだんあつにこうした。",
+  "exampleMeaning": "학생들은 언론 탄압에 맞섰다."
+ },
+ {
+  "id": "tj616",
+  "word": "追悼",
+  "reading": "ついとう",
+  "meaning": "추도",
+  "level": "N1",
+  "example": "市民が公園で犠牲者を追悼した。",
+  "exampleReading": "しみんがこうえんでぎせいしゃをついとうした.",
+  "exampleMeaning": "시민들이 공원에서 희생자를 추도했다."
+ },
+ {
+  "id": "tj617",
+  "word": "棺",
+  "reading": "ひつぎ",
+  "meaning": "관",
+  "level": "N2",
+  "example": "棺のそばに花が手向けられた。",
+  "exampleReading": "ひつぎのそばにはながたむけられた。",
+  "exampleMeaning": "관 곁에 꽃이 바쳐졌다."
+ },
+ {
+  "id": "tj618",
+  "word": "見つめる",
+  "reading": "みつめる",
+  "meaning": "응시하다, 주시하다",
+  "level": "N2",
+  "example": "彼は真実を見つめて語った。",
+  "exampleReading": "かれはしんじつをみつめてかたった。",
+  "exampleMeaning": "그는 진실을 응시하며 이야기했다."
+ },
+ {
+  "id": "tj619",
+  "word": "貫く",
+  "reading": "つらぬく",
+  "meaning": "관철하다, 꿰뚫다",
+  "level": "N1",
+  "example": "信念を最後まで貫いた。",
+  "exampleReading": "しんねんをさいごまでつらぬいた。",
+  "exampleMeaning": "신념을 끝까지 관철했다."
  }
 ]
