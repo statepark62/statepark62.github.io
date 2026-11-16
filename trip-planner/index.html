@@ -1641,7 +1641,7 @@ function showToast(msg){
 
 async function safeGet(key, strict){
   try{
-    if(googleSignedIn) return await sheetsGet(key);
+    if(googleSignedIn){ if(_pendingVal.has(key)) return _pendingVal.get(key); return await sheetsGet(key); }
     if(window.storage){ const r = await window.storage.get(key,false); return r ? JSON.parse(r.value) : null; }
     const local = ls_get('tripdata:'+key);
     if(local!==null) return JSON.parse(local);
@@ -1654,8 +1654,7 @@ async function safeSet(key,val){
       await sheetsSet(key,val);
       if(key.indexOf('trip:')===0){
         const tripId = key.slice(5);
-        if(val) await syncTripSheetTab(tripId, val);
-        else await deleteTripSheetTab(tripId);
+        queueTabSync_(tripId, val);   // 사람이 보는 표 탭은 화면과 상관없으므로 뒤에서 모아서 처리
       }
       return;
     }
@@ -1663,6 +1662,50 @@ async function safeSet(key,val){
     if(ls_trySet('tripdata:'+key, JSON.stringify(val))) return;
     memoryStore[key]=val;
   }catch(e){ console.error('storage set failed', e); if(e && e.authExpired){ openReconnectModal(); return; } showToast(t('toastStorageError')); }
+}
+
+/* ---- 빠른 저장: 화면은 먼저 바꾸고, 저장은 순서대로 뒤에서 ---- */
+let _writeChain = Promise.resolve();
+let _pendingWrites = 0;
+const _pendingVal = new Map();            // 아직 시트에 쓰는 중인 값(방금 저장한 값을 바로 다시 읽을 수 있게)
+function updateSaveBadge_(){
+  let el = document.getElementById('saveBadge');
+  if(!el){
+    el = document.createElement('div'); el.id = 'saveBadge';
+    el.style.cssText = 'position:fixed;left:50%;bottom:16px;transform:translateX(-50%);background:#12172A;color:#fff;padding:8px 16px;border-radius:999px;font-size:14px;z-index:9999;opacity:0;transition:opacity .2s;pointer-events:none;';
+    document.body.appendChild(el);
+  }
+  el.textContent = L('☁ 저장 중…', '☁ Saving…');
+  el.style.opacity = _pendingWrites > 0 ? '1' : '0';
+}
+function persist(key, val){
+  _pendingWrites++; _pendingVal.set(key, val); updateSaveBadge_();
+  const job = _writeChain.then(()=>safeSet(key, val)).catch(e=>console.error(e)).then(()=>{
+    _pendingWrites--;
+    if(_pendingVal.get(key) === val) _pendingVal.delete(key);
+    updateSaveBadge_();
+  });
+  _writeChain = job;
+  return job;
+}
+window.addEventListener('beforeunload', e=>{ if(_pendingWrites > 0){ e.preventDefault(); e.returnValue = ''; } });
+
+const _tabSyncPending = new Map();        // tripId -> 가장 최근 값(null이면 탭 삭제). 여러 번 바뀌어도 마지막 것만 처리
+let _tabSyncRunning = false, _tabSyncTimer = null;
+function queueTabSync_(tripId, val){
+  _tabSyncPending.set(tripId, val);
+  if(_tabSyncTimer || _tabSyncRunning) return;
+  _tabSyncTimer = setTimeout(runTabSync_, 1200);
+}
+async function runTabSync_(){
+  _tabSyncTimer = null; _tabSyncRunning = true;
+  try{
+    while(_tabSyncPending.size){
+      const [id, val] = _tabSyncPending.entries().next().value;
+      _tabSyncPending.delete(id);
+      try{ if(val) await syncTripSheetTab(id, val); else await deleteTripSheetTab(id); }catch(e){ console.error(e); }
+    }
+  } finally { _tabSyncRunning = false; }
 }
 
 function dateRange(start,end){
@@ -1673,6 +1716,7 @@ function dateRange(start,end){
 function uid(){ return Math.random().toString(36).slice(2,9); }
 
 async function refreshData(){
+  try{ await _writeChain; }catch(e){}
   kvCache = null;
   showToast(t('toastRefreshing'));
   try{ await loadState(); }catch(e){ console.error(e); if(e && e.authExpired){ openReconnectModal(); return; } showToast(L('새로고침 중 문제가 발생했어요: ', 'Refresh failed: ') + googleErrText(e)); return; }
@@ -2145,7 +2189,7 @@ function bindEvents(){
       state.trip = newTrip;
       state.viewingPastTrip = true;
     }
-    await safeSet('active-trip', state.activeTripId);
+    persist('active-trip', state.activeTripId);
     if(state.trip){
       const todayStr = fmtDate(new Date());
       state.selectedDate = state.trip.days[todayStr]!==undefined ? todayStr : Object.keys(state.trip.days)[0];
@@ -2194,9 +2238,9 @@ function openTripForm(){
     const days = {}; dateRange(s,e).forEach(d=>days[d]=[]);
     const trip = {title,startDate:s,endDate:e,days,morningChecked:[]};
     state.trips.push({id,title,startDate:s,endDate:e});
-    await safeSet('trips-list', state.trips);
-    await safeSet('trip:'+id, trip);
-    await safeSet('active-trip', id);
+    persist('trips-list', state.trips);
+    persist('trip:'+id, trip);
+    persist('active-trip', id);
     state.activeTripId = id; state.trip = trip;
     const todayStr = fmtDate(new Date());
     state.selectedDate = days[todayStr]!==undefined ? todayStr : Object.keys(days)[0];
@@ -2256,7 +2300,7 @@ function openBlockForm(blockId){
       arr.push(data);
     }
     state.trip.days[state.selectedDate]=arr;
-    await safeSet('trip:'+state.activeTripId, state.trip);
+    persist('trip:'+state.activeTripId, state.trip);   // 저장은 뒤에서, 화면은 바로 넘어감
     overlay.remove();
     render();
   };
@@ -2279,9 +2323,10 @@ async function deleteBlock(id){
   $('#db_cancel').onclick = ()=>overlay.remove();
   overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
   $('#db_confirm').onclick = async ()=>{
+    $('#db_confirm').disabled = true; $('#db_cancel').disabled = true;
     const newArr = arr.filter(b=>b.id!==id);
     state.trip.days[state.selectedDate]=newArr;
-    await safeSet('trip:'+state.activeTripId, state.trip);
+    persist('trip:'+state.activeTripId, state.trip);
     overlay.remove();
     render();
     showToast(t('toastBlockDeleted'));
@@ -2319,7 +2364,7 @@ function openMorningModal(dateStr, blocks){
   const closeAndMark = async ()=>{
     state.trip.morningChecked = state.trip.morningChecked||[];
     if(!state.trip.morningChecked.includes(dateStr)) state.trip.morningChecked.push(dateStr);
-    await safeSet('trip:'+state.activeTripId, state.trip);
+    persist('trip:'+state.activeTripId, state.trip);
     overlay.remove();
   };
   $('#m_ok').onclick = closeAndMark;
@@ -2631,9 +2676,9 @@ function openImportPreview(parsed, mode){
     });
     const trip = {title, startDate:start, endDate:end, days, morningChecked:[]};
     state.trips.push({id,title,startDate:start,endDate:end});
-    await safeSet('trips-list', state.trips);
-    await safeSet('trip:'+id, trip);
-    await safeSet('active-trip', id);
+    persist('trips-list', state.trips);
+    persist('trip:'+id, trip);
+    persist('active-trip', id);
     state.activeTripId = id; state.trip = trip;
     const todayStr = fmtDate(new Date());
     state.selectedDate = days[todayStr]!==undefined ? todayStr : Object.keys(days)[0];
@@ -2699,15 +2744,16 @@ async function deleteCurrentTrip(){
   $('#dt_confirm').onclick = async ()=>{
     const id = state.activeTripId;
     state.trips = state.trips.filter(t=>t.id!==id);
-    await safeSet('trips-list', state.trips);
-    await safeSet('trip:'+id, null);
+    $('#dt_confirm').disabled = true; $('#dt_cancel').disabled = true;
+    persist('trips-list', state.trips);
+    persist('trip:'+id, null);
     if(state.trips.length){
       state.activeTripId = state.trips[0].id;
       state.trip = await safeGet('trip:'+state.activeTripId);
     } else {
       state.activeTripId = null; state.trip = null;
     }
-    await safeSet('active-trip', state.activeTripId);
+    persist('active-trip', state.activeTripId);
     if(state.trip){
       const todayStr = fmtDate(new Date());
       state.selectedDate = state.trip.days[todayStr]!==undefined ? todayStr : Object.keys(state.trip.days)[0];
