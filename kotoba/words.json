@@ -14691,5 +14691,55 @@
   "example": "信念を最後まで貫いた。",
   "exampleReading": "しんねんをさいごまでつらぬいた。",
   "exampleMeaning": "신념을 끝까지 관철했다."
+ },
+ {
+  "id": "tj620",
+  "word": "携わる",
+  "reading": "たずさわる",
+  "meaning": "관여하다, 종사하다",
+  "level": "N2",
+  "example": "私は舞台の音響に携わっている。",
+  "exampleReading": "わたしはぶたいのおんきょうにたずさわっている。",
+  "exampleMeaning": "나는 무대의 음향에 종사하고 있다."
+ },
+ {
+  "id": "tj621",
+  "word": "品揃え",
+  "reading": "しなぞろえ",
+  "meaning": "상품 구성, 구비",
+  "level": "N2",
+  "example": "小さな店だが、品揃えは豊富だ。",
+  "exampleReading": "ちいさなみせだが、しなぞろえはほうふだ。",
+  "exampleMeaning": "작은 가게이지만 상품 구성은 풍부하다."
+ },
+ {
+  "id": "tj622",
+  "word": "修復士",
+  "reading": "しゅうふくし",
+  "meaning": "복원사",
+  "level": "N1",
+  "example": "修復士は壊れた絵画を丁寧に直す。",
+  "exampleReading": "しゅうふくしはこわれたかいがをていねいになおす。",
+  "exampleMeaning": "복원사는 파손된 회화를 정성스럽게 고친다."
+ },
+ {
+  "id": "tj623",
+  "word": "象徴",
+  "reading": "しょうちょう",
+  "meaning": "상징",
+  "level": "N2",
+  "example": "彼は自由の象徴と呼ばれる。",
+  "exampleReading": "かれはじゆうのしょうちょうとよばれる。",
+  "exampleMeaning": "그는 자유의 상징으로 불린다."
+ },
+ {
+  "id": "tj624",
+  "word": "閉店",
+  "reading": "へいてん",
+  "meaning": "폐점",
+  "level": "N3",
+  "example": "駅前の喫茶店が今月末に閉店する。",
+  "exampleReading": "えきまえのきっさてんがこんげつまつにへいてんする。",
+  "exampleMeaning": "역 앞의 다방이 이달 말에 문을 닫는다."
  }
 ]

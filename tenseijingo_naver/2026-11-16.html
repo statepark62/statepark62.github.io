@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-16 天声人語로 배우는 일본어 — 시부야 핸즈 폐점</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-16</span>
+      <span>2026년 11월 16일 (월)</span>
+    </div>
+
+    <h1><ruby>渋谷<rt>しぶや</rt></ruby>ハンズ<ruby>閉店<rt>へいてん</rt></ruby></h1>
+    <p class="topic-ko">시부야 핸즈 폐점</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>感嘆<rt>かんたん</rt></ruby>した」</div>
+      <div class="ko">감탄했다 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>東京<rt>とうきょう</rt></ruby>・<ruby>渋谷<rt>しぶや</rt></ruby>の<ruby>象徴<rt>しょうちょう</rt></ruby>だった「ハンズ<ruby>渋谷<rt>しぶや</rt></ruby><ruby>店<rt>てん</rt></ruby>」が、４８<ruby>年<rt>ねん</rt></ruby>の<ruby>歩<rt>あゆ</rt></ruby>みを<ruby>終<rt>お</rt></ruby>え<ruby>閉<rt>と</rt></ruby>じられた。</p><p class="ko">도쿄 시부야의 상징이던 잡화점 ‘핸즈 시부야점’이 48년의 역사를 마치고 문을 닫았다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>創作<rt>そうさく</rt></ruby>に<ruby>携<rt>たずさ</rt></ruby>わる<ruby>人<rt>ひと</rt></ruby>が「<ruby>天国<rt>てんごく</rt></ruby>」と<ruby>呼<rt>よ</rt></ruby>ぶほど<ruby>道具<rt>どうぐ</rt></ruby>や<ruby>材料<rt>ざいりょう</rt></ruby>がそろい、<ruby>海外<rt>かいがい</rt></ruby>の<ruby>美術館<rt>びじゅつかん</rt></ruby>の<ruby>修復士<rt>しゅうふくし</rt></ruby>までもその<ruby>充実<rt>じゅうじつ</rt></ruby>ぶりを<ruby>評価<rt>ひょうか</rt></ruby>したと<ruby>伝<rt>つた</rt></ruby>わる。</p><p class="ko">예술과 제작에 종사하는 이들이 ‘천국’이라 부를 만큼 도구와 재료가 풍부했고, 해외 유수 미술관의 복원사들까지 그 상품 구성을 높이 평가했다고 한다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>店<rt>みせ</rt></ruby>の<ruby>喪失<rt>そうしつ</rt></ruby>を<ruby>通<rt>とお</rt></ruby>して<ruby>都市<rt>とし</rt></ruby>の<ruby>時<rt>とき</rt></ruby>の<ruby>移<rt>うつ</rt></ruby>ろいや、<ruby>暮<rt>くら</rt></ruby>しの<ruby>創作<rt>そうさく</rt></ruby>を<ruby>支<rt>ささ</rt></ruby>えた<ruby>土台<rt>どだい</rt></ruby>が<ruby>消<rt>き</rt></ruby>える<ruby>寂<rt>さび</rt></ruby>しさを<ruby>噛<rt>か</rt></ruby>みしめる。</p><p class="ko">칼럼은 이 상실을 통해 도시의 시간이 어떻게 흘러가는지, 생활 속 창작의 토대가 사라질 때의 허전함을 곱씹는다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>携わる<rt>たずさわる</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">관여하다, 종사하다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>私<rt>わたし</rt></ruby>は<ruby>舞台<rt>ぶたい</rt></ruby>の<ruby>音響<rt>おんきょう</rt></ruby>に<ruby>携<rt>たずさ</rt></ruby>わっている。</span><br>나는 무대의 음향에 종사하고 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>品揃え<rt>しなぞろえ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">상품 구성, 구비</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>小<rt>ちい</rt></ruby>さな<ruby>店<rt>みせ</rt></ruby>だが、<ruby>品揃<rt>しなぞろ</rt></ruby>えは<ruby>豊富<rt>ほうふ</rt></ruby>だ。</span><br>작은 가게이지만 상품 구성은 풍부하다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>修復士<rt>しゅうふくし</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">복원사</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>修復士<rt>しゅうふくし</rt></ruby>は<ruby>壊<rt>こわ</rt></ruby>れた<ruby>絵画<rt>かいが</rt></ruby>を<ruby>丁寧<rt>ていねい</rt></ruby>に<ruby>直<rt>なお</rt></ruby>す。</span><br>복원사는 파손된 회화를 정성스럽게 고친다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>象徴<rt>しょうちょう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">상징</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>は<ruby>自由<rt>じゆう</rt></ruby>の<ruby>象徴<rt>しょうちょう</rt></ruby>と<ruby>呼<rt>よ</rt></ruby>ばれる。</span><br>그는 자유의 상징으로 불린다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>閉店<rt>へいてん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">폐점</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>駅前<rt>えきまえ</rt></ruby>の<ruby>喫茶店<rt>きっさてん</rt></ruby>が<ruby>今月末<rt>こんげつまつ</rt></ruby>に<ruby>閉店<rt>へいてん</rt></ruby>する。</span><br>역 앞의 다방이 이달 말에 문을 닫는다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Vたと<ruby>聞<rt>き</rt></ruby>く</div>
+        <div class="pattern-ko">~했다고 들었다</div>
+        <p class="explain">직접 보거나 확인하지 못했지만, 전해 들은 정보임을 나타낸다. 신문·칼럼 등에서 출처가 구체적이지 않을 때 객관적 거리감을 주는 데 쓰인다.</p>
+        <p class="ex"><span class="ja"><ruby>彼<rt>かれ</rt></ruby>が<ruby>受賞<rt>じゅしょう</rt></ruby>したと<ruby>聞<rt>き</rt></ruby>くが、まだ<ruby>正式<rt>せいしき</rt></ruby>ではないらしい。</span><br>그가 수상했다고 들었지만, 아직 공식은 아닌 듯하다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 가게 하나의 폐점을 ‘예술가들의 천국’이라는 인상적인 이미지로 열어, 독자의 감각을 먼저 자극한다. 이어 해외 복원사라는 권위 있는 타자를 불러와 상점의 가치를 간접적으로 부각시키며, 디테일한 품목 나열로 ‘무엇이 사라지는가’를 구체화한다. 천성인어 특유의 짧은 문장과 명확한 대비는 정보량을 높이면서도 정서적 납득을 이끈다. 결과적으로 한 매장의 문 닫음을 도시 문화의 균열로 확장하는 효과를 낸다.</p>
+        <p>한국 독자 입장에서도 대형 잡화 체인의 쇠퇴와 도심 재개발은 낯설지 않은 풍경이다. 칼럼은 ‘손으로 만드는 일상’의 기반이 줄어드는 감각을 상실의 정서와 결부해 보편성으로 끌어올린다. 직접적인 비판보다 여운을 남기는 서술을 통해, 어디서 무엇을 잃었는지 스스로 떠올리게 하는 점이 흥미롭다. 장소의 기억이 개인의 창작 습관과 어떻게 연결되는지를 사려 깊게 환기한다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 시부야의 오래된 잡화점 폐점을 통해, 손으로 만드는 일상의 터전이 사라질 때 남는 공허와 시대의 변화를 성찰하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>도큐핸즈는 DIY·취미·문구·생활용품을 폭넓게 취급해 ‘무엇이든 있는 곳’으로 인식된 일본의 대표적 잡화·홈센터형 체인이다.</p>
+        <p>시부야 일대는 최근 대규모 재개발과 상권 재편이 이어지며, 상징적 노포나 대형 매장의 이동·폐점이 가시화되고 있다.</p>
+        <p>일본에는 ‘만들기(ものづくり)’와 수리 문화가 생활에 깊이 스며 있으며, 다양한 자재와 공구를 한자리에서 접할 수 있는 매장은 그 생태계를 떠받쳐 왔다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>개별 사건을 강렬한 비유로 시작해 독자의 감각을 먼저 흔들어라.</p>
+        <p><span class="n">二</span>권위 있는 제삼자의 평가를 인용해 대상의 가치를 간접 증명하라.</p>
+        <p><span class="n">三</span>사라지는 구체(도구·자재·코너 등)를 디테일하게 제시해 상실의 실감을 높여라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>道具<rt>どうぐ</rt></ruby>の<ruby>匂<rt>にお</rt></ruby>いが<ruby>創作<rt>そうさく</rt></ruby>の<ruby>意欲<rt>いよく</rt></ruby>を<ruby>呼<rt>よ</rt></ruby>び<ruby>覚<rt>さ</rt></ruby>ます。</span>
+      <span class="ko">도구의 냄새가 창작 의욕을 깨운다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-16) — <a href="https://www.asahi.com/articles/DA3S16588337.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-16.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+<script>
+(function(){
+  try {
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzcXdFIOuEEMrvp34WC31ba2kWz9plgNJKqr4nVINKhva4xPjHkL2rmIxV6JLLWijXI/exec";
+    var uid = localStorage.getItem("tj_uid") || "", isNew = false;
+    if (!uid) {
+      uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem("tj_uid", uid); isNew = true;
+    }
+    var m = location.pathname.match(/(\d{4}-\d{2}-\d{2})\.html/);
+    var page = m ? m[1] : "상세";
+    var key = "tj_logged_" + page;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    var dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "모바일" : "PC";
+    var qs = "action=log&uid=" + encodeURIComponent(uid) + "&page=" + encodeURIComponent(page) + "&dev=" + encodeURIComponent(dev) +
+             "&ref=" + encodeURIComponent((document.referrer||"").slice(0,120));
+    fetch(GAS_URL + "?" + qs, {mode:"no-cors"}).catch(function(){});
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

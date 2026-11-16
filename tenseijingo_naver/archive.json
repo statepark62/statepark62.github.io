@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-16",
+    "no": 132,
+    "topic_ja": "<ruby>渋谷<rt>しぶや</rt></ruby>ハンズ<ruby>閉店<rt>へいてん</rt></ruby>",
+    "topic_ko": "시부야 핸즈 폐점",
+    "url": "https://www.asahi.com/articles/DA3S16588337.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘도시의 기억’, ‘가게와 삶’, ‘손의 문화’ — 한 매장의 폐점을 매개로 도시 재편과 생활 창작의 기반 약화를 동시에 비추며, 개인의 손과 도시의 시간이라는 큰 축을 연결하기 때문.",
+    "pattern": "Vたと<ruby>聞<rt>き</rt></ruby>く"
+  },
+  {
     "date": "2026-11-15",
     "no": 131,
     "topic_ja": "<ruby>生<rt>い</rt></ruby>き<ruby>証人<rt>しょうにん</rt></ruby>の<ruby>別<rt>わか</rt></ruby>れ",
