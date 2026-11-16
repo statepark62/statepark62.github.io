@@ -120,6 +120,14 @@
   .block-title{font-size:18px;font-weight:700;}
   .block-meta{font-size:14.5px;color:var(--ink-soft);margin-top:3px;}
   .block-note{font-size:14.5px;color:var(--ink-soft);margin-top:5px;line-height:1.55;white-space:pre-wrap;}
+
+  .block-photo{width:96px;height:96px;object-fit:cover;border-radius:12px;border:1px solid var(--line);cursor:zoom-in;display:block;margin-top:8px;background:#EEF2F8;}
+  .block-photo.loading{opacity:.5;}
+  .photo-field{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .photo-field img{width:84px;height:84px;object-fit:cover;border-radius:12px;border:1px solid var(--line);}
+  .print-photo{width:72px;height:72px;object-fit:cover;float:right;margin-left:8px;border-radius:6px;}
+  .photo-lightbox{position:fixed;inset:0;background:rgba(10,14,26,.88);z-index:10000;display:flex;align-items:center;justify-content:center;cursor:zoom-out;}
+  .photo-lightbox img{max-width:92vw;max-height:84vh;border-radius:12px;background:#fff;}
   .block-actions{display:flex;gap:6px;flex-shrink:0;align-self:center;}
   .icon-btn{
     border:none;background:var(--ice);border-radius:8px;width:34px;height:34px;
@@ -1098,6 +1106,7 @@ function renderTimeline(){
         <div class="block-title">${escapeHtml(b.title)}${b.location?` <span style="font-weight:400;color:var(--ink-soft);font-size:12px;">· ${escapeHtml(b.location)}</span>`:''}</div>
         ${b.endTime?`<div class="block-meta">~${b.endTime}</div>`:''}
         ${b.note?`<div class="block-note">${linkifyNote(b.note)}</div>`:''}
+        ${b.photo?photoThumbHtml_(b.photo):''}
       </div>
       ${state.shareMode?'':`<div class="block-actions">
         <button class="icon-btn" data-edit="${b.id}" title="수정">✎</button>
@@ -1308,6 +1317,15 @@ function openBlockForm(blockId){
       <label>메모(선택)</label>
       <textarea id="b_note" placeholder="준비물, 예약번호 등">${editing&&editing.note?escapeHtml(editing.note):''}</textarea>
     </div>
+    <div class="field">
+      <label>${L('사진(선택, 1장)','Photo (optional, 1)')}</label>
+      <div class="photo-field">
+        <img id="b_photo_prev" alt="" style="display:none;">
+        <button type="button" class="btn btn-line btn-sm" id="b_photo_pick">${L('📷 사진 선택','📷 Choose photo')}</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="b_photo_remove" style="display:none;">${L('사진 삭제','Remove')}</button>
+        <input type="file" id="b_photo_file" accept="image/*" style="display:none;">
+      </div>
+    </div>
     <div class="sheet-actions">
       <button class="btn btn-line" id="b_cancel">취소</button>
       <button class="btn btn-primary" id="b_save">${editing?'저장':'추가'}</button>
@@ -1318,6 +1336,21 @@ function openBlockForm(blockId){
   const autoGrow = ()=>{ noteEl.style.height='auto'; noteEl.style.height=(noteEl.scrollHeight+2)+'px'; };
   autoGrow();
   noteEl.addEventListener('input', autoGrow);
+  // 사진 선택(일정당 1장): 새로 고르면 줄여서 미리보기, 삭제하면 연결 해제
+  const photoSt = { oldId: editing && editing.photo ? editing.photo : null, dataUrl: null, removed: false };
+  const prevEl = $('#b_photo_prev'), pickEl = $('#b_photo_pick'), rmEl = $('#b_photo_remove'), fileEl = $('#b_photo_file');
+  const showPrev = (src)=>{ if(src){ prevEl.src = src; prevEl.style.display = ''; rmEl.style.display = ''; pickEl.textContent = L('📷 사진 바꾸기','📷 Change photo'); } else { prevEl.style.display = 'none'; rmEl.style.display = 'none'; pickEl.textContent = L('📷 사진 선택','📷 Choose photo'); } };
+  if(photoSt.oldId){ photoLoadMany_([photoSt.oldId]).then(()=>{ if(!photoSt.dataUrl && !photoSt.removed) showPrev(photoMem[photoSt.oldId]); }).catch(()=>{}); }
+  pickEl.onclick = ()=>fileEl.click();
+  fileEl.onchange = async ()=>{
+    const f = fileEl.files && fileEl.files[0]; fileEl.value = '';
+    if(!f) return;
+    pickEl.disabled = true;
+    try{ photoSt.dataUrl = await photoResize_(f); photoSt.removed = false; showPrev(photoSt.dataUrl); }
+    catch(e){ console.error(e); showToast(L('이 사진을 불러오지 못했어요. 다른 사진을 골라주세요','Could not read this photo. Please choose another')); }
+    pickEl.disabled = false;
+  };
+  rmEl.onclick = ()=>{ photoSt.dataUrl = null; photoSt.removed = true; showPrev(null); };
   $('#b_cancel').onclick = ()=>overlay.remove();
   overlay.onclick = e=>{ if(e.target===overlay) overlay.remove(); };
   $('#b_save').onclick = async ()=>{
@@ -1333,6 +1366,8 @@ function openBlockForm(blockId){
       time, endTime: $('#b_end').value||null,
       title, location: $('#b_loc').value.trim(), note: $('#b_note').value.trim()
     };
+    if(photoSt.dataUrl){ data.photo = uid(); photoMem[data.photo] = photoSt.dataUrl; }
+    else if(photoSt.oldId && !photoSt.removed){ data.photo = photoSt.oldId; }
     const arr = state.trip.days[state.selectedDate]||[];
     if(editing){
       const idx = arr.findIndex(b=>b.id===editing.id);
@@ -1341,6 +1376,8 @@ function openBlockForm(blockId){
       arr.push(data);
     }
     state.trip.days[state.selectedDate]=arr;
+    if(data.photo && photoSt.dataUrl){ const _pid = data.photo, _pd = photoSt.dataUrl; persistTask_(()=>photoSave_(_pid, _pd)); }
+    if(photoSt.oldId && data.photo !== photoSt.oldId){ const _old = photoSt.oldId; persistTask_(()=>photoDeleteMany_([_old])); }
     persist('trip:'+state.activeTripId, state.trip);   // 저장은 뒤에서, 화면은 바로 넘어감
     overlay.remove();
     render();
@@ -1366,6 +1403,7 @@ async function deleteBlock(id){
   $('#db_confirm').onclick = async ()=>{
     $('#db_confirm').disabled = true; $('#db_cancel').disabled = true;
     const newArr = arr.filter(b=>b.id!==id);
+    { const _b = arr.find(b=>b.id===id); if(_b && _b.photo){ const _pid = _b.photo; persistTask_(()=>photoDeleteMany_([_pid])); } }
     state.trip.days[state.selectedDate]=newArr;
     persist('trip:'+state.activeTripId, state.trip);
     overlay.remove();
@@ -1795,6 +1833,7 @@ function buildPrintable(){
         <td>
           <div class="print-item-title">${escapeHtml(b.title)}${b.location?` <span class="print-loc">· ${escapeHtml(b.location)}</span>`:''}</div>
           ${b.note?`<div class="print-note">${linkifyNote(b.note)}</div>`:''}
+          ${b.photo&&photoMem[b.photo]?`<img class="print-photo" src="${photoMem[b.photo]}" alt="">`:''}
         </td>
       </tr>`).join('') : `<tr><td colspan="2" class="print-empty">일정 없음</td></tr>`;
     return `<div class="print-day">
@@ -1809,7 +1848,8 @@ function buildPrintable(){
   `;
 }
 
-function exportPdf(){
+async function exportPdf(){
+  if(state.trip){ try{ await photoLoadMany_(allPhotoIds_(state.trip)); }catch(e){} }
   if(!state.trip){ showToast('내보낼 여행이 없어요'); return; }
   buildPrintable();
   const prevTitle = document.title;
@@ -1837,6 +1877,7 @@ async function deleteCurrentTrip(){
     const id = state.activeTripId;
     state.trips = state.trips.filter(t=>t.id!==id);
     $('#dt_confirm').disabled = true; $('#dt_cancel').disabled = true;
+    { const _ids = allPhotoIds_(state.trip); if(_ids.length) persistTask_(()=>photoDeleteMany_(_ids)); }
     persist('trips-list', state.trips);
     persist('trip:'+id, null);
     if(state.trips.length){
@@ -1887,6 +1928,162 @@ async function handlePhotoFile(file, mode){
     openImportErrorModal('사진 분석 중 오류가 발생했어요.', err.message || String(err));
   }
 }
+
+/* ================= 일정 사진 (일정당 1장, 작은 썸네일) =================
+   - 브라우저에서 긴 변 320px 이하 JPEG로 줄이고(위치정보 등은 다시 인코딩하며 사라짐) 글자(base64)로 바꿔 저장
+   - 구글 시트의 'photos' 탭에 한 장씩 저장(한 칸 5만 자 제한 때문에 45,000자 이하로 맞춤). 일정에는 사진 번호만 연결
+   - 화면에 필요할 때만 읽어옴(앱 시작이 느려지지 않음). 구글 미연결 시에는 이 기기 브라우저에 저장 */
+const PHOTO_TAB = 'photos', PHOTO_MAX_CHARS = 45000;
+const photoMem = {};          // 사진번호 -> dataURL (화면 캐시)
+const photoMissing = new Set();
+let _photoRows = {}, _photoRowsFor = null, _photoTabFor = null;
+
+function photoResize_(file){
+  return new Promise((resolve, reject)=>{
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = ()=>{
+      try{
+        let w = img.naturalWidth, h = img.naturalHeight;
+        if(!w || !h) throw new Error('size');
+        let scale = Math.min(1, 320 / Math.max(w, h));
+        for(let attempt=0; attempt<6; attempt++){
+          const cw = Math.max(16, Math.round(w*scale)), ch = Math.max(16, Math.round(h*scale));
+          const c = document.createElement('canvas'); c.width = cw; c.height = ch;
+          const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0,0,cw,ch); ctx.drawImage(img, 0, 0, cw, ch);
+          for(const q of [0.72, 0.6, 0.5, 0.4]){
+            const d = c.toDataURL('image/jpeg', q);
+            if(d.length <= PHOTO_MAX_CHARS){ URL.revokeObjectURL(url); resolve(d); return; }
+          }
+          scale *= 0.8;
+        }
+        throw new Error('too big');
+      }catch(e){ URL.revokeObjectURL(url); reject(e); }
+    };
+    img.onerror = ()=>{ URL.revokeObjectURL(url); reject(new Error('decode')); };
+    img.src = url;
+  });
+}
+function allPhotoIds_(trip){
+  const out = [];
+  if(trip && trip.days) Object.keys(trip.days).forEach(d=>(trip.days[d]||[]).forEach(b=>{ if(b && b.photo) out.push(b.photo); }));
+  return out;
+}
+const photoShareKey_ = ()=> (state.shareMode && state.shareSpreadsheetId) ? state.shareSpreadsheetId : null;
+async function photoApi_(path, opts){
+  const sid = photoShareKey_();
+  if(sid){   // 공유 보기: 로그인 없이 API 키로 읽기만
+    const r = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sid}/${path}${path.includes('?')?'&':'?'}key=${GOOGLE_API_KEY}`);
+    if(!r.ok) throw new Error('photo read ' + r.status);
+    return r.json();
+  }
+  return gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/${path}`, opts);
+}
+async function photoEnsureTab_(){
+  if(_photoTabFor === spreadsheetId) return;
+  const meta = await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?fields=sheets.properties`);
+  if(!(meta.sheets||[]).some(s=>s.properties.title === PHOTO_TAB)){
+    await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}:batchUpdate`, {
+      method:'POST', body: JSON.stringify({requests:[{addSheet:{properties:{title:PHOTO_TAB}}}]})
+    });
+  }
+  _photoTabFor = spreadsheetId;
+}
+async function photoRefreshRows_(){
+  const sid = photoShareKey_() || spreadsheetId;
+  let rows = [];
+  try{ const r = await photoApi_(`values/${PHOTO_TAB}!A2:A100000`); rows = r.values || []; }
+  catch(e){ if(photoShareKey_() || !(e && /400|Unable to parse range/.test(String(e.message)))) { if(photoShareKey_()) rows = []; else throw e; } }
+  const map = {}; rows.forEach((r,i)=>{ if(r && r[0]) map[r[0]] = i + 2; });
+  _photoRows = map; _photoRowsFor = sid;
+}
+async function photoLoadMany_(ids){
+  const need = [...new Set(ids)].filter(id=>id && !photoMem[id] && !photoMissing.has(id));
+  if(!need.length) return;
+  if(googleSignedIn || photoShareKey_()){
+    const sid = photoShareKey_() || spreadsheetId;
+    if(_photoRowsFor !== sid || need.some(id=>!_photoRows[id])) await photoRefreshRows_();
+    const found = need.filter(id=>_photoRows[id]);
+    need.filter(id=>!_photoRows[id]).forEach(id=>photoMissing.add(id));
+    for(let i=0;i<found.length;i+=20){
+      const part = found.slice(i,i+20);
+      const q = part.map(id=>'ranges=' + encodeURIComponent(`${PHOTO_TAB}!B${_photoRows[id]}`)).join('&');
+      const r = await photoApi_(`values:batchGet?${q}`);
+      (r.valueRanges||[]).forEach((vr,j)=>{ const v = vr.values && vr.values[0] && vr.values[0][0]; if(v) photoMem[part[j]] = v; else photoMissing.add(part[j]); });
+    }
+  } else {
+    need.forEach(id=>{
+      let v = null; try{ v = localStorage.getItem('tripdata:photo:'+id); }catch(e){}
+      if(!v && memoryStore['photo:'+id]) v = memoryStore['photo:'+id];
+      if(v) photoMem[id] = v; else photoMissing.add(id);
+    });
+  }
+}
+async function photoSave_(id, dataUrl){
+  if(googleSignedIn){
+    await photoEnsureTab_();
+    await photoRefreshRows_();
+    const row = _photoRows[id];
+    if(row){
+      await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${PHOTO_TAB}!B${row}?valueInputOption=RAW`, { method:'PUT', body: JSON.stringify({values:[[dataUrl]]}) });
+    } else {
+      await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${PHOTO_TAB}!A:B:append?valueInputOption=RAW`, { method:'POST', body: JSON.stringify({values:[[id, dataUrl]]}) });
+      _photoRowsFor = null;
+    }
+  } else {
+    let ok = false; try{ localStorage.setItem('tripdata:photo:'+id, dataUrl); ok = true; }catch(e){}
+    if(!ok){ memoryStore['photo:'+id] = dataUrl; showToast(L('저장 공간이 부족해 이번 접속 동안만 사진이 유지돼요','Not enough storage: the photo is kept only for this session')); }
+  }
+}
+async function photoDeleteMany_(ids){
+  ids = (ids||[]).filter(Boolean);
+  if(!ids.length) return;
+  ids.forEach(id=>{ delete photoMem[id]; photoMissing.delete(id); });
+  if(googleSignedIn){
+    try{
+      await photoRefreshRows_();
+      for(const id of ids){
+        const row = _photoRows[id];
+        if(row) await gApi(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${PHOTO_TAB}!A${row}:B${row}:clear`, { method:'POST', body:'{}' });
+      }
+      _photoRowsFor = null;
+    }catch(e){ console.error('photo delete failed', e); }
+  } else {
+    ids.forEach(id=>{ try{ localStorage.removeItem('tripdata:photo:'+id); }catch(e){} delete memoryStore['photo:'+id]; });
+  }
+}
+function persistTask_(fn){   // 저장 대기열(persist와 같은 줄)에 사진 작업을 끼워 순서를 지킴
+  _pendingWrites++; updateSaveBadge_();
+  const job = _writeChain.then(fn).catch(e=>{ console.error(e); if(e && e.authExpired){ openReconnectModal(); } else showToast(L('사진 저장에 실패했어요','Could not save the photo')); }).then(()=>{ _pendingWrites--; updateSaveBadge_(); });
+  _writeChain = job; return job;
+}
+function openPhotoLightbox_(id){
+  const src = photoMem[id]; if(!src) return;
+  const ov = document.createElement('div'); ov.className = 'photo-lightbox';
+  ov.innerHTML = '<img alt="">'; ov.querySelector('img').src = src;
+  ov.onclick = ()=>ov.remove(); document.body.appendChild(ov);
+}
+function photoThumbHtml_(id){
+  const src = photoMem[id] || '';
+  return `<img class="block-photo${src?'':' loading'}" data-photo="${escapeHtml(id)}" alt="${L('일정 사진','photo')}" ${src?`src="${src}"`:'src="data:image/gif;base64,R0lGODlhAQABAAAAACw="'}>`;
+}
+async function hydratePhotos_(){
+  const imgs = [...document.querySelectorAll('img.block-photo[data-photo]')];
+  if(!imgs.length) return;
+  const ids = imgs.map(i=>i.dataset.photo);
+  imgs.forEach(i=>{ i.onclick = ()=>openPhotoLightbox_(i.dataset.photo); });
+  if(ids.some(id=>!photoMem[id])){ try{ await photoLoadMany_(ids); }catch(e){ console.error('photo load failed', e); } }
+  document.querySelectorAll('img.block-photo[data-photo]').forEach(i=>{
+    const s = photoMem[i.dataset.photo];
+    if(s && i.getAttribute('src') !== s){ i.src = s; i.classList.remove('loading'); }
+    else if(!s && photoMissing.has(i.dataset.photo)) i.style.display = 'none';
+  });
+}
+/* 화면을 다시 그린 뒤 사진을 채워 넣음 */
+(function(){
+  const r0 = render; render = function(){ r0.apply(this, arguments); hydratePhotos_(); };
+  const s0 = renderShareView; renderShareView = function(){ s0.apply(this, arguments); hydratePhotos_(); };
+})();
 
 init();
 </script>
