@@ -3024,24 +3024,7 @@ async function exportTripFile_(kind){
   setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
   showToast(L('저장했어요: ','Saved: ') + a.download);
 }
-function openSaveFileModal_(){
-  const ov = document.createElement('div'); ov.className = 'overlay';
-  ov.innerHTML = `<div class="sheet">
-    <h3>${L('일정표를 파일로 저장','Save itinerary as a file')}</h3>
-    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">${L('사진(축소본)도 함께 저장돼요. 저장한 파일은 다른 기기의 이 앱에서 “파일에서 불러오기”로 열 수 있어요.','Photos (small copies) are included. You can open the file in this app on another device with “Open from file”.')}</p>
-    <div class="sheet-actions" style="flex-wrap:wrap;">
-      <button class="btn btn-line" id="sf_close">${L('닫기','Close')}</button>
-      <button class="btn btn-line" id="sf_json">${L('.json로 저장','Save as .json')}</button>
-      <button class="btn btn-primary" id="sf_js">${L('.js로 저장','Save as .js')}</button>
-    </div>
-    <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin-top:10px;">${L('.js는 다른 웹페이지에서 &lt;script&gt;로 불러 쓸 때 편해요.','.js is handy for loading with &lt;script&gt; in another web page.')}</p>
-  </div>`;
-  document.body.appendChild(ov);
-  ov.onclick = e=>{ if(e.target === ov) ov.remove(); };
-  ov.querySelector('#sf_close').onclick = ()=>ov.remove();
-  ov.querySelector('#sf_js').onclick = async ()=>{ ov.remove(); await exportTripFile_('js'); };
-  ov.querySelector('#sf_json').onclick = async ()=>{ ov.remove(); await exportTripFile_('json'); };
-}
+function openSaveFileModal_(){ exportTripFile_('json'); }   // 저장은 .json 한 가지로 통일(불러올 때는 예전에 저장한 .js도 읽음)
 function parseTripFile_(text){
   let s = String(text || '').replace(/^﻿/, '').trim();
   s = s.replace(/^\/\*[\s\S]*?\*\/\s*/, '');                 // 맨 앞 주석 제거
@@ -3098,7 +3081,7 @@ async function importTripFile_(file){
   }
 }
 function pickTripFile_(){
-  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.js,.json,text/javascript,application/json'; inp.style.display = 'none';
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.json,.js,application/json,text/javascript'; inp.style.display = 'none';
   inp.onchange = ()=>{ const f = inp.files && inp.files[0]; inp.remove(); if(f) importTripFile_(f); };
   document.body.appendChild(inp); inp.click();
 }
