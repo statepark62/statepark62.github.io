@@ -2085,6 +2085,138 @@ async function hydratePhotos_(){
   const s0 = renderShareView; renderShareView = function(){ s0.apply(this, arguments); hydratePhotos_(); };
 })();
 
+/* ================= 일정표 파일 저장(.js / .json) · 파일에서 불러오기 =================
+   - 저장: 현재 보고 있는 여행(공유 보기 포함)을 파일로 내려받음. 사진은 축소본 그대로 포함
+   - 불러오기: 파일을 '실행'하지 않고 글자로 읽어 데이터만 해석하고, 형식을 검사한 뒤 새 여행으로 추가 */
+function tripFileName_(ext){
+  const base = String((state.trip && state.trip.title) || 'trip').replace(/[\\\/:*?"<>|\s]+/g,'_').slice(0,40) || 'trip';
+  return base + '.' + ext;
+}
+async function exportTripFile_(kind){
+  const trip = state.trip;
+  if(!trip){ showToast(L('저장할 일정표가 없어요','No itinerary to save')); return; }
+  showToast(L('파일을 만드는 중…','Preparing the file…'));
+  try{ await photoLoadMany_(allPhotoIds_(trip)); }catch(e){ console.error(e); }
+  const days = {};
+  Object.keys(trip.days||{}).sort().forEach(d=>{
+    days[d] = (trip.days[d]||[]).map(b=>{
+      const o = { time:b.time, endTime:b.endTime||null, title:b.title, location:b.location||'', note:b.note||'' };
+      if(b.photo && photoMem[b.photo]) o.photo = photoMem[b.photo];
+      return o;
+    });
+  });
+  const data = { format:'trip-board', version:1, exportedAt:new Date().toISOString(),
+                 trip:{ title:trip.title, startDate:trip.startDate, endDate:trip.endDate, days } };
+  const json = JSON.stringify(data, null, 1);
+  const text = kind === 'js' ? '/* 여행 전광판 일정표 */\nwindow.TRIP_DATA = ' + json + ';\n' : json;
+  const blob = new Blob([text], { type: kind === 'js' ? 'text/javascript;charset=utf-8' : 'application/json;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = tripFileName_(kind);
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  showToast(L('저장했어요: ','Saved: ') + a.download);
+}
+function openSaveFileModal_(){
+  const ov = document.createElement('div'); ov.className = 'overlay';
+  ov.innerHTML = `<div class="sheet">
+    <h3>${L('일정표를 파일로 저장','Save itinerary as a file')}</h3>
+    <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">${L('사진(축소본)도 함께 저장돼요. 저장한 파일은 다른 기기의 이 앱에서 “파일에서 불러오기”로 열 수 있어요.','Photos (small copies) are included. You can open the file in this app on another device with “Open from file”.')}</p>
+    <div class="sheet-actions" style="flex-wrap:wrap;">
+      <button class="btn btn-line" id="sf_close">${L('닫기','Close')}</button>
+      <button class="btn btn-line" id="sf_json">${L('.json로 저장','Save as .json')}</button>
+      <button class="btn btn-primary" id="sf_js">${L('.js로 저장','Save as .js')}</button>
+    </div>
+    <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin-top:10px;">${L('.js는 다른 웹페이지에서 &lt;script&gt;로 불러 쓸 때 편해요.','.js is handy for loading with &lt;script&gt; in another web page.')}</p>
+  </div>`;
+  document.body.appendChild(ov);
+  ov.onclick = e=>{ if(e.target === ov) ov.remove(); };
+  ov.querySelector('#sf_close').onclick = ()=>ov.remove();
+  ov.querySelector('#sf_js').onclick = async ()=>{ ov.remove(); await exportTripFile_('js'); };
+  ov.querySelector('#sf_json').onclick = async ()=>{ ov.remove(); await exportTripFile_('json'); };
+}
+function parseTripFile_(text){
+  let s = String(text || '').replace(/^﻿/, '').trim();
+  s = s.replace(/^\/\*[\s\S]*?\*\/\s*/, '');                 // 맨 앞 주석 제거
+  if(!s.startsWith('{')){
+    const m = s.match(/^window\.TRIP_DATA\s*=\s*/);
+    if(!m) throw new Error('format');
+    s = s.slice(m[0].length).replace(/;\s*$/, '');
+  }
+  const data = JSON.parse(s);                               // 실행하지 않고 데이터로만 해석
+  if(!data || data.format !== 'trip-board' || !data.trip) throw new Error('format');
+  const t = data.trip, dre = /^\d{4}-\d{2}-\d{2}$/, tre = /^\d{2}:\d{2}$/;
+  if(typeof t.title !== 'string' || !dre.test(t.startDate) || !dre.test(t.endDate) || t.startDate > t.endDate) throw new Error('format');
+  if(!t.days || typeof t.days !== 'object') throw new Error('format');
+  const clip = (v, n)=>String(v == null ? '' : v).slice(0, n);
+  const days = {}; let count = 0;
+  Object.keys(t.days).slice(0, 400).forEach(d=>{
+    if(!dre.test(d)) return;
+    const arr = Array.isArray(t.days[d]) ? t.days[d] : [];
+    days[d] = arr.slice(0, 200).filter(b=>b && typeof b === 'object' && tre.test(String(b.time||''))).map(b=>{
+      count++;
+      const o = { time:b.time, endTime: tre.test(String(b.endTime||'')) ? b.endTime : null, title: clip(b.title, 200) || '일정', location: clip(b.location, 200), note: clip(b.note, 5000) };
+      if(typeof b.photo === 'string' && /^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(b.photo) && b.photo.length <= 50000) o.photo = b.photo;
+      return o;
+    });
+  });
+  return { title: clip(t.title, 100) || '여행', startDate: t.startDate, endDate: t.endDate, days, count };
+}
+async function importTripFile_(file){
+  try{
+    if(file.size > 8 * 1024 * 1024){ showToast(L('파일이 너무 커요(8MB 이하)','File is too large (max 8MB)')); return; }
+    const p = parseTripFile_(await file.text());
+    const id = uid(), days = {};
+    dateRange(p.startDate, p.endDate).forEach(d=>{ days[d] = []; });
+    Object.keys(p.days).forEach(d=>{
+      if(days[d] === undefined) days[d] = [];
+      p.days[d].forEach(b=>{
+        const nb = { id: uid(), time:b.time, endTime:b.endTime, title:b.title, location:b.location, note:b.note };
+        if(b.photo){ nb.photo = uid(); photoMem[nb.photo] = b.photo; const pid = nb.photo, pd = b.photo; persistTask_(()=>photoSave_(pid, pd)); }
+        days[d].push(nb);
+      });
+    });
+    const trip = { title:p.title, startDate:p.startDate, endDate:p.endDate, days, morningChecked:[] };
+    state.trips = state.trips || [];
+    state.trips.push({ id, title:p.title, startDate:p.startDate, endDate:p.endDate });
+    persist('trips-list', state.trips); persist('trip:'+id, trip); persist('active-trip', id);
+    state.activeTripId = id; state.trip = trip; state.viewingPastTrip = false;
+    const today = fmtDate(new Date());
+    state.selectedDate = days[today] !== undefined ? today : Object.keys(days).sort()[0];
+    render();
+    showToast(L('불러왔어요: ','Imported: ') + p.title + ' (' + p.count + L('개 일정)',' plans)'));
+  }catch(e){
+    console.error(e);
+    showToast(L('이 파일은 여행 전광판 일정표가 아니에요','This file is not a Trip Board itinerary'));
+  }
+}
+function pickTripFile_(){
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.js,.json,text/javascript,application/json'; inp.style.display = 'none';
+  inp.onchange = ()=>{ const f = inp.files && inp.files[0]; inp.remove(); if(f) importTripFile_(f); };
+  document.body.appendChild(inp); inp.click();
+}
+function injectTripFileButtons_(){
+  const mk = (id, label, fn)=>{ const b = document.createElement('button'); b.className = 'btn btn-line btn-sm'; b.id = id; b.textContent = label; b.onclick = fn; return b; };
+  let bar = document.querySelector('.topbar-actions');
+  if(state.shareMode){
+    if(!state.trip || document.getElementById('saveFileBtn')) return;
+    if(!bar){ bar = document.createElement('div'); bar.className = 'topbar-actions'; bar.style.cssText = 'padding:12px 16px;'; app.insertBefore(bar, app.firstChild); }
+    bar.appendChild(mk('saveFileBtn', L('💾 일정표 저장','💾 Save itinerary'), openSaveFileModal_));
+    return;
+  }
+  if(bar && state.trip && !document.getElementById('saveFileBtn')){
+    const pdf = document.getElementById('exportPdfBtn'); const b = mk('saveFileBtn', L('💾 파일로 저장','💾 Save file'), openSaveFileModal_);
+    if(pdf && pdf.parentNode) pdf.parentNode.insertBefore(b, pdf.nextSibling); else bar.appendChild(b);
+  }
+  if(!document.getElementById('openFileBtn')){
+    const anchor = document.getElementById('newTripBtn2') || document.getElementById('newTripBtn');
+    if(anchor && anchor.parentNode){ const b = mk('openFileBtn', L('📂 파일에서 불러오기','📂 Open from file'), pickTripFile_); anchor.parentNode.insertBefore(b, anchor.nextSibling); }
+  }
+}
+(function(){
+  const r1 = render; render = function(){ r1.apply(this, arguments); injectTripFileButtons_(); };
+  const s1 = renderShareView; renderShareView = function(){ s1.apply(this, arguments); injectTripFileButtons_(); };
+})();
+
 init();
 </script>
 </body>
