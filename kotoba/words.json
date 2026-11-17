@@ -14741,5 +14741,55 @@
   "example": "駅前の喫茶店が今月末に閉店する。",
   "exampleReading": "えきまえのきっさてんがこんげつまつにへいてんする。",
   "exampleMeaning": "역 앞의 다방이 이달 말에 문을 닫는다."
+ },
+ {
+  "id": "tj625",
+  "word": "唯一",
+  "reading": "ゆいいつ",
+  "meaning": "유일함, 오직 하나",
+  "level": "N2",
+  "example": "ここは町で唯一のパンやだ。",
+  "exampleReading": "ここはまちでゆいいつのぱんやだ",
+  "exampleMeaning": "여기는 동네에서 유일한 빵집이다."
+ },
+ {
+  "id": "tj626",
+  "word": "飼育",
+  "reading": "しいく",
+  "meaning": "사육",
+  "level": "N2",
+  "example": "水族館でラッコを飼育している。",
+  "exampleReading": "すいぞくかんでらっこをしいくしている",
+  "exampleMeaning": "수족관에서 해달을 사육하고 있다."
+ },
+ {
+  "id": "tj627",
+  "word": "沿岸",
+  "reading": "えんがん",
+  "meaning": "연안",
+  "level": "N1",
+  "example": "北太平洋の沿岸に生息する。",
+  "exampleReading": "きたたいへいようのえんがんにせいそくする",
+  "exampleMeaning": "북태평양의 연안에 서식한다."
+ },
+ {
+  "id": "tj628",
+  "word": "由来",
+  "reading": "ゆらい",
+  "meaning": "유래, 기원",
+  "level": "N2",
+  "example": "ラッコという言葉の由来を調べた。",
+  "exampleReading": "らっこということばのゆらいをしらべた",
+  "exampleMeaning": "‘해달’이라는 말의 유래를 조사했다."
+ },
+ {
+  "id": "tj629",
+  "word": "追悼",
+  "reading": "ついとう",
+  "meaning": "추도, 추모",
+  "level": "N1",
+  "example": "仲間を失った人々が追悼の集いを開いた。",
+  "exampleReading": "なかまをうしなったひとびとがついとうのつどいをひらいた",
+  "exampleMeaning": "동료를 잃은 사람들이 추모 모임을 열었다."
  }
 ]

@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-17",
+    "no": 133,
+    "topic_ja": "<ruby>孤泳<rt>こえい</rt></ruby>のラッコ",
+    "topic_ko": "홀로 헤엄치는 해달",
+    "url": "https://www.asahi.com/articles/DA3S16589367.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘동물과 인간’, ‘보전의 윤리’, ‘이름의 기원’ — 한 개체의 소식에서 시작해 생태 보전의 책임과 언어·문화의 층위를 함께 다루므로 적합하다.",
+    "pattern": "Nで<ruby>唯一<rt>ゆいいつ</rt></ruby>〜"
+  },
+  {
     "date": "2026-11-16",
     "no": 132,
     "topic_ja": "<ruby>渋谷<rt>しぶや</rt></ruby>ハンズ<ruby>閉店<rt>へいてん</rt></ruby>",
