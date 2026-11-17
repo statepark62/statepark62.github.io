@@ -2258,6 +2258,69 @@ function injectTripFileButtons_(){
   const s1 = renderShareView; renderShareView = function(){ s1.apply(this, arguments); injectTripFileButtons_(); };
 })();
 
+/* ================= 여행 정보 수정(이름·기간) =================
+   기간을 바꾸면 일정은 날짜 '순서'대로 새 기간으로 옮겨집니다(1일차→1일차). 잘못 입력한 날짜를 고칠 때 쓰세요.
+   기간을 줄여서 일정이 있는 날이 사라지게 되면 막고 안내합니다. */
+function openEditTripForm_(){
+  const trip = state.trip; if(!trip || !state.activeTripId) return;
+  const ov = document.createElement('div'); ov.className = 'overlay';
+  ov.innerHTML = `<div class="sheet">
+    <h3>${L('여행 정보 수정','Edit trip')}</h3>
+    <div class="field"><label>${L('여행 이름','Trip name')}</label><input id="et_title"></div>
+    <div class="row2">
+      <div class="field"><label>${L('시작일','Start date')}</label><input id="et_start" type="date"></div>
+      <div class="field"><label>${L('종료일','End date')}</label><input id="et_end" type="date"></div>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.7;">${L('기간을 바꾸면 일정은 날짜 순서대로 새 기간으로 옮겨져요(1일차 → 1일차). 일정이 있는 날이 사라지는 기간 축소는 할 수 없어요.','When you change the dates, plans move to the new dates in order (day 1 → day 1). You cannot shorten the trip if days with plans would be removed.')}</p>
+    <div class="sheet-actions">
+      <button class="btn btn-line" id="et_cancel">${L('취소','Cancel')}</button>
+      <button class="btn btn-primary" id="et_save">${L('저장','Save')}</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  ov.querySelector('#et_title').value = trip.title || '';
+  ov.querySelector('#et_start').value = trip.startDate || '';
+  ov.querySelector('#et_end').value = trip.endDate || '';
+  ov.onclick = e=>{ if(e.target === ov) ov.remove(); };
+  ov.querySelector('#et_cancel').onclick = ()=>ov.remove();
+  ov.querySelector('#et_save').onclick = ()=>{
+    const title = ov.querySelector('#et_title').value.trim();
+    const s = ov.querySelector('#et_start').value, e = ov.querySelector('#et_end').value;
+    if(!title || !s || !e || s > e){ showToast(L('이름과 올바른 기간을 입력해주세요','Enter a name and a valid date range')); return; }
+    const oldDates = Object.keys(trip.days || {}).sort();
+    const newDates = dateRange(s, e);
+    const lost = oldDates.slice(newDates.length).filter(d=>((trip.days[d]||[]).length));
+    if(lost.length){
+      showToast(L('기간을 줄이면 일정이 있는 '+lost.length+'일이 사라져요. 먼저 그 날의 일정을 지우거나 기간을 유지해주세요','Shortening would remove '+lost.length+' day(s) that have plans. Delete those plans first or keep the length'));
+      return;
+    }
+    const newDays = {}, remap = {};
+    newDates.forEach((nd, i)=>{ const od = oldDates[i]; newDays[nd] = od ? (trip.days[od] || []) : []; if(od) remap[od] = nd; });
+    const mc = (trip.morningChecked || []).map(d=>remap[d]).filter(Boolean);
+    const selIdx = oldDates.indexOf(state.selectedDate);
+    trip.title = title; trip.startDate = s; trip.endDate = e; trip.days = newDays; trip.morningChecked = mc;
+    state.selectedDate = (selIdx >= 0 && newDates[selIdx]) ? newDates[selIdx] : newDates[0];
+    const entry = (state.trips || []).find(x=>x.id === state.activeTripId);
+    if(entry){ entry.title = title; entry.startDate = s; entry.endDate = e; }
+    persist('trips-list', state.trips);
+    persist('trip:' + state.activeTripId, trip);
+    ov.remove(); render();
+    showToast(L('여행 정보를 수정했어요','Trip updated'));
+  };
+}
+(function(){
+  const r2 = render;
+  render = function(){
+    r2.apply(this, arguments);
+    const del = document.getElementById('deleteTripBtn');
+    if(del && state.trip && !document.getElementById('editTripBtn')){
+      const b = document.createElement('button'); b.className = 'btn btn-line btn-sm'; b.id = 'editTripBtn';
+      b.textContent = L('✎ 여행 수정','✎ Edit trip'); b.onclick = openEditTripForm_;
+      del.parentNode.insertBefore(b, del);
+    }
+  };
+})();
+
 init();
 </script>
 </body>
