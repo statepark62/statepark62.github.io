@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="맞춤법 도우미">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a6e9f"/><stop offset="1" stop-color="#274f78"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <rect x="112" y="84" width="288" height="344" rx="30" fill="#ffffff"/>
+  <rect x="152" y="140" width="208" height="22" rx="11" fill="#c9d4df"/>
+  <rect x="152" y="204" width="104" height="22" rx="11" fill="#e26b6b"/>
+  <path d="M146 215 H262" stroke="#b02a2a" stroke-width="7" stroke-linecap="round"/>
+  <rect x="272" y="204" width="88" height="22" rx="11" fill="#5bb581"/>
+  <rect x="152" y="268" width="170" height="22" rx="11" fill="#c9d4df"/>
+  <rect x="152" y="332" width="120" height="22" rx="11" fill="#c9d4df"/>
+  <circle cx="380" cy="386" r="86" fill="#2e9b5b" stroke="#ffffff" stroke-width="16"/>
+  <path d="M340 388 L368 416 L424 354" fill="none" stroke="#ffffff" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
