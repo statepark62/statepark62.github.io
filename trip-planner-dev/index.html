@@ -2203,10 +2203,12 @@ function openImportChoice_(mode){   // 개발자용: JSON 파일 불러오기 + 
     <ul style="font-size:13px;color:var(--ink-soft);line-height:1.8;padding-left:18px;margin:0 0 12px;">
       <li><b>JSON 파일</b>: 저장해 둔 일정표를 <b>새 여행</b>으로 추가해요.</li>
       <li><b>PDF</b>: PDF에서 일정을 인식해 ${merge ? '<b>현재 여행에 추가</b>해요.' : '<b>새 여행</b>을 만들어요.'}</li>
+      <li><b>사진</b>: 일정표를 찍은 사진에서 일정을 인식해 ${merge ? '<b>현재 여행에 추가</b>해요.' : '<b>새 여행</b>을 만들어요.'}</li>
     </ul>
     <div class="sheet-actions" style="flex-wrap:wrap;">
       <button class="btn btn-line" id="ic_close">닫기</button>
       <button class="btn btn-line" id="ic_json">JSON 파일</button>
+      <button class="btn btn-line" id="ic_photo">사진</button>
       <button class="btn btn-primary" id="ic_pdf">PDF</button>
     </div>
   </div>`;
@@ -2215,6 +2217,7 @@ function openImportChoice_(mode){   // 개발자용: JSON 파일 불러오기 + 
   ov.querySelector('#ic_close').onclick = ()=>ov.remove();
   ov.querySelector('#ic_json').onclick = ()=>{ ov.remove(); pickTripFile_(); };
   ov.querySelector('#ic_pdf').onclick = ()=>{ ov.remove(); triggerPdfPick(mode); };
+  ov.querySelector('#ic_photo').onclick = ()=>{ ov.remove(); triggerPhotoPick(mode); };
 }
 function injectTripFileButtons_(){
   const mk = (id, label, fn)=>{ const b = document.createElement('button'); b.className = 'btn btn-line btn-sm'; b.id = id; b.textContent = label; b.onclick = fn; return b; };
@@ -2239,11 +2242,13 @@ function injectTripFileButtons_(){
     const anchor = document.getElementById('newTripBtn2') || document.getElementById('newTripBtn');
     if(anchor && anchor.parentNode){
       const b = mk('openFileBtn', L('📂 파일에서 불러오기','📂 Open from file'), pickTripFile_); anchor.parentNode.insertBefore(b, anchor.nextSibling);
-      // 개발자용: 'PDF로 추가/가져오기' 버튼을 이 버튼에 합침(누르면 JSON 파일 / PDF 중 선택)
+      // 개발자용: 'PDF로 추가/가져오기'·'사진으로 추가/가져오기' 버튼을 이 버튼에 합침(누르면 JSON 파일 / PDF / 사진 중 선택)
       const pdfBtn = document.getElementById('pdfImportBtn2') || document.getElementById('pdfImportBtnEmpty');
-      if(pdfBtn && typeof triggerPdfPick === 'function'){
+      if(pdfBtn && typeof triggerPdfPick === 'function' && typeof triggerPhotoPick === 'function'){
         const mode = pdfBtn.id === 'pdfImportBtn2' ? 'merge' : 'new';
-        pdfBtn.remove(); b.textContent = '📂 불러오기'; b.onclick = ()=>openImportChoice_(mode);
+        pdfBtn.remove();
+        const phBtn = document.getElementById('photoImportBtn2') || document.getElementById('photoImportBtnEmpty'); if(phBtn) phBtn.remove();   // '사진으로 추가/가져오기'도 합침
+        b.textContent = '📂 불러오기'; b.onclick = ()=>openImportChoice_(mode);
       }
     }
   }
