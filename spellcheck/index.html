@@ -84,6 +84,7 @@
     <h2>검사 기록</h2>
     <div id="hist" class="hist"></div>
     <div class="count">최근 10건까지 이 기기에만 보관됩니다. 기록을 눌러 이전 결과를 다시 볼 수 있습니다.</div>
+    <div id="detail">
     <h2>원문과 수정문 비교</h2>
     <div class="cmp">
       <div class="pane"><b>원문 (고친 곳 표시 · <mark class="flag">노란색</mark>은 검토 권장)</b><span id="orig"></span></div>
@@ -110,6 +111,7 @@
     <div id="notesBox" class="hidden">
       <h2>참고 사항</h2>
       <div class="notes" id="notes"></div>
+    </div>
     </div>
   </div>
 
@@ -166,7 +168,12 @@ $("fbSend").onclick = async () => {
   finally{ b.disabled=false; b.textContent="의견 보내기"; }
 };
 src.addEventListener("input", () => $("cnt").textContent = src.value.length);
-$("clear").onclick = () => { src.value = ""; $("cnt").textContent = 0; $("msg").textContent = ""; };
+$("clear").onclick = () => {
+  src.value = ""; $("cnt").textContent = 0; $("msg").textContent = "";
+  // 화면의 비교·수정 내역은 지우고, 검사 기록 버튼은 남겨 둠 (누르면 다시 볼 수 있음)
+  $("detail").classList.add("hidden"); CUR = -1; window._last = null; window._fixed = "";
+  document.querySelectorAll("#hist button").forEach(b => b.classList.remove("on"));
+};
 
 // ── 검사 기록 (이 브라우저에만 최근 10건 보관) ──
 let HIST = []; try { HIST = JSON.parse(ls("mc_hist") || "[]"); } catch(e) { HIST = []; }
@@ -276,7 +283,7 @@ function render(text, r, mode, when){
   const hasNotes = r.notes && r.notes.length>0;
   $("notesBox").classList.toggle("hidden",!hasNotes);
   $("notes").innerHTML = hasNotes ? r.notes.map(n=>"· "+esc(String(n))).join("<br>") : "";
-  $("out").classList.remove("hidden");
+  $("out").classList.remove("hidden"); $("detail").classList.remove("hidden");
   window._fixed = r.corrected;
   window._last = {text:text, r:r, mode:mode, ha:ha, hb:hb, when:new Date(when||Date.now())};
 }
