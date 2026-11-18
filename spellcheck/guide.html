@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사용 안내 · 번역문 맞춤법 도우미</title>
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2f5d8a">
+<style>
+  :root{--ink:#1f2933;--sub:#52606d;--line:#d9e0e7;--bg:#f6f8fa;--card:#fff;--accent:#2f5d8a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;font-size:18.5px;line-height:1.8;text-align:center}
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 20px 80px}
+  h1{font-size:clamp(30px,5vw,50px);margin:0 0 8px;line-height:1.25}
+  .sub{font-size:19.5px;color:var(--sub);margin:0 0 28px}
+  h2{font-size:28px;margin:38px 0 14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 22px;margin-bottom:18px}
+  ol,ul{display:inline-block;text-align:left;margin:0;padding-left:1.4em;max-width:900px}
+  li{margin:6px 0}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;border-radius:10px;padding:13px 30px;margin:8px}
+  .btn.ghost{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);font-size:18px}
+  th,td{border-bottom:1px solid var(--line);padding:12px 10px;text-align:center}
+  th{background:#eef3f8;font-size:17px}
+  .del{background:#fde2e2;color:#a61b1b;border-radius:4px;padding:0 4px;text-decoration:line-through}
+  .ins{background:#dff5e3;color:#16672a;border-radius:4px;padding:0 4px;font-weight:600}
+  mark{background:#fff1b8;color:#7a5a00;border-radius:4px;padding:0 4px}
+  .tag{display:inline-block;padding:2px 12px;border-radius:999px;background:#e8eef6;color:var(--accent);font-size:16px}
+  .note{background:#fffaf0;border:1px solid #f1dfb5;border-radius:12px;padding:16px 20px;font-size:17.5px}
+  .small{font-size:16px;color:var(--sub);margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>사용 안내</h1>
+  <p class="sub">번역문 맞춤법 도우미는 번역한 한국어 원고의 맞춤법을 점검하고,<br>어떤 규정에 따라 고쳤는지 정리해 드립니다.</p>
+  <a class="btn" href="./">맞춤법 검사하러 가기</a>
+
+  <h2>사용 방법</h2>
+  <div class="card">
+    <ol>
+      <li>맨 위 칸에 <b>접속 코드</b>를 넣습니다. 코드는 카페 공지에서 확인하세요. 한 번 넣으면 기억됩니다.</li>
+      <li>번역한 한국어 원고를 붙여넣습니다. 한 번에 <b>6,000자</b>(A4 약 2장 반)까지 검사할 수 있습니다.</li>
+      <li>검사 버튼을 누릅니다.
+        <ul>
+          <li><b>무료 검사</b>: 자주 틀리는 표현 약 1,500개를 바로 찾아 고칩니다.</li>
+          <li><b>AI 정밀 검사</b>: 문맥까지 살펴 고칩니다. 1~2분 걸릴 수 있고 하루 사용 횟수가 정해져 있으니, 원고를 다 쓴 뒤 마지막 점검에 써 주세요.</li>
+        </ul>
+      </li>
+      <li>원문과 수정문이 나란히 나오고, 아래 표에서 고친 이유와 근거 규정을 확인할 수 있습니다.</li>
+      <li><b>수정문 복사</b>로 고친 원고를 가져가거나, <b>검사 결과 저장</b>으로 결과를 HTML이나 PDF로 저장할 수 있습니다.</li>
+    </ol>
+  </div>
+
+  <h2>색깔 표시 읽는 법</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>표시</th><th>뜻</th></tr></thead>
+      <tbody>
+        <tr><td><span class="del">몇일</span></td><td>틀려서 고친 원래 표현</td></tr>
+        <tr><td><span class="ins">며칠</span></td><td>바르게 고친 표현</td></tr>
+        <tr><td><mark>닭도리탕</mark></td><td>틀린 말은 아니지만 다듬으면 좋은 표현 (<span class="tag">검토 권장</span>). 문맥을 보고 직접 판단하세요.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>이런 것을 잘 잡아 줍니다</h2>
+  <div class="card">
+    <table>
+      <thead><tr><th>종류</th><th>예</th></tr></thead>
+      <tbody>
+        <tr><td>맞춤법·띄어쓰기</td><td>몇일 → 며칠, 되요 → 돼요, 할수있다 → 할 수 있다</td></tr>
+        <tr><td>표준어</td><td>끄나불 → 끄나풀, 부억 → 부엌, 삼춘 → 삼촌</td></tr>
+        <tr><td>일본어 고유명사 표기</td><td>토쿄 → 도쿄, 카츠동 → 가쓰동, 유끼찌 → 유키치</td></tr>
+        <tr><td>일본어 입력기 흔적</td><td>。 → . &nbsp;/&nbsp; （ ） → ( ) &nbsp;/&nbsp; １２３ → 123</td></tr>
+        <tr><td>번역투·일본어 투 용어</td><td>~에 있어서, 잊혀진 → 잊힌, 유도리 → 융통성</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>알아 두실 점</h2>
+  <div class="card note">
+    <ul>
+      <li>도우미의 결과가 항상 맞지는 않습니다. 중요한 부분은 국립국어원 <a href="https://stdict.korean.go.kr" target="_blank" rel="noopener">표준국어대사전</a>에서 한 번 더 확인해 주세요.</li>
+      <li>휴대폰에서는 브라우저 메뉴의 <b>홈 화면에 추가</b>를 누르면 앱처럼 쓸 수 있습니다.</li>
+      <li>운영 개선을 위해 사용 시각, 기기 종류, 검사한 글자 수만 기록합니다. 원고 내용은 저장하지 않습니다.</li>
+      <li>잘못 고쳐지는 표현이나 바라는 기능은 검사 화면 아래 <b>의견 쓰기</b>로 알려 주세요.</li>
+    </ul>
+  </div>
+
+  <a class="btn" href="./">맞춤법 검사하러 가기</a>
+  <p class="small">근거 자료: 국립국어원 「한글 맞춤법」·「표준어 규정」·「외래어 표기법」 및 해설</p>
+</div>
+</body>
+</html>
