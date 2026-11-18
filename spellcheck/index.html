@@ -72,10 +72,11 @@
     <div class="count"><span id="cnt">0</span> / 6000자</div>
     <div>
       <button id="runRule">무료 검사 (시트 규칙)</button>
-      <button id="runAi" class="ghost">AI 정밀 검사</button>
+      <button id="runGem" class="ghost">AI 정밀 검사 (Gemini·무료)</button>
+      <button id="runAi" class="ghost">AI 정밀 검사 (Claude)</button>
       <button id="clear" class="ghost">지우기</button>
     </div>
-    <div class="count">무료 검사는 자주 틀리는 표현을 빠르게 찾고, AI 정밀 검사는 문맥까지 살펴봅니다.</div>
+    <div class="count">무료 검사는 자주 틀리는 표현을 빠르게 찾고, AI 정밀 검사는 문맥까지 살펴봅니다. Gemini 검사는 무료이며 원고가 구글 서비스 개선에 쓰일 수 있습니다.</div>
     <div id="quota" class="quota hidden"></div>
     <div id="msg" class="err"></div>
   </div>
@@ -222,8 +223,8 @@ function showHist(i){
   HIST.forEach((x,j)=>{
     const d=new Date(x.when), pad=n=>String(n).padStart(2,"0");
     const b=document.createElement("button");
-    b.className=(j===i?"on ":"")+(x.mode==="ai"?"ai":"");
-    b.textContent=(j+1)+". "+(x.mode==="ai"?"AI 정밀":"무료")+" · "+pad(d.getHours())+":"+pad(d.getMinutes())+" · 수정 "+((x.r.changes||[]).length)+"건";
+    b.className=(j===i?"on ":"")+(isAI(x.mode)?"ai":"");
+    b.textContent=(j+1)+". "+modeLabel(x.mode)+" · "+pad(d.getHours())+":"+pad(d.getMinutes())+" · 수정 "+((x.r.changes||[]).length)+"건";
     b.title=x.text.slice(0,60);
     b.onclick=()=>showHist(j);
     box.appendChild(b);
@@ -231,12 +232,13 @@ function showHist(i){
 }
 // ── AI 정밀 검사 남은 횟수 표시 ──
 function showQuota(q){
-  const el=$("quota"); if(!q) return; window._quota=q;
+  const el=$("quota"); if(!q || !q.ai) return; window._quota=q;
   el.classList.remove("hidden");
-  if(!q.enabled){ el.textContent="AI 정밀 검사는 아직 준비 중입니다. 무료 검사를 이용해 주세요."; el.classList.add("low"); $("runAi").disabled=true; return; }
-  el.textContent="오늘 AI 정밀 검사 남은 횟수: "+q.remaining+" / "+q.limit+"회 (회원 전체 합계)";
-  el.classList.toggle("low", q.remaining<=Math.max(3, Math.round(q.limit*0.1)));
-  $("runAi").disabled = q.remaining<=0;
+  const part=(name,x)=> !x.enabled ? name+": 준비 중" : name+": "+x.remaining+" / "+x.limit+"회";
+  el.textContent="오늘 AI 정밀 검사 남은 횟수 · "+part("Gemini",q.gemini)+" · "+part("Claude",q.ai)+" (회원 전체 합계)";
+  const low=x=>x.enabled && x.remaining<=Math.max(3, Math.round(x.limit*0.1));
+  el.classList.toggle("low", low(q.gemini)||low(q.ai));
+  aiBtnState();
 }
 if(API_URL.indexOf("http")===0){
   fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({mode:"quota"})})
@@ -268,15 +270,21 @@ function diff(a, b){
   return [ha,hb];
 }
 
+const isAI = m => m==="ai" || m==="gemini";
+const modeLabel = m => m==="gemini" ? "AI·Gemini" : m==="ai" ? "AI·Claude" : "무료";
+function aiBtnState(){
+  const q=window._quota||{};
+  [["runAi","ai"],["runGem","gemini"]].forEach(([id,m])=>{ const x=q[m]; $(id).disabled=!!(x && (!x.enabled || x.remaining<=0)); });
+}
 async function run(mode){
   const text = src.value.trim();
   $("msg").textContent = "";
   if(!text){ $("msg").textContent = "문장을 입력해 주세요."; return; }
   if(API_URL.indexOf("http")!==0){ $("msg").textContent = "API_URL이 설정되지 않았습니다."; return; }
   ls("mc_code", $("code").value);
-  const b1=$("runRule"), b2=$("runAi"); b1.disabled=b2.disabled=true;
-  const btn = mode==="ai" ? b2 : b1, label = btn.textContent;
-  btn.textContent = mode==="ai" ? "AI 검사 중… (긴 원고는 1~2분)" : "검사 중…";
+  const all=[$("runRule"),$("runGem"),$("runAi")]; all.forEach(x=>x.disabled=true);
+  const btn = mode==="ai" ? $("runAi") : mode==="gemini" ? $("runGem") : $("runRule"), label = btn.textContent;
+  btn.textContent = isAI(mode) ? "AI 검사 중… (긴 원고는 1~2분)" : "검사 중…";
   try{
     const res = await post({text,mode});
     const data = await res.json();
@@ -284,9 +292,10 @@ async function run(mode){
     if(!data.ok) throw new Error(data.error||"알 수 없는 오류");
     addHist(text, data.result, mode);
   }catch(e){ $("msg").textContent = "오류: "+e.message; }
-  finally{ b1.disabled=false; const q=window._quota; b2.disabled=!!(q && (!q.enabled || q.remaining<=0)); btn.textContent=label; }
+  finally{ $("runRule").disabled=false; aiBtnState(); btn.textContent=label; }
 }
 $("runRule").onclick = () => run("rule");
+$("runGem").onclick = () => run("gemini");
 $("runAi").onclick = () => run("ai");
 
 function render(text, r, mode, when){
@@ -301,7 +310,7 @@ function render(text, r, mode, when){
   const has = r.changes.length>0;
   $("tbl").classList.toggle("hidden",!has);
   $("nochange").classList.toggle("hidden",has);
-  $("nochange").textContent = mode==="ai" ? "고칠 곳이 없습니다. 맞춤법에 맞는 문장입니다." : "시트 규칙에서는 고칠 곳을 찾지 못했습니다. 문맥이 필요한 오류는 'AI 정밀 검사'로 확인해 보세요.";
+  $("nochange").textContent = isAI(mode) ? "고칠 곳이 없습니다. 맞춤법에 맞는 문장입니다." : "시트 규칙에서는 고칠 곳을 찾지 못했습니다. 문맥이 필요한 오류는 'AI 정밀 검사'로 확인해 보세요.";
   r.changes.forEach(c=>{
     const tr=document.createElement("tr");
     tr.innerHTML='<td><span class="tag">'+esc(c.category||"")+'</span></td>'
@@ -335,7 +344,7 @@ function buildReport(L, title){
   +'.tag{display:inline-block;padding:2px 12px;border-radius:999px;background:#e8eef6;color:#2f5d8a;font-size:16px}.notes{background:#fffaf0;border:1px solid #f1dfb5;border-radius:12px;padding:14px 18px;font-size:17.5px}'
   +'td:nth-child(1),td:nth-child(2),td:nth-child(3){white-space:nowrap}.none{background:#fff;border:1px solid #d9e0e7;border-radius:12px;padding:18px;color:#16672a}.tablewrap{overflow-x:auto}.small{font-size:16px;color:#52606d;margin-top:30px}'
   +'*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4;margin:14mm}@media print{body{background:#fff;font-size:14px;line-height:1.6}.wrap{padding:0;max-width:none}h1{font-size:28px}h2{font-size:20px;margin:22px 0 10px;break-after:avoid}.sub{font-size:15px;margin-bottom:16px}.pane{font-size:14px;padding:12px}table{font-size:13px}th,td{padding:7px 6px}tr{break-inside:avoid}.small{font-size:12px}}</style></head><body><div class="wrap">'
-  +'<h1>'+t+'</h1><p class="sub">검사 일시 '+stamp+' · '+(L.mode==="ai"?"AI 정밀 검사":"시트 규칙 검사")+'</p>'
+  +'<h1>'+t+'</h1><p class="sub">검사 일시 '+stamp+' · '+(L.mode==="gemini"?"AI 정밀 검사(Gemini)":L.mode==="ai"?"AI 정밀 검사(Claude)":"시트 규칙 검사")+'</p>'
   +'<h2>원문과 수정문 비교</h2><div class="cmp"><div class="pane"><b>원문 (고친 곳 표시 · <mark class="flag">노란색</mark>은 검토 권장)</b>'+L.ha+'</div><div class="pane"><b>수정문</b>'+L.hb+'</div></div>'
   +'<h2>수정 내역과 적용 규정</h2><div class="tablewrap">'+table+'</div>'+notes
   +'<p class="small">AI와 시트 규칙으로 교정한 결과이므로 중요한 문서는 국립국어원(korean.go.kr)의 「한글 맞춤법」 및 표준국어대사전으로 최종 확인해 주세요.</p>'
