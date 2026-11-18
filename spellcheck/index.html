@@ -139,19 +139,41 @@ const src = $("src");
 function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k)||""; localStorage.setItem(k,v); }catch(e){ return ""; } }
 $("code").value = ls("mc_code");
 
+// ── 기기명: 실제 기기 이름은 브라우저가 알려 주지 않으므로 '모델(가능한 경우) + 익명 번호'로 만듭니다 ──
+function devId(){
+  let id = ls("mc_dev");
+  if(!id){ id = "기기-" + Math.random().toString(16).slice(2,6).toUpperCase(); ls("mc_dev", id); }
+  return id;
+}
+let MODEL = "";
+const modelReady = (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues)
+  ? navigator.userAgentData.getHighEntropyValues(["model"]).then(v => { MODEL = (v.model||"").trim(); }).catch(()=>{})
+  : Promise.resolve();
+function devName(){
+  const ua = navigator.userAgent || "";
+  const base = MODEL ? MODEL
+    : /iPad/i.test(ua) ? "iPad" : /iPhone/i.test(ua) ? "iPhone"
+    : /Android/i.test(ua) ? "Android 기기" : /Windows/i.test(ua) ? "Windows PC"
+    : /Mac OS X/i.test(ua) ? "Mac" : /CrOS/i.test(ua) ? "Chromebook" : /Linux/i.test(ua) ? "Linux PC" : "기타 기기";
+  return base + " · " + devId();
+}
+
 function clientInfo(){
   const ua = navigator.userAgent || "";
   const device = /iPad|Tablet/i.test(ua) || (/Android/i.test(ua) && !/Mobile/i.test(ua)) ? "태블릿" : /Mobi|iPhone|Android/i.test(ua) ? "모바일" : "PC";
   const os = /Windows/i.test(ua) ? "Windows" : /iPhone|iPad|iPod/i.test(ua) ? "iOS" : /Android/i.test(ua) ? "Android" : /Mac OS X/i.test(ua) ? "macOS" : /CrOS/i.test(ua) ? "ChromeOS" : /Linux/i.test(ua) ? "Linux" : "기타";
   const browser = /SamsungBrowser/i.test(ua) ? "삼성 인터넷" : /Whale/i.test(ua) ? "웨일" : /KAKAOTALK/i.test(ua) ? "카카오톡" : /NAVER/i.test(ua) ? "네이버 앱" : /Edg\//i.test(ua) ? "Edge" : /Firefox/i.test(ua) ? "Firefox" : /Chrome|CriOS/i.test(ua) ? "Chrome" : /Safari/i.test(ua) ? "Safari" : "기타";
   let tz=""; try{ tz=Intl.DateTimeFormat().resolvedOptions().timeZone; }catch(e){}
-  return { device, os, browser, tz, lang: navigator.language||"", screen: (screen.width||"")+"×"+(screen.height||""), ref: document.referrer || "직접 접속" };
+  return { name: devName(), id: devId(), device, os, browser, tz, lang: navigator.language||"", screen: (screen.width||"")+"×"+(screen.height||""), ref: document.referrer || "직접 접속" };
 }
 function who(){ return { code: $("code").value || ls("mc_code"), client: clientInfo() }; }
 function post(obj){ return fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign(who(),obj)),keepalive:true}); }
 (function(){ // 같은 브라우저에서는 하루 한 번만 접속 기록
   const d=new Date(), day=d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
-  if(API_URL.indexOf("http")===0 && ls("mc_logday")!==day){ ls("mc_logday",day); post({mode:"log",action:"접속"}).catch(()=>{}); }
+  if(API_URL.indexOf("http")===0 && ls("mc_logday")!==day){
+    ls("mc_logday",day);
+    Promise.race([modelReady, new Promise(r=>setTimeout(r,1500))]).then(()=>post({mode:"log",action:"접속"}).catch(()=>{}));
+  }
 })();
 
 $("fbOpen").onclick = () => { $("fbBox").classList.toggle("hidden"); };
