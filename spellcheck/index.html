@@ -189,10 +189,18 @@ $("fbSend").onclick = async () => {
   }catch(e){ $("fbMsg").className="err"; $("fbMsg").textContent="오류: "+e.message; }
   finally{ b.disabled=false; b.textContent="의견 보내기"; }
 };
-src.addEventListener("input", () => $("cnt").textContent = src.value.length);
+// 입력한 원고를 이 브라우저에 임시 저장해 새로고침해도 남도록 함 ('지우기'를 누르면 삭제)
+src.value = ls("mc_draft"); $("cnt").textContent = src.value.length;
+let draftTimer = null;
+function saveDraft(){ try{ localStorage.setItem("mc_draft", src.value); }catch(e){} }
+src.addEventListener("input", () => {
+  $("cnt").textContent = src.value.length;
+  clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 300);
+});
+window.addEventListener("beforeunload", saveDraft);
 $("clear").onclick = () => {
   if ((src.value.trim() || HIST.length) && !confirm("입력한 원고와 검사 기록을 모두 지울까요?")) return;
-  src.value = ""; $("cnt").textContent = 0; $("msg").textContent = "";
+  src.value = ""; saveDraft(); $("cnt").textContent = 0; $("msg").textContent = "";
   HIST = []; saveHist(); CUR = -1; window._last = null; window._fixed = "";
   $("hist").innerHTML = ""; $("out").classList.add("hidden");
 };
@@ -236,7 +244,7 @@ if(API_URL.indexOf("http")===0){
 }
 $("reuse").onclick = () => {
   const h=HIST[CUR]; if(!h) return;
-  src.value=h.r.corrected; $("cnt").textContent=src.value.length;
+  src.value=h.r.corrected; saveDraft(); $("cnt").textContent=src.value.length;
   src.scrollIntoView({behavior:"smooth",block:"center"});
 };
 if(HIST.length) showHist(HIST.length-1);
