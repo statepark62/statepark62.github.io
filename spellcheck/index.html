@@ -133,7 +133,10 @@ function clientInfo(){
 }
 function who(){ return { code: $("code").value || ls("mc_code"), client: clientInfo() }; }
 function post(obj){ return fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign(who(),obj)),keepalive:true}); }
-if(API_URL.indexOf("http")===0){ post({mode:"log",action:"접속"}).catch(()=>{}); }
+(function(){ // 같은 브라우저에서는 하루 한 번만 접속 기록
+  const d=new Date(), day=d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+  if(API_URL.indexOf("http")===0 && ls("mc_logday")!==day){ ls("mc_logday",day); post({mode:"log",action:"접속"}).catch(()=>{}); }
+})();
 
 $("fbOpen").onclick = () => { $("fbBox").classList.toggle("hidden"); };
 $("fbSend").onclick = async () => {
