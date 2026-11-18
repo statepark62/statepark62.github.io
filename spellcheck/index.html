@@ -83,8 +83,7 @@
   <div id="out" class="hidden">
     <h2>검사 기록</h2>
     <div id="hist" class="hist"></div>
-    <div class="count">최근 10건까지 이 기기에만 보관됩니다. 기록을 눌러 이전 결과를 다시 볼 수 있습니다.
-      <button id="histClear" class="linkbtn">기록 지우기</button></div>
+    <div class="count">최근 10건까지 이 기기에만 보관됩니다. 기록을 눌러 이전 결과를 다시 볼 수 있습니다.</div>
     <h2>원문과 수정문 비교</h2>
     <div class="cmp">
       <div class="pane"><b>원문 (고친 곳 표시 · <mark class="flag">노란색</mark>은 검토 권장)</b><span id="orig"></span></div>
@@ -206,7 +205,6 @@ if(API_URL.indexOf("http")===0){
   fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({mode:"quota"})})
     .then(r=>r.json()).then(d=>{ if(d.ok) showQuota(d.quota); }).catch(()=>{});
 }
-$("histClear").onclick = () => { HIST=[]; saveHist(); showHist(-1); };
 $("reuse").onclick = () => {
   const h=HIST[CUR]; if(!h) return;
   src.value=h.r.corrected; $("cnt").textContent=src.value.length;
