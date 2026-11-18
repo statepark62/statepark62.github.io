@@ -156,7 +156,7 @@ function render(text, r, mode){
     const tr=document.createElement("tr");
     tr.innerHTML='<td><span class="tag">'+esc(c.category||"")+'</span></td>'
       +'<td><span class="del">'+esc(c.original||"")+'</span></td>'
-      +'<td><span class="ins">'+esc(c.corrected||"")+'</span></td>'
+      +'<td>'+(c.corrected?'<span class="ins">'+esc(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td>'
       +'<td>'+esc(c.rule||"")+'</td><td class="exp">'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td>';
     tb.appendChild(tr);
   });
@@ -170,7 +170,7 @@ function render(text, r, mode){
 function buildReport(L, title){
   const r=L.r, d=L.when, pad=n=>String(n).padStart(2,"0");
   const stamp=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+pad(d.getHours())+":"+pad(d.getMinutes());
-  const rows=(r.changes||[]).map(c=>'<tr><td><span class="tag">'+esc(c.category||"")+'</span></td><td><span class="del">'+esc(c.original||"")+'</span></td><td><span class="ins">'+esc(c.corrected||"")+'</span></td><td>'+esc(c.rule||"")+'</td><td>'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td></tr>').join("");
+  const rows=(r.changes||[]).map(c=>'<tr><td><span class="tag">'+esc(c.category||"")+'</span></td><td><span class="del">'+esc(c.original||"")+'</span></td><td>'+(c.corrected?'<span class="ins">'+esc(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td><td>'+esc(c.rule||"")+'</td><td>'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td></tr>').join("");
   const table = rows ? '<table><thead><tr><th>구분</th><th>원문</th><th>수정</th><th>적용 규정</th><th>이유</th></tr></thead><tbody>'+rows+'</tbody></table>' : '<p class="none">고칠 곳이 없습니다.</p>';
   const notes=(r.notes&&r.notes.length)?'<h2>참고 사항</h2><div class="notes">'+r.notes.map(n=>"· "+esc(String(n))).join("<br>")+'</div>':"";
   const t=esc(title||"번역문 맞춤법 검사 결과");
