@@ -14791,5 +14791,105 @@
   "example": "仲間を失った人々が追悼の集いを開いた。",
   "exampleReading": "なかまをうしなったひとびとがついとうのつどいをひらいた",
   "exampleMeaning": "동료를 잃은 사람들이 추모 모임을 열었다."
+ },
+ {
+  "id": "tj630",
+  "word": "参拝",
+  "reading": "さんぱい",
+  "meaning": "참배",
+  "level": "N2",
+  "example": "朝早く神社を参拝した。",
+  "exampleReading": "あさはやくじんじゃをさんぱいした。",
+  "exampleMeaning": "이른 아침에 신사를 참배했다."
+ },
+ {
+  "id": "tj631",
+  "word": "滞在",
+  "reading": "たいざい",
+  "meaning": "체류, 머묾",
+  "level": "N2",
+  "example": "友人は一週間ほど出雲に滞在した。",
+  "exampleReading": "ゆうじんはいっしゅうかんほどいずもにたいざいした。",
+  "exampleMeaning": "친구는 일주일가량 이즈모에 머물렀다."
+ },
+ {
+  "id": "tj632",
+  "word": "神無月",
+  "reading": "かんなづき",
+  "meaning": "가미나즈키(신이 없는 달, 음력 10월)",
+  "level": "N2",
+  "example": "各地では神無月と呼ばれる。",
+  "exampleReading": "かくちではかんなづきとよばれる。",
+  "exampleMeaning": "여러 지역에서는 ‘가미나즈키’라고 부른다."
+ },
+ {
+  "id": "tj633",
+  "word": "神在月",
+  "reading": "かみありづき",
+  "meaning": "가미아리즈키(신이 있는 달, 이즈모에서의 음력 10월)",
+  "level": "N2",
+  "example": "出雲では神在月を祝う行事がある。",
+  "exampleReading": "いずもではかみありづきをいわうぎょうじがある。",
+  "exampleMeaning": "이즈모에서는 신이 있는 달을 기리는 행사가 있다."
+ },
+ {
+  "id": "tj634",
+  "word": "出雲大社",
+  "reading": "いずもたいしゃ",
+  "meaning": "이즈모대사(신사 이름)",
+  "level": "N2",
+  "example": "出雲大社の境内は静かだ。",
+  "exampleReading": "いずもたいしゃのけいだいはしずかだ。",
+  "exampleMeaning": "이즈모대사의 경내는 고요하다."
+ },
+ {
+  "id": "tj635",
+  "word": "出雲大社",
+  "reading": "いずもたいしゃ",
+  "meaning": "이즈모대사(신사)",
+  "level": "N3",
+  "example": "友人と出雲大社を参拝した。",
+  "exampleReading": "ゆうじんといずもたいしゃをさんぱいした",
+  "exampleMeaning": "친구와 이즈모대사를 참배했다."
+ },
+ {
+  "id": "tj636",
+  "word": "神在月",
+  "reading": "かみありづき",
+  "meaning": "신이 머무는 달(이즈모의 음력 10월)",
+  "level": "N2",
+  "example": "出雲では旧暦10月を神在月と呼ぶ。",
+  "exampleReading": "いずもではきゅうれきじゅうがつをかみありづきとよぶ",
+  "exampleMeaning": "이즈모에서는 음력 10월을 신재월이라 부른다."
+ },
+ {
+  "id": "tj637",
+  "word": "神無月",
+  "reading": "かんなづき",
+  "meaning": "신이 없는 달(다른 지역의 음력 10월)",
+  "level": "N2",
+  "example": "日本の多くの土地では旧暦10月を神無月と言う。",
+  "exampleReading": "にほんのおおくのとちではきゅうれきじゅうがつをかんなづきという",
+  "exampleMeaning": "일본의 많은 지역에서는 음력 10월을 신무월이라고 한다."
+ },
+ {
+  "id": "tj638",
+  "word": "縁結び",
+  "reading": "えんむすび",
+  "meaning": "인연 맺기",
+  "level": "N2",
+  "example": "彼女は縁結びのおまもりを買った。",
+  "exampleReading": "かのじょはえんむすびのおまもりをかった",
+  "exampleMeaning": "그녀는 인연을 맺는 부적을 샀다."
+ },
+ {
+  "id": "tj639",
+  "word": "境内",
+  "reading": "けいだい",
+  "meaning": "경내(신사·사찰 안마당)",
+  "level": "N2",
+  "example": "境内は朝から参拝者で賑わった。",
+  "exampleReading": "けいだいはあさからさんぱいしゃでにぎわった",
+  "exampleMeaning": "경내는 아침부터 참배객으로 붐볐다."
  }
 ]

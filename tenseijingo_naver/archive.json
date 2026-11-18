@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-18",
+    "no": 134,
+    "topic_ja": "<ruby>神在月<rt>かみありづき</rt></ruby>の<ruby>縁<rt>えにし</rt></ruby>",
+    "topic_ko": "신이 머무는 달의 인연",
+    "url": "https://www.asahi.com/articles/DA3S16590214.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘인연의 기원’, ‘지역의 이름’, ‘신화와 일상’ — 지역에 따라 달라지는 호칭을 통해 공동체의 믿음이 일상 언어를 어떻게 빚는지 보여 주며, 짧은 시구로 인연의 정서를 응축했기 때문이다.",
+    "pattern": "〜と<ruby>言<rt>い</rt></ruby>われる"
+  },
+  {
     "date": "2026-11-17",
     "no": 133,
     "topic_ja": "<ruby>孤泳<rt>こえい</rt></ruby>のラッコ",
