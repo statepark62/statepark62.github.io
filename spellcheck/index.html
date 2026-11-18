@@ -36,6 +36,7 @@
   .pane{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;white-space:pre-wrap;word-break:keep-all}
   .pane b{display:block;font-size:17px;color:var(--sub);margin-bottom:8px}
   .del{background:var(--del);color:var(--delt);border-radius:4px;padding:0 3px;text-decoration:line-through}
+  mark.flag{background:#fff1b8;color:#7a5a00;border-radius:4px;padding:0 3px}
   .ins{background:var(--ins);color:var(--inst);border-radius:4px;padding:0 3px;font-weight:600}
   table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:18px}
   th,td{border-bottom:1px solid var(--line);padding:12px 10px;text-align:center;vertical-align:middle}
@@ -73,7 +74,7 @@
   <div id="out" class="hidden">
     <h2>원문과 수정문 비교</h2>
     <div class="cmp">
-      <div class="pane"><b>원문 (고친 곳 표시)</b><span id="orig"></span></div>
+      <div class="pane"><b>원문 (고친 곳 표시 · <mark class="flag">노란색</mark>은 검토 권장)</b><span id="orig"></span></div>
       <div class="pane"><b>수정문</b><span id="fixed"></span></div>
     </div>
     <div>
@@ -194,7 +195,12 @@ $("runRule").onclick = () => run("rule");
 $("runAi").onclick = () => run("ai");
 
 function render(text, r, mode){
-  const [ha,hb] = diff(text, r.corrected);
+  let [ha,hb] = diff(text, r.corrected);
+  // '검토 권장' 표현은 원문·수정문 모두에 노란색으로 표시
+  (r.changes||[]).filter(c=>!c.corrected && c.original).forEach(c=>{
+    const k=esc(c.original); const m='<mark class="flag">'+k+'</mark>';
+    ha=ha.split(k).join(m); hb=hb.split(k).join(m);
+  });
   $("orig").innerHTML = ha; $("fixed").innerHTML = hb;
   const tb = document.querySelector("#tbl tbody"); tb.innerHTML = "";
   const has = r.changes.length>0;
@@ -229,13 +235,13 @@ function buildReport(L, title){
   +'.sub{font-size:19.5px;color:#52606d;margin:0 0 26px}h2{font-size:28px;margin:34px 0 14px}'
   +'.cmp{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:820px){.cmp{grid-template-columns:1fr}}'
   +'.pane{background:#fff;border:1px solid #d9e0e7;border-radius:12px;padding:16px;white-space:pre-wrap;word-break:keep-all}.pane b{display:block;font-size:17px;color:#52606d;margin-bottom:8px}'
-  +'.del{background:#fde2e2;color:#a61b1b;border-radius:4px;padding:0 3px;text-decoration:line-through}.ins{background:#dff5e3;color:#16672a;border-radius:4px;padding:0 3px;font-weight:600}'
+  +'mark.flag{background:#fff1b8;color:#7a5a00;border-radius:4px;padding:0 3px}.del{background:#fde2e2;color:#a61b1b;border-radius:4px;padding:0 3px;text-decoration:line-through}.ins{background:#dff5e3;color:#16672a;border-radius:4px;padding:0 3px;font-weight:600}'
   +'table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #d9e0e7;font-size:18px}th,td{border-bottom:1px solid #d9e0e7;padding:12px 10px;text-align:center;vertical-align:middle}th{background:#eef3f8;font-size:17px}'
   +'.tag{display:inline-block;padding:2px 12px;border-radius:999px;background:#e8eef6;color:#2f5d8a;font-size:16px}.notes{background:#fffaf0;border:1px solid #f1dfb5;border-radius:12px;padding:14px 18px;font-size:17.5px}'
   +'td:nth-child(1),td:nth-child(2),td:nth-child(3){white-space:nowrap}.none{background:#fff;border:1px solid #d9e0e7;border-radius:12px;padding:18px;color:#16672a}.tablewrap{overflow-x:auto}.small{font-size:16px;color:#52606d;margin-top:30px}'
   +'*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4;margin:14mm}@media print{body{background:#fff;font-size:14px;line-height:1.6}.wrap{padding:0;max-width:none}h1{font-size:28px}h2{font-size:20px;margin:22px 0 10px;break-after:avoid}.sub{font-size:15px;margin-bottom:16px}.pane{font-size:14px;padding:12px}table{font-size:13px}th,td{padding:7px 6px}tr{break-inside:avoid}.small{font-size:12px}}</style></head><body><div class="wrap">'
   +'<h1>'+t+'</h1><p class="sub">검사 일시 '+stamp+' · '+(L.mode==="ai"?"AI 정밀 검사":"시트 규칙 검사")+'</p>'
-  +'<h2>원문과 수정문 비교</h2><div class="cmp"><div class="pane"><b>원문 (고친 곳 표시)</b>'+L.ha+'</div><div class="pane"><b>수정문</b>'+L.hb+'</div></div>'
+  +'<h2>원문과 수정문 비교</h2><div class="cmp"><div class="pane"><b>원문 (고친 곳 표시 · <mark class="flag">노란색</mark>은 검토 권장)</b>'+L.ha+'</div><div class="pane"><b>수정문</b>'+L.hb+'</div></div>'
   +'<h2>수정 내역과 적용 규정</h2><div class="tablewrap">'+table+'</div>'+notes
   +'<p class="small">AI와 시트 규칙으로 교정한 결과이므로 중요한 문서는 국립국어원(korean.go.kr)의 「한글 맞춤법」 및 표준국어대사전으로 최종 확인해 주세요.</p>'
   +'</div></body></html>';
