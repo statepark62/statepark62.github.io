@@ -36,6 +36,13 @@
   .pane{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;white-space:pre-wrap;word-break:keep-all}
   .pane b{display:block;font-size:17px;color:var(--sub);margin-bottom:8px}
   .del{background:var(--del);color:var(--delt);border-radius:4px;padding:0 3px;text-decoration:line-through}
+  .quota{display:inline-block;margin-top:8px;padding:4px 16px;border-radius:999px;background:#efeaf9;color:#4b3a86;font-size:16.5px}
+  .quota.low{background:#fde2e2;color:#a61b1b}
+  .hist{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .hist button{margin:0;padding:8px 16px;font-size:16.5px;background:#fff;color:var(--accent);border:1px solid var(--line)}
+  .hist button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .hist button.ai{border-color:#b7a6e0}
+  .linkbtn{background:none!important;color:var(--sub)!important;padding:0 6px!important;margin:0!important;text-decoration:underline;font-size:15.5px}
   mark.flag{background:#fff1b8;color:#7a5a00;border-radius:4px;padding:0 3px}
   .ins{background:var(--ins);color:var(--inst);border-radius:4px;padding:0 3px;font-weight:600}
   table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:18px}
@@ -68,11 +75,16 @@
       <button id="runAi" class="ghost">AI 정밀 검사</button>
       <button id="clear" class="ghost">지우기</button>
     </div>
-    <div class="count">무료 검사는 자주 틀리는 표현을 빠르게 찾고, AI 정밀 검사는 문맥까지 살펴봅니다. (AI 검사는 하루 횟수가 제한됩니다)</div>
+    <div class="count">무료 검사는 자주 틀리는 표현을 빠르게 찾고, AI 정밀 검사는 문맥까지 살펴봅니다.</div>
+    <div id="quota" class="quota hidden"></div>
     <div id="msg" class="err"></div>
   </div>
 
   <div id="out" class="hidden">
+    <h2>검사 기록</h2>
+    <div id="hist" class="hist"></div>
+    <div class="count">최근 10건까지 이 기기에만 보관됩니다. 기록을 눌러 이전 결과를 다시 볼 수 있습니다.
+      <button id="histClear" class="linkbtn">기록 지우기</button></div>
     <h2>원문과 수정문 비교</h2>
     <div class="cmp">
       <div class="pane"><b>원문 (고친 곳 표시 · <mark class="flag">노란색</mark>은 검토 권장)</b><span id="orig"></span></div>
@@ -80,6 +92,7 @@
     </div>
     <div>
       <button id="copy" class="ghost">수정문 복사</button>
+      <button id="reuse" class="ghost">수정문으로 이어서 검사</button>
       <select id="fmt" style="font:inherit;border:1px solid #d9e0e7;border-radius:10px;padding:11px 14px;background:#fff;margin:6px">
         <option value="html">저장 형식: HTML 파일</option>
         <option value="pdf">저장 형식: PDF</option>
@@ -154,7 +167,52 @@ $("fbSend").onclick = async () => {
   finally{ b.disabled=false; b.textContent="의견 보내기"; }
 };
 src.addEventListener("input", () => $("cnt").textContent = src.value.length);
-$("clear").onclick = () => { src.value = ""; $("cnt").textContent = 0; $("out").classList.add("hidden"); $("msg").textContent = ""; };
+$("clear").onclick = () => { src.value = ""; $("cnt").textContent = 0; $("msg").textContent = ""; };
+
+// ── 검사 기록 (이 브라우저에만 최근 10건 보관) ──
+let HIST = []; try { HIST = JSON.parse(ls("mc_hist") || "[]"); } catch(e) { HIST = []; }
+let CUR = -1;
+function saveHist(){ try{ localStorage.setItem("mc_hist", JSON.stringify(HIST)); }catch(e){ /* 용량 초과 시 가장 오래된 것부터 줄임 */ if(HIST.length>1){ HIST.shift(); saveHist(); } } }
+function addHist(text, r, mode){
+  HIST.push({text, r, mode, when: Date.now()});
+  while(HIST.length>10) HIST.shift();
+  saveHist(); showHist(HIST.length-1);
+}
+function showHist(i){
+  if(i<0 || i>=HIST.length){ $("out").classList.add("hidden"); return; }
+  CUR=i; const h=HIST[i];
+  render(h.text, h.r, h.mode, h.when);
+  const box=$("hist"); box.innerHTML="";
+  HIST.forEach((x,j)=>{
+    const d=new Date(x.when), pad=n=>String(n).padStart(2,"0");
+    const b=document.createElement("button");
+    b.className=(j===i?"on ":"")+(x.mode==="ai"?"ai":"");
+    b.textContent=(j+1)+". "+(x.mode==="ai"?"AI 정밀":"무료")+" · "+pad(d.getHours())+":"+pad(d.getMinutes())+" · 수정 "+((x.r.changes||[]).length)+"건";
+    b.title=x.text.slice(0,60);
+    b.onclick=()=>showHist(j);
+    box.appendChild(b);
+  });
+}
+// ── AI 정밀 검사 남은 횟수 표시 ──
+function showQuota(q){
+  const el=$("quota"); if(!q) return; window._quota=q;
+  el.classList.remove("hidden");
+  if(!q.enabled){ el.textContent="AI 정밀 검사는 아직 준비 중입니다. 무료 검사를 이용해 주세요."; el.classList.add("low"); $("runAi").disabled=true; return; }
+  el.textContent="오늘 AI 정밀 검사 남은 횟수: "+q.remaining+" / "+q.limit+"회 (회원 전체 합계)";
+  el.classList.toggle("low", q.remaining<=Math.max(3, Math.round(q.limit*0.1)));
+  $("runAi").disabled = q.remaining<=0;
+}
+if(API_URL.indexOf("http")===0){
+  fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({mode:"quota"})})
+    .then(r=>r.json()).then(d=>{ if(d.ok) showQuota(d.quota); }).catch(()=>{});
+}
+$("histClear").onclick = () => { HIST=[]; saveHist(); showHist(-1); };
+$("reuse").onclick = () => {
+  const h=HIST[CUR]; if(!h) return;
+  src.value=h.r.corrected; $("cnt").textContent=src.value.length;
+  src.scrollIntoView({behavior:"smooth",block:"center"});
+};
+if(HIST.length) showHist(HIST.length-1);
 
 function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 
@@ -187,15 +245,16 @@ async function run(mode){
   try{
     const res = await post({text,mode});
     const data = await res.json();
+    if(data.quota) showQuota(data.quota);
     if(!data.ok) throw new Error(data.error||"알 수 없는 오류");
-    render(text, data.result, mode);
+    addHist(text, data.result, mode);
   }catch(e){ $("msg").textContent = "오류: "+e.message; }
-  finally{ b1.disabled=b2.disabled=false; btn.textContent=label; }
+  finally{ b1.disabled=false; const q=window._quota; b2.disabled=!!(q && (!q.enabled || q.remaining<=0)); btn.textContent=label; }
 }
 $("runRule").onclick = () => run("rule");
 $("runAi").onclick = () => run("ai");
 
-function render(text, r, mode){
+function render(text, r, mode, when){
   let [ha,hb] = diff(text, r.corrected);
   // '검토 권장' 표현은 원문·수정문 모두에 노란색으로 표시
   (r.changes||[]).filter(c=>!c.corrected && c.original).forEach(c=>{
@@ -221,7 +280,7 @@ function render(text, r, mode){
   $("notes").innerHTML = hasNotes ? r.notes.map(n=>"· "+esc(String(n))).join("<br>") : "";
   $("out").classList.remove("hidden");
   window._fixed = r.corrected;
-  window._last = {text:text, r:r, mode:mode, ha:ha, hb:hb, when:new Date()};
+  window._last = {text:text, r:r, mode:mode, ha:ha, hb:hb, when:new Date(when||Date.now())};
 }
 function buildReport(L, title){
   const r=L.r, d=L.when, pad=n=>String(n).padStart(2,"0");
