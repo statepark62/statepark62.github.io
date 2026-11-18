@@ -38,6 +38,8 @@
   td.exp{text-align:center}
   .tag{display:inline-block;padding:2px 12px;border-radius:999px;background:#e8eef6;color:var(--accent);font-size:16px}
   .tablewrap{overflow-x:auto}
+  #tbl td:nth-child(2),#tbl td:nth-child(3){white-space:nowrap}
+  #tbl td:nth-child(1){white-space:nowrap}
   .notes{background:#fffaf0;border:1px solid #f1dfb5;border-radius:12px;padding:14px 18px;font-size:17.5px}
   .err{color:#a61b1b;margin-top:12px}
   .ok{color:#16672a}
@@ -183,7 +185,7 @@ function buildReport(L, title){
   +'.del{background:#fde2e2;color:#a61b1b;border-radius:4px;padding:0 3px;text-decoration:line-through}.ins{background:#dff5e3;color:#16672a;border-radius:4px;padding:0 3px;font-weight:600}'
   +'table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #d9e0e7;font-size:18px}th,td{border-bottom:1px solid #d9e0e7;padding:12px 10px;text-align:center;vertical-align:middle}th{background:#eef3f8;font-size:17px}'
   +'.tag{display:inline-block;padding:2px 12px;border-radius:999px;background:#e8eef6;color:#2f5d8a;font-size:16px}.notes{background:#fffaf0;border:1px solid #f1dfb5;border-radius:12px;padding:14px 18px;font-size:17.5px}'
-  +'.none{background:#fff;border:1px solid #d9e0e7;border-radius:12px;padding:18px;color:#16672a}.tablewrap{overflow-x:auto}.small{font-size:16px;color:#52606d;margin-top:30px}'
+  +'td:nth-child(1),td:nth-child(2),td:nth-child(3){white-space:nowrap}.none{background:#fff;border:1px solid #d9e0e7;border-radius:12px;padding:18px;color:#16672a}.tablewrap{overflow-x:auto}.small{font-size:16px;color:#52606d;margin-top:30px}'
   +'*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4;margin:14mm}@media print{body{background:#fff;font-size:14px;line-height:1.6}.wrap{padding:0;max-width:none}h1{font-size:28px}h2{font-size:20px;margin:22px 0 10px;break-after:avoid}.sub{font-size:15px;margin-bottom:16px}.pane{font-size:14px;padding:12px}table{font-size:13px}th,td{padding:7px 6px}tr{break-inside:avoid}.small{font-size:12px}}</style></head><body><div class="wrap">'
   +'<h1>'+t+'</h1><p class="sub">검사 일시 '+stamp+' · '+(L.mode==="ai"?"AI 정밀 검사":"시트 규칙 검사")+'</p>'
   +'<h2>원문과 수정문 비교</h2><div class="cmp"><div class="pane"><b>원문 (고친 곳 표시)</b>'+L.ha+'</div><div class="pane"><b>수정문</b>'+L.hb+'</div></div>'
