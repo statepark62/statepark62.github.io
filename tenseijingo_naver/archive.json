@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-19",
+    "no": 135,
+    "topic_ja": "<ruby>珠洲<rt>すず</rt></ruby>の<ruby>砂取節<rt>すなどりぶし</rt></ruby>",
+    "topic_ko": "스즈의 스나도리부시",
+    "url": "https://www.asahi.com/articles/DA3S16590966.html?iref=pc_rensai_long_61_article",
+    "memo": "‘노동의 기억’, ‘지역의 소리’, ‘전승과 현재’ — 노동요를 매개로 역사적 현장을 오늘의 공동체와 연결하므로, 문화와 기억의 지속성을 다루는 장(章)에 적합하다.",
+    "pattern": "Vます＋ながら"
+  },
+  {
     "date": "2026-11-18",
     "no": 134,
     "topic_ja": "<ruby>神在月<rt>かみありづき</rt></ruby>の<ruby>縁<rt>えにし</rt></ruby>",

@@ -14891,5 +14891,55 @@
   "example": "境内は朝から参拝者で賑わった。",
   "exampleReading": "けいだいはあさからさんぱいしゃでにぎわった",
   "exampleMeaning": "경내는 아침부터 참배객으로 붐볐다."
+ },
+ {
+  "id": "tj640",
+  "word": "製塩",
+  "reading": "せいえん",
+  "meaning": "제염, 소금 만들기",
+  "level": "N1",
+  "example": "地域で製塩の文化が復活した。",
+  "exampleReading": "ちいきでせいえんのぶんかがふっかつした。",
+  "exampleMeaning": "지역에서 제염 문화가 부활했다."
+ },
+ {
+  "id": "tj641",
+  "word": "労働歌",
+  "reading": "ろうどうか",
+  "meaning": "노동요",
+  "level": "N2",
+  "example": "労働歌をみんなで歌って気持ちをひとつにした。",
+  "exampleReading": "ろうどうかをみんなでうたってきもちをひとつにした。",
+  "exampleMeaning": "노동요를 함께 불러 마음을 하나로 모았다."
+ },
+ {
+  "id": "tj642",
+  "word": "雇い人",
+  "reading": "やといにん",
+  "meaning": "고용인, 품팔이꾼",
+  "level": "N2",
+  "example": "彼は雇い人として港で働いていた。",
+  "exampleReading": "かれはやといにんとしてみなとではたらいていた。",
+  "exampleMeaning": "그는 고용인으로 항구에서 일하고 있었다."
+ },
+ {
+  "id": "tj643",
+  "word": "危険を伴う",
+  "reading": "きけんをともなう",
+  "meaning": "위험이 따르다",
+  "level": "N2",
+  "example": "この作業は危険を伴うので注意が必要だ。",
+  "exampleReading": "このさぎょうはきけんをともなうのでちゅういがひつようだ。",
+  "exampleMeaning": "이 작업은 위험이 따르므로 주의가 필요하다."
+ },
+ {
+  "id": "tj644",
+  "word": "歌い継ぐ",
+  "reading": "うたいつぐ",
+  "meaning": "(노래를) 이어 부르다, 전승하다",
+  "level": "N2",
+  "example": "地元の歌を子どもたちが歌い継ぐ。",
+  "exampleReading": "じもとのうたをこどもたちがうたいつぐ。",
+  "exampleMeaning": "지역의 노래를 아이들이 이어 부른다."
  }
 ]
