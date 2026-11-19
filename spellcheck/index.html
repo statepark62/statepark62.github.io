@@ -49,6 +49,8 @@
   .srcbox:focus{border-color:var(--accent)}
   .srcbox:empty:before{content:attr(data-ph);color:#9aa5b1}
   .count.over{color:#a61b1b;font-weight:600}
+  .flagtoggle{display:inline-block;font-size:16.5px;color:var(--sub);margin:0 0 14px;cursor:pointer}
+  .flagtoggle input{display:inline-block;width:18px;height:18px;padding:0;margin:0 6px 0 0;vertical-align:-3px}
   mark.flag{background:#fff1b8;color:#7a5a00;border-radius:4px;padding:0 3px}
   .ins{background:var(--ins);color:var(--inst);border-radius:4px;padding:0 3px;font-weight:600}
   table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:18px}
@@ -109,6 +111,7 @@
 
     <h2>수정 내역과 적용 규정</h2>
     <div id="sumline" class="sumline"></div>
+    <label class="flagtoggle"><input type="checkbox" id="showFlag"> 검토 권장(노란색) 항목도 함께 보기</label>
     <div id="nochange" class="card ok hidden">고칠 곳이 없습니다. 맞춤법에 맞는 문장입니다.</div>
     <div class="tablewrap"><table id="tbl" class="hidden">
       <thead><tr><th>구분</th><th>원문</th><th>수정</th><th>적용 규정</th><th>이유</th></tr></thead>
@@ -134,7 +137,7 @@
   </div>
 
   <p class="notice">이 도우미는 운영 개선을 위해 사용 시각, 기기·브라우저 종류, 검사한 글자 수를 기록합니다. 검사한 문장 내용은 저장하지 않습니다.</p>
-  <p class="small" id="ver">화면 버전: 2026-11-19e</p>
+  <p class="small" id="ver">화면 버전: 2026-11-19f</p>
   <p class="small">AI가 규정을 근거로 교정한 결과이므로 중요한 문서는 국립국어원(korean.go.kr)의 「한글 맞춤법」 및 표준국어대사전으로 최종 확인해 주세요.</p>
 </div>
 
@@ -316,6 +319,8 @@ function addHist(text, r, mode, aligns){
   while(HIST.length>10) HIST.shift();
   saveHist(); showHist(HIST.length-1);
 }
+$("showFlag").checked = ls("mc_flag") !== "off";
+$("showFlag").onchange = () => { ls("mc_flag", $("showFlag").checked ? "on" : "off"); if(CUR>=0) showHist(CUR); };
 function showHist(i){
   if(i<0 || i>=HIST.length){ $("out").classList.add("hidden"); return; }
   CUR=i; const h=HIST[i];
@@ -407,6 +412,10 @@ function alignHTML(html, aligns){
   return parts.map((p,i)=>'<div style="text-align:'+(aligns[i]||"left")+'">'+(p||"&nbsp;")+'</div>').join("");
 }
 function render(text, r, mode, when, aligns){
+  // '검토 권장'을 숨기도록 고른 경우에는 화면에서만 빼고 보여 줍니다. (기록은 그대로)
+  const flagOn = ls("mc_flag") !== "off";
+  const hiddenFlags = flagOn ? 0 : (r.changes||[]).filter(c=>!c.corrected).length;
+  if(!flagOn) r = Object.assign({}, r, {changes:(r.changes||[]).filter(c=>c.corrected)});
   let [ha,hb] = diff(text, r.corrected);
   // '검토 권장' 표현은 원문·수정문 모두에 노란색으로 표시
   (r.changes||[]).filter(c=>!c.corrected && c.original).forEach(c=>{
@@ -418,7 +427,7 @@ function render(text, r, mode, when, aligns){
   const tb = document.querySelector("#tbl tbody"); tb.innerHTML = "";
   const has = r.changes.length>0;
   const nFix = r.changes.filter(c=>c.corrected).length, nFlag = r.changes.length - nFix;
-  $("sumline").innerHTML = !has ? "" : nFix
+  $("sumline").innerHTML = !has ? (hiddenFlags ? "고칠 곳은 없습니다. (숨긴 검토 권장 "+hiddenFlags+"건)" : "") : nFix
     ? "고친 곳 <b>"+nFix+"건</b>"+(nFlag? " · 검토 권장 <b>"+nFlag+"건</b>":"")
     : "고칠 곳은 없습니다. 아래 <b>"+nFlag+"건</b>은 틀린 말이 아니라 다듬으면 좋은 표현(검토 권장)이라 다시 검사해도 계속 표시됩니다.";
   $("tbl").classList.toggle("hidden",!has);
@@ -427,7 +436,7 @@ function render(text, r, mode, when, aligns){
   r.changes.forEach(c=>{
     const tr=document.createElement("tr");
     tr.innerHTML='<td><span class="tag">'+esc(c.category||"")+'</span></td>'
-      +'<td><span class="del">'+esc(c.original||"")+'</span></td>'
+      +'<td>'+(c.corrected?'<span class="del">'+esc(c.original||"")+'</span>':'<mark class="flag">'+esc(c.original||"")+'</mark>')+'</td>'
       +'<td>'+(c.corrected?'<span class="ins">'+esc(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td>'
       +'<td>'+esc(c.rule||"")+'</td><td class="exp">'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td>';
     tb.appendChild(tr);
@@ -442,7 +451,7 @@ function render(text, r, mode, when, aligns){
 function buildReport(L, title){
   const r=L.r, d=L.when, pad=n=>String(n).padStart(2,"0");
   const stamp=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+pad(d.getHours())+":"+pad(d.getMinutes());
-  const rows=(r.changes||[]).map(c=>'<tr><td><span class="tag">'+esc(c.category||"")+'</span></td><td><span class="del">'+esc(c.original||"")+'</span></td><td>'+(c.corrected?'<span class="ins">'+esc(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td><td>'+esc(c.rule||"")+'</td><td>'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td></tr>').join("");
+  const rows=(r.changes||[]).map(c=>'<tr><td><span class="tag">'+esc(c.category||"")+'</span></td><td>'+(c.corrected?'<span class="del">'+esc(c.original||"")+'</span>':'<mark class="flag">'+esc(c.original||"")+'</mark>')+'</td><td>'+(c.corrected?'<span class="ins">'+esc(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td><td>'+esc(c.rule||"")+'</td><td>'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td></tr>').join("");
   const table = rows ? '<table><thead><tr><th>구분</th><th>원문</th><th>수정</th><th>적용 규정</th><th>이유</th></tr></thead><tbody>'+rows+'</tbody></table>' : '<p class="none">고칠 곳이 없습니다.</p>';
   const notes=(r.notes&&r.notes.length)?'<h2>참고 사항</h2><div class="notes">'+r.notes.map(n=>"· "+esc(String(n))).join("<br>")+'</div>':"";
   const t=esc(title||"번역문 맞춤법 검사 결과");
