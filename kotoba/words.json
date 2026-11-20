@@ -14941,5 +14941,55 @@
   "example": "地元の歌を子どもたちが歌い継ぐ。",
   "exampleReading": "じもとのうたをこどもたちがうたいつぐ。",
   "exampleMeaning": "지역의 노래를 아이들이 이어 부른다."
+ },
+ {
+  "id": "tj645",
+  "word": "円卓",
+  "reading": "えんたく",
+  "meaning": "원탁, 둥근 탁자",
+  "level": "N1",
+  "example": "３人が円卓を囲んで話し合った。",
+  "exampleReading": "さんにんがえんたくをかこんではなしあった",
+  "exampleMeaning": "세 사람이 원탁을 둘러앉아 이야기했다."
+ },
+ {
+  "id": "tj646",
+  "word": "首脳会談",
+  "reading": "しゅのうかいだん",
+  "meaning": "정상회담",
+  "level": "N1",
+  "example": "首脳会談は深夜まで続いた。",
+  "exampleReading": "しゅのうかいだんはしんやまでつづいた",
+  "exampleMeaning": "정상회담은 심야까지 이어졌다."
+ },
+ {
+  "id": "tj647",
+  "word": "なぞらえる",
+  "reading": "なぞらえる",
+  "meaning": "비유하다, 견주다",
+  "level": "N1",
+  "example": "彼は古い物語になぞらえて、いまの状況を語った。",
+  "exampleReading": "かれはふるいものがたりになぞらえていまのじょうきょうをかたった",
+  "exampleMeaning": "그는 옛 이야기로 비유해 현재의 상황을 말했다."
+ },
+ {
+  "id": "tj648",
+  "word": "光景",
+  "reading": "こうけい",
+  "meaning": "광경, 장면",
+  "level": "N2",
+  "example": "雪が静かに降る光景に息をのんだ。",
+  "exampleReading": "ゆきがしずかにふるこうけいにいきをのんだ",
+  "exampleMeaning": "눈이 조용히 내리는 광경에 숨을 죽였다."
+ },
+ {
+  "id": "tj649",
+  "word": "見せ場",
+  "reading": "みせば",
+  "meaning": "하이라이트, 볼거리",
+  "level": "N2",
+  "example": "最後の見せ場で観客が沸いた。",
+  "exampleReading": "さいごのみせばでかんきゃくがわいた",
+  "exampleMeaning": "마지막 하이라이트에서 관객이 들끓었다."
  }
 ]

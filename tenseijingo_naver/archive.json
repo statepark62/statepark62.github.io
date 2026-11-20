@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-20",
+    "no": 136,
+    "topic_ja": "<ruby>米中露<rt>べいちゅうろ</rt></ruby><ruby>会談<rt>かいだん</rt></ruby>の<ruby>円卓<rt>えんたく</rt></ruby>",
+    "topic_ko": "미·중·러 회담의 원탁",
+    "url": "https://www.asahi.com/articles/DA3S16591736.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘무대와 실질’, ‘역사의 비유’, ‘정상외교의 연출’ — 장면의 상징성과 내용의 간극을 대비하며, 얄타 참조를 통해 현재 외교를 역사적 프레임 속에서 성찰하기 때문.",
+    "pattern": "Vない<ruby>形<rt>かたち</rt></ruby>＋ざるを<ruby>得<rt>え</rt></ruby>ない"
+  },
+  {
     "date": "2026-11-19",
     "no": 135,
     "topic_ja": "<ruby>珠洲<rt>すず</rt></ruby>の<ruby>砂取節<rt>すなどりぶし</rt></ruby>",
