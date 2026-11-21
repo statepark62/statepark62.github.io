@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-21",
+    "no": 137,
+    "topic_ja": "あめ<ruby>玉<rt>だま</rt></ruby>と<ruby>賄賂<rt>わいろ</rt></ruby>の<ruby>教<rt>おし</rt></ruby>え",
+    "topic_ko": "아메다마와 ‘뇌물’의 가르침",
+    "url": "https://www.asahi.com/articles/DA3S16592581.html?iref=pc_rensai_long_61_article",
+    "memo": "‘윤리와 선물’, ‘어린 시절의 기억’, ‘관계의 거리’ — 사소한 선물이 관계와 규범을 흔드는 순간을 통해 보편적 윤리 감각을 환기하므로 이 주제어로 묶기에 적합하다.",
+    "pattern": "「〜」という<ruby>詩<rt>し</rt></ruby>がある"
+  },
+  {
     "date": "2026-11-20",
     "no": 136,
     "topic_ja": "<ruby>米中露<rt>べいちゅうろ</rt></ruby><ruby>会談<rt>かいだん</rt></ruby>の<ruby>円卓<rt>えんたく</rt></ruby>",

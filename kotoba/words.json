@@ -14991,5 +14991,55 @@
   "example": "最後の見せ場で観客が沸いた。",
   "exampleReading": "さいごのみせばでかんきゃくがわいた",
   "exampleMeaning": "마지막 하이라이트에서 관객이 들끓었다."
+ },
+ {
+  "id": "tj650",
+  "word": "賄賂",
+  "reading": "わいろ",
+  "meaning": "뇌물",
+  "level": "N1",
+  "example": "彼は賄賂を断った。",
+  "exampleReading": "かれはわいろをことわった。",
+  "exampleMeaning": "그는 뇌물을 거절했다."
+ },
+ {
+  "id": "tj651",
+  "word": "来客",
+  "reading": "らいきゃく",
+  "meaning": "방문객, 손님",
+  "level": "N2",
+  "example": "来客が玄関で待っている。",
+  "exampleReading": "らいきゃくがげんかんでまっている。",
+  "exampleMeaning": "손님이 현관에서 기다리고 있다."
+ },
+ {
+  "id": "tj652",
+  "word": "祖母",
+  "reading": "そぼ",
+  "meaning": "할머니",
+  "level": "N3",
+  "example": "祖母は昔の話をしてくれた。",
+  "exampleReading": "そぼはむかしのはなしをしてくれた。",
+  "exampleMeaning": "할머니는 옛날 이야기를 들려주었다."
+ },
+ {
+  "id": "tj653",
+  "word": "取り上げる",
+  "reading": "とりあげる",
+  "meaning": "꺼내다, 빼앗다, 다루다",
+  "level": "N2",
+  "example": "先生はトピックを取り上げて議論を始めた。",
+  "exampleReading": "せんせいはとぴっくをとりあげてぎろんをはじめた。",
+  "exampleMeaning": "선생님은 주제를 꺼내 논의를 시작했다."
+ },
+ {
+  "id": "tj654",
+  "word": "あめ玉",
+  "reading": "あめだま",
+  "meaning": "사탕",
+  "level": "N3",
+  "example": "子どもはあめ玉を大事に舐めた。",
+  "exampleReading": "こどもはあめだまをだいじになめた。",
+  "exampleMeaning": "아이는 사탕을 아끼듯 맛보았다."
  }
 ]
