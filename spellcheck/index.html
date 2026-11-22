@@ -64,6 +64,12 @@
   .post.mine{border-color:#b9c9dc}
   .badge{display:inline-block;padding:1px 10px;border-radius:999px;font-size:14px;background:#eef3f8;color:var(--accent)}
   .badge.wait{background:#fff6e0;color:#8a6100}
+  .ws{text-decoration:none!important;font-size:.85em;letter-spacing:1px;padding:0 2px}
+  .pages{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:6px 0 20px}
+  .pages button{margin:0;padding:6px 13px;font-size:16px;min-width:42px;background:#fff;color:var(--accent);border:1px solid var(--line)}
+  .pages button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .pages button:disabled{opacity:.4;cursor:default}
+  .pages .info{width:100%;font-size:15px;color:var(--sub)}
   mark.flag{background:#fff1b8;color:#7a5a00;border-radius:4px;padding:0 3px}
   .ins{background:var(--ins);color:var(--inst);border-radius:4px;padding:0 3px;font-weight:600}
   table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:18px}
@@ -152,10 +158,10 @@
     <div id="bdLock" class="count hidden">글을 쓰거나 읽으려면 맨 위 칸에 접속 코드를 넣어 주세요.</div>
   </div>
   <div id="board" class="board"></div>
-  <div id="bdMore" class="hidden"><button class="ghost" id="bdMoreBtn">더 보기</button></div>
+  <div id="bdPages" class="pages"></div>
 
   <p class="notice">이 도우미는 운영 개선을 위해 사용 시각, 기기·브라우저 종류, 검사한 글자 수를 기록합니다. 검사한 문장 내용은 저장하지 않습니다.</p>
-  <p class="small" id="ver">화면 버전: 2026-11-22</p>
+  <p class="small" id="ver">화면 버전: 2026-11-22b</p>
   <p class="small">AI가 규정을 근거로 교정한 결과이므로 중요한 문서는 국립국어원(korean.go.kr)의 「한글 맞춤법」 및 표준국어대사전으로 최종 확인해 주세요.</p>
 </div>
 
@@ -312,11 +318,13 @@ function post(obj){ return fetch(API_URL,{method:"POST",headers:{"Content-Type":
 })();
 
 // ── 의견 게시판: 접속 코드가 맞는 회원만 읽고 쓸 수 있음 ──
-let POSTS = [], SHOWN = 20;
+let POSTS = [], PG = 0; const PER = 10;   // 한 쪽에 10개씩
 function renderBoard(){
   const box=$("board"); box.innerHTML="";
-  if(!POSTS.length){ box.innerHTML='<p class="count">아직 올라온 글이 없습니다. 첫 의견을 남겨 주세요.</p>'; $("bdMore").classList.add("hidden"); return; }
-  POSTS.slice(0,SHOWN).forEach(p=>{
+  const pages = Math.max(1, Math.ceil(POSTS.length/PER));
+  if(PG >= pages) PG = pages-1;
+  if(!POSTS.length){ box.innerHTML='<p class="count">아직 올라온 글이 없습니다. 첫 의견을 남겨 주세요.</p>'; $("bdPages").innerHTML=""; return; }
+  POSTS.slice(PG*PER, PG*PER+PER).forEach(p=>{
     const d=document.createElement("div"); d.className="post"+(p.mine?" mine":"");
     d.innerHTML='<div class="meta"><b>'+esc(String(p.no))+'번</b><span>'+esc(p.who)+(p.mine?' (나)':'')+'</span><span>'+esc(p.when)+'</span>'
       +(p.reply?'<span class="badge">답변 완료</span>':'<span class="badge wait">답변 대기</span>')
@@ -326,12 +334,12 @@ function renderBoard(){
     box.appendChild(d);
   });
   box.querySelectorAll(".pdel button").forEach(btn=>btn.onclick=()=>delPost(btn.dataset.no));
-  $("bdMore").classList.toggle("hidden", POSTS.length<=SHOWN);
+  renderPages(pages);
 }
 function boardState(ok, canWrite){
   $("bdWrite").classList.toggle("hidden", !canWrite);
   $("bdLock").classList.toggle("hidden", !!canWrite);
-  if(!ok){ POSTS=[]; $("board").innerHTML=""; $("bdMore").classList.add("hidden"); }
+  if(!ok){ POSTS=[]; $("board").innerHTML=""; $("bdPages").innerHTML=""; }
 }
 async function loadBoard(){
   if(API_URL.indexOf("http")!==0) return;
@@ -345,7 +353,20 @@ async function delPost(no){
   if(!confirm(no+"번 글을 지울까요?")) return;
   try{ const d = await (await post({mode:"board_delete", no})).json(); if(d.posts){ POSTS=d.posts; renderBoard(); } if(!d.ok) alert(d.error); }catch(e){ alert("오류: "+e.message); }
 }
-$("bdMoreBtn").onclick = () => { SHOWN += 20; renderBoard(); };
+// 쪽 번호: 10쪽씩 묶어 보여 주고, 처음·이전·다음·끝 버튼을 둡니다.
+function renderPages(pages){
+  const el=$("bdPages"); el.innerHTML="";
+  if(pages<=1) return;
+  const go = p => { PG = Math.max(0, Math.min(pages-1, p)); renderBoard(); $("board").scrollIntoView({behavior:"smooth", block:"start"}); };
+  const btn = (label, p, on, dis, title) => { const b=document.createElement("button"); b.textContent=label; if(title) b.title=title; if(on) b.className="on"; b.disabled=!!dis; b.onclick=()=>go(p); el.appendChild(b); };
+  const start = Math.floor(PG/10)*10, end = Math.min(pages, start+10);
+  btn("«", 0, false, PG===0, "처음");
+  btn("‹", PG-1, false, PG===0, "이전 쪽");
+  for(let p=start; p<end; p++) btn(String(p+1), p, p===PG);
+  btn("›", PG+1, false, PG>=pages-1, "다음 쪽");
+  btn("»", pages-1, false, PG>=pages-1, "끝");
+  const info=document.createElement("div"); info.className="info"; info.textContent="전체 "+POSTS.length+"개 · "+(PG+1)+" / "+pages+"쪽"; el.appendChild(info);
+}
 $("code").addEventListener("change", () => { ls("mc_code", $("code").value); loadBoard(); });
 $("fbSend").onclick = async () => {
   const message = $("fbText").value.trim(); $("fbMsg").className="err"; $("fbMsg").textContent="";
@@ -354,7 +375,7 @@ $("fbSend").onclick = async () => {
   try{
     const d = await (await post({mode:"board_post", message})).json();
     if(!d.ok) throw new Error(d.error||"오류");
-    $("fbText").value=""; POSTS=d.posts||POSTS; SHOWN=20; renderBoard();
+    $("fbText").value=""; POSTS=d.posts||POSTS; PG=0; renderBoard();
     $("fbMsg").className="ok"; $("fbMsg").textContent="글이 올라갔습니다. 감사합니다.";
   }catch(e){ $("fbMsg").textContent="오류: "+e.message; }
   finally{ b.disabled=false; b.textContent="글 올리기"; }
@@ -422,19 +443,28 @@ if(HIST.length) showHist(HIST.length-1);
 function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 
 // 어절 단위 LCS 비교
+// 띄어쓰기(공백)가 바뀐 곳은 ␣ 기호로 보이게 표시합니다. 줄바꿈은 그대로 둡니다.
+// 수정 내역표에서 공백만 있는 항목은 ␣ 기호로 보이게
+function tok(t){ return /^\s+$/.test(t) ? esc(t.replace(/\u3000/g,"□").replace(/[ \t\u00a0]/g,"␣")) : esc(t); }
+function wsMark(t, cls){
+  if(!/^\s+$/.test(t) || /\n/.test(t)) return esc(t);
+  return '<span class="'+cls+' ws" title="공백 '+t.length+'칸">'+t.replace(/\u3000/g,"□").replace(/[ \t\u00a0]/g,"␣")+'</span>';
+}
 function diff(a, b){
   const A = a.split(/(\s+)/), B = b.split(/(\s+)/);
   const n=A.length, m=B.length, dp=Array.from({length:n+1},()=>new Array(m+1).fill(0));
   for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)
     dp[i][j]=A[i]===B[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
   let i=0,j=0,ha="",hb="";
+  const D = t => /^\s+$/.test(t) ? wsMark(t,"del") : '<span class="del">'+esc(t)+'</span>';
+  const I = t => /^\s+$/.test(t) ? wsMark(t,"ins") : '<span class="ins">'+esc(t)+'</span>';
   while(i<n&&j<m){
     if(A[i]===B[j]){ha+=esc(A[i]);hb+=esc(B[j]);i++;j++;}
-    else if(dp[i+1][j]>=dp[i][j+1]){ha+=/^\s+$/.test(A[i])?esc(A[i]):'<span class="del">'+esc(A[i])+'</span>';i++;}
-    else{hb+=/^\s+$/.test(B[j])?esc(B[j]):'<span class="ins">'+esc(B[j])+'</span>';j++;}
+    else if(dp[i+1][j]>=dp[i][j+1]){ha+=D(A[i]);i++;}
+    else{hb+=I(B[j]);j++;}
   }
-  while(i<n){ha+=/^\s+$/.test(A[i])?esc(A[i]):'<span class="del">'+esc(A[i])+'</span>';i++;}
-  while(j<m){hb+=/^\s+$/.test(B[j])?esc(B[j]):'<span class="ins">'+esc(B[j])+'</span>';j++;}
+  while(i<n){ha+=D(A[i]);i++;}
+  while(j<m){hb+=I(B[j]);j++;}
   return [ha,hb];
 }
 
@@ -506,8 +536,8 @@ function render(text, r, mode, when, aligns){
   r.changes.forEach(c=>{
     const tr=document.createElement("tr");
     tr.innerHTML='<td><span class="tag">'+esc(c.category||"")+'</span></td>'
-      +'<td>'+(c.corrected?'<span class="del">'+esc(c.original||"")+'</span>':'<mark class="flag">'+esc(c.original||"")+'</mark>')+'</td>'
-      +'<td>'+(c.corrected?'<span class="ins">'+esc(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td>'
+      +'<td>'+(c.corrected?'<span class="del">'+tok(c.original||"")+'</span>':'<mark class="flag">'+tok(c.original||"")+'</mark>')+'</td>'
+      +'<td>'+(c.corrected?'<span class="ins">'+tok(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td>'
       +'<td>'+esc(c.rule||"")+'</td><td class="exp">'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td>';
     tb.appendChild(tr);
   });
@@ -521,7 +551,7 @@ function render(text, r, mode, when, aligns){
 function buildReport(L, title){
   const r=L.r, d=L.when, pad=n=>String(n).padStart(2,"0");
   const stamp=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+pad(d.getHours())+":"+pad(d.getMinutes());
-  const rows=(r.changes||[]).map(c=>'<tr><td><span class="tag">'+esc(c.category||"")+'</span></td><td>'+(c.corrected?'<span class="del">'+esc(c.original||"")+'</span>':'<mark class="flag">'+esc(c.original||"")+'</mark>')+'</td><td>'+(c.corrected?'<span class="ins">'+esc(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td><td>'+esc(c.rule||"")+'</td><td>'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td></tr>').join("");
+  const rows=(r.changes||[]).map(c=>'<tr><td><span class="tag">'+esc(c.category||"")+'</span></td><td>'+(c.corrected?'<span class="del">'+tok(c.original||"")+'</span>':'<mark class="flag">'+tok(c.original||"")+'</mark>')+'</td><td>'+(c.corrected?'<span class="ins">'+tok(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td><td>'+esc(c.rule||"")+'</td><td>'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td></tr>').join("");
   const table = rows ? '<table><thead><tr><th>구분</th><th>원문</th><th>수정</th><th>적용 규정</th><th>이유</th></tr></thead><tbody>'+rows+'</tbody></table>' : '<p class="none">고칠 곳이 없습니다.</p>';
   const notes=(r.notes&&r.notes.length)?'<h2>참고 사항</h2><div class="notes">'+r.notes.map(n=>"· "+esc(String(n))).join("<br>")+'</div>':"";
   const t=esc(title||"번역문 맞춤법 검사 결과");
