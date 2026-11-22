@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-22",
+    "no": 138,
+    "topic_ja": "<ruby>子<rt>こ</rt></ruby>のSOSと<ruby>支援<rt>しえん</rt></ruby>",
+    "topic_ko": "아이의 SOS와 지원",
+    "url": "https://www.asahi.com/articles/DA3S16593198.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '아동의 목소리', '사회적 응답', '학교와 안전망' — 개인의 SOS를 공적 영역이 어떻게 포착하고 행동으로 잇는가를 성찰하며, 교육·복지·지역의 연결이라는 보편적 질문을 던지기 때문임.",
+    "pattern": "VたりVたりする"
+  },
+  {
     "date": "2026-11-21",
     "no": 137,
     "topic_ja": "あめ<ruby>玉<rt>だま</rt></ruby>と<ruby>賄賂<rt>わいろ</rt></ruby>の<ruby>教<rt>おし</rt></ruby>え",

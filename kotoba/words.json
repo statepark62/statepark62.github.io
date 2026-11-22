@@ -15041,5 +15041,55 @@
   "example": "子どもはあめ玉を大事に舐めた。",
   "exampleReading": "こどもはあめだまをだいじになめた。",
   "exampleMeaning": "아이는 사탕을 아끼듯 맛보았다."
+ },
+ {
+  "id": "tj655",
+  "word": "児童虐待",
+  "reading": "じどうぎゃくたい",
+  "meaning": "아동학대",
+  "level": "N1",
+  "example": "児童虐待を疑ったら、すぐに相談してください。",
+  "exampleReading": "じどうぎゃくたいをうたがったら、すぐにそうだんしてください。",
+  "exampleMeaning": "아동학대가 의심되면, 즉시 상담해 주세요."
+ },
+ {
+  "id": "tj656",
+  "word": "切実",
+  "reading": "せつじつ",
+  "meaning": "절실함, 절박함",
+  "level": "N1",
+  "example": "切実な声に耳を傾けるべきだ。",
+  "exampleReading": "せつじつなこえにみみをかたむけるべきだ。",
+  "exampleMeaning": "절실한 목소리에 귀를 기울여야 한다."
+ },
+ {
+  "id": "tj657",
+  "word": "訴える",
+  "reading": "うったえる",
+  "meaning": "호소하다, 고발하다",
+  "level": "N2",
+  "example": "彼女は危険を訴えて助けを求めた。",
+  "exampleReading": "かのじょはきけんをうったえてたすけをもとめた。",
+  "exampleMeaning": "그녀는 위험을 호소하며 도움을 청했다."
+ },
+ {
+  "id": "tj658",
+  "word": "相談する",
+  "reading": "そうだんする",
+  "meaning": "상담하다, 상의하다",
+  "level": "N3",
+  "example": "一人で抱えず、専門家に相談する。",
+  "exampleReading": "ひとりでかかえず、せんもんかにそうだんする。",
+  "exampleMeaning": "혼자 떠안지 말고, 전문가에게 상담한다."
+ },
+ {
+  "id": "tj659",
+  "word": "鉛筆",
+  "reading": "えんぴつ",
+  "meaning": "연필",
+  "level": "N3",
+  "example": "鉛筆で大きくメモを書いた。",
+  "exampleReading": "えんぴつでおおきくめもをかいた。",
+  "exampleMeaning": "연필로 크게 메모를 썼다."
  }
 ]
