@@ -70,6 +70,17 @@
   .pages button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
   .pages button:disabled{opacity:.4;cursor:default}
   .pages .info{width:100%;font-size:15px;color:var(--sub)}
+  .src{display:inline-block;padding:1px 10px;border-radius:999px;font-size:14.5px;margin:1px;white-space:nowrap}
+  .src.rule{background:#e3ecf7;color:#24527f}
+  .src.gemini{background:#fdebd8;color:#9a4c00}
+  .src.ai{background:#ece6fa;color:#5232a0}
+  tr.s-rule td:first-child{box-shadow:inset 4px 0 #6b93bd}
+  tr.s-gemini td:first-child{box-shadow:inset 4px 0 #e39a4c}
+  tr.s-ai td:first-child{box-shadow:inset 4px 0 #8f74d6}
+  tr.s-multi td:first-child{box-shadow:inset 4px 0 #7d8794}
+  .ins.by-gemini,.del.by-gemini{box-shadow:inset 0 -3px #e39a4c}
+  .ins.by-ai,.del.by-ai{box-shadow:inset 0 -3px #8f74d6}
+  .srclegend{font-size:15.5px;color:var(--sub);margin:-6px 0 12px}
   mark.flag{background:#fff1b8;color:#7a5a00;border-radius:4px;padding:0 3px}
   .ins{background:var(--ins);color:var(--inst);border-radius:4px;padding:0 3px;font-weight:600}
   table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:18px}
@@ -78,7 +89,7 @@
   td.exp{text-align:center}
   .tag{display:inline-block;padding:2px 12px;border-radius:999px;background:#e8eef6;color:var(--accent);font-size:16px}
   .tablewrap{overflow-x:auto}
-  #tbl td:nth-child(2),#tbl td:nth-child(3){white-space:nowrap}
+  #tbl td:nth-child(2),#tbl td:nth-child(3),#tbl td:nth-child(4){white-space:nowrap}
   #tbl td:nth-child(1){white-space:nowrap}
   .notes{background:#fffaf0;border:1px solid #f1dfb5;border-radius:12px;padding:14px 18px;font-size:17.5px}
   .err{color:#a61b1b;margin-top:12px}
@@ -136,7 +147,7 @@
     <div id="sumline" class="sumline"></div>
     <div id="nochange" class="card ok hidden">고칠 곳이 없습니다. 맞춤법에 맞는 문장입니다.</div>
     <div class="tablewrap"><table id="tbl" class="hidden">
-      <thead><tr><th>구분</th><th>원문</th><th>수정</th><th>적용 규정</th><th>이유</th></tr></thead>
+      <thead><tr><th>검사</th><th>구분</th><th>원문</th><th>수정</th><th>적용 규정</th><th>이유</th></tr></thead>
       <tbody></tbody>
     </table></div>
 
@@ -151,17 +162,17 @@
   <div class="card">
     <p style="margin:0 0 12px">사용해 보신 소감, 잘못 고쳐진 표현, 바라는 기능을 남겨 주세요. 관리자가 답변을 달아 드립니다.</p>
     <div id="bdWrite">
-      <textarea id="fbText" maxlength="2000" placeholder="내용을 적어 주세요. (접속 코드를 넣은 회원만 쓸 수 있습니다)"></textarea>
+      <textarea id="fbText" maxlength="2000" placeholder="내용을 적어 주세요."></textarea>
       <div><button id="fbSend">글 올리기</button></div>
       <div id="fbMsg" class="err"></div>
     </div>
-    <div id="bdLock" class="count hidden">글을 쓰거나 읽으려면 맨 위 칸에 접속 코드를 넣어 주세요.</div>
+    <div id="bdLock" class="count hidden">글을 쓰려면 맨 위 칸에 접속 코드를 넣어 주세요. 글 읽기는 누구나 할 수 있습니다.</div>
   </div>
   <div id="board" class="board"></div>
   <div id="bdPages" class="pages"></div>
 
   <p class="notice">이 도우미는 운영 개선을 위해 사용 시각, 기기·브라우저 종류, 검사한 글자 수를 기록합니다. 검사한 문장 내용은 저장하지 않습니다.</p>
-  <p class="small" id="ver">화면 버전: 2026-11-22b</p>
+  <p class="small" id="ver">화면 버전: 2026-11-22c</p>
   <p class="small">AI가 규정을 근거로 교정한 결과이므로 중요한 문서는 국립국어원(korean.go.kr)의 「한글 맞춤법」 및 표준국어대사전으로 최종 확인해 주세요.</p>
 </div>
 
@@ -409,10 +420,39 @@ function addHist(text, r, mode, aligns){
   while(HIST.length>10) HIST.shift();
   saveHist(); showHist(HIST.length-1);
 }
+// ── 같은 원고에 대한 검사(무료·Gemini·Claude)를 하나로 합칩니다 ──
+const SRC_NAME = {rule:"무료", gemini:"Gemini", ai:"Claude"};
+function srcOf(m){ return m==="gemini" ? "gemini" : m==="ai" ? "ai" : "rule"; }
+function srcBadges(src){ return (src||[]).map(s=>'<span class="src '+s+'">'+SRC_NAME[s]+'</span>').join(""); }
+function mergeFor(i){
+  const base = HIST[i], key = base.text;
+  const same = HIST.filter(x=>x.text===key);
+  const modes = [...new Set(same.map(x=>srcOf(x.mode)))].sort((a,b)=>({rule:0,gemini:1,ai:2})[a]-({rule:0,gemini:1,ai:2})[b]);
+  // 수정문: 가장 최근 AI 결과를 바탕으로, 무료 검사 규칙의 수정을 덧입힘 (AI가 없으면 무료 결과)
+  const ais = same.filter(x=>isAI(x.mode)), rules = same.filter(x=>!isAI(x.mode));
+  let corrected = ais.length ? ais[ais.length-1].r.corrected : rules[rules.length-1].r.corrected;
+  if(ais.length && rules.length){
+    (rules[rules.length-1].r.changes||[]).forEach(c=>{ if(c.corrected && c.original && corrected.indexOf(c.original)!==-1) corrected = corrected.split(c.original).join(c.corrected); });
+  }
+  // 수정 항목: 같은 (원문→수정)은 한 줄로, 어느 검사에서 나왔는지 표시
+  const map = new Map(), order = [];
+  same.forEach(x=>{
+    const s = srcOf(x.mode);
+    (x.r.changes||[]).forEach(c=>{
+      const k = (c.original||"")+"\u0000"+(c.corrected||"");
+      if(!map.has(k)){ map.set(k, Object.assign({}, c, {src:[]})); order.push(k); }
+      const m = map.get(k); if(m.src.indexOf(s)===-1) m.src.push(s);
+    });
+  });
+  const rank = {rule:0, gemini:1, ai:2};
+  const changes = order.map(k=>{ const c=map.get(k); c.src.sort((a,b)=>rank[a]-rank[b]); return c; });
+  const notes = []; same.forEach(x=>(x.r.notes||[]).forEach(n=>{ const t="["+SRC_NAME[srcOf(x.mode)]+"] "+n; if(notes.indexOf(t)===-1) notes.push(t); }));
+  return { text:key, r:{corrected, changes, notes}, modes, count:same.length, when: same[same.length-1].when, aligns: base.aligns };
+}
 function showHist(i){
   if(i<0 || i>=HIST.length){ $("out").classList.add("hidden"); return; }
-  CUR=i; const h=HIST[i];
-  render(h.text, h.r, h.mode, h.when, h.aligns);
+  CUR=i; const M=mergeFor(i);
+  render(M.text, M.r, M.modes.length>1 ? "merged" : (M.modes[0]==="rule"?"rule":M.modes[0]), M.when, M.aligns, M);
   const box=$("hist"); box.innerHTML="";
   HIST.forEach((x,j)=>{
     const d=new Date(x.when), pad=n=>String(n).padStart(2,"0");
@@ -515,27 +555,42 @@ function alignHTML(html, aligns){
   if(parts.length!==aligns.length) return html;
   return parts.map((p,i)=>'<div style="text-align:'+(aligns[i]||"left")+'">'+(p||"&nbsp;")+'</div>').join("");
 }
-function render(text, r, mode, when, aligns){
+function render(text, r, mode, when, aligns, M){
   let [ha,hb] = diff(text, r.corrected);
   // '검토 권장' 표현은 원문·수정문 모두에 노란색으로 표시
   (r.changes||[]).filter(c=>!c.corrected && c.original).forEach(c=>{
     const k=esc(c.original); const m='<mark class="flag">'+k+'</mark>';
     ha=ha.split(k).join(m); hb=hb.split(k).join(m);
   });
+  // 본문 표시에 출처 색 밑줄: AI에서만 나온 수정은 Gemini(주황)·Claude(보라) 밑줄
+  const tagBy = (html, cls, field) => html.replace(new RegExp('<span class="'+cls+'">([^<]*)</span>','g'), (all, inner)=>{
+    const t = inner.replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"');
+    const hit = (r.changes||[]).filter(c=>c.src && c[field] && c[field].indexOf(t)!==-1);
+    if(!hit.length || hit.some(c=>c.src.indexOf("rule")!==-1)) return all;
+    const s = hit[0].src.indexOf("ai")!==-1 ? "ai" : "gemini";
+    return '<span class="'+cls+' by-'+s+'">'+inner+'</span>';
+  });
+  ha = tagBy(ha, "del", "original"); hb = tagBy(hb, "ins", "corrected");
   ha = alignHTML(ha, aligns); hb = alignHTML(hb, aligns);
   $("orig").innerHTML = ha; $("fixed").innerHTML = hb;
   const tb = document.querySelector("#tbl tbody"); tb.innerHTML = "";
   const has = r.changes.length>0;
   const nFix = r.changes.filter(c=>c.corrected).length, nFlag = r.changes.length - nFix;
-  $("sumline").innerHTML = !has ? "" : nFix
-    ? "고친 곳 <b>"+nFix+"건</b>"+(nFlag? " · 검토 권장 <b>"+nFlag+"건</b>":"")
-    : "고칠 곳은 없습니다. 아래 <b>"+nFlag+"건</b>은 틀린 말이 아니라 다듬으면 좋은 표현(검토 권장)이라 다시 검사해도 계속 표시됩니다.";
+  const bySrc = s => r.changes.filter(c=>c.corrected && c.src && c.src.indexOf(s)!==-1).length;
+  const srcInfo = (M && M.modes.length>1) ? " (" + M.modes.map(s=>SRC_NAME[s]+" "+bySrc(s)+"건").join(" · ") + ", 겹친 것은 한 줄)" : "";
+  const head = (M && M.count>1) ? "이 원고에 대한 검사 <b>"+M.count+"회</b>를 합친 결과입니다. " : "";
+  $("sumline").innerHTML = (head + (!has ? "" : nFix
+    ? "고친 곳 <b>"+nFix+"건</b>"+srcInfo+(nFlag? " · 검토 권장 <b>"+nFlag+"건</b>":"")
+    : "고칠 곳은 없습니다. 아래 <b>"+nFlag+"건</b>은 틀린 말이 아니라 다듬으면 좋은 표현(검토 권장)이라 다시 검사해도 계속 표시됩니다."))
+    + '<div class="srclegend">검사 표시: '+srcBadges(["rule","gemini","ai"])+' · 본문의 주황·보라 밑줄은 AI 검사에서만 나온 수정</div>';
   $("tbl").classList.toggle("hidden",!has);
   $("nochange").classList.toggle("hidden",has);
-  $("nochange").textContent = isAI(mode) ? "고칠 곳이 없습니다. 맞춤법에 맞는 문장입니다." : "시트 규칙에서는 고칠 곳을 찾지 못했습니다. 문맥이 필요한 오류는 'AI 정밀 검사'로 확인해 보세요.";
+  $("nochange").textContent = (isAI(mode) || mode==="merged") ? "고칠 곳이 없습니다. 맞춤법에 맞는 문장입니다." : "시트 규칙에서는 고칠 곳을 찾지 못했습니다. 문맥이 필요한 오류는 'AI 정밀 검사'로 확인해 보세요.";
   r.changes.forEach(c=>{
     const tr=document.createElement("tr");
-    tr.innerHTML='<td><span class="tag">'+esc(c.category||"")+'</span></td>'
+    const src = c.src || [srcOf(mode)];
+    tr.className = src.length>1 ? "s-multi" : "s-"+src[0];
+    tr.innerHTML='<td>'+srcBadges(src)+'</td><td><span class="tag">'+esc(c.category||"")+'</span></td>'
       +'<td>'+(c.corrected?'<span class="del">'+tok(c.original||"")+'</span>':'<mark class="flag">'+tok(c.original||"")+'</mark>')+'</td>'
       +'<td>'+(c.corrected?'<span class="ins">'+tok(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td>'
       +'<td>'+esc(c.rule||"")+'</td><td class="exp">'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td>';
@@ -546,13 +601,13 @@ function render(text, r, mode, when, aligns){
   $("notes").innerHTML = hasNotes ? r.notes.map(n=>"· "+esc(String(n))).join("<br>") : "";
   $("out").classList.remove("hidden"); $("detail").classList.remove("hidden");
   window._fixed = r.corrected;
-  window._last = {text:text, r:r, mode:mode, ha:ha, hb:hb, aligns:aligns, when:new Date(when||Date.now())};
+  window._last = {text:text, r:r, mode:mode, modes:(M?M.modes:[srcOf(mode)]), ha:ha, hb:hb, aligns:aligns, when:new Date(when||Date.now())};
 }
 function buildReport(L, title){
   const r=L.r, d=L.when, pad=n=>String(n).padStart(2,"0");
   const stamp=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+pad(d.getHours())+":"+pad(d.getMinutes());
-  const rows=(r.changes||[]).map(c=>'<tr><td><span class="tag">'+esc(c.category||"")+'</span></td><td>'+(c.corrected?'<span class="del">'+tok(c.original||"")+'</span>':'<mark class="flag">'+tok(c.original||"")+'</mark>')+'</td><td>'+(c.corrected?'<span class="ins">'+tok(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td><td>'+esc(c.rule||"")+'</td><td>'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td></tr>').join("");
-  const table = rows ? '<table><thead><tr><th>구분</th><th>원문</th><th>수정</th><th>적용 규정</th><th>이유</th></tr></thead><tbody>'+rows+'</tbody></table>' : '<p class="none">고칠 곳이 없습니다.</p>';
+  const rows=(r.changes||[]).map(c=>'<tr><td>'+srcBadges(c.src||[srcOf(L.mode)])+'</td><td><span class="tag">'+esc(c.category||"")+'</span></td><td>'+(c.corrected?'<span class="del">'+tok(c.original||"")+'</span>':'<mark class="flag">'+tok(c.original||"")+'</mark>')+'</td><td>'+(c.corrected?'<span class="ins">'+tok(c.corrected)+'</span>':'<span class="tag">검토 권장</span>')+'</td><td>'+esc(c.rule||"")+'</td><td>'+esc(c.explanation||"")+(c.count>1?" ("+c.count+"곳)":"")+'</td></tr>').join("");
+  const table = rows ? '<table><thead><tr><th>검사</th><th>구분</th><th>원문</th><th>수정</th><th>적용 규정</th><th>이유</th></tr></thead><tbody>'+rows+'</tbody></table>' : '<p class="none">고칠 곳이 없습니다.</p>';
   const notes=(r.notes&&r.notes.length)?'<h2>참고 사항</h2><div class="notes">'+r.notes.map(n=>"· "+esc(String(n))).join("<br>")+'</div>':"";
   const t=esc(title||"번역문 맞춤법 검사 결과");
   return '<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'+t+'</title><style>'
@@ -564,9 +619,10 @@ function buildReport(L, title){
   +'mark.flag{background:#fff1b8;color:#7a5a00;border-radius:4px;padding:0 3px}.del{background:#fde2e2;color:#a61b1b;border-radius:4px;padding:0 3px;text-decoration:line-through}.ins{background:#dff5e3;color:#16672a;border-radius:4px;padding:0 3px;font-weight:600}'
   +'table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #d9e0e7;font-size:18px}th,td{border-bottom:1px solid #d9e0e7;padding:12px 10px;text-align:center;vertical-align:middle}th{background:#eef3f8;font-size:17px}'
   +'.tag{display:inline-block;padding:2px 12px;border-radius:999px;background:#e8eef6;color:#2f5d8a;font-size:16px}.notes{background:#fffaf0;border:1px solid #f1dfb5;border-radius:12px;padding:14px 18px;font-size:17.5px}'
-  +'td:nth-child(1),td:nth-child(2),td:nth-child(3){white-space:nowrap}.none{background:#fff;border:1px solid #d9e0e7;border-radius:12px;padding:18px;color:#16672a}.tablewrap{overflow-x:auto}.small{font-size:16px;color:#52606d;margin-top:30px}'
+  +'.src{display:inline-block;padding:1px 10px;border-radius:999px;font-size:13.5px;margin:1px}.src.rule{background:#e3ecf7;color:#24527f}.src.gemini{background:#fdebd8;color:#9a4c00}.src.ai{background:#ece6fa;color:#5232a0}.by-gemini{box-shadow:inset 0 -3px #e39a4c}.by-ai{box-shadow:inset 0 -3px #8f74d6}'
+  +'td:nth-child(1),td:nth-child(2),td:nth-child(3),td:nth-child(4){white-space:nowrap}.none{background:#fff;border:1px solid #d9e0e7;border-radius:12px;padding:18px;color:#16672a}.tablewrap{overflow-x:auto}.small{font-size:16px;color:#52606d;margin-top:30px}'
   +'*{-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4;margin:14mm}@media print{body{background:#fff;font-size:14px;line-height:1.6}.wrap{padding:0;max-width:none}h1{font-size:28px}h2{font-size:20px;margin:22px 0 10px;break-after:avoid}.sub{font-size:15px;margin-bottom:16px}.pane{font-size:14px;padding:12px}table{font-size:13px}th,td{padding:7px 6px}tr{break-inside:avoid}.small{font-size:12px}}</style></head><body><div class="wrap">'
-  +'<h1>'+t+'</h1><p class="sub">검사 일시 '+stamp+' · '+(L.mode==="gemini"?"AI 정밀 검사(Gemini)":L.mode==="ai"?"AI 정밀 검사(Claude)":"시트 규칙 검사")+'</p>'
+  +'<h1>'+t+'</h1><p class="sub">검사 일시 '+stamp+' · '+(L.modes||[srcOf(L.mode)]).map(s=>({rule:"무료 검사",gemini:"AI 정밀 검사(Gemini)",ai:"AI 정밀 검사(Claude)"})[s]).join(" + ")+'</p>'
   +'<h2>원문과 수정문 비교</h2><div class="cmp"><div class="pane"><b>원문 (고친 곳 표시 · <mark class="flag">노란색</mark>은 검토 권장)</b>'+L.ha+'</div><div class="pane"><b>수정문</b>'+L.hb+'</div></div>'
   +'<h2>수정 내역과 적용 규정</h2><div class="tablewrap">'+table+'</div>'+notes
   +'<p class="small">AI와 시트 규칙으로 교정한 결과이므로 중요한 문서는 국립국어원(korean.go.kr)의 「한글 맞춤법」 및 표준국어대사전으로 최종 확인해 주세요.</p>'
