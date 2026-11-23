@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>일본 축제·전시 캘린더 — 한국과 이어지는 일본</title>
+<style>
+:root{--ink:#1f2933;--sub:#52606d;--line:#d9e2ec;--bg:#f7f9fb;--card:#fff;--accent:#1d4e89;--red:#c0392b;--redbg:#fdf0ee;--green:#2f7d4f}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;font-size:18.5px;line-height:1.7;text-align:center}
+.wrap{max-width:1180px;margin:0 auto;padding:36px 20px 64px}
+h1{font-size:clamp(34px,5vw,50px);line-height:1.25;margin:0 0 10px;letter-spacing:-.5px}
+h2{font-size:28px;margin:44px 0 14px}
+h3{font-size:21px;margin:0 0 6px}
+.sub{font-size:19.5px;color:var(--sub);margin:0 auto 6px;max-width:900px}
+.meta{font-size:16px;color:var(--sub)}
+.banner{display:none;margin:16px auto 0;padding:10px 16px;border:1px solid #f0c36d;background:#fff8e6;border-radius:10px;font-size:16.5px;max-width:900px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 18px;margin-top:22px}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+input[type=search],select{font:inherit;font-size:18px;padding:9px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);text-align:center}
+input[type=search]{width:min(420px,100%)}
+.chip{font:inherit;font-size:17px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;line-height:1.4}
+.chip small{font-size:14px;color:var(--sub);margin-left:3px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip.on small{color:#dbe7f5}
+.chip.k{border-color:#e6b0aa;color:var(--red)}
+.chip.k.on{background:var(--red);border-color:var(--red);color:#fff}
+.months{margin-top:14px}
+.map{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;max-width:1040px;margin:14px auto 0}
+.tile{font:inherit;font-size:15px;line-height:1.25;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);padding:7px 2px;cursor:pointer;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;word-break:keep-all}
+.tile b{font-size:14px;font-weight:600}
+.tile.c0{color:#9aa5b1;background:#fafbfc;cursor:default}
+.tile.c1{background:#e3eefb}.tile.c2{background:#b9d3f1}.tile.c3{background:#86b0e3}.tile.c4{background:#4f86c9;color:#fff}
+.tile.on{outline:3px solid var(--red);outline-offset:-1px}
+.tile.hasK{box-shadow:inset 0 -4px 0 var(--red)}
+.legend{font-size:15.5px;color:var(--sub);margin-top:10px}
+.count{margin:26px 0 4px;font-size:20px;font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-top:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;text-align:center;display:flex;flex-direction:column;gap:6px}
+.card.k{border:2px solid var(--red);background:var(--redbg)}
+.ja{font-size:16.5px;color:var(--sub);margin-top:-4px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.b{font-size:14.5px;border-radius:999px;padding:1px 10px;border:1px solid var(--line);background:#fff;color:var(--sub);line-height:1.6}
+.b.kr{background:var(--red);border-color:var(--red);color:#fff}
+.b.cand{border-color:var(--red);color:var(--red)}
+.b.ok{border-color:var(--green);color:var(--green)}
+.b.na{border-color:#8e6bbf;color:#6b4aa0}
+.when{font-weight:600;font-size:18.5px}
+.place{color:var(--sub);font-size:17px}
+.ov{font-size:17.5px;text-align:center}
+details{margin-top:4px;font-size:16.5px;color:var(--sub)}
+summary{cursor:pointer;color:var(--accent)}
+details div{margin-top:6px;text-align:center}
+details ul{list-style:none;padding:0;margin:4px 0}
+a{color:var(--accent);word-break:break-all}
+.empty{padding:40px 10px;color:var(--sub)}
+.foot{margin-top:46px;font-size:16.5px;color:var(--sub)}
+.foot p{max-width:900px;margin:8px auto}
+@media (max-width:720px){body{font-size:17.5px}.map{gap:3px}.tile{font-size:11.5px;min-height:50px}.tile b{font-size:11px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>일본 축제·전시 캘린더</h1>
+  <p class="sub">한국과 이어지는 일본의 행사를 월별·지역별로 찾아보는 자료입니다.</p>
+  <p class="meta" id="meta"></p>
+  <div class="banner" id="banner"></div>
+
+  <div class="panel">
+    <div class="row">
+      <input type="search" id="q" placeholder="행사·지역·키워드 검색 (예: 통신사, 나라, 불꽃)" aria-label="검색">
+      <select id="cat" aria-label="분류"><option value="">분류 전체</option></select>
+      <button class="chip k" id="korea" type="button">★ 한국 관련만</button>
+      <button class="chip" id="nara" type="button">나라 지역만</button>
+      <button class="chip" id="reset" type="button">초기화</button>
+    </div>
+    <div class="row months" id="months" role="group" aria-label="월 선택"></div>
+    <div class="map" id="map" role="group" aria-label="지역 선택"></div>
+    <div class="legend">칸의 진하기는 행사 수, 아래 붉은 줄은 한국 관련 행사가 있는 곳입니다. 칸을 누르면 그 지역만 보입니다.</div>
+    <div class="row" id="extra" style="margin-top:10px"></div>
+  </div>
+
+  <div class="count" id="count"></div>
+  <div class="grid" id="list"></div>
+
+  <div class="foot">
+    <p>날짜가 <b>예년 기준</b>으로 표시된 행사는 해마다 바뀔 수 있으니 방문 전 공식 안내를 확인하십시오.</p>
+    <p><b>한국 관련 후보</b> 표시는 행사 설명에 한국·조선 관련 말이 있어 자동으로 붙인 것이며, 사람이 확인하기 전까지는 확정이 아닙니다.</p>
+  </div>
+</div>
+
+<script>
+var FALLBACK = {"generatedAt":"2026-11-23T05:48:20.394Z","count":66,"coverage":{"ko":0},"festivals":[{"id":"J001","name":"하쓰모데(初詣)","category":"축제·행사","place":"전국 (도쿄 센소지·메이지신궁 등)","sido":"전국","whenText":"1/1~초순","dateStatus":"예년기준","korea":false,"nara":false,"overview":"새해 첫 참배. 일본 연중행사의 출발점으로 책 도입부에 어울립니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573","https://livejapan.com/ja/in-kansai/in-pref-kyoto/in-gion_kawaramachi_kiyomizu-dera-temple/article-a2000734/"]},{"id":"J002","name":"와카쿠사산 야키(若草山焼き)","category":"축제·행사","place":"나라 와카쿠사산","sido":"나라현","whenText":"1월 하순(날짜는 해마다 확인)","dateStatus":"예년기준","korea":false,"nara":true,"overview":"산 전체를 태우는 겨울 행사로 나라 공원의 상징 풍경입니다.","activities":[],"sources":["https://livejapan.com/ja/in-kansai/in-pref-kyoto/in-gion_kawaramachi_kiyomizu-dera-temple/article-a2000734/"]},{"id":"J003","name":"도다이지 정월 행사","category":"축제·행사","place":"나라 도다이지","sido":"나라현","whenText":"1/1~7","dateStatus":"예년기준","korea":false,"nara":true,"overview":"0시부터 대불전 관상창 개방, 니가쓰도 만등명(1/1~3), 대불전 수정회(1/7).","activities":[],"sources":["https://www.pref.nara.jp/secure/330289/list.pdf"]},{"id":"J004","name":"도카에비스(十日えびす)","category":"축제·행사","place":"오사카","sido":"오사카부","whenText":"1/9~11","dateStatus":"예년기준","korea":false,"nara":false,"overview":"상업 번창을 비는 에비스 신앙 축제입니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J005","name":"「가스가 와카미야 온마쓰리의 신앙과 미술」","category":"전시","place":"나라국립박물관","sido":"나라현","whenText":"2026/12/12~2027/1/17 확정","dateStatus":"확정","start":"2026-12-12","end":"2027-01-17","korea":false,"nara":true,"overview":"1136년 시작된 온마쓰리를 두루마리 그림·무악면·공예품으로 보는 전시.","activities":[],"sources":["https://www.museum.or.jp/event/127608"]},{"id":"J006","name":"특별전 「겐지 이야기 왕조의 빛」","category":"전시","place":"도쿄국립박물관","sido":"도쿄도","whenText":"2027/1/19~3/14 확정","dateStatus":"확정","start":"2027-01-19","end":"2027-03-14","korea":false,"nara":false,"overview":"교토국립박물관 순회 후 도쿄 개최(교토는 2026/10/6~11/29).","activities":[],"sources":["https://nact.jp/english/artcommons/user/detail/82764"]},{"id":"J007","name":"대영박물관 일본 미술 컬렉션 「백화요란」","category":"전시","place":"오사카 나카노시마미술관","sido":"오사카부","whenText":"~2027/1/31","dateStatus":"예년기준","end":"2027-01-31","korea":false,"nara":false,"overview":"바다를 건넌 에도 회화를 모은 전시입니다.","activities":[],"sources":["https://www.museum.or.jp/sp/?area=5&page=4"]},{"id":"J008","name":"삿포로 눈축제(さっぽろ雪まつり)","category":"축제·행사","place":"홋카이도 삿포로","sido":"홋카이도","whenText":"2월 상순","dateStatus":"예년기준","korea":false,"nara":false,"overview":"눈·얼음 조각 300점 이상, 약 200만 명이 찾는다고 합니다. 이미 만든 삿포로 안내서와 연결됩니다.","activities":[],"sources":["https://www.fodors.com/world/asia/japan/experiences/japan-on-the-calendar-104985450"]},{"id":"J009","name":"나마하게 시바토 마쓰리","category":"축제·행사","place":"아키타","sido":"아키타현","whenText":"2월 중순","dateStatus":"예년기준","korea":false,"nara":false,"overview":"오가 지방의 나마하게 의례를 무대화한 겨울 축제입니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573","https://www.fodors.com/world/asia/japan/experiences/japan-on-the-calendar-104985450"]},{"id":"J010","name":"절분(節分)·가스가타이샤 만등롱","category":"축제·행사","place":"나라 도다이지·가스가타이샤","sido":"복수","whenText":"2/3","dateStatus":"예년기준","korea":false,"nara":true,"overview":"도다이지 니가쓰도 절분 콩뿌리기, 가스가타이샤 만등롱 등.","activities":[],"sources":["https://kyodonewsprwire.jp/release/202401295842"]},{"id":"J011","name":"고후쿠지 열반회(涅槃会)","category":"축제·행사","place":"나라 고후쿠지","sido":"나라현","whenText":"2/15","dateStatus":"예년기준","korea":false,"nara":true,"overview":"석가 입멸일 법요. 열반도 공개와 감주 대접.","activities":[],"sources":["https://kyodonewsprwire.jp/release/202401295842"]},{"id":"J012","name":"특별진열 「오미즈토리」","category":"전시","place":"나라국립박물관","sido":"나라현","whenText":"2월 상순~3월 중순 (2026: 2/7~3/15)","dateStatus":"예년기준","korea":false,"nara":true,"overview":"슈니에(修二会) 기간에 맞춰 매년 여는 전시입니다.","activities":[],"sources":["https://nact.jp/artcommons/user/search_venue?gallery=429","https://www.bunka.go.jp/prmagazine/rensai/bunkazai/bunkazai_130.html"]},{"id":"J013","name":"특별전 「코토바가 겹치는 곳」","category":"전시","place":"국립국제미술관(오사카)","sido":"오사카부","whenText":"2026/12/1~2027/3/14 확정","dateStatus":"확정","start":"2026-12-01","end":"2027-03-14","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.museum.or.jp/schedule/2027/area_keihanshin"]},{"id":"J014","name":"도다이지 슈니에(오미즈토리·오타이마쓰)","category":"축제·행사","place":"나라 도다이지 니가쓰도","sido":"나라현","whenText":"3/1~14 (3/12 심야 향수 긷기)","dateStatus":"예년기준","korea":false,"nara":true,"overview":"1270년 넘게 이어진 의식. 횃불은 밤 법요에 오르는 승려의 길 밝히기입니다.","activities":[],"sources":["https://www.bunka.go.jp/prmagazine/rensai/bunkazai/bunkazai_130.html","https://www.pref.nara.jp/secure/330289/list.pdf"]},{"id":"J015","name":"다자이후 곡수의 연(曲水の宴)","category":"축제·행사","place":"후쿠오카 다자이후텐만구","sido":"후쿠오카현","whenText":"3월 초(날짜 공식 확인 필요)","dateStatus":"예년기준","korea":true,"koreaTheme":"기타","nara":false,"overview":"헤이안풍 의상으로 와카를 짓는 행사. 다자이후는 백촌강 전투 이후 방어 시설과도 닿는 곳이라 후쿠오카 장에 연결됩니다.","activities":[],"sources":[]},{"id":"J016","name":"EXPO 2027 YOKOHAMA","category":"전시","place":"요코하마","sido":"가나가와현","whenText":"2027/3/19~9/26 확정","dateStatus":"확정","start":"2027-03-19","end":"2027-09-26","korea":false,"nara":false,"overview":"국제원예박람회.","activities":[],"sources":["https://en.japantravel.com/event?p=156"]},{"id":"J017","name":"테이트 미술관 터너전","category":"전시","place":"오사카 나카노시마미술관","sido":"오사카부","whenText":"2027/3/13~6/27 확정","dateStatus":"확정","start":"2027-03-13","end":"2027-06-27","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.museum.or.jp/sp/?area=5&page=4"]},{"id":"J018","name":"벚꽃 시즌의 시작","category":"축제·행사","place":"전국","sido":"전국","whenText":"3월 하순~","dateStatus":"예년기준","korea":false,"nara":false,"overview":"꽃구경 행사는 4월 초까지 이어집니다.","activities":[],"sources":["https://www.gotokyo.org/jp/story/guide/the-best-festivals-in-tokyo-and-japan/index.html"]},{"id":"J019","name":"봄 다카야마 마쓰리","category":"축제·행사","place":"기후현 다카야마","sido":"기후현","whenText":"4/14~15","dateStatus":"예년기준","korea":false,"nara":false,"overview":"수레(야타이) 행렬로 유명한 일본의 대표적 미(美)의 축제입니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573","https://watabi.org/articles/japan-festivals-2027"]},{"id":"J020","name":"메이지신궁 봄 대제","category":"축제·행사","place":"도쿄","sido":"도쿄도","whenText":"4월 하순~5월 초","dateStatus":"예년기준","korea":false,"nara":false,"overview":"일본 전통예능을 야외에서 봉납 공연합니다.","activities":[],"sources":["https://www.gotokyo.org/jp/story/guide/the-best-festivals-in-tokyo-and-japan/index.html"]},{"id":"J021","name":"아리타 도기시(有田陶器市)","category":"축제·행사","place":"사가현 아리타","sido":"사가현","whenText":"4/29~5/5","dateStatus":"예년기준","korea":true,"koreaTheme":"도공","nara":false,"overview":"약 400개 점포, 해마다 100만 명 안팎이 모이는 골든위크 대표 행사. 임진왜란 때 끌려온 도공 이삼평과 연결되며, 마을 도잔신사 옆에 이삼평 비가 있습니다.","activities":[],"sources":["https://rurubu.jp/andmore/spot/20001770","https://www.mlit.go.jp/tagengo-db/common/001558046.pdf"]},{"id":"J022","name":"골든위크","category":"축제·행사","place":"전국","sido":"전국","whenText":"4/29~5/5","dateStatus":"예년기준","korea":false,"nara":false,"overview":"쇼와의 날부터 시작하는 연휴. 호텔과 교통이 가장 붐빕니다.","activities":[],"sources":["https://www.fodors.com/world/asia/japan/experiences/japan-on-the-calendar-104985450"]},{"id":"J023","name":"아오이 마쓰리(葵祭)","category":"축제·행사","place":"교토","sido":"교토부","whenText":"5/15","dateStatus":"예년기준","korea":false,"nara":false,"overview":"6세기까지 거슬러 오르는 교토 3대 마쓰리 중 첫 번째입니다.","activities":[],"sources":["https://www.fodors.com/world/asia/japan/experiences/japan-on-the-calendar-104985450"]},{"id":"J024","name":"간다 마쓰리(神田祭)","category":"축제·행사","place":"도쿄 간다묘진","sido":"도쿄도","whenText":"5월 중순","dateStatus":"예년기준","korea":false,"nara":false,"overview":"본제는 홀수 해. 2027년이 본제입니다(2026년은 규모를 줄인 가게마쓰리).","activities":[],"sources":["https://www.gotokyo.org/jp/story/guide/the-best-festivals-in-tokyo-and-japan/index.html"]},{"id":"J025","name":"산자 마쓰리(三社祭)","category":"축제·행사","place":"도쿄 아사쿠사","sido":"도쿄도","whenText":"5월 중순","dateStatus":"예년기준","korea":false,"nara":false,"overview":"미코시 행렬로 유명한 에도 하층 서민 마쓰리입니다.","activities":[],"sources":["https://tokyocheapo.com/entertainment/tokyo-festivals-guide/"]},{"id":"J026","name":"하카타 돈타쿠","category":"축제·행사","place":"후쿠오카","sido":"후쿠오카현","whenText":"5/3~4","dateStatus":"예년기준","korea":false,"nara":false,"overview":"후쿠오카 시민 축제. 후쿠오카 안내서 장에 한 줄 넣기 좋습니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J027","name":"시모노세키 해협 마쓰리(선제제 등)","category":"축제·행사","place":"야마구치 시모노세키","sido":"야마구치현","whenText":"5/2~4","dateStatus":"예년기준","korea":true,"koreaTheme":"통신사","nara":false,"overview":"안토쿠 천황을 기리는 선제제(先帝祭)가 중심. 현 아카마신궁은 조선통신사 숙소였던 아미다지가 전신이라, 8월 통신사 행렬과 함께 소개할 만합니다.","activities":[],"sources":["https://yamaguchi-tourism.jp/event/detail_10440.html","https://www.city.shimonoseki.lg.jp/uploaded/attachment/10395.pdf"]},{"id":"J028","name":"고려신사 고려군 건군 기념 신은감사제","category":"축제·행사","place":"사이타마현 히다카","sido":"사이타마현","whenText":"5/16","dateStatus":"예년기준","korea":true,"koreaTheme":"도래인","nara":false,"overview":"716년 고구려 유민 1799명을 무사시국에 모아 고려군을 둔 것을 기념합니다.","activities":[],"sources":["https://tabi-mag.jp/sa0071/","https://www.nippon.com/ja/guide-to-japan/gu900312/"]},{"id":"J029","name":"산노 마쓰리(山王祭)","category":"축제·행사","place":"도쿄 히에신사","sido":"도쿄도","whenText":"6월 중순","dateStatus":"예년기준","korea":false,"nara":false,"overview":"에도 3대 마쓰리의 하나. 본제는 짝수 해입니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J030","name":"아쓰타 마쓰리 · 아이젠 마쓰리","category":"축제·행사","place":"나고야 · 오사카","sido":"복수","whenText":"6월","dateStatus":"예년기준","korea":false,"nara":false,"overview":"각 지역의 여름 초입 축제입니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J031","name":"부산 통신사 행렬 재현 (한국 쪽, 참고)","category":"축제·행사","place":"부산 중구 광복로","sido":"한국(참고)","whenText":"2026/6/27","dateStatus":"예년기준","korea":true,"koreaTheme":"통신사","nara":false,"overview":"유네스코 세계기록유산 활용 프로그램. 일본 쪽 행렬과 짝지어 소개할 수 있습니다.","activities":[],"sources":["https://www.busan.go.kr/jpn/bsnews01/1736457"]},{"id":"J032","name":"기온 마쓰리(祇園祭)","category":"축제·행사","place":"교토","sido":"교토부","whenText":"7/1~31 (야마보코 순행 7/17·7/24 안팎)","dateStatus":"예년기준","korea":false,"nara":false,"overview":"한 달 내내 이어지는 일본 대표 마쓰리입니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573","https://watabi.org/articles/japan-festivals-2027"]},{"id":"J033","name":"하카타 기온 야마카사","category":"축제·행사","place":"후쿠오카","sido":"후쿠오카현","whenText":"7/1~15","dateStatus":"예년기준","korea":false,"nara":false,"overview":"마지막 날 새벽의 ‘오이야마’가 절정입니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J034","name":"덴진 마쓰리(天神祭)","category":"축제·행사","place":"오사카","sido":"오사카부","whenText":"7/24~25","dateStatus":"예년기준","korea":false,"nara":false,"overview":"배 위 행렬과 불꽃놀이가 볼거리입니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J035","name":"나치 부채 마쓰리","category":"축제·행사","place":"와카야마 나치","sido":"와카야마현","whenText":"7/14","dateStatus":"예년기준","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J036","name":"특별전 「기적의 벽화와 실크로드의 보물」","category":"전시","place":"나라국립박물관","sido":"나라현","whenText":"2027/7/10~9/5 확정","dateStatus":"확정","start":"2027-07-10","end":"2027-09-05","korea":false,"nara":true,"overview":"","activities":[],"sources":["https://www.museum.or.jp/sp/?area=5&page=4"]},{"id":"J037","name":"특별전 「스가와라노 미치자네」","category":"전시","place":"도쿄국립박물관","sido":"도쿄도","whenText":"2027/7/17~9/12 확정","dateStatus":"확정","start":"2027-07-17","end":"2027-09-12","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.museum.or.jp/event/127581"]},{"id":"J038","name":"이즈하라항 마쓰리 (쓰시마 아리랑 마쓰리)","category":"축제·행사","place":"나가사키현 쓰시마","sido":"나가사키현","whenText":"8월 첫째 토·일 (2027: 8/7~8)","dateStatus":"예년기준","korea":true,"koreaTheme":"통신사","nara":false,"overview":"1978년 치마저고리 차림 점원을 통신사로 분장시킨 데서 시작해 1980년 본격 행렬로 발전. 통신사 복원선 입항·행렬·불꽃놀이가 있습니다.","activities":[],"sources":["https://www.suntory.co.jp/sfnd/prize_cca/detail/2009ko1.html","https://hanabi-navi.info/nagasaki/6685/"]},{"id":"J039","name":"바칸 마쓰리 (통신사 행렬 재현)","category":"축제·행사","place":"야마구치 시모노세키","sido":"야마구치현","whenText":"8월 하순 (2026: 8/22~23)","dateStatus":"예년기준","korea":true,"koreaTheme":"통신사","nara":false,"overview":"약 2000명이 참가하는 헤이케 춤과 통신사 행렬 재현.","activities":[],"sources":["https://yamaguchi-tourism.jp/event/detail_10450.html","https://www.city.shimonoseki.lg.jp/uploaded/attachment/10395.pdf"]},{"id":"J040","name":"아오모리 네부타 · 아키타 간토 · 센다이 칠석 · 야마가타 하나가사","category":"축제·행사","place":"도호쿠","sido":"복수","whenText":"8/2~8 사이","dateStatus":"예년기준","korea":false,"nara":false,"overview":"도호쿠 여름 축제들. 간토·네부타는 2012년 서울 일한 교류 오마쓰리에도 출연했습니다.","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573","https://www.clair.or.jp/j/forum/c_mailmagazine/201211_2/2-6.pdf"]},{"id":"J041","name":"아와오도리 · 요사코이","category":"축제·행사","place":"도쿠시마 · 고치","sido":"복수","whenText":"8/12~15 · 8/9~12","dateStatus":"예년기준","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J042","name":"후카가와 하치만 마쓰리","category":"축제·행사","place":"도쿄","sido":"도쿄도","whenText":"8/15 전후","dateStatus":"예년기준","korea":false,"nara":false,"overview":"에도의 ‘물 끼얹기’ 마쓰리.","activities":[],"sources":["https://www.gotokyo.org/jp/story/guide/the-best-festivals-in-tokyo-and-japan/index.html"]},{"id":"J043","name":"오봉과 봉오도리","category":"축제·행사","place":"전국","sido":"전국","whenText":"8/13~16 전후","dateStatus":"예년기준","korea":false,"nara":false,"overview":"전국에서 봉오도리가 열립니다.","activities":[],"sources":["https://www.gotokyo.org/jp/story/guide/the-best-festivals-in-tokyo-and-japan/index.html"]},{"id":"J044","name":"오와라 가제노 본","category":"축제·행사","place":"도야마","sido":"도야마현","whenText":"9/1~3","dateStatus":"예년기준","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J045","name":"기시와다 단지리 마쓰리","category":"축제·행사","place":"오사카","sido":"오사카부","whenText":"9월","dateStatus":"예년기준","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J046","name":"긴챠쿠다 만주사화 마쓰리","category":"축제·행사","place":"사이타마현 히다카","sido":"사이타마현","whenText":"9월 중순~10월 초 (2026: 9/21~10/6)","dateStatus":"예년기준","korea":true,"koreaTheme":"도래인","nara":false,"overview":"약 500만 송이의 석산꽃. 고려신사·고려촌과 한 코스로 묶을 수 있습니다.","activities":[],"sources":["https://tabi-mag.jp/sa0071/"]},{"id":"J047","name":"일한 교류 오마쓰리 in Tokyo","category":"축제·행사","place":"도쿄","sido":"도쿄도","whenText":"9월 말 (2026: 9/25~27)","dateStatus":"예년기준","korea":true,"koreaTheme":"현대교류","nara":false,"overview":"2005년 ‘일한 우정의 해’에 서울에서 시작, 2009년 이후 서울·도쿄에서 매년 열리는 민간 교류 행사. 2026년은 처음으로 주일한국문화원에서 열렸습니다.","activities":[],"sources":["https://www.mofa.go.jp/mofaj/area/korea/japankorea_60/event/20250927_Japan_Korea_Exchange_Festival.html","https://www.enjoytokyo.jp/event/888455/","https://kumanichi.com/articles/2039541"]},{"id":"J048","name":"중추의 명월 관월회","category":"축제·행사","place":"나라 신야쿠시지 등","sido":"나라현","whenText":"음력 8/15(9월 중순~10월 초)","dateStatus":"예년기준","korea":false,"nara":true,"overview":"","activities":[],"sources":["https://www.city.nara.lg.jp/uploaded/attachment/174628.pdf"]},{"id":"J049","name":"시모카마가리 통신사 재현 행렬","category":"축제·행사","place":"히로시마현 구레시 시모카마가리","sido":"히로시마현","whenText":"10월 셋째 일요일","dateStatus":"예년기준","korea":true,"koreaTheme":"통신사","nara":false,"overview":"2003년 시작. 통신사 접대에서 ‘아키 가마가리 고치소 이치방(최고의 대접)’이라 기록된 섬입니다.","activities":[],"sources":["https://sitereports.nabunken.go.jp/en/article/14797/pdf_page","https://www.mofa.go.jp/mofaj/area/korea/japankorea_60/event/20251019-23rd-joseon-tongsinsa-reenactment-parade.html"]},{"id":"J050","name":"오키쓰 통신사 재현 행렬 · 국서 교환식","category":"축제·행사","place":"시즈오카시 시미즈구 (오키쓰역~세이켄지)","sido":"시즈오카현","whenText":"2026: 10/11","dateStatus":"예년기준","korea":true,"koreaTheme":"통신사","nara":false,"overview":"1607년 통신사가 세이켄지에 머문 일을 기념. 부산 예술단이 사물놀이로 참가했습니다.","activities":[],"sources":["https://www.city.shizuoka.lg.jp/s6725/s013244.html"]},{"id":"J051","name":"쇼소인전(正倉院展)","category":"전시","place":"나라국립박물관","sido":"나라현","whenText":"예년 10월 하순~11월 초 (2026: 10/24~11/9)","dateStatus":"예년기준","korea":true,"koreaTheme":"고대교류","nara":true,"overview":"정창원에는 신라와 관련된 유물이 전해집니다. 해마다 출품 목록이 다르므로 목록 발표 후 확인하십시오.","activities":[],"sources":["https://nact.jp/artcommons/user/search_venue?gallery=429"]},{"id":"J052","name":"특별전 「사쓰마 시마즈가 800년」","category":"전시","place":"교토국립박물관","sido":"교토부","whenText":"2027/10/8~12/5 확정","dateStatus":"확정","start":"2027-10-08","end":"2027-12-05","korea":true,"koreaTheme":"도공","nara":false,"overview":"사쓰마야키(조선 도공)와 맞물리는 시마즈 가문 전시. 가고시마 장과 이을 수 있습니다.","activities":[],"sources":["https://www.museum.or.jp/sp/?area=5&page=4"]},{"id":"J053","name":"한일 문화교류 페스티벌 (충남도×구마모토현)","category":"축제·행사","place":"구마모토","sido":"구마모토현","whenText":"2025/10/25~26 (개최 사례)","dateStatus":"개최사례","start":"2025-10-25","end":"2025-10-26","korea":true,"koreaTheme":"현대교류","nara":false,"overview":"자매결연 42주년 기념 한일 요리 페스티벌과 문화 무대. 매년 열리는지는 확인이 필요합니다.","activities":[],"sources":["https://www.mofa.go.jp/mofaj/area/korea/japankorea_60/event/20251025_Korea-Japan-Exchange-Festival-Cultural-Exchange-Culture.html"]},{"id":"J054","name":"지다이 마쓰리 · 나가사키 쿤치 · 가을 다카야마 · 가와고에 마쓰리","category":"축제·행사","place":"교토 · 나가사키 · 기후 · 사이타마","sido":"복수","whenText":"10/22 · 10/7~9 · 10/9~10 · 셋째 주말","dateStatus":"예년기준","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573","https://watabi.org/articles/japan-festivals-2027"]},{"id":"J055","name":"묘엔지 모데(妙円寺詣り)","category":"축제·행사","place":"가고시마 히오키시","sido":"가고시마현","whenText":"10월 넷째 토·일","dateStatus":"예년기준","korea":false,"nara":false,"overview":"시마즈 요시히로를 기리는 도보 참배.","activities":[],"sources":["https://www.pref.kagoshima.jp/aa02/kohokocho/kouhoushi/kohosi/gurakago/documents/472-9.pdf"]},{"id":"J056","name":"특별전 「센뉴지의 명보」","category":"전시","place":"도쿄국립박물관","sido":"도쿄도","whenText":"2027/10/19~","dateStatus":"확정","start":"2027-10-19","korea":false,"nara":false,"overview":"","activities":[],"sources":[]},{"id":"J057","name":"미야마 크래프트 위크 · 미야마 가마모토 마쓰리","category":"축제·행사","place":"가고시마현 히오키시 미야마","sido":"가고시마현","whenText":"10월 말~11월 초 (2025: 10/30~11/3)","dateStatus":"예년기준","korea":true,"koreaTheme":"도공","nara":false,"overview":"1598년 조선에서 끌려온 도공 심당길(沈当吉)로 이어지는 심수관 가마를 비롯해 약 10곳의 가마가 있습니다.","activities":[],"sources":["https://www.toretabi.jp/zipangclub/page/tabineta2510_5.html","https://www.pref.kagoshima.jp/aa02/kohokocho/kouhoushi/kohosi/gurakago/documents/472-9.pdf"]},{"id":"J058","name":"기획전 「몰후 120년 12대 심수관과 나에시로가와」","category":"전시","place":"가고시마 레이메이칸","sido":"가고시마현","whenText":"~2026/11/29 (진행 중)","dateStatus":"확정","end":"2026-11-29","korea":true,"koreaTheme":"도공","nara":false,"overview":"조선 도공의 도래와 나에시로가와 마을의 역사, 12대 심수관의 활동을 돌아보는 전시입니다.","activities":[],"sources":["https://www.pref.kagoshima.jp/reimeikan/ivent_kikaku12thchinjukan.html"]},{"id":"J059","name":"특별전 「겐지 이야기」 교토 회장","category":"전시","place":"교토국립박물관","sido":"교토부","whenText":"~2026/11/29","dateStatus":"확정","end":"2026-11-29","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://nact.jp/english/artcommons/user/detail/82764"]},{"id":"J060","name":"가라쓰 쿤치","category":"축제·행사","place":"사가현 가라쓰","sido":"사가현","whenText":"11/2~4","dateStatus":"예년기준","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J061","name":"도리노이치(酉の市)","category":"축제·행사","place":"도쿄 아사쿠사 등","sido":"도쿄도","whenText":"11월","dateStatus":"예년기준","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573","https://tokyocheapo.com/entertainment/tokyo-festivals-guide/"]},{"id":"J062","name":"가스가 와카미야 온마쓰리","category":"축제·행사","place":"나라 가스가타이샤","sido":"나라현","whenText":"12/15~18 (본제 12/17)","dateStatus":"예년기준","korea":false,"nara":true,"overview":"1136년 시작, 2026년으로 891년째. 12/17 0시에 와카미야 신이 임시 어소로 옮깁니다.","activities":[],"sources":["https://www.museum.or.jp/event/127608"]},{"id":"J063","name":"온마쓰리의 신앙과 미술 전","category":"전시","place":"나라국립박물관","sido":"나라현","whenText":"2026/12/12~2027/1/17 확정","dateStatus":"확정","start":"2026-12-12","end":"2027-01-17","korea":false,"nara":true,"overview":"","activities":[],"sources":["https://www.museum.or.jp/event/127608"]},{"id":"J064","name":"지치부 밤마쓰리","category":"축제·행사","place":"사이타마 지치부","sido":"사이타마현","whenText":"12/2~3","dateStatus":"예년기준","korea":false,"nara":false,"overview":"","activities":[],"sources":["https://www.fun-japan.jp/jp/articles/14573"]},{"id":"J065","name":"제야의 종(除夜の鐘)","category":"축제·행사","place":"나라 도다이지·고후쿠지 등","sido":"복수","whenText":"12/31","dateStatus":"예년기준","korea":false,"nara":true,"overview":"","activities":[],"sources":["https://www.pref.nara.jp/secure/330289/list.pdf"]},{"id":"J066","name":"김장(키무치) 체험 강좌 ‘안녕 김치’","category":"전시","place":"오사카 이쿠노 (구 미유키모리 소학교)","sido":"오사카부","whenText":"2025/12/7 (개최 사례)","dateStatus":"개최사례","korea":true,"koreaTheme":"현대교류","nara":false,"overview":"오사카공립대 대학 플랫폼 주최. 오사카 코리아타운(약 150점포)과 가까운 곳입니다.","activities":[],"sources":["https://www.omu.ac.jp/orp/rchr-oksp/assets/attachmentfile/attachmentfile-file-79224.pdf","https://osaka-info.jp/spot/miyuki-dori-korea-town/"]}]};
+var DATA_URL = 'data/festivals.json';
+
+var TILES = [
+['홋카이도',12,0],['아오모리현',11,1],['아키타현',10,2],['이와테현',11,2],['야마가타현',10,3],['미야기현',11,3],
+['니가타현',9,4],['후쿠시마현',10,4],['이시카와현',6,5],['도야마현',7,5],['나가노현',8,5],['군마현',9,5],['도치기현',10,5],['이바라키현',11,5],
+['후쿠이현',6,6],['기후현',7,6],['야마나시현',8,6],['사이타마현',9,6],['도쿄도',10,6],['지바현',11,6],
+['교토부',5,7],['시가현',6,7],['아이치현',7,7],['시즈오카현',8,7],['가나가와현',9,7],['돗토리현',4,7],['시마네현',3,7],
+['오카야마현',3,8],['히로시마현',2,8],['야마구치현',1,8],['효고현',4,8],['오사카부',5,8],['나라현',6,8],['미에현',7,8],
+['와카야마현',6,9],['가가와현',4,9],['도쿠시마현',5,9],['에히메현',3,9],['고치현',4,10],
+['후쿠오카현',1,9],['사가현',0,9],['오이타현',2,9],['나가사키현',0,10],['구마모토현',1,10],['미야자키현',2,10],['가고시마현',1,11],['오키나와현',13,11]
+];
+var EXTRA = ['전국','복수','한국(참고)'];
+
+var all = [], st = {m:0, cat:'', k:false, nara:false, pref:'', q:''};
+function $(id){return document.getElementById(id)}
+function el(tag, cls, text){var e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=text; return e}
+function safeUrl(u){ u=String(u||'').trim(); return /^https?:\/\//i.test(u)?u:'' }
+function shortPref(n){return n.replace(/(현|부|도)$/,function(s){return n==='홋카이도'?s:''})}
+
+function monthsOf(f){
+  var out=[], s=f.start, e=f.end;
+  if(f.month && !s){ out=[Number(f.month)]; }
+  if(s){
+    var sm=Number(String(s).slice(5,7)), sy=Number(String(s).slice(0,4));
+    var em=sm, ey=sy;
+    if(e){ em=Number(String(e).slice(5,7)); ey=Number(String(e).slice(0,4)); }
+    var n=(ey-sy)*12+(em-sm); if(n<0||n>11) n=0;
+    for(var i=0;i<=n;i++){ out.push(((sm-1+i)%12)+1); }
+  } else if(!out.length){
+    var t=String(f.whenText||''), re=/(\d{1,2})\s*월|(\d{1,2})\s*\/\s*\d/g, m, ms=[];
+    t=t.replace(/\([^)]*\)/g,'');
+    while((m=re.exec(t))){ var v=Number(m[1]||m[2]); if(v>=1&&v<=12) ms.push(v); }
+    if(ms.length){ var lo=Math.min.apply(null,ms), hi=Math.max.apply(null,ms); if(hi-lo<=11){for(var k=lo;k<=hi;k++)out.push(k)} else out=ms; }
+  }
+  return out;
+}
+function fmtDate(s){return s?String(s).replace(/-/g,'.'):''}
+function isK(f){return f.korea===true||f.korea==='Y'||f.koreaCandidate===true}
+
+function prep(list){
+  return list.map(function(f){
+    var g=Object.assign({},f); g._m=monthsOf(f);
+    g._s=(f.start||'')+'|'+(g._m[0]||99);
+    g._text=[f.name,f.nameJa,f.place,f.sido,f.city,f.overview,f.koreaTheme,f.category].join(' ').toLowerCase();
+    return g;
+  });
+}
+function pass(f, skip){
+  if(skip!=='m' && st.m && f._m.indexOf(st.m)<0) return false;
+  if(skip!=='cat' && st.cat && f.category!==st.cat) return false;
+  if(st.k && !isK(f)) return false;
+  if(st.nara && !f.nara && f.nara!=='Y') return false;
+  if(skip!=='pref' && st.pref && f.sido!==st.pref) return false;
+  if(st.q){ var ts=st.q.toLowerCase().split(/\s+/); for(var i=0;i<ts.length;i++){ if(ts[i] && f._text.indexOf(ts[i])<0) return false; } }
+  return true;
+}
+
+function renderMonths(){
+  var box=$('months'); box.textContent='';
+  var cnt=new Array(13).fill(0), und=0, tot=0;
+  all.forEach(function(f){ if(!pass(f,'m')) return; tot++; if(!f._m.length) und++; f._m.forEach(function(m){cnt[m]++}); });
+  function chip(label,m,n){ var b=el('button','chip'+(st.m===m?' on':'')); b.type='button'; b.appendChild(document.createTextNode(label)); var s=el('small','',String(n)); b.appendChild(s); b.onclick=function(){st.m=(st.m===m?0:m);render()}; box.appendChild(b); }
+  chip('전체',0,tot);
+  for(var m=1;m<=12;m++) chip(m+'월',m,cnt[m]);
+  if(und) { var b=el('button','chip','시기 미정'); b.disabled=true; b.appendChild(el('small','',String(und))); box.appendChild(b); }
+}
+function renderMap(){
+  var box=$('map'); box.textContent='';
+  var cnt={}, kc={};
+  all.forEach(function(f){ if(!pass(f,'pref')) return; cnt[f.sido]=(cnt[f.sido]||0)+1; if(isK(f)) kc[f.sido]=1; });
+  TILES.forEach(function(t){
+    var n=cnt[t[0]]||0, lv=n===0?0:n<2?1:n<4?2:n<7?3:4;
+    var b=el('button','tile c'+lv+(kc[t[0]]?' hasK':'')+(st.pref===t[0]?' on':'')); b.type='button';
+    b.style.gridColumn=(t[1]+1); b.style.gridRow=(t[2]+1);
+    b.appendChild(document.createTextNode(shortPref(t[0]))); b.appendChild(el('b','',n?String(n):'')); b.title=t[0]+' '+n+'건';
+    if(n||st.pref===t[0]) b.onclick=function(){st.pref=(st.pref===t[0]?'':t[0]);render()};
+    box.appendChild(b);
+  });
+  var ex=$('extra'); ex.textContent='';
+  EXTRA.forEach(function(name){
+    var n=cnt[name]||0; if(!n && st.pref!==name) return;
+    var b=el('button','chip'+(st.pref===name?' on':'')); b.type='button'; b.appendChild(document.createTextNode(name)); b.appendChild(el('small','',String(n)));
+    b.onclick=function(){st.pref=(st.pref===name?'':name);render()}; ex.appendChild(b);
+  });
+}
+function card(f){
+  var k=isK(f), c=el('div','card'+(k?' k':''));
+  var bd=el('div','badges');
+  if(f.korea===true||f.korea==='Y') bd.appendChild(el('span','b kr','★ 한국 관련'+(f.koreaTheme?' · '+f.koreaTheme:'')));
+  else if(f.koreaCandidate) bd.appendChild(el('span','b cand','한국 관련 후보'+(f.koreaTheme?' · '+f.koreaTheme:'')));
+  if(f.category) bd.appendChild(el('span','b',f.category));
+  if(f.nara===true||f.nara==='Y') bd.appendChild(el('span','b na','나라'));
+  bd.appendChild(el('span','b '+(f.dateStatus==='확정'?'ok':''), f.dateStatus||'날짜 미확인'));
+  c.appendChild(bd);
+  c.appendChild(el('h3','',f.name||f.nameJa||'(이름 없음)'));
+  if(f.nameJa && f.nameJa!==f.name) c.appendChild(el('div','ja',f.nameJa));
+  var when=(f.start?fmtDate(f.start)+(f.end&&f.end!==f.start?' ~ '+fmtDate(f.end):''):'')||f.whenText||'';
+  if(when) c.appendChild(el('div','when',when));
+  var pl=[f.sido&&f.sido!=='전국'&&f.sido!=='복수'?f.sido:'', f.city, f.place].filter(Boolean).join(' · ');
+  if(pl) c.appendChild(el('div','place',pl));
+  if(f.overview) c.appendChild(el('div','ov',f.overview));
+  var hasMore=(f.overviewJa||(f.activities&&f.activities.length)||safeUrl(f.homepage)||(f.sources&&f.sources.length));
+  if(hasMore){
+    var d=el('details'); d.appendChild(el('summary','','더 보기 (원문·추천 활동·출처)'));
+    var inner=el('div');
+    if(f.activities&&f.activities.length){ var ul=el('ul'); f.activities.forEach(function(a){ul.appendChild(el('li','','· '+a))}); inner.appendChild(el('div','','추천 활동')); inner.appendChild(ul); }
+    if(f.overviewJa){ inner.appendChild(el('div','','일본어 원문')); inner.appendChild(el('div','',f.overviewJa)); }
+    var links=[]; if(safeUrl(f.homepage)) links.push(['공식 안내',safeUrl(f.homepage)]);
+    (f.sources||[]).forEach(function(u,i){ if(safeUrl(u)) links.push(['출처 '+(i+1),safeUrl(u)]); });
+    if(links.length){ var l=el('ul'); links.forEach(function(x){var li=el('li'); var a=el('a','',x[0]); a.href=x[1]; a.target='_blank'; a.rel='noopener noreferrer'; li.appendChild(a); l.appendChild(li)}); inner.appendChild(l); }
+    d.appendChild(inner); c.appendChild(d);
+  }
+  return c;
+}
+function renderList(){
+  var rows=all.filter(function(f){return pass(f)});
+  rows.sort(function(a,b){return a._s<b._s?-1:a._s>b._s?1:0});
+  var cs=[]; if(st.m) cs.push(st.m+'월'); if(st.pref) cs.push(st.pref); if(st.k) cs.push('한국 관련'); if(st.cat) cs.push(st.cat);
+  $('count').textContent=(cs.length?cs.join(' · ')+' — ':'')+rows.length+'건';
+  var box=$('list'); box.textContent='';
+  if(!rows.length){ box.appendChild(el('div','empty','조건에 맞는 행사가 없습니다. 월·지역·검색어를 바꿔 보십시오.')); box.style.display='block'; return; }
+  box.style.display='';
+  rows.forEach(function(f){box.appendChild(card(f))});
+}
+function render(){
+  $('korea').classList.toggle('on',st.k); $('nara').classList.toggle('on',st.nara);
+  renderMonths(); renderMap(); renderList();
+}
+function init(payload, isFallback){
+  all=prep(payload.festivals||[]);
+  var cats={}; all.forEach(function(f){if(f.category) cats[f.category]=1});
+  var sel=$('cat'); Object.keys(cats).sort().forEach(function(c){var o=el('option','',c); o.value=c; sel.appendChild(o)});
+  var g=payload.generatedAt?String(payload.generatedAt).slice(0,10):'';
+  $('meta').textContent='총 '+all.length+'건'+(g?' · 갱신 '+g:'');
+  if(isFallback){ var b=$('banner'); b.style.display='block'; b.textContent='공개 데이터(data/festivals.json)를 아직 불러오지 못해 내장된 예시 자료를 보여 주고 있습니다.'; }
+  render();
+}
+$('q').addEventListener('input',function(){st.q=this.value.trim();render()});
+$('cat').addEventListener('change',function(){st.cat=this.value;render()});
+$('korea').onclick=function(){st.k=!st.k;render()};
+$('nara').onclick=function(){st.nara=!st.nara;render()};
+$('reset').onclick=function(){st={m:0,cat:'',k:false,nara:false,pref:'',q:''};$('q').value='';$('cat').value='';render()};
+
+fetch(DATA_URL+'?t='+Date.now()).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(function(j){ if(!j||!j.festivals||!j.festivals.length) throw new Error('empty'); init(j,false); })
+  .catch(function(){ init(FALLBACK,true); });
+</script>
+</body>
+</html>
