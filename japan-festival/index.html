@@ -89,6 +89,7 @@ a{color:var(--accent);word-break:break-all}
   <div class="grid" id="list"></div>
 
   <div class="foot">
+    <p>오늘부터 6개월 뒤까지의 행사만 보여 주며, 이미 끝난 행사는 자동으로 빠집니다. 시기를 알 수 없는 행사도 보이지 않습니다.</p>
     <p>날짜가 <b>예년 기준</b>으로 표시된 행사는 해마다 바뀔 수 있으니 방문 전 공식 안내를 확인하십시오.</p>
     <p><b>한국 관련 후보</b> 표시는 행사 설명에 한국·조선 관련 말이 있어 자동으로 붙인 것이며, 사람이 확인하기 전까지는 확정이 아닙니다.</p>
   </div>
@@ -110,6 +111,52 @@ var TILES = [
 var EXTRA = ['전국','복수','한국(참고)'];
 
 var all = [], st = {m:0, cat:'', k:false, nara:false, pref:'', q:''};
+// 표시 기간: 오늘부터 6개월 뒤까지 (이미 끝난 행사는 제외)
+var WIN_MONTHS = 6;
+function iso(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+var NOW = new Date(), TODAY = iso(NOW);
+var LIMIT_D = new Date(NOW.getFullYear(), NOW.getMonth()+WIN_MONTHS, NOW.getDate()); var LIMIT = iso(LIMIT_D);
+var WIN_LIST = []; (function(){ var y=NOW.getFullYear(), m=NOW.getMonth(); for(var i=0;i<=WIN_MONTHS;i++){ WIN_LIST.push(((m+i)%12)+1); } })();
+function p2(n){return ('0'+n).slice(-2)}
+function dstr(y,m,d){return y+'-'+p2(m)+'-'+p2(d)}
+function eom(y,m){return new Date(y,m,0).getDate()}
+var QUAL={'초':[1,10],'상순':[1,10],'중순':[11,20],'하순':[21,31],'말':[21,31]};
+// whenText(예: "4/29~5/5", "2월 상순~3월 중순", "11월")를 {y?,sm,sd,em,ed}로 해석
+function parseWhen(txt, yearless){
+  var t=String(txt||'').replace(/\([^)]*\)|（[^）]*）/g,' ');
+  var re=/(\d{4})\s*\/\s*(\d{1,2})\s*\/\s*(\d{1,2})|(\d{1,2})\s*\/\s*(\d{1,2})|(\d{1,2})\s*월\s*(초|상순|중순|하순|말)?|~\s*(\d{1,2})(?!\s*[\/월\d])/g, m, parts=[];
+  while((m=re.exec(t))){
+    if(m[1]){ parts.push({y:yearless?0:Number(m[1]),sm:Number(m[2]),sd:Number(m[3]),em:Number(m[2]),ed:Number(m[3])}); }
+    else if(m[4]){ parts.push({sm:Number(m[4]),sd:Number(m[5]),em:Number(m[4]),ed:Number(m[5])}); }
+    else if(m[6]){ var q=QUAL[m[7]]||[1,31], mo=Number(m[6]); parts.push({sm:mo,sd:q[0],em:mo,ed:Math.min(q[1],eom(2027,mo)||31)}); if(!m[7]) parts[parts.length-1].ed=eom(2027,mo); }
+    else if(m[8] && parts.length){ var p=parts[parts.length-1]; p.ed=Number(m[8]); p.em=p.em; }
+  }
+  var bad=parts.some(function(x){return x.sm<1||x.sm>12||x.em<1||x.em>12||x.sd<1||x.sd>31||x.ed<1||x.ed>31});
+  if(!parts.length||bad) return null;
+  var a=parts[0], z=parts[parts.length-1];
+  return {y:a.y||0, sm:a.sm, sd:a.sd, em:z.em, ed:z.ed};
+}
+// 가장 가까운 "앞으로의" 개최 기간을 {s,e}(YYYY-MM-DD)로 계산. 없으면 null
+function occOf(f){
+  var s=f.start||'', e=f.end||'';
+  if(s||e){ s=s||e; e=e||s; return {s:s,e:e}; }
+  var yearless=(f.dateStatus!=='확정');
+  var w=parseWhen(f.whenText,yearless); if(!w) return null;
+  var Y=NOW.getFullYear();
+  if(w.y){ var ey=w.y+(w.em<w.sm?1:0); return {s:dstr(w.y,w.sm,w.sd), e:dstr(ey,w.em,Math.min(w.ed,eom(ey,w.em)))}; }
+  for(var base=Y-1; base<=Y+1; base++){
+    var ey2=base+(w.em<w.sm?1:0), os=dstr(base,w.sm,Math.min(w.sd,eom(base,w.sm))), oe=dstr(ey2,w.em,Math.min(w.ed,eom(ey2,w.em)));
+    if(oe>=TODAY) return {s:os,e:oe};
+  }
+  return null;
+}
+function monthsOfOcc(o){
+  var sm=Number(o.s.slice(5,7)), sy=Number(o.s.slice(0,4)), em=Number(o.e.slice(5,7)), ey=Number(o.e.slice(0,4));
+  var n=(ey-sy)*12+(em-sm); if(n<0||n>11) n=Math.min(Math.max(n,0),11);
+  var out=[]; for(var i=0;i<=n;i++) out.push(((sm-1+i)%12)+1); return out;
+}
+function inWindow(f){ return !!f._occ && f._occ.e>=TODAY && f._occ.s<=LIMIT; }
+function fmtK(s){return s.replace(/-/g,'.')}
 function $(id){return document.getElementById(id)}
 function el(tag, cls, text){var e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=text; return e}
 function safeUrl(u){ u=String(u||'').trim(); return /^https?:\/\//i.test(u)?u:'' }
@@ -137,8 +184,8 @@ function isK(f){return f.korea===true||f.korea==='Y'||f.koreaCandidate===true}
 
 function prep(list){
   return list.map(function(f){
-    var g=Object.assign({},f); g._m=monthsOf(f);
-    g._s=(f.start||'')+'|'+(g._m[0]||99);
+    var g=Object.assign({},f); g._occ=occOf(f); g._m=g._occ?monthsOfOcc(g._occ):[];
+    g._s=g._occ?g._occ.s:'9999';
     g._text=[f.name,f.nameJa,f.place,f.sido,f.city,f.overview,f.koreaTheme,f.category].join(' ').toLowerCase();
     return g;
   });
@@ -159,7 +206,7 @@ function renderMonths(){
   all.forEach(function(f){ if(!pass(f,'m')) return; tot++; if(!f._m.length) und++; f._m.forEach(function(m){cnt[m]++}); });
   function chip(label,m,n){ var b=el('button','chip'+(st.m===m?' on':'')); b.type='button'; b.appendChild(document.createTextNode(label)); var s=el('small','',String(n)); b.appendChild(s); b.onclick=function(){st.m=(st.m===m?0:m);render()}; box.appendChild(b); }
   chip('전체',0,tot);
-  for(var m=1;m<=12;m++) chip(m+'월',m,cnt[m]);
+  WIN_LIST.forEach(function(m){ chip(m+'월',m,cnt[m]); });
   if(und) { var b=el('button','chip','시기 미정'); b.disabled=true; b.appendChild(el('small','',String(und))); box.appendChild(b); }
 }
 function renderMap(){
@@ -225,11 +272,11 @@ function render(){
   renderMonths(); renderMap(); renderList();
 }
 function init(payload, isFallback){
-  all=prep(payload.festivals||[]);
+  var total=(payload.festivals||[]).length; all=prep(payload.festivals||[]).filter(inWindow);
   var cats={}; all.forEach(function(f){if(f.category) cats[f.category]=1});
   var sel=$('cat'); Object.keys(cats).sort().forEach(function(c){var o=el('option','',c); o.value=c; sel.appendChild(o)});
   var g=payload.generatedAt?String(payload.generatedAt).slice(0,10):'';
-  $('meta').textContent='총 '+all.length+'건'+(g?' · 갱신 '+g:'');
+  $('meta').textContent=fmtK(TODAY)+' ~ '+fmtK(LIMIT)+' 사이의 행사 '+all.length+'건 (이미 끝난 행사 제외)'+(g?' · 자료 갱신 '+g:'');
   if(isFallback){ var b=$('banner'); b.style.display='block'; b.textContent='공개 데이터(data/festivals.json)를 아직 불러오지 못해 내장된 예시 자료를 보여 주고 있습니다.'; }
   render();
 }
