@@ -15091,5 +15091,55 @@
   "example": "鉛筆で大きくメモを書いた。",
   "exampleReading": "えんぴつでおおきくめもをかいた。",
   "exampleMeaning": "연필로 크게 메모를 썼다."
+ },
+ {
+  "id": "tj660",
+  "word": "権力",
+  "reading": "けんりょく",
+  "meaning": "권력",
+  "level": "N2",
+  "example": "権力はメディアに影響を及ぼす。",
+  "exampleReading": "けんりょくはめでぃあにえいきょうをおよぼす。",
+  "exampleMeaning": "권력은 미디어에 영향을 미친다."
+ },
+ {
+  "id": "tj661",
+  "word": "絶大",
+  "reading": "ぜつだい",
+  "meaning": "절대적임, 막대함",
+  "level": "N1",
+  "example": "絶大な支持を集めた。",
+  "exampleReading": "ぜつだいなしじをあつめた。",
+  "exampleMeaning": "절대적인 지지를 모았다."
+ },
+ {
+  "id": "tj662",
+  "word": "支配下",
+  "reading": "しはいか",
+  "meaning": "지배하, 통제하",
+  "level": "N1",
+  "example": "企業を支配下に置く。",
+  "exampleReading": "きぎょうをしはいかにおく。",
+  "exampleMeaning": "기업을 지배하에 둔다."
+ },
+ {
+  "id": "tj663",
+  "word": "左右する",
+  "reading": "さゆうする",
+  "meaning": "좌우하다, 영향 미치다",
+  "level": "N1",
+  "example": "発言が世論を左右する。",
+  "exampleReading": "はつげんがよろんをさゆうする。",
+  "exampleMeaning": "발언이 여론을 좌우한다."
+ },
+ {
+  "id": "tj664",
+  "word": "駐在",
+  "reading": "ちゅうざい",
+  "meaning": "주재, 상주 근무",
+  "level": "N2",
+  "example": "彼は北京に駐在している。",
+  "exampleReading": "かれはぺきんにちゅうざいしている。",
+  "exampleMeaning": "그는 베이징에 주재하고 있다."
  }
 ]

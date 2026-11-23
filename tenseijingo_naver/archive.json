@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-23",
+    "no": 139,
+    "topic_ja": "<ruby>中宣部<rt>ちゅうせんぶ</rt></ruby>と<ruby>報道<rt>ほうどう</rt></ruby>",
+    "topic_ko": "중선부와 보도",
+    "url": "https://www.asahi.com/articles/DA3S16593506.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘언론과 권력’, ‘정보 통제’, ‘현장 체험’ — 권력과 미디어의 관계를 구조와 체험 양면에서 조명하며, 독자의 비교·성찰을 유도하기 때문이다.",
+    "pattern": "Nと<ruby>言<rt>い</rt></ruby>えば"
+  },
+  {
     "date": "2026-11-22",
     "no": 138,
     "topic_ja": "<ruby>子<rt>こ</rt></ruby>のSOSと<ruby>支援<rt>しえん</rt></ruby>",
