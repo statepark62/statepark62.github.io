@@ -115,6 +115,7 @@
   .modebtn:hover{ color: var(--numeral); border-color: var(--btn-bd-hover); }
   .modebtn:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
   .modebtn[hidden]{ display:none; }
+  a.modebtn{ text-decoration:none; display:inline-block; text-transform:none; }
 
   .headerbtns{ display:flex; flex-wrap: wrap; justify-content: flex-end; align-items:center; gap: clamp(6px, 1vmin, 12px); }
 
@@ -500,6 +501,7 @@
               <path d="M8 20h8M12 16v4"/>
             </svg>
           </button>
+          <a class="modebtn" id="examLink" href="exam.html" title="시험 타이머 열기">시험 타이머</a>
           <button class="modebtn" id="viewBtn" type="button">플립</button>
           <button class="modebtn" id="modeBtn" type="button" aria-label="12/24시간 전환">24H</button>
         </div>
