@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22365c"/><stop offset="1" stop-color="#101c36"/></linearGradient>
+    <radialGradient id="lamp" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#ef5a49"/><stop offset="1" stop-color="#b3261e"/></radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffd27a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <circle cx="256" cy="268" r="210" fill="url(#glow)"/>
+  <!-- 끈 -->
+  <rect x="251" y="40" width="10" height="52" rx="4" fill="#d9b25c"/>
+  <!-- 위 뚜껑 -->
+  <rect x="176" y="86" width="160" height="30" rx="8" fill="#2a2a2e"/>
+  <rect x="192" y="76" width="128" height="16" rx="6" fill="#d9b25c"/>
+  <!-- 몸통 -->
+  <path d="M176 116 C96 150 96 362 176 396 L336 396 C416 362 416 150 336 116 Z" fill="url(#lamp)"/>
+  <!-- 가로 살 -->
+  <g fill="none" stroke="#7d140f" stroke-width="6" stroke-linecap="round" opacity=".55">
+    <path d="M150 150 Q256 176 362 150"/>
+    <path d="M124 196 Q256 228 388 196"/>
+    <path d="M114 256 Q256 290 398 256"/>
+    <path d="M124 316 Q256 348 388 316"/>
+    <path d="M150 362 Q256 388 362 362"/>
+  </g>
+  <!-- 아래 뚜껑 -->
+  <rect x="176" y="392" width="160" height="30" rx="8" fill="#2a2a2e"/>
+  <rect x="192" y="416" width="128" height="16" rx="6" fill="#d9b25c"/>
+  <!-- 술 -->
+  <g stroke="#d9b25c" stroke-width="7" stroke-linecap="round">
+    <path d="M226 434 V476"/><path d="M246 434 V486"/><path d="M266 434 V486"/><path d="M286 434 V476"/>
+  </g>
+  <!-- 글자 -->
+  <text x="256" y="296" text-anchor="middle" font-family="'Noto Serif CJK JP','Noto Serif JP','Yu Mincho','Hiragino Mincho ProN',serif" font-size="132" font-weight="900" fill="#fff6e0">祭</text>
+</svg>
