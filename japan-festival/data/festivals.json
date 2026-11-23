@@ -1,1 +1,1029 @@
-
+{
+ "generatedAt": "2026-11-23T08:29:48.893Z",
+ "count": 41,
+ "coverage": {
+  "ko": 34
+ },
+ "festivals": [
+  {
+   "id": "P000001",
+   "name": "일반서 전시회(一般書展示会)",
+   "nameJa": "一般書展示会",
+   "category": "전시",
+   "place": "北島図書館",
+   "sido": "오사카부",
+   "city": "門真市",
+   "whenText": "2026-10-24 ~ 2026-11-25",
+   "dateStatus": "확정",
+   "start": "2026-10-24",
+   "end": "2026-11-25",
+   "month": 10,
+   "korea": false,
+   "nara": false,
+   "overview": "일반서 전시회",
+   "overviewJa": "一般書展示会",
+   "activities": [],
+   "homepage": "https://kadomalib.jp",
+   "sources": [
+    "https://data.bodik.jp/dataset/272230_event"
+   ]
+  },
+  {
+   "id": "P000002",
+   "name": "네야가와 공원 반짝반짝 일루미네이션(寝屋川公園　キラ★キラ　イルミネーション)",
+   "nameJa": "寝屋川公園　キラ★キラ　イルミネーション",
+   "category": "축제·행사",
+   "place": "寝屋川公園",
+   "sido": "오사카부",
+   "whenText": "2026-12-01 ~ 2026-12-25",
+   "dateStatus": "확정",
+   "start": "2026-12-01",
+   "end": "2026-12-25",
+   "month": 12,
+   "lat": 34.76039,
+   "lng": 135.65222,
+   "korea": false,
+   "nara": false,
+   "overview": "네야가와 공원이 환상적인 빛의 파크가 됩니다!",
+   "overviewJa": "寝屋川公園が幻想的な光のパークに！",
+   "activities": [
+    "빛의 파크 감상"
+   ],
+   "homepage": "http://neyagawa.osaka-park.or.jp",
+   "sources": [
+    "https://data.bodik.jp/dataset/270008_event"
+   ]
+  },
+  {
+   "id": "P000003",
+   "name": "크리스마스 풍경 사진전(クリスマス風景写真展)",
+   "nameJa": "クリスマス風景写真展",
+   "category": "전시",
+   "place": "大泉緑地",
+   "sido": "오사카부",
+   "whenText": "2026-12-02 ~ 2026-12-25",
+   "dateStatus": "확정",
+   "start": "2026-12-02",
+   "end": "2026-12-25",
+   "month": 12,
+   "lat": 34.56602,
+   "lng": 135.52419,
+   "korea": false,
+   "nara": false,
+   "overview": "■ 오이즈미 그린 포토클럽 회원들의 크리스마스 풍경 작품을 전시합니다. (약 10점) ■ 작품 크기: A4 또는 요쓰기리(四ツ切, 와이드 포함)… 모두 액자에 끼워진 상태입니다.",
+   "overviewJa": "■大泉グリーンフォトクラブ会員のクリスマス風景作品を展示。　　　（約10点）　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　■作品の大きさ : A4または四ツ切(ワイドを含む)･･何れも額装済みのもの。",
+   "activities": [
+    "크리스마스 풍경 사진 작품 감상"
+   ],
+   "homepage": "https://oizumi.osaka-park.or.jp/greenconsultation/",
+   "sources": [
+    "https://data.bodik.jp/dataset/270008_event"
+   ]
+  },
+  {
+   "id": "P000004",
+   "name": "겨울 일루미네이션 점등(ウインタ−イルミネーション点灯)",
+   "nameJa": "ウインタ−イルミネーション点灯",
+   "category": "축제·행사",
+   "place": "住之江公園",
+   "sido": "오사카부",
+   "whenText": "2026-12-12 ~ 2027-01-10",
+   "dateStatus": "확정",
+   "start": "2026-12-12",
+   "end": "2027-01-10",
+   "month": 12,
+   "lat": 34.60968,
+   "lng": 135.47462,
+   "korea": false,
+   "nara": false,
+   "overview": "기간 중 '하나토 미도리노 스퀘어(花と緑のスクエア)'에 공원 직원이 손수 만든 오리지널 일루미네이션이 나타납니다. 이제 완연한 겨울의 풍물시가 되었습니다. 올해도 새로운 작품을 즐겨 주십시오.",
+   "overviewJa": "期間中「花と緑のスクエア」に公園スタッフ手作りのオリジナルイルミネーションが出現します。すっかり冬の風物詩となりました。今年も新作をお楽しみください。",
+   "activities": [
+    "공원 직원 제작 일루미네이션 감상"
+   ],
+   "homepage": "https://www.toshi-kouen.jp/staticpages/index.php/suminoe_events",
+   "sources": [
+    "https://data.bodik.jp/dataset/270008_event"
+   ]
+  },
+  {
+   "id": "P000005",
+   "name": "이시카와 설날 축제 ～연날리기 무료 대여～(石川正月祭り〜凧揚げ無料貸し出し〜)",
+   "nameJa": "石川正月祭り〜凧揚げ無料貸し出し〜",
+   "category": "축제·행사",
+   "place": "石川河川公園",
+   "sido": "오사카부",
+   "whenText": "2027-01-04 ~ 2027-01-15",
+   "dateStatus": "확정",
+   "start": "2027-01-04",
+   "end": "2027-01-15",
+   "month": 1,
+   "lat": 34.5456,
+   "lng": 135.62131,
+   "korea": false,
+   "nara": false,
+   "overview": "관리사무소에서 어린이용 연(카이트)을 무료로 대여합니다. 공원 잔디밭에서 몸을 움직여 보시는 것은 어떠신가요? (대여할 수 있는 연은 수량이 한정되어 있으니 양해 부탁드립니다.)",
+   "overviewJa": "管理事務所で子供用カイトの無料貸し出しを行います。 公園の原っぱで体を動かすのにいかがですか。 （貸し出しできる凧には限りがあります。ご了承ください）",
+   "activities": [
+    "어린이용 연 무료 대여",
+    "공원 잔디밭에서 연 날리기"
+   ],
+   "homepage": "https://www.toshi-kouen.jp/staticpages/index.php/ishikawa_top",
+   "sources": [
+    "https://data.bodik.jp/dataset/270008_event"
+   ]
+  },
+  {
+   "id": "P000006",
+   "name": "제15회 교류 농업제 ～모두가 함께 키우는 구마토리의 농과 식～(第15回熊取ふれあい農業祭〜みんなで育む熊取の農と食〜)",
+   "nameJa": "第15回熊取ふれあい農業祭〜みんなで育む熊取の農と食〜",
+   "category": "축제·행사",
+   "place": "熊取町キテーネホール・かむかむプラザ",
+   "sido": "오사카부",
+   "city": "泉南郡熊取町",
+   "whenText": "2026-12-05T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-12-06",
+   "end": "2026-12-06",
+   "month": 12,
+   "lat": 34.401552,
+   "lng": 135.354646,
+   "korea": false,
+   "nara": false,
+   "overview": "구마토리초에서 수확된 농작물의 판매와 시식 등을 통해 마을 안팎에서 찾아오신 분들이 구마토리 채소의 맛을 알아주시고, 농업을 폭넓게 소개하여 농업에 대한 이해를 깊이 하실 수 있도록 합니다. 또한 채소 관련 외에도 다양한 프로그램을 준비하고 있습니다.",
+   "overviewJa": "熊取町で収穫された農作物の販売や試食などを通じて町内外から来場の皆様に熊取野菜の美味しさを知っていただくとともに、農業を幅広く紹介し、農業に対する理解を深めていただく。また、野菜関係以外にも多彩なプログラムを用意しています。",
+   "activities": [
+    "구마토리 농작물 구매",
+    "농작물 시식",
+    "농업 소개 프로그램 참여"
+   ],
+   "homepage": "https://www.town.kumatori.lg.jp/boshu/sankasha/11933.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/273619_event"
+   ]
+  },
+  {
+   "id": "P000007",
+   "name": "히가시오사카시민문화예술제(東大阪市民文化芸術祭)",
+   "nameJa": "東大阪市民文化芸術祭",
+   "category": "축제·행사",
+   "sido": "오사카부",
+   "whenText": "2027-03-05 ~ 2027-03-07",
+   "dateStatus": "확정",
+   "start": "2027-03-05",
+   "end": "2027-03-07",
+   "month": 3,
+   "korea": false,
+   "nara": false,
+   "activities": [],
+   "homepage": "https://www.city.higashiosaka.lg.jp/0000002461.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/272272_12"
+   ]
+  },
+  {
+   "id": "P000008",
+   "name": "특별전 도요나카시지 이야기 ～고향을 기록하는 노력 전시～(特別展 豊中市誌物語 ふるさとを記録するいとなみ 展示)",
+   "nameJa": "特別展 豊中市誌物語 ふるさとを記録するいとなみ 展示",
+   "category": "전시",
+   "place": "郷土資料館",
+   "sido": "오사카부",
+   "whenText": "2026-10-27 ~ 2026-12-13",
+   "dateStatus": "확정",
+   "start": "2026-10-27",
+   "end": "2026-12-13",
+   "month": 10,
+   "korea": false,
+   "nara": false,
+   "overview": "고지도, 메이지 시대의 마을지, 시사(市史) 등",
+   "overviewJa": "古地図、明治の村誌、市史ほか",
+   "activities": [],
+   "homepage": "https://www.city.toyonaka.osaka.jp/shisetsu/hall/kyodosiryokan/sisimonogatari1.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/272035_event"
+   ]
+  },
+  {
+   "id": "P000009",
+   "name": "도요나카 경관 포토캘린더 '토요카레' 판매·전시(とよなか景観フォトカレンダー「とよカレ」の販売・展示)",
+   "nameJa": "とよなか景観フォトカレンダー「とよカレ」の販売・展示",
+   "category": "전시",
+   "place": "市役所第二庁舎",
+   "sido": "오사카부",
+   "whenText": "2026-11-10 ~ 2027-01-29",
+   "dateStatus": "확정",
+   "start": "2026-11-10",
+   "end": "2027-01-29",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "overview": "도요나카 마치나미 시민상에서 선정된 시내의 아름다운 풍경 사진을 실은 캘린더를 11월 10일(화)부터 시 홈페이지와 도시계획과 등에서 1부 500엔에 판매합니다.",
+   "overviewJa": "豊中まちなみ市民賞で選ばれた市内 の魅力的な風景写真を掲載したカレン ダーを 11月10(火)から市HPや都市計画課などで1部 500円で販売します。",
+   "activities": [
+    "시민상 선정 풍경 사진 캘린더 구매(1부 500엔)"
+   ],
+   "homepage": "https://www.city.toyonaka.osaka.jp/machi/toshikeikan/hyosho_jigyo/design10_simin03/machinamishimin3.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/272035_event"
+   ]
+  },
+  {
+   "id": "P000010",
+   "name": "마치즈쿠리와 방재를 생각하다 모시모시 페스타(まちづくりと防災を考える もしもフェスタ)",
+   "nameJa": "まちづくりと防災を考える もしもフェスタ",
+   "category": "축제·행사",
+   "place": "ショコラ",
+   "sido": "오사카부",
+   "whenText": "2026-12-05T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-12-06",
+   "end": "2026-12-06",
+   "month": 12,
+   "korea": false,
+   "nara": false,
+   "overview": "소형 드론 조종, 초기 소화 체험, 마치즈쿠리 워크숍 외",
+   "overviewJa": "小型ドローン操縦、初期消火体験、まちづくりワークショップほか",
+   "activities": [
+    "소형 드론 조종 체험",
+    "초기 소화 체험",
+    "마치즈쿠리 워크숍 참여"
+   ],
+   "homepage": "https://www.city.toyonaka.osaka.jp/machi/shigaichiseibi/shigaichiseibi_topi/mosimofesta_2026.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/272035_event"
+   ]
+  },
+  {
+   "id": "P000011",
+   "name": "후레아이 녹지 수확제(ふれあい緑地収穫祭)",
+   "nameJa": "ふれあい緑地収穫祭",
+   "category": "축제·행사",
+   "place": "ふれあい緑地1街区",
+   "sido": "오사카부",
+   "whenText": "2026-11-27T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-11-28",
+   "end": "2026-11-28",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "overview": "벼 탈곡 및 정미, 쿠와이 캐기",
+   "overviewJa": "稲の脱穀精米、クワイ掘り",
+   "activities": [],
+   "homepage": "https://www.city.toyonaka.osaka.jp/machi/kouen_midori/shizen/gyojiannai/akinofesuta.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/272035_event"
+   ]
+  },
+  {
+   "id": "P000012",
+   "name": "육아 응원 페스타 모두 모여라 두근두근 랜드(子育て応援フェスタ みんなあつまれわくわくランド)",
+   "nameJa": "子育て応援フェスタ みんなあつまれわくわくランド",
+   "category": "축제·행사",
+   "place": "豊泉家千里体育館",
+   "sido": "오사카부",
+   "whenText": "2026-11-27T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-11-28",
+   "end": "2026-11-28",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "overview": "만들기·놀이·이야기 코너, 아동복 리유스 외",
+   "overviewJa": "制作・遊び・お話コーナー、子ども服リユースほか",
+   "activities": [
+    "만들기 코너 참여",
+    "놀이 코너 참여",
+    "이야기 코너 참여",
+    "아동복 리유스 참여"
+   ],
+   "homepage": "https://www.city.toyonaka.osaka.jp/kosodate/area_parenting_supp/hoppe/wakuwaku.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/272035_event"
+   ]
+  },
+  {
+   "id": "P000013",
+   "name": "디지메타 페스(デジメタフェス)",
+   "nameJa": "デジメタフェス",
+   "category": "축제·행사",
+   "place": "千里文化センター「コラボ」",
+   "sido": "오사카부",
+   "whenText": "2026-12-04T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-12-05",
+   "end": "2026-12-05",
+   "month": 12,
+   "korea": false,
+   "nara": false,
+   "overview": "메타버스·게임 체험, ICT 강좌 외",
+   "overviewJa": "メタバース・ゲーム体験、ICT講座ほか",
+   "activities": [
+    "메타버스 체험",
+    "게임 체험",
+    "ICT 강좌 참여"
+   ],
+   "homepage": "https://www.city.toyonaka.osaka.jp/jinken_gakushu/bunka/event/ev_others/degimeta2025.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/272035_event"
+   ]
+  },
+  {
+   "id": "P000014",
+   "name": "제27회 사가성 하급 히나마쓰리(第27回佐賀城下ひなまつり)",
+   "nameJa": "第27回佐賀城下ひなまつり",
+   "category": "축제·행사",
+   "place": "徴古館、佐賀市歴史民俗館、佐賀城本丸歴史館ほか",
+   "sido": "사가현",
+   "city": "佐賀市",
+   "whenText": "2027-02-13 ~ 2027-03-14",
+   "dateStatus": "확정",
+   "start": "2027-02-13",
+   "end": "2027-03-14",
+   "month": 2,
+   "korea": false,
+   "nara": false,
+   "overview": "사가번 나베시마 가문에 전해 내려오는 격조 높은 히나 인형을 비롯해 나베시마 고몬, 손으로 짠 사가니시키 등 다양한 히나 인형이 화려하게 한자리에 모입니다. 조코칸, 사가성 혼마루 역사관, 사가시 역사민속관 등에서 개최됩니다.",
+   "overviewJa": "佐賀藩鍋島家伝来の格調高い雛人形をはじめ、鍋島小紋や手織り佐賀錦などのおひなさまが豪華絢爛に勢ぞろい。徴古館や佐賀城本丸歴史館、佐賀市歴史民俗館等で開催されます。",
+   "activities": [
+    "히나 인형 전시 관람"
+   ],
+   "sources": [
+    "https://data.bodik.jp/dataset/412015_eventlist_from4to9"
+   ]
+  },
+  {
+   "id": "P000015",
+   "name": "구 혼다 타다쓰구 저택 기쇼노 아키 작품전(旧本多忠次邸　己書の秋　作品展)",
+   "nameJa": "旧本多忠次邸　己書の秋　作品展",
+   "category": "전시",
+   "sido": "아이치현",
+   "whenText": "2026-11-21 ~ 2026-11-23",
+   "dateStatus": "확정",
+   "start": "2026-11-21",
+   "end": "2026-11-23",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "overview": "기쇼(己書) 오카자키 유지 모임이 만든 붓글씨 아트 '기쇼' 작품을 전시합니다.",
+   "overviewJa": "己書（おのれしょ）岡崎有志の会による、筆文字アート「己書」の作品を展示します。",
+   "activities": [
+    "기쇼 작품 관람"
+   ],
+   "homepage": "https://www.city.okazaki.lg.jp/bunka/bunka_shisetsu/1004817/1004841/1017183.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000016",
+   "name": "구라가리 계곡 단풍축제(くらがり渓谷紅葉まつり)",
+   "nameJa": "くらがり渓谷紅葉まつり",
+   "category": "축제·행사",
+   "place": "くらがり渓谷",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-11-21 ~ 2026-12-06",
+   "dateStatus": "확정",
+   "start": "2026-11-21",
+   "end": "2026-12-06",
+   "month": 11,
+   "lat": 34.937642,
+   "lng": 137.400178,
+   "korea": false,
+   "nara": false,
+   "overview": "■ 개최일 단풍축제: 11월 21일(토)~12월 6일(일) / 구라가리 감사제: 12월 6일(일) ■ 장소 단풍축제: 구라가리 계곡 / 구라가리 감사제: 구라가리 계곡 제2주차장 ■ 내용 단풍축제: 계곡 내를 도는 스탬프 랠리(매일 선착순 100명에게 선물 증정) / 구라가리 감사제: 구라가리 감사제 오리지널 기념품 증정(선착순 100명) 등",
+   "overviewJa": "■開催日紅葉まつり　11月21日（土曜日）～12月6日（日曜日）くらがり感謝祭　12月6日（日曜日）■場所紅葉まつり　くらがり渓谷くらがり感謝祭　くらがり渓谷第2駐車場■内容紅葉まつり　渓谷内を巡るスタンプラリー（各日先着100人にプレゼントあり）くらがり感謝祭　くらがり感謝祭オリジナル記念品プレゼント（先着100人）など",
+   "activities": [
+    "계곡 스탬프 랠리 참여",
+    "구라가리 감사제 기념품 받기"
+   ],
+   "homepage": "https://www.city.okazaki.lg.jp/kanko/event/1009479/1016906.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000017",
+   "name": "오쿠오카 완파쿠 마쓰리 2026(オクオカわんぱくまつり2026)",
+   "nameJa": "オクオカわんぱくまつり2026",
+   "category": "축제·행사",
+   "sido": "아이치현",
+   "whenText": "2026-12-04T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-12-05",
+   "end": "2026-12-05",
+   "month": 12,
+   "korea": false,
+   "nara": false,
+   "overview": "오쿠오카의 사토야마에서 '만지고' '먹고' '체험할 수 있는' 겨울 축제! 작년에도 1,000명이 넘는 사람들이 붐볐던 '오쿠오카 완파쿠 마쓰리'를 올해도 완파크에서 개최합니다! '오쿠오카'는 오카자키시 산간 지역의 애칭입니다. 풍부한 숲과 사토야마, 그곳에서 길러지는 농산물과 지역 사람들 등 많은 매력이 있습니다. 오쿠오카 완파쿠 마쓰리는 이러한 지역의 매력을 보고, 먹고, 만들고, 체험하며 즐길 수 있는 축제입니다. 당일에는 나무와 숲을 만지는 농림 체험을 비롯하여 지역의 맛있는 음식, 농산물, 물건 만들기 등 오쿠오카만의 노점들이 모입니다. 또한 어린이들이 직접 생각한 가게를 열어 사토야마의 매력을 알리는 '어린이 사토야마 모의점포'도 등장합니다! 자연이 가득한 완파크에서 어린이부터 어른까지 하루 종일 즐길 수 있습니다. 먹고, 놀고, 만들고, 배우고. 올겨울, 가족 모두 오쿠오카로 놀러 오시지 않겠습니까?",
+   "overviewJa": "オクオカの里山に「触れて」「食べて」「体験できる」冬のおまつり！昨年も1,000人を超える人でにぎわった「オクオカわんぱくまつり」を、今年もわんパークで開催します！「オクオカ」は、岡崎市の中山間地域の愛称。豊かな森や里山、そこで育まれる農産物や地域の人々など、たくさんの魅力があります。オクオカわんぱくまつりは、そんな地域の魅力を、見て、食べて、つくって、体験しながら楽しめるおまつりです。当日は、木や森にふれる農林体験をはじめ、地域のおいしいものや農産物、ものづくりなど、オクオカならではの出店が集まります。さらに、子どもたちが自分で考えたお店をひらき、里山の魅力を発信する**「こども里山模擬店」**も登場！自然いっぱいのわんパークで、子どもから大人まで一日楽しめます。食べて、遊んで、つくって、学んで。今年の冬は、家族みんなでオクオカへ遊びに来ませんか？",
+   "activities": [
+    "나무·숲 만지기 농림 체험",
+    "지역 음식 먹기",
+    "물건 만들기 체험",
+    "어린이 사토야마 모의점포 구경"
+   ],
+   "homepage": "https://www.city.okazaki.lg.jp/kanko/event/1009479/1016876.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000018",
+   "name": "연말 상부상조 오카자키 미술협회 자선전(年末助け合い岡崎美術協会チャリティー展)",
+   "nameJa": "年末助け合い岡崎美術協会チャリティー展",
+   "category": "전시",
+   "place": "美術館",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-12-04 ~ 2026-12-06",
+   "dateStatus": "확정",
+   "start": "2026-12-04",
+   "end": "2026-12-06",
+   "month": 12,
+   "lat": 34.942042,
+   "lng": 137.164419,
+   "korea": false,
+   "nara": false,
+   "overview": "1구좌 5,000엔을 기부해 주신 분께 작품을 증정합니다. 신작 소품을 자선 가격으로 판매합니다. 매출의 일부는 복지단체에 기부합니다.",
+   "overviewJa": "寄附（1口5,000円）をしていただいたかたに作品を進呈します。新作小品をチャリティー価格で販売します。売り上げの一部を福祉団体へ寄附いたします。",
+   "activities": [
+    "5,000엔 기부 참여",
+    "신작 소품 자선 구매"
+   ],
+   "homepage": "https://www.city.okazaki.lg.jp/kanko/event/1009558/1016889.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000019",
+   "name": "제79회 오카자키시 예술제(11월)(第79回岡崎市芸術祭（11月）)",
+   "nameJa": "第79回岡崎市芸術祭（11月）",
+   "category": "축제·행사",
+   "sido": "아이치현",
+   "whenText": "2026-11-03 ~ 2026-11-23",
+   "dateStatus": "확정",
+   "start": "2026-11-03",
+   "end": "2026-11-23",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "activities": [],
+   "homepage": "https://www.city.okazaki.lg.jp/kanko/event/1009558/1016329.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000020",
+   "name": "이에야스관 기획전 「이와즈 마쓰다이라씨의 빛남 ～마쓰다이라 일족 비약의 초석～」(家康館企画展「岩津松平氏の輝き　～松平一族飛躍の礎～」)",
+   "nameJa": "家康館企画展「岩津松平氏の輝き　～松平一族飛躍の礎～」",
+   "category": "전시",
+   "place": "岡崎城公園",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-10-17 ~ 2026-11-29",
+   "dateStatus": "확정",
+   "start": "2026-10-17",
+   "end": "2026-11-29",
+   "month": 10,
+   "lat": 34.957677,
+   "lng": 137.159097,
+   "korea": false,
+   "nara": false,
+   "activities": [],
+   "homepage": "https://www.city.okazaki.lg.jp/kanko/event/1009558/1016661.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000021",
+   "name": "건물 특별 공개 아이치 건축물 박람회 2026(建物特別公開　あいちのたてもの博覧会2026)",
+   "nameJa": "建物特別公開　あいちのたてもの博覧会2026",
+   "category": "축제·행사",
+   "sido": "아이치현",
+   "whenText": "2026-11-27T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-11-28",
+   "end": "2026-11-28",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "activities": [],
+   "homepage": "https://www.city.okazaki.lg.jp/kanko/event/1009558/1011162.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000022",
+   "name": "오카자키 다문화 공생 페스티벌 2026(おかざき多文化共生フェスティバル2026)",
+   "nameJa": "おかざき多文化共生フェスティバル2026",
+   "category": "축제·행사",
+   "sido": "아이치현",
+   "whenText": "2026-11-28T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-11-29",
+   "end": "2026-11-29",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "overview": "무대 공연, 아시아 문화 체험, 푸드트럭 및 그루메, 스탬프 랠리 추첨회, 가위바위보 대회, 오리지널 캔뱃지 증정",
+   "overviewJa": "・ステージパフォーマンス・アジア文化体験・キッチンカー＆グルメ・スタンプラリー抽選会・じゃんけん大会・オリジナル缶バッチプレゼント",
+   "activities": [
+    "무대 공연 관람",
+    "아시아 문화 체험",
+    "푸드트럭 음식 이용",
+    "가위바위보 대회 참여"
+   ],
+   "homepage": "https://www.city.okazaki.lg.jp/kanko/event/1009636/1016625.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000023",
+   "name": "시제 110주년·개관 30주년 기념 기획전 구니시마 세이지(市制110周年・開館30周年記念企画展　国島征二)",
+   "nameJa": "市制110周年・開館30周年記念企画展　国島征二",
+   "category": "전시",
+   "sido": "아이치현",
+   "whenText": "2026-12-19 ~ 2027-03-14",
+   "dateStatus": "확정",
+   "start": "2026-12-19",
+   "end": "2027-03-14",
+   "month": 12,
+   "korea": false,
+   "nara": false,
+   "activities": [],
+   "homepage": "https://www.city.okazaki.lg.jp/museum/tenrankai/1016626.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000024",
+   "name": "시제 110주년·개관 30주년 기념 사계절에 노래하면 이데미쓰 미술관 명품전(市制110周年・開館30周年記念　四季にうたえば　出光美術館名品展)",
+   "nameJa": "市制110周年・開館30周年記念　四季にうたえば　出光美術館名品展",
+   "category": "전시",
+   "sido": "아이치현",
+   "whenText": "2026-10-17 ~ 2026-11-29",
+   "dateStatus": "확정",
+   "start": "2026-10-17",
+   "end": "2026-11-29",
+   "month": 10,
+   "korea": false,
+   "nara": false,
+   "activities": [],
+   "homepage": "https://www.city.okazaki.lg.jp/museum/tenrankai/1015424.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000025",
+   "name": "단풍 축제(紅葉まつり)",
+   "nameJa": "紅葉まつり",
+   "category": "축제·행사",
+   "sido": "아이치현",
+   "whenText": "2026-11-20 ~ 2026-12-06",
+   "dateStatus": "확정",
+   "start": "2026-11-20",
+   "end": "2026-12-06",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "overview": "히가시공원에는 약 1,500그루의 단풍나무가 심어져 있으며, 오카자키시에서 가장 큰 단풍 명소로 알려져 있습니다. 특히 조명으로 밝힌 단풍은 꼭 봐야 할 볼거리입니다!",
+   "overviewJa": "東公園には約1,500本のモミジが植栽されており、岡崎市で最も大きな紅葉スポットとして知られています。特に、ライトアップされた紅葉は必見です！",
+   "activities": [
+    "단풍 감상",
+    "조명으로 밝힌 단풍 구경"
+   ],
+   "homepage": "https://www.city.okazaki.lg.jp/higashi-park/event/1010470.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000026",
+   "name": "오카자키시 시제 110주년 기념사업 「어린이들의 아르 브뤼 2026」 후기 전시(岡崎市制110周年記念事業「子どもたちのアール・ブリュット2026」後期展示)",
+   "nameJa": "岡崎市制110周年記念事業「子どもたちのアール・ブリュット2026」後期展示",
+   "category": "전시",
+   "place": "おかざき世界子ども美術博物館",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-10-03 ~ 2027-03-22",
+   "dateStatus": "확정",
+   "start": "2026-10-03",
+   "end": "2027-03-22",
+   "month": 10,
+   "lat": 34.926953,
+   "lng": 137.213666,
+   "korea": false,
+   "nara": false,
+   "overview": "오카자키 세계 어린이 미술박물관에서는 장애가 있는 어린이들의 작품을 상설 전시하는 「어린이들의 아르 브뤼」를 개최하고 있습니다.",
+   "overviewJa": "おかざき世界子ども美術博物館では、 障がいのある子どもたちの作品の常設展示「子どもたちのアール・ブリュット」 を開催しています。",
+   "activities": [
+    "어린이들의 아르 브뤼 작품 관람"
+   ],
+   "homepage": "https://www.city.okazaki.lg.jp/kobihaku/tenrankai/1011489/1017126.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000027",
+   "name": "오카자키시 시제 110주년 기념사업 하시모토 미오 목조전 「생명체들과의 여행」 2026년도 가을 기획전(岡崎市制110周年記念事業　はしもとみお木彫展　いきものたちとの旅　2026年度秋季企画展)",
+   "nameJa": "岡崎市制110周年記念事業　はしもとみお木彫展　いきものたちとの旅　2026年度秋季企画展",
+   "category": "전시",
+   "place": "おかざき世界子ども美術博物館",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-09-19 ~ 2026-12-06",
+   "dateStatus": "확정",
+   "start": "2026-09-19",
+   "end": "2026-12-06",
+   "month": 9,
+   "lat": 34.926953,
+   "lng": 137.213666,
+   "korea": false,
+   "nara": false,
+   "overview": "살아 있는 동물이 눈앞에 있는 듯한 목조 작품을 만들어 폭넓은 층의 지지를 받는 조각가 하시모토 미오의 작품을 전시합니다.",
+   "overviewJa": "まるで生きている動物が目の前にいるような木彫りを創り出し、幅広い層から支持を集める彫刻家、はしもとみおの作品を展示します。",
+   "activities": [
+    "하시모토 미오의 목조 작품 감상"
+   ],
+   "homepage": "https://www.city.okazaki.lg.jp/kobihaku/tenrankai/1011489/1016449.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000028",
+   "name": "기획전시 「쓰무구」(企画展示（紡ぐ）)",
+   "nameJa": "企画展示（紡ぐ）",
+   "category": "전시",
+   "sido": "아이치현",
+   "whenText": "2026-10-29 ~ 2027-01-26",
+   "dateStatus": "확정",
+   "start": "2026-10-29",
+   "end": "2027-01-26",
+   "month": 10,
+   "korea": false,
+   "nara": false,
+   "activities": [],
+   "homepage": "https://www.city.okazaki.lg.jp/libra/shisetsu/1010174/1014581/1017359.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000029",
+   "name": "전망의 언덕 등정 챌린지(展望の丘登頂チャレンジ)",
+   "nameJa": "展望の丘登頂チャレンジ",
+   "category": "전시",
+   "place": "岡崎中央総合公園",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-11-01 ~ 2027-02-28",
+   "dateStatus": "확정",
+   "start": "2026-11-01",
+   "end": "2027-02-28",
+   "month": 11,
+   "lat": 34.948251,
+   "lng": 137.211534,
+   "korea": false,
+   "nara": false,
+   "overview": "개최 기간 중 전망의 언덕에 오른 횟수를 겨룹니다. 등정 횟수가 많은 상위 5명에게는 경품을 드립니다.",
+   "overviewJa": "開催期間中に展望の丘に登頂した回数を競う。 登頂回数の多い上位5名には景品を贈呈する。",
+   "activities": [
+    "전망의 언덕 오르기",
+    "등정 횟수 겨루기 참여"
+   ],
+   "homepage": "https://okazaki-kanko.jp/chuo-sogo-park/program/4658",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000030",
+   "name": "하늘에서 찍자, 오카자키의 단풍. 드론 항공촬영 세미나(空から撮ろう、岡崎の紅葉。ドローン空撮セミナー)",
+   "nameJa": "空から撮ろう、岡崎の紅葉。ドローン空撮セミナー",
+   "category": "축제·행사",
+   "place": "岡崎市中小企業・勤労者支援センター",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-11-23T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-11-24",
+   "end": "2026-11-24",
+   "month": 11,
+   "lat": 34.924283,
+   "lng": 137.178505,
+   "korea": false,
+   "nara": false,
+   "overview": "오전에는 강의, 오후에는 항공촬영 실기로 진행됩니다.",
+   "overviewJa": "午前中は座学、午後から空撮実技となります。",
+   "activities": [
+    "오전 강의 수강",
+    "오후 항공촬영 실기 체험"
+   ],
+   "homepage": "https://okazaki-smeworkersupportcenter.jp/event_tag/course/",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000031",
+   "name": "유아이 가을 수확제(ゆうあい秋の収穫祭)",
+   "nameJa": "ゆうあい秋の収穫祭",
+   "category": "축제·행사",
+   "place": "友愛の家",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-11-28T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-11-29",
+   "end": "2026-11-29",
+   "month": 11,
+   "lat": 34.956823,
+   "lng": 137.19168,
+   "korea": false,
+   "nara": false,
+   "overview": "채소 등 판매, 뻥튀기 과자 무료 배포 등",
+   "overviewJa": "野菜等の販売、ポン菓子無料配布等",
+   "activities": [
+    "채소 등 구매",
+    "뻥튀기 과자 무료 받기"
+   ],
+   "homepage": "https://fukushi-okazaki.jp/yuuainoie/event/%e3%80%8c%e3%82%86%e3%81%86%e3%81%82%e3%81%84%e7%a7%8b%e3%81%ae%e5%8f%8e%e7%a9%ab%e7%a5%ad%e3%80%8d%e3%81%ae%e3%81%8a%e7%9f%a5%e3%82%89%e3%81%9b",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000032",
+   "name": "겨울 스포츠 축제 2026(冬のスポーツまつり2026)",
+   "nameJa": "冬のスポーツまつり2026",
+   "category": "축제·행사",
+   "place": "龍北総合運動場",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-12-19T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-12-20",
+   "end": "2026-12-20",
+   "month": 12,
+   "lat": 34.979567,
+   "lng": 137.18848,
+   "korea": false,
+   "nara": false,
+   "overview": "키즈 런바이크, 티라노사우루스 운동회, 스포츠 체험 부스",
+   "overviewJa": "キッズランバイク、ティラノサウルス運動会、スポーツ体験ブース",
+   "activities": [
+    "키즈 런바이크 타기",
+    "티라노사우루스 운동회 참여",
+    "스포츠 체험 부스 이용"
+   ],
+   "homepage": "https://www.ryuhoku-sf.jp/event/index.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000033",
+   "name": "드론 공중촬영 세미나 단풍을 공중촬영해 보자(ドローン空撮セミナー　紅葉を空撮しよう)",
+   "nameJa": "ドローン空撮セミナー　紅葉を空撮しよう",
+   "category": "축제·행사",
+   "place": "岡崎市中小企業・勤労者支援センター",
+   "sido": "아이치현",
+   "city": "岡崎市",
+   "whenText": "2026-11-23T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-11-24",
+   "end": "2026-11-24",
+   "month": 11,
+   "lat": 34.924283,
+   "lng": 137.178505,
+   "korea": false,
+   "nara": false,
+   "overview": "10시~12시: 강의 / 14시~16시: 완파크에서 공중촬영. 비행 시간은 1인당 약 15분 정도입니다. ※오전과 오후에 장소가 다릅니다.",
+   "overviewJa": "１０時～１２時：座学　１４時～１６時：わんパークにて空撮　フライト時間は1人15分程度となります。　※午前と午後で会場が異なります。",
+   "activities": [
+    "오전 강의 수강",
+    "오후 완파크에서 공중촬영 체험"
+   ],
+   "homepage": "https://okazaki-smeworkersupportcenter.jp/event_tag/course/",
+   "sources": [
+    "https://data.bodik.jp/dataset/232025_event"
+   ]
+  },
+  {
+   "id": "P000034",
+   "name": "신상제(新嘗祭)",
+   "nameJa": "新嘗祭",
+   "category": "축제·행사",
+   "place": "宇佐神宮",
+   "sido": "오이타현",
+   "city": "宇佐市",
+   "whenText": "2026-11-22T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-11-23",
+   "end": "2026-11-23",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "overview": "매년 11월 23일 궁중을 비롯해 전국의 신궁과 신사에서 거행되는 일본의 전통 제사 의식 중 하나입니다. 신의 은혜와 오곡풍요에 감사하는 제례로, 신 앞에 햇곡식을 바칩니다.",
+   "overviewJa": "毎年11月23日に宮中をはじめ全国の神宮・神社で斎行される、日本の伝統的な祭儀の１つです。神の恵みと五穀豊穣を感謝する祭礼で、神前に新穀をお供えします。",
+   "activities": [],
+   "homepage": "http://www.usajinguu.com/festival-detail/#detail05",
+   "sources": [
+    "https://data.bodik.jp/dataset/442119_event"
+   ]
+  },
+  {
+   "id": "P000035",
+   "name": "우사신궁 제야제(宇佐神宮除夜祭)",
+   "nameJa": "宇佐神宮除夜祭",
+   "category": "축제·행사",
+   "place": "宇佐神宮",
+   "sido": "오이타현",
+   "city": "宇佐市",
+   "whenText": "2026-12-30T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2026-12-31",
+   "end": "2026-12-31",
+   "month": 12,
+   "korea": false,
+   "nara": false,
+   "overview": "한 해의 마지막 제사입니다. 한 해를 무사히 보낸 것에 감사하고, 몸과 마음을 정화하여 새로운 마음으로 새해를 맞이하기 위한 제전입니다.",
+   "overviewJa": "一年で最後のお祭りです。一年を無事に過ごせたことに感謝すると共に、心身を清め、新しい気持ちで、新年を迎えるための祭典となります。",
+   "activities": [],
+   "sources": [
+    "https://data.bodik.jp/dataset/442119_event"
+   ]
+  },
+  {
+   "id": "P000036",
+   "name": "아지무 지역 어울림 문화제(安心院地域ふれあい文化祭)",
+   "nameJa": "安心院地域ふれあい文化祭",
+   "category": "축제·행사",
+   "place": "安心院複合支所多目的ホール",
+   "sido": "오이타현",
+   "city": "宇佐市",
+   "whenText": "2026-11-28 ~ 2026-11-29",
+   "dateStatus": "확정",
+   "start": "2026-11-28",
+   "end": "2026-11-29",
+   "month": 11,
+   "lat": 33.438218,
+   "lng": 131.354293,
+   "korea": false,
+   "nara": false,
+   "overview": "아지무 지역을 중심으로 한 작품 전시 및 예능 발표",
+   "overviewJa": "安心院地域を中心に作品展示や芸能発表",
+   "activities": [
+    "작품 관람",
+    "예능 발표 관람"
+   ],
+   "sources": [
+    "https://data.bodik.jp/dataset/442119_event"
+   ]
+  },
+  {
+   "id": "P000037",
+   "name": "우사시 시민문화제(宇佐市民文化祭)",
+   "nameJa": "宇佐市民文化祭",
+   "category": "축제·행사",
+   "place": "宇佐文化会館・ウサノピア",
+   "sido": "오이타현",
+   "city": "宇佐市",
+   "whenText": "2026-12-02 ~ 2026-12-13",
+   "dateStatus": "확정",
+   "start": "2026-12-02",
+   "end": "2026-12-13",
+   "month": 12,
+   "lat": 33.529496,
+   "lng": 131.348234,
+   "korea": false,
+   "nara": false,
+   "overview": "약 2주간 작품 전시, 이틀간 홀에서 예능 발표",
+   "overviewJa": "約2週間にかけて作品展示、2日間のホールでの芸能発表",
+   "activities": [
+    "작품 전시 관람",
+    "홀에서 예능 발표 관람"
+   ],
+   "sources": [
+    "https://data.bodik.jp/dataset/442119_event"
+   ]
+  },
+  {
+   "id": "P000038",
+   "name": "제64회 나고 벚꽃 축제(第64回名護さくら祭り)",
+   "nameJa": "第64回名護さくら祭り",
+   "category": "축제·행사",
+   "place": "名護城公園、お祭り広場特設ステージ（さくら公園）、名護十字路大通り、名護漁港構内",
+   "sido": "오키나와현",
+   "city": "名護市",
+   "whenText": "2027-01-30 ~ 2027-01-31",
+   "dateStatus": "확정",
+   "start": "2027-01-30",
+   "end": "2027-01-31",
+   "month": 1,
+   "lat": 26.2270485,
+   "lng": 127.3000277,
+   "korea": false,
+   "nara": false,
+   "overview": "매년 1월 '일본의 봄은 여기서부터 시작된다'를 캐치프레이즈로 '나고 벚꽃 축제'가 개최됩니다. 매년 많은 사람이 방문하며, 다양한 행사가 열려 시민과 관광객에게 인기 있는 축제입니다.",
+   "overviewJa": "毎年１月に「日本の春はここからはじまる」をキャッチフレーズに「名護さくら祭り」が開催されます。毎年、多くの方が来場しており、様々なイベントが開催され、市民や観光客に人気の祭りとなります。",
+   "activities": [
+    "다양한 행사 참여",
+    "축제 방문"
+   ],
+   "sources": [
+    "https://data.bodik.jp/dataset/47007_event"
+   ]
+  },
+  {
+   "id": "P000039",
+   "name": "배부르게 나고산 페스티벌(まんぷくなご産フェスティバル)",
+   "nameJa": "まんぷくなご産フェスティバル",
+   "category": "축제·행사",
+   "sido": "오키나와현",
+   "city": "名護市",
+   "whenText": "2027-02-19T15:00:00.000Z",
+   "dateStatus": "확정",
+   "start": "2027-02-20",
+   "end": "2027-02-20",
+   "month": 2,
+   "lat": 26.59240438,
+   "lng": 127.975276,
+   "korea": false,
+   "nara": false,
+   "overview": "기존의 나고시 축산제를 새롭게 바꾼 '맘푸쿠! 나고산 페스티벌'이 개최됩니다. 나고시 농림수산업의 매력을 맛볼 수 있으며, 나고산과 관련된 독특한 기획이 가득합니다.",
+   "overviewJa": "これまでの名護市畜産まつりをリニューアルし、名護市の農林水産業の魅力が味わえる「まんぷく！なご産フェスティバル」が開催されます。名護産にまつわるユニークな企画がもりだくさんです。",
+   "activities": [
+    "농림수산업의 매력 체험",
+    "나고산 관련 기획 즐기기"
+   ],
+   "sources": [
+    "https://data.bodik.jp/dataset/47007_event"
+   ]
+  },
+  {
+   "id": "P000040",
+   "name": "제20회 가쓰야마 시크와사 꽃향기 축제(第20回勝山シークワーサー花香り祭り)",
+   "nameJa": "第20回勝山シークワーサー花香り祭り",
+   "category": "축제·행사",
+   "place": "勝山公民館",
+   "sido": "오키나와현",
+   "city": "名護市",
+   "whenText": "2027-03-13 ~ 2027-03-14",
+   "dateStatus": "확정",
+   "start": "2027-03-13",
+   "end": "2027-03-14",
+   "month": 3,
+   "lat": 26.20476336,
+   "lng": 127.6735871,
+   "korea": false,
+   "nara": false,
+   "overview": "나고시 가쓰야마의 3대 자랑으로 꼽히는 '시크와사', '염소', '산' 등 자연을 즐길 수 있는 '가쓰야마 시크와사 꽃향기 축제'가 가쓰야마 공민관 운동장 등에서 개최됩니다.",
+   "overviewJa": "名護市勝山の三大自慢とされる「シークワーサー」と「ヤギ」、「山」などの自然が楽しめる「勝山シークワーサー花香り祭」が勝山公民館グラウンドなどで開催されます。",
+   "activities": [
+    "시크와사·염소·산 등 자연 즐기기",
+    "축제 참여"
+   ],
+   "sources": [
+    "https://data.bodik.jp/dataset/47007_event"
+   ]
+  },
+  {
+   "id": "P000041",
+   "name": "레이와 8년도 특별전 「치누노우미 오사카만 ～울려 퍼뜨리자 풍요로운 바다의 하모니～」(令和8年度特別展「茅渟の海　大阪湾　〜響かせよう　豊かな海の　ハーモニー〜」)",
+   "nameJa": "令和8年度特別展「茅渟の海　大阪湾　〜響かせよう　豊かな海の　ハーモニー〜」",
+   "category": "전시",
+   "place": "きしわだ自然資料館",
+   "sido": "오사카부",
+   "whenText": "2026-11-07 ~ 2027-01-24",
+   "dateStatus": "확정",
+   "start": "2026-11-07",
+   "end": "2027-01-24",
+   "month": 11,
+   "korea": false,
+   "nara": false,
+   "overview": "11월 14일과 15일에 오사카부에서 열리는 제45회 전국 풍요로운 바다 만들기 대회의 개최를 기념하여, 오사카만을 주제로 한 특별전을 연다. 회기 중에는 관찰회와 실내 실습을 연다.【2026년 11월 7일～2027년 1월 24일. 공휴일을 제외한 매주 월요일, 11월 24일, 12월 29일～1월 3일은 휴관. 전시 시작 전인 11월 5일과 6일은 임시 휴관】",
+   "overviewJa": "11月14日、15日に大阪府で行われる第45回全国豊かな海づくり大会の開催を記念し、大阪湾に関する特別展を行う。会期中は観察会や室内実習を開催。【2026年11月7日〜2027年1月24日　祝日を除く毎週月曜日・11月24日・12月29日〜1月3日が休館・展示前の11月5日・6日は臨時休館】",
+   "activities": [
+    "오사카만 특별전 관람",
+    "관찰회 참여",
+    "실내 실습 참여"
+   ],
+   "homepage": "https://www.city.kishiwada.lg.jp/site/shizenshi/8tokubetsutenchinunoumi.html",
+   "sources": [
+    "https://data.bodik.jp/dataset/272027_event_info"
+   ]
+  }
+ ]
+}
