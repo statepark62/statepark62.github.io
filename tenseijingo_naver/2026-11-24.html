@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-24 天声人語로 배우는 일본어 — 사진과 AI의 현재</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-24</span>
+      <span>2026년 11월 24일 (화)</span>
+    </div>
+
+    <h1><ruby>写真<rt>しゃしん</rt></ruby>とAIの<ruby>現在<rt>げんざい</rt></ruby></h1>
+    <p class="topic-ko">사진과 AI의 현재</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>米国<rt>べいこく</rt></ruby>の<ruby>写真雑誌<rt>しゃしんざっし</rt></ruby>」</div>
+      <div class="ko">미국의 사진잡지 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">AIの<ruby>画像<rt>がぞう</rt></ruby>があふれる<ruby>時代<rt>じだい</rt></ruby>に、<ruby>私<rt>わたし</rt></ruby>たちは<ruby>見事<rt>みごと</rt></ruby>な<ruby>写真<rt>しゃしん</rt></ruby>を<ruby>見<rt>み</rt></ruby>ても<ruby>真偽<rt>しんぎ</rt></ruby>を<ruby>疑<rt>うたが</rt></ruby>うようになった。</p><p class="ko">AI가 만든 듯한 이미지가 넘치는 시대에, 독자는 근사한 사진을 봐도 먼저 진위를 의심하게 되었다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>不信<rt>ふしん</rt></ruby>が<ruby>広<rt>ひろ</rt></ruby>がるなか、<ruby>米国<rt>べいこく</rt></ruby>の<ruby>写真雑誌<rt>しゃしんざっし</rt></ruby>「LIFE」が<ruby>紙<rt>かみ</rt></ruby>とデジタルで<ruby>復活<rt>ふっかつ</rt></ruby>し、<ruby>東京都写真美術館<rt>とうきょうとしゃしんびじゅつかん</rt></ruby>の<ruby>木村伊兵衛写真賞<rt>きむらいへいしゃしんしょう</rt></ruby><ruby>記念展<rt>きねんてん</rt></ruby>はフィルム<ruby>写真<rt>しゃしん</rt></ruby>の<ruby>生々<rt>なまなま</rt></ruby>しさを<ruby>伝<rt>つた</rt></ruby>えた。</p><p class="ko">이런 불신 속에서 미국 사진잡지 LIFE가 지면과 디지털로 부활했고, 도쿄도 사진미술관의 ‘기무라 이헤이 사진상’ 50회 기념전은 필름 사진의 생생함을 보여주었다.</p></div>
+      <div class="s-item"><p class="ja">AIでは<ruby>再現<rt>さいげん</rt></ruby>しにくい<ruby>現場<rt>げんば</rt></ruby>の<ruby>質感<rt>しつかん</rt></ruby>をとおして、<ruby>写真<rt>しゃしん</rt></ruby>の<ruby>信頼<rt>しんらい</rt></ruby>と<ruby>感動<rt>かんどう</rt></ruby>を<ruby>改<rt>あらた</rt></ruby>めて<ruby>考<rt>かんが</rt></ruby>えさせる。</p><p class="ko">필자는 AI가 흉내 내기 어려운 현장의 결을 통해 사진이 지닌 신뢰와 감동을 다시 생각하게 한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>息を吹き返す<rt>いきをふきかえす</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">다시 살아나다, 회복되다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">あの<ruby>雑誌<rt>ざっし</rt></ruby>が<ruby>新<rt>あら</rt></ruby>たな<ruby>企画<rt>きかく</rt></ruby>で<ruby>息<rt>いき</rt></ruby>を<ruby>吹<rt>ふ</rt></ruby>き<ruby>返<rt>かえ</rt></ruby>した。</span><br>그 잡지가 새로운 기획으로 다시 살아났다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>決定的瞬間<rt>けっていてきしゅんかん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">결정적 순간</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">その<ruby>写真家<rt>しゃしんか</rt></ruby>は<ruby>決定的瞬間<rt>けっていてきしゅんかん</rt></ruby>を<ruby>捉<rt>とら</rt></ruby>えた。</span><br>그 사진가는 결정적 순간을 포착했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>生成画像<rt>せいせいがぞう</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">생성 이미지(AI가 만든 이미지)</span><span class="level">N1</span>
+            <p class="ex"><span class="ja">AIの<ruby>生成画像<rt>せいせいがぞう</rt></ruby>は<ruby>現実<rt>げんじつ</rt></ruby>と<ruby>区別<rt>くべつ</rt></ruby>しにくいことがある。</span><br>AI 생성 이미지는 현실과 구분하기 어려울 때가 있다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>生々しさ<rt>なまなましさ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">생생함, 생동감</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>証言<rt>しょうげん</rt></ruby>には<ruby>現場<rt>げんば</rt></ruby>の<ruby>生々<rt>なまなま</rt></ruby>しさがにじんでいた。</span><br>증언에는 현장의 생생함이 배어 있었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>写真美術館<rt>しゃしんびじゅつかん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">사진미술관</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">わたしたちは<ruby>東京都写真美術館<rt>とうきょうとしゃしんびじゅつかん</rt></ruby>を<ruby>訪<rt>おとず</rt></ruby>れた。</span><br>우리는 도쿄도 사진미술관을 방문했다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜までは〜ない</div>
+        <div class="pattern-ko">~하기 전에는 ~하지 않는다</div>
+        <p class="explain">어떤 조건이 충족되기 이전에는 행동이나 판단을 보류한다는 의미다. 신중함이나 기준선을 분명히 할 때 쓰이며, 부정형과 함께 고정적으로 나타난다.</p>
+        <p class="ex"><span class="ja">ニュースの<ruby>出所<rt>しゅっしょ</rt></ruby>が<ruby>確<rt>たし</rt></ruby>かになるまでは<ruby>共有<rt>きょうゆう</rt></ruby>しない。</span><br>뉴스의 출처가 확실해지기 전에는 공유하지 않는다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>칼럼은 ‘멋진 사진을 봐도 먼저 의심부터 하게 된다’는 체감에서 출발해, 독자가 이미 겪고 있는 피로와 혼란을 정면으로 끌어낸다. 이어 전통 매체의 상징인 잡지 LIFE의 부활을 배치해, 디지털 불신의 시대에 종이와 사진이 주는 신뢰의 감각을 대비시킨다. 전시회라는 구체적 현장을 제시함으로써 관념적 논의를 눈앞의 체험으로 전환시키는 것이 천성인어의 특유한 구성이다. 문장은 간결하지만 사례의 선택이 탁월해, 주제가 자연스럽게 독자의 일상과 연결되도록 만든다.</p>
+        <p>이 글이 남기는 질문은 ‘무엇을 믿을 것인가’가 아니라 ‘어떻게 믿을 것인가’이다. 한국 독자의 시각에서도 AI 이미지 검증은 이미 일상적 과제가 되었고, 사진의 물성이나 현장성에 기대어 신뢰를 재건하려는 시도는 흥미롭다. 특히 필름 사진이 주는 생생함을 ‘AI가 닿기 어려운 감각’으로 제시한 점은 기술 비관도 낙관도 아닌 균형 잡힌 태도이다. 결국 칼럼은 감상과 확인, 미학과 윤리 사이의 긴장을 성찰하도록 이끈다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 AI 시대에 사진의 진정성과 신뢰를 다시 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>LIFE는 20세기 미국을 대표한 사진저널리즘 잡지로, 상징적인 표지와 대형 화보로 대중적 영향력이 컸다. 최근 디지털과 지면을 아우르는 형태로 다시 주목받고 있다.</p>
+        <p>‘기무라 이헤이 사진상’은 일본의 권위 있는 신인 사진상으로, 이후 일본 사진계를 이끈 작가들을 다수 배출해왔다.</p>
+        <p>도쿄도 사진미술관은 에비스에 위치한 전문 미술관으로, 사진과 영상 아카이브·전시를 통해 일본 사진문화의 허브 역할을 한다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>개인적 체감에서 출발해 사회적 현상으로 확장하는 피라미드식 전개를 배울 만하다.</p>
+        <p><span class="n">二</span>전통 매체의 부활과 전시 현장을 병치해 추상적 논제를 구체화하는 대비 구도가 효과적이다.</p>
+        <p><span class="n">三</span>고유명사와 사실 정보를 정확히 배치해 신뢰감을 확보하면서도 문장을 절제하는 태도가 돋보인다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>画像<rt>がぞう</rt></ruby>が<ruby>真実<rt>しんじつ</rt></ruby>か<ruby>虚構<rt>きょこう</rt></ruby>かを<ruby>見極<rt>みきわ</rt></ruby>める<ruby>眼<rt>め</rt></ruby>を<ruby>養<rt>やしな</rt></ruby>おう。</span>
+      <span class="ko">이미지가 진실인지 허구인지 가려내는 눈을 기르자.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-24) — <a href="https://www.asahi.com/articles/DA3S16593960.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-24.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+<script>
+(function(){
+  try {
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzcXdFIOuEEMrvp34WC31ba2kWz9plgNJKqr4nVINKhva4xPjHkL2rmIxV6JLLWijXI/exec";
+    var uid = localStorage.getItem("tj_uid") || "", isNew = false;
+    if (!uid) {
+      uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem("tj_uid", uid); isNew = true;
+    }
+    var m = location.pathname.match(/(\d{4}-\d{2}-\d{2})\.html/);
+    var page = m ? m[1] : "상세";
+    var key = "tj_logged_" + page;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    var dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "모바일" : "PC";
+    var qs = "action=log&uid=" + encodeURIComponent(uid) + "&page=" + encodeURIComponent(page) + "&dev=" + encodeURIComponent(dev) +
+             "&ref=" + encodeURIComponent((document.referrer||"").slice(0,120));
+    fetch(GAS_URL + "?" + qs, {mode:"no-cors"}).catch(function(){});
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

@@ -15141,5 +15141,55 @@
   "example": "彼は北京に駐在している。",
   "exampleReading": "かれはぺきんにちゅうざいしている。",
   "exampleMeaning": "그는 베이징에 주재하고 있다."
+ },
+ {
+  "id": "tj665",
+  "word": "息を吹き返す",
+  "reading": "いきをふきかえす",
+  "meaning": "다시 살아나다, 회복되다",
+  "level": "N2",
+  "example": "あの雑誌が新たな企画で息を吹き返した。",
+  "exampleReading": "あのざっしがあらたなきかくでいきをふきかえした",
+  "exampleMeaning": "그 잡지가 새로운 기획으로 다시 살아났다."
+ },
+ {
+  "id": "tj666",
+  "word": "決定的瞬間",
+  "reading": "けっていてきしゅんかん",
+  "meaning": "결정적 순간",
+  "level": "N1",
+  "example": "その写真家は決定的瞬間を捉えた。",
+  "exampleReading": "そのしゃしんかはけっていてきしゅんかんをとらえた",
+  "exampleMeaning": "그 사진가는 결정적 순간을 포착했다."
+ },
+ {
+  "id": "tj667",
+  "word": "生成画像",
+  "reading": "せいせいがぞう",
+  "meaning": "생성 이미지(AI가 만든 이미지)",
+  "level": "N1",
+  "example": "AIの生成画像は現実と区別しにくいことがある。",
+  "exampleReading": "えーあいのせいせいがぞうはげんじつとくべつしにくいことがある",
+  "exampleMeaning": "AI 생성 이미지는 현실과 구분하기 어려울 때가 있다."
+ },
+ {
+  "id": "tj668",
+  "word": "生々しさ",
+  "reading": "なまなましさ",
+  "meaning": "생생함, 생동감",
+  "level": "N2",
+  "example": "証言には現場の生々しさがにじんでいた。",
+  "exampleReading": "しょうげんにはげんばのなまなましさがにじんでいた",
+  "exampleMeaning": "증언에는 현장의 생생함이 배어 있었다."
+ },
+ {
+  "id": "tj669",
+  "word": "写真美術館",
+  "reading": "しゃしんびじゅつかん",
+  "meaning": "사진미술관",
+  "level": "N2",
+  "example": "わたしたちは東京都写真美術館を訪れた。",
+  "exampleReading": "わたしたちはとうきょうとしゃしんびじゅつかんをおとずれた",
+  "exampleMeaning": "우리는 도쿄도 사진미술관을 방문했다."
  }
 ]

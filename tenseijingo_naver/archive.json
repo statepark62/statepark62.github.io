@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-24",
+    "no": 140,
+    "topic_ja": "<ruby>写真<rt>しゃしん</rt></ruby>とAIの<ruby>現在<rt>げんざい</rt></ruby>",
+    "topic_ko": "사진과 AI의 현재",
+    "url": "https://www.asahi.com/articles/DA3S16593960.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘이미지의 신뢰’, ‘사진저널리즘’, ‘AI와 예술’. 기술 변화 속에서 무엇이 믿을 만한 기록인지 탐색하고, 전통 매체의 역할과 예술의 현장성이 왜 여전히 유효한지 설득력 있게 보여주기 때문이다.",
+    "pattern": "〜までは〜ない"
+  },
+  {
     "date": "2026-11-23",
     "no": 139,
     "topic_ja": "<ruby>中宣部<rt>ちゅうせんぶ</rt></ruby>と<ruby>報道<rt>ほうどう</rt></ruby>",
