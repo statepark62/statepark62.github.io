@@ -15191,5 +15191,55 @@
   "example": "わたしたちは東京都写真美術館を訪れた。",
   "exampleReading": "わたしたちはとうきょうとしゃしんびじゅつかんをおとずれた",
   "exampleMeaning": "우리는 도쿄도 사진미술관을 방문했다."
+ },
+ {
+  "id": "tj670",
+  "word": "時事問題",
+  "reading": "じじもんだい",
+  "meaning": "시사 문제",
+  "level": "N2",
+  "example": "時事問題を分かりやすく解説する。",
+  "exampleReading": "じじもんだいをわかりやすくかいせつする。",
+  "exampleMeaning": "시사 문제를 알기 쉽게 해설한다."
+ },
+ {
+  "id": "tj671",
+  "word": "講師",
+  "reading": "こうし",
+  "meaning": "강사",
+  "level": "N2",
+  "example": "彼は大学で講師をしている。",
+  "exampleReading": "かれはだいがくでこうしをしている。",
+  "exampleMeaning": "그는 대학에서 강사로 일하고 있다."
+ },
+ {
+  "id": "tj672",
+  "word": "出演",
+  "reading": "しゅつえん",
+  "meaning": "출연",
+  "level": "N2",
+  "example": "彼女は番組に出演し、意見を述べた。",
+  "exampleReading": "かのじょはばんぐみにしゅつえんし、いけんをのべた。",
+  "exampleMeaning": "그녀는 프로그램에 출연해 의견을 밝혔다."
+ },
+ {
+  "id": "tj673",
+  "word": "願望",
+  "reading": "がんぼう",
+  "meaning": "소망, 욕망",
+  "level": "N2",
+  "example": "彼女は海外で働きたいという願望が強い。",
+  "exampleReading": "かのじょはかいがいではたらきたいというがんぼうがつよい。",
+  "exampleMeaning": "그녀는 해외에서 일하고 싶다는 욕망이 강하다."
+ },
+ {
+  "id": "tj674",
+  "word": "崩壊",
+  "reading": "ほうかい",
+  "meaning": "붕괴",
+  "level": "N1",
+  "example": "経済の崩壊で多くの企業が苦境に立たされた。",
+  "exampleReading": "けいざいのほうかいでおおくのきぎょうがくきょうにたたされた。",
+  "exampleMeaning": "경제의 붕괴로 많은 기업이 궁지에 몰렸다."
  }
 ]
