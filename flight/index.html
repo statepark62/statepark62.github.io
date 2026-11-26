@@ -123,6 +123,8 @@ async function run(q, chosen){
   const data = await res.json();
   if (data.error) return say("오류: " + data.error);
   show(data, chosen);
+  if (data.saveError) $("status").textContent += " · 시트 저장 실패: " + data.saveError;
+  else if (data.savedGen !== undefined && data.flights.length) $("status").textContent += " · 시트 기록됨";
  } catch (err) { say("연결 실패: URL과 배포 설정을 확인하세요."); }
  finally { $("go").disabled = false; $("clear").hidden = false; }
 }
