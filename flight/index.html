@@ -41,7 +41,10 @@
  .card{position:relative}
  input.pick{position:absolute;top:14px;left:14px;width:26px;height:26px;margin:0;padding:0;cursor:pointer;accent-color:#1457b8}
  .card.picked{background:#eaf2ff;box-shadow:0 0 0 3px #1457b8 inset}
- .summary{font-weight:700;color:#1457b8}
+ #bar{position:fixed;left:0;right:0;bottom:0;z-index:10;background:#fff;border-top:3px solid #1457b8;box-shadow:0 -4px 14px #0002;padding:10px 14px;max-height:45vh;overflow-y:auto}
+ #bar[hidden]{display:none}
+ .summary{font-weight:700;color:#1457b8;white-space:pre-line}
+ .note{font-size:16px;color:#667}
 </style>
 </head>
 <body>
@@ -78,6 +81,12 @@
  <div id="links"></div>
  <div id="list"></div>
 </main>
+<div id="bar" hidden aria-live="polite">
+ <div id="barText" class="summary"></div>
+ <div class="note">조회 시점 가격입니다. 예약 전에 판매처에서 가격과 발권 조건을 확인하세요.</div>
+ <button type="button" id="share">📋 복사·공유</button><button type="button" id="save">💾 시트 저장</button>
+ <div id="barMsg"></div>
+</div>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
 // ▼ 따옴표 안에 Apps Script 웹 앱 URL(/exec로 끝남)을 붙여넣으세요. 비밀번호는 넣지 마세요.
@@ -124,7 +133,7 @@ $("form").onsubmit = e => {
  run(query);
 };
 // 화면 결과와 시트 기록을 삭제. 위의 검색 조건은 그대로 둠
-function clearResults(){ opened = null; last = null; $("excel").hidden = true; say(""); $("links").replaceChildren(); $("list").replaceChildren(); $("clear").hidden = true; }
+function clearResults(){ setSelection(null); opened = null; last = null; $("excel").hidden = true; say(""); $("links").replaceChildren(); $("list").replaceChildren(); $("clear").hidden = true; }
 $("clear").onclick = async () => {
  if (!confirm("구글 시트의 모든 검색 기록이 삭제됩니다. 삭제할까요?")) return;
  const url = $("api").value.trim();
@@ -184,7 +193,7 @@ const saveNote = d => d.saveError ? " · 시트 저장 실패: " + d.saveError
                     : (d.savedGen !== undefined && d.flights.length ? " · 시트 기록됨" : "");
 
 async function run(q){
- say("검색 중…"); $("clear").hidden = true; last = null; opened = null; $("excel").hidden = true; $("list").replaceChildren(); $("go").disabled = true;
+ say("검색 중…"); setSelection(null); $("clear").hidden = true; last = null; opened = null; $("excel").hidden = true; $("list").replaceChildren(); $("go").disabled = true;
  const data = await request(q);
  if (data.error) say("오류: " + data.error);
  else { show(data); $("status").textContent += saveNote(data); }
@@ -203,6 +212,45 @@ const byRoute = (x,y) => x.legs[0].from.localeCompare(y.legs[0].from)
                       || x.legs[0].airline.localeCompare(y.legs[0].airline, "ko")
                       || x.legs[0].dep.localeCompare(y.legs[0].dep);
 
+// 화면 아래 '선택한 일정' 막대
+let selection = null;
+function setSelection(sel){
+ selection = sel;
+ $("bar").hidden = !sel;
+ $("barMsg").textContent = "";
+ $("save").disabled = false;
+ document.body.style.paddingBottom = sel ? "260px" : "";
+ if (sel) $("barText").textContent = `선택: ${flightName(sel.go)} → ${flightName(sel.ret)} · 1인당 왕복 ${won(sel.ret.price)}`;
+}
+const won = p => p ? p.toLocaleString("ko-KR") + "원" : "가격 정보 없음";
+function itinerary(s){
+ const part = (title, f) => `${title}  ${f.legs[0].dep.slice(5,10)}\n` + f.legs.map(l =>
+  `  ${l.airline} ${l.no}\n  ${l.from} ${l.dep.slice(11)} → ${l.to} ${l.arr.slice(11)}` + (l.arr.slice(0,10) !== l.dep.slice(0,10) ? ` (${l.arr.slice(5,10)})` : "")).join("\n");
+ return [`✈️ 항공 일정 (성인 ${s.adults}명)`, part("가는 편", s.go), part("오는 편", s.ret),
+         `1인당 왕복 ${won(s.ret.price)}`, `${s.q.date.slice(0,4)}년 일정 · 가격 조회 ${s.time}`, "※ 예약 전에 가격과 발권 조건을 확인하세요."].join("\n");
+}
+$("share").onclick = async () => {
+ if (!selection) return;
+ const text = itinerary(selection);
+ // 휴대폰은 공유창, PC는 복사
+ if (navigator.share && window.matchMedia && matchMedia("(pointer: coarse)").matches) {
+  try { await navigator.share({ title:"항공 일정", text }); return; }
+  catch (err) { if (err.name === "AbortError") return; }
+ }
+ try { await navigator.clipboard.writeText(text); $("barMsg").textContent = "복사했습니다. 원하는 곳에 붙여넣으세요."; }
+ catch (err) { window.prompt("아래 내용을 복사하세요", text); }
+};
+$("save").onclick = async () => {
+ const s = selection;
+ if (!s) return;
+ $("save").disabled = true;
+ $("barMsg").textContent = "저장 중…";
+ const data = await request({ action:"choose", go:s.go, ret:s.ret, adults:s.adults, time:s.time });
+ if (selection !== s) return;
+ if (typeof data.saved === "number") $("barMsg").textContent = `「최종선택」 탭에 ${data.saved}번으로 저장했습니다.`;
+ else { $("barMsg").textContent = "저장 실패: " + (data.error || "알 수 없는 응답"); $("save").disabled = false; }
+};
+
 // 카드 왼쪽 위의 선택 체크박스
 function addPick(card, label){
  const c = el("input", "", "pick");
@@ -216,6 +264,7 @@ const flightName = f => f.legs.map(l => `${l.airline} ${l.no}`).join(", ");
 
 // 펼친 귀국편을 접고 원래 모양으로
 function closeReturn(){
+ setSelection(null);
  if (!opened) return;
  opened.button.textContent = "이 편으로 귀국편 보기";
  opened.go.remove();
@@ -235,9 +284,8 @@ async function openReturn(f, card, button){
  button.textContent = "✕ 귀국편 닫기";
  const go = addPick(card, "가는 편 선택");
  const mine = opened = { pair, card, button, go, flights:null };
- const note = el("p", "귀국편 검색 중…"), summary = el("p", "", "summary");
- summary.setAttribute("aria-live", "polite");
- side.append(note, summary);
+ const note = el("p", "귀국편 검색 중…");
+ side.append(note);
  void pair.offsetWidth; // 시작 모양을 확정해야 움직임이 보임
  pair.classList.add("open");
  const data = await request({ ...query, token:f.token });
@@ -247,12 +295,9 @@ async function openReturn(f, card, button){
  note.textContent = (mine.flights.length ? `귀국편 ${mine.flights.length}건 · ${query.back}` : "귀국편이 없습니다.") + saveNote(data);
  const picks = [];
  let chosen = null;
- // 가는 편과 귀국편을 모두 체크하면 선택한 일정을 표시
- const update = () => {
-  summary.textContent = go.checked && chosen
-   ? `선택 완료: ${flightName(f)} → ${flightName(chosen)} · 1인당 왕복 ${chosen.price ? chosen.price.toLocaleString("ko-KR") + "원" : "가격 정보 없음"}`
-   : "";
- };
+ // 가는 편과 귀국편을 모두 체크하면 아래에 선택한 일정 막대를 표시
+ const update = () => setSelection(go.checked && chosen
+  ? { go:f, ret:chosen, q:query, adults:query.adults, time:data.time } : null);
  go.addEventListener("change", update);
  for (const r of mine.flights) {
   const box = makeCard(r), c = addPick(box, "귀국편 선택 " + flightName(r));
