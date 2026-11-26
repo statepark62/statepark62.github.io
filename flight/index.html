@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한일 항공권 검색</title>
+<style>
+ *{box-sizing:border-box}
+ body{margin:0;font-family:system-ui,"Noto Sans KR",sans-serif;font-size:18.5px;background:#f2f5f9;color:#1c2733;text-align:center;line-height:1.55}
+ main{max-width:1180px;margin:0 auto;padding:20px 14px}
+ h1{font-size:clamp(30px,6vw,50px);margin:10px 0}
+ .sub{font-size:19.5px;color:#556}
+ .box,.card{background:#fff;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 8px #0001}
+ .row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+ label{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1 1 220px}
+ input,select,button{font:inherit;padding:10px;border-radius:9px;border:1px solid #bcc6d2;text-align:center;text-align-last:center}
+ input:not([type=checkbox]),select{width:100%;background:#fff}
+ button{background:#1457b8;color:#fff;border:0;cursor:pointer;margin:6px}
+ button:disabled{opacity:.5}
+ button.light{background:#e4ebf5;color:#1457b8}
+ .price{font-size:28px;font-weight:700}
+ a{color:#1457b8;margin:0 8px;display:inline-block}
+ details{font-size:17px}
+</style>
+</head>
+<body>
+<main>
+ <h1>✈️ 한일 항공권 검색</h1>
+ <p class="sub">Google 항공편 결과를 가격순으로 보여줍니다 (원화)</p>
 
+ <form class="box" id="form">
+  <div class="row">
+   <label>출발지<select id="from"></select></label>
+   <label>도착지<select id="to"></select></label>
+  </div>
+  <p><button type="button" class="light" id="swap">⇄ 출발·도착 바꾸기</button></p>
+  <div class="row">
+   <label>가는 날<input type="date" id="date" required></label>
+   <label>오는 날 (비우면 편도)<input type="date" id="back"></label>
+   <label>성인 인원<select id="adults"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+  </div>
+  <p><input type="checkbox" id="nonstop" checked> 직항만 보기</p>
+  <button id="go">검색</button>
+ </form>
+
+ <details class="box">
+  <summary>설정 (처음 한 번)</summary>
+  <p><label>Apps Script 웹 앱 URL<input type="url" id="api" placeholder="https://script.google.com/macros/s/…/exec"></label></p>
+  <p><label>비밀번호<input type="password" id="pw"></label></p>
+ </details>
+
+ <div id="status" aria-live="polite"></div>
+ <div id="links"></div>
+ <div id="list"></div>
+</main>
+<script>
+const AIRPORTS = {
+ "한국": [["ICN,GMP","서울 전체(인천+김포)"],["ICN","인천"],["GMP","김포"],["PUS","부산"],["TAE","대구"],["CJJ","청주"],["CJU","제주"]],
+ "일본": [["NRT,HND","도쿄 전체(나리타+하네다)"],["NRT","도쿄 나리타"],["HND","도쿄 하네다"],["KIX","오사카 간사이"],["NGO","나고야"],["FUK","후쿠오카"],["CTS","삿포로"],["OKA","오키나와"],["SDJ","센다이"],["KIJ","니가타"],["KMQ","고마쓰"],["OKJ","오카야마"],["HIJ","히로시마"],["TAK","다카마쓰"],["MYJ","마쓰야마"],["KMJ","구마모토"],["OIT","오이타"],["KOJ","가고시마"]]
+};
+const $ = id => document.getElementById(id);
+function el(tag, text, cls){ const e = document.createElement(tag); if(text) e.textContent = text; if(cls) e.className = cls; return e; }
+
+for (const id of ["from","to"]) for (const [country, items] of Object.entries(AIRPORTS)) {
+ const g = el("optgroup"); g.label = country;
+ for (const [v, n] of items) g.append(new Option(n + " (" + v + ")", v));
+ $(id).append(g);
+}
+$("from").value = "ICN,GMP"; $("to").value = "KIX";
+
+function store(k, v){ try { if (v === undefined) return localStorage.getItem(k) || ""; localStorage.setItem(k, v); } catch(e) { return ""; } }
+for (const id of ["api","pw"]) { $(id).value = store(id); $(id).onchange = () => store(id, $(id).value.trim()); }
+
+const now = new Date();
+const today = new Date(now - now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+$("date").min = $("back").min = today;
+$("date").onchange = () => { $("back").min = $("date").value || today; };
+$("swap").onclick = () => { [$("from").value, $("to").value] = [$("to").value, $("from").value]; };
+
+let query = null;
+$("form").onsubmit = e => {
+ e.preventDefault();
+ query = { from:$("from").value, to:$("to").value, date:$("date").value, back:$("back").value,
+           adults:$("adults").value, nonstop:$("nonstop").checked };
+ if (query.from.split(",").some(c => query.to.split(",").includes(c))) return say("출발지와 도착지가 같습니다.");
+ if (query.back && query.back < query.date) return say("오는 날이 가는 날보다 빠릅니다.");
+ showLinks(query);
+ run(query);
+};
+function say(t){ $("status").textContent = t; }
+
+async function run(q, chosen){
+ const url = $("api").value.trim();
+ if (!url || !$("pw").value) return say("아래 '설정'에 URL과 비밀번호를 먼저 입력하세요.");
+ say("검색 중…"); $("list").replaceChildren(); $("go").disabled = true;
+ try {
+  const res = await fetch(url, { method:"POST", headers:{"Content-Type":"text/plain"},
+                                 body: JSON.stringify({ ...q, password:$("pw").value.trim() }) });
+  const data = await res.json();
+  if (data.error) return say("오류: " + data.error);
+  show(data, chosen);
+ } catch (err) { say("연결 실패: URL과 배포 설정을 확인하세요."); }
+ finally { $("go").disabled = false; }
+}
+
+function show(data, chosen){
+ const flights = data.flights.sort((a,b) => (a.price ?? Infinity) - (b.price ?? Infinity));
+ const stage = chosen ? "귀국편 " : (query.back ? "가는 편 " : "");
+ say(flights.length ? `${stage}${flights.length}건 · ${data.time} 조회${data.cached ? " (저장된 결과)" : ""}` : "검색 결과가 없습니다.");
+ if (chosen) $("list").append(el("p", "선택한 가는 편: " + chosen));
+ for (const f of flights) {
+  const card = el("div", "", "card");
+  card.append(el("div", f.price ? f.price.toLocaleString("ko-KR") + "원" : "가격 정보 없음", "price"));
+  if (query.back) card.append(el("div", "왕복 총액"));
+  for (const l of f.legs) card.append(el("div", `${l.airline} ${l.no} · ${l.from} ${l.dep.slice(5)} → ${l.to} ${l.arr.slice(5)}`));
+  card.append(el("div", `총 ${Math.floor(f.minutes/60)}시간 ${f.minutes%60}분 · ${f.legs.length === 1 ? "직항" : "경유 " + (f.legs.length-1) + "회"}`));
+  if (query.back && !chosen && f.token) {
+   const b = el("button", "이 편으로 귀국편 보기");
+   const name = f.legs.map(l => `${l.airline} ${l.no}`).join(", ");
+   b.onclick = () => run({ ...query, token:f.token }, name);
+   card.append(b);
+  }
+  $("list").append(card);
+ }
+ if (data.url && data.url.startsWith("https://")) $("list").append(link("Google 항공편에서 확인", data.url));
+}
+
+function link(text, href){ const a = el("a", text); a.href = href; a.target = "_blank"; a.rel = "noopener"; return a; }
+function showLinks(q){
+ const a = q.from.split(",")[0], b = q.to.split(",")[0];
+ const d = s => s.replaceAll("-","");
+ const sky = `https://www.skyscanner.co.kr/transport/flights/${a.toLowerCase()}/${b.toLowerCase()}/${d(q.date).slice(2)}/` + (q.back ? d(q.back).slice(2) + "/" : "") + `?adultsv2=${q.adults}`;
+ const naver = `https://flight.naver.com/flights/international/${a}-${b}-${d(q.date)}` + (q.back ? `/${b}-${a}-${d(q.back)}` : "") + `?adult=${q.adults}&fareType=Y`;
+ const note = el("p", "비교 확인 (첫 번째 공항 기준): ");
+ note.append(link("스카이스캐너", sky), link("네이버 항공권", naver));
+ $("links").replaceChildren(note);
+}
+</script>
+</body>
+</html>
