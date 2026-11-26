@@ -31,7 +31,7 @@
 <body>
 <main>
  <h1>✈️ 한일 항공권 검색</h1>
- <p class="sub">Google 항공편 결과를 가격순으로 보여줍니다 (원화)</p>
+ <p class="sub">Google 항공편 결과를 항공사별·출발시각순으로 보여줍니다 (원화)</p>
 
  <form class="box" id="form">
   <div class="row">
@@ -119,7 +119,7 @@ $("clear").onclick = async () => {
  } catch (err) { say("삭제 확인 실패: 시트를 열어 확인하세요."); }
  finally { $("clear").disabled = $("go").disabled = false; }
 };
-// 화면에 보이는 결과를 엑셀 파일로 저장 (출발공항 → 출발시각 순)
+// 화면에 보이는 결과를 엑셀 파일로 저장 (항공사 → 출발시각 순)
 let last = null;
 $("excel").onclick = () => {
  if (!last) return;
@@ -130,7 +130,7 @@ $("excel").onclick = () => {
   return [kind, a.from, b.to, kind === "왕복-귀국편" ? q.back : q.date, q.back || "", Number(q.adults), f.price ?? "",
           f.legs.map(l => l.airline).join(" / "), f.legs.map(l => l.no).join(" / "),
           a.dep, b.arr, f.minutes, f.legs.length - 1];
- }).sort((x, y) => x[1].localeCompare(y[1]) || x[9].localeCompare(y[9]));
+ }).sort((x, y) => x[7].localeCompare(y[7], "ko") || x[9].localeCompare(y[9]));
  const head = ["구분","출발공항","도착공항","탑승일","오는 날","인원","1인당 가격(원)","항공사","편명","출발시각","도착시각","소요(분)","경유"];
  const sheet = XLSX.utils.aoa_to_sheet([head, ...rows]);
  for (let r = 1; r <= rows.length; r++) {
@@ -168,16 +168,18 @@ function show(data, chosen){
  last = flights.length ? { flights, q: query, kind: chosen ? "왕복-귀국편" : (query.back ? "왕복-가는편" : "편도") } : null;
  $("excel").hidden = !last;
  if (chosen) $("list").append(el("p", "선택한 가는 편: " + chosen));
- const names = Object.fromEntries(Object.values(AIRPORTS).flat().filter(([v]) => !v.includes(",")));
- const groups = new Map(); // 출발 공항별 묶음 (최저가가 싼 공항부터)
- for (const f of flights) {
-  const k = f.legs[0].from;
+ // 항공사별로 묶고(가나다순), 같은 항공사 안에서는 출발시각순
+ const groups = new Map();
+ const ordered = [...flights].sort((x,y) => x.legs[0].airline.localeCompare(y.legs[0].airline, "ko")
+                                          || x.legs[0].dep.localeCompare(y.legs[0].dep));
+ for (const f of ordered) {
+  const k = f.legs[0].airline;
   if (!groups.has(k)) groups.set(k, []);
   groups.get(k).push(f);
  }
- for (const [code, items] of groups) {
- const low = items[0].price;
- $("list").append(el("h2", `${names[code] || code} 출발 · ${items.length}건` + (low ? ` · 최저 ${low.toLocaleString("ko-KR")}원` : "")));
+ for (const [airline, items] of groups) {
+ const prices = items.map(f => f.price).filter(Boolean);
+ $("list").append(el("h2", `${airline} · ${items.length}건` + (prices.length ? ` · 최저 ${Math.min(...prices).toLocaleString("ko-KR")}원` : "")));
  for (const f of items) {
   const card = el("div", "", "card");
   card.append(el("div", f.price ? f.price.toLocaleString("ko-KR") + "원" : "가격 정보 없음", "price"));
