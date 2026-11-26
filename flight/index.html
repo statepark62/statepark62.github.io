@@ -27,6 +27,17 @@
  .price{font-size:28px;font-weight:700}
  a{color:#1457b8;margin:0 8px;display:inline-block}
  details{font-size:17px}
+ .pair{display:flex;align-items:flex-start;overflow:hidden;padding:2px}
+ .pair>.card{flex:0 0 100%;min-width:0;transition:flex-basis .45s,transform .45s,margin .45s}
+ .pair>.side{flex:1 1 0;min-width:0;opacity:0;transform:translateX(40px);transition:opacity .45s,transform .45s;max-height:0;overflow:hidden}
+ .pair.open>.card{flex-basis:42%;transform:scale(.96);margin-right:14px;border:3px solid #1457b8}
+ .pair.open>.side{opacity:1;transform:none;max-height:75vh;overflow-y:auto;padding:0 4px}
+ @media (max-width:760px){
+  .pair{flex-direction:column;align-items:stretch}
+  .pair>.card,.pair.open>.card{flex:none;margin-right:0}
+  .pair>.side{flex:none}
+ }
+ @media (prefers-reduced-motion:reduce){.pair>*{transition:none!important}}
 </style>
 </head>
 <body>
@@ -106,11 +117,10 @@ $("form").onsubmit = e => {
  if (query.from.split(",").some(c => query.to.split(",").includes(c))) return say("출발지와 도착지가 같습니다.");
  if (query.back && query.back < query.date) return say("오는 날이 가는 날보다 빠릅니다.");
  showLinks(query);
- outbound = null;
  run(query);
 };
 // 화면 결과와 시트 기록을 삭제. 위의 검색 조건은 그대로 둠
-function clearResults(){ outbound = null; last = null; $("excel").hidden = true; say(""); $("links").replaceChildren(); $("list").replaceChildren(); $("clear").hidden = true; }
+function clearResults(){ opened = null; last = null; $("excel").hidden = true; say(""); $("links").replaceChildren(); $("list").replaceChildren(); $("clear").hidden = true; }
 $("clear").onclick = async () => {
  if (!confirm("구글 시트의 모든 검색 기록이 삭제됩니다. 삭제할까요?")) return;
  const url = $("api").value.trim();
@@ -128,12 +138,14 @@ $("clear").onclick = async () => {
  finally { $("clear").disabled = $("go").disabled = false; }
 };
 // 화면에 보이는 결과를 엑셀 파일로 저장 (출발공항 → 항공사 → 출발시각 순)
-let last = null;
+let last = null, opened = null; // opened: 지금 펼쳐진 귀국편
 $("excel").onclick = () => {
  if (!last) return;
  if (!window.XLSX) return say("엑셀 도구를 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침하세요.");
- const { flights, q, kind } = last;
- const rows = flights.map(f => {
+ const { q, kind } = last;
+ const list = last.flights.map(f => [f, kind]);
+ if (opened && opened.flights) list.push(...opened.flights.map(f => [f, "왕복-귀국편"]));
+ const rows = list.map(([f, kind]) => {
   const a = f.legs[0], b = f.legs[f.legs.length - 1];
   return [kind, a.from, b.to, kind === "왕복-귀국편" ? q.back : q.date, q.back || "", Number(q.adults), f.price ?? "",
           f.legs.map(l => l.airline).join(" / "), f.legs.map(l => l.no).join(" / "),
@@ -148,57 +160,84 @@ $("excel").onclick = () => {
  sheet["!cols"] = [12,10,10,12,12,6,16,22,18,18,18,9,6].map(wch => ({ wch }));
  const book = XLSX.utils.book_new();
  XLSX.utils.book_append_sheet(book, sheet, "검색결과");
- const to = [...new Set(rows.map(r => r[2]))].join("-");
- XLSX.writeFile(book, `항공권_${to}_${kind === "왕복-귀국편" ? q.back : q.date}_${kind}.xlsx`);
+ const to = [...new Set(rows.filter(r => r[0] !== "왕복-귀국편").map(r => r[2]))].join("-");
+ XLSX.writeFile(book, `항공권_${to}_${q.date}_${list.length > last.flights.length ? "왕복" : kind}.xlsx`);
 };
 function say(t){ $("status").textContent = t; }
 
-// 가는 편 목록을 기억해 두었다가 다시 보여줌 (추가 검색 없음)
-let outbound = null, outboundY = 0;
-function backButton(){
- const b = el("button", "← 가는 편 목록으로", "light");
- b.type = "button";
- b.onclick = () => {
-  $("list").replaceChildren();
-  $("clear").hidden = false;
-  show(outbound);
-  window.scrollTo(0, outboundY);
- };
- return b;
-}
-async function run(q, chosen){
+async function request(body){
  const url = $("api").value.trim();
- if (!url || !$("pw").value) return say("아래 '설정'에 URL과 비밀번호를 먼저 입력하세요.");
- say("검색 중…"); $("clear").hidden = true; last = null; $("excel").hidden = true; $("list").replaceChildren(); $("go").disabled = true;
+ if (!url || !$("pw").value) return { error:"아래 '설정'에 URL과 비밀번호를 먼저 입력하세요." };
  try {
   const res = await fetch(url, { method:"POST", headers:{"Content-Type":"text/plain"},
-                                 body: JSON.stringify({ ...q, password:$("pw").value.trim() }) });
+                                 body: JSON.stringify({ ...body, password:$("pw").value.trim() }) });
   const data = await res.json();
   if (typeof data.left === "number") $("left").textContent = `이번 달 남은 검색 횟수: ${data.left}회`;
-  if (data.error) return say("오류: " + data.error);
-  show(data, chosen);
-  if (data.saveError) $("status").textContent += " · 시트 저장 실패: " + data.saveError;
-  else if (data.savedGen !== undefined && data.flights.length) $("status").textContent += " · 시트 기록됨";
- } catch (err) { say("연결 실패: URL과 배포 설정을 확인하세요."); }
- finally {
-  $("go").disabled = false; $("clear").hidden = false;
-  if (chosen && outbound) { $("list").prepend(backButton()); $("status").scrollIntoView(); }
- }
+  return data;
+ } catch (err) { return { error:"연결 실패: URL과 배포 설정을 확인하세요." }; }
+}
+const saveNote = d => d.saveError ? " · 시트 저장 실패: " + d.saveError
+                    : (d.savedGen !== undefined && d.flights.length ? " · 시트 기록됨" : "");
+
+async function run(q){
+ say("검색 중…"); $("clear").hidden = true; last = null; opened = null; $("excel").hidden = true; $("list").replaceChildren(); $("go").disabled = true;
+ const data = await request(q);
+ if (data.error) say("오류: " + data.error);
+ else { show(data); $("status").textContent += saveNote(data); }
+ $("go").disabled = false; $("clear").hidden = false;
 }
 
-function show(data, chosen){
- const flights = data.flights.sort((a,b) => (a.price ?? Infinity) - (b.price ?? Infinity));
- const stage = chosen ? "귀국편 " : (query.back ? "가는 편 " : "");
+function makeCard(f){
+ const card = el("div", "", "card");
+ card.append(el("div", f.price ? f.price.toLocaleString("ko-KR") + "원" : "가격 정보 없음", "price"));
+ card.append(el("div", query.back ? "1인당 왕복 요금" : "1인당 편도 요금"));
+ for (const l of f.legs) card.append(el("div", `${l.airline} ${l.no} · ${l.from} ${l.dep.slice(5)} → ${l.to} ${l.arr.slice(5)}`));
+ card.append(el("div", `총 ${Math.floor(f.minutes/60)}시간 ${f.minutes%60}분 · ${f.legs.length === 1 ? "직항" : "경유 " + (f.legs.length-1) + "회"}`));
+ return card;
+}
+const byRoute = (x,y) => x.legs[0].from.localeCompare(y.legs[0].from)
+                      || x.legs[0].airline.localeCompare(y.legs[0].airline, "ko")
+                      || x.legs[0].dep.localeCompare(y.legs[0].dep);
+
+// 펼친 귀국편을 접고 원래 모양으로
+function closeReturn(){
+ if (!opened) return;
+ opened.button.textContent = "이 편으로 귀국편 보기";
+ opened.pair.replaceWith(opened.card);
+ opened = null;
+}
+
+// 선택한 카드를 왼쪽으로 줄이고, 오른쪽에 귀국편을 같은 카드 모양으로 표시
+async function openReturn(f, card, button){
+ const same = opened && opened.card === card;
+ closeReturn();
+ if (same) return;
+ const pair = el("div", "", "pair"), side = el("div", "", "side");
+ card.replaceWith(pair);
+ pair.append(card, side);
+ button.textContent = "✕ 귀국편 닫기";
+ const mine = opened = { pair, card, button, flights:null };
+ const note = el("p", "귀국편 검색 중…");
+ side.append(note);
+ void pair.offsetWidth; // 시작 모양을 확정해야 움직임이 보임
+ pair.classList.add("open");
+ const data = await request({ ...query, token:f.token });
+ if (opened !== mine) return; // 그 사이 닫았거나 새로 검색함
+ if (data.error) { note.textContent = "오류: " + data.error; return; }
+ mine.flights = [...data.flights].sort(byRoute);
+ note.textContent = (mine.flights.length ? `귀국편 ${mine.flights.length}건 · ${query.back}` : "귀국편이 없습니다.") + saveNote(data);
+ for (const r of mine.flights) side.append(makeCard(r));
+}
+
+function show(data){
+ const flights = data.flights;
+ const stage = query.back ? "가는 편 " : "";
  say(flights.length ? `${stage}${flights.length}건 · ${data.time} 조회${data.cached ? " (저장된 결과)" : ""}` : "검색 결과가 없습니다.");
- last = flights.length ? { flights, q: query, kind: chosen ? "왕복-귀국편" : (query.back ? "왕복-가는편" : "편도") } : null;
+ last = flights.length ? { flights, q: query, kind: query.back ? "왕복-가는편" : "편도" } : null;
  $("excel").hidden = !last;
- if (!chosen) outbound = data;
- if (chosen) $("list").append(el("p", "선택한 가는 편: " + chosen));
  // 출발공항 → 항공사(가나다순) → 출발시각 순으로 묶기
  const names = Object.fromEntries(Object.values(AIRPORTS).flat().filter(([v]) => !v.includes(",")));
- const ordered = [...flights].sort((x,y) => x.legs[0].from.localeCompare(y.legs[0].from)
-                                          || x.legs[0].airline.localeCompare(y.legs[0].airline, "ko")
-                                          || x.legs[0].dep.localeCompare(y.legs[0].dep));
+ const ordered = [...flights].sort(byRoute);
  const lowest = list => { const p = list.map(f => f.price).filter(Boolean); return p.length ? ` · 최저 ${Math.min(...p).toLocaleString("ko-KR")}원` : ""; };
  let airport = "", airline = "";
  for (const f of ordered) {
@@ -213,15 +252,11 @@ function show(data, chosen){
    const same = ordered.filter(g => g.legs[0].from === from && g.legs[0].airline === name);
    $("list").append(el("h3", `${name} · ${same.length}건${lowest(same)}`));
   }
-  const card = el("div", "", "card");
-  card.append(el("div", f.price ? f.price.toLocaleString("ko-KR") + "원" : "가격 정보 없음", "price"));
-  card.append(el("div", query.back ? "1인당 왕복 요금" : "1인당 편도 요금"));
-  for (const l of f.legs) card.append(el("div", `${l.airline} ${l.no} · ${l.from} ${l.dep.slice(5)} → ${l.to} ${l.arr.slice(5)}`));
-  card.append(el("div", `총 ${Math.floor(f.minutes/60)}시간 ${f.minutes%60}분 · ${f.legs.length === 1 ? "직항" : "경유 " + (f.legs.length-1) + "회"}`));
-  if (query.back && !chosen && f.token) {
+  const card = makeCard(f);
+  if (query.back && f.token) {
    const b = el("button", "이 편으로 귀국편 보기");
-   const name = f.legs.map(l => `${l.airline} ${l.no}`).join(", ");
-   b.onclick = () => { outboundY = window.scrollY; run({ ...query, token:f.token }, name); };
+   b.type = "button";
+   b.onclick = () => openReturn(f, card, b);
    card.append(b);
   }
   $("list").append(card);
