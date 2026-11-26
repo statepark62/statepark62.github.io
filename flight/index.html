@@ -38,6 +38,10 @@
   .pair>.side{flex:none}
  }
  @media (prefers-reduced-motion:reduce){.pair>*{transition:none!important}}
+ .card{position:relative}
+ input.pick{position:absolute;top:14px;left:14px;width:26px;height:26px;margin:0;padding:0;cursor:pointer;accent-color:#1457b8}
+ .card.picked{background:#eaf2ff;box-shadow:0 0 0 3px #1457b8 inset}
+ .summary{font-weight:700;color:#1457b8}
 </style>
 </head>
 <body>
@@ -199,10 +203,23 @@ const byRoute = (x,y) => x.legs[0].from.localeCompare(y.legs[0].from)
                       || x.legs[0].airline.localeCompare(y.legs[0].airline, "ko")
                       || x.legs[0].dep.localeCompare(y.legs[0].dep);
 
+// 카드 왼쪽 위의 선택 체크박스
+function addPick(card, label){
+ const c = el("input", "", "pick");
+ c.type = "checkbox";
+ c.setAttribute("aria-label", label);
+ c.onchange = () => { card.classList.toggle("picked", c.checked); };
+ card.prepend(c);
+ return c;
+}
+const flightName = f => f.legs.map(l => `${l.airline} ${l.no}`).join(", ");
+
 // 펼친 귀국편을 접고 원래 모양으로
 function closeReturn(){
  if (!opened) return;
  opened.button.textContent = "이 편으로 귀국편 보기";
+ opened.go.remove();
+ opened.card.classList.remove("picked");
  opened.pair.replaceWith(opened.card);
  opened = null;
 }
@@ -216,9 +233,11 @@ async function openReturn(f, card, button){
  card.replaceWith(pair);
  pair.append(card, side);
  button.textContent = "✕ 귀국편 닫기";
- const mine = opened = { pair, card, button, flights:null };
- const note = el("p", "귀국편 검색 중…");
- side.append(note);
+ const go = addPick(card, "가는 편 선택");
+ const mine = opened = { pair, card, button, go, flights:null };
+ const note = el("p", "귀국편 검색 중…"), summary = el("p", "", "summary");
+ summary.setAttribute("aria-live", "polite");
+ side.append(note, summary);
  void pair.offsetWidth; // 시작 모양을 확정해야 움직임이 보임
  pair.classList.add("open");
  const data = await request({ ...query, token:f.token });
@@ -226,7 +245,27 @@ async function openReturn(f, card, button){
  if (data.error) { note.textContent = "오류: " + data.error; return; }
  mine.flights = [...data.flights].sort(byRoute);
  note.textContent = (mine.flights.length ? `귀국편 ${mine.flights.length}건 · ${query.back}` : "귀국편이 없습니다.") + saveNote(data);
- for (const r of mine.flights) side.append(makeCard(r));
+ const picks = [];
+ let chosen = null;
+ // 가는 편과 귀국편을 모두 체크하면 선택한 일정을 표시
+ const update = () => {
+  summary.textContent = go.checked && chosen
+   ? `선택 완료: ${flightName(f)} → ${flightName(chosen)} · 1인당 왕복 ${chosen.price ? chosen.price.toLocaleString("ko-KR") + "원" : "가격 정보 없음"}`
+   : "";
+ };
+ go.addEventListener("change", update);
+ for (const r of mine.flights) {
+  const box = makeCard(r), c = addPick(box, "귀국편 선택 " + flightName(r));
+  picks.push(c);
+  c.addEventListener("change", () => {
+   // 귀국편은 한 곳만 선택
+   if (c.checked) for (const o of picks) if (o !== c) { o.checked = false; o.parentElement.classList.remove("picked"); }
+   chosen = c.checked ? r : null;
+   update();
+  });
+  side.append(box);
+ }
+ update();
 }
 
 function show(data){
