@@ -14,6 +14,7 @@
  main{max-width:1180px;margin:0 auto;padding:20px 14px}
  h2{font-size:28px;margin:26px 0 6px}
  h3{font-size:21px;margin:14px 0 4px;color:#1457b8}
+ #list>label{flex:none;max-width:560px;margin:14px auto;font-weight:700}
  h1{font-size:clamp(30px,6vw,50px);margin:10px 0}
  .sub{font-size:19.5px;color:#556}
  .box,.card{background:#fff;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 8px #0001}
@@ -50,7 +51,7 @@
 <body>
 <main>
  <h1>✈️ 한일 항공권 검색</h1>
- <p class="sub">Google 항공편 결과를 공항별·항공사별·출발시각순으로 보여줍니다 (원화)</p>
+ <p class="sub">Google 항공편 결과를 선택한 공항의 항공편을 항공사별·출발시각순으로 보여줍니다 (원화)</p>
 
  <form class="box" id="form">
   <div class="row">
@@ -293,32 +294,46 @@ function show(data){
  const flights = data.flights;
  const stage = query.back ? "가는 편 " : "";
  say(flights.length ? `${stage}${flights.length}건 · ${data.time} 조회${data.cached ? " (저장된 결과)" : ""}` : "검색 결과가 없습니다.");
- // 출발공항 → 항공사(가나다순) → 출발시각 순으로 묶기
+ if (!flights.length) return;
+ // 출발공항을 고르면 그 공항의 항공편만 표시 (추가 검색 없음)
  const names = Object.fromEntries(Object.values(AIRPORTS).flat().filter(([v]) => !v.includes(",")));
  const ordered = [...flights].sort(byRoute);
  const lowest = list => { const p = list.map(f => f.price).filter(Boolean); return p.length ? ` · 최저 ${Math.min(...p).toLocaleString("ko-KR")}원` : ""; };
- let airport = "", airline = "";
- for (const f of ordered) {
-  const from = f.legs[0].from, name = f.legs[0].airline;
-  if (from !== airport) {
-   airport = from; airline = "";
-   const same = ordered.filter(g => g.legs[0].from === from);
-   $("list").append(el("h2", `${names[from] || from} 출발 · ${same.length}건${lowest(same)}`));
-  }
-  if (name !== airline) {
-   airline = name;
-   const same = ordered.filter(g => g.legs[0].from === from && g.legs[0].airline === name);
-   $("list").append(el("h3", `${name} · ${same.length}건${lowest(same)}`));
-  }
-  const card = makeCard(f);
-  if (query.back && f.token) {
-   const b = el("button", "이 편으로 귀국편 보기");
-   b.type = "button";
-   b.onclick = () => openReturn(f, card, b);
-   card.append(b);
-  }
-  $("list").append(card);
+ const codes = [...new Set(ordered.map(f => f.legs[0].from))];
+ const pick = el("select"), area = el("div");
+ pick.id = "airport";
+ pick.append(new Option("출발공항을 선택하세요", ""));
+ for (const code of codes) {
+  const items = ordered.filter(f => f.legs[0].from === code);
+  pick.append(new Option(`${names[code] || code} (${code}) · ${items.length}건${lowest(items)}`, code));
  }
+ const render = code => {
+  closeReturn();
+  area.replaceChildren();
+  const here = ordered.filter(f => f.legs[0].from === code);
+  let airline = "";
+  for (const f of here) {
+   const name = f.legs[0].airline;
+   if (name !== airline) {
+    airline = name;
+    const same = here.filter(g => g.legs[0].airline === name);
+    area.append(el("h3", `${name} · ${same.length}건${lowest(same)}`));
+   }
+   const card = makeCard(f);
+   if (query.back && f.token) {
+    const b = el("button", "이 편으로 귀국편 보기");
+    b.type = "button";
+    b.onclick = () => openReturn(f, card, b);
+    card.append(b);
+   }
+   area.append(card);
+  }
+ };
+ pick.onchange = () => render(pick.value);
+ const box = el("label", "출발공항 선택");
+ box.append(pick);
+ $("list").append(box, area);
+ if (codes.length === 1) { pick.value = codes[0]; render(codes[0]); } // 공항이 하나면 바로 표시
  if (data.url && data.url.startsWith("https://")) $("list").append(link("Google 항공편에서 확인", data.url));
 }
 
