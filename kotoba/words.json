@@ -15241,5 +15241,55 @@
   "example": "経済の崩壊で多くの企業が苦境に立たされた。",
   "exampleReading": "けいざいのほうかいでおおくのきぎょうがくきょうにたたされた。",
   "exampleMeaning": "경제의 붕괴로 많은 기업이 궁지에 몰렸다."
+ },
+ {
+  "id": "tj675",
+  "word": "見下ろす",
+  "reading": "みおろす",
+  "meaning": "내려다보다",
+  "level": "N2",
+  "example": "びるの窓から街を見下ろす。",
+  "exampleReading": "びるのまどからまちをみおろす。",
+  "exampleMeaning": "빌딩 창문에서 거리를 내려다본다."
+ },
+ {
+  "id": "tj676",
+  "word": "主催",
+  "reading": "しゅさい",
+  "meaning": "주최",
+  "level": "N1",
+  "example": "学生が主催する講演会に参加した。",
+  "exampleReading": "がくせいがしゅさいするこうえんかいにさんかした。",
+  "exampleMeaning": "학생이 주최하는 강연회에 참가했다."
+ },
+ {
+  "id": "tj677",
+  "word": "開催",
+  "reading": "かいさい",
+  "meaning": "개최",
+  "level": "N2",
+  "example": "東京で国際ふぇあが開催された。",
+  "exampleReading": "とうきょうでこくさいふぇあがかいさいされた。",
+  "exampleMeaning": "도쿄에서 국제 페어가 개최되었다."
+ },
+ {
+  "id": "tj678",
+  "word": "交差点",
+  "reading": "こうさてん",
+  "meaning": "교차로",
+  "level": "N3",
+  "example": "大通りの交差点で信号を待つ。",
+  "exampleReading": "おおどおりのこうさてんでしんごうをまつ。",
+  "exampleMeaning": "큰길의 교차로에서 신호를 기다린다."
+ },
+ {
+  "id": "tj679",
+  "word": "展示会",
+  "reading": "てんじかい",
+  "meaning": "전시회",
+  "level": "N3",
+  "example": "新作の展示会が来週開かれる。",
+  "exampleReading": "しんさくのてんじかいがらいしゅうひらかれる。",
+  "exampleMeaning": "신작 전시회가 다음 주에 열린다."
  }
 ]

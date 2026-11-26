@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-26",
+    "no": 142,
+    "topic_ja": "<ruby>渋谷<rt>しぶや</rt></ruby>で<ruby>水俣病<rt>みなまたびょう</rt></ruby>を<ruby>問<rt>と</rt></ruby>う",
+    "topic_ko": "시부야에서 미나마타병을 묻다",
+    "url": "https://www.asahi.com/articles/DA3S16595646.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: '기억과 책임', '도시와 역사', '환경정의' — 화려한 도심 한복판에서 과거의 공해 피해를 다시 질문하며, 사회가 져야 할 책임과 기억의 유지라는 보편 주제를 다룬다.",
+    "pattern": "〜<ruby>年<rt>ねん</rt></ruby>ぶり"
+  },
+  {
     "date": "2026-11-25",
     "no": 141,
     "topic_ja": "一九九一年の<ruby>女王<rt>じょおう</rt></ruby>",

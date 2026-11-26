@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-26 天声人語로 배우는 일본어 — 시부야에서 미나마타병을 묻다</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-26</span>
+      <span>2026년 11월 26일 (목)</span>
+    </div>
+
+    <h1><ruby>渋谷<rt>しぶや</rt></ruby>で<ruby>水俣病<rt>みなまたびょう</rt></ruby>を<ruby>問<rt>と</rt></ruby>う</h1>
+    <p class="topic-ko">시부야에서 미나마타병을 묻다</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>何<rt>なに</rt></ruby>があったの」</div>
+      <div class="ko">무슨 일이 있었나 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja"><ruby>渋谷<rt>しぶや</rt></ruby>のヒカリエホールで「<ruby>水俣病<rt>みなまたびょう</rt></ruby>７０年展」が<ruby>始<rt>はじ</rt></ruby>まり、スクランブル<ruby>交差点<rt>こうさてん</rt></ruby>を<ruby>見下<rt>みお</rt></ruby>ろす<ruby>会場<rt>かいじょう</rt></ruby>で<ruby>開<rt>ひら</rt></ruby>かれている。</p><p class="ko">시부야 히카리에홀에서 ‘미나마타병 70년전’이 개막해, 스크램블 교차로를 내려다보는 공간에서 열렸다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>認定<rt>にんてい</rt></ruby>ＮＰＯ<ruby>法人<rt>ほうじん</rt></ruby>・<ruby>水俣<rt>みなまた</rt></ruby>フォーラムの<ruby>主催<rt>しゅさい</rt></ruby>で、<ruby>東京<rt>とうきょう</rt></ruby>での<ruby>開催<rt>かいさい</rt></ruby>は１６<ruby>年<rt>ねん</rt></ruby>ぶりとされ、<ruby>経済<rt>けいざい</rt></ruby>の<ruby>中心地<rt>ちゅうしんち</rt></ruby>の<ruby>市民<rt>しみん</rt></ruby>に<ruby>事実<rt>じじつ</rt></ruby>を<ruby>問<rt>と</rt></ruby>い<ruby>直<rt>なお</rt></ruby>す<ruby>場<rt>ば</rt></ruby>となる。</p><p class="ko">인증 NPO ‘미나마타 포럼’이 주최했으며, 도쿄 개최는 16년 만이라고 한다; 경제 중심지의 시민에게 사건의 실상을 다시 묻는 자리다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>華<rt>はな</rt></ruby>やかな<ruby>都市<rt>とし</rt></ruby>の<ruby>眺<rt>なが</rt></ruby>めと<ruby>悲劇<rt>ひげき</rt></ruby>の<ruby>記憶<rt>きおく</rt></ruby>が<ruby>重<rt>かさ</rt></ruby>なる<ruby>皮肉<rt>ひにく</rt></ruby>を<ruby>描<rt>えが</rt></ruby>き、<ruby>忘却<rt>ぼうきゃく</rt></ruby>への<ruby>警鐘<rt>けいしょう</rt></ruby>を<ruby>鳴<rt>な</rt></ruby>らす<ruby>筆致<rt>ひっち</rt></ruby>だ。</p><p class="ko">필자는 화려한 도시 풍경과 비극의 기억이 한 공간에 겹치는 아이러니를 통해, 잊힘을 경계하는 메시지를 전한다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>見下ろす<rt>みおろす</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">내려다보다</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">びるの<ruby>窓<rt>まど</rt></ruby>から<ruby>街<rt>まち</rt></ruby>を<ruby>見下<rt>みお</rt></ruby>ろす。</span><br>빌딩 창문에서 거리를 내려다본다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>主催<rt>しゅさい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">주최</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>学生<rt>がくせい</rt></ruby>が<ruby>主催<rt>しゅさい</rt></ruby>する<ruby>講演会<rt>こうえんかい</rt></ruby>に<ruby>参加<rt>さんか</rt></ruby>した。</span><br>학생이 주최하는 강연회에 참가했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>開催<rt>かいさい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">개최</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>東京<rt>とうきょう</rt></ruby>で<ruby>国際<rt>こくさい</rt></ruby>ふぇあが<ruby>開催<rt>かいさい</rt></ruby>された。</span><br>도쿄에서 국제 페어가 개최되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>交差点<rt>こうさてん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">교차로</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>大通<rt>おおどお</rt></ruby>りの<ruby>交差点<rt>こうさてん</rt></ruby>で<ruby>信号<rt>しんごう</rt></ruby>を<ruby>待<rt>ま</rt></ruby>つ。</span><br>큰길의 교차로에서 신호를 기다린다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>展示会<rt>てんじかい</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">전시회</span><span class="level">N3</span>
+            <p class="ex"><span class="ja"><ruby>新作<rt>しんさく</rt></ruby>の<ruby>展示会<rt>てんじかい</rt></ruby>が<ruby>来週<rt>らいしゅう</rt></ruby><ruby>開<rt>ひら</rt></ruby>かれる。</span><br>신작 전시회가 다음 주에 열린다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">〜<ruby>年<rt>ねん</rt></ruby>ぶり</div>
+        <div class="pattern-ko">~년 만에</div>
+        <p class="explain">어떤 일이 마지막으로 있었던 때로부터 경과한 시간을 나타낸다. 시간 명사(年・月・日 등) 뒤에 붙으며, 오랜 공백을 두고 재개됨을 강조하는 뉘앙스가 있다.</p>
+        <p class="ex"><span class="ja"><ruby>東京<rt>とうきょう</rt></ruby>でのライブは５<ruby>年<rt>ねん</rt></ruby>ぶりだ。</span><br>도쿄에서의 라이브는 5년 만이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 칼럼은 창밖의 시각적 이미지에서 출발해 전시의 문제의식으로 자연스럽게 이동한다. 스크램블 교차로와 대형 비전이라는 화려한 표정을 먼저 그려 넣고, 그 바로 옆에서 열리는 ‘미나마타병 70년전’을 배치해 대비를 만든다. ‘도쿄에서 16년 만’ 같은 간결한 사실을 꽂아 독자의 주의를 현재로 끌어오고, 마지막에 “무슨 일이 있었나”라는 질문형 여운을 남겨 사유를 유도한다. 천성인어 특유의 압축·대비·전환이 짧은 문장들 속에 또렷이 드러난다.</p>
+        <p>이 글이 남기는 의미는 기억의 갱신이다. 경제 중심지의 일상 풍경 속에서 공해 피해의 역사를 다시 바라보게 하며, 지역 사건을 전국적 문제로 재맥락화한다. 한국 독자에게도 산업발전과 환경·인권의 긴장이 보편적 과제임을 상기시킨다. 눈앞의 번쩍임 뒤에 가려진 서사를 ‘묻는’ 태도가, 오늘의 전시를 사회적 대화로 확장시키는 지점이다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 화려한 도심 풍경을 배경으로 미나마타병의 기억을 다시 묻는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>미나마타병은 1956년에 구마모토현 미나마타시에서 공식 보고된 공해병으로, 메틸수은에 의한 중독으로 심각한 신경증상이 발생했다.</p>
+        <p>시부야 스크램블 교차로는 도쿄의 상징적 장소로, 대형 스크린과 인파가 만드는 ‘현재성’의 무대이기도 하다.</p>
+        <p>전시·추모 행사는 피해의 역사와 기록을 보존하고, 다음 세대에 전달하기 위한 시민사회의 핵심 활동이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>주변 풍경 디테일로 장면을 열고 주제와의 대비를 만들어라.</p>
+        <p><span class="n">二</span>핵심 사실(숫자·기간)을 한 줄로 정확히 제시해 독자의 인지 기준점을 세워라.</p>
+        <p><span class="n">三</span>문장 말미에 열린 질문을 배치해 독자의 사유와 참여를 유도하라.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>記憶<rt>きおく</rt></ruby>を<ruby>風化<rt>ふうか</rt></ruby>させないため、<ruby>私<rt>わたし</rt></ruby>たちは<ruby>何<rt>なに</rt></ruby>を<ruby>学<rt>まな</rt></ruby>ぶべきか。</span>
+      <span class="ko">기억을 풍화시키지 않기 위해 우리는 무엇을 배워야 하는가.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-26) — <a href="https://www.asahi.com/articles/DA3S16595646.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-26.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+<script>
+(function(){
+  try {
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzcXdFIOuEEMrvp34WC31ba2kWz9plgNJKqr4nVINKhva4xPjHkL2rmIxV6JLLWijXI/exec";
+    var uid = localStorage.getItem("tj_uid") || "", isNew = false;
+    if (!uid) {
+      uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem("tj_uid", uid); isNew = true;
+    }
+    var m = location.pathname.match(/(\d{4}-\d{2}-\d{2})\.html/);
+    var page = m ? m[1] : "상세";
+    var key = "tj_logged_" + page;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    var dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "모바일" : "PC";
+    var qs = "action=log&uid=" + encodeURIComponent(uid) + "&page=" + encodeURIComponent(page) + "&dev=" + encodeURIComponent(dev) +
+             "&ref=" + encodeURIComponent((document.referrer||"").slice(0,120));
+    fetch(GAS_URL + "?" + qs, {mode:"no-cors"}).catch(function(){});
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
