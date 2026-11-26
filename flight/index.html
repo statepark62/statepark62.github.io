@@ -100,10 +100,11 @@ $("form").onsubmit = e => {
  if (query.from.split(",").some(c => query.to.split(",").includes(c))) return say("출발지와 도착지가 같습니다.");
  if (query.back && query.back < query.date) return say("오는 날이 가는 날보다 빠릅니다.");
  showLinks(query);
+ outbound = null;
  run(query);
 };
 // 화면 결과와 시트 기록을 삭제. 위의 검색 조건은 그대로 둠
-function clearResults(){ last = null; $("excel").hidden = true; say(""); $("links").replaceChildren(); $("list").replaceChildren(); $("clear").hidden = true; }
+function clearResults(){ outbound = null; last = null; $("excel").hidden = true; say(""); $("links").replaceChildren(); $("list").replaceChildren(); $("clear").hidden = true; }
 $("clear").onclick = async () => {
  if (!confirm("구글 시트의 모든 검색 기록이 삭제됩니다. 삭제할까요?")) return;
  const url = $("api").value.trim();
@@ -146,6 +147,19 @@ $("excel").onclick = () => {
 };
 function say(t){ $("status").textContent = t; }
 
+// 가는 편 목록을 기억해 두었다가 다시 보여줌 (추가 검색 없음)
+let outbound = null, outboundY = 0;
+function backButton(){
+ const b = el("button", "← 가는 편 목록으로", "light");
+ b.type = "button";
+ b.onclick = () => {
+  $("list").replaceChildren();
+  $("clear").hidden = false;
+  show(outbound);
+  window.scrollTo(0, outboundY);
+ };
+ return b;
+}
 async function run(q, chosen){
  const url = $("api").value.trim();
  if (!url || !$("pw").value) return say("아래 '설정'에 URL과 비밀번호를 먼저 입력하세요.");
@@ -159,7 +173,10 @@ async function run(q, chosen){
   if (data.saveError) $("status").textContent += " · 시트 저장 실패: " + data.saveError;
   else if (data.savedGen !== undefined && data.flights.length) $("status").textContent += " · 시트 기록됨";
  } catch (err) { say("연결 실패: URL과 배포 설정을 확인하세요."); }
- finally { $("go").disabled = false; $("clear").hidden = false; }
+ finally {
+  $("go").disabled = false; $("clear").hidden = false;
+  if (chosen && outbound) { $("list").prepend(backButton()); $("status").scrollIntoView(); }
+ }
 }
 
 function show(data, chosen){
@@ -168,6 +185,7 @@ function show(data, chosen){
  say(flights.length ? `${stage}${flights.length}건 · ${data.time} 조회${data.cached ? " (저장된 결과)" : ""}` : "검색 결과가 없습니다.");
  last = flights.length ? { flights, q: query, kind: chosen ? "왕복-귀국편" : (query.back ? "왕복-가는편" : "편도") } : null;
  $("excel").hidden = !last;
+ if (!chosen) outbound = data;
  if (chosen) $("list").append(el("p", "선택한 가는 편: " + chosen));
  // 출발공항 → 항공사(가나다순) → 출발시각 순으로 묶기
  const names = Object.fromEntries(Object.values(AIRPORTS).flat().filter(([v]) => !v.includes(",")));
@@ -196,7 +214,7 @@ function show(data, chosen){
   if (query.back && !chosen && f.token) {
    const b = el("button", "이 편으로 귀국편 보기");
    const name = f.legs.map(l => `${l.airline} ${l.no}`).join(", ");
-   b.onclick = () => run({ ...query, token:f.token }, name);
+   b.onclick = () => { outboundY = window.scrollY; run({ ...query, token:f.token }, name); };
    card.append(b);
   }
   $("list").append(card);
