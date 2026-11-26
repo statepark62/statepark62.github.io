@@ -75,7 +75,6 @@
  </details>
 
  <button type="button" class="light" id="clear" hidden>🗑 검색 결과·시트 기록 삭제</button>
- <button type="button" id="excel" hidden>📥 엑셀로 내보내기</button>
  <div id="status" aria-live="polite"></div>
  <div id="left"></div>
  <div id="links"></div>
@@ -87,7 +86,6 @@
  <button type="button" id="share">📋 복사·공유</button><button type="button" id="save">💾 시트 저장</button><button type="button" id="barClose" class="light">✕ 닫기</button>
  <div id="barMsg"></div>
 </div>
-<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
 // ▼ 따옴표 안에 Apps Script 웹 앱 URL(/exec로 끝남)을 붙여넣으세요. 비밀번호는 넣지 마세요.
 const API_URL = "https://script.google.com/macros/s/AKfycbzLi-kKSZAh2fVn2jlNMqckUcWhK3ys2vYnTVvkj_bEmYnvlXjPKM93HeqPym4MwnR7/exec";
@@ -133,7 +131,7 @@ $("form").onsubmit = e => {
  run(query);
 };
 // 화면 결과와 시트 기록을 삭제. 위의 검색 조건은 그대로 둠
-function clearResults(){ setSelection(null); opened = null; last = null; $("excel").hidden = true; say(""); $("links").replaceChildren(); $("list").replaceChildren(); $("clear").hidden = true; }
+function clearResults(){ setSelection(null); opened = null; say(""); $("links").replaceChildren(); $("list").replaceChildren(); $("clear").hidden = true; }
 $("clear").onclick = async () => {
  if (!confirm("구글 시트의 모든 검색 기록이 삭제됩니다. 삭제할까요?")) return;
  const url = $("api").value.trim();
@@ -150,32 +148,7 @@ $("clear").onclick = async () => {
  } catch (err) { say("삭제 확인 실패: 시트를 열어 확인하세요."); }
  finally { $("clear").disabled = $("go").disabled = false; }
 };
-// 화면에 보이는 결과를 엑셀 파일로 저장 (출발공항 → 항공사 → 출발시각 순)
-let last = null, opened = null; // opened: 지금 펼쳐진 귀국편
-$("excel").onclick = () => {
- if (!last) return;
- if (!window.XLSX) return say("엑셀 도구를 불러오지 못했습니다. 인터넷 연결을 확인하고 새로고침하세요.");
- const { q, kind } = last;
- const list = last.flights.map(f => [f, kind]);
- if (opened && opened.flights) list.push(...opened.flights.map(f => [f, "왕복-귀국편"]));
- const rows = list.map(([f, kind]) => {
-  const a = f.legs[0], b = f.legs[f.legs.length - 1];
-  return [kind, a.from, b.to, kind === "왕복-귀국편" ? q.back : q.date, q.back || "", Number(q.adults), f.price ?? "",
-          f.legs.map(l => l.airline).join(" / "), f.legs.map(l => l.no).join(" / "),
-          a.dep, b.arr, f.minutes, f.legs.length - 1];
- }).sort((x, y) => x[1].localeCompare(y[1]) || x[7].localeCompare(y[7], "ko") || x[9].localeCompare(y[9]));
- const head = ["구분","출발공항","도착공항","탑승일","오는 날","인원","1인당 가격(원)","항공사","편명","출발시각","도착시각","소요(분)","경유"];
- const sheet = XLSX.utils.aoa_to_sheet([head, ...rows]);
- for (let r = 1; r <= rows.length; r++) {
-  const cell = sheet[XLSX.utils.encode_cell({ r, c:6 })];
-  if (cell && cell.t === "n") cell.z = '"₩"#,##0';
- }
- sheet["!cols"] = [12,10,10,12,12,6,16,22,18,18,18,9,6].map(wch => ({ wch }));
- const book = XLSX.utils.book_new();
- XLSX.utils.book_append_sheet(book, sheet, "검색결과");
- const to = [...new Set(rows.filter(r => r[0] !== "왕복-귀국편").map(r => r[2]))].join("-");
- XLSX.writeFile(book, `항공권_${to}_${q.date}_${list.length > last.flights.length ? "왕복" : kind}.xlsx`);
-};
+let opened = null; // 지금 펼쳐진 귀국편
 function say(t){ $("status").textContent = t; }
 
 async function request(body){
@@ -193,7 +166,7 @@ const saveNote = d => d.saveError ? " · 시트 저장 실패: " + d.saveError
                     : (d.savedGen !== undefined && d.flights.length ? " · 시트 기록됨" : "");
 
 async function run(q){
- say("검색 중…"); setSelection(null); $("clear").hidden = true; last = null; opened = null; $("excel").hidden = true; $("list").replaceChildren(); $("go").disabled = true;
+ say("검색 중…"); setSelection(null); $("clear").hidden = true; opened = null; $("list").replaceChildren(); $("go").disabled = true;
  const data = await request(q);
  if (data.error) say("오류: " + data.error);
  else { show(data); $("status").textContent += saveNote(data); }
@@ -286,7 +259,7 @@ async function openReturn(f, card, button){
  pair.append(card, side);
  button.textContent = "✕ 귀국편 닫기";
  const go = addPick(card, "가는 편 선택");
- const mine = opened = { pair, card, button, go, flights:null };
+ const mine = opened = { pair, card, button, go };
  const note = el("p", "귀국편 검색 중…");
  side.append(note);
  void pair.offsetWidth; // 시작 모양을 확정해야 움직임이 보임
@@ -294,15 +267,15 @@ async function openReturn(f, card, button){
  const data = await request({ ...query, token:f.token });
  if (opened !== mine) return; // 그 사이 닫았거나 새로 검색함
  if (data.error) { note.textContent = "오류: " + data.error; return; }
- mine.flights = [...data.flights].sort(byRoute);
- note.textContent = (mine.flights.length ? `귀국편 ${mine.flights.length}건 · ${query.back}` : "귀국편이 없습니다.") + saveNote(data);
+ const returns = [...data.flights].sort(byRoute);
+ note.textContent = (returns.length ? `귀국편 ${returns.length}건 · ${query.back}` : "귀국편이 없습니다.") + saveNote(data);
  const picks = [];
  let chosen = null;
  // 가는 편과 귀국편을 모두 체크하면 아래에 선택한 일정 막대를 표시
  const update = () => setSelection(go.checked && chosen
   ? { go:f, ret:chosen, q:query, adults:query.adults, time:data.time } : null);
  go.addEventListener("change", update);
- for (const r of mine.flights) {
+ for (const r of returns) {
   const box = makeCard(r), c = addPick(box, "귀국편 선택 " + flightName(r));
   picks.push(c);
   c.addEventListener("change", () => {
@@ -320,8 +293,6 @@ function show(data){
  const flights = data.flights;
  const stage = query.back ? "가는 편 " : "";
  say(flights.length ? `${stage}${flights.length}건 · ${data.time} 조회${data.cached ? " (저장된 결과)" : ""}` : "검색 결과가 없습니다.");
- last = flights.length ? { flights, q: query, kind: query.back ? "왕복-가는편" : "편도" } : null;
- $("excel").hidden = !last;
  // 출발공항 → 항공사(가나다순) → 출발시각 순으로 묶기
  const names = Object.fromEntries(Object.values(AIRPORTS).flat().filter(([v]) => !v.includes(",")));
  const ordered = [...flights].sort(byRoute);
