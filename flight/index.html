@@ -121,11 +121,11 @@ $("excel").onclick = () => {
  const { flights, q, kind } = last;
  const rows = flights.map(f => {
   const a = f.legs[0], b = f.legs[f.legs.length - 1];
-  return [kind, a.from, b.to, q.date, q.back || "", Number(q.adults), f.price ?? "",
+  return [kind, a.from, b.to, kind === "왕복-귀국편" ? q.back : q.date, q.back || "", Number(q.adults), f.price ?? "",
           f.legs.map(l => l.airline).join(" / "), f.legs.map(l => l.no).join(" / "),
           a.dep, b.arr, f.minutes, f.legs.length - 1];
  }).sort((x, y) => x[1].localeCompare(y[1]) || x[9].localeCompare(y[9]));
- const head = ["구분","출발공항","도착공항","가는 날","오는 날","인원","1인당 가격(원)","항공사","편명","출발시각","도착시각","소요(분)","경유"];
+ const head = ["구분","출발공항","도착공항","탑승일","오는 날","인원","1인당 가격(원)","항공사","편명","출발시각","도착시각","소요(분)","경유"];
  const sheet = XLSX.utils.aoa_to_sheet([head, ...rows]);
  for (let r = 1; r <= rows.length; r++) {
   const cell = sheet[XLSX.utils.encode_cell({ r, c:6 })];
@@ -135,7 +135,7 @@ $("excel").onclick = () => {
  const book = XLSX.utils.book_new();
  XLSX.utils.book_append_sheet(book, sheet, "검색결과");
  const to = [...new Set(rows.map(r => r[2]))].join("-");
- XLSX.writeFile(book, `항공권_${to}_${q.date}_${kind}.xlsx`);
+ XLSX.writeFile(book, `항공권_${to}_${kind === "왕복-귀국편" ? q.back : q.date}_${kind}.xlsx`);
 };
 function say(t){ $("status").textContent = t; }
 
