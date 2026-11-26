@@ -54,6 +54,7 @@
   <p><label>비밀번호<input type="password" id="pw"></label></p>
  </details>
 
+ <button type="button" class="light" id="clear" hidden>🗑 검색 결과·시트 기록 삭제</button>
  <div id="status" aria-live="polite"></div>
  <div id="links"></div>
  <div id="list"></div>
@@ -92,12 +93,30 @@ $("form").onsubmit = e => {
  showLinks(query);
  run(query);
 };
+// 화면 결과와 시트 기록을 삭제. 위의 검색 조건은 그대로 둠
+function clearResults(){ say(""); $("links").replaceChildren(); $("list").replaceChildren(); $("clear").hidden = true; }
+$("clear").onclick = async () => {
+ if (!confirm("구글 시트의 모든 검색 기록이 삭제됩니다. 삭제할까요?")) return;
+ const url = $("api").value.trim();
+ if (!url || !$("pw").value) return say("아래 '설정'에 URL과 비밀번호를 먼저 입력하세요.");
+ $("clear").disabled = $("go").disabled = true;
+ say("삭제 중…");
+ try {
+  const res = await fetch(url, { method:"POST", headers:{"Content-Type":"text/plain"},
+                                 body: JSON.stringify({ action:"clear", password:$("pw").value.trim() }) });
+  const data = await res.json();
+  if (typeof data.cleared !== "number") return say("삭제 실패: " + (data.error || "알 수 없는 응답"));
+  clearResults();
+  say(`화면 결과와 시트 기록 ${data.cleared}행을 삭제했습니다.`);
+ } catch (err) { say("삭제 확인 실패: 시트를 열어 확인하세요."); }
+ finally { $("clear").disabled = $("go").disabled = false; }
+};
 function say(t){ $("status").textContent = t; }
 
 async function run(q, chosen){
  const url = $("api").value.trim();
  if (!url || !$("pw").value) return say("아래 '설정'에 URL과 비밀번호를 먼저 입력하세요.");
- say("검색 중…"); $("list").replaceChildren(); $("go").disabled = true;
+ say("검색 중…"); $("clear").hidden = true; $("list").replaceChildren(); $("go").disabled = true;
  try {
   const res = await fetch(url, { method:"POST", headers:{"Content-Type":"text/plain"},
                                  body: JSON.stringify({ ...q, password:$("pw").value.trim() }) });
@@ -105,7 +124,7 @@ async function run(q, chosen){
   if (data.error) return say("오류: " + data.error);
   show(data, chosen);
  } catch (err) { say("연결 실패: URL과 배포 설정을 확인하세요."); }
- finally { $("go").disabled = false; }
+ finally { $("go").disabled = false; $("clear").hidden = false; }
 }
 
 function show(data, chosen){
