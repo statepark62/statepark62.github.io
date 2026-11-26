@@ -12,6 +12,7 @@
  *{box-sizing:border-box}
  body{margin:0;font-family:system-ui,"Noto Sans KR",sans-serif;font-size:18.5px;background:#f2f5f9;color:#1c2733;text-align:center;line-height:1.55}
  main{max-width:1180px;margin:0 auto;padding:20px 14px}
+ h2{font-size:28px;margin:26px 0 6px}
  h1{font-size:clamp(30px,6vw,50px);margin:10px 0}
  .sub{font-size:19.5px;color:#556}
  .box,.card{background:#fff;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 2px 8px #0001}
@@ -59,7 +60,7 @@
 </main>
 <script>
 const AIRPORTS = {
- "한국": [["ICN,GMP","서울 전체(인천+김포)"],["ICN","인천"],["GMP","김포"],["PUS","부산"],["TAE","대구"],["CJJ","청주"],["CJU","제주"]],
+ "한국": [["ICN,GMP,PUS,TAE,CJJ,CJU","한국 전체"],["ICN,GMP","서울 전체(인천+김포)"],["ICN","인천"],["GMP","김포"],["PUS","부산"],["TAE","대구"],["CJJ","청주"],["CJU","제주"]],
  "일본": [["NRT,HND","도쿄 전체(나리타+하네다)"],["NRT","도쿄 나리타"],["HND","도쿄 하네다"],["KIX","오사카 간사이"],["NGO","나고야"],["FUK","후쿠오카"],["CTS","삿포로"],["OKA","오키나와"],["SDJ","센다이"],["KIJ","니가타"],["KMQ","고마쓰"],["OKJ","오카야마"],["HIJ","히로시마"],["TAK","다카마쓰"],["MYJ","마쓰야마"],["KMJ","구마모토"],["OIT","오이타"],["KOJ","가고시마"]]
 };
 const $ = id => document.getElementById(id);
@@ -67,10 +68,10 @@ function el(tag, text, cls){ const e = document.createElement(tag); if(text) e.t
 
 for (const id of ["from","to"]) for (const [country, items] of Object.entries(AIRPORTS)) {
  const g = el("optgroup"); g.label = country;
- for (const [v, n] of items) g.append(new Option(n + " (" + v + ")", v));
+ for (const [v, n] of items) g.append(new Option(v.split(",").length > 2 ? n : n + " (" + v + ")", v));
  $(id).append(g);
 }
-$("from").value = "ICN,GMP"; $("to").value = "KIX";
+$("from").value = AIRPORTS["한국"][0][0]; $("to").value = "KIX";
 
 function store(k, v){ try { if (v === undefined) return localStorage.getItem(k) || ""; localStorage.setItem(k, v); } catch(e) { return ""; } }
 for (const id of ["api","pw"]) { $(id).value = store(id); $(id).onchange = () => store(id, $(id).value.trim()); }
@@ -112,10 +113,20 @@ function show(data, chosen){
  const stage = chosen ? "귀국편 " : (query.back ? "가는 편 " : "");
  say(flights.length ? `${stage}${flights.length}건 · ${data.time} 조회${data.cached ? " (저장된 결과)" : ""}` : "검색 결과가 없습니다.");
  if (chosen) $("list").append(el("p", "선택한 가는 편: " + chosen));
+ const names = Object.fromEntries(Object.values(AIRPORTS).flat().filter(([v]) => !v.includes(",")));
+ const groups = new Map(); // 출발 공항별 묶음 (최저가가 싼 공항부터)
  for (const f of flights) {
+  const k = f.legs[0].from;
+  if (!groups.has(k)) groups.set(k, []);
+  groups.get(k).push(f);
+ }
+ for (const [code, items] of groups) {
+ const low = items[0].price;
+ $("list").append(el("h2", `${names[code] || code} 출발 · ${items.length}건` + (low ? ` · 최저 ${low.toLocaleString("ko-KR")}원` : "")));
+ for (const f of items) {
   const card = el("div", "", "card");
   card.append(el("div", f.price ? f.price.toLocaleString("ko-KR") + "원" : "가격 정보 없음", "price"));
-  if (query.back) card.append(el("div", "왕복 총액"));
+  card.append(el("div", query.back ? "1인당 왕복 요금" : "1인당 편도 요금"));
   for (const l of f.legs) card.append(el("div", `${l.airline} ${l.no} · ${l.from} ${l.dep.slice(5)} → ${l.to} ${l.arr.slice(5)}`));
   card.append(el("div", `총 ${Math.floor(f.minutes/60)}시간 ${f.minutes%60}분 · ${f.legs.length === 1 ? "직항" : "경유 " + (f.legs.length-1) + "회"}`));
   if (query.back && !chosen && f.token) {
@@ -125,6 +136,7 @@ function show(data, chosen){
    card.append(b);
   }
   $("list").append(card);
+ }
  }
  if (data.url && data.url.startsWith("https://")) $("list").append(link("Google 항공편에서 확인", data.url));
 }
