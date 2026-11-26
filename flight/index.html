@@ -45,7 +45,8 @@
    <label>오는 날 (비우면 편도)<input type="date" id="back"></label>
    <label>성인 인원<select id="adults"><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
   </div>
-  <p><input type="checkbox" id="nonstop" checked> 직항만 보기</p>
+  <p><label style="display:inline"><input type="checkbox" id="nonstop" checked> 직항만 보기</label></p>
+  <p><label style="display:inline"><input type="checkbox" id="auto" checked> 왕복일 때 최저가 편의 귀국편 자동 조회 (검색 1회 추가)</label></p>
   <button id="go">검색</button>
  </form>
 
@@ -58,6 +59,7 @@
  <button type="button" class="light" id="clear" hidden>🗑 검색 결과·시트 기록 삭제</button>
  <button type="button" id="excel" hidden>📥 엑셀로 내보내기</button>
  <div id="status" aria-live="polite"></div>
+ <div id="left"></div>
  <div id="links"></div>
  <div id="list"></div>
 </main>
@@ -86,6 +88,10 @@ for (const id of ["api","pw"]) { $(id).value = store(id); $(id).onchange = () =>
 // 코드에 URL이 있으면 그것을 쓰고 입력칸은 숨김
 if (API_URL) { $("api").value = API_URL; $("api").closest("p").hidden = true; }
 
+// 자동 조회 선택은 기억해 둠
+if (store("auto") === "off") $("auto").checked = false;
+$("auto").onchange = () => store("auto", $("auto").checked ? "on" : "off");
+
 const now = new Date();
 const today = new Date(now - now.getTimezoneOffset()*60000).toISOString().slice(0,10);
 $("date").min = $("back").min = today;
@@ -96,7 +102,7 @@ let query = null;
 $("form").onsubmit = e => {
  e.preventDefault();
  query = { from:$("from").value, to:$("to").value, date:$("date").value, back:$("back").value,
-           adults:$("adults").value, nonstop:$("nonstop").checked };
+           adults:$("adults").value, nonstop:$("nonstop").checked, autoReturn:$("auto").checked };
  if (query.from.split(",").some(c => query.to.split(",").includes(c))) return say("출발지와 도착지가 같습니다.");
  if (query.back && query.back < query.date) return say("오는 날이 가는 날보다 빠릅니다.");
  showLinks(query);
@@ -168,6 +174,7 @@ async function run(q, chosen){
   const res = await fetch(url, { method:"POST", headers:{"Content-Type":"text/plain"},
                                  body: JSON.stringify({ ...q, password:$("pw").value.trim() }) });
   const data = await res.json();
+  if (typeof data.left === "number") $("left").textContent = `이번 달 남은 검색 횟수: ${data.left}회`;
   if (data.error) return say("오류: " + data.error);
   show(data, chosen);
   if (data.saveError) $("status").textContent += " · 시트 저장 실패: " + data.saveError;
