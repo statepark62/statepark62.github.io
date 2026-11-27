@@ -1,5 +1,14 @@
 [
   {
+    "date": "2026-11-27",
+    "no": 143,
+    "topic_ja": "<ruby>汁物<rt>しるもの</rt></ruby>と<ruby>命<rt>いのち</rt></ruby>",
+    "topic_ko": "국물과 삶",
+    "url": "https://www.asahi.com/articles/DA3S16596394.html?iref=pc_rensai_long_61_article",
+    "memo": "주제어: ‘음식과 돌봄’, ‘이름의 기원’, ‘추모의 문장’ — 일상의 국물에서 시작해 한 인물의 생애와 가치관으로 이어지는 흐름이, 언어·문화·애도의 층위를 함께 보여 주기 때문이다.",
+    "pattern": "〜とも<ruby>言<rt>い</rt></ruby>われる"
+  },
+  {
     "date": "2026-11-26",
     "no": 142,
     "topic_ja": "<ruby>渋谷<rt>しぶや</rt></ruby>で<ruby>水俣病<rt>みなまたびょう</rt></ruby>を<ruby>問<rt>と</rt></ruby>う",

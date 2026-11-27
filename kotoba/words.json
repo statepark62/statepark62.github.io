@@ -15291,5 +15291,55 @@
   "example": "新作の展示会が来週開かれる。",
   "exampleReading": "しんさくのてんじかいがらいしゅうひらかれる。",
   "exampleMeaning": "신작 전시회가 다음 주에 열린다."
+ },
+ {
+  "id": "tj680",
+  "word": "草分け",
+  "reading": "くさわけ",
+  "meaning": "개척자, 선구자",
+  "level": "N1",
+  "example": "その料理は栄養学の草分けによって広められた。",
+  "exampleReading": "そのりょうりはえいようがくのくさわけによってひろめられた",
+  "exampleMeaning": "그 요리는 영양학의 선구자에 의해 널리 퍼졌다."
+ },
+ {
+  "id": "tj681",
+  "word": "逝去",
+  "reading": "せいきょ",
+  "meaning": "별세, 서거",
+  "level": "N1",
+  "example": "著名な料理家が逝去したことを新聞で知った。",
+  "exampleReading": "ちょめいなりょうりかがせいきょしたことをしんぶんでしった",
+  "exampleMeaning": "저명한 요리 연구가가 별세했다는 사실을 신문에서 알았다."
+ },
+ {
+  "id": "tj682",
+  "word": "心づくし",
+  "reading": "こころづくし",
+  "meaning": "정성, 마음을 다함",
+  "level": "N2",
+  "example": "心づくしの一品が食卓を温めた。",
+  "exampleReading": "こころづくしのいっぴんがしょくたくをあたためた",
+  "exampleMeaning": "정성을 담은 한 접시가 식탁을 따뜻하게 했다."
+ },
+ {
+  "id": "tj683",
+  "word": "滴る",
+  "reading": "したたる",
+  "meaning": "뚝뚝 떨어지다",
+  "level": "N2",
+  "example": "屋根から水が滴った。",
+  "exampleReading": "やねからみずがしたたった",
+  "exampleMeaning": "지붕에서 물이 뚝뚝 떨어졌다."
+ },
+ {
+  "id": "tj684",
+  "word": "汁もの",
+  "reading": "しるもの",
+  "meaning": "국물 요리, 탕류",
+  "level": "N3",
+  "example": "寒い夜には汁ものが恋しくなる。",
+  "exampleReading": "さむいよるにはしるものがこいしくなる",
+  "exampleMeaning": "추운 밤에는 국물이 당긴다."
  }
 ]
