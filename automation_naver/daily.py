@@ -577,8 +577,8 @@ def main():
                     f"오늘의 학습 페이지 (요약·단어·문형·해설):\n{page_url}\n\n"
                     f"전체 목록: https://statepark62.github.io/tenseijingo_naver/"
                 )
-                naver.post_article(subject, content,
-                                   image_path=card_path if card_ok else None)
+                # 학습 카드 이미지는 카페가 아니라 Threads에 게시한다 (워크플로 참고)
+                naver.post_article(subject, content, image_path=None)
                 print("      카페 게시 완료")
         except Exception as e:
             print(f"      카페 게시 실패 (발행은 정상 완료됨): {e}")
