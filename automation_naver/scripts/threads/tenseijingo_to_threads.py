@@ -24,6 +24,7 @@ import argparse
 import os
 import re
 import sys
+import time
 
 from bs4 import BeautifulSoup
 
@@ -37,6 +38,67 @@ DEFAULT_BASE_URL = "https://statepark62.github.io/tenseijingo_naver"
 # 요약으로 쓸 본문 발췌 최대 길이 (여기서 한 번 짧게 자르고,
 # 이후 threads_publish.py의 500자 제한에서 최종적으로 다시 안전하게 잘림)
 SUMMARY_MAX_CHARS = 150
+
+
+THREADS_API = "https://graph.threads.net/v1.0"
+TEXT_LIMIT = 500
+
+
+def publish_image_to_threads(text: str, image_url: str, page_url: str) -> dict:
+    """이미지 한 장 + 글(링크 포함)을 Threads에 게시합니다.
+    Threads는 이미지를 '인터넷 주소'로 받아 가므로 image_url은 누구나 열 수 있어야 합니다.
+    (이미지 게시물에는 링크 첨부 기능이 없어 링크를 본문 끝에 넣습니다.)"""
+    import requests
+
+    token = os.environ["THREADS_ACCESS_TOKEN"]
+    user_id = os.environ["THREADS_USER_ID"]
+
+    tail = f"\n\n{page_url}"
+    body = text if len(text) + len(tail) <= TEXT_LIMIT else text[: TEXT_LIMIT - len(tail) - 1].rstrip() + "…"
+    body += tail
+
+    # 1) 컨테이너 생성 — 푸시 직후에는 이미지 주소가 아직 안 열릴 수 있어 몇 번 재시도
+    creation_id, last_err = None, None
+    for attempt in range(1, 6):
+        r = requests.post(
+            f"{THREADS_API}/{user_id}/threads",
+            data={"media_type": "IMAGE", "image_url": image_url, "text": body, "access_token": token},
+            timeout=60,
+        )
+        res = r.json() if r.content else {}
+        if r.ok and res.get("id"):
+            creation_id = res["id"]
+            break
+        last_err = res or r.text
+        print(f"  이미지 컨테이너 생성 실패({attempt}/5): {last_err}")
+        time.sleep(15)
+    if not creation_id:
+        raise ThreadsPublishError(f"이미지 컨테이너 생성 실패: {last_err}")
+
+    # 2) 처리 완료 대기
+    for _ in range(20):
+        r = requests.get(
+            f"{THREADS_API}/{creation_id}",
+            params={"fields": "status,error_message", "access_token": token},
+            timeout=30,
+        )
+        st = (r.json() or {}).get("status")
+        if st == "FINISHED":
+            break
+        if st in ("ERROR", "EXPIRED"):
+            raise ThreadsPublishError(f"이미지 처리 실패: {r.text}")
+        time.sleep(3)
+
+    # 3) 게시
+    r = requests.post(
+        f"{THREADS_API}/{user_id}/threads_publish",
+        data={"creation_id": creation_id, "access_token": token},
+        timeout=60,
+    )
+    res = r.json() if r.content else {}
+    if not (r.ok and res.get("id")):
+        raise ThreadsPublishError(f"게시 실패: {res or r.text}")
+    return res
 
 
 def extract_title(soup: BeautifulSoup) -> str:
@@ -105,6 +167,11 @@ def main():
         help=f"GitHub Pages 기본 주소 (기본값: {DEFAULT_BASE_URL})",
     )
     parser.add_argument(
+        "--image-url",
+        default="",
+        help="함께 게시할 이미지의 공개 주소(선택). 실패하면 글만 게시합니다.",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="실제로 게시하지 않고, 생성될 텍스트만 확인합니다.",
@@ -128,6 +195,8 @@ def main():
     print("----- Threads에 게시할 내용 -----")
     print(teaser_text)
     print(f"(첨부 링크: {url})")
+    if args.image_url:
+        print(f"(첨부 이미지: {args.image_url})")
     print("--------------------------------")
 
     if args.dry_run:
@@ -135,6 +204,13 @@ def main():
         return
 
     try:
+        if args.image_url:
+            try:
+                result = publish_image_to_threads(teaser_text, args.image_url, url)
+                print("✅ 이미지 게시 성공:", result)
+                return
+            except Exception as e:  # 이미지 게시가 안 되면 글만이라도 올린다
+                print(f"⚠️ 이미지 게시 실패 — 글만 게시합니다: {e}")
         result = publish_to_threads(teaser_text, url)
         print("✅ 게시 성공:", result)
     except ThreadsPublishError as e:
