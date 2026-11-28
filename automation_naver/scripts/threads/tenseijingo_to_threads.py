@@ -44,11 +44,17 @@ THREADS_API = "https://graph.threads.net/v1.0"
 TEXT_LIMIT = 500
 
 
-def publish_image_to_threads(text: str, image_url: str, page_url: str) -> dict:
-    """이미지 한 장 + 글(링크 포함)을 Threads에 게시합니다.
-    Threads는 이미지를 '인터넷 주소'로 받아 가므로 image_url은 누구나 열 수 있어야 합니다.
+def publish_image_to_threads(text: str, image_urls, page_url: str) -> dict:
+    """이미지 1장(IMAGE) 또는 여러 장(CAROUSEL, 2~20장)과 글(링크 포함)을 Threads에 게시합니다.
+    Threads는 이미지를 '인터넷 주소'로 받아 가므로 주소는 누구나 열 수 있어야 합니다.
     (이미지 게시물에는 링크 첨부 기능이 없어 링크를 본문 끝에 넣습니다.)"""
     import requests
+
+    if isinstance(image_urls, str):
+        image_urls = [image_urls]
+    image_urls = [u for u in image_urls if u][:20]
+    if not image_urls:
+        raise ThreadsPublishError("이미지 주소가 없습니다")
 
     token = os.environ["THREADS_ACCESS_TOKEN"]
     user_id = os.environ["THREADS_USER_ID"]
@@ -57,44 +63,44 @@ def publish_image_to_threads(text: str, image_url: str, page_url: str) -> dict:
     body = text if len(text) + len(tail) <= TEXT_LIMIT else text[: TEXT_LIMIT - len(tail) - 1].rstrip() + "…"
     body += tail
 
-    # 1) 컨테이너 생성 — 푸시 직후에는 이미지 주소가 아직 안 열릴 수 있어 몇 번 재시도
-    creation_id, last_err = None, None
-    for attempt in range(1, 6):
-        r = requests.post(
-            f"{THREADS_API}/{user_id}/threads",
-            data={"media_type": "IMAGE", "image_url": image_url, "text": body, "access_token": token},
-            timeout=60,
-        )
-        res = r.json() if r.content else {}
-        if r.ok and res.get("id"):
-            creation_id = res["id"]
-            break
-        last_err = res or r.text
-        print(f"  이미지 컨테이너 생성 실패({attempt}/5): {last_err}")
-        time.sleep(15)
-    if not creation_id:
-        raise ThreadsPublishError(f"이미지 컨테이너 생성 실패: {last_err}")
+    def create(data):
+        """컨테이너 생성 — 푸시 직후에는 이미지 주소가 아직 안 열릴 수 있어 몇 번 재시도"""
+        last_err = None
+        for attempt in range(1, 6):
+            r = requests.post(f"{THREADS_API}/{user_id}/threads",
+                              data={**data, "access_token": token}, timeout=60)
+            res = r.json() if r.content else {}
+            if r.ok and res.get("id"):
+                return res["id"]
+            last_err = res or r.text
+            print(f"  컨테이너 생성 실패({attempt}/5): {last_err}")
+            time.sleep(15)
+        raise ThreadsPublishError(f"컨테이너 생성 실패: {last_err}")
 
-    # 2) 처리 완료 대기
-    for _ in range(20):
-        r = requests.get(
-            f"{THREADS_API}/{creation_id}",
-            params={"fields": "status,error_message", "access_token": token},
-            timeout=30,
-        )
-        st = (r.json() or {}).get("status")
-        if st == "FINISHED":
-            break
-        if st in ("ERROR", "EXPIRED"):
-            raise ThreadsPublishError(f"이미지 처리 실패: {r.text}")
-        time.sleep(3)
+    def wait_ready(cid):
+        for _ in range(20):
+            r = requests.get(f"{THREADS_API}/{cid}",
+                             params={"fields": "status,error_message", "access_token": token}, timeout=30)
+            st = (r.json() or {}).get("status")
+            if st == "FINISHED":
+                return
+            if st in ("ERROR", "EXPIRED"):
+                raise ThreadsPublishError(f"이미지 처리 실패: {r.text}")
+            time.sleep(3)
 
-    # 3) 게시
-    r = requests.post(
-        f"{THREADS_API}/{user_id}/threads_publish",
-        data={"creation_id": creation_id, "access_token": token},
-        timeout=60,
-    )
+    if len(image_urls) == 1:
+        creation_id = create({"media_type": "IMAGE", "image_url": image_urls[0], "text": body})
+    else:
+        children = []
+        for u in image_urls:
+            cid = create({"media_type": "IMAGE", "image_url": u, "is_carousel_item": "true"})
+            wait_ready(cid)
+            children.append(cid)
+        creation_id = create({"media_type": "CAROUSEL", "children": ",".join(children), "text": body})
+    wait_ready(creation_id)
+
+    r = requests.post(f"{THREADS_API}/{user_id}/threads_publish",
+                      data={"creation_id": creation_id, "access_token": token}, timeout=60)
     res = r.json() if r.content else {}
     if not (r.ok and res.get("id")):
         raise ThreadsPublishError(f"게시 실패: {res or r.text}")
@@ -168,8 +174,9 @@ def main():
     )
     parser.add_argument(
         "--image-url",
-        default="",
-        help="함께 게시할 이미지의 공개 주소(선택). 실패하면 글만 게시합니다.",
+        action="append",
+        default=[],
+        help="함께 게시할 이미지의 공개 주소(선택, 여러 번 지정하면 넘겨 보는 여러 장). 실패하면 글만 게시합니다.",
     )
     parser.add_argument(
         "--dry-run",
@@ -195,8 +202,8 @@ def main():
     print("----- Threads에 게시할 내용 -----")
     print(teaser_text)
     print(f"(첨부 링크: {url})")
-    if args.image_url:
-        print(f"(첨부 이미지: {args.image_url})")
+    for u in args.image_url:
+        print(f"(첨부 이미지: {u})")
     print("--------------------------------")
 
     if args.dry_run:
