@@ -531,20 +531,20 @@ def main():
                 "모델 변경(PROVIDER/모델명) 또는 프롬프트 점검이 필요합니다.")
         print(f"      완료: {strip_ruby(data['topic_ja'])} / {data['topic_ko']}")
 
-    print("[3/6] 학습 카드 이미지 생성 중...")
+    # 학습 카드는 Threads에 '게시만' 하고 저장소에는 저장하지 않는다.
+    #  - 4:5 슬라이드(JPEG)를 임시 폴더(_threads_media)에만 만들고, 워크플로가 임시 브랜치(threads-media)에
+    #    올려 Threads가 가져가게 한다. main에는 아무 이미지도 커밋되지 않는다.
+    print("[3/6] Threads용 카드 슬라이드 생성 중 (저장소에는 저장하지 않음)...")
     issue_no_pre = (today - START_DATE).days + 1
-    card_path = OUT_DIR / "cards" / f"{today.isoformat()}.png"
-    card_ok = False
     try:
         import make_card
-        make_card.make(data, today, issue_no_pre, card_path)
-        card_ok = True
-        print(f"      생성: {card_path}")
+        slides = make_card.make_slides(data, today, issue_no_pre, ROOT / "_threads_media", today.isoformat())
+        print(f"      슬라이드 {len(slides)}장 생성")
     except Exception as e:
-        print(f"      카드 생성 실패 (발행은 계속 진행): {e}")
+        print(f"      슬라이드 생성 실패 (발행은 계속, Threads에는 글만 게시): {e}")
 
     print("[4/6] HTML 페이지 생성 중...")
-    page, issue_no = render_page(data, today, source_url, has_card=card_ok)
+    page, issue_no = render_page(data, today, source_url, has_card=False)  # 카드 파일을 저장하지 않으므로 다운로드 링크 없음
     out_file = OUT_DIR / f"{today.isoformat()}.html"
     out_file.write_text(page, encoding="utf-8")
     print(f"      생성: {out_file}")
