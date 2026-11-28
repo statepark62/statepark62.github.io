@@ -139,16 +139,35 @@ jobs:
         env:
           THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
           THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TODAY="${{ steps.kst_date.outputs.date }}"
-          IMG_ARG=""
-          if [ -f "tenseijingo_naver/cards/${TODAY}.png" ]; then
-            IMG_ARG="--image-url https://raw.githubusercontent.com/${{ github.repository }}/main/tenseijingo_naver/cards/${TODAY}.png"
+          IMG_ARGS=""
+          if ls _threads_media/${TODAY}_*.jpg >/dev/null 2>&1; then
+            # 슬라이드는 main에 쌓지 않고, 임시 브랜치(threads-media)에 '오늘 것만' 덮어써서 올린다.
+            # (매번 새로 만들어 강제 푸시 → 옛 이미지는 사라지고 저장소 용량이 늘지 않는다)
+            MEDIA_DIR="$(mktemp -d)"
+            cp _threads_media/${TODAY}_*.jpg "$MEDIA_DIR"/
+            (
+              cd "$MEDIA_DIR"
+              git init -q -b threads-media
+              git config user.name "tenseijingo-bot"
+              git config user.email "actions@github.com"
+              git add .
+              git commit -q -m "threads media ${TODAY}"
+              git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+              git push -q -f origin threads-media
+            ) && {
+              RAW="https://raw.githubusercontent.com/${{ github.repository }}/threads-media"
+              for f in "$MEDIA_DIR"/${TODAY}_*.jpg; do
+                IMG_ARGS="$IMG_ARGS --image-url $RAW/$(basename "$f")"
+              done
+            } || echo "슬라이드 업로드 실패 — 글만 게시합니다."
           fi
           python automation_naver/scripts/threads/tenseijingo_to_threads.py \
             --html "tenseijingo_naver/${TODAY}.html" \
             --base-url "https://statepark62.github.io/tenseijingo_naver" \
-            $IMG_ARG
+            $IMG_ARGS
           mkdir -p automation_naver/scripts/threads
           echo "${TODAY}" > automation_naver/scripts/threads/last_posted_date.txt
 
