@@ -15341,5 +15341,55 @@
   "example": "寒い夜には汁ものが恋しくなる。",
   "exampleReading": "さむいよるにはしるものがこいしくなる",
   "exampleMeaning": "추운 밤에는 국물이 당긴다."
+ },
+ {
+  "id": "tj685",
+  "word": "問責決議案",
+  "reading": "もんせきけつぎあん",
+  "meaning": "문책 결의안",
+  "level": "N1",
+  "example": "野党は問責決議案を提出した。",
+  "exampleReading": "やとうはもんせきけつぎあんをていしゅつした。",
+  "exampleMeaning": "야당은 문책 결의안을 제출했다."
+ },
+ {
+  "id": "tj686",
+  "word": "否決",
+  "reading": "ひけつ",
+  "meaning": "부결",
+  "level": "N2",
+  "example": "法案は本会議で否決された。",
+  "exampleReading": "ほうあんはほんかいぎでひけつされた。",
+  "exampleMeaning": "법안은 본회의에서 부결되었다."
+ },
+ {
+  "id": "tj687",
+  "word": "議員会館",
+  "reading": "ぎいんかいかん",
+  "meaning": "의원회관",
+  "level": "N2",
+  "example": "議員会館で会合が開かれた。",
+  "exampleReading": "ぎいんかいかんでかいごうがひらかれた.",
+  "exampleMeaning": "의원회관에서 회합이 열렸다."
+ },
+ {
+  "id": "tj688",
+  "word": "僅差",
+  "reading": "きんさ",
+  "meaning": "근소한 차",
+  "level": "N2",
+  "example": "試合は僅差で勝った。",
+  "exampleReading": "しあいはきんさでかった。",
+  "exampleMeaning": "경기는 근소한 차로 이겼다."
+ },
+ {
+  "id": "tj689",
+  "word": "利益率",
+  "reading": "りえきりつ",
+  "meaning": "이익률",
+  "level": "N2",
+  "example": "この事業の利益率は高い。",
+  "exampleReading": "このじぎょうのりえきりつはたかい。",
+  "exampleMeaning": "이 사업의 이익률은 높다."
  }
 ]

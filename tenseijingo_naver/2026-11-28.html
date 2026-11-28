@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026-11-28 天声人語로 배우는 일본어 — 뒷돈과 문책</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;800&family=Noto+Serif+KR:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F2E9;
+    --ink:#26221C;
+    --ink-soft:#6E6558;
+    --shu:#BE3A34;      /* 朱色 — 낙관 도장의 붉은색 */
+    --ai:#33547A;       /* 藍色 — 보조 색 */
+    --line:#DCD3C2;
+    --card:#FCFAF4;
+    --ja:'Shippori Mincho','Noto Serif KR',serif;
+    --ko:'Noto Serif KR',serif;
+    --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  /* 후리가나(ruby) 공통 스타일 — AI가 삽입한 <ruby><rt> 태그 전체에 적용 */
+  ruby{ruby-position:over}
+  rt{font-family:var(--ko);font-size:0.5em;font-weight:500;color:var(--ink-soft);
+     letter-spacing:0;user-select:none}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--ko);
+    line-height:1.75;
+    background-image:radial-gradient(rgba(38,34,28,0.035) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  a{color:var(--ai)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--shu);outline-offset:3px}
+
+  .frame{
+    max-width:1180px;margin:0 auto;padding:48px 24px 64px;
+    display:grid;grid-template-columns:96px 1fr;gap:36px;
+  }
+
+  /* ── 세로쓰기 제호 ── */
+  .mast{
+    display:flex;flex-direction:column;align-items:center;gap:20px;
+    border-right:1px solid var(--line);padding-right:28px;
+  }
+  .seal{
+    width:64px;height:64px;border:2.5px solid var(--shu);color:var(--shu);
+    display:grid;place-items:center;
+    font-family:var(--ja);font-weight:800;font-size:20px;line-height:1.15;
+    writing-mode:vertical-rl;letter-spacing:2px;
+    border-radius:4px;
+  }
+  .mast-title{
+    writing-mode:vertical-rl;
+    font-family:var(--ja);font-weight:600;font-size:26px;letter-spacing:10px;
+    color:var(--ink);
+  }
+  .mast-sub{
+    writing-mode:vertical-rl;
+    font-family:var(--mono);font-size:11px;letter-spacing:4px;color:var(--ink-soft);
+  }
+
+  /* ── 본문 열 ── */
+  .meta{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
+    border-bottom:2px solid var(--ink);padding-bottom:12px;
+  }
+  .meta .no{color:var(--shu);font-weight:600}
+  h1{
+    font-family:var(--ja);font-weight:800;font-size:clamp(28px,4.2vw,40px);
+    line-height:1.6;margin:34px 0 6px;letter-spacing:1px;
+  }
+  .topic-ko{font-size:17px;color:var(--ink-soft);margin-bottom:22px}
+
+  /* 핵심 구절 인용 */
+  .keyquote{
+    margin-bottom:40px;padding:22px 20px 14px;
+    border-left:3px solid var(--shu);background:var(--card);
+  }
+  .keyquote .ja{font-family:var(--ja);font-weight:600;font-size:19px;line-height:2}
+  .keyquote .ko{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .keyquote .src{font-size:12px;color:var(--ink-soft)}
+
+  section{margin-bottom:44px}
+  .sec-label{
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .sec-label .tag{
+    font-family:var(--ja);font-weight:600;font-size:15px;color:var(--paper);
+    background:var(--ink);padding:3px 12px;letter-spacing:3px;
+  }
+  .sec-label .tag-ko{font-size:13px;color:var(--ink-soft)}
+
+  /* 요약 (일한 병기) */
+  .summary .s-item{
+    padding:10px 0 10px 18px;border-left:3px solid var(--line);
+  }
+  .summary .s-item+.s-item{margin-top:8px}
+  .summary .s-item:first-child{border-left-color:var(--shu)}
+  .summary .ja{font-family:var(--ja);font-size:17px;line-height:1.85}
+  .summary .ko{font-size:14.5px;color:var(--ink-soft);margin-top:2px}
+
+  /* 단어장 */
+  .vocab{display:flex;flex-direction:column}
+  .vocab-item{
+    display:grid;grid-template-columns:180px 1fr;gap:20px;
+    padding:20px 4px;border-bottom:1px dashed var(--line);align-items:start;
+  }
+  .vocab-item:last-child{border-bottom:none}
+  .vocab-word{font-family:var(--ja);font-weight:600;font-size:27px;line-height:1.25}
+  .vocab-word rt{font-size:12px;font-weight:500;color:var(--shu);letter-spacing:1px}
+  .vocab-body .mean{font-size:16.5px;font-weight:600}
+  .vocab-body .level{
+    display:inline-block;font-family:var(--mono);font-size:11px;
+    color:var(--ai);border:1px solid var(--ai);border-radius:3px;
+    padding:0 6px;margin-left:8px;vertical-align:2px;
+  }
+  .vocab-body .ex{margin-top:6px;font-size:14.5px;color:var(--ink-soft)}
+  .vocab-body .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 문법 */
+  .grammar{
+    background:var(--card);border:1px solid var(--line);padding:26px 28px;
+  }
+  .grammar .pattern{
+    font-family:var(--ja);font-weight:800;font-size:24px;color:var(--shu);
+    line-height:1.9;padding-top:6px;
+  }
+  .grammar .pattern-ko{font-size:15px;color:var(--ink-soft);margin-bottom:12px}
+  .grammar .explain{font-size:15.5px;margin-bottom:12px}
+  .grammar .ex{font-size:14.5px;color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:12px}
+  .grammar .ex .ja{font-family:var(--ja);color:var(--ink)}
+
+  /* 해설·배경 산문 */
+  .prose p{font-size:16px;margin-bottom:14px}
+  .prose p:last-child{margin-bottom:0}
+  .oneline{
+    margin-top:18px;padding:14px 18px;background:var(--card);
+    border:1px solid var(--line);font-size:15.5px;
+  }
+  .oneline b{color:var(--shu);font-weight:700}
+
+  /* 글쓰기 포인트 */
+  .wp p{
+    font-size:15.5px;padding:8px 0 8px 34px;position:relative;
+  }
+  .wp p .n{
+    position:absolute;left:0;top:8px;
+    font-family:var(--ja);color:var(--shu);font-weight:800;font-size:17px;
+  }
+
+  /* 오늘의 한 문장 */
+  .today{
+    text-align:center;padding:34px 20px;
+    border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+  }
+  .today .ja{
+    font-family:var(--ja);font-weight:600;font-size:clamp(19px,3vw,24px);
+    line-height:1.7;display:block;margin-bottom:10px;
+  }
+  .today .ko{font-size:14.5px;color:var(--ink-soft)}
+
+  /* 푸터 */
+  footer{
+    font-size:13px;color:var(--ink-soft);line-height:1.9;
+    border-top:1px solid var(--line);padding-top:18px;
+  }
+  footer .src{font-family:var(--mono);font-size:12.5px}
+  .nav{margin-top:10px;font-family:var(--mono);font-size:12.5px}
+  .nav a{margin-right:16px}
+
+  /* ── 모바일 ── */
+  @media (max-width:680px){
+    .frame{grid-template-columns:1fr;padding:28px 18px 48px;gap:22px}
+    .mast{
+      flex-direction:row;justify-content:flex-start;
+      border-right:none;border-bottom:1px solid var(--line);
+      padding:0 0 18px;
+    }
+    .mast-title,.mast-sub{writing-mode:horizontal-tb;letter-spacing:6px}
+    .mast-title{font-size:22px}
+    .seal{width:52px;height:52px;font-size:16px}
+    .vocab-item{grid-template-columns:1fr;gap:8px}
+  }
+</style>
+  <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="tj-apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="tj-icon-192.png">
+</head>
+<body>
+<div class="frame">
+
+  <aside class="masthead" aria-label="제호">
+    <div class="seal" aria-hidden="true">天声<br>人語</div>
+    <div class="masthead-title">天声人語</div>
+    <div class="masthead-sub">で学ぶ日本語</div>
+  </aside>
+
+  <main>
+    <div class="meta">
+      <span>2026-11-28</span>
+      <span>2026년 11월 28일 (토)</span>
+    </div>
+
+    <h1><ruby>裏金<rt>うらがね</rt></ruby>と<ruby>問責<rt>もんせき</rt></ruby></h1>
+    <p class="topic-ko">뒷돈과 문책</p>
+
+    <div class="keyquote">
+      <div class="ja">「<ruby>僅差<rt>きんさ</rt></ruby>で<ruby>否決<rt>ひけつ</rt></ruby>」</div>
+      <div class="ko">근소한 차로 부결 <span class="src">— 오늘의 핵심 구절</span></div>
+    </div>
+
+    <section class="summary" aria-labelledby="lb-summary">
+      <div class="sec-label" id="lb-summary">
+        <span class="tag">要約</span><span class="tag-ko">오늘의 칼럼, 세 문장으로</span>
+      </div>
+      <div class="s-item"><p class="ja">この<ruby>コラム<rt>こらむ</rt></ruby>は「<ruby>裏金<rt>うらがね</rt></ruby><ruby>議員<rt>ぎいん</rt></ruby>」とされるふたりが<ruby>再<rt>ふたた</rt></ruby>び<ruby>注目<rt>ちゅうもく</rt></ruby>される<ruby>状況<rt>じょうきょう</rt></ruby>から<ruby>語<rt>かた</rt></ruby>り<ruby>始<rt>はじ</rt></ruby>める。</p><p class="ko">칼럼은 &#x27;뒷돈 의원&#x27;으로 지목된 두 인물이 다시 주목받는 상황에서 이야기를 시작한다.</p></div>
+      <div class="s-item"><p class="ja">いまの<ruby>文科相<rt>もんかしょう</rt></ruby>と<ruby>前<rt>まえ</rt></ruby><ruby>農水相<rt>のうすいしょう</rt></ruby>の<ruby>事例<rt>じれい</rt></ruby>に<ruby>触<rt>ふ</rt></ruby>れ、<ruby>官僚<rt>かんりょう</rt></ruby>を<ruby>動員<rt>どういん</rt></ruby>した<ruby>政治資金<rt>せいじしきん</rt></ruby>パーティーの<ruby>高<rt>たか</rt></ruby>い<ruby>利益率<rt>りえきりつ</rt></ruby>と、<ruby>問責決議案<rt>もんせきけつぎあん</rt></ruby>が<ruby>四<rt>よん</rt></ruby><ruby>票<rt>ひょう</rt></ruby><ruby>差<rt>さ</rt></ruby>で<ruby>否決<rt>ひけつ</rt></ruby>された<ruby>事実<rt>じじつ</rt></ruby>を<ruby>指摘<rt>してき</rt></ruby>する。</p><p class="ko">현 문부과학상과 전 농림수산상의 사례를 거론하며, 관료를 동원한 정치자금 파티의 높은 이익률과 문책 결의안의 근소한 부결을 짚는다.</p></div>
+      <div class="s-item"><p class="ja"><ruby>政治<rt>せいじ</rt></ruby>への<ruby>信頼<rt>しんらい</rt></ruby>を<ruby>取<rt>と</rt></ruby>り<ruby>戻<rt>もど</rt></ruby>すまでの<ruby>道<rt>みち</rt></ruby>は<ruby>遠<rt>とお</rt></ruby>いという<ruby>冷静<rt>れいせい</rt></ruby>な<ruby>視線<rt>しせん</rt></ruby>を<ruby>残<rt>のこ</rt></ruby>す。</p><p class="ko">이를 통해 정치의 신뢰를 회복하기까지 길이 멀다는 냉정한 인상을 남긴다.</p></div>
+    </section>
+
+    <section aria-labelledby="lb-vocab">
+      <div class="sec-label" id="lb-vocab">
+        <span class="tag">語彙</span><span class="tag-ko">중요 표현 5</span>
+      </div>
+      <div class="vocab">
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>問責決議案<rt>もんせきけつぎあん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">문책 결의안</span><span class="level">N1</span>
+            <p class="ex"><span class="ja"><ruby>野党<rt>やとう</rt></ruby>は<ruby>問責決議案<rt>もんせきけつぎあん</rt></ruby>を<ruby>提出<rt>ていしゅつ</rt></ruby>した。</span><br>야당은 문책 결의안을 제출했다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>否決<rt>ひけつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">부결</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>法案<rt>ほうあん</rt></ruby>は<ruby>本会議<rt>ほんかいぎ</rt></ruby>で<ruby>否決<rt>ひけつ</rt></ruby>された。</span><br>법안은 본회의에서 부결되었다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>議員会館<rt>ぎいんかいかん</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">의원회관</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>議員会館<rt>ぎいんかいかん</rt></ruby>で<ruby>会合<rt>かいごう</rt></ruby>が<ruby>開<rt>ひら</rt></ruby>かれた。</span><br>의원회관에서 회합이 열렸다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>僅差<rt>きんさ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">근소한 차</span><span class="level">N2</span>
+            <p class="ex"><span class="ja"><ruby>試合<rt>しあい</rt></ruby>は<ruby>僅差<rt>きんさ</rt></ruby>で<ruby>勝<rt>か</rt></ruby>った。</span><br>경기는 근소한 차로 이겼다.</p>
+          </div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-word"><ruby>利益率<rt>りえきりつ</rt></ruby></div>
+          <div class="vocab-body">
+            <span class="mean">이익률</span><span class="level">N2</span>
+            <p class="ex"><span class="ja">この<ruby>事業<rt>じぎょう</rt></ruby>の<ruby>利益率<rt>りえきりつ</rt></ruby>は<ruby>高<rt>たか</rt></ruby>い。</span><br>이 사업의 이익률은 높다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-grammar">
+      <div class="sec-label" id="lb-grammar">
+        <span class="tag">文型</span><span class="tag-ko">오늘의 문형</span>
+      </div>
+      <div class="grammar">
+        <div class="pattern">Nだけではない</div>
+        <div class="pattern-ko">N뿐만이 아니다</div>
+        <p class="explain">어떤 대상 하나로 한정하지 않고, 그 밖의 요인이나 주체도 있음을 넌지시 드러낸다. 비판·해명·설명에서 범위를 넓히며 균형 잡힌 시각을 제시할 때 자주 쓴다.</p>
+        <p class="ex"><span class="ja">この<ruby>問題<rt>もんだい</rt></ruby>は<ruby>一部<rt>いちぶ</rt></ruby>の<ruby>部署<rt>ぶしょ</rt></ruby>だけではない。</span><br>이 문제는 일부 부서만의 일이 아니다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-comment">
+      <div class="sec-label" id="lb-comment">
+        <span class="tag">解説</span><span class="tag-ko">한국어 해설</span>
+      </div>
+      <div class="prose">
+        <p>이 글은 문제적 인물을 초두에 콕 집어 올려 긴장감을 조성한 뒤, 구체적 사실을 차곡차곡 쌓아가는 방식으로 독자의 판단을 이끈다. 직함, 장소, 행사 성격 같은 단단한 정보와 ‘근소한 표 차’ 같은 숫자를 아울러 배치해, 가치판단보다 사실 제시가 먼저 오도록 구성했다. 천성인어 특유의 짧고 단정한 문장은 감탄과 의문을 교차시키며 리듬을 만들고, 독자가 스스로 사건의 무게를 가늠하게 한다. 결과적으로 논설은 과잉한 수사를 피하고, 한두 개의 키워드로 기억에 남는 장면을 만든다.</p>
+        <p>또한 글은 정치자금 파티의 수익 구조, 관료 동원의 문제성, 표결의 박빙이라는 세 요소를 나란히 제시해 ‘구조·행위·결과’라는 삼단 구도를 완성한다. 한국 독자 입장에서는 일본 국회에서 문책 결의가 상징적 압박 수단으로 기능한다는 점, 그리고 여론과 표 계산의 미세한 간극이 실제 결론을 가른다는 점이 흥미롭다. 나아가 ‘신뢰 회복까지의 거리’를 강조함으로써, 사건 보도를 넘어 민주주의 운영의 체력을 묻는 성찰로 확장된다. 말수를 줄이고 맥락을 두텁게 하는 일본 신문 칼럼의 미덕이 잘 드러난다.</p>
+      </div>
+      <div class="oneline"><b>한 문장으로 —</b> 이번 천성인어는 뒷돈 의혹과 문책 표결을 통해 정치 신뢰의 균열을 응시하는 글이다.</div>
+    </section>
+
+    <section aria-labelledby="lb-bg">
+      <div class="sec-label" id="lb-bg">
+        <span class="tag">背景</span><span class="tag-ko">시대·문화적 배경</span>
+      </div>
+      <div class="prose">
+        <p>일본의 정치자금파티(政治資金パーティー)는 티켓 판매로 정치자금을 모으는 합법적 수단이지만, 회계 처리의 투명성과 ‘누가 참석했는가’가 반복적으로 논란이 된다.</p>
+        <p>문책 결의안(問責決議案)은 주로 참의원에서 제출되는 비구속적 결의로, 법적 강제력은 없지만 장관 사퇴를 압박하는 상징적 효과가 크다.</p>
+        <p>의원회관(議員会館)은 국회의원 사무실이 모여 있는 건물로, 면담·회의·행사 등이 이루어지는 정치 활동의 거점이다.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="lb-wp">
+      <div class="sec-label" id="lb-wp">
+        <span class="tag">作法</span><span class="tag-ko">글쓰기 포인트</span>
+      </div>
+      <div class="wp">
+        <p><span class="n">一</span>핵심 인물을 서두에 배치해 관심을 끌고 논지의 초점을 즉시 제시한다.</p>
+        <p><span class="n">二</span>숫자와 직함 같은 팩트를 교차 배치해 서술의 신뢰와 밀도를 높인다.</p>
+        <p><span class="n">三</span>평가를 서두르기보다 사실을 압축 제시하고 독자의 판단 여지를 남긴다.</p>
+      </div>
+    </section>
+
+    <section class="today" aria-labelledby="lb-today">
+      <span class="ja" id="lb-today"><ruby>疑惑<rt>ぎわく</rt></ruby>に<ruby>向<rt>む</rt></ruby>き<ruby>合<rt>あ</rt></ruby>うことが<ruby>信頼<rt>しんらい</rt></ruby>を<ruby>取<rt>と</rt></ruby>り<ruby>戻<rt>もど</rt></ruby>す<ruby>近道<rt>ちかみち</rt></ruby>だ。</span>
+      <span class="ko">의혹과 정면으로 마주하는 것이 신뢰를 되찾는 지름길이다.</span>
+    </section>
+
+    <footer>
+      <p class="src">원문: 아사히신문 天声人語 (2026-11-28) — <a href="https://www.asahi.com/articles/DA3S16597083.html?iref=pc_rensai_long_61_article" target="_blank" rel="noopener">기사 보기</a></p>
+      <p>본 페이지의 요약·해설·예문은 학습 목적으로 새로 작성한 것이며, 원문 저작권은 아사히신문사에 있습니다.</p>
+      <p class="nav"><a href="index.html">← 전체 목록</a><a href="https://cafe.naver.com/statepark62" target="_blank" rel="noopener">네이버 카페</a><a href="cards/2026-11-28.png" download>학습 카드(PNG)</a></p>
+    </footer>
+  </main>
+
+</div>
+<script>
+(function(){
+  try {
+    var GAS_URL = "https://script.google.com/macros/s/AKfycbzcXdFIOuEEMrvp34WC31ba2kWz9plgNJKqr4nVINKhva4xPjHkL2rmIxV6JLLWijXI/exec";
+    var uid = localStorage.getItem("tj_uid") || "", isNew = false;
+    if (!uid) {
+      uid = (self.crypto && crypto.randomUUID) ? crypto.randomUUID()
+            : Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem("tj_uid", uid); isNew = true;
+    }
+    var m = location.pathname.match(/(\d{4}-\d{2}-\d{2})\.html/);
+    var page = m ? m[1] : "상세";
+    var key = "tj_logged_" + page;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+    var dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "모바일" : "PC";
+    var qs = "action=log&uid=" + encodeURIComponent(uid) + "&page=" + encodeURIComponent(page) + "&dev=" + encodeURIComponent(dev) +
+             "&ref=" + encodeURIComponent((document.referrer||"").slice(0,120));
+    fetch(GAS_URL + "?" + qs, {mode:"no-cors"}).catch(function(){});
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>
